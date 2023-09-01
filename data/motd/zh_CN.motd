@@ -1,29 +1,29 @@
 # 超过78个字符的段落将自动换行
-# 下列段落是供参考的
+# 下面这行这么长
 ##############################################################################
 <color_white>访问官网：</color>
 
 <color_light_gray>* 主页：</color><color_cyan>https://cataclysmdda.org</color>
-<color_light_gray>* Wiki：</color><color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+<color_light_gray>* 维基：</color><color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
 
 <color_white>报告BUG，提交建议及跟进开发进度：</color>
 
 <color_light_gray>* Github：</color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
-<color_light_gray>* e-mail：</color><color_light_cyan>kevin.granade@gmail.com</color>
+<color_light_gray>* E-mail：</color><color_light_cyan>kevin.granade@gmail.com</color>
 
 <color_white>加入论坛及讨论组：</color>
 
-<color_light_gray>* 论坛：</color><color_cyan>https://discourse.cataclysmdda.org/</color>
-<color_light_gray>* 讨论组：</color><color_cyan>https://discord.gg/jFEc7Yp</color>
-<color_light_gray>* IRC：</color><color_cyan>#CataclysmDDA at libera.chat</color>
-<color_light_gray>* Reddit（翻墙）：</color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+<color_light_gray>* 论坛            ：</color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* 讨论组          ：</color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC             ：</color><color_cyan>#CataclysmDDA at libera.chat</color>
+<color_light_gray>* Lemmy (Fediverse):         </color><color_cyan>https://cdda.social/</color>
 
-<color_light_gray>欲获取更多有用链接可访问官网主页。</color>
+<color_light_gray>官网主页上还提供了其他有用的链接。</color>
 
-<color_light_gray>在游戏中你可以通过主菜单查看游戏设置。 （<color_yellow>Esc键</color>）。</color>
+<color_light_gray>在游戏中你可以通过主菜单查看游戏设置。（<color_yellow>Esc键</color>）。</color>
 
 <color_light_red>******************************************************************************</color>
-<color_light_red>    实验测试版，免责声明：</color>
+<color_light_red>实验测试版，免责声明：</color>
 <color_light_red>******************************************************************************</color>
 
 <color_white>问：</color><color_yellow>什么是实验测试版？</color>

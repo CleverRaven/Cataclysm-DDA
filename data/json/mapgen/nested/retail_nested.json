@@ -348,6 +348,81 @@
   {
     "type": "mapgen",
     "method": "json",
+    "//": "designed for 9x9 gift shop.",
+    "nested_mapgen_id": "city_block_9x9_gift_shop_front",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BOOy yOOB",
+        " ....... ",
+        "P.AAAAA.W",
+        "P.GG.GG.W",
+        "P.......W",
+        "P.GG.VV..",
+        "V........",
+        "MMMM?M   ",
+        "Y   S   Y"
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "B": "t_floor",
+        "O": "t_floor",
+        "G": "t_carpet_green",
+        "P": "t_carpet_green",
+        "V": "t_carpet_green",
+        "W": "t_carpet_green",
+        ".": "t_carpet_green"
+      },
+      "furniture": {
+        "?": "f_counter",
+        "B": "f_table",
+        "O": "f_table",
+        "P": "f_table",
+        "G": "f_displaycase",
+        "A": "f_displaycase",
+        "M": "f_counter",
+        "V": "f_bookcase",
+        "W": "f_bookcase",
+        "Y": "f_trashcan",
+        "S": "f_stool",
+        "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
+      },
+      "place_item": [ { "item": "citrine", "x": 2, "y": [ 2, 3 ], "chance": 100, "repeat": [ 5, 15 ] } ],
+      "items": {
+        "?": [ { "item": "cash_register_random", "chance": 100 } ],
+        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "M": [ { "item": "office", "chance": 20, "repeat": [ 0, 1 ] } ],
+        "A": [ { "item": "gift_shop", "chance": 80 } ],
+        "P": [ { "item": "gift_shop", "chance": 80 } ],
+        "O": [ { "item": "gift_shop", "chance": 80 } ],
+        "W": [ { "item": "gift_shop", "chance": 80 } ],
+        "V": [ { "item": "gift_shop", "chance": 80 } ],
+        "B": [ { "item": "gift_shop", "chance": 80 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "designed for 3x3 gift shop crates.",
+    "nested_mapgen_id": "city_block_3x3_backroom_crates_gift",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "z z",
+        "  z",
+        "z z"
+      ],
+      "terrain": { "z": "t_floor" },
+      "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
+      "items": { "z": [ { "item": "gift_shop", "chance": 30, "repeat": [ 0, 2 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "//": "designed for 9x9 electronics shop.",
     "nested_mapgen_id": "city_block_9x9_electronics_shop_front",
     "object": {

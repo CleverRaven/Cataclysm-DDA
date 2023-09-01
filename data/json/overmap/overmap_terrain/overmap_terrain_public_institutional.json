@@ -26,6 +26,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "synagogue" ],
+    "copy-from": "generic_city_building",
+    "name": "synagogue",
+    "sym": "S",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "synagogue_roof", "synagogue_upper_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "synagogue roof",
+    "sym": "S",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "cathedral_1_NW",
       "cathedral_1_NE",
@@ -72,7 +88,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_library", "s_library_1", "s_library_2" ],
+    "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ],
     "name": "library",
     "copy-from": "generic_city_building",
     "color": "i_brown",
@@ -80,7 +96,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2" ],
+    "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2", "s_library_roof_3" ],
     "name": "library roof",
     "copy-from": "generic_city_building",
     "color": "i_brown"
@@ -256,7 +272,6 @@
     "id": [
       "school_2_1",
       "school_2_2",
-      "school_2_3",
       "school_2_4",
       "school_2_5",
       "school_2_6",
@@ -265,7 +280,6 @@
       "school_2_9",
       "school_3_1",
       "school_3_2",
-      "school_3_3",
       "school_3_4",
       "school_3_5",
       "school_3_6",
@@ -274,7 +288,6 @@
       "school_3_9",
       "school_4_1",
       "school_4_2",
-      "school_4_3",
       "school_4_4",
       "school_4_5",
       "school_4_6",
@@ -306,7 +319,7 @@
     "sym": "p",
     "color": "i_light_blue",
     "see_cost": 5,
-    "flags": [ "SIDEWALK", "RISK_HIGH" ]
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",

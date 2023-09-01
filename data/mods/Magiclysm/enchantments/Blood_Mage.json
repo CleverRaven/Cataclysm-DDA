@@ -1,0 +1,21 @@
+[
+  {
+    "type": "enchantment",
+    "id": "BLOOD_MAGE",
+    "name": { "str": "Ichor" },
+    "description": "Your Blood Mage abilities grant you the ability to steal some health from your enemies from time to time, and immunity to bleeding.",
+    "hit_you_effect": [ { "id": "blood_mage_healing", "hit_self": true, "once_in": 12 } ]
+  },
+  {
+    "id": "blood_mage_healing",
+    "type": "SPELL",
+    "name": "Blood Mage Healing Effect",
+    "description": "Heals the caster.",
+    "valid_targets": [ "self" ],
+    "min_damage": -1,
+    "max_damage": -1,
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  }
+]

@@ -93,6 +93,19 @@
   },
   {
     "type": "SPELL",
+    "id": "wretch_hurt_self",
+    "name": { "str": "Wretch Hurt Self" },
+    "description": "Hurts yourself.",
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 5,
+    "max_damage": 15,
+    "damage_type": "cut",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "SPELL",
     "id": "frog_mother_hurt_self",
     "name": { "str": "Frog Mother Hurt Self" },
     "description": "Hurts yourself.",
@@ -140,6 +153,23 @@
   },
   {
     "type": "SPELL",
+    "id": "wretch_raptor_spawn",
+    "name": { "str": "Summon Raptor" },
+    "description": "Summons a flesh raptor while dealing some damage to the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
+    "base_casting_time": 200,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
     "id": "hive_raptor_spawn",
     "name": { "str": "Summon Raptor" },
     "description": "Summons a zombie-spawn raptor without killing the zombie.",
@@ -170,6 +200,23 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor_shady"
+  },
+  {
+    "type": "SPELL",
+    "id": "wretch_fungal_raptor_spawn",
+    "name": { "str": "Summon Raptor" },
+    "description": "Summons a fungal flesh raptor while dealing some damage to the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
+    "base_casting_time": 250,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_fungal_raptor"
   },
   {
     "type": "SPELL",
@@ -219,7 +266,7 @@
   {
     "type": "SPELL",
     "id": "cellar_spider_leg_detach",
-    "name": { "str": "Detatch Leg" },
+    "name": { "str": "Detach Leg" },
     "description": "The hurt leg of the cellar spider wriggles loose.  Ew.",
     "flags": [ "HOSTILE_SUMMON", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
@@ -251,8 +298,8 @@
     "type": "SPELL",
     "id": "centipede_mom_summon",
     "name": { "str": "Summon Centipede" },
-    "description": "Summons a small, pissed off centipede.",
-    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "description": "Summons a small, sometimes pissed off centipede.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
     "base_casting_time": 200,
     "min_range": 1,
@@ -263,7 +310,7 @@
     "max_aoe": 1,
     "shape": "line",
     "effect": "summon",
-    "effect_str": "mon_centipede_small"
+    "effect_str": "GROUP_CENTIPEDE_MOM_SUMMON"
   },
   {
     "type": "SPELL",
@@ -309,6 +356,80 @@
     "field_chance": 2,
     "min_field_intensity": 1,
     "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
+    "id": "shock_cone",
+    "name": { "str": "an arc of electricity" },
+    "description": "Spawns electric fields.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 5,
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_aoe": 10,
+    "max_aoe": 15,
+    "aoe_increment": 1,
+    "min_range": 8,
+    "max_range": 16,
+    "range_increment": 2,
+    "base_casting_time": 50,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "max_field_intensity": 9,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 1,
+    "field_chance": 4,
+    "damage_type": "electric",
+    "sound_type": "combat",
+    "sound_id": "fire_gun",
+    "sound_variant": "bio_lightning",
+    "sound_description": "a crackle"
+  },
+  {
+    "type": "SPELL",
+    "id": "shock_blast",
+    "name": { "str": "Shock Blast" },
+    "description": "Spawns electric fields in a blast",
+    "base_casting_time": 10,
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "self", "ground" ],
+    "flags": [ "LOUD" ],
+    "damage_type": "electric",
+    "max_level": 4,
+    "min_damage": 4,
+    "max_damage": 16,
+    "damage_increment": 4,
+    "min_range": 1,
+    "max_range": 5,
+    "range_increment": 1,
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "aoe_increment": 1,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "max_field_intensity": 9,
+    "field_intensity_increment": 2,
+    "field_chance": 2,
+    "field_intensity_variance": 0.2,
+    "effect_str": "maimed_capacitor",
+    "min_duration": 2000,
+    "max_duration": 2000,
+    "extra_effects": [ { "id": "hit_and_run", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "hit_and_run",
+    "name": { "str": "Running Away" },
+    "description": "Causes monster to run away for 5 turns.",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "effect_str": "run",
+    "min_duration": 500
   },
   {
     "type": "SPELL",
@@ -420,6 +541,19 @@
     "effect": "attack"
   },
   {
+    "type": "SPELL",
+    "id": "portal_severely_hurt_self",
+    "name": { "str": "Hurt Self" },
+    "description": "Touching/perceiving you is bad for the other side as well.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "pure",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
@@ -429,12 +563,13 @@
           { "u_val": "fatigue" },
           "+=",
           { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
-        ]
+        ],
+        "max": 1200
       },
       {
         "arithmetic": [
           { "u_val": "stamina" },
-          "+=",
+          "-=",
           { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
         ]
       },
@@ -447,14 +582,14 @@
     "name": { "str": "Impossible Shape Attack" },
     "description": "Hurts you mentally.",
     "copy-from": "base_portal",
-    "min_range": 6,
-    "max_range": 6,
+    "min_range": 50,
+    "max_range": 50,
     "effect_str": "EOC_impossible_shape_attack"
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": "u_can_see",
+    "condition": { "and": [ "u_can_see", { "math": [ "u_madness", ">", "10" ] } ] },
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
@@ -465,7 +600,18 @@
         "duration": "36 hours",
         "decay_start": "24 hours"
       },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] }
+      { "math": [ "u_pain()", "+=", "3" ] },
+      { "math": [ "u_madness", "=", "0" ] },
+      {
+        "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
+      }
+    ],
+    "false_effect": [
+      { "math": [ "u_pain()", "+=", "3" ] },
+      { "math": [ "u_madness", "++" ] },
+      {
+        "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
+      }
     ]
   },
   {
@@ -481,7 +627,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
+    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -596,8 +742,8 @@
     "condition": "u_can_see",
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 15 } ] },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 300 } ] }
+      { "math": [ "u_pain()", "+=", "3" ] },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 20 } ] }
     ]
   },
   {
@@ -606,6 +752,7 @@
     "name": { "str": "Swarm Structure Action" },
     "description": "Teleports and summons monsters.",
     "copy-from": "base_portal",
+    "extra_effects": [ { "id": "portal_severely_hurt_self", "hit_self": true } ],
     "min_range": 15,
     "max_range": 15,
     "effect_str": "EOC_mon_swarm_structure_attack"
@@ -613,7 +760,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -648,7 +795,8 @@
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
             {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
+              "max": 1200
             },
             {
               "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
@@ -660,7 +808,8 @@
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
             {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
+              "max": 1200
             },
             { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
           ]
@@ -675,8 +824,8 @@
                   "case": 0,
                   "effect": [
                     { "u_message": "Your reflection clears the way between you two." },
-                    { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
-                    { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+                    { "u_location_variable": { "global_val": "first" } },
+                    { "npc_location_variable": { "global_val": "second" } },
                     {
                       "transform_line": "clear_portal_walls",
                       "first": { "global_val": "first" },
@@ -691,14 +840,8 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
-                          {
-                            "compare_int": [
-                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_guilt" },
-                              "<",
-                              { "const": 1 }
-                            ]
-                          }
+                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
                       "effect": {
@@ -718,14 +861,8 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
-                          {
-                            "compare_int": [
-                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_sloth" },
-                              "<",
-                              { "const": 1 }
-                            ]
-                          }
+                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
                       "effect": {
@@ -764,6 +901,21 @@
     "shape": "blast",
     "effect": "effect_on_condition",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_XEDRA_officer_banish",
+    "name": { "str": "Officer banish" },
+    "description": "Stops the haunting.",
+    "valid_targets": [ "self", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HAUNTING_QUEUE_STOP"
   },
   {
     "type": "effect_on_condition",
@@ -838,6 +990,15 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_conjure_memories",
+    "name": { "str": "Life Flashing" },
+    "description": "Brings back memories.",
+    "copy-from": "base_portal",
+    "max_range": 3,
+    "effect_str": "EOC_conjure_memories"
   },
   {
     "type": "SPELL",

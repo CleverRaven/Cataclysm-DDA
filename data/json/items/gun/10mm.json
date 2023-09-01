@@ -22,7 +22,6 @@
     "price": 74000,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -38,7 +37,8 @@
         "ammo_restriction": { "10mm": 6, "40": 6 },
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "glock_29",
@@ -63,7 +63,6 @@
     "price": 60500,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -78,7 +77,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "glock_20",
@@ -110,7 +110,6 @@
     "price": 59200,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -119,7 +118,8 @@
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
-    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hk_mp5_10_semi",
@@ -173,7 +173,6 @@
     "price": 105000,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -183,7 +182,8 @@
     "durability": 6,
     "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "witness_10",
@@ -207,14 +207,14 @@
     "price": 64900,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": "10mm",
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ]
+    "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "p220_10",
@@ -238,7 +238,6 @@
     "price": 50000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -246,7 +245,8 @@
     "dispersion": 410,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xd_10",
@@ -270,7 +270,6 @@
     "price": 50000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -278,7 +277,8 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 675,
-    "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "TDI_10",

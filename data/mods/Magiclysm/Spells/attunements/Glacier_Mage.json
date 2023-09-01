@@ -8,7 +8,7 @@
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
     "extra_effects": [ { "id": "ice_clave_blunt" } ],
-    "flags": [ "LOUD", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "LOUD", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
     "min_damage": 30,
     "max_damage": 100,
     "damage_increment": 2.0,

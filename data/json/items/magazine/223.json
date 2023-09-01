@@ -166,6 +166,7 @@
     "volume": "130 ml",
     "longest_side": "76 mm",
     "price": 4000,
+    "price_postapoc": 50,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -183,6 +184,7 @@
     "volume": "228 ml",
     "longest_side": "101 mm",
     "price": 4100,
+    "price_postapoc": 60,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -200,6 +202,7 @@
     "volume": "230 ml",
     "longest_side": "129 mm",
     "price": 4000,
+    "price_postapoc": 170,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -224,6 +227,7 @@
     "volume": "328 ml",
     "longest_side": "154 mm",
     "price": 4100,
+    "price_postapoc": 180,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -266,7 +270,7 @@
     "volume": "388 ml",
     "longest_side": "215 mm",
     "price": 8100,
-    "price_postapoc": 255,
+    "price_postapoc": 260,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -284,6 +288,7 @@
     "volume": "390 ml",
     "longest_side": "236 mm",
     "price": 8500,
+    "price_postapoc": 360,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -308,6 +313,7 @@
     "volume": "488 ml",
     "longest_side": "261 mm",
     "price": 8600,
+    "price_postapoc": 370,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -325,9 +331,8 @@
     "volume": "530 ml",
     "longest_side": "114 mm",
     "price": 9000,
-    "price_postapoc": 500,
+    "price_postapoc": 360,
     "to_hit": -2,
-    "bashing": 4,
     "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",
@@ -341,7 +346,8 @@
         "allowed_speedloaders": [ "clip223_10rd" ],
         "ammo_restriction": { "223": 50, "300blk": 50 }
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "stanag60",
@@ -353,6 +359,7 @@
     "volume": "600 ml",
     "longest_side": "240 mm",
     "price": 12000,
+    "price_postapoc": 750,
     "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",
@@ -377,8 +384,8 @@
     "volume": "700 ml",
     "longest_side": "188 mm",
     "price": 9250,
+    "price_postapoc": 500,
     "to_hit": -2,
-    "bashing": 4,
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
@@ -392,7 +399,8 @@
         "allowed_speedloaders": [ "clip223_10rd" ],
         "ammo_restriction": { "223": 60, "300blk": 60 }
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "stanag90",
@@ -404,8 +412,8 @@
     "volume": "1000 ml",
     "longest_side": "200 mm",
     "price": 9500,
+    "price_postapoc": 1000,
     "to_hit": -2,
-    "bashing": 4,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -419,7 +427,8 @@
         "allowed_speedloaders": [ "clip223_10rd" ],
         "ammo_restriction": { "223": 90, "300blk": 90 }
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "stanag100",
@@ -431,6 +440,7 @@
     "volume": "1 L",
     "longest_side": "350 mm",
     "price": 15000,
+    "price_postapoc": 1250,
     "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",
@@ -455,6 +465,7 @@
     "volume": "1200 ml",
     "longest_side": "300 mm",
     "price": 14000,
+    "price_postapoc": 1000,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -480,6 +491,7 @@
     "volume": "1700 ml",
     "longest_side": "343 mm",
     "price": 18000,
+    "price_postapoc": 1250,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
@@ -546,6 +558,7 @@
     "weight": "190 g",
     "volume": "620 ml",
     "price": 8600,
+    "price_postapoc": 400,
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
@@ -623,7 +636,7 @@
     "color": "light_gray",
     "count": 10,
     "ammo_type": [ "223" ],
-    "flags": [ "SPEEDLOADER" ],
+    "flags": [ "SPEEDLOADER_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10, "300blk": 10 } } ]
   }
 ]

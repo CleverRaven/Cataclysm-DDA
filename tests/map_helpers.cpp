@@ -1,5 +1,7 @@
 #include "map_helpers.h"
 
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
 #include <map>
@@ -117,12 +119,12 @@ void clear_zones()
     zm.clear();
 }
 
-void clear_map()
+void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
-    for( int z = -2; z <= 0; ++z ) {
+    for( int z = zmin; z <= zmax; ++z ) {
         clear_fields( z );
     }
     clear_zones();
@@ -130,9 +132,10 @@ void clear_map()
     clear_npcs();
     clear_creatures();
     here.clear_traps();
-    for( int z = -2; z <= 0; ++z ) {
+    for( int z = zmin; z <= zmax; ++z ) {
         clear_items( z );
     }
+    here.process_items();
 }
 
 void clear_map_and_put_player_underground()
@@ -142,11 +145,13 @@ void clear_map_and_put_player_underground()
     get_player_character().setpos( { 0, 0, -2 } );
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
+monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
+                             const bool death_drops )
 {
-    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    cata_assert( added );
-    return *added;
+    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    REQUIRE( test_monster_ptr );
+    test_monster_ptr->death_drops = death_drops;
+    return *test_monster_ptr;
 }
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
@@ -160,6 +165,35 @@ void build_test_map( const ter_id &terrain )
         here.ter_set( p, terrain );
         here.trap_set( p, trap_id( "tr_null" ) );
         here.i_clear( p );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+}
+
+void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom )
+{
+    constexpr int z_surface = 0;
+    constexpr int z_bottom = -2;
+
+    clear_map( z_bottom - 1, z_surface + 1 );
+
+    map &here = get_map();
+    const tripoint p1( 0, 0, z_bottom - 1 );
+    const tripoint p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
+    for( const tripoint &p : here.points_in_rectangle( p1, p2 ) ) {
+
+        if( p.z == z_surface ) {
+            here.ter_set( p, surface );
+        } else if( p.z < z_surface && p.z > z_bottom ) {
+            here.ter_set( p, mid );
+        } else if( p.z == z_bottom ) {
+            here.ter_set( p, bottom );
+        } else if( p.z < z_bottom ) {
+            here.ter_set( p, t_rock );
+        } else if( p.z > z_surface ) {
+            here.ter_set( p, t_open_air );
+        }
     }
 
     here.invalidate_map_cache( 0 );

@@ -60,7 +60,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
     }
 }
 
-TEST_CASE( "Harvest drops from dissecting corpse", "[harvest]" )
+TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
 {
     SECTION( "Mutagen samples" ) {
         int sample_count = 0;

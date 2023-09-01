@@ -16,7 +16,13 @@
     "id": "NC_SOLDIER_QMASTER",
     "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
@@ -123,7 +129,7 @@
       [ "cx4", 10 ],
       [ "usp_45", 10 ],
       [ "m1911", 10 ],
-      [ "ar15", 10 ],
+      [ "modular_ar15", 10 ],
       [ "savage_111f", 5 ],
       [ "remington_700", 5 ],
       [ "ruger_1022", 10 ],

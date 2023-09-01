@@ -3,6 +3,8 @@
     "type": "enchantment",
     "id": "FORCE_MAGE",
     "condition": "ALWAYS",
+    "name": { "str": "Motion" },
+    "description": "Your Force Mage abilities grant you better speed, and increased damage in melee.",
     "values": [ { "value": "MELEE_DAMAGE", "multiply": 1 }, { "value": "SPEED", "multiply": 0.2 } ]
   }
 ]

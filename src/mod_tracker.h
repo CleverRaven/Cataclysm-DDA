@@ -9,7 +9,6 @@
 #include "demangle.h"
 #include "type_id.h"
 
-
 /**
  * Mod Tracking:
  *
@@ -34,17 +33,16 @@ class mod_error : public std::runtime_error
 
 struct mod_tracker {
     /** Template magic to determine if the conditions above are satisfied */
-    template<typename T, typename = cata::void_t<>>
+    template<typename T, typename = std::void_t<>>
     struct has_src_member : std::false_type {};
 
     template<typename T>
-struct has_src_member<T, cata::void_t<decltype( std::declval<T &>().src.emplace_back( std::declval<T &>().id, mod_id() ) )>> :
+struct has_src_member<T, std::void_t<decltype( std::declval<T &>().src.emplace_back( std::declval<T &>().id, mod_id() ) )>> :
     std::true_type {};
-
 
     /** Dummy function, for if those conditions are not satisfied */
     template < typename T, typename std::enable_if_t < !has_src_member<T>::value > * = nullptr >
-    static void assign_src( T &, const std::string & ) {
+    static void assign_src( T &, const std::string_view ) {
     }
 
     /** If those conditions are satisfied, keep track of where this item has been modified */

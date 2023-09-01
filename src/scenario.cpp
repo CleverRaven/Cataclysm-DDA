@@ -55,7 +55,7 @@ void scenario::load_scenario( const JsonObject &jo, const std::string &src )
     all_scenarios.load( jo, src );
 }
 
-void scenario::load( const JsonObject &jo, const std::string & )
+void scenario::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
@@ -100,26 +100,49 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
+    optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
-        if( jo.has_member( "custom_initial_date" ) ) {
-            _custom_start_date = true;
 
-            JsonObject jocid = jo.get_member( "custom_initial_date" );
-            if( jocid.has_member( "hour" ) ) {
-                optional( jocid, was_loaded, "hour", _start_hour );
-            }
-            if( jocid.has_member( "day" ) ) {
-                optional( jocid, was_loaded, "day", _start_day );
-            }
-            if( jocid.has_member( "season" ) ) {
-                optional( jocid, was_loaded, "season", _start_season );
-            }
-            if( jocid.has_member( "year" ) ) {
-                optional( jocid, was_loaded, "year", _start_year );
-            }
+        int _start_of_cataclysm_hour = 0;
+        int _start_of_cataclysm_day = 61;
+        season_type _start_of_cataclysm_season = SPRING;
+        int _start_of_cataclysm_year = 1;
+        if( jo.has_member( "start_of_cataclysm" ) ) {
+            JsonObject jocid = jo.get_member( "start_of_cataclysm" );
+            optional( jocid, was_loaded, "hour", _start_of_cataclysm_hour );
+            optional( jocid, was_loaded, "day", _start_of_cataclysm_day );
+            optional( jocid, was_loaded, "season", _start_of_cataclysm_season );
+            optional( jocid, was_loaded, "year", _start_of_cataclysm_year );
         }
+        _default_start_of_cataclysm = calendar::turn_zero +
+                                      1_hours * _start_of_cataclysm_hour +
+                                      1_days * ( _start_of_cataclysm_day - 1 ) +
+                                      1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_cataclysm_season +
+                                      calendar::year_length() * ( _start_of_cataclysm_year - 1 )
+                                      ;
+
+        int _start_of_game_hour = 8;
+        int _start_of_game_day = 61;
+        season_type _start_of_game_season = SPRING;
+        int _start_of_game_year = 1;
+        if( jo.has_member( "start_of_game" ) ) {
+            JsonObject jocid = jo.get_member( "start_of_game" );
+            optional( jocid, was_loaded, "hour", _start_of_game_hour );
+            optional( jocid, was_loaded, "day", _start_of_game_day );
+            optional( jocid, was_loaded, "season", _start_of_game_season );
+            optional( jocid, was_loaded, "year", _start_of_game_year );
+        }
+        _default_start_of_game = calendar::turn_zero +
+                                 1_hours * _start_of_game_hour +
+                                 1_days * ( _start_of_game_day - 1 ) +
+                                 1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_game_season +
+                                 calendar::year_length() * ( _start_of_game_year - 1 )
+                                 ;
+
+        reset_calendar();
     }
 
     if( jo.has_string( "vehicle" ) ) {
@@ -136,7 +159,24 @@ const scenario *scenario::generic()
 {
     static const string_id<scenario> generic_scenario_id(
         get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
-    return &generic_scenario_id.obj();
+
+    std::vector<const scenario *> all;
+    for( const scenario &scen : scenario::get_all() ) {
+        if( scen.scen_is_blacklisted() ) {
+            continue;
+        }
+        all.push_back( &scen );
+    }
+    if( find_if( all.begin(), all.end(), []( const scenario * s ) {
+    return s->ident() == generic_scenario_id;
+    } ) != all.end() ) {
+        // if the default scenario exists return it
+        return &generic_scenario_id.obj();
+    }
+
+    // if generic doesn't exist just return to the first scenario
+    return *all.begin();
+
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
@@ -290,15 +330,17 @@ bool scenario::scen_is_blacklisted() const
     return sc_blacklist.scenarios.count( id ) != 0;
 }
 
-void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string_view src )
 {
     sc_blacklist.load( jo, src );
 }
 
-void scen_blacklist::load( const JsonObject &jo, const std::string & )
+void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 {
     if( !scenarios.empty() ) {
-        jo.throw_error( "Attempted to load scenario blacklist with an existing scenario blacklist" );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Attempted to load scenario blacklist with an existing scenario blacklist, resetting blacklist info";
+        reset_scenarios_blacklist();
     }
 
     const std::string bl_stype = jo.get_string( "subtype" );
@@ -464,55 +506,58 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-cata::optional<achievement_id> scenario::get_requirement() const
+std::optional<achievement_id> scenario::get_requirement() const
 {
     return _requirement;
 }
 
-bool scenario::custom_start_date() const
+bool scenario::get_reveal_locale() const
 {
-    return _custom_start_date;
+    return reveal_locale;
 }
 
-bool scenario::is_random_hour() const
+void scenario::normalize_calendar() const
 {
-    return _start_hour == -1;
+    scenario *hack = const_cast<scenario *>( this );
+    // We don't currently allow to start game before cataclysm
+    if( hack->_default_start_of_game < hack->_default_start_of_cataclysm ) {
+        hack->_default_start_of_game = hack->_default_start_of_cataclysm;
+    }
+    if( hack->_start_of_game < hack->_start_of_cataclysm ) {
+        hack->_start_of_game = hack->_start_of_cataclysm;
+    }
 }
 
-bool scenario::is_random_day() const
+void scenario::reset_calendar() const
 {
-    return _start_day == -1;
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_cataclysm = _default_start_of_cataclysm;
+    hack->_start_of_game = _default_start_of_game;
+    hack->normalize_calendar();
 }
 
-bool scenario::is_random_year() const
+void scenario::change_start_of_cataclysm( const time_point &t ) const
 {
-    return _start_year == -1;
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_cataclysm = t;
+    hack->normalize_calendar();
 }
 
-int scenario::start_hour() const
+void scenario::change_start_of_game( const time_point &t ) const
 {
-    return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_game = t;
+    hack->normalize_calendar();
 }
 
-int scenario::day_of_season() const
+time_point scenario::start_of_cataclysm() const
 {
-    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _start_day;
+    return _start_of_cataclysm;
 }
 
-int scenario::start_day() const
+time_point scenario::start_of_game() const
 {
-    return day_of_season() + get_option<int>( "SEASON_LENGTH" ) * ( start_season() + 4 *
-            ( start_year() - 1 ) );
-}
-
-season_type scenario::start_season() const
-{
-    return _start_season;
-}
-
-int scenario::start_year() const
-{
-    return _start_year == -1 ? rng( 1, 11 ) : _start_year;
+    return _start_of_game;
 }
 
 vproto_id scenario::vehicle() const

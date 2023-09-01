@@ -7,11 +7,12 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
+#include "itype.h"
 #include "material.h"
 #include "requirements.h"
 #include "type_id.h"
 
-static std::pair<std::string, std::string> get_both( const std::string &a );
+static std::pair<std::string, std::string> get_both( std::string_view a );
 
 std::function<bool( const item & )> basic_item_filter( std::string filter )
 {
@@ -40,10 +41,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // qualities
         case 'q':
             return [filter]( const item & i ) {
-                return std::any_of( i.quality_of().begin(), i.quality_of().end(),
-                [&filter]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name, filter );
-                } );
+                return i.type->has_any_quality( filter );
             };
         // both
         case 'b':
@@ -90,9 +88,9 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
     return filter_from_string<item>( filter, basic_item_filter );
 }
 
-std::pair<std::string, std::string> get_both( const std::string &a )
+std::pair<std::string, std::string> get_both( const std::string_view a )
 {
     size_t split_mark = a.find( ';' );
-    return std::make_pair( a.substr( 0, split_mark ),
-                           a.substr( split_mark + 1 ) );
+    return std::pair( std::string( a.substr( 0, split_mark ) ),
+                      std::string( a.substr( split_mark + 1 ) ) );
 }

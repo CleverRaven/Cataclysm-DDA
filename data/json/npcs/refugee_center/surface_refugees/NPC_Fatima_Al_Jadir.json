@@ -26,7 +26,12 @@
     "worn_override": "REFUGEE_Fatima_worn",
     "carry_override": "REFUGEE_Fatima_carried",
     "weapon_override": "REFUGEE_Fatima_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_SouthAsian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_welding" ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },

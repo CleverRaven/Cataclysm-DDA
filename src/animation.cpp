@@ -26,8 +26,6 @@
 #include "weather.h"
 
 #if defined(TILES)
-#include <memory>
-
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
 #endif
@@ -309,7 +307,7 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area, const cata::optional<std::string> &tile_id )
+        const std::map<tripoint, nc_color> &all_area, const std::optional<std::string> &tile_id )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -861,6 +859,43 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
 void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const
 {
     draw_zones_curses( w_terrain, start, end, offset );
+}
+#endif
+
+#if defined(TILES)
+void game::draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr,
+                            const nc_color &nccol )
+{
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
+
+    if( !get_option<bool>( "ANIMATIONS" ) ) {
+        return;
+    }
+
+    if( !u.sees( p ) ) {
+        return;
+    }
+
+    if( !use_tiles ) {
+        if( !ncstr.empty() ) {
+            g->init_draw_async_anim_curses( p, ncstr, nccol );
+        }
+        return;
+    }
+
+    tilecontext->init_draw_async_anim( p, tile_id );
+    g->invalidate_main_ui_adaptor();
+}
+#else
+void game::draw_async_anim( const tripoint &p, const std::string &, const std::string &ncstr,
+                            const nc_color &nccol )
+{
+    if( !ncstr.empty() ) {
+        g->init_draw_async_anim_curses( p, ncstr, nccol );
+    }
 }
 #endif
 

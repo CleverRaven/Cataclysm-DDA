@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -17,7 +16,7 @@ struct tripoint;
 /*
  * Talker wrapper class for an empty talker thats just topics
  */
-class talker_topic: public talker
+class talker_topic: public talker_cloner<talker_topic>
 {
     public:
         explicit talker_topic( std::vector<std::string> new_topics ) {

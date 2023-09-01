@@ -15,6 +15,7 @@
     "id": "NC_SPIRAL_MADMAN",
     "name": { "str": "Miner" },
     "job_description": "Spirals.",
+    "common": false,
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },

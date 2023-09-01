@@ -57,7 +57,8 @@
         "item": "test_pants_fur",
         "markup": -100,
         "condition": { "npc_has_var": "vegan", "type": "bool", "context": "preference", "value": "yes" }
-      }
+      },
+      { "item": "battery", "price": 100 }
     ],
     "restock_interval": "99 days"
   },

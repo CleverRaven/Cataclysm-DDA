@@ -104,6 +104,11 @@
     "monsters": [ { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ] } ]
   },
   {
+    "name": "test_upgrades_multi_null",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null" }, { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "starts": "2 days" } ]
+  },
+  {
     "name": "test_upgrades_multi_late",
     "type": "monstergroup",
     "monsters": [

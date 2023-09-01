@@ -1,0 +1,13 @@
+#GIANT DAYS TILESET
+#Name of the tileset
+NAME: giantdays
+#Viewing (Option) name of the tileset
+VIEW: GiantDays
+#JSON Path - Default of gfx/tile_config.json
+JSON: tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: tiles.png
+
+#GiantDays is heavily based on Neodays, itself a modified version of RetroDays;
+#NeoDays was imported from Cataclysm:Dark Days Ahead under Creative Commons Attribution-ShareAlike 3.0 Unported License(http://creativecommons.org/licenses/by-sa/3.0/)
+#as of https://github.com/CleverRaven/Cataclysm-DDA/commits/59beaebecaf673b9b001a1302e69f188895c9601/gfx/RetroDays%2BTileset, see original for attribution details.

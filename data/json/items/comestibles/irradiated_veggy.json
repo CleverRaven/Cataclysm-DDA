@@ -152,5 +152,16 @@
     "spoils_in": "0 hours",
     "container": "bag_plastic",
     "extend": { "flags": [ "RAD_STERILIZED_EDIBLE_FOREVER" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "irradiated_eggplant",
+    "copy-from": "eggplant",
+    "name": { "str": "irradiated eggplant" },
+    "description": "An irradiated purple eggplant.",
+    "proportional": { "price": 2.0 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic",
+    "extend": { "flags": [ "RAD_STERILIZED_EDIBLE_FOREVER" ] }
   }
 ]

@@ -2,6 +2,8 @@
 #define CATA_OBJECT_CREATOR_ITEM_GROUP_WINDOW_H
 
 #include "listwidget_drag.h"
+#include "simple_property_widget.h"
+#include "flowlayout.h"
 #include "item_group.h"
 
 #include "QtWidgets/qlistwidget.h"
@@ -19,7 +21,7 @@
 namespace creator
 {
     class nested_group_container;
-    class item_group_window : public QMainWindow
+    class item_group_window : public QWidget
     {
 
     public:
@@ -49,7 +51,16 @@ namespace creator
         QLabel* id_label;
         QLineEdit* id_box;
 
+        QLabel* comment_label;
+        QLineEdit* comment_box;
+
+        nested_group_container* group_container;
+        simple_property_widget* ammo_frame;
+        simple_property_widget* magazine_frame;
+
         QComboBox* subtype;
+        QLineEdit* containerItem;
+        QComboBox* overflow;
 
         QLabel* item_search_label;
         QLineEdit* item_search_box;
@@ -61,7 +72,7 @@ namespace creator
 
         //Top-level frame to hold the distributionCollections and/or entrieslist
         QScrollArea* scrollArea;
-        nested_group_container* group_container;
+
 
 
     protected:
@@ -75,17 +86,26 @@ namespace creator
         explicit itemGroupEntry( QWidget* parent, QString entryText, bool group, 
                                 item_group_window* top_parent );
         void get_json( JsonOut &jo );
-        QSize sizeHint() const;
-        QSize minimumSizeHint() const;
+        QSize sizeHint() const override;
+        QSize minimumSizeHint() const override;
 
     private:
         void delete_self();
         void change_notify_top_parent();
+        void add_property_changed();
         QLabel* title_label;
-        QSpinBox* prob;
-        QSpinBox* charges_min;
-        QSpinBox* charges_max;
+        simple_property_widget* variant_frame;
+        simple_property_widget* contentsItem_frame;
+        simple_property_widget* contentsGroup_frame;
+        simple_property_widget* damage_frame;
+        simple_property_widget* charges_frame;
+        simple_property_widget* count_frame;
+        simple_property_widget* prob_frame;
+        FlowLayout* flowLayout;
+        QComboBox* add_property;
         item_group_window* top_parent_widget;
+    protected:
+        bool event( QEvent* event ) override;
     };
 
     //Holds the properties for either a collection or a distribution
@@ -93,7 +113,7 @@ namespace creator
     class distributionCollection : public QFrame
     {
     public:
-        explicit distributionCollection( bool isCollection, QWidget* parent = nullptr,
+        explicit distributionCollection( bool isCollection, 
                     item_group_window* top_parent = nullptr );
         void get_json( JsonOut &jo );
         void set_bg_color();
@@ -123,6 +143,7 @@ namespace creator
     {
     public:
         explicit nested_group_container( QWidget* parent, item_group_window* top_parent );
+        void get_json( JsonOut &jo );
     private:
         void add_distribution();
         void add_collection();

@@ -7,46 +7,49 @@ if (BUILD_TESTING)
     # Enabling benchmarks
     add_definitions(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
 
-    # Need to build the test .mo file for the tests to pass.
-    # Unfortunately we currently need to put this in the source dir, not the
-    # build dir
-    set(TEST_LANG ${CMAKE_SOURCE_DIR}/data/mods/TEST_DATA/lang)
-    set(TEST_MO ${TEST_LANG}/mo/ru/LC_MESSAGES/TEST_DATA.mo)
-    if(MSVC)
-        find_program(GETTEXT_MSGFMT_EXECUTABLE
-            msgfmt.exe
-            HINTS
-                  C:\\msys64\\usr\\bin
-                  C:\\Prorogram\ Files\\Git\\mingw64\\bin
-            REQUIRED
-        )
-    else()
-		set(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
-    endif()
-    add_custom_command(
-        OUTPUT ${TEST_MO}
-        MAIN_DEPENDENCY ${TEST_LANG}/po/ru.po
-        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f -o ${TEST_MO} ${TEST_LANG}/po/ru.po)
+    if(LOCALIZE)
+        # Need to build the test .mo file for the tests to pass.
+        # Unfortunately we currently need to put this in the source dir, not the
+        # build dir
+        set(TEST_LANG ${CMAKE_SOURCE_DIR}/data/mods/TEST_DATA/lang)
+        set(TEST_MO ${TEST_LANG}/mo/ru/LC_MESSAGES/TEST_DATA.mo)
+        add_custom_command(
+            OUTPUT ${TEST_MO}
+            MAIN_DEPENDENCY ${TEST_LANG}/po/ru.po
+            COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f -o ${TEST_MO} ${TEST_LANG}/po/ru.po)
 
-    add_custom_target(test_mo DEPENDS ${TEST_MO})
+        add_custom_target(test_mo DEPENDS ${TEST_MO})
+    endif()
 
     if (TILES)
         add_executable(cata_test-tiles ${CATACLYSM_DDA_TEST_SOURCES})
-        add_dependencies(cata_test-tiles test_mo)
-        target_link_libraries(cata_test-tiles cataclysm-tiles-common)
+        if (LOCALIZE)
+            add_dependencies(cata_test-tiles test_mo)
+        endif()
+        target_link_libraries(cata_test-tiles PRIVATE cataclysm-tiles-common)
         add_test(NAME test-tiles
-                COMMAND sh -c
-                "$<TARGET_FILE:cata_test-tiles> --rng-seed time"
+                COMMAND cata_test-tiles --rng-seed time
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+        # ctest -C RelWithDebInfo -j 2 -V -L ^gha$
+        list(APPEND _n 1 2)
+        list(APPEND _args "[slow] ~starting_items" "~[slow] ~[.],starting_items")
+        foreach(n args IN ZIP_LISTS _n _args)
+            add_test(NAME test-tiles-gha-${n}
+                    COMMAND cata_test-tiles --min-duration 20 --use-colour yes --rng-seed time
+                    --user-dir=test_user_dir_${n} ${args}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+            set_tests_properties(test-tiles-gha-${n} PROPERTIES LABELS "gha")
+        endforeach()
     endif ()
 
     if (CURSES)
         add_executable(cata_test ${CATACLYSM_DDA_TEST_SOURCES})
-        add_dependencies(cata_test test_mo)
-        target_link_libraries(cata_test cataclysm-common)
+        if (LOCALIZE)
+            add_dependencies(cata_test test_mo)
+        endif()
+        target_link_libraries(cata_test PRIVATE cataclysm-common)
         add_test(NAME test
-                COMMAND sh -c
-                "$<TARGET_FILE:cata_test> --rng-seed time"
+                COMMAND cata_test --rng-seed time
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
 endif ()

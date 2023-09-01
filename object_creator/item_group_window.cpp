@@ -10,46 +10,96 @@
 #include <QtCore/QCoreApplication>
 
 creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags flags )
-    : QMainWindow( parent, flags )
+    : QWidget ( parent, flags )
 {
-    QWidget* wid = new QWidget( this );
-    this->setCentralWidget( wid );
+
     this->setAcceptDrops( true );
 
     QHBoxLayout* mainRow = new QHBoxLayout;
     QVBoxLayout* mainColumn1 = new QVBoxLayout;
     QVBoxLayout* mainColumn2 = new QVBoxLayout;
+    QVBoxLayout* mainColumn3 = new QVBoxLayout;
 
-    wid->setLayout( mainRow );
+    this->setLayout( mainRow );
     mainRow->addLayout( mainColumn1, 0 );
     mainRow->addLayout( mainColumn2, 1 );
-
-    item_group_json.resize( QSize( 800, 600 ) );
-    item_group_json.setReadOnly( true );
-
+    mainRow->addLayout( mainColumn3, 2 );
 
     // =========================================================================================
     // first column of boxes
 
-    id_label = new QLabel( "id" );
+
+    QString tooltipText = "The ID of the item_group. For vanilla, this has to be unique";
+    tooltipText += "\nfor mods, if you use an ID that's already present in vanilla,";
+    tooltipText += "\nit will overwrite that item_group, unless the 'extend' property is used.";
+    tooltipText += "\nFor mods, if you create an unique item_group ID, it will act like";
+    tooltipText += "\nany other item_group of course.";
+
+    id_label = new QLabel( "Id" );
     id_box = new QLineEdit( "tools_home" );
-    id_box->setToolTip( QString( _( "The id of the item_group" ) ) );
+    id_box->setToolTip( tooltipText );
     QObject::connect( id_box, &QLineEdit::textChanged, [&]() { write_json(); } );
 
-    QString tooltipText = "In a Collection each entry is chosen independently from the other\n";
+
+    tooltipText = "Add a comment to this item_group. This has no function in-game.";
+    tooltipText += "\nThe only purpose is to let other developers know something about ";
+    tooltipText += "\nthis item_group.";
+
+    comment_label = new QLabel( "Comment" );
+    comment_box = new QLineEdit( "" );
+    comment_box->setToolTip( tooltipText );
+    QObject::connect( comment_box, &QLineEdit::textChanged, [&]() { write_json(); } );
+
+    ammo_frame = new simple_property_widget( this, QString( "ammo" ), 
+                                            property_type::NUMBER, this );
+    tooltipText = "specifies the percent chance that the entries will spawn fully loaded(if it";
+    tooltipText += "\nneeds a magazine, it will be added for you). Defaults to 0 if unspecified.";
+    ammo_frame->setToolTip( tooltipText );
+
+    magazine_frame = new simple_property_widget( this, QString( "magazine" ), 
+                                            property_type::NUMBER, this );
+    tooltipText = "specifies the percent chance that the entries will spawn with a";
+    tooltipText += "\nmagazine. Defaults to 0 if unspecified.";
+    magazine_frame->setToolTip( tooltipText );
+
+    QLabel* subtype_label = new QLabel( "Subtype" );
+    subtype = new QComboBox;
+    tooltipText = "In a Collection each entry is chosen independently from the other\n";
     tooltipText += "entries. Therefore, the probability associated with each entry is absolute,";
     tooltipText += "\nin the range of 0...1. In the json files it is implemented as a percentage";
     tooltipText += "\n(with values from 0 to 100). \n\nA Distribution is a weighted list.";
     tooltipText += "\nExactly one entry is chosen from it.The probability of each entry is";
     tooltipText += "\nrelative to the probability of the other entries. A probability";
     tooltipText += "\nof 0 (or negative) means it is never chosen.";
-
-    QLabel* subtype_label = new QLabel( "Subtype" );
-    subtype = new QComboBox;
     subtype->setToolTip( tooltipText );
     subtype->addItems( QStringList{ "none", "collection", "distribution" } );
     connect( subtype, QOverload<int>::of( &QComboBox::currentIndexChanged ),
-        [=]( int index ) { write_json(); } );
+        [=]( ) { write_json(); } );
+
+    QLabel* containerItem_label = new QLabel;
+    containerItem_label->setText( QString( "Container-item:" ) );
+
+    containerItem = new QLineEdit;
+    tooltipText = "causes all the items of the group to spawn in a container,";
+    tooltipText += "\nrather than as separate top-level items. If the items might";
+    tooltipText += "\nnot all fit in the container, you must specify how to deal";
+    tooltipText += "\nwith the overflow by setting on_overflow to either discard";
+    tooltipText += "\nto discard items at random until they fit, or spill to have";
+    tooltipText += "\nthe excess items be spawned alongside the container.";
+    containerItem->setToolTip( tooltipText );
+    QObject::connect( containerItem, &QLineEdit::textChanged, [&]() { write_json(); } );
+
+    QLabel* overflow_label = new QLabel( "Overflow" );
+    overflow = new QComboBox;
+    tooltipText = "Discard:";
+    tooltipText += "\nDiscard items at random until they fit";
+    tooltipText += "\nSpill:";
+    tooltipText += "\nHave the excess items be spawned alongside the container.";
+    tooltipText += "\n\nWill only show up in JSON if container-item is set.";
+    overflow->setToolTip( tooltipText );
+    overflow->addItems( QStringList{ "discard", "spill" } );
+    connect( overflow, QOverload<int>::of( &QComboBox::currentIndexChanged ),
+        [=]( ) { write_json(); } );
 
     item_search_label = new QLabel("Search items");
     item_search_box = new QLineEdit;
@@ -60,10 +110,18 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     QGridLayout* basicInfoLayout = new QGridLayout();
     basicInfoLayout->addWidget( id_label, 0, 0 );
     basicInfoLayout->addWidget( id_box, 0, 1 );
-    basicInfoLayout->addWidget( subtype_label, 1, 0 );
-    basicInfoLayout->addWidget( subtype, 1, 1 );
-    basicInfoLayout->addWidget( item_search_label, 2, 0 );
-    basicInfoLayout->addWidget( item_search_box, 2, 1 );
+    basicInfoLayout->addWidget( comment_label, 1, 0 );
+    basicInfoLayout->addWidget( comment_box, 1, 1 );
+    basicInfoLayout->addWidget( ammo_frame, 2, 0, 1, 2 );
+    basicInfoLayout->addWidget( magazine_frame, 3, 0, 1, 2 );
+    basicInfoLayout->addWidget( subtype_label, 4, 0 );
+    basicInfoLayout->addWidget( subtype, 4, 1 );
+    basicInfoLayout->addWidget( containerItem_label, 5, 0 );
+    basicInfoLayout->addWidget( containerItem, 5, 1 );
+    basicInfoLayout->addWidget( overflow_label, 6, 0 );
+    basicInfoLayout->addWidget( overflow, 6, 1 );
+    basicInfoLayout->addWidget( item_search_label, 7, 0 );
+    basicInfoLayout->addWidget( item_search_box, 7, 1 );
     mainColumn1->addLayout( basicInfoLayout );
 
     item_list_total_box = new ListWidget_Drag;
@@ -104,16 +162,23 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     scrollArea->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     scrollArea->setWidgetResizable( true );
 
-
     group_container = new nested_group_container( scrollArea, this );
     scrollArea->setWidget( group_container );
     mainColumn2->addWidget( scrollArea );
 
 
     // =========================================================================================
+    // third column
+
+    item_group_json.setMinimumSize( QSize( 400, 300 ) );
+    item_group_json.setMaximumWidth(500);
+    item_group_json.setReadOnly( true );
+    mainColumn3->addWidget( &item_group_json );
+
+    // =========================================================================================
     // Finalize
 
-    this->resize( QSize( 1024, 800 ) );
+    this->resize( QSize( 1280, 800 ) );
 }
 
 void creator::item_group_window::write_json()
@@ -122,28 +187,25 @@ void creator::item_group_window::write_json()
     JsonOut jo( stream );
 
     jo.start_object();
-
     jo.member( "type", "item_group" );
     jo.member( "id", id_box->text().toStdString() );
+    if( comment_box->text().size() > 0 ) {
+        jo.member( "//", comment_box->text().toStdString() );
+    }
+    this->ammo_frame->get_json( jo );
+    this->magazine_frame->get_json( jo );
+    
+
     std::string sub = subtype->currentText().toStdString();
     if( sub != "none" ) {
         jo.member( "subtype", subtype->currentText().toStdString() );
     }
-
-    jo.member( "entries" );
-    jo.start_array();
-    QObjectList entriesChildren = group_container->children();
-    for ( QObject* i : entriesChildren ) {
-        itemGroupEntry* ent = dynamic_cast<creator::itemGroupEntry*>( i );
-        if ( ent != nullptr ) {
-            ent->get_json( jo );
-        }
-        distributionCollection* dis = dynamic_cast<creator::distributionCollection*>( i );
-        if ( dis != nullptr ) {
-            dis->get_json( jo );
-        }
+    if( containerItem->text().size() > 0 ) {
+        jo.member( "container-item", containerItem->text().toStdString() );
+        jo.member( "overflow", overflow->currentText().toStdString() );
     }
-    jo.end_array();
+
+    group_container->get_json( jo );
     jo.end_object();
 
     std::istringstream in_stream( stream.str() );
@@ -153,9 +215,7 @@ void creator::item_group_window::write_json()
     JsonOut window_jo( window_out, true );
 
     formatter::format( jsin, window_jo );
-
     QString output_json{ window_out.str().c_str() };
-
     item_group_json.setText( output_json );
 }
 
@@ -176,7 +236,7 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
     std::string groupID;
     group_list_total_box->clear();
     if( searchQuery == "" ) {
-        for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
+        for( const item_group_id &i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
             //Inline groups get an ID assigned. We don't add those to the list
             //Inline groups' ID contains a ' ' so we filter for that
@@ -187,7 +247,7 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
             }
         }
     } else {
-        for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
+        for( const item_group_id &i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
             if( groupID.find( searchQuery ) != std::string::npos ) {
                 QListWidgetItem* new_item = new QListWidgetItem( QString( groupID.c_str() ) );
@@ -265,18 +325,20 @@ void creator::item_group_window::set_item_tooltip( QListWidgetItem* new_item,
 
 bool creator::item_group_window::event( QEvent* event )
 {
-    if( event->type() == item_group_changed::eventType ) {
+
+    if( event->type() == item_group_changed::eventType || 
+        event->type() == property_changed::eventType ) {
         write_json();
         return true;
     }
     //call the event method of the base class for the events that aren't handled
-    return QMainWindow::event( event );
+    return QWidget::event( event );
 }
 
 
 
 creator::distributionCollection::distributionCollection( bool isCollection, 
-                            QWidget* parent, item_group_window* top_parent ){
+                                            item_group_window* top_parent ){
     top_parent_widget = top_parent;
 
     setObjectName( "distributionCollection" );
@@ -294,7 +356,7 @@ creator::distributionCollection::distributionCollection( bool isCollection,
     entryType->addItems( QStringList{ "collection", "distribution" } );
     entryType->setToolTip( QString( _( "Change the type to a collection or a distribution" ) ) );
     connect( entryType, QOverload<int>::of( &QComboBox::currentIndexChanged ),
-        [=]( int index ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
     if( isCollection ) {
         entryType->setCurrentIndex( 0 );
     } else {
@@ -327,7 +389,7 @@ creator::distributionCollection::distributionCollection( bool isCollection,
     tooltipText += " property from json";
     prob->setToolTip( tooltipText );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
 
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
@@ -373,7 +435,7 @@ QSize creator::distributionCollection::minimumSizeHint() const
 
 void creator::distributionCollection::add_distribution() {
     creator::distributionCollection* dis = new creator::distributionCollection( false, 
-                                            this, top_parent_widget );
+                                            top_parent_widget );
     dis->set_depth( depth+1 );
     dis->set_bg_color();
     layout()->addWidget( dis );
@@ -382,7 +444,7 @@ void creator::distributionCollection::add_distribution() {
 
 void creator::distributionCollection::add_collection() {
     creator::distributionCollection* dis = new creator::distributionCollection( true, 
-                                            this, top_parent_widget );
+                                            top_parent_widget );
     dis->set_depth( depth+1 );
     dis->set_bg_color();
     layout()->addWidget( dis );
@@ -513,7 +575,7 @@ void creator::nested_group_container::change_notify_top_parent()
 
 void creator::nested_group_container::add_distribution() {
     creator::distributionCollection* dis = new creator::distributionCollection( false, 
-                                        this, top_parent_widget );
+                                        top_parent_widget );
     dis->set_depth( 0 );
     QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
     b->insertWidget( b->count() - 1, dis ); //Add before the stretch element
@@ -523,7 +585,7 @@ void creator::nested_group_container::add_distribution() {
 
 void creator::nested_group_container::add_collection() {
     creator::distributionCollection* col = new creator::distributionCollection( true, 
-                                        this, top_parent_widget );
+                                        top_parent_widget );
     col->set_depth( 0 );
     QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
     b->insertWidget( b->count() - 1, col ); //Add before the stretch element
@@ -564,11 +626,27 @@ void creator::nested_group_container::dropEvent( QDropEvent* event )
     event->acceptProposedAction();
 }
 
+void creator::nested_group_container::get_json( JsonOut &jo ) {
+    jo.member( "entries" );
+    jo.start_array();
+    QObjectList entriesChildren = this->children();
+    for ( QObject* i : entriesChildren ) {
+        itemGroupEntry* ent = dynamic_cast<creator::itemGroupEntry*>( i );
+        if ( ent != nullptr ) {
+            ent->get_json( jo );
+        }        
+        distributionCollection* dis = dynamic_cast<creator::distributionCollection*>( i );
+        if ( dis != nullptr ) {
+            dis->get_json( jo );
+        }
+    }
+    jo.end_array();
+}
+
 creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, bool group, 
                             item_group_window* top_parent ) : QFrame( parent )
 {
     top_parent_widget = top_parent;
-
     if ( group ) {
         setObjectName( "group" );
         setStyleSheet( "background-color:rgb(255,204,153)" );
@@ -576,56 +654,109 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
         setObjectName( "item" );
         setStyleSheet( "background-color:rgb(247,236,232)" );
     }
-    setMaximumHeight( 60 ); 
     QHBoxLayout* entryLayout = new QHBoxLayout;
+    entryLayout->setMargin( 0 );
+    entryLayout->setContentsMargins( 4,4,4,4 );
 
     title_label = new QLabel;
     title_label->setText( entryText );
+    title_label->setToolTip( entryText );
     title_label->setStyleSheet( "font: 10pt;" );
 
-    QLabel* prob_label = new QLabel;
-    prob_label->setText( QString( "Prob:" ) );
-    prob_label->setMinimumSize( QSize( 30, 24 ) );
-    prob_label->setMaximumSize( QSize( 35, 24 ) );
+    //This layout will contain all the properties and wrap the widgets as needed
+    flowLayout = new FlowLayout;
+    flowLayout->setMargin( 0 );
+    flowLayout->setContentsMargins( 0,4,0,0 );
 
-    prob = new QSpinBox;
-    prob->setRange( 0, 100 );
-    prob->setValue( 100 );
-    QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;\n";
-    tooltipText += "a probability of 100 % means it's always chosen. The default is 100,\n";
-    tooltipText += "because it's the most useful value. A default of 0 would mean the entry\n";
-    tooltipText += "could be removed anyway. Setting this to 0 or 100 will remove the";
-    tooltipText += "property from json";
-    prob->setToolTip( tooltipText );
-    prob->setMinimumSize( QSize( 45, 24 ) );
-    prob->setMaximumSize( QSize( 50, 24 ) );
-    connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
 
-    QLabel* charges_label = new QLabel;
-    charges_label->setText( QString( "Charges:" ) );
-    charges_label->setMinimumSize( QSize( 42, 24 ) );
-    charges_label->setMaximumSize( QSize( 47, 24) );
 
-    charges_min = new QSpinBox;
-    charges_min->setRange( 0, INT_MAX );
-    charges_min->setMinimumSize( QSize( 45, 24 ) );
-    charges_min->setMaximumSize( QSize( 50, 24 ) );
+    prob_frame = new simple_property_widget( this, QString( "prob" ), 
+                                            property_type::NUMBER, this );
+    QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;";
+    tooltipText += "\na probability of 100 % means it's always chosen. The default is 100,";
+    tooltipText += "\nbecause it's the most useful value. A default of 0 would mean the entry";
+    tooltipText += "\ncould be removed anyway. Setting this to 0 or 100 will remove the";
+    tooltipText += "\nproperty from json";
+    prob_frame->setToolTip( tooltipText );
+    prob_frame->allow_hiding( true );
+
+
+    count_frame = new simple_property_widget( this, QString( "count" ), 
+                                            property_type::MINMAX, this );
+    count_frame->hide();
+    count_frame->allow_hiding( true );
+    tooltipText = "Count:";
+    tooltipText += "\nMakes the item spawn repeat, each time creating a new item.";
+    tooltipText += "\n\ncount-min:";
+    tooltipText += "\nThe game will repeat the item spawn at least this many times";
+    tooltipText += "\nOnly shows up in JSON if the value is greater then 0";
+    tooltipText += "\nSetting this equal to count-max will set the JSON value to count: <number>";
+    tooltipText += "\nIf only count-min is set, the JSON value will simply be count: <number>";
+    tooltipText += "\n\ncount-max:";
+    tooltipText += "\nThe game will repeat the item spawn up to this many times";
+    tooltipText += "\nOnly shows up in JSON if the value is greater then 0";
+    tooltipText += "\nSetting this equal to count-min will set the JSON value to count: <number>";
+    tooltipText += "\nIf only count-max is set, the JSON value will simply be count: <number>";
+    count_frame->setToolTip( tooltipText );
+
+    charges_frame = new simple_property_widget( this, QString( "charges" ), 
+                                            property_type::MINMAX, this );
+    charges_frame->hide();
+    charges_frame->allow_hiding( true );
     tooltipText = "The minimum amount of charges. Only shows up in JSON if max has ";
-    tooltipText += "a greater value then 0";
-    charges_min->setToolTip( tooltipText );
-    connect( charges_min, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+    tooltipText += "\na greater value then 0";
+    charges_frame->setToolTip( tooltipText );
 
-    charges_max = new QSpinBox;
-    charges_max->setRange( 0, INT_MAX );
-    charges_max->setMinimumSize( QSize( 45, 24 ) );
-    charges_max->setMaximumSize( QSize( 50, 24 ) );
-    tooltipText = "The maximum amount of charges. Only shows up in JSON if the value ";
-    tooltipText += "is greater then 0";
-    charges_max->setToolTip( tooltipText );
-    connect( charges_max, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+    damage_frame = new simple_property_widget( this, QString( "damage" ), 
+                                            property_type::MINMAX, this );
+    damage_frame->hide();
+    damage_frame->allow_hiding( true );
+    tooltipText = "The amount of damage this item has taken. 0 means undamaged, 3 means maximum damage.";
+    tooltipText += "\nIf both min and max are set, a random damage value between those two is selected.";
+    damage_frame->set_minmax_limits( 0, 3, 0, 3 );
+    damage_frame->setToolTip( tooltipText );
+
+    contentsItem_frame = new simple_property_widget( this, QString( "contents-item" ), 
+                                            property_type::LINEEDIT, this );
+    contentsItem_frame->hide();
+    contentsItem_frame->allow_hiding( true );
+    tooltipText = "is added as contents of the created item. It is not checked if they can be";
+    tooltipText += "\nput into the item. This allows water, that contains a book, that contains";
+    tooltipText += "\na steel frame, that contains a corpse.";
+    contentsItem_frame->setToolTip( tooltipText );
+
+    contentsGroup_frame = new simple_property_widget( this, QString( "contents-group" ), 
+                                            property_type::LINEEDIT, this );
+    contentsGroup_frame->hide();
+    contentsGroup_frame->allow_hiding( true );
+    tooltipText = "is added as contents of the created item. It is not checked if they can be";
+    tooltipText += "\nput into the item. This allows water, that contains a book, that contains";
+    tooltipText += "\na steel frame, that contains a corpse.";
+    contentsGroup_frame->setToolTip( tooltipText );
+    
+
+    if( !group ) {
+        variant_frame = new simple_property_widget( this, QString( "variant" ), 
+                                                property_type::LINEEDIT, this );
+        variant_frame->hide();
+        variant_frame->allow_hiding( true );
+        variant_frame->setToolTip( "A valid itype variant id for this item." );
+    }
+
+    add_property = new QComboBox;
+    tooltipText = "Add new property to this entry";
+    add_property->setToolTip( tooltipText );
+    //Variant only applies to items, not groups
+    if ( group ) {
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "damage",
+                                                    "contents-item", "contents-group" } );
+    } else {
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "damage",
+                                            "contents-item", "contents-group", "variant" } );
+    }
+    add_property->setMaximumWidth( 60 );
+    connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
+                                    [=](){ add_property_changed(); }) ;
 
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
@@ -635,19 +766,80 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     connect( btnDeleteThis, &QPushButton::clicked, this, &itemGroupEntry::delete_self );
 
     entryLayout->addWidget( title_label );
-    entryLayout->addWidget( prob_label );
-    entryLayout->addWidget( prob );
-    entryLayout->addWidget( charges_label );
-    entryLayout->addWidget( charges_min );
-    entryLayout->addWidget( charges_max );
+    flowLayout->addWidget( prob_frame );
+    flowLayout->addWidget( count_frame );
+    flowLayout->addWidget( charges_frame );
+    flowLayout->addWidget( damage_frame );
+    flowLayout->addWidget( contentsItem_frame );
+    flowLayout->addWidget( contentsGroup_frame );
+
+    //Variant only applies to items, not groups
+    if ( !group ) {
+        flowLayout->addWidget( variant_frame );
+    } 
+    entryLayout->addLayout( flowLayout );
+    entryLayout->addWidget( add_property );
     entryLayout->addWidget( btnDeleteThis );
 
+    entryLayout->setStretchFactor( title_label, 1 );
+    entryLayout->setStretchFactor( flowLayout, 2 );
+    entryLayout->setStretchFactor( add_property, 1  );
+    entryLayout->setStretchFactor( btnDeleteThis, 1  );
+
     setLayout( entryLayout );
+}
+
+
+bool creator::itemGroupEntry::event( QEvent* event )
+{
+    //The event is a property_changed when one the itemGroupEntry's properties change
+    if( event->type() == property_changed::eventType ) {
+        QObjectList entriesChildren = this->children();
+        for ( QObject* i : entriesChildren ) {
+            simple_property_widget* ent = dynamic_cast<creator::simple_property_widget*>( i );
+            if ( ent != nullptr ) {
+                QString property = ent->get_propertyName();
+                //If the property is hidden and not in the add_property combobox, 
+                //add it to the combobox
+                if( ent->isHidden()  && add_property->findText( property ) == -1 ){
+                    add_property->addItem( property ) ;
+                }
+            }
+        }
+        change_notify_top_parent();
+        return true;
+    }
+    //call the event method of the base class for the events that aren't handled
+    return QFrame::event( event );
 }
 
 void creator::itemGroupEntry::change_notify_top_parent() {
     QEvent* myEvent = new QEvent( item_group_changed::eventType );
     QCoreApplication::sendEvent( top_parent_widget, myEvent );
+}
+
+void creator::itemGroupEntry::add_property_changed() {
+    std::string prop = add_property->currentText().toStdString();
+    if ( prop == "" || prop == "Add property" ){
+        return;
+    } else if ( prop == "prob" ){
+        prob_frame->show();
+    } else if ( prop == "count" ){
+        count_frame->show();
+    } else if ( prop == "charges" ){
+        charges_frame->show();
+    } else if ( prop == "damage" ){
+        damage_frame->show();
+    } else if ( prop == "contents-item" ){
+        contentsItem_frame->show();
+    } else if ( prop == "contents-group" ){
+        contentsGroup_frame->show();
+    } else if ( prop == "variant" ){
+        variant_frame->show();
+    }
+
+    add_property->removeItem( add_property->currentIndex() );
+    change_notify_top_parent();
 }
 
 QSize creator::itemGroupEntry::sizeHint() const
@@ -660,8 +852,9 @@ QSize creator::itemGroupEntry::minimumSizeHint() const
     return QSize( 250, 45 );
 }
 
+
+
 void creator::itemGroupEntry::delete_self() {
-    QObject* myParent = this->parent();
     setParent( nullptr );
     change_notify_top_parent();
     deleteLater();
@@ -675,17 +868,28 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     } else {
         jo.member( "group", title_label->text().toStdString() );
     }
-    int pr = prob->value(); //If prob is 0, we omit prob entirely
-    if( pr ) {
-        //Only add if it's less then 100 since 100 is the default
-        if( pr < 100 ) {
-            jo.member( "prob", pr );
-        }
+    if( !prob_frame->isHidden() ) {
+        prob_frame->get_json( jo );
     }
-    pr = charges_max->value(); //If charges-max is 0, we omit charges entirely
-    if( pr ) {
-        jo.member( "charges-min", charges_min->value() );
-        jo.member( "charges-max", pr );
+    if( !count_frame->isHidden() ) {
+        count_frame->get_json( jo );
+    }
+    if( !charges_frame->isHidden() ) {
+        charges_frame->get_json( jo );
+    }
+    if( !damage_frame->isHidden() ) {
+        damage_frame->get_json( jo );
+    }
+    if( !contentsItem_frame->isHidden() ) {
+        contentsItem_frame->get_json( jo );
+    }
+    if( !contentsGroup_frame->isHidden() ) {
+        contentsGroup_frame->get_json( jo );
+    }
+    if( this->objectName() == "item" ) {
+        if( !variant_frame->isHidden() ) {
+            variant_frame->get_json( jo );
+        }
     }
     jo.end_object();
 }

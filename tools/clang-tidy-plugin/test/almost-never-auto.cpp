@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-almost-never-auto %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-almost-never-auto %t -- --load=%cata_plugin --
 
 using int_alias = int;
 int_alias return_int_alias();
@@ -119,6 +119,9 @@ void f0()
     int j4[2][2];
     auto &j5 = j4;
     auto &j6 = j4[0];
+
+    // Don't try to add a type to lambda captures
+    auto lam = [j7 = j0] { return j7; };
 }
 
 template<typename T>

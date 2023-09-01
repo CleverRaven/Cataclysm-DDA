@@ -106,6 +106,15 @@
     "martial_art": "style_karate"
   },
   {
+    "id": "manual_bojutsu",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "Bojutsu The Matsumoto System", "str_pl": "copies of Bojutsu The Matsumoto System" },
+    "price_postapoc": 2000,
+    "description": "A complete guide to Bojutsu.",
+    "martial_art": "style_bojutsu"
+  },
+  {
     "id": "manual_kickboxing",
     "copy-from": "book_martial",
     "type": "BOOK",

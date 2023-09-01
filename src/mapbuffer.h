@@ -76,7 +76,7 @@ class mapbuffer
     private:
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
-        void remove_submap( tripoint_abs_sm addr );
+        void remove_submap( const tripoint_abs_sm &addr );
         submap *unserialize_submaps( const tripoint_abs_sm &p );
         void deserialize( const JsonArray &ja );
         void save_quad(

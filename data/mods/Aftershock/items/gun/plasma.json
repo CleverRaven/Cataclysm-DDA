@@ -11,7 +11,6 @@
     "price": "750 USD",
     "price_postapoc": "750 USD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -24,15 +23,8 @@
     "durability": 6,
     "loudness": 5,
     "reload": 50,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "afs_pam-41",

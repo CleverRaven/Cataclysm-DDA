@@ -10,7 +10,7 @@
     "id": "tripod",
     "items": [
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
@@ -46,7 +46,7 @@
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
       [ "556", 8 ],
       [ "alloy_plate", 10 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 10 ],
       [ "hard_plate", 30 ],
       [ "robot_controls", 5 ]
@@ -54,16 +54,28 @@
   },
   {
     "type": "item_group",
+    "id": "afs_bandits",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boots_combat" },
+      { "item": "technician_pants_gray", "prob": 100, "damage-min": 0, "damage-max": 5 },
+      { "item": "technician_shirt_gray", "prob": 100, "damage-min": 0, "damage-max": 5 },
+      { "item": "afs_magellan_suit", "prob": 50, "damage-min": 0, "damage-max": 5 },
+      { "group": "military", "prob": 50, "damage-min": 0, "damage-max": 5 },
+      { "group": "mil_food", "prob": 100, "damage-min": 0, "damage-max": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "xl_uplift_death_drop",
     "subtype": "collection",
     "entries": [
-      { "item": "xlboots_combat" },
-      { "item": "xl_technician_pants_gray", "prob": 50 },
-      { "item": "xl_technician_shirt_gray", "prob": 100 },
-      { "item": "xl_jeans", "prob": 50 },
-      { "item": "mp5mag", "prob": 10 },
-      { "group": "military", "prob": 50 },
-      { "group": "mil_food", "prob": 100 }
+      { "item": "xlboots_combat", "damage-min": 0, "damage-max": 5 },
+      { "item": "xl_technician_pants_gray", "prob": 50, "damage-min": 0, "damage-max": 5 },
+      { "item": "xl_technician_shirt_gray", "prob": 100, "damage-min": 0, "damage-max": 5 },
+      { "item": "xl_jeans", "prob": 50, "damage-min": 0, "damage-max": 5 },
+      { "group": "military", "prob": 50, "damage-min": 0, "damage-max": 5 },
+      { "group": "mil_food", "prob": 100, "damage-min": 0, "damage-max": 5 }
     ]
   },
   {
@@ -71,13 +83,13 @@
     "id": "xl_uplift_zed_death_drop",
     "subtype": "collection",
     "entries": [
-      { "item": "xlboots_combat" },
-      { "item": "xl_technician_pants_gray", "prob": 50 },
-      { "item": "xl_technician_shirt_gray", "prob": 100 },
-      { "item": "xl_jeans", "prob": 50 },
+      { "item": "xlboots_combat", "damage-min": 1, "damage-max": 5 },
+      { "item": "xl_technician_pants_gray", "prob": 50, "damage-min": 1, "damage-max": 5 },
+      { "item": "xl_technician_shirt_gray", "prob": 100, "damage-min": 1, "damage-max": 5 },
+      { "item": "xl_jeans", "prob": 50, "damage-min": 1, "damage-max": 5 },
       { "item": "mp5mag", "prob": 10 },
-      { "group": "military", "prob": 50 },
-      { "group": "mil_food", "prob": 100 }
+      { "group": "military", "prob": 50, "damage-min": 0, "damage-max": 5 },
+      { "group": "mil_food", "prob": 100, "damage-min": 0, "damage-max": 5 }
     ]
   },
   {

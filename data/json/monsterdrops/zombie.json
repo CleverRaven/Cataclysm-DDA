@@ -76,14 +76,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "mon_zombie_flamer",
-    "ammo": 50,
-    "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "mon_zombie_swimmer_death_drops",
     "entries": [
       {
@@ -122,7 +114,10 @@
     "type": "item_group",
     "id": "mon_dog_death_drops",
     "subtype": "collection",
-    "entries": [ { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 20 } ]
+    "entries": [
+      { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 20 },
+      { "item": "dog_tag_dog", "prob": 40, "damage": [ 0, 2 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -153,7 +148,7 @@
           { "item": "pants_checkered", "damage": [ 1, 4 ], "prob": 10 },
           { "item": "pants", "damage": [ 1, 4 ], "prob": 40 },
           { "item": "jeans", "damage": [ 1, 4 ], "prob": 20 },
-          { "item": "flag_pants", "damage": [ 1, 4 ], "prob": 5 },
+          { "item": "pants", "variant": "pants_flag", "damage": [ 1, 4 ], "prob": 5 },
           { "item": "breeches", "damage": [ 1, 4 ], "prob": 25 }
         ]
       },
@@ -161,6 +156,18 @@
       { "item": "briefs", "damage": [ 1, 4 ], "prob": 100 },
       { "item": "slippers", "damage": [ 1, 4 ], "prob": 100 },
       { "item": "dentures", "prob": 75 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "zombie_fursuits",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wolfsuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "dragonsuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "felinesuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "dinosuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "sharksuit", "prob": 50, "damage": [ 2, 3 ] }
     ]
   }
 ]

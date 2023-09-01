@@ -14,74 +14,57 @@ namespace
 {
 flexbuffer_cache &base_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::base_path() ) / "cache", fs::u8path( PATH_INFO::base_path() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::base_path() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::base_path() ) };
     return cache;
 }
 
 flexbuffer_cache &config_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::config_dir() ) / "cache", fs::u8path( PATH_INFO::config_dir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::config_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::config_dir() ) };
     return cache;
 }
 
 flexbuffer_cache &data_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() ) / "cache", fs::u8path( PATH_INFO::datadir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::datadir() ) };
     return cache;
 }
 
 flexbuffer_cache &memorial_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::memorialdir() ) / "cache", fs::u8path( PATH_INFO::memorialdir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::memorialdir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::memorialdir() ) };
     return cache;
 }
 
 flexbuffer_cache &user_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::user_dir() ) / "cache", fs::u8path( PATH_INFO::user_dir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::user_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::user_dir() ) };
     return cache;
 }
 
 std::unordered_map<std::string, std::unique_ptr<flexbuffer_cache>> save_caches;
-std::unordered_map<std::string, std::unordered_map<std::string, std::unique_ptr<flexbuffer_cache>>>
-world_to_character_caches;
 
+// There's no measurable need to persist flatbuffers for save data, so just create a per-world 'cache' which parses
+// but doesn't disk-cache the parsed flatbuffer.
 flexbuffer_cache &cache_for_save( const cata_path &path )
 {
     // Assume lexically normal path
     auto path_it = path.get_relative_path().begin();
     // First path element is the world name
-    std::string worldname = path_it->u8string();
+    fs::path worldname_path = *path_it;
+    std::string worldname_str = worldname_path.u8string();
     ++path_it;
     // Next element is either a file, a character folder, or the maps folder
     std::string folder_or_file = path_it->u8string();
     ++path_it;
 
-    auto it = save_caches.find( worldname );
+    auto it = save_caches.find( worldname_str );
     if( it == save_caches.end() ) {
-        it = save_caches.emplace( worldname,
-                                  std::make_unique<flexbuffer_cache>( fs::u8path( PATH_INFO::savedir() ) / worldname / "cache",
-                                          fs::u8path( PATH_INFO::savedir() ) / worldname ) ).first;
+        it = save_caches.emplace( worldname_str,
+                                  std::make_unique<flexbuffer_cache>( fs::path(),
+                                          fs::u8path( PATH_INFO::savedir() ) / worldname_path ) ).first;
     }
 
-    if( folder_or_file == "maps" ) {
-        // Generic per-save cache is fine.
-        return *it->second;
-    }
-
-    // Either a global save file or a per-character file.
-    fs::path test_path = fs::u8path( PATH_INFO::savedir() ) / worldname / folder_or_file;
-    if( fs::is_directory( test_path ) ) {
-        // Character file.
-        const std::string &character_name = folder_or_file;
-        std::unordered_map<std::string, std::unique_ptr<flexbuffer_cache>> &character_caches_for_world =
-                    world_to_character_caches[worldname];
-        it = character_caches_for_world.find( character_name );
-        if( it == character_caches_for_world.end() ) {
-            it = character_caches_for_world.emplace( character_name,
-                    std::make_unique<flexbuffer_cache>( test_path / "cache", test_path ) ).first;
-        }
-    }
     return *it->second;
 }
 
@@ -110,7 +93,7 @@ flexbuffer_cache &cache_for_lexically_normal_path( const cata_path &path )
 }
 
 // The file pointed to by source_file must exist.
-cata::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_file,
+std::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_file,
         size_t offset )
 {
     cata_path lexically_normal_path = source_file.lexically_normal();
@@ -123,7 +106,7 @@ cata::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_
         buffer = flexbuffer_cache::parse( lexically_normal_path.get_unrelative_path(), offset );
     }
     if( !buffer ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     flexbuffers::Reference buffer_root = flexbuffer_root_from_storage( buffer->get_storage() );
@@ -132,16 +115,16 @@ cata::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_
 
 } // namespace
 
-cata::optional<JsonValue> json_loader::from_path_at_offset_opt( const cata_path &source_file,
+std::optional<JsonValue> json_loader::from_path_at_offset_opt( const cata_path &source_file,
         size_t offset ) noexcept( false )
 {
     if( !file_exist( source_file.get_unrelative_path() ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return from_path_at_offset_opt_impl( source_file, offset );
 }
 
-cata::optional<JsonValue> json_loader::from_path_opt( const cata_path &source_file ) noexcept(
+std::optional<JsonValue> json_loader::from_path_opt( const cata_path &source_file ) noexcept(
     false )
 {
     return from_path_at_offset_opt( source_file, 0 );
@@ -179,13 +162,13 @@ JsonValue json_loader::from_string( std::string const &data ) noexcept( false )
     return JsonValue( std::move( buffer ), buffer_root, nullptr, 0 );
 }
 
-cata::optional<JsonValue> json_loader::from_string_opt( std::string const &data ) noexcept( false )
+std::optional<JsonValue> json_loader::from_string_opt( std::string const &data ) noexcept( false )
 {
-    cata::optional<JsonValue> ret;
+    std::optional<JsonValue> ret;
     try {
         ret = from_string( data );
     } catch( JsonError &e ) {
-        ret = cata::nullopt;
+        ret = std::nullopt;
     }
     return ret;
 }

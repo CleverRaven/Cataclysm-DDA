@@ -38,7 +38,82 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "symbol": "`",
-    "color": "white"
+    "color": "white",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "letter_home_soldier_1",
+        "name": { "str": "love letter" },
+        "description": "A written message from a soldier to their partner, carefully folded into its envelope.  Their deployment ends soon and they can't wait to see their lover.  Reading the rest of it would be rude.",
+        "weight": 1
+      },
+      {
+        "id": "letter_home_soldier_2",
+        "name": { "str": "angry letter home" },
+        "description": "A written message from a soldier to their partner, stuffed angrily into its envelope.  They know, they know she knows, and don't even pretend you don't know.  This letter is full of expletives you don't dare read aloud.",
+        "weight": 1
+      },
+      {
+        "id": "letter_home_soldier_3",
+        "name": { "str": "sad letter home" },
+        "description": "A written message from a soldier to their parents.  Their deployment has been extended and they won't be home for the holidays.  This sad letter makes you feel homesick.",
+        "weight": 1
+      },
+      {
+        "id": "letter_love",
+        "name": { "str": "love letter" },
+        "description": "A written message from a woman to her lover, it's sealed with a heart-shaped sticker and smells of perfume.  You start to read it but it quickly becomes embarrassing.",
+        "weight": 1
+      },
+      {
+        "id": "letter_home_student_1",
+        "name": { "str": "sad letter home" },
+        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a really bad time at college and want to come home, nothing seems to be going well, their grades and heart are in the dumps.",
+        "weight": 1
+      },
+      {
+        "id": "letter_home_student_2",
+        "name": { "str": "letter home" },
+        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a great time at college and can't wait to introduce you to their new lover.  Coincidently they have run out of money for gas again and it sure would be great if you could send some.",
+        "weight": 1
+      },
+      {
+        "id": "letter_home_immigrant",
+        "name": { "str": "letter home" },
+        "description": "A written message home in a foreign tongue, carefully folded into its envelope.",
+        "weight": 1
+      },
+      {
+        "id": "letter_pink_slip",
+        "name": { "str": "pink slip" },
+        "description": "A folded pink sheet of paper declaring the homeowner fired!  Oh no.",
+        "weight": 1
+      },
+      {
+        "id": "letter_credit",
+        "name": { "str": "credit card offer" },
+        "description": "A notification from a credit card company, the recipient has been preapproved!  Attached in a thick wad of glue is a fake credit card, this could be theirs if they wanted it.",
+        "weight": 5
+      },
+      {
+        "id": "letter_overdue",
+        "name": { "str": "letter from the bank" },
+        "description": "A letter from the bank stating the homeowners account is overdrawn and they owe quite a bit of money.",
+        "weight": 2
+      },
+      {
+        "id": "letter_rent",
+        "name": { "str": "late rent notice" },
+        "description": "A letter to recipient notifying them of their overdue rent, they have 30 days to pay or they are going to court!",
+        "weight": 2
+      },
+      {
+        "id": "letter_ticket",
+        "name": { "str": "automated speeding ticket" },
+        "description": "A notice from the local police, there is a tiny picture of a car and a demand of 350 dollars for speeding in a school zone.",
+        "weight": 2
+      }
+    ]
   },
   {
     "id": "postcard",
@@ -160,7 +235,7 @@
       {
         "id": "farewell_greeting_card",
         "name": { "str": "farewell card" },
-        "description": "This is a white greeting card with a stylized drawing of an empty road.  Words printed on it read: \"You're going places (literally).  Wishing you the best!\"",
+        "description": "A white greeting card with a stylized drawing of an empty road.  Words printed on it read: \"You're going places (literally).  Wishing you the best!\"",
         "color": "white",
         "weight": 1
       },

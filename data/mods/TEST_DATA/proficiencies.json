@@ -1,0 +1,13 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_test",
+    "category": "prof_test_category",
+    "name": { "str": "Test Proficiency" },
+    "description": "You are beginning to grasp a general idea of writing test cases for CDDA.  Should not show up in game.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "time_to_learn": "24 h",
+    "default_skill_penalty": 0.4
+  }
+]

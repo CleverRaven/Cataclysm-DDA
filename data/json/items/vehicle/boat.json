@@ -5,15 +5,15 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "wood boat hull" },
-    "description": "A wooden board that keeps the boat afloat.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
+    "description": "A wooden board that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": 8000,
     "price_postapoc": 100,
     "material": [ "wood" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -21,15 +21,15 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "raft boat hull" },
-    "description": "Logs tied together to make a vehicle float.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
+    "description": "Logs tied together to make a vehicle float.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
     "weight": "6000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -3,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -37,15 +37,15 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "plastic boat hull" },
-    "description": "A rigid plastic sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
+    "description": "A rigid plastic sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": 16000,
     "price_postapoc": 250,
     "material": [ "plastic" ],
     "weight": "1500 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -53,46 +53,46 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "carbon fiber boat hull" },
-    "description": "A carbon fiber sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
+    "description": "A rigid carbon fiber sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": 40000,
     "price_postapoc": 500,
     "material": [ "kevlar_rigid" ],
     "weight": "500 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
     "id": "hand_paddles",
     "name": { "str_sp": "oars" },
-    "description": "Oars for a boat.",
+    "description": "A pair of oars for a boat.",
     "weight": "8 kg",
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood" ],
     "volume": "16 L",
-    "bashing": 18,
     "category": "veh_parts",
     "price": 9000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "GENERIC",
     "id": "sail",
     "name": { "str": "sail" },
-    "description": "Sails for a boat.",
+    "description": "A sail for a boat.",
     "weight": "7904 g",
     "to_hit": -1,
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood", "cotton" ],
     "volume": "7500 ml",
-    "bashing": 4,
     "category": "veh_parts",
     "price": 9000,
-    "price_postapoc": 1250
+    "price_postapoc": 1250,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -106,9 +106,9 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -122,9 +122,9 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -138,8 +138,8 @@
     "material": [ "aluminum" ],
     "weight": "2250 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   }
 ]

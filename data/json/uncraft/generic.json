@@ -29,7 +29,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 5 ], [ "elec_jackhammer", 66 ] ] ],
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
@@ -96,9 +96,89 @@
     "result": "5l_lead",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
-    "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "lead", 18900 ] ] ]
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_lead", 5 ] ] ]
+  },
+  {
+    "result": "1l_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "lead", 2155 ] ] ]
+  },
+  {
+    "result": "10l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_silver", 2 ] ] ]
+  },
+  {
+    "result": "5l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_silver", 5 ] ] ]
+  },
+  {
+    "result": "1l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "silver_small", 1993 ] ] ]
+  },
+  {
+    "result": "10l_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_gold", 2 ] ] ]
+  },
+  {
+    "result": "5l_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_gold", 5 ] ] ]
+  },
+  {
+    "result": "1l_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "gold_small", 3670 ] ] ]
+  },
+  {
+    "result": "10l_platinum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_platinum", 2 ] ] ]
+  },
+  {
+    "result": "5l_platinum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_platinum", 5 ] ] ]
+  },
+  {
+    "result": "1l_platinum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "platinum_small", 4075 ] ] ]
   },
   {
     "result": "exodii_ingot_zinc",
@@ -122,7 +202,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "zinc_metal", 5071 ] ] ]
+    "//": "perfect = 20000; subtracted 5.5% loss",
+    "components": [ [ [ "zinc_metal", 18900 ] ] ]
   },
   {
     "result": "exodii_ingot_steel",
@@ -170,7 +251,23 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 103 ] ] ]
+    "components": [ [ [ "scrap_copper", 170 ] ] ]
+  },
+  {
+    "result": "10l_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_bronze", 2 ] ] ]
+  },
+  {
+    "result": "5l_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "scrap_bronze", 121 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",
@@ -291,7 +388,6 @@
     "result": "character_sheet",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "1 s",
     "components": [ [ [ "paper", 3 ] ] ]
   },
@@ -299,7 +395,6 @@
     "result": "sandbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -314,19 +409,9 @@
     "components": [ [ [ "thread", 1 ] ] ]
   },
   {
-    "result": "spatula",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "components": [ [ [ "chunk_rubber", 2 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
     "result": "sole_rubber",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chunk_rubber", 3 ] ] ]
@@ -335,7 +420,6 @@
     "result": "tire_medium",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
@@ -344,7 +428,6 @@
     "result": "tire_medium_slick",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "7 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 2 ] ] ]
@@ -353,7 +436,6 @@
     "result": "tire_motorbike",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
@@ -362,7 +444,6 @@
     "result": "tire_motorbike_or",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
@@ -371,7 +452,6 @@
     "result": "tire_wide",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
@@ -380,7 +460,6 @@
     "result": "tire_wide_or",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
@@ -389,7 +468,6 @@
     "result": "tire_bicycle",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
@@ -398,7 +476,6 @@
     "result": "tire_bicycle_or",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
@@ -407,7 +484,6 @@
     "result": "rubber_tire_strip",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 5 ] ] ]
@@ -416,28 +492,163 @@
     "result": "rubber_slug",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "chunk_rubber", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "parachute_mil",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 h",
+    "components": [ [ [ "sheet_nylon_patchwork", 1972 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "pallet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "components": [ [ [ "2x4", 3 ] ], [ [ "plank_short", 9 ] ], [ [ "nail", 117 ] ], [ [ "splinter", 61 ] ] ],
+    "qualities": [ { "id": "PRYING_NAIL", "level": 1 } ]
+  },
+  {
+    "result": "432gal_drum_rubber",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "7 h",
+    "components": [ [ [ "rubber_tire_chunk", 65 ] ], [ [ "scrap", 89 ] ], [ [ "water_faucet", 2 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "result": "shrink_wrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "earthbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "gravelbag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "skull_human",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "bone_human", 4 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_canis",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "chalice",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "gold_small", 40 ] ] ]
+  },
+  {
+    "result": "pillowcase",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 s",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "zipper_short_plastic", 1 ] ], [ [ "scrap_cotton", 18 ] ] ]
+  },
+  {
+    "result": "blanket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 20 ] ], [ [ "thread", 150 ] ] ],
+    "//": "This recipe somehow manages to lose cotton while creating mass out of thin air. Honestly remarkable, but for me it means I have to look into the weight for thread later on"
+  },
+  {
+    "result": "crackpipe",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "result": "pipe_glass",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "water_faucet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "teddy_bear",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "down_feather", 50 ] ] ]
+  },
+  {
+    "result": "well_pump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 9 ] ] ]
+  },
+  {
+    "result": "ceramic_mug",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "casserole",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "ceramic_shard", 9 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fuel_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 7 ] ] ]
   }
 ]

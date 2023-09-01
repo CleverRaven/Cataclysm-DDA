@@ -7,7 +7,7 @@
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_SHOPKEEPER_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_SHOPKEEPER_Job" },
-      { "text": "I don't need anything, just gotta got.", "topic": "TALK_DONE" }
+      { "text": "I don't need anything, just gotta go.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -87,14 +87,14 @@
     "dynamic_line": "This is our warehouse, which I run and stock.  We've got everything here from our scavenging runs; books, food, tools, materials, you name it.  I'd be willing to sell a few things for the right price.",
     "responses": [
       { "text": "Who are you?", "topic": "TALK_VALHALLIST_SHOPKEEPER_WHO" },
-      { "text": "Lets talk business, then.", "effect": "start_trade", "topic": "TALK_VALHALLIST_SHOPKEEPER_2" },
+      { "text": "Let's talk business, then.", "effect": "start_trade", "topic": "TALK_VALHALLIST_SHOPKEEPER_2" },
       { "text": "That's cool, but I gotta got.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_SHOPKEEPER_Loan_Hazmat",
-    "dynamic_line": "Certianly <name_g>, they've been a real help for us recently.  I can only spare one at a time though, so make sure to bring it back.",
+    "dynamic_line": "Certainly <name_g>, they've been a real help for us recently.  I can only spare one at a time though, so make sure to bring it back.",
     "responses": [
       {
         "text": "Thanks.  I'll return it when I'm done.",

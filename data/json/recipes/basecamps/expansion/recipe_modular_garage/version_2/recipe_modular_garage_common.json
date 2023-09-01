@@ -58,7 +58,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmg_2_furniture",
-    "description": "Now that we have some cover, lets build some counters and racks for tools and parts, allowing us to use the Chop Shop.",
+    "description": "Now that we have some cover, let's build some counters and racks for tools and parts, allowing us to use the Chop Shop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

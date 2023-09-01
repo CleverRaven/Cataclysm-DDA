@@ -4,7 +4,12 @@
     "id": "TEST_ENCH",
     "condition": "ALWAYS",
     "emitter": "emit_shadow_field",
-    "values": [ { "value": "STRENGTH", "multiply": 2, "add": 25 } ],
+    "values": [
+      { "value": "DEXTERITY", "multiply": 2, "add": 25 },
+      { "value": "SOCIAL_LIE", "multiply": 0.5, "add": 15 },
+      { "value": "SOCIAL_PERSUADE", "multiply": 0.5, "add": 15 },
+      { "value": "SOCIAL_INTIMIDATE", "multiply": 0.5, "add": 1 }
+    ],
     "hit_me_effect": [
       {
         "id": "generic_blinding_spray_1",

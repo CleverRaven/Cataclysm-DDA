@@ -39,6 +39,45 @@
     "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100000 } ]
   },
   {
+    "id": "achievement_kill_vampire",
+    "type": "achievement",
+    "name": "Arthur 'Art' Holmwood.  Avenger of lost innocence.",
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_vampires",
+    "type": "achievement",
+    "name": "The third Frog brother.",
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_vampires",
+    "type": "achievement",
+    "name": "Were you chosen as the Slayer?",
+    "hidden_by": [ "achievement_kill_10_vampires" ],
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_vampires",
+    "type": "achievement",
+    "name": "You have an ongoing competition with Blade.",
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_vampires",
+    "type": "achievement",
+    "name": "Founding member of the Hammer and Stake Society",
+    "hidden_by": [ "achievement_kill_1000_vampires" ],
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_vampires",
+    "type": "achievement",
+    "name": "Van Helsing's mentor.",
+    "hidden_by": [ "achievement_kill_10000_vampires" ],
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 100000 } ]
+  },
+  {
     "id": "achievement_gains_dreamer_trait",
     "type": "achievement",
     "name": "Never Wake again",
@@ -90,6 +129,48 @@
         "is": "==",
         "target": [ "trait_id", "INVENTOR" ],
         "description": "Gained access to mad genius inventions.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_vampire_trait",
+    "type": "achievement",
+    "name": "Welcome to Salem's Lot.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE" ],
+        "description": "Developed an unnatural thirst.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_vampire2_trait",
+    "type": "achievement",
+    "name": "John 'Not-A-Vampire-At-All' Smith",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE2" ],
+        "description": "You could still become a Black Ribboner and join the League of Temperance.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_vampire3_trait",
+    "type": "achievement",
+    "name": "Ivy Tamwood, eat your heart out.  'kisskiss' hand motion.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE3" ],
+        "description": "Right on the edge of becoming a true vampire.",
         "visible": "when_achievement_completed"
       }
     ]

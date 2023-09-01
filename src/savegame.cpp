@@ -2,6 +2,7 @@
 
 #include <clocale>
 #include <algorithm>
+#include <fstream>
 #include <map>
 #include <sstream>
 #include <string>
@@ -15,6 +16,8 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
+#include "cata_path.h"
+#include "city.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -48,9 +51,7 @@ static const oter_str_id oter_lake_bed( "lake_bed" );
 static const oter_str_id oter_lake_shore( "lake_shore" );
 static const oter_str_id oter_lake_surface( "lake_surface" );
 static const oter_str_id oter_lake_water_cube( "lake_water_cube" );
-
-static const oter_type_str_id oter_type_bridge( "bridge" );
-static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
+static const oter_str_id oter_omt_obsolete( "omt_obsolete" );
 
 static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
 
@@ -131,14 +132,14 @@ void game::serialize( std::ostream &fout )
                  inactive_global_effect_on_condition_vector );
 
     //save queued effect_on_conditions
-    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
-        queued_global_effect_on_conditions );
+    queued_eocs temp_queued( queued_global_effect_on_conditions );
     json.member( "queued_global_effect_on_conditions" );
     json.start_array();
     while( !temp_queued.empty() ) {
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
+        json.member( "context", temp_queued.top().context );
         json.end_object();
         temp_queued.pop();
     }
@@ -269,6 +270,11 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            std::unordered_map<std::string, std::string> context;
+            for( const JsonMember &jm : elem.get_object( "context" ) ) {
+                context[jm.name()] = jm.get_string();
+            }
+            temp.context = context;
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );
@@ -354,140 +360,6 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
-static std::unordered_set<std::string> obsolete_terrains;
-
-void overmap::load_obsolete_terrains( const JsonObject &jo )
-{
-    for( const std::string line : jo.get_array( "terrains" ) ) {
-        obsolete_terrains.emplace( line );
-    }
-}
-
-bool overmap::obsolete_terrain( const std::string &ter )
-{
-    return obsolete_terrains.find( ter ) != obsolete_terrains.end();
-}
-
-/*
- * Complex conversion of outdated overmap terrain ids.
- * This is used when loading saved games with old oter_ids.
- */
-void overmap::convert_terrain(
-    const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion )
-{
-    std::vector<point_om_omt> bridge_points;
-    for( const auto &convert : needs_conversion ) {
-        const tripoint_om_omt pos = convert.first;
-        const std::string old = convert.second;
-
-        struct convert_nearby {
-            point offset;
-            std::string x_id;
-            std::string y_id;
-            std::string new_id;
-        };
-
-        std::vector<convert_nearby> nearby;
-        std::vector<std::pair<tripoint, std::string>> convert_unrelated_adjacent_tiles;
-
-        if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
-            old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
-            old == "s_lot" || old == "mine_entrance" || old == "mine_finale" ||
-            old == "triffid_finale" ) {
-            ter_set( pos, oter_id( old + "_north" ) );
-        } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
-            ter_set( pos, oter_id( old ) );
-            const oter_id oter_ground = ter( tripoint_om_omt( pos.xy(), 0 ) );
-            const oter_id oter_above = ter( pos + tripoint_above );
-            if( ( oter_ground->get_type_id() == oter_type_bridge ) &&
-                !( oter_above->get_type_id() == oter_type_bridge_road ) ) {
-                ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
-                bridge_points.emplace_back( pos.xy() );
-            }
-        } else if( old == "triffid_grove" ) {
-            {
-                ter_set( pos, oter_id( "triffid_grove_north" ) );
-                ter_set( pos + point_north, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_north_east, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_east, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_south_east, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_south, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_south_west, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_west, oter_id( "triffid_field_north" ) );
-                ter_set( pos + point_north_west, oter_id( "triffid_field_north" ) );
-                ter_set( pos + tripoint_above, oter_id( "triffid_grove_z2_north" ) );
-                ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "triffid_grove_z3_north" ) );
-                ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "triffid_grove_roof_north" ) );
-            }
-        } else if( old == "triffid_roots" ) {
-            {
-                ter_set( pos, oter_id( "triffid_roots_north" ) );
-                ter_set( pos + point_south, oter_id( "triffid_rootsn_north" ) );
-                ter_set( pos + point_south_east, oter_id( "triffid_rootsen_north" ) );
-                ter_set( pos + point_east, oter_id( "triffid_rootse_north" ) );
-                ter_set( pos + point_north_east, oter_id( "triffid_rootsse_north" ) );
-                ter_set( pos + point_north, oter_id( "triffid_rootss_north" ) );
-                ter_set( pos + point_north_west, oter_id( "triffid_rootssw_north" ) );
-                ter_set( pos + point_west, oter_id( "triffid_rootsw_north" ) );
-                ter_set( pos + point_south_west, oter_id( "triffid_rootsnw_north" ) );
-            }
-        } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
-            ter_set( pos, oter_id( "field" ) );
-        } else if( old.compare( 0, 11, "pond_forest" ) == 0 ) {
-            ter_set( pos, oter_id( "forest" ) );
-        } else if( old.compare( 0, 10, "pond_swamp" ) == 0 ) {
-            ter_set( pos, oter_id( "forest_water" ) );
-        } else if( old == "mine_shaft" ) {
-            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
-        } else if( old.compare( 0, 30, "microlab_generic_hallway_start" ) == 0 ||
-                   old.compare( 0, 24, "microlab_generic_hallway" ) == 0 ) {
-            ter_set( pos, oter_id( "microlab_generic" ) );
-        } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
-            ter_set( pos, oter_id( "office_tower_ne_north" ) );
-            ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
-            ter_set( pos + point_south, oter_id( "office_tower_se_north" ) );
-            ter_set( pos + point_south_west, oter_id( "office_tower_sw_north" ) );
-        } else if( old.compare( 0, 23, "office_tower_b_entrance" ) == 0 ) {
-            ter_set( pos, oter_id( "office_tower_underground_ne_north" ) );
-            ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
-            ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
-            ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
-        } else if( old == "anthill" ||
-                   old == "acid_anthill" ||
-                   old == "ants_larvae" ||
-                   old == "ants_larvae_acid" ||
-                   old == "ants_queen" ||
-                   old == "ants_queen_acid" ||
-                   old == "ants_food" ) {
-            std::string new_ = old;
-            if( string_ends_with( new_, "_acid" ) ) {
-                new_.erase( new_.end() - 5, new_.end() );
-            }
-            if( string_starts_with( new_, "acid_" ) ) {
-                new_.erase( new_.begin(), new_.begin() + 5 );
-            }
-            ter_set( pos, oter_id( new_ + "_north" ) );
-        }
-
-        for( const convert_nearby &conv : nearby ) {
-            const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
-            const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
-            if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
-                y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
-                ter_set( pos, oter_id( conv.new_id ) );
-                break;
-            }
-        }
-
-        for( const std::pair<tripoint, std::string> &conv : convert_unrelated_adjacent_tiles ) {
-            ter_set( pos + conv.first, oter_id( conv.second ) );
-        }
-    }
-
-    generate_bridgeheads( bridge_points );
-}
-
 void overmap::load_monster_groups( const JsonArray &jsin )
 {
     for( JsonArray mongroup_with_tripoints : jsin ) {
@@ -542,7 +414,7 @@ void overmap::unserialize( const JsonObject &jsobj )
     for( JsonMember om_member : jsobj ) {
         const std::string name = om_member.name();
         if( name == "layers" ) {
-            std::unordered_map<tripoint_om_omt, std::string> needs_conversion;
+            std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
             JsonArray layers_json = om_member;
 
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -561,17 +433,15 @@ void overmap::unserialize( const JsonObject &jsobj )
                                     rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
                                 }
                             }
-                            if( obsolete_terrain( tmp_ter ) ) {
+                            if( is_oter_id_obsolete( tmp_ter ) ) {
                                 for( int p = i; p < i + count; p++ ) {
-                                    needs_conversion.emplace(
-                                        tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
+                                    oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
                                 }
-                                tmp_otid = oter_id( 0 );
                             } else if( oter_str_id( tmp_ter ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter );
                             } else {
-                                debugmsg( "Loaded bad ter!  ter %s", tmp_ter.c_str() );
-                                tmp_otid = oter_id( 0 );
+                                debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
+                                tmp_otid = oter_omt_obsolete;
                             }
                         }
                         count--;
@@ -579,7 +449,7 @@ void overmap::unserialize( const JsonObject &jsobj )
                     }
                 }
             }
-            convert_terrain( needs_conversion );
+            migrate_oter_ids( oter_id_migrations );
         } else if( name == "region_id" ) {
             std::string new_region_id;
             om_member.read( new_region_id );
@@ -813,7 +683,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
     std::vector<tripoint_om_omt> forest_points;
 
     if( type == "overmap" ) {
-        std::unordered_map<tripoint_om_omt, std::string> needs_conversion;
+        std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
         if( om_pos != pos() ) {
             debugmsg( "Loaded invalid overmap from omap file %s. Loaded %s, expected %s",
                       json_path.generic_u8string(), om_pos.to_string(), pos().to_string() );
@@ -827,31 +697,29 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
                         JsonArray jat = jal.next_array();
                         tmp_ter = jat.next_string();
                         count = jat.next_int();
-                        if( obsolete_terrain( tmp_ter ) ) {
+                        if( is_oter_id_obsolete( tmp_ter ) ) {
                             for( int p = i; p < i + count; p++ ) {
-                                needs_conversion.emplace(
-                                    tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
+                                oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
                             }
-                            tmp_otid = oter_id( 0 );
                         } else if( oter_str_id( tmp_ter ).is_valid() ) {
                             tmp_otid = oter_id( tmp_ter );
                         } else {
-                            debugmsg( "Loaded bad ter!  ter %s", tmp_ter.c_str() );
-                            tmp_otid = oter_id( 0 );
+                            debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
+                            tmp_otid = oter_omt_obsolete;
                         }
                     }
                     count--;
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
                     if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
-                        lake_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        lake_points.emplace_back( i, j, z );
                     }
                     if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
-                        forest_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        forest_points.emplace_back( i, j, z );
                     }
                 }
             }
         }
-        convert_terrain( needs_conversion );
+        migrate_oter_ids( oter_id_migrations );
     }
 
     std::unordered_set<tripoint_om_omt> lake_set;
@@ -1332,7 +1200,7 @@ void overmap::serialize( std::ostream &fout ) const
     fout << std::endl;
     json.member( "mapgen_arg_index" );
     json.start_array();
-    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+    for( const std::pair<const tripoint_om_omt, std::optional<mapgen_arguments> *> &p :
          mapgen_args_index ) {
         json.start_array();
         json.write( p.first );
@@ -1520,6 +1388,14 @@ void weather_manager::unserialize_all( const JsonObject &w )
 void global_variables::unserialize( JsonObject &jo )
 {
     jo.read( "global_vals", global_values );
+    // potentially migrate some variable names
+    for( std::pair<std::string, std::string> migration : migrations ) {
+        if( global_values.count( migration.first ) != 0 ) {
+            auto extracted = global_values.extract( migration.first );
+            extracted.key() = migration.second;
+            global_values.insert( std::move( extracted ) );
+        }
+    }
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1533,7 +1409,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         tripoint_abs_sm map_point;
         std::string string_id;
         std::string key;
-        submap_revert revert;
+        submap revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", map_point );
         jo.read( "map_square", map_square, false );
@@ -1543,18 +1419,33 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "when", when );
         jo.read( "key", key );
         point pt;
-        for( JsonObject jp : jo.get_array( "revert" ) ) {
-            revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
-            revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
-            revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
-            if( pt.x++ < SEEX ) {
-                pt.x = 0;
-                pt.y++;
+        if( jo.has_string( "revert" ) ) {
+            revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
+        } else {
+            for( JsonObject jp : jo.get_array( "revert" ) ) {
+                if( jp.has_member( "point" ) ) {
+                    jp.get_member( "point" ).read( pt, false );
+                }
+                revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
+                revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
+                revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
+                if( jp.has_member( "items" ) ) {
+                    cata::colony<item> itm;
+                    jp.get_member( "items" ).read( itm, false );
+                    revert.get_items( pt ) = std::move( itm );
+                }
+                // We didn't always save the point, this is the original logic, it doesn't work right but for older saves at least they won't crash
+                if( !jp.has_member( "point" ) ) {
+                    if( pt.x++ < SEEX ) {
+                        pt.x = 0;
+                        pt.y++;
+                    }
+                }
             }
         }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
                                 strength,
-                                string_id, revert, key );
+                                string_id, std::move( revert ), key );
     }
 }
 
@@ -1591,6 +1482,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
+    local_facs.reserve( factions.size() );
     for( const auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }
@@ -1600,6 +1492,15 @@ void faction_manager::serialize( JsonOut &jsout ) const
 void global_variables::serialize( JsonOut &jsout ) const
 {
     jsout.member( "global_vals", global_values );
+}
+
+void global_variables::load_migrations( const JsonObject &jo, const std::string_view & )
+{
+    const std::string from( jo.get_string( "from" ) );
+    const std::string to = jo.has_string( "to" )
+                           ? jo.get_string( "to" )
+                           : "NULL_VALUE";
+    get_globals().migrations.emplace( from, to );
 }
 
 void timed_event_manager::serialize_all( JsonOut &jsout )
@@ -1615,19 +1516,25 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
-        jsout.member( "revert" );
-        jsout.start_array();
-        for( int y = 0; y < SEEY; y++ ) {
-            for( int x = 0; x < SEEX; x++ ) {
-                jsout.start_object();
-                point pt( x, y );
-                jsout.member( "furn", elem.revert.get_furn( pt ) );
-                jsout.member( "ter", elem.revert.get_ter( pt ) );
-                jsout.member( "trap", elem.revert.get_trap( pt ) );
-                jsout.end_object();
+        if( elem.revert.is_uniform() ) {
+            jsout.member( "revert", elem.revert.get_ter( point_zero ) );
+        } else {
+            jsout.member( "revert" );
+            jsout.start_array();
+            for( int y = 0; y < SEEY; y++ ) {
+                for( int x = 0; x < SEEX; x++ ) {
+                    jsout.start_object();
+                    point pt( x, y );
+                    jsout.member( "point", pt );
+                    jsout.member( "furn", elem.revert.get_furn( pt ) );
+                    jsout.member( "ter", elem.revert.get_ter( pt ) );
+                    jsout.member( "trap", elem.revert.get_trap( pt ) );
+                    jsout.member( "items", elem.revert.get_items( pt ) );
+                    jsout.end_object();
+                }
             }
+            jsout.end_array();
         }
-        jsout.end_array();
         jsout.end_object();
     }
     jsout.end_array();
@@ -1702,4 +1609,81 @@ void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
     for( const JsonValue &special : ja ) {
         placed_unique_specials.emplace( special.get_string() );
     }
+}
+
+void npc::import_and_clean( const cata_path &path )
+{
+    std::ifstream fin( path.get_unrelative_path(), std::ios::binary );
+    size_t json_offset = chkversion( fin );
+    JsonValue jsin = json_loader::from_path_at_offset( path, json_offset );
+    import_and_clean( jsin.get_object() );
+}
+
+void npc::import_and_clean( const JsonObject &data )
+{
+    deserialize( data );
+
+    npc defaults;  // to avoid hardcoding defaults here
+
+    // avoid duplicate id
+    setID( g->assign_npc_id(), /* force */ true );
+
+    // timestamps are irrelevant if importing into a different world
+    last_updated = defaults.last_updated;
+    lifespan_end = defaults.lifespan_end;
+    effects->clear();
+    consumption_history = defaults.consumption_history;
+    last_sleep_check = defaults.last_sleep_check;
+    queued_effect_on_conditions = defaults.queued_effect_on_conditions;
+
+    // space coordinates are irrelevant if importing into a different world
+    set_location( defaults.get_location() );
+    omt_path = defaults.omt_path;
+    known_traps.clear();
+    camps = defaults.camps;
+    last_player_seen_pos = defaults.last_player_seen_pos;
+    guard_pos = defaults.guard_pos;
+    pulp_location = defaults.pulp_location;
+    chair_pos = defaults.chair_pos;
+    wander_pos = defaults.wander_pos;
+    goal = defaults.goal;
+    assigned_camp = defaults.assigned_camp;
+    job = defaults.job;
+
+    // mission related
+    mission = defaults.mission;
+    previous_mission = defaults.previous_mission;
+    reset_companion_mission();
+    companion_mission_role_id = defaults.companion_mission_role_id;
+    companion_mission_points = defaults.companion_mission_points;
+    companion_mission_time = defaults.companion_mission_time;
+    companion_mission_time_ret = defaults.companion_mission_time_ret;
+    companion_mission_inv.clear();
+    chatbin.missions.clear();
+    chatbin.missions_assigned.clear();
+    chatbin.mission_selected = nullptr;
+
+    // activity related
+    activity = defaults.activity;
+    backlog = defaults.backlog;
+    clear_destination();
+    stashed_outbounds_activity = defaults.stashed_outbounds_activity;
+    stashed_outbounds_backlog = defaults.stashed_outbounds_backlog;
+    activity_vehicle_part_index = defaults.activity_vehicle_part_index;
+    current_activity_id = defaults.current_activity_id;
+
+    // miscellaneous
+    in_vehicle = defaults.in_vehicle;
+    warning_record = defaults.warning_record;
+    complaints = defaults.complaints;
+    unique_id = defaults.unique_id;
+}
+
+void npc::export_to( const cata_path &path ) const
+{
+    write_to_file( path, [&]( std::ostream & fout ) {
+        fout << "# version " << savegame_version << std::endl;
+        JsonOut jsout( fout );
+        serialize( jsout );
+    } );
 }

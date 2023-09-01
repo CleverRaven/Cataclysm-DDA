@@ -497,5 +497,19 @@
       "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "2": "t_sandbox", "G": "t_sandbox" },
       "furniture": { "G": [ "f_boulder_medium", "f_boulder_large" ], "b": "f_bench" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_1x1_birdnest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "place_loot": [
+        { "item": "twig", "x": 0, "y": 0, "chance": 100, "repeat": [ 5, 10 ] },
+        { "item": "feather", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] },
+        { "group": "any_wild_egg", "x": 0, "y": 0, "chance": 30, "repeat": [ 1, 3 ] }
+      ]
+    }
   }
 ]

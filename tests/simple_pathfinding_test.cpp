@@ -1,10 +1,11 @@
+#include <optional>
+
 #include "cata_catch.h"
 #include "simple_pathfinding.h"
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 
 template<typename Point>
@@ -15,7 +16,7 @@ static void test_greedy_line_path()
     const Point max( 10, 10 );
 
     const pf::two_node_scoring_fn<Point> estimate =
-    [&]( pf::directed_node<Point> cur, cata::optional<pf::directed_node<Point>> ) {
+    [&]( pf::directed_node<Point> cur, std::optional<pf::directed_node<Point>> ) {
         return pf::node_score( 0, manhattan_dist( cur.pos, finish ) );
     };
 
@@ -45,7 +46,7 @@ static void test_greedy_u_bend()
     // ...    432
 
     const pf::two_node_scoring_fn<Point> estimate =
-    [&]( pf::directed_node<Point> cur, cata::optional<pf::directed_node<Point>> ) {
+    [&]( pf::directed_node<Point> cur, std::optional<pf::directed_node<Point>> ) {
         if( cur.pos.x() == 1 && cur.pos.y() != 2 ) {
             return pf::node_score::rejected;
         }
@@ -75,6 +76,7 @@ TEST_CASE( "greedy_u_bend", "[pathfinding]" )
     test_greedy_u_bend<point_om_omt>();
 }
 
+static std::function<void( size_t, size_t )> noop_fn = []( size_t, size_t ) {};
 
 TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
 {
@@ -94,7 +96,7 @@ TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
         return pf::omt_score( 10, false );
     };
 
-    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate );
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn );
     REQUIRE( pth.points.size() == 7 );
     CHECK( pth.points[6] == Point( 0, 0, 0 ) );
     CHECK( pth.points[5] == Point( 0, 1, 0 ) );
@@ -124,7 +126,7 @@ TEST_CASE( "find_overmap_path_bridge", "[pathfinding]" )
         return pf::omt_score( 10, ( cur.y() == 1 && cur.x() != 1 ) );
     };
 
-    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate );
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate, noop_fn );
     REQUIRE( pth.points.size() == 7 );
     CHECK( pth.points[6] == Point( 0, 0, 0 ) );
     CHECK( pth.points[5] == Point( 0, 1, 0 ) );

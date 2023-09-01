@@ -13,36 +13,36 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
-      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
-      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 0 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 500 },
       { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
       { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -150 },
       { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 25 },
       { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
-      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
-      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
-      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
-      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 200 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 0 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -300 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": -500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 150 },
       { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": -500 },
       { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
-      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
-      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
-      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -75 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 75 }
     ],
     "passive_mult_procgen_values": [
       { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
@@ -60,7 +60,7 @@
         "max_value": 1,
         "type": "CARRY_WEIGHT",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 75
       },
       {
         "weight": 100,
@@ -68,7 +68,7 @@
         "max_value": 2,
         "type": "MAX_HP",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 100
       },
       {
         "weight": 100,
@@ -76,7 +76,7 @@
         "max_value": 2,
         "type": "REGEN_HP",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 50
       },
       {
         "weight": 100,
@@ -84,7 +84,7 @@
         "max_value": 2,
         "type": "SHOUT_NOISE",
         "increment": 0.2,
-        "power_per_increment": 100
+        "power_per_increment": 10
       },
       {
         "weight": 100,
@@ -92,7 +92,7 @@
         "max_value": 1,
         "type": "ARMOR_ACID",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -100,23 +100,7 @@
         "max_value": 1,
         "type": "ARMOR_BASH",
         "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BIO",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_COLD",
-        "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -124,7 +108,7 @@
         "max_value": 1,
         "type": "ARMOR_CUT",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -132,7 +116,7 @@
         "max_value": 1,
         "type": "ARMOR_ELEC",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -140,7 +124,7 @@
         "max_value": 1,
         "type": "ARMOR_HEAT",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -148,7 +132,7 @@
         "max_value": 1,
         "type": "ARMOR_STAB",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -156,7 +140,7 @@
         "max_value": 1,
         "type": "ARMOR_BULLET",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -164,7 +148,7 @@
         "max_value": 0.2,
         "type": "MOVE_COST",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -172,7 +156,39 @@
         "max_value": 0.5,
         "type": "ATTACK_SPEED",
         "increment": 0.1,
-        "power_per_increment": 500
+        "power_per_increment": -200
+      },
+      {
+        "weight": 75,
+        "min_value": -0.75,
+        "max_value": 2.5,
+        "type": "FOOTSTEP_NOISE",
+        "increment": 0.25,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "REGEN_STAMINA",
+        "increment": 0.1,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "RECOIL_MODIFIER",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 35,
+        "min_value": -0.75,
+        "max_value": 0.5,
+        "type": "WEAPON_DISPERSION",
+        "increment": 0.05,
+        "power_per_increment": -50
       }
     ],
     "passive_add_procgen_values": [
@@ -207,15 +223,15 @@
         "max_value": 20,
         "type": "SPEED",
         "increment": 5,
-        "power_per_increment": 200
+        "power_per_increment": 250
       },
       {
         "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
+        "min_value": -20,
+        "max_value": 50,
         "type": "ATTACK_SPEED",
         "increment": 5,
-        "power_per_increment": 250
+        "power_per_increment": -150
       },
       {
         "weight": 50,
@@ -223,7 +239,7 @@
         "max_value": 10000,
         "type": "MAX_STAMINA",
         "increment": 250,
-        "power_per_increment": 125
+        "power_per_increment": 50
       },
       {
         "weight": 50,
@@ -231,32 +247,37 @@
         "max_value": 20000,
         "type": "CARRY_WEIGHT",
         "increment": 1000,
-        "power_per_increment": 250
+        "power_per_increment": 25
+      },
+      {
+        "weight": 10,
+        "min_value": -10,
+        "max_value": 10,
+        "type": "EFFECTIVE_HEALTH_MOD",
+        "increment": 2,
+        "power_per_increment": 100
       }
     ],
     "type_weights": [
       { "weight": 100, "value": "passive_enchantment_add" },
       { "weight": 100, "value": "active_enchantment" },
-      { "weight": 20, "value": "passive_enchantment_mult" }
+      { "weight": 100, "value": "passive_enchantment_mult" }
     ],
     "items": [
-      { "weight": 100, "item": "art_sphere" },
-      { "weight": 100, "item": "art_rod" },
-      { "weight": 100, "item": "art_teardrop" },
-      { "weight": 100, "item": "art_lamp" },
-      { "weight": 100, "item": "art_snake" },
-      { "weight": 100, "item": "art_disc" },
-      { "weight": 100, "item": "art_beads" },
-      { "weight": 100, "item": "art_napkin" },
-      { "weight": 100, "item": "art_urchin" },
-      { "weight": 100, "item": "art_jelly" },
-      { "weight": 100, "item": "art_spiral" },
-      { "weight": 100, "item": "art_pin" },
-      { "weight": 100, "item": "art_tube" },
-      { "weight": 100, "item": "art_pyramid" },
-      { "weight": 100, "item": "art_crystal" },
-      { "weight": 100, "item": "art_knot" },
-      { "weight": 100, "item": "art_crescent" }
+      { "weight": 100, "item": "art_robe" },
+      { "weight": 100, "item": "art_cloak" },
+      { "weight": 100, "item": "art_coat" },
+      { "weight": 100, "item": "art_mask" },
+      { "weight": 100, "item": "art_helm" },
+      { "weight": 100, "item": "art_gloves" },
+      { "weight": 100, "item": "art_boots" },
+      { "weight": 100, "item": "art_ring" },
+      { "weight": 100, "item": "art_staff" },
+      { "weight": 100, "item": "art_sword" },
+      { "weight": 100, "item": "art_harp" },
+      { "weight": 100, "item": "art_dagger" },
+      { "weight": 100, "item": "art_spear" },
+      { "weight": 100, "item": "art_club" }
     ]
   },
   {
@@ -273,36 +294,35 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
-      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
-      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 500 },
       { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
       { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -150 },
       { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 25 },
       { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
-      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
-      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
-      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
-      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 200 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -300 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": -500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 150 },
       { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": -500 },
       { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
-      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
-      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
-      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -75 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 75 }
     ],
     "passive_mult_procgen_values": [
       { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
@@ -320,7 +340,7 @@
         "max_value": 1,
         "type": "CARRY_WEIGHT",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 75
       },
       {
         "weight": 100,
@@ -328,7 +348,7 @@
         "max_value": 2,
         "type": "MAX_HP",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 100
       },
       {
         "weight": 100,
@@ -336,7 +356,7 @@
         "max_value": 2,
         "type": "REGEN_HP",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 50
       },
       {
         "weight": 100,
@@ -344,7 +364,7 @@
         "max_value": 2,
         "type": "SHOUT_NOISE",
         "increment": 0.2,
-        "power_per_increment": 100
+        "power_per_increment": 10
       },
       {
         "weight": 100,
@@ -352,7 +372,7 @@
         "max_value": 1,
         "type": "ARMOR_ACID",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -360,23 +380,7 @@
         "max_value": 1,
         "type": "ARMOR_BASH",
         "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BIO",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_COLD",
-        "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -384,7 +388,7 @@
         "max_value": 1,
         "type": "ARMOR_CUT",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -392,7 +396,7 @@
         "max_value": 1,
         "type": "ARMOR_ELEC",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -400,7 +404,7 @@
         "max_value": 1,
         "type": "ARMOR_HEAT",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -408,7 +412,7 @@
         "max_value": 1,
         "type": "ARMOR_STAB",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -416,7 +420,7 @@
         "max_value": 1,
         "type": "ARMOR_BULLET",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -424,7 +428,7 @@
         "max_value": 0.2,
         "type": "MOVE_COST",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -432,7 +436,39 @@
         "max_value": 0.5,
         "type": "ATTACK_SPEED",
         "increment": 0.1,
-        "power_per_increment": 500
+        "power_per_increment": -200
+      },
+      {
+        "weight": 75,
+        "min_value": -0.75,
+        "max_value": 2.5,
+        "type": "FOOTSTEP_NOISE",
+        "increment": 0.25,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "REGEN_STAMINA",
+        "increment": 0.1,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "RECOIL_MODIFIER",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 35,
+        "min_value": -0.75,
+        "max_value": 0.5,
+        "type": "WEAPON_DISPERSION",
+        "increment": 0.05,
+        "power_per_increment": -50
       }
     ],
     "passive_add_procgen_values": [
@@ -467,15 +503,15 @@
         "max_value": 20,
         "type": "SPEED",
         "increment": 5,
-        "power_per_increment": 200
+        "power_per_increment": 250
       },
       {
         "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
+        "min_value": -20,
+        "max_value": 50,
         "type": "ATTACK_SPEED",
         "increment": 5,
-        "power_per_increment": 250
+        "power_per_increment": -150
       },
       {
         "weight": 50,
@@ -483,7 +519,7 @@
         "max_value": 10000,
         "type": "MAX_STAMINA",
         "increment": 250,
-        "power_per_increment": 125
+        "power_per_increment": 50
       },
       {
         "weight": 50,
@@ -491,7 +527,15 @@
         "max_value": 20000,
         "type": "CARRY_WEIGHT",
         "increment": 1000,
-        "power_per_increment": 250
+        "power_per_increment": 25
+      },
+      {
+        "weight": 10,
+        "min_value": -10,
+        "max_value": 10,
+        "type": "EFFECTIVE_HEALTH_MOD",
+        "increment": 2,
+        "power_per_increment": 100
       }
     ],
     "type_weights": [
@@ -533,36 +577,36 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
-      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
-      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
-      { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 400 },
+      { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 200 },
       { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -150 },
       { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 25 },
       { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
-      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
-      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
-      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
-      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 200 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": -25 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -300 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": -500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 150 },
       { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
       { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
-      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": -750 },
       { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
-      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
-      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
-      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -75 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 75 }
     ],
     "passive_mult_procgen_values": [
       { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
@@ -580,7 +624,7 @@
         "max_value": 1,
         "type": "CARRY_WEIGHT",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 75
       },
       {
         "weight": 100,
@@ -588,7 +632,7 @@
         "max_value": 2,
         "type": "MAX_HP",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 100
       },
       {
         "weight": 100,
@@ -596,7 +640,7 @@
         "max_value": 2,
         "type": "REGEN_HP",
         "increment": 0.1,
-        "power_per_increment": 250
+        "power_per_increment": 50
       },
       {
         "weight": 100,
@@ -604,7 +648,7 @@
         "max_value": 2,
         "type": "SHOUT_NOISE",
         "increment": 0.2,
-        "power_per_increment": 100
+        "power_per_increment": 10
       },
       {
         "weight": 100,
@@ -612,7 +656,7 @@
         "max_value": 1,
         "type": "ARMOR_ACID",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -620,23 +664,7 @@
         "max_value": 1,
         "type": "ARMOR_BASH",
         "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BIO",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_COLD",
-        "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -644,7 +672,7 @@
         "max_value": 1,
         "type": "ARMOR_CUT",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -652,7 +680,7 @@
         "max_value": 1,
         "type": "ARMOR_ELEC",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -660,7 +688,7 @@
         "max_value": 1,
         "type": "ARMOR_HEAT",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -125
       },
       {
         "weight": 100,
@@ -668,7 +696,7 @@
         "max_value": 1,
         "type": "ARMOR_STAB",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -676,7 +704,7 @@
         "max_value": 1,
         "type": "ARMOR_BULLET",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -684,7 +712,7 @@
         "max_value": 0.2,
         "type": "MOVE_COST",
         "increment": 0.1,
-        "power_per_increment": -500
+        "power_per_increment": -250
       },
       {
         "weight": 100,
@@ -692,7 +720,39 @@
         "max_value": 0.5,
         "type": "ATTACK_SPEED",
         "increment": 0.1,
-        "power_per_increment": 500
+        "power_per_increment": -200
+      },
+      {
+        "weight": 75,
+        "min_value": -0.75,
+        "max_value": 2.5,
+        "type": "FOOTSTEP_NOISE",
+        "increment": 0.25,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 50,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "REGEN_STAMINA",
+        "increment": 0.1,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 25,
+        "min_value": -0.5,
+        "max_value": 1.0,
+        "type": "RECOIL_MODIFIER",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 35,
+        "min_value": -0.75,
+        "max_value": 0.5,
+        "type": "WEAPON_DISPERSION",
+        "increment": 0.05,
+        "power_per_increment": -50
       }
     ],
     "passive_add_procgen_values": [
@@ -727,15 +787,15 @@
         "max_value": 20,
         "type": "SPEED",
         "increment": 5,
-        "power_per_increment": 200
+        "power_per_increment": 250
       },
       {
         "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
+        "min_value": -20,
+        "max_value": 50,
         "type": "ATTACK_SPEED",
         "increment": 5,
-        "power_per_increment": 250
+        "power_per_increment": -150
       },
       {
         "weight": 50,
@@ -743,7 +803,7 @@
         "max_value": 10000,
         "type": "MAX_STAMINA",
         "increment": 250,
-        "power_per_increment": 125
+        "power_per_increment": 50
       },
       {
         "weight": 50,
@@ -751,7 +811,15 @@
         "max_value": 20000,
         "type": "CARRY_WEIGHT",
         "increment": 1000,
-        "power_per_increment": 250
+        "power_per_increment": 25
+      },
+      {
+        "weight": 10,
+        "min_value": -10,
+        "max_value": 10,
+        "type": "EFFECTIVE_HEALTH_MOD",
+        "increment": 2,
+        "power_per_increment": 100
       }
     ],
     "type_weights": [
@@ -783,23 +851,14 @@
     "type": "relic_procgen_data",
     "id": "held_passive_bad",
     "passive_add_procgen_values": [
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 2,
-        "type": "STRENGTH",
-        "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      },
+      { "weight": 100, "min_value": 1, "max_value": 2, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
       {
         "weight": 100,
         "min_value": 1,
         "max_value": 2,
         "type": "DEXTERITY",
         "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
+        "power_per_increment": 250
       },
       {
         "weight": 100,
@@ -807,8 +866,7 @@
         "max_value": 2,
         "type": "PERCEPTION",
         "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
+        "power_per_increment": 250
       },
       {
         "weight": 100,
@@ -816,28 +874,18 @@
         "max_value": 2,
         "type": "INTELLIGENCE",
         "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
+        "power_per_increment": 250
       }
     ],
     "passive_mult_procgen_values": [
-      {
-        "weight": 100,
-        "min_value": 0.4,
-        "max_value": 1,
-        "type": "THIRST",
-        "increment": 0.1,
-        "power_per_increment": -50,
-        "ench_has": "HELD"
-      },
+      { "weight": 100, "min_value": 0.4, "max_value": 1, "type": "THIRST", "increment": 0.1, "power_per_increment": -50 },
       {
         "weight": 100,
         "min_value": 0.5,
         "max_value": 1,
         "type": "HUNGER",
         "increment": 0.1,
-        "power_per_increment": -100,
-        "ench_has": "HELD"
+        "power_per_increment": -100
       },
       {
         "weight": 100,
@@ -845,8 +893,7 @@
         "max_value": -0.3,
         "type": "REGEN_HP",
         "increment": 0.1,
-        "power_per_increment": 100,
-        "ench_has": "HELD"
+        "power_per_increment": 100
       },
       {
         "weight": 100,
@@ -854,8 +901,7 @@
         "max_value": 0.8,
         "type": "FATIGUE",
         "increment": 0.1,
-        "power_per_increment": -100,
-        "ench_has": "HELD"
+        "power_per_increment": -100
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_mult" }, { "weight": 50, "value": "passive_enchantment_add" } ],
@@ -875,37 +921,37 @@
       }
     ],
     "active_procgen_values": [
-      { "weight": 100, "spell_id": "AO_FRIENDLY_VORTEX", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_FRIENDLY_VORTEX", "base_power": 100 },
       { "weight": 100, "spell_id": "AO_CALL_OF_TINDALOS", "base_power": -500 },
-      { "weight": 100, "spell_id": "AO_FORCE_PULL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AO_FORCE_PULL", "base_power": 200 },
       { "weight": 100, "spell_id": "AO_TELEPORTITIS", "base_power": -500 },
       { "weight": 100, "spell_id": "AO_SLOW", "base_power": -150 },
       { "weight": 100, "spell_id": "AO_TIME_STOP", "base_power": 1000 },
       { "weight": 100, "spell_id": "AO_DARKNESS_EFFECT", "base_power": -50 },
       { "weight": 100, "spell_id": "AO_LIFE_DRAIN", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
-      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
-      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 400 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -500 },
       { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
-      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": -50 },
       { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -50 },
-      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 150 }
     ],
     "passive_add_procgen_values": [
-      { "weight": 100, "min_value": -20, "max_value": 20, "type": "SPEED", "increment": 5, "power_per_increment": 200 },
+      { "weight": 100, "min_value": -20, "max_value": 20, "type": "SPEED", "increment": 5, "power_per_increment": 250 },
       {
         "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
+        "min_value": -20,
+        "max_value": 50,
         "type": "ATTACK_SPEED",
         "increment": 5,
-        "power_per_increment": 250
+        "power_per_increment": -150
       }
     ],
-    "type_weights": [ { "weight": 10, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "type_weights": [ { "weight": 20, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
     "items": [
       { "weight": 20, "item": "violin_golden" },
       { "weight": 100, "item": "altered_phone" },
@@ -913,7 +959,14 @@
       { "weight": 100, "item": "altered_teapot" },
       { "weight": 100, "item": "altered_comb" },
       { "weight": 100, "item": "altered_keyring" },
-      { "weight": 100, "item": "altered_rubicks_cube" }
+      { "weight": 100, "item": "altered_rubicks_cube" },
+      { "weight": 100, "item": "altered_shirt" },
+      { "weight": 100, "item": "altered_badge" },
+      { "weight": 100, "item": "altered_sunglasses" },
+      { "weight": 100, "item": "altered_scissors" },
+      { "weight": 100, "item": "altered_jacket" },
+      { "weight": 100, "item": "altered_necklace" },
+      { "weight": 100, "item": "altered_apron" }
     ]
   },
   {

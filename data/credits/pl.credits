@@ -5,11 +5,43 @@
 <color_yellow>Whales</color> (<color_dark_gray>na emeryturze</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Obecni główni twórcy:</color>
+<color_yellow>I-am-Erk</color> - Ultica, historia świata, teksty, gość od pomysłów.
+<color_yellow>KorGgenT</color> - profesjonalny golarz jaków.
+
+<color_white>Specjalne podziękowania dla:</color>
+<color_yellow>anothersimulacrum</color> - za wejście i ciężką robotę.
+<color_yellow>BombasticSlacks</color> - za rozbudowanie systemu pancerzy i zrobienie, że się spocimy.
+<color_yellow>Fris0uman</color> - za naprawienie naszych lodówek.
+<color_yellow>John-Candlebury</color> - za Hub01 i piękne mapy.
+<color_yellow>jbytheway</color> - za parametrową generację mapy i mutowalne lokalizacje.
+<color_yellow>BrettDong</color> - za tłumaczenia i analizowanie dziwnych błędów.
+<color_yellow>wapcaplet</color> - za wszystkie rzeczy związane z panelem bocznym.
+<color_yellow>ZhilkinSerg</color> - za merdżowanie wszystkich rzeczy.
+<color_yellow>Rivet-the-Zombie</color> - za utrzymanie rekordu jednego merdża na dzień.
+<color_yellow>Night-Pryanik</color> - za niezliczone poprawki błędów i ulepszenia.
+<color_yellow>Qrox</color> - za zrobienie, że infrastruktura UI jest jeszcze lepsza.
+<color_yellow>Ramza13</color> - za przekształcenie JSON w język z kompletnością turinga.
+<color_yellow>Drew4484</color> - za całą stal.
+<color_yellow>LyleSY</color> - za jeszcze więcej dinozaurrrów.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color> i <color_yellow>Eltank</color>.
+
+<color_white>Specjalne podziękowania za kontrybucje grafik:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color> i wielu innych.
+
+<color_white>Pełna lista kontrybutorów dostępna na:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> jest wydany na licencji <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>Główni twórcy (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - pojazdy, łódki, obozy i poradniki modowania.
 <color_yellow>I-am-Erk</color> - dziedzictwo Ultica żyje dalej.
 <color_yellow>KorGgenT</color> - nie mówienie mi gdzie kłaść moje deski.
 
-<color_white>Specjalne podziękowania dla:</color>
+<color_white>Specjalne podziękowania (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean</color> - za wyjątkową wydajność.
 <color_yellow>anothersimulacrum</color> - za uczynienie mnie strudzonym.
 <color_yellow>jbytheway</color> - za to, że osiągnąłem rzeczy.
@@ -17,7 +49,7 @@
 <color_yellow>Qrox</color> - za pokazanie miejsca wiadomości z błędami.
 <color_yellow>LyleSY</color> - za dinozaurrry.
 
-<color_white>Specjalne podziękowania za kontrybucje grafik:</color>
+<color_white>Specjalne podziękowania za wkład grafiki (<color_cyan>0.F</color>):</color>
 <color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color> i wielu innych.
 
 <color_white>Pełna lista kontrybutorów dostępna na:</color>

@@ -90,7 +90,6 @@ class user_interface
 
         std::string title;
         std::vector<tab> tabs;
-        bool is_autopickup = false;
 
         void show();
 

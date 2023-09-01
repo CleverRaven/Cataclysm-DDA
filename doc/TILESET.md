@@ -65,7 +65,25 @@ Sprites can be referenced across tilesheet directories, but they must be stored 
 
 #### Hardcoded IDs
 
-The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
+The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind. Other IDs may be found below.
+
+Running trail animations (game.cpp):
+`run_nw` Player running towards north-west.
+`run_n`
+`run_ne`
+`run_w`
+`run_e`
+`run_sw`
+`run_s`
+`run_se`
+
+Bashing animations (handle_action.cpp):
+`bash_complete` Bash results in destruction of target.
+`bash_effective` Bash effective but target not yet destroyed.
+`bash_ineffective` Bash not effective.
+
+Shadows (cata_tiles.cpp):
+`shadow` Drawn when creature present in tiles above.
 
 #### Complex IDs
 
@@ -97,6 +115,10 @@ Are defined by adding `_female` or `_male` part to the `overlay_` part of a pref
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
+#### Optional transparent variant
+
+Defined by adding `_transparent` suffix to any tile entry `id`. For example `"id": "t_wall_transparent"`. The transparent version is used to prevent occlusion by high tiles, especially in ISO tilesets.
+
 #### Item/Mutation variant sprite variants
 
 Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
@@ -123,41 +145,32 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 
 `"multitile": true` signifies that there is an `additional_tiles` object (redundant? [probably](https://github.com/CleverRaven/Cataclysm-DDA/issues/46253)) with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `id` field, as above, and an `fg` field, which can be a single [root name](#root-name), an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
-#### Connecting terrain and furniture - `connects_to`
+#### Connecting terrain and furniture - `connect_groups` and `connects_to`
 
-For terrain or furniture that is intended to auto-connect using multitiles, set the property `connects_to` in the object definition (not in the tileset!) to an appropriate group:
+For terrain or furniture that is intended to auto-connect using multitiles, set the properties `connect_groups` and `connects_to` in the object definition (not in the tileset!) to an appropriate group:
 
 ```json
 {
     "type": "terrain",
     "id": "t_brick_wall",
     ...
+    "connect_groups": "WALL",
     "connects_to": "WALL",
     ...
 }
 ```
 
-For details, see [JSON_INFO.md](./JSON_INFO.md#connects_to).
+For both properties, arrays of multiple groups are possible.
 
-Connections are only set up between types that have the same `connects_to` group, so it is symmetric or bi-directional.
-Available groups are:
+`connect_groups` adds the type to one or more groups, while `connects_to` makes the type connect to the given group(s).
 
-##### Connect groups
+Connections are only set up from types that have a `connects_to` group to types that have the same group in `connect_groups`.
 
-```
-NONE                 PIT_DEEP
-WALL                 LINOLEUM
-CHAINFENCE           CARPET
-WOODFENCE            CONCRETE
-RAILING              CLAY
-POOLWATER            DIRT
-WATER                ROCKFLOOR
-PAVEMENT             MULCHFLOOR
-RAIL                 METALFLOOR
-COUNTER              WOODFLOOR
-CANVAS_WALL          INDOORFLOOR
-SAND
-```
+For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connect_groups) and [`connects_to`](./JSON_INFO.md#connects_to).
+
+Wall work out of the box without modifying terrain definitions, as the required group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL` for `connect_groups` as well as `connects_to` (i.e. symmetric relation).
+
+For available connect groups, see [JSON_INFO.md, section Connection groups](./JSON_INFO.md#connection-groups).
 
 For the full multitile, the 16 sprite variants of this template are required:
 
@@ -212,17 +225,16 @@ In JSON, the multitile would be defined like this:
 #### Auto-rotating terrain and furniture - `rotates_to`
 
 Terrain and furniture can auto-rotate depending on other surrounding terrain or furniture using `rotates_to`.
-For details, see [JSON_INFO.md](./JSON_INFO.md#rotates_to-and-rotates_to_member).
+For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connect_groups) and [`rotates_to`](./JSON_INFO.md#rotates_to).
 Usage examples for terrain are doors and windows that look differently, seen from inside and outside (e.g. curtain).
 An example for furniture are street lights that orient towards the pavement.
 
-The mechanism works similar to `connects_to`, and can be combined with it.
-It makes also use of the same [Connect groups](#connect-groups).
-Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows) and `unconnected` tiles (e.g. street lights).
+The mechanism works like to `connects_to`, and can be combined with it.
+It also makes use of the same [Connection group](./JSON_INFO.md#connection-groups), given by property `connect_groups`.
+Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows, furniture) and `unconnected` tiles (e.g. street lights).
 
-Unlike `connects_to`, `rotates_to` is not symmetric.
-For the active/rotating type, `rotates_to` specifies a [Connect group](#connect-groups) the terrain should rotate towards (or rather, depend on).
-For the passive/target type, `rotates_to_member` is used to add it to a [Connect group](#connect-groups). (The `connects_to` mechanism is not affected by setting groups this way.)
+For the active/rotating type, `rotates_to` specifies a [Connection group](./JSON_INFO.md#connection-groups) the terrain should rotate towards (or rather, depend on).
+For the passive/target type, `connect_groups` is used to add it to a connection group.
 
 Terrain can only use terrain to rotate towards, while furniture can use both, terrain and furniture.
 
@@ -279,7 +291,7 @@ The full multitile would be defined like this:
 
 The order of sprites ensures that the multitile also works with only the first 4 instead of all 8 sprites. It also makes it compatible with tilesets that don't use the `rotates_to` feature.
 
-Doors and windows work out of the box without modifying terrain definitions, as the required group `INDOORFLOOR` is implied by the flags `WINDOW`, `DOOR` (active) and `INDOORS` (target).
+Doors and windows work out of the box without modifying terrain definitions, as the required group `INDOORFLOOR` is implied by the flags `WINDOW`, `DOOR` (active) and `INDOORS` (target/passive).
 
 ##### Unconnected `rotates_to`
 
@@ -360,6 +372,45 @@ Each JSON file can have either a single object or an array of one or more object
 ]
 ```
 
+#### Graffitis
+
+For graffitis, rotation can be used to distinguish between wall and floor drawings:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ "graffiti_wall", "graffiti_floor" ],
+}
+```
+
+Weighted variations are also possible, and can be combined with rotation:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ 
+    { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
+    { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
+  ],
+}
+```
+
+Variant selection is based on the graffiti's text, so the same text will always result in the same variant shown.
+
+##### Graffitis for specific texts
+
+It is possible to create graffitis for specifix texts.
+
+The game looks up graffiti sprites by the pattern `graffiti_THE_GRAFFITI_TEXT`. If no such sprite is found, `graffiti` is used.
+
+To create the sprite id, the graffiti's text is:
+* truncated to 32 characters
+* converted to capital letters
+* all punctuation is removed
+* spaces are replaced by underscores
+
+So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
+
 ### `tile_info.json`
 ```c++
 [
@@ -420,7 +471,9 @@ An optional file called layering.json can be provided. this file defines layerin
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
-        "layer": 90
+        "layer": 90,
+        "offset_x": 16,
+        "offset_y": -48
       },
       {
         "item": "pen",
@@ -431,7 +484,9 @@ An optional file called layering.json can be provided. this file defines layerin
     "field_variants": [
       {
         "field": "fd_fire",
-        "sprite": [{"id": "desk_fd_fire", "weight": 1}]
+        "sprite": [{"id": "desk_fd_fire", "weight": 1}],
+        "offset_x": 16,
+        "offset_y": -48
       }
     ]
   }
@@ -453,6 +508,8 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
 
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
+
 ##### Fields
 
 `"field_variants":` the definitions for what fields will have a variant sprite.
@@ -461,7 +518,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
 
-
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
 ## `compose.py`
 

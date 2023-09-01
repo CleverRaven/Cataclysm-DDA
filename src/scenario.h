@@ -53,19 +53,21 @@ class scenario
         std::vector<effect_on_condition_id> _eoc;
 
         // does this scenario require a specific achiement to unlock
-        cata::optional<achievement_id> _requirement;
+        std::optional<achievement_id> _requirement;
 
-        bool _custom_start_date = false;
-        int _start_hour = 8;
-        int _start_day = 0;
-        season_type _start_season = SPRING;
-        int _start_year = 1;
+        bool reveal_locale = true;
+
+        time_point _default_start_of_cataclysm;
+        time_point _default_start_of_game;
+
+        time_point _start_of_cataclysm;
+        time_point _start_of_game;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
         std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
     public:
@@ -95,19 +97,17 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
-        cata::optional<achievement_id> get_requirement() const;
+        std::optional<achievement_id> get_requirement() const;
 
-        bool custom_start_date() const;
-        bool is_random_hour() const;
-        bool is_random_day() const;
-        bool is_random_year() const;
-        int start_hour() const;
-        // Returns day of the season this scenario starts on
-        int day_of_season() const;
-        // Returns the day of the year this scenario starts on
-        int start_day() const;
-        season_type start_season() const;
-        int start_year() const;
+        bool get_reveal_locale() const;
+
+        void normalize_calendar() const;
+        void reset_calendar() const;
+
+        time_point start_of_cataclysm() const;
+        time_point start_of_game() const;
+        void change_start_of_cataclysm( const time_point &t ) const;
+        void change_start_of_game( const time_point &t ) const;
 
         vproto_id vehicle() const;
 
@@ -156,8 +156,8 @@ struct scen_blacklist {
     std::set<string_id<scenario>> scenarios;
     bool whitelist = false;
 
-    static void load_scen_blacklist( const JsonObject &jo, const std::string &src );
-    void load( const JsonObject &jo, const std::string & );
+    static void load_scen_blacklist( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view );
     void finalize();
 };
 

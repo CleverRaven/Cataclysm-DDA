@@ -12,14 +12,14 @@
     "price": 43000,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "ammo": [ "44paper" ],
     "dispersion": 400,
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44paper": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44paper": 6 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "lemat_revolver",
@@ -33,7 +33,6 @@
     "longest_side": "378 mm",
     "price": 120000,
     "price_postapoc": 4000,
-    "bashing": 4,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -43,7 +42,6 @@
     "blackpowder_tolerance": 56,
     "clip_size": 9,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -54,6 +52,7 @@
     ],
     "built_in_mods": [ "lemat_revolver_shotgun" ],
     "extend": { "flags": [ "NO_UNLOAD" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44paper": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44paper": 9 } } ],
+    "melee_damage": { "bash": 4 }
   }
 ]

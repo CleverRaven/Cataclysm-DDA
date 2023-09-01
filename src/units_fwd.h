@@ -34,12 +34,23 @@ class temperature_in_kelvin_tag
 
 using temperature = quantity<float, temperature_in_kelvin_tag>;
 
+class temperature_delta_in_kelvin_tag
+{
+};
+
+using temperature_delta = quantity<float, temperature_delta_in_kelvin_tag>;
 
 class energy_in_millijoule_tag
 {
 };
 
 using energy = quantity<std::int64_t, energy_in_millijoule_tag>;
+
+class power_in_milliwatt_tag
+{
+};
+
+using power = quantity<std::int64_t, power_in_milliwatt_tag>;
 
 class money_in_cent_tag
 {

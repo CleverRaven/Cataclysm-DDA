@@ -1,7 +1,10 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <cerrno>
+#include <charconv>
 #include <clocale>
+#include <cstdlib>
 #include <cwctype>
 #include <algorithm>
 #include <cmath>
@@ -12,8 +15,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -23,6 +26,7 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "pinyin.h"
 #include "rng.h"
 #include "translations.h"
 #include "unicode.h"
@@ -77,8 +81,15 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &qry )
+bool lcmatch( const std::string_view str, const std::string_view qry )
 {
+    // It will be quite common for the query string to be empty.  Anything will
+    // match in that case, so short-circuit and avoid the expensive
+    // conversions.
+    if( qry.empty() ) {
+        return true;
+    }
+
     std::u32string u32_str = utf8_to_utf32( str );
     std::u32string u32_qry = utf8_to_utf32( qry );
     std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
@@ -89,15 +100,22 @@ bool lcmatch( const std::string &str, const std::string &qry )
     }
     // Then try removing accents from str ONLY
     std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
-    return u32_str.find( u32_qry ) != std::u32string::npos;
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
+    }
+    if( use_pinyin_search ) {
+        // Finally, try to convert the string to pinyin and compare
+        return pinyin::pinyin_match( u32_str, u32_qry );
+    }
+    return false;
 }
 
-bool lcmatch( const translation &str, const std::string &qry )
+bool lcmatch( const translation &str, const std::string_view qry )
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( const std::string &text, std::string filter )
+bool match_include_exclude( const std::string_view text, std::string filter )
 {
     size_t iPos;
     bool found = false;
@@ -279,7 +297,14 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path, err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -302,13 +327,18 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message,
-                   path.generic_u8string().c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path.generic_u8string(), err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
 }
-
 
 ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
@@ -353,6 +383,59 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
     }
 }
 
+namespace
+{
+
+std::string read_compressed_file_to_string( std::istream &fin )
+{
+    std::string outstring;
+
+    std::ostringstream deflated_contents_stream;
+    std::string str;
+
+    deflated_contents_stream << fin.rdbuf();
+    str = deflated_contents_stream.str();
+
+    z_stream zs;
+    memset( &zs, 0, sizeof( zs ) );
+
+    if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+        throw std::runtime_error( "inflateInit failed while decompressing." );
+    }
+
+    zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
+    zs.avail_in = str.size();
+
+    int ret;
+    std::array<char, 32768> outbuffer;
+
+    // get the decompressed bytes blockwise using repeated calls to inflate
+    do {
+        zs.next_out = reinterpret_cast<Bytef *>( outbuffer.data() );
+        zs.avail_out = sizeof( outbuffer );
+
+        ret = inflate( &zs, 0 );
+
+        if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
+            outstring.append( outbuffer.data(),
+                              zs.total_out - outstring.size() );
+        }
+
+    } while( ret == Z_OK );
+
+    inflateEnd( &zs );
+
+    if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
+        std::ostringstream oss;
+        oss << "Exception during zlib decompression: (" << ret << ") "
+            << zs.msg;
+        throw std::runtime_error( oss.str() );
+    }
+    return outstring;
+}
+
+} // namespace
+
 bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader )
 {
     return read_from_file( path.get_unrelative_path(), reader );
@@ -360,86 +443,33 @@ bool read_from_file( const cata_path &path, const std::function<void( std::istre
 
 bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader )
 {
+    std::unique_ptr<std::istream> finp = read_maybe_compressed_file( path );
+    if( !finp ) {
+        return false;
+    }
     try {
-        cata::ifstream fin( path, std::ios::binary );
-        if( !fin ) {
-            throw std::runtime_error( "opening file failed" );
-        }
-
-        // check if file is gzipped
-        // (byte1 == 0x1f) && (byte2 == 0x8b)
-        std::array<char, 2> header;
-        fin.read( header.data(), 2 );
-        fin.clear();
-        fin.seekg( 0, std::ios::beg ); // reset read position
-
-        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
-            std::ostringstream deflated_contents_stream;
-            std::string str;
-
-            deflated_contents_stream << fin.rdbuf();
-            str = deflated_contents_stream.str();
-
-            z_stream zs;
-            memset( &zs, 0, sizeof( zs ) );
-
-            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
-                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
-            }
-
-            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
-            zs.avail_in = str.size();
-
-            int ret;
-            std::array<char, 32768> outbuffer;
-            std::string outstring;
-
-            // get the decompressed bytes blockwise using repeated calls to inflate
-            do {
-                zs.next_out = reinterpret_cast<Bytef *>( outbuffer.data() );
-                zs.avail_out = sizeof( outbuffer );
-
-                ret = inflate( &zs, 0 );
-
-                if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
-                    outstring.append( outbuffer.data(),
-                                      zs.total_out - outstring.size() );
-                }
-
-            } while( ret == Z_OK );
-
-            inflateEnd( &zs );
-
-            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
-                std::ostringstream oss;
-                oss << "Exception during zlib decompression: (" << ret << ") "
-                    << zs.msg;
-                throw( std::runtime_error( oss.str() ) );
-            }
-
-            std::stringstream inflated_contents_stream;
-            inflated_contents_stream.write( outstring.data(), outstring.size() );
-
-            reader( inflated_contents_stream );
-        } else {
-            reader( fin );
-        }
-        if( fin.bad() ) {
-            throw std::runtime_error( "reading file failed" );
-        }
-        return true;
-
+        reader( *finp );
     } catch( const std::exception &err ) {
         debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
         return false;
     }
+    return true;
 }
-
 
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
+    return read_from_file( fs::u8path( path ), reader );
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path )
+{
+    return read_maybe_compressed_file( fs::u8path( path ) );
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
+{
     try {
-        cata::ifstream fin( fs::u8path( path ), std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -452,65 +482,73 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
         fin.seekg( 0, std::ios::beg ); // reset read position
 
         if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
-            std::ostringstream deflated_contents_stream;
-            std::string str;
-
-            deflated_contents_stream << fin.rdbuf();
-            str = deflated_contents_stream.str();
-
-            z_stream zs;
-            memset( &zs, 0, sizeof( zs ) );
-
-            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
-                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
-            }
-
-            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
-            zs.avail_in = str.size();
-
-            int ret;
-            std::array<char, 32768> outbuffer;
-            std::string outstring;
-
-            // get the decompressed bytes blockwise using repeated calls to inflate
-            do {
-                zs.next_out = reinterpret_cast<Bytef *>( outbuffer.data() );
-                zs.avail_out = sizeof( outbuffer );
-
-                ret = inflate( &zs, 0 );
-
-                if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
-                    outstring.append( outbuffer.data(),
-                                      zs.total_out - outstring.size() );
-                }
-
-            } while( ret == Z_OK );
-
-            inflateEnd( &zs );
-
-            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
-                std::ostringstream oss;
-                oss << "Exception during zlib decompression: (" << ret << ") "
-                    << zs.msg;
-                throw( std::runtime_error( oss.str() ) );
-            }
-
+            std::string outstring = read_compressed_file_to_string( fin );
             std::stringstream inflated_contents_stream;
             inflated_contents_stream.write( outstring.data(), outstring.size() );
-
-            reader( inflated_contents_stream );
+            return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
         } else {
-            reader( fin );
+            return std::make_unique<std::ifstream>( std::move( fin ) );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
-        return true;
 
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
-        return false;
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
     }
+    return nullptr;
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path )
+{
+    return read_maybe_compressed_file( path.get_unrelative_path() );
+}
+
+std::optional<std::string> read_whole_file( const std::string &path )
+{
+    return read_whole_file( fs::u8path( path ) );
+}
+
+std::optional<std::string> read_whole_file( const fs::path &path )
+{
+    std::string outstring;
+    try {
+        std::ifstream fin( path, std::ios::binary );
+        if( !fin ) {
+            throw std::runtime_error( "opening file failed" );
+        }
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        std::array<char, 2> header;
+        fin.read( header.data(), 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            outstring = read_compressed_file_to_string( fin );
+        } else {
+            fin.seekg( 0, std::ios_base::end );
+            std::streamoff size = fin.tellg();
+            fin.seekg( 0 );
+
+            outstring.resize( size );
+            fin.read( outstring.data(), size );
+        }
+        if( fin.bad() ) {
+            throw std::runtime_error( "reading file failed" );
+        }
+
+        return std::optional<std::string>( std::move( outstring ) );
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+    }
+    return std::nullopt;
+}
+
+std::optional<std::string> read_whole_file( const cata_path &path )
+{
+    return read_whole_file( path.get_unrelative_path() );
 }
 
 bool read_from_file_json( const cata_path &path,
@@ -612,17 +650,6 @@ void deserialize_wrapper( const std::function<void( const JsonValue & )> &callba
     callback( jsin );
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.compare( 0, s2.size(), s2 ) == 0;
-}
-
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
 bool string_empty_or_whitespace( const std::string &s )
 {
     if( s.empty() ) {
@@ -635,17 +662,52 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+int string_view_cmp( const std::string_view l, const std::string_view r )
 {
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
+    size_t min_len = std::min( l.size(), r.size() );
+    int result = memcmp( l.data(), r.data(), min_len );
+    if( result ) {
+        return result;
     }
-    return buffer.str();
+    if( l.size() == r.size() ) {
+        return 0;
+    }
+    return l.size() < r.size() ? -1 : 1;
+}
+
+template<typename Integer>
+Integer svto( const std::string_view s )
+{
+    Integer result = 0;
+    const char *end = s.data() + s.size();
+    std::from_chars_result r = std::from_chars( s.data(), end, result );
+    if( r.ptr != end ) {
+        cata_fatal( "could not parse string_view as an integer" );
+    }
+    return result;
+}
+
+template int svto<int>( std::string_view );
+
+std::vector<std::string> string_split( const std::string_view string, char delim )
+{
+    std::vector<std::string> elems;
+
+    if( string.empty() ) {
+        return elems; // Well, that was easy.
+    }
+
+    std::stringstream ss( std::string{ string } );
+    std::string item;
+    while( std::getline( ss, item, delim ) ) {
+        elems.push_back( item );
+    }
+
+    if( string.back() == delim ) {
+        elems.emplace_back( "" );
+    }
+
+    return elems;
 }
 
 template<>
@@ -785,4 +847,34 @@ int bucket_index_from_weight_list( const std::vector<int> &weights )
         index++;
     }
     return index;
+}
+
+template<>
+std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
+{
+    switch( agg ) {
+        // *INDENT-OFF*
+        case aggregate_type::FIRST:   return "first";
+        case aggregate_type::LAST:    return "last";
+        case aggregate_type::MIN:     return "min";
+        case aggregate_type::MAX:     return "max";
+        case aggregate_type::SUM:     return "sum";
+        case aggregate_type::AVERAGE: return "average";
+        // *INDENT-ON*
+        case aggregate_type::num_aggregate_types:
+            break;
+    }
+    cata_fatal( "Invalid aggregate type." );
+}
+
+std::optional<double> svtod( std::string_view token )
+{
+    char *pEnd = nullptr;
+    double const val = std::strtod( token.data(), &pEnd );
+    if( pEnd == token.data() + token.size() ) {
+        return { val };
+    }
+    errno = 0;
+
+    return std::nullopt;
 }

@@ -5,6 +5,7 @@
 #include <functional>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -42,7 +43,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -86,6 +86,8 @@ mission_MISSION_OLD_GUARD_NEC_COMMO_3( "MISSION_OLD_GUARD_NEC_COMMO_3" );
 static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
 static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
+
+static const mon_flag_str_id mon_flag_CONSOLE_DESPAWN( "CONSOLE_DESPAWN" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
@@ -226,7 +228,7 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
     }
-    const int hack_skill = you.get_skill_level( skill_computer );
+    const int hack_skill = round( you.get_skill_level( skill_computer ) );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -273,7 +275,7 @@ static void remove_submap_turrets()
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs(
                     player_character.pos() ) ) &&
-            critter.has_flag( MF_CONSOLE_DESPAWN ) &&
+            critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -580,7 +582,7 @@ void computer_session::action_research()
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
     const int seed = std::hash<tripoint_abs_sm> {}( here.get_abs_sub() ) + comp.alerts;
-    cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
+    std::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
     } else {
@@ -732,7 +734,7 @@ void computer_session::action_miss_launch()
             !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+            overmap_buffer.ter_set( p, oter_id( "field" ) );
         }
     }
     explosion_handler::nuke( target );
@@ -1407,14 +1409,10 @@ void computer_session::action_deactivate_shock_vent()
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     bool has_vent = false;
-    bool has_generator = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
         if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
-        }
-        if( here.ter( dest ) == t_plut_generator ) {
-            has_generator = true;
         }
         here.remove_field( dest, fd_shock_vent );
     }
@@ -1429,11 +1427,7 @@ void computer_session::action_deactivate_shock_vent()
     }
     print_line(
         _( "External power lines status: 100%% OFFLINE.  Reason: NO EXTERNAL POWER DETECTED." ) );
-    if( has_generator ) {
-        print_line( _( "Backup power status: STANDBY MODE." ) );
-    } else {
-        print_error( _( "Backup power status: OFFLINE.  Reason: UNKNOWN" ) );
-    }
+    print_line( _( "Backup power status: STANDBY MODE." ) );
     query_any( _( "Press any key…" ) );
 }
 
@@ -1496,10 +1490,6 @@ void computer_session::failure_alarm()
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( get_map().get_abs_sub().z() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                player_character.get_location() );
-    }
 }
 
 void computer_session::failure_manhacks()

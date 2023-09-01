@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -20,6 +21,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
@@ -43,7 +45,6 @@
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -55,6 +56,7 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
@@ -72,6 +74,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_radleak( "bio_radleak" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+static const bionic_id bio_synlungs( "bio_synlungs" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
@@ -83,9 +86,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_formication( "formication" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
@@ -117,12 +118,19 @@ static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
+static const json_character_flag json_flag_ALBINO( "ALBINO" );
+static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
 static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
+static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
+
+static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -131,7 +139,6 @@ static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
-static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
@@ -150,16 +157,13 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINREC1( "PAINREC1" );
-static const trait_id trait_PAINREC2( "PAINREC2" );
-static const trait_id trait_PAINREC3( "PAINREC3" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
+static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -169,7 +173,6 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_SORES( "SORES" );
-static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
@@ -202,8 +205,8 @@ static void from_stimulants( Character &you, int current_stim );
 static void from_exertion( Character &you );
 static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
-static void from_pain( Character &you );
 static void from_nyctophobia( Character &you );
+static void from_artifact_resonance( Character &you, int amt );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -246,7 +249,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             you.set_cost_timer( mut_id, mut_id->cooldown - 1_turns );
         }
         if( mut_id->hunger ) {
-            if( you.get_bmi() < character_weight_category::underweight ) {
+            if( you.get_bmi_fat() < character_weight_category::underweight ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too malnourished to keep your %s going." ),
                                        you.mutation_name( mut_id ) );
@@ -278,6 +281,17 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_fatigue( mut_id->cost );
             }
         }
+
+        // if you haven't deactivated then run the EOC
+        for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
+            dialogue d( get_talker_for( you ), nullptr );
+            d.set_value( "npctalk_var_this", mut_id.str() );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a mutation process.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
+            }
+        }
     }
 }
 
@@ -307,26 +321,56 @@ void suffer::while_underwater( Character &you )
 
 void suffer::while_grabbed( Character &you )
 {
-    // get the intensity of the current grab
-    int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
+    // If you're grabbed you can't move around effectively, triggering the check
+    // TODO: crowd crush without grabs
+    // Count the number of monsters who can shove you
+    // TODO: expand the search area - use the same logic as GROUP_BASH?
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+    int crowd = 0;
+    int impassable_ter = 0;
+    for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
+        const monster *const mon = creatures.creature_at<monster>( dest );
+        if( mon && mon->has_flag( mon_flag_GROUP_BASH ) ) {
+            crowd++;
+            add_msg_debug( debugmode::DF_CHARACTER, "Crowd pressure check: monster %s found, crowd size %d",
+                           mon->name(), crowd );
+        }
+        if( here.impassable( dest ) ) {
+            impassable_ter++;
+        }
+    }
 
-    // you should have trouble breathing as you get swarmed by zombies grabbing you
-    if( grab_intensity <= 2 ) {
-        // only a chance to lose breath at low grab chance
+    // if we aren't near two monsters with GROUP_BASH we won't suffocate
+    if( crowd < 2 ) {
+        return;
+    }
+    // Getting crushed against the wall counts as a monster
+    if( impassable_ter ) {
+        you.add_msg_if_player( m_bad, _( "You're crushed against the walls!" ) );
+        crowd += impassable_ter;
+    }
+
+    if( crowd == 2 ) {
+        // only a chance to lose breath at low grab chance, none with only a single zombie
         you.oxygen -= rng( 0, 1 );
-    } else if( grab_intensity <= 4 ) {
+    } else if( crowd <= 4 ) {
         you.oxygen -= 1;
-    } else if( grab_intensity <= 6 ) {
+    } else if( crowd <= 6 ) {
         you.oxygen -= rng( 1, 2 );
-    } else if( grab_intensity <= 8 ) {
+    } else if( crowd <= 8 ) {
         you.oxygen -= 2;
     }
 
     // a few warnings before starting to take damage
     if( you.oxygen <= 5 ) {
         you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
+        if( uistate.distraction_oxygen && you.is_avatar() ) {
+            g->cancel_activity_or_ignore_query( distraction_type::oxygen, _( "You're suffocating!" ) );
+        }
         // your characters chest is being crushed and you are dying
-        you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+        you.apply_damage( nullptr, you.get_random_body_part_of_type( body_part_type::type::torso ), rng( 1,
+                          4 ) );
     } else if( you.oxygen <= 15 ) {
         you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
     } else if( you.oxygen <= 25 ) {
@@ -392,6 +436,11 @@ void suffer::while_awake( Character &you, const int current_stim )
         }
     }
 
+    int resonance = you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    if( resonance > 0 ) {
+        suffer::from_artifact_resonance( you, resonance );
+    }
+
     if( you.has_trait( trait_JITTERY ) && !you.has_effect( effect_shakes ) ) {
         if( current_stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( current_stim * 6 ) ) ) {
             you.add_effect( effect_shakes, 30_minutes + 1_turns * current_stim );
@@ -438,7 +487,7 @@ void suffer::while_awake( Character &you, const int current_stim )
 
 void suffer::from_chemimbalance( Character &you )
 {
-    if( one_turn_in( 6_hours ) && !you.has_trait( trait_NOPAIN ) ) {
+    if( one_turn_in( 6_hours ) && !you.has_flag( json_flag_PAIN_IMMUNE ) ) {
         you.add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
         you.mod_pain( 3 * rng( 1, 3 ) );
     }
@@ -446,7 +495,7 @@ void suffer::from_chemimbalance( Character &you )
         int pkilladd = 5 * rng( -1, 2 );
         if( pkilladd > 0 ) {
             you.add_msg_if_player( m_bad, _( "You suddenly feel numb." ) );
-        } else if( ( pkilladd < 0 ) && ( !you.has_trait( trait_NOPAIN ) ) ) {
+        } else if( ( pkilladd < 0 ) && ( !you.has_flag( json_flag_PAIN_IMMUNE ) ) ) {
             you.add_msg_if_player( m_bad, _( "You suddenly ache." ) );
         }
         you.mod_painkiller( pkilladd );
@@ -671,8 +720,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weap->damage() >= ( weap->max_damage() - weap->damage_floor( false ) ) / 3 +
-                   weap->damage_floor( false ) && one_turn_in( 1_hours ) ) {
+        } else if( weap->damage() >= ( weap->max_damage() - weap->degradation() ) / 3 +
+                   weap->degradation() && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -832,13 +881,13 @@ void suffer::in_sunlight( Character &you )
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
-    if( you.has_trait( trait_SUNBURN ) ) {
+    if( you.has_flag( json_flag_SUNBURN ) ) {
         suffer::from_sunburn( you, true );
     }
 
     // Albinism and datura have the same effects and do not stack with each other or sunburn.
-    if( !you.has_trait( trait_SUNBURN ) &&
-        ( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) ) {
+    if( !you.has_flag( json_flag_SUNBURN ) &&
+        ( you.has_flag( json_flag_ALBINO ) || you.has_effect( effect_datura ) ) ) {
         suffer::from_sunburn( you, false );
     }
 
@@ -857,6 +906,13 @@ void suffer::in_sunlight( Character &you )
         you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
         you.mod_int_bonus( -1 );
         you.mod_per_bonus( -1 );
+    }
+    if( you.has_flag( json_flag_DAYFEAR ) ) {
+        you.mod_str_bonus( -2 );
+        you.mod_dex_bonus( -2 );
+        you.add_miss_reason( _( "You fear the sunlight!" ), 2 );
+        you.mod_int_bonus( -2 );
+        you.mod_per_bonus( -2 );
     }
     if( you.has_trait( trait_TROGLO3 ) ) {
         you.mod_str_bonus( -4 );
@@ -1235,8 +1291,8 @@ void suffer::from_other_mutations( Character &you )
 void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
-    // checking for radioactive items in inventory
-    const float item_radiation = you.leak_level();
+    // get radioactive leak level of your inventory
+    float item_radiation = you.get_leak_level();
     const int map_radiation = here.get_radiation( you.pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
@@ -1281,10 +1337,16 @@ void suffer::from_radiation( Character &you )
     // Used to control vomiting from radiation to make it not-annoying
     bool radiation_increasing = you.irradiate( rads );
 
-    if( radiation_increasing && calendar::once_every( 3_minutes ) && you.has_bionic( bio_geiger ) ) {
-        you.add_msg_if_player( m_warning,
-                               _( "You feel an anomalous sensation coming from "
-                                  "your radiation sensors." ) );
+    if( radiation_increasing && calendar::once_every( 3_minutes ) ) {
+        if( you.has_bionic( bio_geiger ) ) {
+            you.add_msg_if_player( m_warning,
+                                   _( "You feel an anomalous sensation coming from "
+                                      "your radiation sensors." ) );
+        } else if( you.has_active_mutation( trait_RADIOPHILE ) ) {
+            you.add_msg_if_player( m_warning,
+                                   _( "Your flesh tingles with an air of danger, "
+                                      "yet it is strangely pleasurable." ) );
+        }
     }
 
     if( calendar::once_every( 15_minutes ) ) {
@@ -1342,10 +1404,20 @@ void suffer::from_radiation( Character &you )
 void suffer::from_bad_bionics( Character &you )
 {
     // Negative bionics effects
+    if( you.has_bionic( bio_synlungs ) && !you.has_active_bionic( bio_synlungs ) &&
+        !you.has_effect( effect_narcosis ) ) {
+        if( you.get_power_level() >= bio_synlungs->power_trigger ) {
+            std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_synlungs );
+            you.activate_bionic( **bio_opt );
+        } else {
+            you.mod_stamina( -2000 );
+            you.add_msg_if_player( m_bad, _( "Emergency!  User's lungs are not powered!" ) );
+        }
+    }
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
         one_turn_in( 2_hours ) &&
         !you.has_effect( effect_narcosis ) ) {
-        if( !you.has_trait( trait_NOPAIN ) ) {
+        if( !you.has_flag( json_flag_PAIN_IMMUNE ) ) {
             you.add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
             you.mod_pain( 1 );
         } else {
@@ -1367,7 +1439,7 @@ void suffer::from_bad_bionics( Character &you )
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if( you.has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        if( !you.has_trait( trait_NOPAIN ) ) {
+        if( !you.has_flag( json_flag_PAIN_IMMUNE ) ) {
             you.add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         } else {
             you.add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
@@ -1647,70 +1719,114 @@ void suffer::from_tourniquet( Character &you )
     }
 }
 
-void suffer::from_pain( Character &you )
-{
-    if( one_turn_in( 10_minutes ) ) {
-        if( you.has_trait( trait_PAINREC1 ) ) {
-            you.mod_pain( -30 );
-        } else if( you.has_trait( trait_PAINREC2 ) ) {
-            you.mod_pain( -40 );
-        } else if( you.has_trait( trait_PAINREC3 ) ) {
-            you.mod_pain( -50 );
-        }
-    }
-}
-
 void suffer::from_nyctophobia( Character &you )
 {
-    std::vector<tripoint> dark_places;
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    for( const tripoint &dark_place : points_in_radius( you.pos(), 5 ) ) {
-        if( !you.sees( dark_place ) || get_map().ambient_light_at( dark_place ) >= nyctophobia_threshold ) {
-            continue;
-        }
-        dark_places.push_back( dark_place );
-    }
-
     const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
-    const int chance = in_darkness ? 10 : 50;
-
-    if( you.is_avatar() && !dark_places.empty() && one_in( chance ) ) {
-        g->spawn_hallucination( random_entry( dark_places ) );
-    }
-
     if( in_darkness ) {
+        if( one_in( 80 ) && !you.has_effect( effect_shakes ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that your hands start shaking uncontrollably." ) );
+            you.add_effect( effect_shakes, rng( 1_minutes, 3_minutes ) );
+
+            return;
+        }
+
+        if( one_in( 80 ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of your chest." ) );
+            you.mod_stamina( -500 * rng( 1, 3 ) );
+
+            return;
+        }
+
         if( one_turn_in( 5_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "You feel a twinge of panic as darkness engulfs you." ) );
         }
 
-        if( one_in( 2 ) && one_turn_in( 30_seconds ) ) {
-            you.sound_hallu();
-        }
+    }
+}
 
-        if( one_in( 50 ) && !you.is_on_ground() ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that your trembling legs fail you, and you fall to the ground." ) );
-            you.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
-        }
-
-        if( one_in( 50 ) && !you.has_effect( effect_shakes ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that your hands start shaking uncontrollably." ) );
-            you.add_effect( effect_shakes, rng( 1_minutes, 2_minutes ) );
-        }
-
-        if( one_in( 50 ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of the chest." ) );
-            you.mod_stamina( -500 * rng( 1, 3 ) );
-        }
-
-        if( one_in( 50 ) && !you.has_effect( effect_fearparalyze ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that you stand paralyzed." ) );
-            you.add_effect( effect_fearparalyze, 5_turns );
-            you.mod_moves( -4 * you.get_speed() );
+void suffer::from_artifact_resonance( Character &you, int amt )
+{
+    int rng_outcome;
+    if( rng( 0, 3600 + std::floor( amt / 2000 ) ) > 3600 ) {
+        if( amt > 12500 && one_in( 2 ) ) {
+            //deadly effects from way too high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You attract the attention of something horrible." ),
+                                           _( "<npcname> attracts the attention of something horrible." ) );
+                map &here = get_map();
+                for( const tripoint &dest : here.points_in_radius( you.pos(), 12 ) ) {
+                    if( here.is_cornerfloor( dest ) ) {
+                        here.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
+                    }
+                }
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
+                                           _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
+                map &here = get_map();
+                here.add_field( you.pos(), fd_fatigue, 1 );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
+                                           _( "<npcname> suddenly loses all substance and corporeality." ) );
+                you.add_effect( effect_incorporeal, 1_minutes );
+            }
+        } else if( amt > 7500 && one_in( 2 ) ) {
+            //severe effects from very high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You are suddenly beset with agonizing, unbearable pain." ),
+                                           _( "<npcname> suddenly cries out in agony." ) );
+                you.mod_pain( 100 );
+                you.shout();
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
+                                           _( "The air folds and distorts around <npcname>." ) );
+                teleport::teleport( you );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
+                                           _( "<npcname> is bombarded with radioactive energy!" ) );
+                you.irradiate( 5, true );
+                you.irradiate( 45, false );
+            }
+        } else if( amt > 4500 && one_in( 2 ) ) {
+            //bad effects from moderately high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1  && !you.in_vehicle ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
+                                           _( "<npcname> suddenly shifts slightly." ) );
+                teleport::teleport( you, 1, 1, true, false );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad,
+                                           _( "You hear a painfully loud grinding noise from your location." ),
+                                           _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
+                sounds::sound( you.pos(), 5000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                               true, "misc", "scraping" );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad,
+                                           _( "The air suddenly crackles around you." ),
+                                           _( "The air suddenly crackles around <npcname>." ) );
+                you.irradiate( 10, false );
+            }
+        } else {
+            //mild effects from somewhat high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_if_player( m_bad,
+                                       _( "You suddenly feel a sharp, stabbing pain with no apparent source." ) );
+                you.mod_pain( 5 );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_if_player( m_bad,
+                                       _( "Your vision becomes blurry and you suddenly feel like you're falling." ) );
+                you.add_effect( effect_visuals, 5_minutes );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
+                you.add_effect( effect_nausea, 5_minutes );
+            }
         }
     }
 }
@@ -1733,12 +1849,12 @@ void Character::suffer()
         if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
-        if( has_active_mutation( mut_id ) ) {
+        if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
         }
     }
 
-    if( has_effect( effect_grabbed, body_part_torso ) ) {
+    if( has_flag( json_flag_GRAB ) ) {
         suffer::while_grabbed( *this );
     }
 
@@ -1775,9 +1891,6 @@ void Character::suffer()
 
     suffer::without_sleep( *this, sleep_deprivation );
     suffer::from_tourniquet( *this );
-    if( get_pain() > 0 ) {
-        suffer::from_pain( *this );
-    }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
     if( calendar::once_every( 30_minutes ) ) {

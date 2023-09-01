@@ -170,11 +170,12 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WALL: return "WALL";
         case ter_furn_flag::TFLAG_DEEP_WATER: return "DEEP_WATER";
         case ter_furn_flag::TFLAG_SHALLOW_WATER: return "SHALLOW_WATER";
+        case ter_furn_flag::TFLAG_WATER_CUBE: return "WATER_CUBE";
         case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
         case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
-        case ter_furn_flag::TFLAG_CONNECT_TO_WALL: return "CONNECT_TO_WALL";
+        case ter_furn_flag::TFLAG_CONNECT_WITH_WALL: return "CONNECT_WITH_WALL";
         case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";
         case ter_furn_flag::TFLAG_GOES_DOWN: return "GOES_DOWN";
         case ter_furn_flag::TFLAG_GOES_UP: return "GOES_UP";
@@ -247,8 +248,10 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_ALARMED: return "ALARMED";
         case ter_furn_flag::TFLAG_CHOCOLATE: return "CHOCOLATE";
         case ter_furn_flag::TFLAG_SIGN: return "SIGN";
+        case ter_furn_flag::TFLAG_SIGN_ALWAYS: return "SIGN_ALWAYS";
         case ter_furn_flag::TFLAG_DONT_REMOVE_ROTTEN: return "DONT_REMOVE_ROTTEN";
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
+        case ter_furn_flag::TFLAG_SMALL_HIDE: return "SMALL_HIDE";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
@@ -256,6 +259,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
         case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
+		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -266,31 +270,59 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 } // namespace io
 
-static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied for connects_to by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
-        { "CHAINFENCE",               TERCONN_CHAINFENCE },
-        { "WOODFENCE",                TERCONN_WOODFENCE },
-        { "RAILING",                  TERCONN_RAILING },
-        { "WATER",                    TERCONN_WATER },
-        { "POOLWATER",                TERCONN_POOLWATER },
-        { "PAVEMENT",                 TERCONN_PAVEMENT },
-        { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                  TERCONN_COUNTER },
-        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
-        { "SAND",                     TERCONN_SAND },
-        { "PIT_DEEP",                 TERCONN_PIT_DEEP },
-        { "LINOLEUM",                 TERCONN_LINOLEUM },
-        { "CARPET",                   TERCONN_CARPET },
-        { "CONCRETE",                 TERCONN_CONCRETE },
-        { "CLAY",                     TERCONN_CLAY },
-        { "DIRT",                     TERCONN_DIRT },
-        { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
-        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
-        { "METALFLOOR",               TERCONN_METALFLOOR },
-        { "WOODFLOOR",                TERCONN_WOODFLOOR },
-        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW and ter_furn_flag::DOOR, and for rotates_to_member by ter_furn_flag::INDOORS
+static std::unordered_map<std::string, connect_group> ter_connects_map;
+
+connect_group get_connect_group( const std::string &name )
+{
+    return ter_connects_map[name];
+}
+
+void connect_group::load( const JsonObject &jo )
+{
+
+    connect_group result;
+
+    result.id = connect_group_id( jo.get_string( "id" ) );
+    result.index = ter_connects_map.find( result.id.str() ) == ter_connects_map.end() ?
+                   ter_connects_map.size() : ter_connects_map[result.id.str()].index;
+    // Check index overflow for bitsets
+    if( result.index >= NUM_TERCONN ) {
+        debugmsg( "Exceeded current maximum of %d connection groups.  Increase NUM_TERCONN to allow for more groups!",
+                  NUM_TERCONN );
+        return;
     }
-};
+
+    if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.group_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "connects_to_flags" ) || jo.has_array( "connects_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "connects_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.connects_to_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "rotates_to_flags" ) || jo.has_array( "rotates_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "rotates_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.rotates_to_flags.insert( f );
+        }
+    }
+
+    ter_connects_map[ result.id.str() ] = result;
+}
+
+void connect_group::reset()
+{
+    ter_connects_map.clear();
+}
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
@@ -307,7 +339,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( Item_spawn_data_EMPTY_GROUP ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
+bool map_bash_info::load( const JsonObject &jsobj, const std::string_view member,
                           map_object_type obj_type, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
@@ -372,7 +404,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
+bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view member,
                                  bool is_furniture, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
@@ -392,7 +424,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
-bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -421,7 +453,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, b
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &member )
+bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -435,7 +467,7 @@ bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &memb
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string &member )
+bool plant_data::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -573,7 +605,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", context, color_, []( const std::string & str ) {
+        load_season_array( jo, "color", context, color_, []( const std::string_view str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
@@ -627,24 +659,24 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
         transparent = true;
     }
-    // wall connection check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
-        set_connects( "WALL" );
-    }
-    // rotates_to check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
-        set_rotates_to( "INDOORFLOOR" );
-    }
-    // rotates_to_member check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_INDOORS ) {
-        set_rotates_to_member( "INDOORFLOOR" );
+
+    for( std::pair<const std::string, connect_group> &item : ter_connects_map ) {
+        if( item.second.group_flags.find( flag ) != item.second.group_flags.end() ) {
+            set_connect_groups( { item.second.id.str() } );
+        }
+        if( item.second.connects_to_flags.find( flag ) != item.second.connects_to_flags.end() ) {
+            set_connects_to( { item.second.id.str() } );
+        }
+        if( item.second.rotates_to_flags.find( flag ) != item.second.rotates_to_flags.end() ) {
+            set_rotates_to( { item.second.id.str() } );
+        }
     }
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    cata::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
+    std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.set( f.value() );
         extraprocess_flags( f.value() );
@@ -658,52 +690,47 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
     extraprocess_flags( flag );
 }
 
-void map_data_common_t::set_connects( const std::string &connect_group_string )
+void map_data_common_t::set_connect_groups( const std::vector<std::string>
+        &connect_groups_vec )
 {
-    const auto it = ter_connects_map.find( connect_group_string );
-    if( it != ter_connects_map.end() ) {
-        connect_group = it->second;
-    } else { // arbitrary connect groups are a bad idea for optimization reasons
-        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
-    }
+    set_groups( connect_groups, connect_groups_vec );
 }
 
-void map_data_common_t::set_rotates_to( const std::string &towards_group_string )
+void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_groups_vec )
 {
-    const auto it = ter_connects_map.find( towards_group_string );
-    if( it != ter_connects_map.end() ) {
-        rotate_to_group = it->second;
-    } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
-        debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
-    }
+    set_groups( connect_to_groups, connect_groups_vec );
 }
 
-void map_data_common_t::set_rotates_to_member( const std::string &towards_group_string )
+void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_groups_vec )
 {
-    const auto it = ter_connects_map.find( towards_group_string );
-    if( it != ter_connects_map.end() ) {
-        rotate_to_group_member = it->second;
-    } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
-        debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
-    }
+    set_groups( rotate_to_groups, connect_groups_vec );
 }
 
-bool map_data_common_t::connects( int &ret ) const
+void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
+                                    const std::vector<std::string> &connect_groups_vec )
 {
-    if( connect_group != TERCONN_NONE ) {
-        ret = connect_group;
-        return true;
+    for( const std::string &group : connect_groups_vec ) {
+        if( group.empty() ) {
+            debugmsg( "Can't use empty string for terrain groups" );
+            continue;
+        }
+        std::string grp = group;
+        bool remove = false;
+        if( grp.at( 0 ) == '~' ) {
+            grp = grp.substr( 1 );
+            remove = true;
+        }
+        const auto it = ter_connects_map.find( grp );
+        if( it != ter_connects_map.end() ) {
+            if( remove ) {
+                bits.reset( it->second.index );
+            } else {
+                bits.set( it->second.index );
+            }
+        } else {
+            debugmsg( "can't find terrain group %s", group.c_str() );
+        }
     }
-    return false;
-}
-
-bool map_data_common_t::rotates( int &ret ) const
-{
-    if( rotate_to_group != TERCONN_NONE ) {
-        ret = rotate_to_group;
-        return true;
-    }
-    return false;
 }
 
 ter_id t_null,
@@ -790,20 +817,18 @@ ter_id t_null,
        t_gas_pump, t_gas_pump_smashed,
        t_diesel_pump, t_diesel_pump_smashed,
        t_atm,
-       t_generator_broken,
        t_missile, t_missile_exploded,
        t_radio_tower, t_radio_controls,
-       t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
+       t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
        t_barndoor, t_palisade_pulley,
        t_gates_control_metal,
        t_sewage_pipe, t_sewage_pump,
-       t_centrifuge,
        t_column,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
        t_water_pump,
-       t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
+       t_conveyor,
        t_improvised_shelter,
        // Staircases etc.
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
@@ -815,7 +840,7 @@ ter_id t_null,
        t_pedestal_temple,
        // Temple tiles
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
        t_rad_platform,
        // Railroad and subway
@@ -1048,13 +1073,10 @@ void set_ter_ids()
     t_diesel_pump = ter_id( "t_diesel_pump" );
     t_diesel_pump_smashed = ter_id( "t_diesel_pump_smashed" );
     t_atm = ter_id( "t_atm" );
-    t_generator_broken = ter_id( "t_generator_broken" );
     t_missile = ter_id( "t_missile" );
     t_missile_exploded = ter_id( "t_missile_exploded" );
     t_radio_tower = ter_id( "t_radio_tower" );
     t_radio_controls = ter_id( "t_radio_controls" );
-    t_console_broken = ter_id( "t_console_broken" );
-    t_console = ter_id( "t_console" );
     t_gates_mech_control = ter_id( "t_gates_mech_control" );
     t_gates_control_brick = ter_id( "t_gates_control_brick" );
     t_gates_control_concrete = ter_id( "t_gates_control_concrete" );
@@ -1063,7 +1085,6 @@ void set_ter_ids()
     t_gates_control_metal = ter_id( "t_gates_control_metal" );
     t_sewage_pipe = ter_id( "t_sewage_pipe" );
     t_sewage_pump = ter_id( "t_sewage_pump" );
-    t_centrifuge = ter_id( "t_centrifuge" );
     t_column = ter_id( "t_column" );
     t_vat = ter_id( "t_vat" );
     t_rootcellar = ter_id( "t_rootcellar" );
@@ -1101,12 +1122,7 @@ void set_ter_ids()
     t_covered_well = ter_id( "t_covered_well" );
     t_water_pump = ter_id( "t_water_pump" );
     t_conveyor = ter_id( "t_conveyor" );
-    t_machinery_light = ter_id( "t_machinery_light" );
-    t_machinery_heavy = ter_id( "t_machinery_heavy" );
-    t_machinery_old = ter_id( "t_machinery_old" );
-    t_machinery_electronic = ter_id( "t_machinery_electronic" );
     t_open_air = ter_id( "t_open_air" );
-    t_plut_generator = ter_id( "t_plut_generator" );
     t_pavement_bg_dp = ter_id( "t_pavement_bg_dp" );
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
@@ -1173,7 +1189,7 @@ furn_id f_null, f_clear,
         f_cattails, f_lotus, f_lilypad,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-        f_fvat_empty, f_fvat_full,
+        f_fvat_empty, f_fvat_full, f_fvat_wood_empty, f_fvat_wood_full,
         f_wood_keg,
         f_standing_tank,
         f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
@@ -1190,7 +1206,8 @@ furn_id f_null, f_clear,
         f_tourist_table,
         f_camp_chair,
         f_sign,
-        f_street_light, f_traffic_light,
+        f_stook_empty, f_stook_full,
+        f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
         f_console, f_console_broken;
 
 void set_furn_ids()
@@ -1205,6 +1222,8 @@ void set_furn_ids()
     f_barricade_road = furn_id( "f_barricade_road" );
     f_sandbag_half = furn_id( "f_sandbag_half" );
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
+    f_stook_empty = furn_id( "f_stook_empty" );
+    f_stook_full = furn_id( "f_stook_full" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
     f_bed = furn_id( "f_bed" );
@@ -1274,6 +1293,8 @@ void set_furn_ids()
     f_plant_harvest = furn_id( "f_plant_harvest" );
     f_fvat_empty = furn_id( "f_fvat_empty" );
     f_fvat_full = furn_id( "f_fvat_full" );
+    f_fvat_wood_empty = furn_id( "f_fvat_wood_empty" );
+    f_fvat_wood_full = furn_id( "f_fvat_wood_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
     f_standing_tank = furn_id( "f_standing_tank" );
     f_egg_sackbw = furn_id( "f_egg_sackbw" );
@@ -1306,6 +1327,8 @@ void set_furn_ids()
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
     f_street_light = furn_id( "f_street_light" );
     f_traffic_light = furn_id( "f_traffic_light" );
+    f_flagpole = furn_id( "f_flagpole" );
+    f_wooden_flagpole = furn_id( "f_wooden_flagpole" );
     f_console_broken = furn_id( "f_console_broken" );
     f_console = furn_id( "f_console" );
 }
@@ -1362,13 +1385,15 @@ void init_mapdata()
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_string( "examine_action" ) ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
         examine_func = iexamine_functions_from_string( "invalid" );
-    } else {
+    } else if( !was_loaded ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( "none" );
     }
 
@@ -1419,24 +1444,24 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     trap = tr_null;
     transparent = false;
-    connect_group = TERCONN_NONE;
-    rotate_to_group = TERCONN_NONE;
-    rotate_to_group_member = TERCONN_NONE;
+    connect_groups.reset();
+    connect_to_groups.reset();
+    rotate_to_groups.reset();
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_group is initialized to none, then terrain flags are set, then finally
+    // connect_to_groups is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
+    if( jo.has_member( "connect_groups" ) ) {
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
+    }
     if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+        set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
-        set_rotates_to( jo.get_string( "rotates_to" ) );
-    }
-    if( jo.has_member( "rotates_to_member" ) ) {
-        set_rotates_to_member( jo.get_string( "rotates_to_member" ) );
+        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
@@ -1597,21 +1622,22 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
     // see the comment in ter_id::load for connect_group handling
-    connect_group = TERCONN_NONE;
-    rotate_to_group = TERCONN_NONE;
-    rotate_to_group_member = TERCONN_NONE;
+    connect_groups.reset();
+    connect_to_groups.reset();
+    rotate_to_groups.reset();
+
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
+    if( jo.has_member( "connect_groups" ) ) {
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
+    }
     if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+        set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
-        set_rotates_to( jo.get_string( "rotates_to" ) );
-    }
-    if( jo.has_member( "rotates_to_member" ) ) {
-        set_rotates_to_member( jo.get_string( "rotates_to_member" ) );
+        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
@@ -1620,7 +1646,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
-
 
     oxytorch = cata::make_value<activity_data_furn>();
     if( jo.has_object( "oxytorch" ) ) {

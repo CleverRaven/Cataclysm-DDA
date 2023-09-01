@@ -11,7 +11,6 @@
     "material": [ "steel" ],
     "weight": "500 g",
     "volume": "450 ml",
-    "bashing": 8,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRE", "NO_UNLOAD" ],
@@ -30,9 +29,9 @@
         "menu_text": "Activate torch mode",
         "moves": 150
       },
-      { "type": "firestarter" },
-      { "flame": false, "type": "cauterize" }
-    ]
+      { "type": "firestarter" }
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "heat_cube_torch_on",
@@ -73,7 +72,6 @@
     "price": 0,
     "price_postapoc": "150 USD",
     "to_hit": 1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -85,7 +83,8 @@
       "active": true,
       "menu_text": "Light torch",
       "type": "transform"
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mtorch_everburning_lit",
@@ -104,6 +103,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
+    "sub": "fire",
     "extend": { "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
   },
   {
@@ -113,14 +113,32 @@
     "copy-from": "flask_hip",
     "price_postapoc": "850 USD",
     "category": "clothing",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
       "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "transform"
+      "type": "transform",
+      "need_empty": true
+    }
+  },
+  {
+    "id": "mteapot",
+    "type": "GENERIC",
+    "copy-from": "teapot",
+    "category": "tools",
+    "name": { "str": "endless teapot" },
+    "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
+    "price_postapoc": "2500 USD",
+    "use_action": {
+      "target": "tea_green",
+      "msg": "You check the teapot and discover it full of sweet tea!  Sadly, it's cold.",
+      "container": "mteapot",
+      "target_charges": 2,
+      "moves": 50,
+      "type": "transform",
+      "need_empty": true
     }
   },
   {
@@ -153,6 +171,7 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "canvas",
           "black_dragon_hide",
           "demon_chitin"
         ],

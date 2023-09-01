@@ -20,26 +20,6 @@
     "components": [ [ [ "scrap", 45 ] ] ]
   },
   {
-    "result": "legguard_scrap",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "scrap", 60 ] ] ]
-  },
-  {
-    "result": "xl_legguard_scrap",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "scrap", 90 ] ] ]
-  },
-  {
     "result": "boots_scrap",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

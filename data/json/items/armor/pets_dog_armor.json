@@ -12,7 +12,6 @@
     "material": [ "kevlar_layered" ],
     "weight": "2150 g",
     "volume": "4500 ml",
-    "bashing": 5,
     "to_hit": -1,
     "flags": [ "IS_PET_ARMOR" ],
     "material_thickness": 2.0,
@@ -48,7 +47,8 @@
         "max_item_length": "20 cm",
         "moves": 200
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "PET_ARMOR",
@@ -61,8 +61,7 @@
     "price_postapoc": 2500,
     "material": [ "acidchitin" ],
     "weight": "5362 g",
-    "environmental_protection": 7,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "environmental_protection": 7
   },
   {
     "type": "PET_ARMOR",
@@ -130,48 +129,5 @@
     "environmental_protection": 10,
     "min_pet_vol": "15000 ml",
     "extend": { "flags": [ "NO_SALVAGE" ] }
-  },
-  {
-    "type": "PET_ARMOR",
-    "id": "superalloy_harness_dog",
-    "copy-from": "kevlar_harness",
-    "color": "light_cyan",
-    "name": { "str": "superalloy tactical dog outfit" },
-    "description": "A thin mesh interwoven with superalloy plates and pouches, for military working dogs.  Covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly dog.",
-    "price": 130000,
-    "price_postapoc": 5000,
-    "material": [ "superalloy" ],
-    "weight": "3125 g",
-    "min_pet_vol": "20000 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "80 cm",
-        "moves": 200
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "20 kg",
-        "max_item_length": "80 cm",
-        "moves": 200
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "30 cm",
-        "moves": 200
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "30 cm",
-        "moves": 200
-      }
-    ]
   }
 ]

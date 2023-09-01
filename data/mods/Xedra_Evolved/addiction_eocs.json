@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BLOOD_ADDICTION",
     "condition": {
-      "compare_int": [ { "rand": 2000 }, "<=", { "u_val": "addiction_intensity", "addiction": "blood", "mod": { "val": 2000, "step": 20 } } ]
+      "compare_num": [ { "rand": 2000 }, "<=", { "u_val": "addiction_intensity", "addiction": "blood", "mod": { "val": 2000, "step": 20 } } ]
     },
     "effect": [
       { "u_message": "You want some blood.", "type": "warning" },
@@ -15,13 +15,13 @@
             "condition": {
               "and": [
                 {
-                  "compare_int": [
+                  "compare_num": [
                     { "u_val": "vitamin", "name": "human_blood_vitamin" },
                     ">",
                     { "u_val": "addiction_intensity", "addiction": "blood", "mod": -10 }
                   ]
                 },
-                { "compare_int": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
+                { "compare_num": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
               ]
             },
             "effect": {
@@ -32,8 +32,8 @@
             "id": "EOC_BLOOD_ADDICTION_BLIND",
             "condition": {
               "and": [
-                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "blood" }, ">=", { "const": 8 } ] },
-                { "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
+                { "compare_num": [ { "u_val": "addiction_intensity", "addiction": "blood" }, ">=", { "const": 8 } ] },
+                { "compare_num": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
               ]
             },
             "effect": [
@@ -45,8 +45,8 @@
             "id": "EOC_BLOOD_ADDICTION_SHAKES",
             "condition": {
               "and": [
-                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "blood" }, ">=", { "const": 8 } ] },
-                { "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
+                { "compare_num": [ { "u_val": "addiction_intensity", "addiction": "blood" }, ">=", { "const": 8 } ] },
+                { "compare_num": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
               ]
             },
             "effect": [

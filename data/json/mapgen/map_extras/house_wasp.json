@@ -1,0 +1,209 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_house_wasp",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "ter_furn_transforms": { " ": { "transform": "remove_door" } },
+      "nested": {
+        " ": [
+          { "chunks": [ [ "null", 2 ], [ "1x1_remove_window", 1 ] ] },
+          { "chunks": [ [ "null", 7 ], [ "1x1_wall_to_paper", 1 ] ] }
+        ]
+      },
+      "place_nested": [
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] },
+        { "chunks": [ "3x3_wasp_pod", "null" ], "x": [ 1, 20 ], "y": [ 1, 20 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_monsters": [ { "monster": "GROUP_DERMATIK", "chance": 20, "x": 22, "y": 22, "density": 0.1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_wasp_pod",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "123",
+        "4 6",
+        "789"
+      ],
+      "parameters": {
+        "opening": { "type": "string", "default": { "distribution": [ "1", "2", "3", "4", "6", "7", "8", "9" ] }, "scope": "nest" }
+      },
+      "terrain": {
+        "1": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_null",
+            "2": "t_paper",
+            "3": "t_paper",
+            "4": "t_paper",
+            "6": "t_paper",
+            "7": "t_paper",
+            "8": "t_paper",
+            "9": "t_paper"
+          }
+        },
+        "2": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_null",
+            "3": "t_paper",
+            "4": "t_paper",
+            "6": "t_paper",
+            "7": "t_paper",
+            "8": "t_paper",
+            "9": "t_paper"
+          }
+        },
+        "3": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_paper",
+            "3": "t_null",
+            "4": "t_paper",
+            "6": "t_paper",
+            "7": "t_paper",
+            "8": "t_paper",
+            "9": "t_paper"
+          }
+        },
+        "4": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_paper",
+            "3": "t_paper",
+            "4": "t_null",
+            "6": "t_paper",
+            "7": "t_paper",
+            "8": "t_paper",
+            "9": "t_paper"
+          }
+        },
+        "6": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_paper",
+            "3": "t_paper",
+            "4": "t_paper",
+            "6": "t_null",
+            "7": "t_paper",
+            "8": "t_paper",
+            "9": "t_paper"
+          }
+        },
+        "7": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_paper",
+            "3": "t_paper",
+            "4": "t_paper",
+            "6": "t_paper",
+            "7": "t_null",
+            "8": "t_paper",
+            "9": "t_paper"
+          }
+        },
+        "8": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_paper",
+            "3": "t_paper",
+            "4": "t_paper",
+            "6": "t_paper",
+            "7": "t_paper",
+            "8": "t_null",
+            "9": "t_paper"
+          }
+        },
+        "9": {
+          "switch": { "param": "opening", "fallback": "0" },
+          "cases": {
+            "1": "t_paper",
+            "2": "t_paper",
+            "3": "t_paper",
+            "4": "t_paper",
+            "6": "t_paper",
+            "7": "t_paper",
+            "8": "t_paper",
+            "9": "t_null"
+          }
+        }
+      },
+      "place_monster": [ { "group": "GROUP_WASP_GUARD", "x": 1, "y": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_remove_window",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "remove_window", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_wall_to_paper",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "wall_to_paper", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "remove_door",
+    "terrain": [ { "result": "t_door_frame", "valid_flags": [ "DOOR", "BARRICADABLE_DOOR_DAMAGED", "BARRICADABLE_DOOR" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "remove_window",
+    "terrain": [ { "result": [ "t_window_frame" ], "valid_flags": [ "WINDOW" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "wall_to_paper",
+    "terrain": [ { "result": [ "t_paper" ], "valid_flags": [ "WALL" ] } ]
+  }
+]

@@ -78,18 +78,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_1" ],
+    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": "S",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "state_park_1_0",
-    "copy-from": "generic_city_building",
-    "name": "state park parking",
-    "sym": "$",
     "color": "i_green"
   },
   {
@@ -152,7 +144,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "NatureTrail_1a", "NatureTrail_1b" ],
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "nature trail",
     "sym": "S",
     "color": "i_green"
@@ -737,16 +729,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "movietheater_1_0", "movietheater_roof_1_0" ],
+    "id": "movietheater_1_0",
     "copy-from": "generic_city_building",
     "name": "movie theater entrance",
-    "sym": "M",
-    "color": "i_yellow"
+    "sym": "+",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [
       "movietheater_roof_0_0",
+      "movietheater_roof_1_0",
       "movietheater_roof_2_0",
       "movietheater_roof_0_1",
       "movietheater_roof_1_1",
@@ -756,9 +749,52 @@
       "movietheater_roof_2_2"
     ],
     "copy-from": "generic_city_building",
-    "name": "movie theater",
+    "name": "movie theater roof",
     "sym": "M",
     "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "car_theater_0_0",
+      "car_theater_1_0",
+      "car_theater_2_0",
+      "car_theater_0_1",
+      "car_theater_1_1",
+      "car_theater_2_1",
+      "car_theater_0_2",
+      "car_theater_1_2",
+      "car_theater_1_2_1",
+      "car_theater_1_2_2",
+      "car_theater_2_2",
+      "car_theater_0_0_1",
+      "car_theater_1_0_1",
+      "car_theater_2_0_1",
+      "car_theater_0_0_2",
+      "car_theater_1_0_2",
+      "car_theater_2_0_2"
+    ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "drive-in theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_theater_3_1", "car_theater_3_2", "car_theater_3_1_1", "car_theater_3_2_1", "car_theater_4_1", "car_theater_4_2" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "drive-in theater entrance",
+    "sym": "+",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "car_theater_3_0",
+    "copy-from": "generic_transportation",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",

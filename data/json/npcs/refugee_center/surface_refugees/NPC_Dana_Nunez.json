@@ -26,7 +26,13 @@
     "worn_override": "REFUGEE_Dana_worn",
     "carry_override": "REFUGEE_Dana_carried",
     "weapon_override": "REFUGEE_Dana_wield",
-    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MYOPIC" }, { "group": "Appearance_Irish" } ],
+    "traits": [
+      { "trait": "PAINRESIST" },
+      { "trait": "MYOPIC" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "group": "Appearance_Irish" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "cooking", "bonus": { "rng": [ 4, 6 ] } },
@@ -53,7 +59,7 @@
     "type": "item_group",
     "id": "REFUGEE_Dana_carried",
     "subtype": "collection",
-    "entries": [ { "item": "emer_blanket" }, { "item": "lighter" }, { "item": "bandages" } ]
+    "entries": [ { "item": "emer_blanket" }, { "item": "lighter" }, { "item": "bandages", "count": 3 } ]
   },
   {
     "type": "item_group",
@@ -503,8 +509,8 @@
     "weight": "450 g",
     "volume": "680 ml",
     "longest_side": "132 mm",
-    "bashing": 8,
-    "material": [ "glass", "wheat" ]
+    "material": [ "glass", "wheat" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "COMESTIBLE",

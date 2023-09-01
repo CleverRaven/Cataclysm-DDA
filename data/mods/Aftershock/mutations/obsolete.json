@@ -128,33 +128,11 @@
     "description": "Thick brown fur has grown to cover your entire body, providing a slight protection against attacks, and some protection from cold.",
     "valid": false,
     "types": [ "SKIN" ],
-    "changes_to": [ "MASTODON_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
     "armor": [
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 2
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "MASTODON_FUR",
-    "name": { "str": "Shaggy Fur" },
-    "points": 4,
-    "visibility": 10,
-    "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
-    "valid": false,
-    "types": [ "SKIN" ],
-    "prereqs": [ "MEDIUMFUR" ],
-    "threshreq": [ "THRESH_MASTODON" ],
-    "armor": [
-      {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "bash": 4
       }
     ]
   },
@@ -308,7 +286,7 @@
     "types": [ "HEALING" ],
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
     "prereqs": [ "HUNGER" ],
-    "healing_resting": 0.25,
+    "healing_multiplier": 0.25,
     "fatigue_modifier": 0.75,
     "fatigue_regen_modifier": 0.5,
     "metabolism_modifier": 0.4

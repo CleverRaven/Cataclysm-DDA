@@ -16,8 +16,7 @@
       { "monster": "mon_sparrow_chick", "weight": 15 },
       { "monster": "mon_goose_canadian_chick", "weight": 100 },
       { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_rattlesnake", "weight": 65 }
+      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
     ]
   },
   {
@@ -86,11 +85,6 @@
     "monsters": [ { "monster": "mon_cockatrice_chick" } ]
   },
   {
-    "name": "GROUP_EGG_SNAKE",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_rattlesnake" } ]
-  },
-  {
     "name": "GROUP_EGG_ROACH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_giant_cockroach_nymph" } ]
@@ -116,9 +110,14 @@
     "monsters": [ { "monster": "mon_ant_larva" } ]
   },
   {
+    "name": "GROUP_EGG_ANT_ACID",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_ant_acid_larva" } ]
+  },
+  {
     "name": "GROUP_EGG_CENTIPEDE",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_centipede_small" } ]
+    "monsters": [ { "monster": "mon_centipede_larva" } ]
   },
   {
     "name": "GROUP_EGG_WASP",
@@ -160,27 +159,72 @@
   {
     "name": "GROUP_EGG_LADY_BUG",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_lady_bug" } ]
-  },
-  {
-    "name": "GROUP_EGG_LADY_BUG_GIANT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_lady_bug_giant" } ]
+    "monsters": [ { "monster": "mon_lady_bug_larva" } ]
   },
   {
     "name": "GROUP_EGG_MOLE_CRICKET",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_mole_cricket" } ]
+    "monsters": [ { "monster": "mon_mole_cricket_nymph" } ]
   },
   {
     "name": "GROUP_EGG_MANTIS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_mantis_nymph" } ]
+    "monsters": [ { "monster": "mon_mantis_nymph", "pack_size": [ 1, 3 ] } ]
   },
   {
-    "name": "GROUP_EGG_FROG",
+    "name": "GROUP_EGG_FLY",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tadpole" } ]
+    "monsters": [ { "monster": "mon_fly_larva" } ]
+  },
+  {
+    "name": "GROUP_EGG_MOSQUITO",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_mosquito_larva" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPIDER_CELLAR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_cellar_giant_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPIDER_JUMPING",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_jumping_giant_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPIDER_TRAPDOOR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_trapdoor_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPIDER_WEB",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_web_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPIDER_WIDOW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_widow_giant_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPIDER_WOLF",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_wolf_giant_s" } ]
+  },
+  {
+    "name": "GROUP_EGG_WORM",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_worm_larva", "pack_size": [ 1, 3 ] } ]
+  },
+  {
+    "name": "GROUP_EGG_SLUG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_slug_larva" } ]
+  },
+  {
+    "name": "GROUP_EGG_SNAIL",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_snail_larva" } ]
   },
   {
     "name": "GROUP_EGG_GOOSE",
@@ -223,11 +267,6 @@
     "monsters": [ { "monster": "mon_grebe_chick" } ]
   },
   {
-    "name": "GROUP_EGG_TOAD",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tadpole_brown" } ]
-  },
-  {
     "name": "GROUP_EGG_WATER_BEETLE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_diving_larva" } ]
@@ -245,16 +284,12 @@
   {
     "name": "GROUP_EGG_BUTTERFLY",
     "type": "monstergroup",
-    "default": "mon_caterpillar",
-    "monsters": [
-      { "monster": "mon_caterpillar_giant", "freq": 25, "cost_multiplier": 1, "starts": "28 days" },
-      { "monster": "mon_caterpillar", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_caterpillar_butterfly" } ]
   },
   {
-    "name": "GROUP_EGG_TROUT",
+    "name": "GROUP_EGG_MOTH",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_trout" } ]
+    "monsters": [ { "monster": "mon_caterpillar_moth" } ]
   },
   {
     "name": "GROUP_EGG_BROWN_TROUT",
@@ -277,11 +312,6 @@
     "monsters": [ { "monster": "mon_fry_rainbow_trout" } ]
   },
   {
-    "name": "GROUP_EGG_STEELHEAD_TROUT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_steelhead_trout" } ]
-  },
-  {
     "name": "GROUP_EGG_SALMON",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_salmon" } ]
@@ -292,19 +322,14 @@
     "monsters": [ { "monster": "mon_fry_kokanee_salmon" } ]
   },
   {
-    "name": "GROUP_EGG_CHINOOK_SALMON",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_chinook_salmon" } ]
-  },
-  {
-    "name": "GROUP_EGG_COHO_SALMON",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_coho_salmon" } ]
-  },
-  {
     "name": "GROUP_EGG_WHITEFISH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_whitefish" } ]
+  },
+  {
+    "name": "GROUP_EGG_WHITEFISH_ROUND",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_whitefish_round" } ]
   },
   {
     "name": "GROUP_EGG_LBASS",
@@ -320,11 +345,6 @@
     "name": "GROUP_EGG_PBASS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_pbass" } ]
-  },
-  {
-    "name": "GROUP_EGG_WHITE_BASS",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_white_bass" } ]
   },
   {
     "name": "GROUP_EGG_PERCH",
@@ -362,16 +382,6 @@
     "monsters": [ { "monster": "mon_fry_green_sunfish" } ]
   },
   {
-    "name": "GROUP_EGG_LONGEAR_SUNFISH",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_longear_sunfish" } ]
-  },
-  {
-    "name": "GROUP_EGG_REDEAR_SUNFISH",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_fry_redear_sunfish" } ]
-  },
-  {
     "name": "GROUP_EGG_ROCK_BASS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_rock_bass" } ]
@@ -390,6 +400,11 @@
     "name": "GROUP_EGG_BULLHEAD",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_bullhead" } ]
+  },
+  {
+    "name": "GROUP_EGG_BULLHEAD_YELLOW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_bullhead_yellow" } ]
   },
   {
     "name": "GROUP_EGG_CHANNEL_CATFISH",
@@ -412,6 +427,11 @@
     "monsters": [ { "monster": "mon_fry_pickerel" } ]
   },
   {
+    "name": "GROUP_EGG_PICKEREL_AMERICAN",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pickerel_american" } ]
+  },
+  {
     "name": "GROUP_EGG_MUSKELLUNGE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_muskellunge" } ]
@@ -432,13 +452,98 @@
     "monsters": [ { "monster": "mon_fry_grass_carp" } ]
   },
   {
+    "name": "GROUP_EGG_GOLDFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_goldfish" } ]
+  },
+  {
     "name": "GROUP_EGG_BOWFIN",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_bowfin" } ]
   },
   {
+    "name": "GROUP_EGG_GAR_LONGNOSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_gar_longnose" } ]
+  },
+  {
+    "name": "GROUP_EGG_BURBOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_burbot" } ]
+  },
+  {
+    "name": "GROUP_EGG_STURGEON_LAKE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_sturgeon_lake" } ]
+  },
+  {
+    "name": "GROUP_EGG_STURGEON_SHORTNOSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_sturgeon_shortnose" } ]
+  },
+  {
     "name": "GROUP_EGG_FALLFISH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_fallfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_LEO_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_leo_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PATTERN_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pattern_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_BULLFROG_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_bullfrog_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_STRANGE_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_strange_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_FOWLER_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fowler_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_FOUL_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_foul_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_FREEDOM_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_freedom_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_ODD_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_odd_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PEEPER_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_peeper_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_VOCAL_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_vocal_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_GRAY_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gray_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_SHIFT_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_shift_tadpole" } ]
   }
 ]

@@ -443,7 +443,7 @@
     "followup": "MISSION_RANCH_FOREMAN_7",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Our current assessment for survivability has increased significantly thanks to your efforts.  The next priority issue is securing a cleaner water source.  Drinking from the pond on the back end of the ranch has led to an outbreak of dysentery.  As quickly as possible, we need to improve the sanitary conditions in the camp.  To do so, the first step is to dig a well and construct stone fireplaces in the barn for the migrants to boil water.  We are going to need at least 75 rocks from you if we hope to accomplish the task before we all get sick.  After we have them installed, you will have free access to them, guaranteed.",
+      "offer": "Our current assessment for survivability has increased significantly thanks to your efforts.  The next priority issue is securing a cleaner water source.  Drinking from the pond on the back end of the ranch has led to an outbreak of dysentery.  We need to improve the sanitary conditions in the camp as quickly as possible.  To do so, the first step is to dig a well and construct stone fireplaces in the barn for the migrants to boil water.  We are going to need at least 75 rocks from you if we hope to accomplish the task before we all get sick.  After we have them installed, you will have free access to them, guaranteed.",
       "accepted": "If you take a shovel to a pile of rubble, you should be able to pull out structural grade rocks.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Mining would always be an option if you had the resources.",

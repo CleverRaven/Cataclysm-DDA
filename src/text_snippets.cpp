@@ -18,7 +18,7 @@ void snippet_library::load_snippet( const JsonObject &jsobj )
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::load_snippet called after snippet_library::migrate_hash_to_id." );
     }
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     const std::string category = jsobj.get_string( "category" );
     if( jsobj.has_array( "text" ) ) {
         add_snippets_from_json( category, jsobj.get_array( "text" ) );
@@ -32,7 +32,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::add_snippets_from_json called after snippet_library::migrate_hash_to_id." );
     }
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     for( const JsonValue entry : jarr ) {
         if( entry.test_string() ) {
             translation text;
@@ -52,7 +52,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::add_snippet_from_json called after snippet_library::migrate_hash_to_id." );
     }
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     translation text;
     mandatory( jo, false, "text", text );
     if( jo.has_member( "id" ) ) {
@@ -67,7 +67,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         snippets_by_category[category].ids.emplace_back( id );
         snippets_by_id[id] = text;
         if( jo.has_member( "effect_on_examine" ) ) {
-            EOC_by_id[id] = talk_effect_t<dialogue>( jo, "effect_on_examine" );
+            EOC_by_id[id] = talk_effect_t( jo, "effect_on_examine" );
         }
         translation name;
         optional( jo, false, "name", name );
@@ -79,7 +79,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
 
 void snippet_library::clear_snippets()
 {
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     snippets_by_category.clear();
     snippets_by_id.clear();
 }
@@ -89,29 +89,29 @@ bool snippet_library::has_category( const std::string &category ) const
     return snippets_by_category.find( category ) != snippets_by_category.end();
 }
 
-cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id &id ) const
+std::optional<translation> snippet_library::get_snippet_by_id( const snippet_id &id ) const
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return it->second;
 }
 
-cata::optional<talk_effect_t<dialogue>> snippet_library::get_EOC_by_id( const snippet_id &id ) const
+std::optional<talk_effect_t> snippet_library::get_EOC_by_id( const snippet_id &id ) const
 {
     const auto it = EOC_by_id.find( id );
     if( it == EOC_by_id.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return it->second;
 }
 
-cata::optional<translation> snippet_library::get_name_by_id( const snippet_id &id ) const
+std::optional<translation> snippet_library::get_name_by_id( const snippet_id &id ) const
 {
     const auto it = name_by_id.find( id );
     if( it == name_by_id.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return it->second;
 }
@@ -143,7 +143,7 @@ std::string snippet_library::expand( const std::string &str ) const
     }
 
     std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
-    cata::optional<translation> replacement = random_from_category( symbol );
+    std::optional<translation> replacement = random_from_category( symbol );
     if( !replacement.has_value() ) {
         return str.substr( 0, tag_end + 1 )
                + expand( str.substr( tag_end + 1 ) );
@@ -168,20 +168,20 @@ snippet_id snippet_library::random_id_from_category( const std::string &cat ) co
     return random_entry( it->second.ids );
 }
 
-cata::optional<translation> snippet_library::random_from_category( const std::string &cat ) const
+std::optional<translation> snippet_library::random_from_category( const std::string &cat ) const
 {
     return random_from_category( cat, rng_bits() );
 }
 
-cata::optional<translation> snippet_library::random_from_category( const std::string &cat,
+std::optional<translation> snippet_library::random_from_category( const std::string &cat,
         unsigned int seed ) const
 {
     const auto it = snippets_by_category.find( cat );
     if( it == snippets_by_category.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( it->second.ids.empty() && it->second.no_id.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const size_t count = it->second.ids.size() + it->second.no_id.size();
     // uniform_int_distribution always returns zero when the random engine is
@@ -204,7 +204,7 @@ snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
         for( const auto &id_and_text : snippets_by_id ) {
-            cata::optional<int> hash = id_and_text.second.legacy_hash();
+            std::optional<int> hash = id_and_text.second.legacy_hash();
             if( hash ) {
                 hash_to_id_migration->emplace( hash.value(), id_and_text.first );
             }

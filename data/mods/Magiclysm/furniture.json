@@ -109,7 +109,7 @@
       "items": [
         { "item": "pot_copper", "count": 1 },
         { "item": "pipe_glass", "count": [ 1, 4 ] },
-        { "item": "glass_tube_small", "charges": [ 5, 10 ] },
+        { "item": "glass_tube_small", "count": [ 5, 10 ] },
         { "item": "stopcock", "count": [ 1, 5 ] },
         { "item": "flask_glass", "count": [ 1, 3 ] }
       ]
@@ -143,7 +143,7 @@
       "items": [
         { "item": "clockworks", "count": [ 10, 30 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
-        { "item": "pipe", "charges": 9 },
+        { "item": "pipe", "count": 9 },
         { "item": "wire", "count": [ 10, 20 ] },
         { "item": "hinge", "count": [ 1, 3 ] }
       ]
@@ -249,6 +249,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_demon_forge_forge_lord",
+    "name": "demon forge",
+    "description": "This is a forge made of the chitin of a huge, red spider that has a penchant for flames.  Custom made to withstand the heat from alumentum, this forge can resmelt the magical metals into their workable, ingot form.",
+    "symbol": "^",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "demon_forge",
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 80,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_everburning_candelabra",
     "name": "candelabra of everlasting candles",
     "description": "A candelabra, strangely the candles never seem to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
@@ -269,7 +290,7 @@
     "type": "furniture",
     "id": "f_everfrost_crystal",
     "name": "everfrost crystal",
-    "description": "This massive mana crystal juts from the ground as if it had sprouted up like a weed.  It pulses with a angry white light, occasionally flickering brighter.",
+    "description": "This massive mana crystal juts from the ground as if it had sprouted up like a weed.  It pulses with an angry white light, occasionally flickering brighter.",
     "symbol": "]",
     "color": "light_blue",
     "move_cost_mod": -1,
@@ -284,7 +305,25 @@
       "str_max": 35,
       "sound": "glass shattering!",
       "sound_fail": "mana crackling!",
-      "items": [ { "item": "mana_dust", "charges": [ 0, 4 ] } ]
+      "items": [ { "item": "mana_dust", "count": [ 0, 4 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_earthshaper",
+    "copy-from": "f_boulder_medium",
+    "looks_like": "f_slab",
+    "name": "flat boulder",
+    "description": "Smooth, flat boulder.  You can use it both as a table and an anvil.  It responds to your force, and you can easily move it.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 0,
+    "crafting_pseudo_item": "boulder_anvil",
+    "examine_action": "workbench",
+    "flags": [ "TRANSPARENT", "MINEABLE", "FLAT_SURF", "MOUNTABLE", "PLACE_ITEM", "SHORT" ],
+    "workbench": { "multiplier": 1.1, "mass": 300000, "volume": "100L" },
+    "bash": { "str_min": 0, "str_max": 0, "sound": "The boulder recedes into the ground.", "sound_fail": "thump." }
   }
 ]

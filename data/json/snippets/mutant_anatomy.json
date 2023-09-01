@@ -402,7 +402,7 @@
     "text": [
       "The meat inside gives off a horrifying stench, and seems to be covered in thin damp hair, like a newborn animal gone horribly wrong",
       "Small bundles of fiber break loose as you work, splitting open to reveal twisted, half-formed copies of the creature itself",
-      "It is difficult to work, as the spongey tissue tears apart under your tools",
+      "It is difficult to work as the spongey tissue tears apart under your tools",
       "Despite its outward appearance, both the organs and the endolymph of this creature is pristinely white",
       "Some of your cuts meet nerves, and the already stiff corpse shudders with movement each time",
       "You follow what you think are superfluous veins into the deep, finding a gorged, tick-like creature at their convergence",
@@ -635,6 +635,71 @@
   },
   {
     "type": "snippet",
+    "category": "<zombie_amalgamation_outer>",
+    "text": [
+      "The skin comes off with a sickening snap, and reveals a billion tiny black tendrils grasping after it",
+      "What you thought were black veins under the skin are actually some sort of elastic net, snapping apart with a loud \"TWANG\" when your tool cuts them",
+      "This one's skin consists of dozens of layers, each of slightly different color, sandwiched between a gelatinous mass",
+      "With every cut the creature shifts slightly, splayed limbs inching closer to how it looked when it was…alive?  Whatever the right word is you hope it stopped, if only for now",
+      "Whatever this is, it doesn't look dead so much as staying still.  You still feel like it's looking at you, even as you cut it apart"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_inner>",
+    "text": [
+      "The white flesh keeps quivering, grasping and pulling your tool occasionally",
+      "There are no strange smells, no random organs strewn about its insides.  Somehow that is more disconcerting than the mutated animals you took apart until now",
+      "Even though it's made of something like flesh, you can't help but feel like you're disassembling an intricate machine",
+      "Its parts don't want to stay apart, slowly moving to close your cuts.  You resign yourself to removing every chunk and placing it on the ground beside the corpse, where they finally grow still",
+      "Every so often your tool hits something bone-hard in the deep, but when you cut there the second time the flesh parts smoothly",
+      ""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_acid_outer>",
+    "text": [
+      "<zombie_amalgamation_outer>",
+      "The caustic buboes connect to a web of sickly green veins running down the creature's limbs.  You take care not to nick them",
+      "You slip and tear into an acid gland and can't help but pause and watch as the substance inside dissolves a good chunk of flesh before growing inert",
+      "Its skin feels less flexible than usual, and coated in a greasy film on the outside",
+      "A new, fist-sized green bubo emerges from your cut before your eyes, as if it was waiting just below the surface.  You'll have to be careful"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_acid_inner>",
+    "text": [
+      "<zombie_amalgamation_inner>",
+      "No organs beyond various sizes of the acid glands in neat rows, as if they were replacement parts ready to deploy",
+      "Your tool takes on a rainbow sheen from working in the creature's innards, and seems to give off a thin smoke.  You might want to hurry",
+      "The green veins stand out before the stark white background and there is a hair-thin space surrounding each, as if the flesh was hesitant to touch whatever is carried inside"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_electric_outer>",
+    "text": [
+      "<zombie_amalgamation_outer>",
+      "Sparks still dance around its limbs, and you're hesitant to start cutting",
+      "There is no movement from the body, but you can still hear a faint crackling from inside",
+      "Sparks dance between your tool and its skin, but disappear without any harm",
+      "The skin is filled with tiny black crystals embedded in a dizzying fractal pattern emanating from the central glowing organ"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_electric_inner>",
+    "text": [
+      "<zombie_amalgamation_inner>",
+      "Your smell ozone and burned hair as you hack the crackling corpse to pieces",
+      "Most of its insides are taken up by the warped organ still humming with electricity.  Cutting into it proves harder than expected, not the least because of the sparks",
+      "Finger-thick strands connect the glowing organ to the base of a limb, and the normally white flesh is blackened along its path"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<arachnid_harvest>",
     "text": [
       "<bug_harvest_general_chitin>.",
@@ -726,6 +791,33 @@
       "<bug_harvest_acid_chitin>.",
       "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.",
       "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.  <bug_harvest_acid_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_harvest>",
+    "text": [
+      "<zombie_amalgamation_outer>.",
+      "<zombie_amalgamation_inner>.",
+      "<zombie_amalgamation_outer>.  <zombie_amalgamation_inner>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_harvest_acid>",
+    "text": [
+      "<zombie_amalgamation_acid_outer>.",
+      "<zombie_amalgamation_acid_inner>.",
+      "<zombie_amalgamation_acid_outer>.  <zombie_amalgamation_acid_inner>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_amalgamation_harvest_electric>",
+    "text": [
+      "<zombie_amalgamation_electric_outer>.",
+      "<zombie_amalgamation_electric_inner>.",
+      "<zombie_amalgamation_electric_outer>.  <zombie_amalgamation_electric_inner>."
     ]
   }
 ]

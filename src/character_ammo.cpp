@@ -46,9 +46,9 @@ int Character::ammo_count_for( const item_location &gun ) const
         ret = std::min( ret, total_ammo / required );
     }
 
-    units::energy ups_drain = gun->get_gun_ups_drain();
-    if( ups_drain > 0_kJ ) {
-        ret = std::min( ret, static_cast<int>( available_ups() / ups_drain ) );
+    units::energy energy_drain = gun->get_gun_energy_drain();
+    if( energy_drain > 0_kJ ) {
+        ret = std::min( ret, static_cast<int>( gun->energy_remaining( this ) / energy_drain ) );
     }
 
     return ret;
@@ -61,7 +61,7 @@ bool Character::can_reload( const item &it, const item *ammo ) const
     }
 
     if( it.is_ammo_belt() ) {
-        const cata::optional<itype_id> &linkage = it.type->magazine->linkage;
+        const std::optional<itype_id> &linkage = it.type->magazine->linkage;
         if( linkage && !has_charges( *linkage, 1 ) ) {
             return false;
         }
@@ -98,8 +98,8 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
-            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( ammo->typeId() ) &&
-                       ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
+            } else if( ( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) &&
+                       p->allows_speedloader( ammo->typeId() ) && ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
                 // Again, this is "are they compatible", later check handles "can we do it now".
                 ammo_match_found = p->can_reload_with( *ammo.get_item(), false );
             }
@@ -112,7 +112,7 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
 }
 
 item::reload_option Character::select_ammo( const item_location &base,
-        std::vector<item::reload_option> opts, const std::string name_override ) const
+        std::vector<item::reload_option> opts, const std::string &name_override ) const
 {
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
@@ -203,7 +203,6 @@ item::reload_option Character::select_ammo( const item_location &base,
     w = pad( destination, utf8_width( _( "| Destination " ) ) - 3, 6 );
     menu.text += _( "| Destination " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
-
 
     menu.text += _( "| Amount  " );
     menu.text += _( "| Moves   " );
@@ -444,15 +443,9 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         qty = 1;
     }
 
-    // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
-    }
     // No base cost for handling ammo - that's already included in obtain cost
     // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
+    int mv = item_handling_cost( ammo, true, 0, qty );
 
     if( ammo.has_flag( flag_MAG_BULKY ) ) {
         mv *= 1.5; // bulky magazines take longer to insert

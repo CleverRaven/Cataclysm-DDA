@@ -1,0 +1,236 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_smithy_1_construction",
+    "description": "We can use a smithy.  Let's start by building a spot to protect the workers from the rain.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_smithy_1_construction",
+    "blueprint_name": "smithy wall",
+    "blueprint_parameter_names": {
+      "fbmw_2_construction_palette": {
+        "fbmw_2_concrete_palette": "Concrete walls and roof",
+        "fbmw_2_log_palette": "Log walls and wooden roof",
+        "fbmw_2_metal_palette": "Metal walls and roof",
+        "fbmw_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmw_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmw_2_rock_palette": "Rock walls and wooden roof",
+        "fbmw_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmw_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmw_2" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_smithy_1" }, { "id": "blacksmith" }, { "id": "fbmw_2_blacksmith_recipes_0" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_smithy_1" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_smithy_2_construction",
+    "description": "Let's build a roof with pillars to protect future charcoal kilns from the rain.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_smithy_2_construction",
+    "blueprint_name": "charcoal kiln protection",
+    "blueprint_parameter_names": {
+      "fbmw_2_construction_palette": {
+        "fbmw_2_concrete_palette": "Concrete walls and roof",
+        "fbmw_2_log_palette": "Log walls and wooden roof",
+        "fbmw_2_metal_palette": "Metal walls and roof",
+        "fbmw_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmw_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmw_2_rock_palette": "Rock walls and wooden roof",
+        "fbmw_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmw_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmw_2_smithy_1" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_smithy_2" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_smithy_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_smithy_3_construction",
+    "description": "Let's build the final section of the smithy.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_smithy_3_construction",
+    "blueprint_name": "final smithy section",
+    "blueprint_parameter_names": {
+      "fbmw_2_construction_palette": {
+        "fbmw_2_concrete_palette": "Concrete walls and roof",
+        "fbmw_2_log_palette": "Log walls and wooden roof",
+        "fbmw_2_metal_palette": "Metal walls and roof",
+        "fbmw_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmw_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmw_2_rock_palette": "Rock walls and wooden roof",
+        "fbmw_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmw_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmw_2_smithy_2" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_smithy_3" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_smithy_3" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_pottery_construction",
+    "description": "Let's build a pottery section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_pottery_construction",
+    "blueprint_name": "pottery section",
+    "blueprint_parameter_names": {
+      "fbmw_2_construction_palette": {
+        "fbmw_2_concrete_palette": "Concrete walls and roof",
+        "fbmw_2_log_palette": "Log walls and wooden roof",
+        "fbmw_2_metal_palette": "Metal walls and roof",
+        "fbmw_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmw_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmw_2_rock_palette": "Rock walls and wooden roof",
+        "fbmw_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmw_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmw_2" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_pottery" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_pottery" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_glassblower_construction",
+    "description": "Let's start building a glassblower's cottage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_glassblower_construction",
+    "blueprint_name": "glassblower's cottage",
+    "blueprint_parameter_names": {
+      "fbmw_2_construction_palette": {
+        "fbmw_2_concrete_palette": "Concrete walls and roof",
+        "fbmw_2_log_palette": "Log walls and wooden roof",
+        "fbmw_2_metal_palette": "Metal walls and roof",
+        "fbmw_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmw_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmw_2_rock_palette": "Rock walls and wooden roof",
+        "fbmw_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmw_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmw_2" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_glassblower" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_glassblower" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmw_2_tanner_construction",
+    "description": "Let's start building a tannery cottage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_2_tanner_construction",
+    "blueprint_name": "tannery cottage",
+    "blueprint_parameter_names": {
+      "fbmw_2_construction_palette": {
+        "fbmw_2_concrete_palette": "Concrete walls and roof",
+        "fbmw_2_log_palette": "Log walls and wooden roof",
+        "fbmw_2_metal_palette": "Metal walls and roof",
+        "fbmw_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmw_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmw_2_rock_palette": "Rock walls and wooden roof",
+        "fbmw_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmw_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmw_2" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_tanner" } ],
+    "blueprint_excludes": [ { "id": "fbmw_2_tanner" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]

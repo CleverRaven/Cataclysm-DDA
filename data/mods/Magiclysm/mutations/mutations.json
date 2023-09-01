@@ -13,13 +13,13 @@
     "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
     "id": "POISRESIST",
     "copy-from": "POISRESIST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -31,7 +31,7 @@
     "type": "mutation",
     "id": "BADTEMPER",
     "copy-from": "BADTEMPER",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -43,7 +43,7 @@
     "type": "mutation",
     "id": "CHEMIMBALANCE",
     "copy-from": "CHEMIMBALANCE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -56,19 +56,19 @@
     "id": "HOARDER",
     "copy-from": "HOARDER",
     "valid": true,
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK", "SPECIES_DWARF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "MOODSWINGS",
     "copy-from": "MOODSWINGS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "LIZ_EYE",
     "copy-from": "LIZ_EYE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -80,31 +80,40 @@
     "type": "mutation",
     "id": "FASTHEALER",
     "copy-from": "FASTHEALER",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "REGEN_LIZ",
     "copy-from": "REGEN_LIZ",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
+    }
   },
   {
     "type": "mutation",
     "id": "MEMBRANE",
     "copy-from": "MEMBRANE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "id": "SKIN_PEELING",
+    "copy-from": "SKIN_PEELING",
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SPARSE_SCALES",
+    "copy-from": "SPARSE_SCALES",
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "SCALES",
     "copy-from": "SCALES",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -169,7 +178,7 @@
     "type": "mutation",
     "id": "DRAGON_FEET",
     "name": { "str": "Dragon Legs" },
-    "points": -1,
+    "points": 0,
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
@@ -182,8 +191,8 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "attacks": {
-      "attack_text_u": "You slash %s with your clawed feet",
-      "attack_text_npc": "%1$s slashes %2$s with their clawed feet",
+      "attack_text_u": "You slash %s with your clawed feet!",
+      "attack_text_npc": "%1$s slashes %2$s with their clawed feet!",
       "chance": 20,
       "base_damage": { "damage_type": "cut", "amount": 20 },
       "strength_damage": { "damage_type": "cut", "amount": 0.25 }
@@ -195,13 +204,13 @@
     "type": "mutation",
     "id": "PAINREC1",
     "copy-from": "PAINREC1",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "PAINREC2",
     "copy-from": "PAINREC2",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -220,12 +229,14 @@
     "mixed_effect": true,
     "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
     "description": "You have grown noticeably taller, broader, and menacing.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance), and you notice people are starting to treat you differently.",
+    "types": [ "SIZE" ],
     "prereqs": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
+    "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 10 ] ]
   },
   {
@@ -236,6 +247,7 @@
     "points": 2,
     "visibility": 1,
     "description": "You carry your rugged body with the dignity you deserve, but are all the more menacing for it.  Strength +2.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE_DRAGON" ],
     "prereqs2": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -244,6 +256,7 @@
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
+    "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
@@ -251,11 +264,12 @@
     "id": "HUGE_DRAGON",
     "flags": [ "HUGE" ],
     "name": { "str": "Freakish Draconic Maturity" },
-    "points": -2,
+    "points": 0,
     "visibility": 4,
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE_DRAGON", "LARGE_OK_DRAGON" ],
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -267,6 +281,7 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
+    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 30 ] ]
   },
   {
@@ -276,6 +291,7 @@
     "points": 4,
     "visibility": 1,
     "description": "Your muscles are enhanced by some growing innate magic.  You are slightly stronger.  Strength + 1",
+    "types": [ "STR" ],
     "changes_to": [ "DRAGON_STR2" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 1 }
@@ -287,6 +303,7 @@
     "points": 4,
     "visibility": 1,
     "description": "The connection to your inner magic is growing and your muscles are stronger, but you're a little more clumsy.  Strength + 3, Dexterity - 1",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR" ],
     "changes_to": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
@@ -299,6 +316,7 @@
     "points": 4,
     "visibility": 1,
     "description": "The magic within you courses through your muscles, greatly empowering them.  This costs you valuable flexibility and coordination, however.  Strength + 5, Dexterity - 2",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR2" ],
     "changes_to": [ "DRAGON_STR4" ],
     "category": [ "DRAGON_BLACK" ],
@@ -312,6 +330,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "Your internal magic has filled you with unimaginable strength, but you can't move as freely as your form once could.  This is no problem.  Strength + 8, Dexterity - 3",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -327,6 +346,7 @@
     "ugliness": 3,
     "mixed_effect": true,
     "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
+    "types": [ "SIZE" ],
     "prereqs": [ "HUGE_DRAGON" ],
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -336,19 +356,24 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
+    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 40 ] ]
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "DRAGON_BLACK" ], "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ]
+    }
   },
   {
     "type": "mutation",
     "id": "INT_UP",
     "copy-from": "INT_UP",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -372,13 +397,13 @@
     "type": "mutation",
     "id": "SLIT_NOSTRILS",
     "copy-from": "SLIT_NOSTRILS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "HEADBUMPS",
     "copy-from": "HEADBUMPS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -402,8 +427,8 @@
     "restricts_gear": [ "head" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You headbutt %s with your draconic horns",
-      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns",
+      "attack_text_u": "You headbutt %s with your draconic horns!",
+      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 16 }
     }
@@ -412,13 +437,13 @@
     "type": "mutation",
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_RAVENFOLK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -427,15 +452,15 @@
     "points": 1,
     "visibility": 9,
     "ugliness": 4,
-    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw your off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
+    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw you off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "dodge_modifier": -3,
     "attacks": {
-      "attack_text_u": "You bash %s with your powerful wings",
-      "attack_text_npc": "%1$s bashes %2$s with their powerful wings",
+      "attack_text_u": "You bash %s with your powerful wings!",
+      "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 20 },
       "strength_damage": { "damage_type": "bash", "amount": 0.5 }
@@ -447,20 +472,20 @@
     "type": "mutation",
     "id": "WEAKSTOMACH",
     "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "NAUSEA",
     "copy-from": "NAUSEA",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "OVERLY_ACID_GUT" ]
   },
   {
     "type": "mutation",
     "id": "VOMITOUS",
     "copy-from": "VOMITOUS",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "DRAGON_BREATH_BLACK" ]
   },
   {
@@ -490,7 +515,7 @@
     "type": "mutation",
     "id": "THIRST",
     "copy-from": "THIRST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -548,7 +573,7 @@
     "type": "mutation",
     "id": "HISS",
     "copy-from": "HISS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -582,7 +607,7 @@
     "type": "mutation",
     "id": "MUZZLE_DRAGON",
     "name": { "str": "Scaled Mouth" },
-    "points": -3,
+    "points": 0,
     "visibility": 6,
     "ugliness": 6,
     "mixed_effect": true,
@@ -594,8 +619,8 @@
     "social_modifiers": { "intimidate": 10 },
     "types": [ "MUZZLE" ],
     "attacks": {
-      "attack_text_u": "You bite a chunk out of %s",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s",
+      "attack_text_u": "You bite a chunk out of %s!",
+      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "stab", "amount": 15 },
@@ -606,7 +631,7 @@
     "type": "mutation",
     "id": "DRAGON_MAW_BLACK",
     "name": { "str": "Black Dragon Maw" },
-    "points": -3,
+    "points": 0,
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
@@ -618,8 +643,8 @@
     "types": [ "MUZZLE" ],
     "restricts_gear": [ "mouth" ],
     "attacks": {
-      "attack_text_u": "You bite a chunk out of %s",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s",
+      "attack_text_u": "You bite a chunk out of %s!",
+      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 25 },
@@ -652,12 +677,12 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You whap %s with your tail",
-      "attack_text_npc": "%1$s whaps %2$s with their tail",
+      "attack_text_u": "You whap %s with your tail!",
+      "attack_text_npc": "%1$s whaps %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 10 }
     }
@@ -673,12 +698,12 @@
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You smash %s with your tail",
-      "attack_text_npc": "%1$s smashes %2$s with their tail",
+      "attack_text_u": "You smash %s with your tail!",
+      "attack_text_npc": "%1$s smashes %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 15 },
       "strength_damage": { "damage_type": "bash", "amount": 0.25 }
@@ -728,52 +753,71 @@
     "spells_learned": [ [ "acid_claw", 1 ] ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
-    "//": "Works only once, and give you a SOUL_PRESSURE_OFF mutation. Dont know how to optimise it, so left it as it is.",
-    "recurrence": [ "1 s", "1 s" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "SOULFIRE" },
-        {
-          "not": { "u_has_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
-    "effect": [
-      { "u_add_trait": "SOUL_PRESSURE_OFF" },
-      { "u_add_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-    ]
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
-    "id": "SOUL_PRESSURE_OFF",
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "Soul Pressure" },
-    "points": 0,
-    "active": true,
-    "description": "Your presence is so dangerous you can burn living creatures around you.  You suppress it now.",
-    "transform": {
-      "target": "SOUL_PRESSURE_ON",
-      "msg_transform": "Living creatures around you start to burn!",
-      "active": true,
-      "moves": 10
+    "id": "PRED1",
+    "copy-from": "PRED1",
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
     }
   },
   {
     "type": "mutation",
-    "id": "SOUL_PRESSURE_ON",
-    "starting_trait": false,
+    "id": "PRED2",
+    "copy-from": "PRED2",
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED3_DRAGON",
+    "name": { "str": "Draconic Predator" },
+    "points": 4,
+    "description": "You have become something more than human.  Something better - and far, far worse.  Combat skills are easy to learn and maintain, and unlike lesser predators, your mental faculties don't suffer at all.",
+    "social_modifiers": { "intimidate": 5 },
     "purifiable": false,
-    "valid": false,
-    "active": true,
-    "name": { "str": "Soul Pressure (on)" },
-    "points": -1,
-    "description": "Your presence is so dangerous you can burn living creatures around you.",
-    "enchantments": [ "SOULFIRE" ],
-    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
+    "types": [ "PREDATION" ],
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED2" ],
+    "leads_to": [ "SAPIOVORE" ],
+    "changes_to": [ "PRED4_DRAGON" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "cancels": [ "PACIFIST" ],
+    "category": [ "DRAGON_BLACK" ],
+    "flags": [ "PRED3" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRED4_DRAGON",
+    "name": { "str": "Draconic Apex Predator" },
+    "points": 5,
+    "description": "Your mind and brain have fully adapted to your new place at the top of the magical food chain.  You can effortlessly master and maintain combat skills, and your malevolent intellect only grows.",
+    "social_modifiers": { "intimidate": 6 },
+    "purifiable": false,
+    "types": [ "PREDATION" ],
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED3_DRAGON" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "int_mod": 1 },
+    "flags": [ "PRED4" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SAPIOVORE",
+    "copy-from": "SAPIOVORE",
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ],
+      "prereqs2": [ "PRED3_DRAGON", "PRED4_DRAGON" ]
+    }
   }
 ]

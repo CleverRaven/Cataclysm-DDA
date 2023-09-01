@@ -67,6 +67,17 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_READ",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reading",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MOP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -147,6 +158,17 @@
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping logs",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
+    "id": "ACT_MULTIPLE_CRAFT",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "crafting",
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
@@ -610,6 +632,7 @@
     "verb": "aiming",
     "suspendable": false,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst", "hostile_spotted_near", "hostile_spotted_far" ],
     "no_resume": true
   },
   {
@@ -902,6 +925,16 @@
     "no_resume": true
   },
   {
+    "id": "ACT_INVOKE_ITEM",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "using item",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -919,6 +952,7 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -939,6 +973,7 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -979,6 +1014,7 @@
     "verb": "drinking",
     "suspendable": false,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -988,6 +1024,7 @@
     "verb": "using drugs",
     "suspendable": false,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -1008,6 +1045,16 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DATA_HANDLING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "downloading data",
+    "suspendable": false,
+    "auto_needs": true,
+    "no_resume": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_MIGRATION_CANCEL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -1021,6 +1068,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "based_on": "time"
   },
   {
@@ -1089,6 +1137,13 @@
     "no_resume": true,
     "refuel_fires": false,
     "auto_needs": false
+  },
+  {
+    "id": "ACT_REEL_CABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reeling cable",
+    "based_on": "speed"
   },
   {
     "id": "ACT_GENERIC_EOC",

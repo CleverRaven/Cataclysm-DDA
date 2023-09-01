@@ -1,7 +1,20 @@
 [
   {
     "type": "palette",
+    "id": "fm_corn",
+    "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
+    "item": { ":": { "item": "cattlefodder", "repeat": [ 1, 20 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "fm_wheat",
+    "sealed_item": { "#": { "item": { "item": "seed_wheat" }, "furniture": "f_plant_seedling", "chance": 70 } },
+    "item": { ":": { "item": "cattlefodder", "repeat": [ 1, 20 ] } }
+  },
+  {
+    "type": "palette",
     "id": "farm_lots",
+    "palettes": [ { "distribution": [ [ "fm_corn", 10 ], [ "fm_wheat", 2 ] ] } ],
     "terrain": {
       ",": "t_dirtfloor",
       ":": "t_metal_floor",
@@ -9,15 +22,10 @@
       "%": "t_fence_wire",
       "+": "t_door_c",
       "|": [ [ "t_wall_wood", 500 ], [ "t_wall_wood_chipped", 4 ], [ "t_wall_wood_broken", 1 ] ],
-      " ": [
-        [ "t_region_groundcover", 380 ],
-        [ "t_region_groundcover_barren", 70 ],
-        [ "t_region_shrub", 2 ],
-        [ "t_dirtmound", 2 ]
-      ],
+      " ": [ [ "t_region_soil", 25 ], [ "t_region_groundcover", 3 ], [ "t_dirtmound", 2 ] ],
       "i": "t_region_groundcover",
       ".": "t_null",
-      "/": [ [ "t_region_groundcover_barren", 225 ], [ "t_region_groundcover", 45 ] ],
+      "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ],
       "5": "t_barndoor",
       "6": "t_palisade_pulley",
       "T": [ [ "t_region_groundcover_barren", 20 ], [ "t_region_tree_shade", 30 ] ],
@@ -45,17 +53,7 @@
       "t": "t_region_groundcover_barren",
       "B": "t_region_groundcover_barren"
     },
-    "furniture": {
-      "r": "f_rack",
-      "t": "f_table",
-      "B": "f_bench",
-      "x": "f_crate_c",
-      "@": "f_hay",
-      " ": [ [ "f_null", 198 ], [ "f_hay", 2 ] ],
-      "/": "f_null"
-    },
-    "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
-    "item": { ":": { "item": "corn", "repeat": [ 1, 20 ] } }
+    "furniture": { "r": "f_rack", "t": "f_table", "B": "f_bench", "x": "f_crate_c", "@": "f_hay", "/": "f_null" }
   },
   {
     "type": "palette",

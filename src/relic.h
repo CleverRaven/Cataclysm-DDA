@@ -94,6 +94,7 @@ class relic_procgen_data
             int max_attributes = INT_MAX;
 
             bool was_loaded = false;
+            bool resonant = false;
             void load( const JsonObject &jo );
             void deserialize( const JsonObject &jo );
         };
@@ -133,7 +134,7 @@ class relic_procgen_data
         static const std::vector<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & = "" );
+        void load( const JsonObject &jo, std::string_view = {} );
         void deserialize( const JsonObject &jobj );
 };
 
@@ -148,6 +149,8 @@ enum class relic_recharge_type : int {
     NONE,
     PERIODIC,
     LUNAR,
+    FULL_MOON,
+    NEW_MOON,
     SOLAR_SUNNY,
     SOLAR_CLOUDY,
     NUM
@@ -209,6 +212,9 @@ class relic
 
         // activating an artifact overrides all spell casting costs
         int moves = 0;
+
+        // passive enchantments to add by id in finalize once we can guarantee that they have loaded
+        std::vector<enchantment_id> passive_enchant_ids; // NOLINT(cata-serialize)
     public:
         std::string name() const;
         // returns number of charges that should be consumed
@@ -226,6 +232,8 @@ class relic
         bool can_recharge( item &parent, Character *carrier ) const;
 
         void load( const JsonObject &jo );
+
+        void finalize();
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jobj );

@@ -4,6 +4,7 @@
     "type": "widget",
     "label": "Azimuth",
     "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "var": "veh_azimuth_text",
     "//": "Uses display::vehicle_azimuth_text"
   },
@@ -12,6 +13,7 @@
     "type": "widget",
     "label": "Speed",
     "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "var": "veh_cruise_text",
     "//": "Current/target vehicle cruising speed from display::vehicle_cruise_text_color"
   },
@@ -20,6 +22,7 @@
     "type": "widget",
     "label": "Fuel",
     "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "var": "veh_fuel_text",
     "//": "Current/max fuel for active vehicle engine from display::vehicle_fuel_text_color"
   },

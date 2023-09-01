@@ -20,11 +20,10 @@
 
 #include <QtWidgets/qapplication.h>
 #include <QtCore/QSettings>
-#ifdef QT_STATICPLUGIN
-#include <QtCore/QtPlugin>
+
 #ifdef _WIN32
+#include <QtCore/QtPlugin>
 Q_IMPORT_PLUGIN( QWindowsIntegrationPlugin );
-#endif
 #endif
 
 struct MOD_INFORMATION;
@@ -55,8 +54,6 @@ struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
-    std::string dump;
-    dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 };
@@ -126,10 +123,6 @@ int main( int argc, char *argv[] )
         g->load_static_data();
         if( cli.verifyexit ) {
             exit_handler( 0 );
-        }
-        if( !cli.dump.empty() ) {
-            init_colors();
-            exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

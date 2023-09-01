@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -34,7 +35,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -159,7 +159,8 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-static bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
+                         PickupMap &mapPickup,
                          bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
 {
     Character &player_character = get_player_character();
@@ -215,6 +216,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) ) {
         got_water = true;
+    } else if( newit.made_of_from_type( phase_id::GAS ) ) {
+        got_gas = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
                !player_character.can_stash_partial( newit, false ) ) {
         option = CANCEL;
@@ -311,6 +314,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
                         bool autopickup, bool &stash_successful )
 {
     bool got_water = false;
+    bool got_gas = false;
     bool got_frozen_liquid = false;
     Character &player_character = get_player_character();
     bool weight_is_okay = ( player_character.weight_carried() <= player_character.weight_capacity() );
@@ -333,7 +337,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup, stash_successful,
+        problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
+                                stash_successful,
                                 got_frozen_liquid );
     }
 
@@ -345,6 +350,9 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
     if( got_water ) {
         add_msg( m_info, _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+    }
+    if( got_gas ) {
+        add_msg( m_info, _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
     }
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
@@ -403,8 +411,8 @@ void Pickup::autopickup( const tripoint &p )
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos(), true );
-    player.assign_activity( player_activity( actor ) );
+    pickup_activity_actor actor( target_items, quantities, player.pos(), true );
+    player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
     player.activity.auto_resume = true;

@@ -4,7 +4,7 @@
 #include "cata_catch.h"
 #include "output.h"
 
-static void test_remove_color_tags( const std::string &original, const std::string &expected )
+static void test_remove_color_tags( const std::string_view original, const std::string &expected )
 {
     CHECK( remove_color_tags( original ) == expected );
 }

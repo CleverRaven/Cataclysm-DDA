@@ -632,12 +632,19 @@
   {
     "type": "snippet",
     "category": "tip",
+    "text": [
+      "If you don't have a certain proficiency, having a related book is a good idea.  More books make you less likely to fail, but not as good as knowing the subject for yourself."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
     "text": [ "You can set priority levels for pockets in your inventory, letting you decide where your loot goes." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Face masks protect you from smoke and even disease, but make it harder to breathe, affecting stamina." ]
+    "text": [ "Face masks can help protect from smoke and disease, but make it harder to breathe, affecting stamina." ]
   },
   {
     "type": "snippet",

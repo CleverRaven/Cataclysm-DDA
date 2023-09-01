@@ -1,0 +1,20 @@
+[
+  {
+    "id": "psionic_anchoring_crown",
+    "type": "ARMOR",
+    "name": { "str": "anchoring crown" },
+    "//": "Putting this on should shut down your psionic powers, but there's currently no NO_SPELLCAST flag or anything like it.",
+    "description": "A thin steel circlet studded with chunks of matrix crystal.  Your skin prickles slightly where the crown touches it.",
+    "weight": "80 g",
+    "volume": "100 ml",
+    "price": 5000,
+    "price_postapoc": 25,
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "nether_crystal" } ],
+    "looks_like": "crown_golden",
+    "symbol": "[",
+    "color": "blue",
+    "material_thickness": 1,
+    "flags": [ "DIMENSIONAL_ANCHOR" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+  }
+]

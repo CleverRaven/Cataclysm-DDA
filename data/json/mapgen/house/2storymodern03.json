@@ -49,8 +49,7 @@
         "D": "t_carpet_red",
         "¤": "t_carpet_red"
       },
-      "items": { "¤": { "item": "nightstand", "chance": 30 } },
-      "furniture": { "!": "f_counter", "$": "f_bigmirror", "¤": "f_table" }
+      "furniture": { "!": "f_counter", "$": "f_bigmirror" }
     }
   },
   {
@@ -59,7 +58,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         ".--.....................",
@@ -112,7 +111,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -149,8 +148,8 @@
         ",": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
-      "furniture": { "!": "f_table", "₸": "f_deckchair", "¤": "f_table" },
-      "items": { "!": { "item": "table_foyer", "chance": 50 }, "¤": { "item": "nightstand", "chance": 30 } }
+      "furniture": { "!": "f_table", "₸": "f_deckchair" },
+      "items": { "!": { "item": "table_foyer", "chance": 50 } }
     }
   },
   {
@@ -169,17 +168,17 @@
         "                        ",
         "                        ",
         "              --------  ",
-        "              -......|  ",
-        "              -.....~|  ",
-        "              -.....~|  ",
-        "   ------------......|| ",
-        "    3...........=.....| ",
-        "    3.A...............| ",
-        "    3.................| ",
-        "    33.....N.......&..| ",
-        "     222222...........| ",
-        "          22222..222222 ",
-        "              2222      ",
+        "              -......-  ",
+        "              -.....~-  ",
+        "              -.....~-  ",
+        "   ------------......-- ",
+        "    -...........=.....- ",
+        "    -.A...............- ",
+        "    -.................- ",
+        "    --.....N.......&..- ",
+        "     ------...........- ",
+        "          -----..------ ",
+        "              ----      ",
         "                        ",
         "                        ",
         "                        ",

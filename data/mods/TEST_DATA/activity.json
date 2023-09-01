@@ -1,0 +1,18 @@
+[
+  {
+    "id": "ACT_ADD_VARIABLE_COMPLETE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "incrementing a variable",
+    "based_on": "time",
+    "completion_eoc": "EOC_increment_var"
+  },
+  {
+    "id": "ACT_ADD_VARIABLE_DURING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "incrementing a variable",
+    "based_on": "time",
+    "do_turn_eoc": "EOC_increment_var"
+  }
+]

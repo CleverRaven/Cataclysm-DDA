@@ -160,6 +160,7 @@
       [ "bio_radscrubber", 20 ],
       [ "bio_recycler", 20 ],
       [ "bio_tools", 30 ],
+      [ "bio_ar", 30 ],
       [ "bio_taste_blocker", 50 ],
       [ "bio_water_extractor", 40 ]
     ]
@@ -188,8 +189,8 @@
     "subtype": "distribution",
     "items": [
       [ "bio_flashbang", 50 ],
+      [ "bio_pitch_perfect", 10 ],
       [ "bio_laser", 20 ],
-      [ "bio_railgun", 10 ],
       [ "bio_shotgun", 50 ],
       [ "bio_shockwave", 1 ],
       [ "bio_emp", 3 ]

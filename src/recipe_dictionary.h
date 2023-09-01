@@ -40,6 +40,8 @@ class recipe_dictionary
             return blueprints;
         }
 
+        std::map<recipe_id, const recipe *> find_obsoletes( const itype_id &item_id ) const;
+
         size_t size() const;
         std::map<recipe_id, recipe>::const_iterator begin() const;
         std::map<recipe_id, recipe>::const_iterator end() const;
@@ -76,6 +78,7 @@ class recipe_dictionary
         std::set<const recipe *> autolearn;
         std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
+        std::map<const itype_id, const recipe *> obsoletes;
         std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
@@ -96,6 +99,7 @@ class recipe_subset
          */
         void include( const recipe *r, int custom_difficulty = -1 );
         void include( const recipe_subset &subset );
+        void remove( const recipe *r );
         /**
          * Include a recipe to the subset. Based on the condition.
          * @param subset Where to included the recipe
@@ -146,6 +150,7 @@ class recipe_subset
             description_result,
             proficiency,
             difficulty,
+            activity_level
         };
 
         /** Find marked favorite recipes */
@@ -162,18 +167,19 @@ class recipe_subset
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(
-            const std::string &txt, search_type key = search_type::name,
+            std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
         recipe_subset reduce(
-            const std::string &txt, search_type key = search_type::name,
+            std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */
         recipe_subset difference( const recipe_subset &subset ) const;
+        recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
-        std::vector<const recipe *> search_result( const itype_id &item ) const;
+        std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();

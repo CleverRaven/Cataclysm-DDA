@@ -29,6 +29,7 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 20,
     "material_thickness": 2,
@@ -56,11 +57,10 @@
     "name": { "str": "Magellan exosuit (on)", "str_pl": "Magellan exosuits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
-    "power_draw": "8170 mJ",
+    "power_draw": "8170 mW",
     "warmth": 150,
     "revert_to": "afs_magellan_suit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit" },
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit" }
   },
   {
     "id": "afs_frontier_cryo",
@@ -93,6 +93,7 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -115,10 +116,9 @@
     "name": { "str": "frontier cryo suit (on)", "str_pl": "frontier cryo suits (on)" },
     "looks_like": "afs_cryopod_bodyglove",
     "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
-    "power_draw": "6944 mJ",
+    "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryo" },
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryo" }
   }
 ]

@@ -48,8 +48,21 @@
   },
   {
     "type": "effect_type",
+    "id": "spooked",
+    "name": [ "Cornered Fighter Spooked" ],
+    "desc": [ "AI tag to let CORNERED_FIGHTER monsters try to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spooked_recent",
+    "name": [ "Cornered Fighter Recently Spooked" ],
+    "desc": [ "AI tag to allow CORNERED_FIGHTER monsters to turn and fight.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
+    "show_in_info": true,
     "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
   },
   {
@@ -143,6 +156,12 @@
     "id": "npc_said",
     "name": [ "Said Something Recently" ],
     "desc": [ "AI tag to control NPC verbosity.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "socialized_recently",
+    "name": [ "Socialized Recently" ],
+    "desc": [ "AI tag for asking to NPCs to socialize.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -305,10 +324,50 @@
     "//": "Mainly for monsters",
     "desc": [ "You've been knocked off-balance by an attack." ],
     "apply_message": "You're staggered off-balance.",
+    "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing" ],
+    "removes_effects": [ "grabbing", "grabbing_2" ],
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "acid_charged",
+    "name": [ "Charged Acid Glands" ],
+    "//": "Enables special attacks where specified",
+    "desc": [ "Your acid glands are full and ready to burst.  Ew." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_acid_gland",
+    "name": [ "Maimed Acid Glands" ],
+    "//": "Disables special attacks where specified",
+    "desc": [ "Your acid glands got all leaky." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "elec_charged",
+    "name": [ "Charged Capacitor" ],
+    "desc": [ "Your capacitors sizzle with bioelectricity." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_capacitor",
+    "name": [ "Maimed Capacitor" ],
+    "desc": [ "You can't deal with this charge." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_tail",
+    "name": [ "Maimed Tail" ],
+    "desc": [ "Your tail is broken.  You're not sure what to do with this information." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_claws",
+    "name": [ "Maimed Claws" ],
+    "//": "Disables special attacks where specified",
+    "desc": [ "Your claws broke.  Like a broken nail, but somehow worse." ]
   },
   {
     "type": "effect_type",
@@ -316,6 +375,13 @@
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
     "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_arm",
+    "name": [ "Broken Arm" ],
+    "//": "Disables base grabs and scratches",
+    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
   },
   {
     "type": "effect_type",
@@ -347,6 +413,12 @@
     "flags": [ "DISABLE_FLIGHT" ]
   },
   {
+    "type": "effect_type",
+    "id": "stumbled_into_invisible",
+    "name": [ "Stumbled Into Invisible Player" ],
+    "desc": [ "This creature has stumbled into an invisible player and is now aware of their presence." ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -356,7 +428,12 @@
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true,
-    "flags": [ "DISABLE_FLIGHT" ]
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.1, "resist_modifier": 0.8 },
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "block", "modifier": 0.5 }
+    ]
   },
   {
     "type": "effect_type",
@@ -401,14 +478,28 @@
       "pain_min": [ 1 ],
       "pain_chance": [ 1 ],
       "pain_max_val": [ 20 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.75 },
+      { "limb_score": "block", "modifier": 0.75 },
+      { "limb_score": "manip", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.3 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
     "id": "darkness",
     "apply_message": "Your vision flickers and goes gray!",
     "remove_message": "The world flickers back to normality.",
-    "rating": "bad"
+    "rating": "bad",
+    "resist_traits": [ "PER_SLIME_OK" ],
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 1.0 },
+      { "limb_score": "night_vis", "modifier": 0.1, "resist_modifier": 1.0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -418,7 +509,8 @@
     "apply_message": "You're stunned!",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "DISABLE_FLIGHT" ]
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.2 }, { "limb_score": "reaction", "modifier": 0.0 } ],
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -439,9 +531,14 @@
     "max_intensity": 10,
     "max_duration": "10 m",
     "int_add_val": 2,
-    "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.35 },
+      { "limb_score": "vision", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -449,7 +546,9 @@
     "name": [ "Riding" ],
     "desc": [ "You are riding an animal." ],
     "apply_message": "You mount your steed.",
-    "rating": "good"
+    "rating": "good",
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -472,7 +571,9 @@
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
     "resist_traits": [ "GASTROPOD_BALANCE" ],
-    "rating": "bad"
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -484,14 +585,21 @@
     "remove_message": "Your sight returns!",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "BLIND" ]
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
   },
   {
     "type": "effect_type",
     "id": "earphones",
     "name": [ "Wearing Earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
-    "rating": "bad"
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -508,7 +616,9 @@
     "max_intensity": 3,
     "int_dur_factor": "100 s",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
-    "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
+    "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -518,13 +628,14 @@
   },
   {
     "type": "effect_type",
-    "id": "stung",
-    "name": [ "Stung" ],
-    "desc": [ "You have been stung!" ],
+    "id": "staggered_character",
+    "name": [ "Staggered" ],
+    "desc": [ "You've been knocked off-balance by an attack." ],
+    "apply_message": "You're staggered off-balance.",
     "rating": "bad",
-    "base_mods": { "pain_min": [ 1 ] },
-    "show_in_info": true,
-    "blood_analysis_description": "Stung"
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -599,6 +710,8 @@
       "cough_chance": [ 10 ]
     },
     "show_in_info": true,
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.6 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "blood_analysis_description": "Unknown Organic Toxin"
   },
   {
@@ -668,7 +781,16 @@
       "stamina_min": [ -0.351, -0.151 ],
       "stamina_chance": [ -0.021, -0.051 ],
       "speed_mod": [ -0.31, -0.21 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "lift", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.025 },
+      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -688,7 +810,13 @@
     "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
-    "scaling_mods": { "per_mod": [ -2, -1 ] }
+    "scaling_mods": { "per_mod": [ -2, -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.75, "resist_modifier": 1.0, "scaling": -0.25, "resist_scaling": -0.1 },
+      { "limb_score": "night_vis", "modifier": 1.0, "resist_modifier": 1.0, "scaling": 0.0, "resist_scaling": 0.0 },
+      { "limb_score": "reaction", "modifier": 1.0, "resist_modifier": 1.0, "scaling": 0.0, "resist_scaling": 0.0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -759,6 +887,37 @@
     "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
+    "limb_score_mods": [
+      {
+        "//": "Worse for fine manipulation than large movements",
+        "limb_score": "manip",
+        "modifier": 0.8,
+        "resist_modifier": 1.0,
+        "scaling": -0.1,
+        "resist_scaling": -0.025
+      },
+      { "limb_score": "lift", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      { "limb_score": "grip", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
+      { "limb_score": "block", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      {
+        "limb_score": "breathing",
+        "modifier": 0.9,
+        "resist_modifier": 1.0,
+        "scaling": -0.05,
+        "resist_scaling": -0.00125
+      },
+      {
+        "limb_score": "move_speed",
+        "modifier": 0.9,
+        "resist_modifier": 1.0,
+        "scaling": -0.05,
+        "resist_scaling": -0.00125
+      },
+      { "limb_score": "balance", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
+      { "limb_score": "swim", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      { "limb_score": "crawl", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "blood_analysis_description": "Paralyzing Poison"
   },
@@ -812,14 +971,36 @@
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 30 ] },
     "scaling_mods": { "hurt_chance": [ 21, 0 ] },
     "rating": "bad",
+    "remove_message": "Your body is starting to feel normal again.",
     "blood_analysis_description": "Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagenic_slurry",
+    "name": [ "Mutagenic Slurry" ],
+    "desc": [ "Your stomach feels like it's burning.  Hopefully that was a good idea…" ],
+    "main_parts_only": true,
+    "resist_traits": [ "MUT_JUNKIE" ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 300, 900 ], "vomit_chance": [ 600, 1200 ] },
+    "rating": "bad",
+    "apply_message": "You feel awful!",
+    "remove_message": "You're feeling a little better now.",
+    "blood_analysis_description": "Mutagenic Toxins Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chelator",
+    "name": [ "Mutagen Chelator" ],
+    "desc": [ "You took a dose of chelator.  Any mutagenic drugs in your body are being purged." ],
+    "main_parts_only": true,
+    "blood_analysis_description": "Mutagen Chelator Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_alpha",
     "name": [ "Alpha Mutation", "Alpha Transformation", "Alpha Metamorphosis" ],
     "desc": [
-      "You consumed alpha mutagen.",
+      "You consumed alpha primer.",
       "You feel better.  So much better.",
       "The world needs you, surely this won't kill you.  It better not."
     ],
@@ -849,14 +1030,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Alpha Mutagen Contamination"
+    "blood_analysis_description": "Alpha Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_batrachian",
     "name": [ "Frog Mutation", "Frog Transformation", "Frog Metamorphosis" ],
     "desc": [
-      "You consumed frog mutagen.",
+      "You consumed frog primer.",
       "Now, to find a quiet pond and settle for the wait…",
       "You feel like you're about to croak… if you don't keel over first."
     ],
@@ -886,14 +1067,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Frog Mutagen Contamination"
+    "blood_analysis_description": "Frog Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_beast",
     "name": [ "Beast Mutation", "Beast Transformation", "Beast Metamorphosis" ],
     "desc": [
-      "You consumed beast mutagen.",
+      "You consumed beast primer.",
       "There must be prey around.  Stay alert.",
       "Primal instincts overwhelm your mind, and your saliva has turned to froth."
     ],
@@ -922,14 +1103,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Beast Mutagen Contamination"
+    "blood_analysis_description": "Beast Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_bird",
     "name": [ "Bird Mutation", "Bird Transformation", "Bird Metamorphosis" ],
     "desc": [
-      "You consumed bird mutagen.",
+      "You consumed bird primer.",
       "You feel the pull of the skies.",
       "Goosebumps stand across your entire body.  You keep feeling that you're falling."
     ],
@@ -947,14 +1128,14 @@
     },
     "scaling_mods": { "str_mod": [ -2 ], "per_mod": [ 1.5 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Bird Mutagen Contamination"
+    "blood_analysis_description": "Bird Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cattle",
     "name": [ "Cattle Mutation", "Cattle Transformation", "Cattle Metamorphosis" ],
     "desc": [
-      "You consumed cattle mutagen.",
+      "You consumed cattle primer.",
       "This pasture will grow barren soon.  Keep moving.",
       "Dull fog clouds your mind, and you feel close to vomiting."
     ],
@@ -981,14 +1162,14 @@
       "pain_chance": [ -5 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Cattle Mutagen Contamination"
+    "blood_analysis_description": "Cattle Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_cephalopod",
     "name": [ "Cephalopod Mutation", "Cephalopod Transformation", "Cephalopod Metamorphosis" ],
     "desc": [
-      "You consumed cephalopod mutagen.",
+      "You consumed cephalopod primer.",
       "Become one with your surroundings.",
       "Your skin crawls and your extremities twitch and jerk."
     ],
@@ -1009,14 +1190,14 @@
     },
     "scaling_mods": { "thirst_tick": [ -400 ], "int_mod": [ 2.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Cephalopod Mutagen Contamination"
+    "blood_analysis_description": "Cephalopod Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_chimera",
     "name": [ "Chimera Mutation", "Chimera Transformation", "Chimera Metamorphosis" ],
     "desc": [
-      "You consumed chimera mutagen.  Why?",
+      "You consumed chimera primer.  Why?",
       "Your flesh is the clay of the new world.  You'll overcome all challenges.",
       "Your body heaving and changing is a rough time, but what doesn't kill you makes you stronger."
     ],
@@ -1037,14 +1218,14 @@
     },
     "scaling_mods": { "hunger_tick": [ -120 ], "str_mod": [ 2.5 ], "int_mod": [ -2 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Chimera Mutagen Contamination"
+    "blood_analysis_description": "Chimera Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_elfa",
     "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
-      "You consumed Elf-A mutagen.",
+      "You consumed Elf-A primer.",
       "You must look after this world, if noone else will.",
       "You see stars.  You see so many stars."
     ],
@@ -1054,7 +1235,7 @@
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
-      "hurt_tick": [ 20 ],
+      "hurt_tick": [ 200 ],
       "pain_min": [ 1 ],
       "pain_max": [ 2 ],
       "pain_chance": [ 50 ],
@@ -1062,14 +1243,14 @@
     },
     "scaling_mods": { "per_mod": [ 2.5 ], "int_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -15 ] },
     "rating": "bad",
-    "blood_analysis_description": "Elf-A Mutagen Contamination"
+    "blood_analysis_description": "Elf-A Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_feline",
     "name": [ "Feline Mutation", "Feline Transformation", "Feline Metamorphosis" ],
     "desc": [
-      "You consumed feline mutagen.",
+      "You consumed feline primer.",
       "Quiet steps and sharp claws.  They'll never see it coming.",
       "If this overdose kills you, you've got a few more lives… right?"
     ],
@@ -1094,14 +1275,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Feline Mutagen Contamination"
+    "blood_analysis_description": "Feline Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_fish",
     "name": [ "Fish Mutation", "Fish Transformation", "Fish Metamorphosis" ],
     "desc": [
-      "You consumed fish mutagen.",
+      "You consumed fish primer.",
       "The waters call to you.  Leave this exposed wasteland.",
       "You feel clammy yet dry, absolutely parched no matter how much you drink."
     ],
@@ -1122,14 +1303,14 @@
     },
     "scaling_mods": { "thirst_tick": [ -400 ], "per_mod": [ 1 ], "dex_mod": [ 1.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Fish Mutagen Contamination"
+    "blood_analysis_description": "Fish Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_gastropod",
     "name": [ "Snail Mutation", "Snail Transformation", "Snail Metamorphosis" ],
     "desc": [
-      "You consumed snail mutagen.",
+      "You consumed snail primer.",
       "Slow and steady wins the race.",
       "You itch terribly, and your mouth feels salty and dry."
     ],
@@ -1138,7 +1319,7 @@
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 60 ] },
     "scaling_mods": { "str_mod": [ 1.5 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
     "rating": "bad",
-    "blood_analysis_description": "Snail Mutagen Contamination"
+    "blood_analysis_description": "Snail Primer Contamination"
   },
   {
     "type": "effect_type",
@@ -1154,14 +1335,14 @@
     "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
     "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
     "rating": "bad",
-    "blood_analysis_description": "Human Mutagen Contamination"
+    "blood_analysis_description": "Human Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_insect",
     "name": [ "Insect Mutation", "Insect Transformation", "Insect Metamorphosis" ],
     "desc": [
-      "You consumed insect mutagen.",
+      "You consumed insect primer.",
       "You can't wait for your change.  It can't be long now.",
       "You can't stop shivering and twitching.  Life is so short."
     ],
@@ -1189,14 +1370,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Insect Mutagen Contamination"
+    "blood_analysis_description": "Insect Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lizard",
     "name": [ "Lizard Mutation", "Lizard Transformation", "Lizard Metamorphosis" ],
     "desc": [
-      "You consumed lizard mutagen.",
+      "You consumed lizard primer.",
       "Your skin feels dry and too small.  You'll have to molt soon.",
       "Your limbs slump, almost ready to tear right out of their sockets."
     ],
@@ -1214,14 +1395,14 @@
     },
     "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -1.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Lizard Mutagen Contamination"
+    "blood_analysis_description": "Lizard Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_lupine",
     "name": [ "Lupine Mutation", "Lupine Transformation", "Lupine Metamorphosis" ],
     "desc": [
-      "You consumed lupine mutagen.",
+      "You consumed lupine primer.",
       "Where's your pack?  How will you survive without them?",
       "You pant, unable to stop pacing and full of hunger."
     ],
@@ -1251,15 +1432,15 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Lupine Mutagen Contamination"
+    "blood_analysis_description": "Lupine Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_medical",
     "name": [ "Medical Mutation", "Medical Transformation", "Medical Metamorphosis" ],
     "desc": [
-      "You consumed medical mutagen.",
-      "You consumed medical mutagen.  You should do that again.",
+      "You consumed medical primer.",
+      "You consumed medical primer.  You should do that again.",
       "You're tearing yourself apart.  Need to get fixed back up.  Should put some stitches in you."
     ],
     "max_intensity": 3,
@@ -1276,14 +1457,14 @@
     },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ -2.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -16 ] },
     "rating": "bad",
-    "blood_analysis_description": "Medical Mutagen Contamination"
+    "blood_analysis_description": "Medical Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_mouse",
     "name": [ "Mouse Mutation", "Mouse Transformation", "Mouse Metamorphosis" ],
     "desc": [
-      "You consumed mouse mutagen.",
+      "You consumed mouse primer.",
       "Your heart pounds, knowing that predators could approach at any second!",
       "Your heart hammers away with a rapid, irregular beat."
     ],
@@ -1302,14 +1483,14 @@
     },
     "scaling_mods": { "str_mod": [ -1.5 ], "dex_mod": [ 1 ], "speed_mod": [ 6.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Mouse Mutagen Contamination"
+    "blood_analysis_description": "Mouse Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_plant",
     "name": [ "Plant Mutation", "Plant Transformation", "Plant Metamorphosis" ],
     "desc": [
-      "You consumed plant mutagen.",
+      "You consumed plant primer.",
       "All this running… why don't you just find a nice, fertile spot and bask in the sun?",
       "Your processes are slowing.  You would make great fertilizer."
     ],
@@ -1318,14 +1499,14 @@
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ -22 ], "hurt_tick": [ 200 ] },
     "scaling_mods": { "str_mod": [ 1.5 ], "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ -7.5 ], "hurt_chance": [ 21, 0 ] },
     "rating": "bad",
-    "blood_analysis_description": "Plant Mutagen Contamination"
+    "blood_analysis_description": "Plant Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_raptor",
     "name": [ "Raptor Mutation", "Raptor Transformation", "Raptor Metamorphosis" ],
     "desc": [
-      "You consumed raptor mutagen.",
+      "You consumed raptor primer.",
       "Sharpen your talons and clean your feathers.  Your prey won't give itself easily.",
       "Delusions fill your head… is it true?  Did you die long ago?"
     ],
@@ -1354,14 +1535,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Raptor Mutagen Contamination"
+    "blood_analysis_description": "Raptor Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rabbit",
     "name": [ "Rabbit Mutation", "Rabbit Transformation", "Rabbit Metamorphosis" ],
     "desc": [
-      "You consumed rabbit mutagen.",
+      "You consumed rabbit primer.",
       "So much to do!  Better hop to it!",
       "Will you have a future?  Will any new generations be born… your pounding head is full of worry."
     ],
@@ -1386,14 +1567,14 @@
       "pain_chance": [ -15 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Rabbit Mutagen Contamination"
+    "blood_analysis_description": "Rabbit Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_rat",
     "name": [ "Rat Mutation", "Rat Transformation", "Rat Metamorphosis" ],
     "desc": [
-      "You consumed rat mutagen.",
+      "You consumed rat primer.",
       "This place is too open.  Hide!",
       "Dull aches fill your stomach, and every smell seems offensive."
     ],
@@ -1411,13 +1592,13 @@
     },
     "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Rat Mutagen Contamination"
+    "blood_analysis_description": "Rat Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_slime",
     "name": [ "Slime Mutation", "Slime Transformation", "Slime Metamorphosis" ],
-    "desc": [ "You consumed slime mutagen.", "Plop.", "Brain… melting…" ],
+    "desc": [ "You consumed slime primer.", "Plop.", "Brain… melting…" ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_SLIME" ],
     "base_mods": {
@@ -1439,14 +1620,14 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Slime Mutagen Contamination"
+    "blood_analysis_description": "Slime Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_spider",
     "name": [ "Spider Mutation", "Spider Transformation", "Spider Metamorphosis" ],
     "desc": [
-      "You consumed spider mutagen.",
+      "You consumed spider primer.",
       "An anchor line there and there, connect with capture threads…",
       "Perhaps you should curl up, just curl up and give in."
     ],
@@ -1464,14 +1645,14 @@
     },
     "scaling_mods": { "dex_mod": [ 1.5 ], "int_mod": [ -1 ], "speed_mod": [ 4 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -25 ] },
     "rating": "bad",
-    "blood_analysis_description": "Spider Mutagen Contamination"
+    "blood_analysis_description": "Spider Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_troglobite",
     "name": [ "Troglobite Mutation", "Troglobite Transformation", "Troglobite Metamorphosis" ],
     "desc": [
-      "You consumed troglobite mutagen.",
+      "You consumed troglobite primer.",
       "Down in the dark corners of the new world.  That's where you belong.",
       "Deep and dark, your bones ache and twist."
     ],
@@ -1489,14 +1670,14 @@
     },
     "scaling_mods": { "str_mod": [ 2 ], "per_mod": [ -2.5 ], "dex_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Troglobite Mutagen Contamination"
+    "blood_analysis_description": "Troglobite Primer Contamination"
   },
   {
     "type": "effect_type",
     "id": "mutagen_ursine",
     "name": [ "Ursine Mutation", "Ursine Transformation", "Ursine Metamorphosis" ],
     "desc": [
-      "You consumed ursine mutagen.",
+      "You consumed ursine primer.",
       "Berries, brood, honey, or meat?  What will today bring?",
       "Sleep sounds good.  Sleep forever, maybe."
     ],
@@ -1524,7 +1705,32 @@
       "pain_chance": [ -30 ]
     },
     "rating": "bad",
-    "blood_analysis_description": "Ursine Mutagen Contamination"
+    "blood_analysis_description": "Ursine Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_crustacean",
+    "name": [ "Crustacean Mutation", "Crustacean Transformation", "Crustacean Metamorphosis" ],
+    "desc": [
+      "You consumed crustacean mutagen.",
+      "You consumed a large amount of crustacean mutagen.",
+      "You consumed a life-changing amount of crustacean mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CRUSTACEAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Crustacean Mutagen Contamination"
   },
   {
     "type": "effect_type",
@@ -1542,7 +1748,15 @@
     "desc": [ "The sun is in your eyes." ],
     "apply_message": "The sunlight's glare makes it hard to see.",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -1 ] }
+    "max_duration": "1 m",
+    "base_mods": { "per_mod": [ -1 ] },
+    "//": "No night vision for you",
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -1551,7 +1765,13 @@
     "desc": [ "The sunlight is reflecting off the snow." ],
     "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -1 ] }
+    "base_mods": { "per_mod": [ -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -1571,15 +1791,68 @@
   },
   {
     "type": "effect_type",
-    "id": "smoke",
-    "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
-    "desc": [ "You've inhaled a lungful of thick smoke." ],
-    "apply_message": "You inhale a lungful of thick smoke.",
-    "rating": "bad",
+    "id": "smoke_eyes",
+    "name": [
+      "Little Eye Irritation (Smoke)",
+      "Minor Eye Irritation (Smoke)",
+      "Huge Eye Irritation (Smoke)",
+      "Bad Eye Irritation (Smoke)"
+    ],
+    "desc": [
+      "Your eyes mildly irritate.",
+      "Your eyes watering.",
+      "Your eyes tear and stings heavily.",
+      "Your eyes burn out of smoke, and you hardly see anything."
+    ],
+    "apply_message": [
+      [ "Your eyes mildly irritate.", "bad" ],
+      [ "Your eyes watering out of smoke.", "bad" ],
+      [ "Your eyes tear and stings heavily.", "bad" ],
+      [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
+    ],
+    "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "smoke_lungs",
+    "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
+    "desc": [
+      "You draw in a faint whiff of smoke.",
+      "Noticeable amount of smoke fills your lungs.",
+      "Dense cloud of smoke enter your lungs.",
+      "You inhale an overwhelming amount of smoke."
+    ],
+    "apply_message": [
+      [ "You draw in a faint whiff of smoke.", "bad" ],
+      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
+      [ "Dense cloud of smoke enter your lungs.", "bad" ],
+      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+    ],
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
-    "max_duration": "10 m",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "limb_score_mods": [
+      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
+      { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "balance", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "lift", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "manip", "resist_modifier": 1, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -1593,6 +1866,13 @@
     "harmful_cough": true,
     "max_duration": "30 m",
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.75 },
+      { "limb_score": "breathing", "modifier": 0.3 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -1602,7 +1882,13 @@
     "desc": [ "Range of Sight: 1; You are covered in magenta bile!" ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] }
+    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.1 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -1698,7 +1984,13 @@
     "name": [ "Poor Sight" ],
     "desc": [ "You can't see very far from this spot." ],
     "apply_message": "Your sight distance is impaired.",
-    "rating": "bad"
+    "rating": "bad",
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.1 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -1760,6 +2052,13 @@
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "show_intensity": false
   },
@@ -1772,6 +2071,12 @@
     "rating": "bad",
     "miss_messages": [ [ "The sludge restricts your movement.", 4 ] ],
     "max_intensity": 3,
+    "limb_score_mods": [
+      { "limb_score": "move_speed", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "footing", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -1921,8 +2226,9 @@
     "int_decay_tick": 720,
     "int_add_val": 1,
     "main_parts_only": true,
-    "base_mods": { "speed_mod": [ -7 ] },
-    "scaling_mods": { "speed_mod": [ -3 ] }
+    "resist_traits": [ "M_IMMUNE" ],
+    "base_mods": { "speed_mod": [ -7, 0 ] },
+    "scaling_mods": { "speed_mod": [ -3, 0 ] }
   },
   {
     "type": "effect_type",
@@ -1959,7 +2265,14 @@
     "int_add_val": 1,
     "int_dur_factor": "5 m",
     "base_mods": { "speed_mod": [ -20 ], "str_mod": [ 0 ], "dex_mod": [ -1 ], "per_mod": [ -2 ], "vomit_chance": [ 20 ] },
-    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] }
+    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "vision", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "night_vis", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -1972,6 +2285,11 @@
     "desc": [ "You can't trust everything that you see." ],
     "rating": "bad",
     "base_mods": { "int_mod": [ -2 ], "dex_mod": [ -1 ], "per_mod": [ -4 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "blood_analysis_description": "Hallucinations"
   },
   {
@@ -2003,10 +2321,17 @@
     "id": "shakes",
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
-    "miss_messages": [ [ "You tremble", 4 ] ],
+    "miss_messages": [ [ "You tremble.", 4 ] ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
     "max_duration": 7200,
-    "dur_add_perc": 30
+    "dur_add_perc": 30,
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.7 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.75 },
+      { "limb_score": "footing", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2017,7 +2342,15 @@
     "remove_message": "You regain control of your muscles!",
     "desc": [ "Your muscles have seized up, and you can't control them!" ],
     "miss_messages": [ [ "Your muscles won't cooperate!", 20 ] ],
-    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] }
+    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.2 },
+      { "limb_score": "block", "modifier": 0 },
+      { "limb_score": "balance", "modifier": 0.2 },
+      { "limb_score": "footing", "modifier": 0.2 },
+      { "limb_score": "crawl", "modifier": 0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2110,6 +2443,7 @@
     "apply_message": "You're bleeding!",
     "remove_message": "The bleeding stops!",
     "rating": "bad",
+    "immune_flags": [ "BLEED_IMMUNE" ],
     "max_intensity": 40,
     "int_dur_factor": 60,
     "max_duration": 2400,
@@ -2123,15 +2457,27 @@
     "desc": [ "You're covered in thick goo!" ],
     "apply_message": "You're covered in thick goo!",
     "rating": "bad",
-    "miss_messages": [ [ "This goo makes you slip", 2 ] ],
+    "miss_messages": [ [ "This goo makes you slip.", 2 ] ],
     "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
-    "blood_analysis_description": "Hallucinations"
+    "blood_analysis_description": "Hallucinations",
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2153,7 +2499,16 @@
       "pkill_max_val": [ 30 ],
       "stamina_chance": [ 2 ],
       "stamina_min": [ -2 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "grip", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "crawl", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -2223,7 +2578,16 @@
     "speed_name": "Frostbite",
     "dur_add_perc": 0,
     "max_intensity": 2,
-    "scaling_mods": { "speed_mod": [ -5 ] }
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0 },
+      { "limb_score": "grip", "modifier": 0 },
+      { "limb_score": "block", "modifier": 0.5, "scaling": -0.25 },
+      { "limb_score": "lift", "modifier": 0.5, "scaling": -0.25 },
+      { "limb_score": "move_speed", "modifier": 0.75, "scaling": -0.25 },
+      { "limb_score": "crawl", "modifier": 0.75, "scaling": -0.25 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -2277,7 +2641,14 @@
     "apply_message": "You're coated in sap!",
     "rating": "bad",
     "miss_messages": [ [ "The sap's too sticky for you to fight effectively.", 3 ] ],
-    "base_mods": { "speed_mod": [ -25 ], "dex_mod": [ -3 ] }
+    "base_mods": { "speed_mod": [ -25 ], "dex_mod": [ -3 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2289,6 +2660,7 @@
     "apply_message": "You feel a cold coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
       "thirst_tick": [ 1800 ],
@@ -2315,6 +2687,8 @@
     "apply_message": "You feel a flu coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
+    "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
@@ -2330,6 +2704,27 @@
       "vomit_chance": [ 3600, 7200 ]
     },
     "blood_analysis_description": "Viral Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "common_cold_immunity",
+    "name": [ "Common Cold Antibodies" ],
+    "desc": [ "Common cold antibodies in your bloodstream prevent you from catching common cold." ],
+    "blocks_effects": [ "common_cold" ],
+    "rating": "good",
+    "blood_analysis_description": "Common Cold Antibodies",
+    "max_duration": 14515200,
+    "dur_add_perc": 50
+  },
+  {
+    "type": "effect_type",
+    "id": "fake_common_cold",
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "fake_flu",
+    "show_in_info": false
   },
   {
     "type": "effect_type",
@@ -2593,7 +2988,18 @@
       "sleep_chance": [ 501 ],
       "pkill_max_val": [ 10 ],
       "pkill_tick": [ -10 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "footing", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2622,7 +3028,20 @@
     "int_dur_factor": "200 s",
     "miss_messages": [ [ "You're winded.", 3 ] ],
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -3 ], "speed_mod": [ -20 ] },
-    "scaling_mods": { "speed_mod": [ -40 ] }
+    "scaling_mods": { "speed_mod": [ -40 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.9, "scaling": -0.25 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
+      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 0.75, "scaling": -0.25 },
+      { "limb_score": "crawl", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2664,7 +3083,13 @@
     "apply_message": "You inhale sweetish gas.",
     "remove_message": "The slackness leaves your muscles.",
     "rating": "bad",
-    "base_mods": { "str_mod": [ -3 ], "dex_mod": [ -3 ], "int_mod": [ -2 ], "per_mod": [ -4 ] }
+    "base_mods": { "str_mod": [ -3 ], "dex_mod": [ -3 ], "int_mod": [ -2 ], "per_mod": [ -4 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.75 },
+      { "limb_score": "balance", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2752,22 +3177,50 @@
     "type": "effect_type",
     "id": "grabbed",
     "name": [ "Grabbed" ],
-    "desc": [ "You have been grabbed by an attack.\nYou are being held in place, and dodging and blocking are very difficult." ],
+    "desc": [
+      "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect."
+    ],
     "rating": "bad",
-    "max_duration": "2 s",
-    "max_intensity": 15,
-    "base_mods": { "speed_mod": [ -15 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] },
-    "show_in_info": true
+    "//": "Removal handled in code, so no max duration needed, intensity set by the grab_strength, all effects are local-only",
+    "max_intensity": 100,
+    "show_in_info": true,
+    "show_intensity": true,
+    "//mods": "No swimmin' or manipulatin' with a held limb, other scores start severly debilitated and reach useless at about 50 grab strength",
+    "base_mods": { "dodge_mod": [ -10 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.0 },
+      { "limb_score": "grip", "modifier": 0.0 },
+      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.015 },
+      { "limb_score": "block", "modifier": 0.25, "scaling": -0.01 },
+      { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.005 },
+      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.016 },
+      { "limb_score": "move_speed", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "footing", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "swim", "modifier": 0.0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL", "GRAB" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place." ],
-    "max_duration": "2 s",
-    "max_intensity": 15,
-    "show_in_info": true
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
@@ -2858,7 +3311,17 @@
     "max_duration": "2 s",
     "dur_add_perc": 20,
     "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 0.75, "scaling": -0.05 },
+      { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -3010,11 +3473,11 @@
   {
     "type": "effect_type",
     "id": "genetics_damaged",
-    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
+    "name": [ "Spent Phenotype", "Depleted Phenotype", "Bankrupt Phenotype" ],
     "desc": [
-      "After some mutations, you feel slightly uncomfortable - and that's it.",
-      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
-      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
+      "Mutation has left you with a persistent mild discomfort.  It seems harmless for now, but you can't predict if it'll get worse.",
+      "There's an enervating sense of dysmorphia throughout your whole body.  It waxes and wanes, but never quite goes away.  Mutating this much can't be good for you…",
+      "You're haunted by phantom pains across your entire body now.  Everything aches from an exhaustion that never seems to fade.  Any further mutation right now is very unlikely to have a happy ending."
     ],
     "max_intensity": 3,
     "rating": "bad"
@@ -3620,7 +4083,7 @@
     "remove_message": "Reality reasserts itself and your perspective returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "base_mods": { "per_mod": [ 6, 0 ] }
+    "base_mods": { "per_mod": [ -6, 0 ] }
   },
   {
     "id": "weakened_gravity",
@@ -3644,7 +4107,9 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+        "values": [
+          { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength", "default": -1 } }
+        ]
       }
     ]
   },
@@ -3658,7 +4123,119 @@
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [
-      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
+      {
+        "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength", "default": -1 } } ]
+      }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_gas",
+    "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
+    "desc": [
+      "You've inhaled a lungful of glowing nether parasite spores.  Thankfully, they don't seem adapted to the human physiology."
+    ],
+    "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violently cough.",
+    "rating": "bad",
+    "miss_messages": [ [ "Your lungs burn from the glowing gas.", 1 ] ],
+    "harmful_cough": true,
+    "max_duration": "10 m",
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_gas_cover",
+    "name": [ "Glowing" ],
+    "desc": [ "You are covered in glowing nether spores!" ],
+    "apply_message": "The glowing spores settle on you!",
+    "rating": "bad"
+  },
+  {
+    "id": "lightsnare",
+    "type": "effect_type",
+    "name": [ "Snared" ],
+    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
+  },
+  {
+    "id": "Shadow_Reveal",
+    "type": "effect_type",
+    "max_duration": "60 s",
+    "name": [ "Revealed" ],
+    "desc": [ "The shadows no longer hide you!" ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "id": "photophobia",
+    "type": "effect_type",
+    "max_duration": "5 s",
+    "name": [ "photophobia" ],
+    "base_mods": { "speed_mod": [ -100 ] },
+    "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "//": "Enchantments don't actually work for monsters! If you find that shadow is suddenly very killable, they probably got hooked up!",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "ARMOR_BASH", "add": 15 },
+          { "value": "ARMOR_STAB", "add": 15 },
+          { "value": "ARMOR_CUT", "add": 15 },
+          { "value": "ARMOR_HEAT", "add": 15 },
+          { "value": "ARMOR_COLD", "add": 15 },
+          { "value": "ARMOR_ELEC", "add": 15 },
+          { "value": "ARMOR_ACID", "add": 15 },
+          { "value": "ARMOR_BULLET", "add": 400 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting",
+    "name": [ "Molting" ],
+    "desc": [ "You feel a strong urge to hide somewhere safe." ],
+    "apply_message": "Your chitin plating itches against your body.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 15 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.95 }, { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting_imminent",
+    "name": [ "Imminent Molting" ],
+    "desc": [ "Seek shelter, you will be helpless when it begins." ],
+    "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -30 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 35 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

@@ -10,10 +10,10 @@
     "symbol": "T",
     "material": [ "steel" ],
     "volume": "20 L",
-    "bashing": 1,
     "category": "veh_parts",
     "price": 60000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -32,22 +32,22 @@
     "type": "GENERIC",
     "id": "water_wheel",
     "name": { "str": "water wheel" },
-    "description": "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
+    "description": "A water wheel that will slowly recharge electrical power when built over shallow moving water.",
     "weight": "80000 g",
     "to_hit": -5,
     "symbol": "*",
     "material": [ "wood" ],
     "volume": "30 L",
-    "bashing": 3,
     "price": 120000,
     "price_postapoc": 1000,
-    "copy-from": "wind_turbine"
+    "copy-from": "wind_turbine",
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
     "id": "xl_water_wheel",
     "name": { "str": "large water wheel" },
-    "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
+    "description": "A large water wheel with wooden supports.  It will recharge electrical power when built over shallow moving water.",
     "weight": "210000 g",
     "symbol": "o",
     "volume": "60 L",

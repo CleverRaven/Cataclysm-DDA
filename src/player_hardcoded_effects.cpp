@@ -7,6 +7,7 @@
 
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -63,11 +64,11 @@ static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_fake_common_cold( "fake_common_cold" );
+static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
@@ -102,6 +103,7 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
@@ -123,7 +125,6 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
@@ -136,8 +137,8 @@ static const vitamin_id vitamin_redcells( "redcells" );
 static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_type::HEAT, rng( intense,
-                   intense * 2 ) ) );
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( STATIC( damage_type_id( "heat" ) ),
+                   rng( intense, intense * 2 ) ) );
 }
 static void eff_fun_spores( Character &u, effect &it )
 {
@@ -161,6 +162,28 @@ static void eff_fun_antifungal( Character &u, effect & )
         std::vector<bodypart_id> bparts = u.get_all_body_parts( get_body_part_flags::only_main );
         bodypart_id random_bpart = bparts[ rng( 0, bparts.size() - 1 ) ];
         u.apply_damage( nullptr, random_bpart, 1 );
+    }
+}
+static void eff_fun_fake_common_cold( Character &u, effect & )
+{
+    if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
+        u.cough( true );
+    }
+
+    avatar &you = get_avatar(); // No NPCs for now.
+    if( rl_dist( u.pos(), you.pos() ) <= 1 ) {
+        you.get_sick( false );
+    }
+}
+static void eff_fun_fake_flu( Character &u, effect & )
+{
+    if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
+        u.cough( true );
+    }
+
+    avatar &you = get_avatar(); // No NPCs for now.
+    if( rl_dist( u.pos(), you.pos() ) <= 1 ) {
+        you.get_sick( true );
     }
 }
 static void eff_fun_fungus( Character &u, effect &it )
@@ -253,10 +276,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_RAT );
+            u.mutate_category( mutation_category_RAT, false, true );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_TROGLOBITE );
+            u.mutate_category( mutation_category_TROGLOBITE, false, true );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -281,7 +304,8 @@ static void eff_fun_bleed( Character &u, effect &it )
     int prof_bonus = 3;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
     prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
-    if( !( tourniquet && one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
+
+    if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
         u.vitamin_mod( vitamin_blood, -intense );
@@ -720,7 +744,7 @@ static void eff_fun_datura( Character &u, effect &it )
     }
 
     if( dur > 1800_minutes && one_in( 300 * 512 ) ) {
-        if( !u.has_trait( trait_NOPAIN ) ) {
+        if( !u.has_flag( json_flag_PAIN_IMMUNE ) ) {
             u.add_msg_if_player( m_bad,
                                  _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
         } else {
@@ -1034,9 +1058,11 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id cat;
+    // If we've crossed a threshold, always show dreams for that category
+    // Otherwise, check for the category that we have the most vitamins in our blood for
+    mutation_category_id cat = u.get_threshold_category();
     weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
-    if( cat_list.get_weight() > 0 ) {
+    if( cat.is_null() && cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
     }
     int cat_strength = u.mutation_category_level[cat];
@@ -1065,7 +1091,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_MYCUS );
+                    u.mutate_category( mutation_category_MYCUS, false, true );
                     u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
@@ -1207,6 +1233,8 @@ void Character::hardcoded_effects( effect &it )
             { effect_hypovolemia, eff_fun_hypovolemia },
             { effect_redcells_anemia, eff_fun_redcells_anemia },
             { effect_sleep, eff_fun_sleep },
+            { effect_fake_common_cold, eff_fun_fake_common_cold },
+            { effect_fake_flu, eff_fun_fake_flu },
         }
     };
     const efftype_id &id = it.get_id();
@@ -1415,20 +1443,6 @@ void Character::hardcoded_effects( effect &it )
         // effects: reduces effective redcells regen and depletes redcells at high intensity
         if( calendar::once_every( vitamin_rate( vitamin_redcells ) ) ) {
             vitamin_mod( vitamin_redcells, -rng( 0, intense ) );
-        }
-    } else if( id == effect_grabbed ) {
-        set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
-        int zed_number = 0;
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number += mon->get_grab_strength();
-            }
-        }
-        if( zed_number > 0 ) {
-            //If intensity isn't pass the cap, average it with # of zeds
-            schedule_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
-                             ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;

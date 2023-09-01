@@ -110,5 +110,23 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "id": "feral_pistol",
+    "copy-from": "feral_m9",
+    "type": "GUN",
+    "name": { "str_sp": "Beretta M9A1" },
+    "description": "A poorly maintained and inaccurate version of the M9 for feral security guards, feral preppers, etc.",
+    "ammo": [ "ammo_pistol" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
+        "rigid": true
+      }
+    ]
   }
 ]

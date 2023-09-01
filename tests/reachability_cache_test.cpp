@@ -1,5 +1,6 @@
 #include <functional>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <utility>
 #include <vector>
@@ -12,7 +13,6 @@
 #include "map_iterator.h"
 #include "map_test_case.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "options_helpers.h"
 #include "point.h"
 
@@ -22,7 +22,7 @@ using namespace map_test_case_common::tiles;
 static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
 static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 
-static const auto ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
+static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
 static const tile_predicate set_up_tiles_common =
     ifchar( '.', noop ) ||

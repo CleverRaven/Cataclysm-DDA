@@ -1,0 +1,40 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "manatouched_serum",
+    "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
+    "components": [ [ [ "mana_dust", 20 ] ], [ [ "mana_potion", 4 ], [ "mana_potion_greater", 1 ], [ "mana_infused_blood", 6 ] ] ],
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "skills_required": [ "spellcraft", 6 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
+    "time": "4 h",
+    "batch_time_factors": [ 80, 5 ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "autolearn": true
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "manatouched_mutagen",
+    "qualities": [
+      { "id": "MAGIC_MUTAGEN", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "SEPARATE", "level": 1 },
+      { "id": "ANALYSIS", "level": 1 }
+    ],
+    "components": [ [ [ "mana_dust", 5 ] ], [ [ "mana_potion", 1 ], [ "mana_infused_blood", 2 ] ], [ [ "mutagen", 1 ] ] ],
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "skills_required": [ "spellcraft", 4 ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" } ],
+    "time": "3 h",
+    "batch_time_factors": [ 80, 5 ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "autolearn": true
+  }
+]

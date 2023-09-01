@@ -13,8 +13,8 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false,
-    "sound_category": "clear"
+    "sound_category": "clear",
+    "priority": 0
   },
   {
     "id": "null",
@@ -30,6 +30,6 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false
+    "priority": -1
   }
 ]

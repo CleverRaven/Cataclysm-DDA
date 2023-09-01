@@ -52,6 +52,7 @@ static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -188,6 +189,18 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.emplace_back( "TALK_MUTE" );
         }
     }
+    if( player_character.has_trait( trait_PROF_CHURL ) ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
+            me_npc->make_angry();
+            add_topics.emplace_back( "TALK_CHURL_ANGRY" );
+        } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
+                   ( me_npc->int_cur >= 9 ) ) {
+            add_topics.emplace_back( "TALK_CHURL_TRADE" );
+        } else {
+            add_topics.emplace_back( "TALK_CHURL" );
+        }
+    }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_foodperson_mask_on ) ||
@@ -261,134 +274,15 @@ int talker_npc::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
     if( trial_type == "lie" ) {
-        chance += - me_npc->talk_skill() + me_npc->op_of_u.trust * 3;
+        chance += - me_npc->lie_skill() + me_npc->op_of_u.trust * 3;
     } else if( trial_type == "persuade" ) {
-        chance += - static_cast<int>( me_npc->talk_skill() * 0.5 ) +
+        chance += - static_cast<int>( me_npc->persuade_skill() * 0.5 ) +
                   me_npc->op_of_u.trust * 2 + me_npc->op_of_u.value;
     } else if( trial_type == "intimidate" ) {
         chance += - me_npc->intimidation() + me_npc->op_of_u.fear * 2 -
                   me_npc->personality.bravery * 2;
     }
     return chance;
-}
-
-std::vector<skill_id> talker_npc::skills_offered_to( const talker &student ) const
-{
-    if( student.get_character() ) {
-        return me_npc->skills_offered_to( *student.get_character() );
-    } else {
-        return {};
-    }
-}
-
-std::string talker_npc::skill_training_text( const talker &student,
-        const skill_id &skill ) const
-{
-    const Character *pupil = student.get_character();
-    if( !pupil ) {
-        return "";
-    }
-    const int cost = me_npc->is_ally( *pupil ) ? 0 : 1000 *
-                     ( 1 + pupil->get_knowledge_level( skill ) ) *
-                     ( 1 + pupil->get_knowledge_level( skill ) );
-    SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
-    SkillLevel teacher_skill_level = me_npc->get_skill_level_object( skill );
-    const int cur_level = skill_level_obj.knowledgeLevel();
-    const int cur_level_exercise = skill_level_obj.knowledgeExperience();
-    // knowledge_train will adjust level xp based on the difference between your understanding and the NPC's.
-    skill_level_obj.knowledge_train( 10000, teacher_skill_level.knowledgeLevel() );
-    const int next_level = skill_level_obj.knowledgeLevel();
-    const int next_level_exercise = skill_level_obj.knowledgeExperience();
-
-    //~Skill name: current level (experience) -> next level (experience) (cost in dollars)
-    return string_format( cost > 0 ?  _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
-                          _( "%s: %d (%d%%) -> %d (%d%%)" ), skill.obj().name(), cur_level,
-                          cur_level_exercise, next_level, next_level_exercise, cost / 100 );
-}
-
-std::vector<proficiency_id> talker_npc::proficiencies_offered_to( const talker &student ) const
-{
-    if( student.get_character() ) {
-        return me_npc->proficiencies_offered_to( *student.get_character() );
-    } else {
-        return {};
-    }
-}
-
-std::string talker_npc::proficiency_training_text( const talker &student,
-        const proficiency_id &proficiency ) const
-{
-    const Character *pupil = student.get_character();
-    if( !pupil ) {
-        return "";
-    }
-    const time_duration time_needed = proficiency->time_to_learn();
-    const time_duration current_time = time_needed - pupil->proficiency_training_needed( proficiency );
-
-    const int cost = calc_proficiency_training_cost( *me_npc, proficiency );
-    const std::string name = proficiency->name();
-    const float pct_before = current_time / time_needed * 100;
-    const float pct_after = ( current_time + 15_minutes ) / time_needed * 100;
-    const std::string after_str = pct_after >= 100.0f ? pgettext( "NPC training: proficiency learned",
-                                  "done" ) : string_format( "%2.0f%%", pct_after );
-
-    if( cost > 0 ) {
-        //~ Proficiency name: (current_practice) -> (next_practice) (cost in dollars)
-        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str, cost );
-    }
-    //~ Proficiency name: (current_practice) -> (next_practice)
-    return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
-}
-
-std::vector<matype_id> talker_npc::styles_offered_to( const talker &student ) const
-{
-    if( student.get_character() ) {
-        return me_npc->styles_offered_to( *student.get_character() );
-    } else {
-        return {};
-    }
-}
-
-std::string talker_npc::style_training_text( const talker &student,
-        const matype_id &style ) const
-{
-    if( !student.get_character() ) {
-        return "";
-    } else if( me_npc->is_ally( *student.get_character() ) ) {
-        return string_format( "%s", style.obj().name );
-    } else {
-        return string_format( _( "%s ( cost $%d )" ), style.obj().name, 8 );
-    }
-}
-
-std::vector<spell_id> talker_npc::spells_offered_to( talker &student )
-{
-    if( student.get_character() ) {
-        return me_npc->spells_offered_to( *student.get_character() );
-    } else {
-        return {};
-    }
-}
-
-std::string talker_npc::spell_training_text( talker &student, const spell_id &sp )
-{
-    Character *pupil = student.get_character();
-    if( !pupil ) {
-        return "";
-    }
-    const spell &temp_spell = me_npc->magic->get_spell( sp );
-    const bool knows = pupil->magic->knows_spell( sp );
-    const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
-                     temp_spell.get_level() );
-    std::string text;
-    if( knows ) {
-        text = string_format( _( "%s: 1 hour lesson (cost %s)" ), temp_spell.name(),
-                              format_money( cost ) );
-    } else {
-        text = string_format( _( "%s: teaching spell knowledge (cost %s)" ),
-                              temp_spell.name(), format_money( cost ) );
-    }
-    return text;
 }
 
 void talker_npc::store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
@@ -489,7 +383,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( p.chatbin.snip_consume_med );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( p, to_eat, p.pos() ).value_or( 0 );
+            amount_used = to_eat.type->invoke( &p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = _( p.chatbin.snip_consume_nocharge );
                 return REFUSED;

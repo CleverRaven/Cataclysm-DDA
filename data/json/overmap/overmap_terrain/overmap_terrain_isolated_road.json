@@ -29,9 +29,8 @@
     "type": "overmap_terrain",
     "id": [ "gunshow_0", "gunshow_1" ],
     "name": "gun show",
-    "sym": "v",
+    "sym": "G",
     "color": "red",
-    "flags": [ "NO_ROTATE" ],
     "see_cost": 5
   }
 ]

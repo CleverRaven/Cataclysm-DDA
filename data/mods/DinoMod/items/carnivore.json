@@ -108,5 +108,61 @@
     "price_postapoc": 40,
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_tyrannosaurus",
+    "name": { "str": "tyrannosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_allosaurus",
+    "name": { "str": "allosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_acrocanthosaurus",
+    "name": { "str": "acrocanthosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_giganotosaurus",
+    "name": { "str": "giganotosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_triceratops",
+    "name": { "str": "triceratops skull" },
+    "description": "Large dinosaur skull with three large horns and a large crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_torosaurus",
+    "name": { "str": "torosaurus skull" },
+    "description": "Large dinosaur skull with three large horns and a large crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_styracosaurus",
+    "name": { "str": "styracosaurus skull" },
+    "description": "Large dinosaur skull with a large horn above the nose and a spiked crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_centrosaurus",
+    "name": { "str": "centrosaurus skull" },
+    "description": "Large dinosaur skull with a large horn above the nose and a bony crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
   }
 ]

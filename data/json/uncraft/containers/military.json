@@ -1,0 +1,96 @@
+[
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_can_30",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "7 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 3 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_can_50",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 5 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_can_fat_50",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "13 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 8 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_can_pa120",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "17 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 12 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_box_grenade",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_box_grenade",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 18 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_box_carlgustav",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 24 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_box_308",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "components": [ [ [ "paper", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_box_223",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "components": [ [ [ "paper", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ammunition_box_50bmg",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "components": [ [ [ "paper", 2 ] ] ]
+  }
+]

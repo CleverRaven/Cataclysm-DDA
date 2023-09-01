@@ -3,7 +3,7 @@
     "id": "player_movement_block",
     "type": "widget",
     "style": "layout",
-    "label": "3_movement block",
+    "label": "4_movement block",
     "arrange": "rows",
     "width": 48,
     "widgets": [ "stamina_bar_tmp", "spacebar_move_combine_group_tmp" ]

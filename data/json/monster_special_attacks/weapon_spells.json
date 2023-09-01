@@ -57,7 +57,7 @@
     "name": { "str": "Exodii Multipurpose Weapon Pod" },
     "description": "Randomly selects one of several weapons.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_EXPLOSION_SFX", "WONDER" ],
     "effect": "attack",
     "shape": "blast",
     "base_casting_time": 200,

@@ -1,4 +1,4 @@
-﻿# Modding guide
+# Modding guide
 
 Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
 
@@ -284,7 +284,7 @@ Monster stats can be adjusted using the `monster_adjustment` JSON element.
     "type": "monster_adjustment",
     "species": "ZOMBIE",
     "flag": { "name": "REVIVES", "value": false },
-	"stat": { "name": "speed", "modifier": 0.9 }
+	  "stat": { "name": "speed", "modifier": 0.9 }
   }
 ```
 Using this syntax allows modification of the following things:

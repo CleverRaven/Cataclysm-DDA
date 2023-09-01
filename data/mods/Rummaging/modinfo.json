@@ -397,6 +397,7 @@
       "HIDE_PLACE",
       "NO_SIGHT"
     ],
+    "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "max_volume": "350 L",
     "examine_action": "workbench",
@@ -410,6 +411,7 @@
     "symbol": "#",
     "color": "blue",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "SEALED" ],
+    "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "max_volume": "350 L",
     "examine_action": "workbench",

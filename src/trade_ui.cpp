@@ -41,6 +41,7 @@ point _pane_size()
 trade_preset::trade_preset( Character const &you, Character const &trader )
     : _u( you ), _trader( trader )
 {
+    save_state = &inventory_ui_default_state;
     append_cell(
     [&]( item_location const & loc ) {
         return format_money( npc_trading::trading_price( _trader, _u, { loc, 1 } ) );
@@ -58,11 +59,10 @@ bool trade_preset::is_shown( item_location const &loc ) const
 std::string trade_preset::get_denial( const item_location &loc ) const
 {
     int const price = npc_trading::trading_price( _trader, _u, { loc, 1 } );
-    int const market_price = loc->price( true );
 
     if( _u.is_npc() ) {
         npc const &np = *_u.as_npc();
-        ret_val<void> const ret = np.wants_to_sell( loc, price, market_price );
+        ret_val<void> const ret = np.wants_to_sell( loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
                 return string_format( _( "%s does not want to sell this" ), np.get_name() );
@@ -71,7 +71,7 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();
-        ret_val<void> const ret = np.wants_to_buy( *loc, price, market_price );
+        ret_val<void> const ret = np.wants_to_buy( *loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
                 return string_format( _( "%s does not want to buy this" ), np.get_name() );
@@ -80,21 +80,25 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         }
     }
 
+    if( _u.is_worn( *loc ) ) {
+        ret_val<void> const ret = const_cast<Character &>( _u ).can_takeoff( *loc );
+        if( !ret.success() ) {
+            return _u.replace_with_npc_name( ret.str() );
+        }
+    }
+
     return inventory_selector_preset::get_denial( loc );
 }
 
 bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
-    item_category const *const lcat = lhs.get_category_ptr();
-    if( lcat->get_id() == item_category_ITEMS_WORN || lcat->get_id() == item_category_WEAPON_HELD ) {
-        return false;
-    }
-    item_category const *const rcat = rhs.get_category_ptr();
-    if( rcat->get_id() == item_category_ITEMS_WORN || rcat->get_id() == item_category_WEAPON_HELD ) {
-        return true;
-    }
-
-    return inventory_selector_preset::cat_sort_compare( lhs, rhs );
+    // sort worn and held categories last we likely don't want to trade them
+    auto const fudge_rank = []( inventory_entry const & e ) -> int {
+        item_category_id const cat = e.get_category_ptr()->get_id();
+        int const rank = e.get_category_ptr()->sort_rank();
+        return cat != item_category_ITEMS_WORN && cat != item_category_WEAPON_HELD ? rank : rank + 10000;
+    };
+    return fudge_rank( lhs ) < fudge_rank( rhs );
 }
 
 trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string title )
@@ -109,7 +113,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_you]->add_character_items( you );
     _panes[_you]->add_nearby_items( 1 );
     _panes[_trader]->add_character_items( trader );
-    if( trader.mission == NPC_MISSION_SHOPKEEP ) {
+    if( trader.is_shopkeeper() ) {
         _panes[_trader]->categorize_map_items( true );
 
         add_fallback_zone( trader );
@@ -262,7 +266,7 @@ bool trade_ui::_confirm_trade() const
             popup( _( "Sorry, I'm only willing to extend you %s in credit." ),
                    format_money( np.max_credit_extended() ) );
         }
-    } else if( np.mission != NPC_MISSION_SHOPKEEP &&
+    } else if( !np.is_shopkeeper() &&
                !npc_trading::npc_can_fit_items( np, _panes[_you]->to_trade() ) ) {
         popup( _( "%s doesn't have the appropriate pockets to accept that." ), np.get_name() );
     } else if( npc_trading::calc_npc_owes_you( np, _balance ) < _balance ) {
