@@ -133,7 +133,7 @@
     "type": "MONSTER",
     "name": "gnome",
     "description": "A small mass of animate stone in the rough shape of a human, with clay for joints.  Two gemstone eyes regard you impassively.",
-        "default_faction": "earth_spirit_faction",
+    "default_faction": "earth_spirit_faction",
     "species": [ "EARTH_SPIRIT" ],
    
     "volume": "40 L",
