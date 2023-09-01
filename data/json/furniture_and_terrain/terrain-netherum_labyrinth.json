@@ -1,0 +1,162 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_nl_mist",
+    "name": "swirling mist",
+    "description": "A swirling, exotic patern of shapes, floating in an ill-defined darkness.  Staring at it too long hurts your brain.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "coverage": 100,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_chasm",
+    "name": "sparkling chasm",
+    "description": "At a glance this just looks like darkness.  Then, gazing deeper, you think it might be full of stars.  Still deeper, perhaps those stars are eyes?",
+    "symbol": "*",
+    "color": "dark_grey",
+    "move_cost": -1,
+    "//": "Future: stepping on this should teleport you out of the labyrinth",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "NOITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_elevator_floor",
+    "name": "janky elevator floor",
+    "description": "This looks like someone made an elevator out of an old phone booth or some similar kind of thing.  It's small, but could fit a few people cramped in.",
+    "symbol": "$",
+    "color": "black_blue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_elevator_wall",
+    "name": "janky elevator wall",
+    "looks_like": "t_metal_wall",
+    "description": "This looks like someone made an elevator out of an old phone booth or some similar kind of thing.  It's small, but could fit a few people cramped in.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_metal_wall",
+    "name": "metallic wall",
+    "looks_like": "t_metal_wall",
+    "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_nl_mist",
+      "duration": "24 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
+    "bash": {
+      "str_min": 150,
+      "str_max": 400,
+      "sound": "metal wailing!",
+      "sound_fail": "clang!",
+      "ter_set": "t_nl_mist",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_wall",
+    "name": "scrap metal wall",
+    "looks_like": "t_scrap_wall",
+    "description": "A relatively simple wall made of cobbled-together scrap metal.  The wires and bolts holding it together seem to be in just slightly different configurations whenever you look back at it.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal crying!",
+      "sound_fail": "clang!",
+      "ter_set": "t_nl_mist",
+      "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_metal_floor",
+    "name": "metallic floor",
+    "description": "Diamond-treaded metallic flooring.  Something seems off about the diamond tread; you keep imagining that the bumps spell out words, but when you look closer they're in very ordinary patterns.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connect_groups": "METALFLOOR",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_nl_broken_metal_floor",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [ { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_broken_metal_floor",
+    "name": "broken metal floor",
+    "description": "Something has cratered this metal flooring.  It will be difficult to move things across.  Through the cracks and dents emanates a faint eery glow.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "flags": [ "TRANSPARENT", "INDOORS" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_nl_chasm",
+      "str_min": 200,
+      "str_max": 500,
+      "sound": "Bang!",
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_floor",
+    "name": "scrap metal floor",
+    "description": "A crudely welded-together metal floor with steel trusses and supporting girders.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "sound": "SMASH!",
+      "ter_set": "t_nl_chasm",
+      "str_min_supported": 100,
+      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+    }
+  }
+]
