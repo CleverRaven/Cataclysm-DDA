@@ -106,6 +106,12 @@
   },
   {
     "type": "vehicle_group",
+    "id": "boats_shore",
+    "//": "boats that locals might leave dragged up on a river / lake shore",
+    "vehicles": [ [ "canoe", 2 ], [ "kayak", 2 ], [ "wood_rowboat_double", 6 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "trains_and_cars",
     "vehicles": [ [ "train_car_passenger", 250 ], [ "train_electrical_loco1300", 500 ] ]
   },
