@@ -35,7 +35,7 @@
       "NOHEAD",
       "NO_BREATHE"
     ],
-    "death_function": { "message": "%s collapses into a pile of moss." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a pile of moss." },
     "death_drops": "mossling_drops"
   },
   {
@@ -75,7 +75,8 @@
       "PATH_AVOID_FIRE",
       "FLAMMABLE"
     ],
-    "harvest": "harvest_dryad"
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into splinters." },
+    "death_drops": "dryad_drops"
   },
   {
     "id": "mon_brackenwight",
@@ -124,9 +125,9 @@
       "PATH_AVOID_FIRE",
       "PLASTIC"
     ],
-    "harvest": "harvest_brackenwight",
     "biosignature": { "biosig_item": "withered", "biosig_timer": 12 },
-    "death_function": { "message": "%s collapses into a massive pile of leaves and sticks." }
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a massive pile of leaves and sticks." },
+    "death_drops": "brackenwight_drops"
   },
   {
     "id": "mon_earth_gnome",
