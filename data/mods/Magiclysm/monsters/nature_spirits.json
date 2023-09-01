@@ -112,7 +112,18 @@
       }
     ],
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "PATH_AVOID_FIRE", "PLASTIC" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "DESTROYS",
+      "ATTACKMON",
+      "NO_BREATHE",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "PATH_AVOID_FIRE",
+      "PLASTIC"
+    ],
     "harvest": "harvest_brackenwight",
     "biosignature": { "biosig_item": "withered", "biosig_timer": 12 },
     "death_function": { "message": "%s collapses into a massive pile of leaves and sticks." }
