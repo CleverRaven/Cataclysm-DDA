@@ -26,7 +26,7 @@
     "id": "t_nl_elevator_floor",
     "name": "janky elevator floor",
     "description": "This looks like someone made an elevator out of an old phone booth or some similar kind of thing.  It's small, but could fit a few people cramped in.",
-    "symbol": "$",
+    "symbol": "#",
     "color": "black_blue",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
@@ -35,14 +35,42 @@
     "type": "terrain",
     "id": "t_nl_elevator_wall",
     "name": "janky elevator wall",
-    "looks_like": "t_metal_wall",
+    "looks_like": "t_scrap_wall",
     "description": "This looks like someone made an elevator out of an old phone booth or some similar kind of thing.  It's small, but could fit a few people cramped in.",
     "symbol": "LINE_OXOX",
-    "color": "cyan",
-    "move_cost": 0,
+    "color": "blue",
+    "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_elevator_door_c",
+    "name": "janky elevator door",
+    "looks_like": "t_door_metal_c",
+    "description": "A hinged door blocking off a janky, rickety-looking elevator made out of scrap.",
+    "symbol": "$",
+    "color": "black_blue",
+    "move_cost": -1,
+    "coverage": 100,
+    "roof": "t_nl_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "open": "t_nl_elevator_door_o"
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_elevator_door_o",
+    "name": "janky elevator door",
+    "looks_like": "t_door_metal_c",
+    "description": "A hinged door blocking off a janky, rickety-looking elevator made out of scrap.",
+    "symbol": "\",
+    "color": "black_blue",
+    "move_cost": 2,
+    "coverage": 20,
+    "roof": "t_nl_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "close": "t_nl_elevator_door_c"
   },
   {
     "type": "terrain",
@@ -104,6 +132,7 @@
     "color": "light_cyan",
     "connect_groups": "METALFLOOR",
     "connects_to": "METALFLOOR",
+    "looks_like": "t_metal_floor",
     "move_cost": 2,
     "roof": "t_nl_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
@@ -126,6 +155,7 @@
     "move_cost": 2,
     "roof": "t_nl_roof",
     "flags": [ "TRANSPARENT", "INDOORS" ],
+    "looks_like": "t_broken_metal_floor",
     "bash": {
       "sound": "thump",
       "ter_set": "t_nl_chasm",
@@ -144,11 +174,12 @@
     "type": "terrain",
     "id": "t_nl_scrap_floor",
     "name": "scrap metal floor",
-    "description": "A crudely welded-together metal floor with steel trusses and supporting girders.",
+    "description": "A floor assembled from various scraps of metal.  Though their placement seems random, you keep seeing spots where they form faces.",
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_nl_roof",
+    "looks_like": "t_scrap_floor",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 50,
@@ -158,5 +189,16 @@
       "str_min_supported": 100,
       "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_metal_roof",
+    "name": "swirling metal roof",
+    "description": "A section of sturdy metal roofing that seems to swirl and twist with an unfamiliar, ever-shifting pattern.",
+    "symbol": ".",
+    "looks_like": "t_metal_roof",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   }
 ]
