@@ -880,6 +880,7 @@
     "default_faction": "saurornitholestes",
     "volume": "10 L",
     "weight": "10 kg",
+    "stomach_size": 1,
     "speed": 150,
     "attack_cost": 150,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
@@ -888,10 +889,12 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 30 },
       { "id": "teeth_rip", "cooldown": 20 },
-      [ "EAT_FOOD", 20 ],
+      [ "EAT_FOOD", 60 ],
+      [ "EAT_CARRION", 60 ],
       { "type": "leap", "cooldown": 15, "max_range": 5, "allow_no_target": true }
     ],
-    "reproduction": { "baby_egg": "egg_saurornitholestes", "baby_count": 3, "baby_timer": 18 }
+    "reproduction": { "baby_egg": "egg_saurornitholestes", "baby_count": 3, "baby_timer": 18 },
+    "extend": { "flags": [ "EATS" ] }
   },
   {
     "type": "MONSTER",
@@ -1126,6 +1129,7 @@
     "weight": "10 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 1,
     "aggression": -60,
     "morale": -60,
     "speed": 100,
@@ -1142,11 +1146,12 @@
     "reproduction": { "baby_egg": "egg_eoraptor", "baby_count": 3, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 100 },
-    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "flags": [
       "SEES",
       "SMELLS",
       "HEARS",
+      "EATS",
       "HIT_AND_RUN",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
