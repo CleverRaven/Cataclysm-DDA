@@ -128,7 +128,7 @@
     "biosignature": { "biosig_item": "withered", "biosig_timer": 12 },
     "death_function": { "message": "%s collapses into a massive pile of leaves and sticks." }
   },
-    {
+  {
     "id": "mon_earth_gnome",
     "type": "MONSTER",
     "name": "gnome",
