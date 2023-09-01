@@ -1227,27 +1227,34 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const int min_stat_points = 4;
 
     unsigned char sel = 0;
-    const int iSecondColumn = std::max( 27,
-                                        utf8_width( pools_to_string( u, pool ), true ) + 9 );
-    input_context ctxt( "NEW_CHAR_STATS" );
-    tabs.set_up_tab_navigation( ctxt );
-    ctxt.register_cardinal();
-    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    int iSecondColumn;
     const int iHeaderHeight = 6;
     const int iHelpHeight = 4;
 
     ui_adaptor ui;
     catacurses::window w;
-    catacurses::window w_description;
+    catacurses::window w_details_pane;
+    scrolling_text_view details( w_details_pane );
+    bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int thirds = std::min( ( TERMX - 4 ) / 3, 38 );  // to allign scrollbar with the traits tab
+        iSecondColumn = std::max( thirds, utf8_width( pools_to_string( u, pool ), true ) + 2 );
         const size_t iContentHeight = TERMY - iHeaderHeight - iHelpHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 30, TERMX - iSecondColumn - 1,
-                                            point( iSecondColumn, iHeaderHeight ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
+                                             point( iSecondColumn, iHeaderHeight ) );
+        details_recalc = true;
         ui.position_from_window( w );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
+
+    input_context ctxt( "NEW_CHAR_STATS" );
+    tabs.set_up_tab_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    ctxt.register_cardinal();
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
 
@@ -1256,6 +1263,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
+        mvwputch( w, point( iSecondColumn, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
         // Helptext stats tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
@@ -1295,37 +1303,44 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                       stat_labels[sel].translated() ) );
         }
 
-        werase( w_description );
         u.reset_stats();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
+        if( details_recalc ) {
+            details.set_text( assemble_stat_details( u, sel ) );
+            details_recalc = false;
+        }
 
-        std::string description_str = assemble_stat_details(u, sel);
-        fold_and_print( w_description, point_zero, getmaxx( w_description ), COL_STAT_NEUTRAL,
-                        description_str );
         wnoutrefresh( w );
-        wnoutrefresh( w_description );
+        details.draw( COL_STAT_NEUTRAL );
     } );
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        const unsigned char id_for_curr_description = sel;
+
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
+        } else if( details.handle_navigation( action, ctxt ) ) {
+            // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
             if( *stats[sel] > min_stat_points ) {
                 ( *stats[sel] )--;
+                details_recalc = true;
             }
-            continue;
         } else if( action == "RIGHT" ) {
             if( *stats[sel] < max_stat_points ) {
                 ( *stats[sel] )++;
+                details_recalc = true;
             }
-            continue;
         } else if( action == "DOWN" ) {
             sel = ( sel + 1 ) % 4;
         } else if( action == "UP" ) {
             sel = ( sel + 3 ) % 4;
+        }
+        if( sel != id_for_curr_description ) {
+            details_recalc = true;
         }
     } while( true );
 }
