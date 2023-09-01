@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_nl_mist",
     "name": "swirling mist",
-    "description": "A swirling, exotic patern of shapes, floating in an ill-defined darkness.  Staring at it too long hurts your brain.",
+    "description": "A swirling, exotic pattern of shapes, floating in an ill-defined darkness.  Staring at it too long hurts your brain.",
     "symbol": "LINE_OXOX",
     "color": "green",
     "coverage": 100,
