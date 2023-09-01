@@ -64,7 +64,7 @@
     "name": "janky elevator door",
     "looks_like": "t_door_metal_c",
     "description": "A hinged door blocking off a janky, rickety-looking elevator made out of scrap.",
-    "symbol": "\",
+    "symbol": "/",
     "color": "black_blue",
     "move_cost": 2,
     "coverage": 20,
