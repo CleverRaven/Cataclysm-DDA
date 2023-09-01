@@ -343,122 +343,172 @@
         "////////////////////////////////////////////////"
       ],
       "place_nested": [
-        { "chunks": [ [ "4x4_cr1_l", 20 ], [ "4x4_cr2_l", 20 ], [ "4x4_cr3_l", 20 ] ], "x": [ 20, 20 ], "y": [ 12, 12 ] },
         {
-          "chunks": [ [ "4x4_cr1_r", 20 ], [ "4x4_cr2_r", 20 ], [ "4x4_cr3_r", 20 ] ],
+          "chunks": [ [ "skyscraper_4x4_cr1_l", 20 ], [ "skyscraper_4x4_cr2_l", 20 ], [ "skyscraper_4x4_cr3_l", 20 ] ],
+          "x": [ 20, 20 ],
+          "y": [ 12, 12 ]
+        },
+        {
+          "chunks": [ [ "skyscraper_4x4_cr1_r", 20 ], [ "skyscraper_4x4_cr2_r", 20 ], [ "skyscraper_4x4_cr3_r", 20 ] ],
           "x": [ 24, 24 ],
           "y": [ 12, 12 ]
         },
         {
           "chunks": [
-            [ "5x5_toilet_il", 20 ],
-            [ "5x5_storage1_il", 10 ],
-            [ "5x5_storage2_il", 10 ],
-            [ "5x5_storage3_il", 10 ],
-            [ "5x5_cleaning1_il", 20 ],
-            [ "5x5_cleaning2_il", 20 ]
+            [ "skyscraper_5x5_toilet_il", 20 ],
+            [ "skyscraper_5x5_storage1_il", 10 ],
+            [ "skyscraper_5x5_storage2_il", 10 ],
+            [ "skyscraper_5x5_storage3_il", 10 ],
+            [ "skyscraper_5x5_cleaning1_il", 20 ],
+            [ "skyscraper_5x5_cleaning2_il", 20 ]
           ],
           "x": [ 4, 4 ],
           "y": [ 24, 24 ]
         },
         {
-          "chunks": [ [ "office_slide_dl", 20 ], [ "glass_dl", 20 ], [ "private_dl", 20 ], [ "crowded_dl", 20 ], [ "generic_dl", 20 ] ],
+          "chunks": [
+            [ "skyscraper_office_slide_dl", 20 ],
+            [ "skyscraper_glass_dl", 20 ],
+            [ "skyscraper_private_dl", 20 ],
+            [ "skyscraper_crowded_dl", 20 ],
+            [ "skyscraper_generic_dl", 20 ]
+          ],
           "x": [ 2, 2 ],
           "y": [ 31, 31 ]
         },
         {
-          "chunks": [ [ "small1_ul", 20 ], [ "small_office_ul", 20 ], [ "small_sofa_ul", 20 ], [ "small2_ul", 20 ] ],
+          "chunks": [
+            [ "skyscraper_small1_ul", 20 ],
+            [ "skyscraper_small_office_ul", 20 ],
+            [ "skyscraper_small_sofa_ul", 20 ],
+            [ "skyscraper_small2_ul", 20 ]
+          ],
           "x": [ 4, 4 ],
           "y": [ 27, 27 ]
         },
         {
-          "chunks": [ [ "small1_ul", 20 ], [ "small_office_ul", 20 ], [ "small_sofa_ul", 20 ], [ "small2_ul", 20 ] ],
+          "chunks": [
+            [ "skyscraper_small1_ul", 20 ],
+            [ "skyscraper_small_office_ul", 20 ],
+            [ "skyscraper_small_sofa_ul", 20 ],
+            [ "skyscraper_small2_ul", 20 ]
+          ],
           "x": [ 30, 30 ],
           "y": [ 27, 27 ]
         },
         {
-          "chunks": [ [ "6x6_office_ur", 20 ], [ "6x6_glass_ur", 20 ], [ "6x6_computer_ur", 5 ], [ "6x6_files_ur", 5 ] ],
+          "chunks": [
+            [ "skyscraper_6x6_office_ur", 20 ],
+            [ "skyscraper_6x6_glass_ur", 20 ],
+            [ "skyscraper_6x6_computer_ur", 5 ],
+            [ "skyscraper_6x6_files_ur", 5 ]
+          ],
           "x": [ 12, 12 ],
           "y": [ 27, 27 ]
         },
         {
           "chunks": [
-            [ "office_slide_dr", 20 ],
-            [ "office_glass_dr", 20 ],
-            [ "boss_cafe_dr", 20 ],
-            [ "office_dr", 20 ],
-            [ "office_private_dr", 20 ],
-            [ "office_crowded_dr", 20 ]
+            [ "skyscraper_office_slide_dr", 20 ],
+            [ "skyscraper_office_glass_dr", 20 ],
+            [ "skyscraper_boss_cafe_dr", 20 ],
+            [ "skyscraper_office_dr", 20 ],
+            [ "skyscraper_office_private_dr", 20 ],
+            [ "skyscraper_office_crowded_dr", 20 ]
           ],
           "x": [ 30, 30 ],
           "y": [ 31, 31 ]
         },
         {
           "chunks": [
-            [ "5x5_toilet_ir", 20 ],
-            [ "5x5_storage1_ir", 10 ],
-            [ "5x5_storage2_ir", 10 ],
-            [ "5x5_storage3_ir", 10 ],
-            [ "5x5_cleaning1_ir", 20 ],
-            [ "5x5_cleaning2_ir", 20 ]
+            [ "skyscraper_5x5_toilet_ir", 20 ],
+            [ "skyscraper_5x5_storage1_ir", 10 ],
+            [ "skyscraper_5x5_storage2_ir", 10 ],
+            [ "skyscraper_5x5_storage3_ir", 10 ],
+            [ "skyscraper_5x5_cleaning1_ir", 20 ],
+            [ "skyscraper_5x5_cleaning2_ir", 20 ]
           ],
           "x": [ 39, 39 ],
           "y": [ 24, 24 ]
         },
         {
-          "chunks": [ [ "5x5_register_ur", 20 ], [ "5x5_office_ur", 20 ], [ "5x5_benches_ur", 10 ], [ "5x5_sofa_ur", 10 ] ],
+          "chunks": [
+            [ "skyscraper_5x5_register_ur", 20 ],
+            [ "skyscraper_5x5_office_ur", 20 ],
+            [ "skyscraper_5x5_benches_ur", 10 ],
+            [ "skyscraper_5x5_sofa_ur", 10 ]
+          ],
           "x": [ 39, 39 ],
           "y": [ 27, 27 ]
         },
         {
           "chunks": [
-            [ "office_glass_al", 20 ],
-            [ "office_private_al", 20 ],
-            [ "office_al", 20 ],
-            [ "office_slide_al", 20 ],
-            [ "office_crowded_al", 20 ]
+            [ "skyscraper_office_glass_al", 20 ],
+            [ "skyscraper_office_private_al", 20 ],
+            [ "skyscraper_office_al", 20 ],
+            [ "skyscraper_office_slide_al", 20 ],
+            [ "skyscraper_office_crowded_al", 20 ]
           ],
           "x": [ 2, 2 ],
           "y": [ 1, 1 ]
         },
         {
-          "chunks": [ [ "5x5_register_ol", 20 ], [ "5x5_office1_ol", 10 ], [ "5x5_office2_ol", 10 ], [ "5x5_sofas_ol", 20 ] ],
+          "chunks": [
+            [ "skyscraper_5x5_register_ol", 20 ],
+            [ "skyscraper_5x5_office1_ol", 10 ],
+            [ "skyscraper_5x5_office2_ol", 10 ],
+            [ "skyscraper_5x5_sofas_ol", 20 ]
+          ],
           "x": [ 4, 4 ],
           "y": [ 14, 14 ]
         },
         {
           "chunks": [
-            [ "office_glass_ar", 20 ],
-            [ "office_private_ar", 20 ],
-            [ "office_ar", 20 ],
-            [ "office_slide_ar", 20 ],
-            [ "office_crowded_ar", 20 ]
+            [ "skyscraper_office_glass_ar", 20 ],
+            [ "skyscraper_office_private_ar", 20 ],
+            [ "skyscraper_office_ar", 20 ],
+            [ "skyscraper_office_slide_ar", 20 ],
+            [ "skyscraper_office_crowded_ar", 20 ]
           ],
           "x": [ 30, 30 ],
           "y": [ 1, 1 ]
         },
         {
-          "chunks": [ [ "5x5_register_or", 20 ], [ "5x5_office_or", 20 ], [ "5x5_sofas_or", 20 ] ],
+          "chunks": [ [ "skyscraper_5x5_register_or", 20 ], [ "skyscraper_5x5_office_or", 20 ], [ "skyscraper_5x5_sofas_or", 20 ] ],
           "x": [ 39, 39 ],
           "y": [ 14, 14 ]
         },
         {
-          "chunks": [ [ "8x8_boss_al", 20 ], [ "8x8_meeting_al", 20 ], [ "8x8_office_al", 20 ], [ "8x8_eating_al", 20 ] ],
+          "chunks": [
+            [ "skyscraper_8x8_boss_al", 20 ],
+            [ "skyscraper_8x8_meeting_al", 20 ],
+            [ "skyscraper_8x8_office_al", 20 ],
+            [ "skyscraper_8x8_eating_al", 20 ]
+          ],
           "x": [ 16, 16 ],
           "y": [ 4, 4 ]
         },
         {
-          "chunks": [ [ "8x8_boss_ar", 20 ], [ "8x8_sofas_ar", 20 ], [ "8x8_office_ar", 20 ], [ "8x8_files_ar", 20 ] ],
+          "chunks": [
+            [ "skyscraper_8x8_boss_ar", 20 ],
+            [ "skyscraper_8x8_sofas_ar", 20 ],
+            [ "skyscraper_8x8_office_ar", 20 ],
+            [ "skyscraper_8x8_files_ar", 20 ]
+          ],
           "x": [ 24, 24 ],
           "y": [ 4, 4 ]
         },
         {
-          "chunks": [ [ "8x8_mr1_l", 20 ], [ "8x8_mr2_l", 20 ], [ "8x8_mr3_l", 20 ] ],
+          "chunks": [ [ "skyscraper_8x8_mr1_l", 20 ], [ "skyscraper_8x8_mr2_l", 20 ], [ "skyscraper_8x8_mr3_l", 20 ] ],
           "x": [ 16, 16 ],
           "y": [ 35, 35 ]
         },
         {
-          "chunks": [ [ "8x8_mr1_r", 20 ], [ "8x8_mr2_r", 20 ], [ "8x8_mr3_r", 20 ], [ "8x8_mr4_r", 20 ] ],
+          "chunks": [
+            [ "skyscraper_8x8_mr1_r", 20 ],
+            [ "skyscraper_8x8_mr2_r", 20 ],
+            [ "skyscraper_8x8_mr3_r", 20 ],
+            [ "skyscraper_8x8_mr4_r", 20 ]
+          ],
           "x": [ 24, 24 ],
           "y": [ 35, 35 ]
         }
@@ -506,51 +556,70 @@
         "///|----|...|'R'|EEED......DEEE|'R'|...|----|///"
       ],
       "place_nested": [
-        { "chunks": [ [ "4x4_cr1_l", 20 ], [ "4x4_cr2_l", 20 ], [ "4x4_cr3_l", 20 ] ], "x": [ 20, 20 ], "y": [ 12, 12 ] },
         {
-          "chunks": [ [ "4x4_cr1_r", 20 ], [ "4x4_cr2_r", 20 ], [ "4x4_cr3_r", 20 ] ],
+          "chunks": [ [ "skyscraper_4x4_cr1_l", 20 ], [ "skyscraper_4x4_cr2_l", 20 ], [ "skyscraper_4x4_cr3_l", 20 ] ],
+          "x": [ 20, 20 ],
+          "y": [ 12, 12 ]
+        },
+        {
+          "chunks": [ [ "skyscraper_4x4_cr1_r", 20 ], [ "skyscraper_4x4_cr2_r", 20 ], [ "skyscraper_4x4_cr3_r", 20 ] ],
           "x": [ 24, 24 ],
           "y": [ 12, 12 ]
         },
         {
           "chunks": [
-            [ "office_glass_al", 20 ],
-            [ "office_private_al", 20 ],
-            [ "office_al", 20 ],
-            [ "office_slide_al", 20 ],
-            [ "office_crowded_al", 20 ]
+            [ "skyscraper_office_glass_al", 20 ],
+            [ "skyscraper_office_private_al", 20 ],
+            [ "skyscraper_office_al", 20 ],
+            [ "skyscraper_office_slide_al", 20 ],
+            [ "skyscraper_office_crowded_al", 20 ]
           ],
           "x": [ 2, 2 ],
           "y": [ 1, 1 ]
         },
         {
-          "chunks": [ [ "5x5_register_ol", 20 ], [ "5x5_office1_ol", 10 ], [ "5x5_office2_ol", 10 ], [ "5x5_sofas_ol", 20 ] ],
+          "chunks": [
+            [ "skyscraper_5x5_register_ol", 20 ],
+            [ "skyscraper_5x5_office1_ol", 10 ],
+            [ "skyscraper_5x5_office2_ol", 10 ],
+            [ "skyscraper_5x5_sofas_ol", 20 ]
+          ],
           "x": [ 4, 4 ],
           "y": [ 14, 14 ]
         },
         {
           "chunks": [
-            [ "office_glass_ar", 20 ],
-            [ "office_private_ar", 20 ],
-            [ "office_ar", 20 ],
-            [ "office_slide_ar", 20 ],
-            [ "office_crowded_ar", 20 ]
+            [ "skyscraper_office_glass_ar", 20 ],
+            [ "skyscraper_office_private_ar", 20 ],
+            [ "skyscraper_office_ar", 20 ],
+            [ "skyscraper_office_slide_ar", 20 ],
+            [ "skyscraper_office_crowded_ar", 20 ]
           ],
           "x": [ 30, 30 ],
           "y": [ 1, 1 ]
         },
         {
-          "chunks": [ [ "5x5_register_or", 20 ], [ "5x5_office_or", 20 ], [ "5x5_sofas_or", 20 ] ],
+          "chunks": [ [ "skyscraper_5x5_register_or", 20 ], [ "skyscraper_5x5_office_or", 20 ], [ "skyscraper_5x5_sofas_or", 20 ] ],
           "x": [ 39, 39 ],
           "y": [ 14, 14 ]
         },
         {
-          "chunks": [ [ "8x8_boss_al", 20 ], [ "8x8_meeting_al", 20 ], [ "8x8_office_al", 20 ], [ "8x8_eating_al", 20 ] ],
+          "chunks": [
+            [ "skyscraper_8x8_boss_al", 20 ],
+            [ "skyscraper_8x8_meeting_al", 20 ],
+            [ "skyscraper_8x8_office_al", 20 ],
+            [ "skyscraper_8x8_eating_al", 20 ]
+          ],
           "x": [ 16, 16 ],
           "y": [ 4, 4 ]
         },
         {
-          "chunks": [ [ "8x8_boss_ar", 20 ], [ "8x8_sofas_ar", 20 ], [ "8x8_office_ar", 20 ], [ "8x8_files_ar", 20 ] ],
+          "chunks": [
+            [ "skyscraper_8x8_boss_ar", 20 ],
+            [ "skyscraper_8x8_sofas_ar", 20 ],
+            [ "skyscraper_8x8_office_ar", 20 ],
+            [ "skyscraper_8x8_files_ar", 20 ]
+          ],
           "x": [ 24, 24 ],
           "y": [ 4, 4 ]
         }
