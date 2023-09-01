@@ -36,9 +36,19 @@
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12 },
       { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 },
-      { "group": "GROUP_FOREST_SPIRIT", "weight": 15, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ], "cost_multiplier": 3 },
-      { "group": "GROUP_FOREST_SPIRIT", "weight": 20, "conditions": [ "SPRING", "SUMMER", "AUTUMN", "DAY" ], "cost_multiplier": 3 },
-      { "group": "GROUP_EARTH_SPIRIT", "weight": 5, "cost_multiplier": 3 },
+      {
+        "group": "GROUP_FOREST_SPIRIT",
+        "weight": 15,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+        "cost_multiplier": 3
+      },
+      {
+        "group": "GROUP_FOREST_SPIRIT",
+        "weight": 20,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "DAY" ],
+        "cost_multiplier": 3
+      },
+      { "group": "GROUP_EARTH_SPIRIT", "weight": 5, "cost_multiplier": 3 }
     ]
   },
   {
@@ -256,7 +266,7 @@
     "default": "mon_workshop_elf",
     "monsters": [ { "monster": "mon_workshop_elf", "freq": 100, "cost_multiplier": 2 } ]
   },
-    {
+  {
     "type": "monstergroup",
     "name": "GROUP_FOREST_SPIRIT",
     "monsters": [
@@ -281,7 +291,7 @@
     "name": "GROUP_EARTH_SPIRIT",
     "monsters": [
       { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
-       { "monster": "mon_earth_gnome", "weight": 5, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
+      { "monster": "mon_earth_gnome", "weight": 5, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
     ]
   },
   {
