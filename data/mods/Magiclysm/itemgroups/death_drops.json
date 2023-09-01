@@ -69,7 +69,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "dryad_bark", "prob": 50, "count": [ 1, 5 ] },
-      { "item": "splinter", "prob": 85, "count": [ 20, 40 ] }
+      { "item": "splinter", "prob": 85, "count": [ 20, 40 ] },
       { "item": "stick", "prob": 90, "count": [ 2, 4 ] },
       { "item": "leaves", "prob": 100, "count": [ 10, 30 ] }
     ]
