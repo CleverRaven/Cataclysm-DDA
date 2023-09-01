@@ -1094,14 +1094,17 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    const int iHeaderHeight = 6;
+    const int iHelpHeight = 4;
 
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const size_t iContentHeight = TERMY - iHeaderHeight - iHelpHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 30, TERMX - iSecondColumn - 1,
-                                            point( iSecondColumn, 6 ) );
+                                            point( iSecondColumn, iHeaderHeight ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -1126,12 +1129,12 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                         ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 
-        const point opt_pos( 2, sel + 6 );
+        const point opt_pos( 2, sel + iHeaderHeight );
         ui.set_cursor( w, opt_pos );
         for( int i = 0; i < 4; i++ ) {
-            mvwprintz( w, point( 2, i + 6 ), i == sel ? COL_SELECT : c_light_gray, "%s:",
+            mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
                        stat_labels[i].translated() );
-            mvwprintz( w, point( 16, i + 6 ), c_light_gray, "%2d", *stats[i] );
+            mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
         }
 
         draw_points( w, pool, u );
@@ -2088,9 +2091,8 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
-        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
-                  LINE_OXXX );// '^|^' Tee pointing down
-        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );  // '┴'
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, profession_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
@@ -2134,8 +2136,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
         const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
-        int i;
-        for( i = iStartPos; i < end_pos; i++ ) {
+        for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
 
@@ -2152,7 +2153,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            const point opt_pos( 2, 6 + i - iStartPos );
+            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
             if( i == cur_id ) {
                 ui.set_cursor( w, opt_pos );
             }
@@ -2161,7 +2162,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 6 )
+        .offset_y( iHeaderHeight )
         .content_size( profs_length )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
@@ -2399,9 +2400,8 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
-        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
-                  LINE_OXXX );// '^|^' Tee pointing down
-        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );  // '┴'
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, profession_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_hobbies.size();
@@ -2443,8 +2443,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
         const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
-        int i;
-        for( i = iStartPos; i < end_pos; i++ ) {
+        for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.hobbies.count( &sorted_hobbies[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
@@ -2454,7 +2453,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                         sorted_hobbies[i] == sorted_hobbies[cur_id] ? COL_SELECT : c_light_gray );
             }
 
-            const point opt_pos( 2, 6 + i - iStartPos );
+            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
             if( i == cur_id ) {
                 ui.set_cursor( w, opt_pos );
             }
@@ -3118,9 +3117,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
-        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
-                  LINE_OXXX );// '^|^' Tee pointing down
-        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );  // '┴'
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, scenario_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
@@ -3163,8 +3161,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
         const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
-        int i;
-        for( i = iStartPos; i < end_pos; i++ ) {
+        for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
                 if( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] &&
@@ -3182,7 +3179,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            const point opt_pos( 2, 6 + i - iStartPos );
+            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
             if( i == cur_id ) {
                 ui.set_cursor( w, opt_pos );
             }
