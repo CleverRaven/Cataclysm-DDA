@@ -38,7 +38,9 @@
     "name": "Eater Sixth Sense",
     "description": "Heals the caster.",
     "valid_targets": [ "self" ],
-    "effect": "sense_unnatural",
+    "effect": "attack",
+    "effect_str": "sense_unnatural",
+    "duration": 86000,
     "shape": "blast",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   }
