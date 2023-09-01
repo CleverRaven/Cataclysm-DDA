@@ -412,10 +412,18 @@
   {
     "type": "palette",
     "id": "skyscraper_office_palette",
+    "parameters": {
+      "carpet_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ] ]
+        }
+      }
+    },
     "terrain": {
+      "~": { "param": "carpet_type", "fallback": "t_floor" },
       "*": "t_null",
       "/": "t_open_air",
-      "~": "t_soil",
       "#": "t_concrete_wall",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
@@ -423,7 +431,7 @@
       "r": "t_thconc_floor",
       "Q": "t_thconc_floor",
       "O": "t_thconc_floor",
-      ".": "t_linoleum_gray",
+      ".": "t_linoleum_white",
       ":": "t_linoleum_gray",
       "i": "t_linoleum_white",
       "S": "t_linoleum_white",
@@ -451,10 +459,6 @@
       "-": "t_brick_wall",
       "|": "t_brick_wall",
       "z": "t_flat_roof",
-      "1": "t_gutter_north",
-      "2": "t_gutter_east",
-      "3": "t_gutter_south",
-      "4": "t_gutter_west",
       "5": "t_gutter_drop",
       "Δ": "t_ramp_up_low",
       "Ʌ": "t_ramp_up_high",
