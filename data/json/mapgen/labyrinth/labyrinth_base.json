@@ -40,7 +40,7 @@
     "nested_mapgen_id": "labyrinth_f1.01_NW",
     "//": "Northwest corner of the 1st floor labyrinth, option 01",
     "object": {
-      "mapgensize": [ 24,24 ],
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         " EEEEE                  ",
@@ -67,7 +67,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { 
+      "terrain": {
         " ": "t_nl_mist",
         "e": "t_nl_elevator_floor",
         "E": "t_nl_elevator_wall",
@@ -86,7 +86,7 @@
     "nested_mapgen_id": "labyrinth_f1.01_NE",
     "//": "Northeast corner of the 1st floor labyrinth, option 01",
     "object": {
-      "mapgensize": [ 24,24 ],
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "            ||||||      ",
         "          |||....|||    ",
@@ -113,7 +113,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { 
+      "terrain": {
         " ": "t_nl_mist",
         "*": "t_nl_chasm",
         "e": "t_nl_elevator_floor",
