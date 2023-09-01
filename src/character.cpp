@@ -8911,7 +8911,7 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
         inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
-        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> it ) {
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
             if( it ) {
                 do_func( *it );
                 return false;
@@ -8963,7 +8963,7 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
         inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
-        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> it ) {
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
             if( it ) {
                 do_func( *it );
                 return false;
