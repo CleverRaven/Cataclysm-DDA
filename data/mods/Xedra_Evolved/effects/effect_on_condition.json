@@ -43,7 +43,7 @@
     "type": "effect_on_condition",
     "id": "EOC_eater_escalation",
     "recurrence": 1,
-    { "math": [ "u_val('spell_count', 'school: EATER')", ">=", "6" ] }
+    "condition": { "math": [ "u_val('spell_count', 'school: EATER')", ">=", "6" ] }
     "effect": [
       {
         "u_message": "You suddenly realize that your ability to sense the unnatural has expanded to a level beyond those of the normal five senses.",
