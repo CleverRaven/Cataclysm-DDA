@@ -584,6 +584,15 @@
     "min_max_zlevel": [ 0, 0 ]
   },
   {
+    "id": "mx_riverside_boat",
+    "type": "map_extra",
+    "name": { "str": "Boat" },
+    "description": "A small boat.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_riverside_boat" },
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE" ]
+  },
+  {
     "id": "mx_toxic_waste",
     "type": "map_extra",
     "name": { "str": "Toxic waste" },
