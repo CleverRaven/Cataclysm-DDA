@@ -661,7 +661,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "hose", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "hose", 1 ], [ "rubber_band", 40 ] ] ]
   },
   {
     "type": "recipe",

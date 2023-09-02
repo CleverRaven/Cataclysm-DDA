@@ -90,6 +90,7 @@
           "entries": [
             { "item": "ballistic_vest_esapi", "prob": 15 },
             { "group": "contractor_ballistic_vest_light", "prob": 15 },
+            { "group": "pmc_ballistic_vest", "prob": 10 },
             { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
           ]
         },

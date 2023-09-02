@@ -110,7 +110,7 @@
     "id": "tinware",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "bowl_pewter", 100 ], [ "tin_plate", 100 ], [ "tin_cup", 100 ] ]
+    "items": [ [ "bowl_pewter", 100 ], [ "tin_plate", 100 ], [ "tin_bowl", 100 ], [ "tin_cup", 100 ] ]
   },
   {
     "id": "dinnerware",
@@ -234,7 +234,7 @@
     "subtype": "collection",
     "container-item": "large_survival_kit_box",
     "items": [
-      { "item": "knife_folding" },
+      { "item": "knife_folding_ti" },
       { "item": "flint_steel" },
       { "item": "whistle_multitool" },
       { "item": "bottle_folding" },

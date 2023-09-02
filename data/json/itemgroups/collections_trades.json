@@ -56,7 +56,7 @@
       { "group": "tools_plumbing", "prob": 100 },
       { "group": "supplies_plumbing", "prob": 50 },
       [ "survnote", 1 ],
-      [ "pipe_fittings", 70 ]
+      { "item": "pipe_fittings", "prob": 70, "count": [ 1, 4 ] }
     ]
   },
   {

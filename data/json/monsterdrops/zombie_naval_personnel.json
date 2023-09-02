@@ -18,7 +18,7 @@
       { "item": "tool_belt", "damage": [ 0, 4 ], "prob": 40 },
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "hat_navy", "damage": [ 0, 4 ] },
-      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "clothing_watch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
       { "group": "misc_smoking_legal", "prob": 10 }
     ]
@@ -62,13 +62,16 @@
       { "item": "pants_army", "variant": "apants_MARPAT", "damage": [ 0, 4 ] },
       { "item": "boots_combat", "damage": [ 0, 4 ] },
       { "item": "sheath", "contents-item": "knife_combat", "prob": 80 },
+      { "item": "sheath", "contents-item": "diveknife_ti", "prob": 40 },
+      { "item": "sheath", "contents-item": "knife_combat_ti", "prob": 20 },
+      { "item": "sheath", "contents-item": "tanto_tool_ti", "prob": 20 },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
       { "group": "wallets_military", "prob": 5 },
       { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
-      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "clothing_watch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       { "group": "pocket_cigar", "prob": 5 },
@@ -96,7 +99,7 @@
       { "item": "militarymap", "prob": 10 },
       { "group": "wallets_military", "prob": 5 },
       { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
-      { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
+      { "group": "clothing_watch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
       { "group": "misc_smoking_legal", "prob": 10 }
     ]

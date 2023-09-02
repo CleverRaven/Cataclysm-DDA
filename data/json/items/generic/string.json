@@ -219,9 +219,8 @@
     "description": "An elastic loop of rubber commonly used to hold multiple objects together.",
     "copy-from": "string_6",
     "looks_like": "string_6",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": ",",
-    "color": "red",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "red"
   }
 ]

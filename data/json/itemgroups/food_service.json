@@ -599,6 +599,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "knife_butcher", "prob": 30 },
+      { "item": "knife_butcher_ti", "prob": 6 },
       { "prob": 50, "group": "bread_bag_plastic_14" },
       { "prob": 50, "group": "seasoning_salt_bag_plastic_100" },
       { "prob": 50, "group": "seasoning_italian_bag_plastic_100" },
@@ -1076,7 +1077,8 @@
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
       [ "foodplace_food", 5 ],
-      [ "knife_butcher", 10 ]
+      [ "knife_butcher", 10 ],
+      [ "knife_butcher_ti", 2 ]
     ]
   },
   {
@@ -1113,7 +1115,8 @@
       [ "chilly-p", 15 ],
       [ "curry_powder", 15 ],
       [ "macaroni_raw", 20 ],
-      [ "knife_butcher", 10 ]
+      [ "knife_butcher", 10 ],
+      [ "knife_butcher_ti", 2 ]
     ]
   },
   {
@@ -1354,13 +1357,28 @@
     "subtype": "distribution",
     "entries": [
       { "item": "knife_steak", "prob": 20 },
+      { "item": "knife_steak_ti", "prob": 4 },
       { "item": "knife_butcher", "prob": 30 },
+      { "item": "knife_butcher_ti", "prob": 6 },
+      { "item": "knife_meat_cleaver", "prob": 20 },
+      { "item": "knife_meat_cleaver_ti", "prob": 4 },
       { "item": "butchering_kit", "prob": 5 },
+      { "item": "butchering_kit_ti", "prob": 2 },
       { "item": "tongs", "prob": 10 },
       { "item": "carver_off", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "meat", "prob": 1 },
       { "item": "hacksaw", "prob": 10 },
-      { "item": "gloves_cut_resistant", "prob": 10 }
+      { "item": "gloves_cut_resistant", "prob": 10 },
+      { "item": "armguard_cut_resistant", "prob": 5 },
+      { "item": "apron_cut_resistant", "prob": 5 },
+      { "item": "mc_chainmail_hands", "prob": 8 },
+      { "item": "mc_chainmail_arms", "prob": 4 },
+      { "item": "mc_chainmail_vest", "prob": 4 },
+      { "item": "ti_alloy_chainmail_hands", "prob": 6 },
+      { "item": "ti_alloy_chainmail_arms", "prob": 3 },
+      { "item": "ti_alloy_chainmail_vest", "prob": 3 },
+      { "item": "grip_hook", "prob": 5 },
+      { "item": "chain", "prob": 5 }
     ]
   },
   {

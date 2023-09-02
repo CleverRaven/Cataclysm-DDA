@@ -52,7 +52,8 @@
     "id": "security_armor",
     "subtype": "distribution",
     "items": [
-      { "group": "military_ballistic_vest_light", "prob": 30, "damage": [ 0, 2 ] },
+      { "group": "pmc_ballistic_vest_light", "prob": 30, "damage": [ 0, 2 ] },
+      { "group": "pmc_ballistic_vest_heavy", "prob": 10, "damage": [ 0, 2 ] },
       { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 30, "damage": [ 0, 2 ] }
     ]
   },

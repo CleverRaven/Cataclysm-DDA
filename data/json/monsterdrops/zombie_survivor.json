@@ -128,6 +128,7 @@
       [ "bat_metal", 5 ],
       [ "bwirebat", 20 ],
       [ "crowbar", 5 ],
+      [ "heavy_crowbar", 2 ],
       [ "homewrecker", 5 ],
       [ "nailboard", 25 ],
       [ "makeshift_crowbar", 35 ],
@@ -199,11 +200,21 @@
       [ "knife_chef", 15 ],
       [ "knife_carving", 15 ],
       [ "knife_folding", 10 ],
-      [ "makeshift_knife", 1 ],
+      [ "makeshift_knife", 5 ],
       [ "knife_steak", 35 ],
       { "group": "knife_rambo_cont", "prob": 15 },
       [ "knife_hunting", 10 ],
-      [ "knife_meat_cleaver", 10 ]
+      [ "knife_meat_cleaver", 10 ],
+      [ "diveknife", 10 ],
+      [ "knife_folding_ti", 5 ],
+      [ "diveknife_ti", 2 ],
+      [ "knife_butcher_ti", 2 ],
+      [ "knife_chef_ti", 2 ],
+      [ "knife_carving_ti", 2 ],
+      [ "knife_meat_cleaver_ti", 2 ],
+      [ "knife_steak_ti", 2 ],
+      [ "titanium_knife", 1 ],
+      [ "ti_alloy_knife", 1 ]
     ]
   },
   {
@@ -337,10 +348,15 @@
       [ "helmet_scrap", 5 ],
       [ "pot_helmet", 7 ],
       [ "helmet_army", 4 ],
+      [ "helmet_riding", 5 ],
+      [ "headgear", 5 ],
       [ "hat_hard", 22 ],
       [ "miner_hat", 9 ],
       [ "firehelmet", 10 ],
-      [ "chainmail_junk_hood", 1 ],
+      [ "chainmail_junk_hood", 3 ],
+      [ "balaclava_cut_resistant", 5 ],
+      [ "mc_chainmail_hood", 3 ],
+      [ "ti_alloy_chainmail_hood", 2 ],
       [ "pickelhaube", 1 ]
     ]
   },
@@ -378,7 +394,10 @@
       [ "carpet_armguards", 8 ],
       [ "improvised_armguard_tire", 4 ],
       [ "elbow_pads", 20 ],
-      [ "chainmail_junk_arms", 1 ]
+      [ "chainmail_junk_arms", 3 ],
+      [ "armguard_cut_resistant", 5 ],
+      [ "mc_chainmail_arms", 3 ],
+      [ "ti_alloy_chainmail_arms", 2 ]
     ]
   },
   {
@@ -390,7 +409,10 @@
       [ "vest_leather_mod", 8 ],
       [ "stab_vest", 15 ],
       [ "dragonskin", 1 ],
-      [ "chainmail_junk_vest", 1 ],
+      [ "chainmail_junk_vest", 3 ],
+      [ "apron_cut_resistant", 5 ],
+      [ "mc_chainmail_vest", 3 ],
+      [ "ti_alloy_chainmail_vest", 2 ],
       [ "chestguard_hard", 10 ],
       [ "armor_riot_torso", 10 ],
       [ "cuirass_scrap", 8 ],
@@ -438,14 +460,16 @@
       [ "knee_pads", 20 ],
       [ "armor_riot_leg", 8 ],
       [ "legguard_tire", 15 ],
-      [ "chainmail_junk_legs", 1 ],
+      [ "chainmail_junk_legs", 3 ],
       [ "legguard_scrap", 10 ],
       [ "armor_riot_torso", 10 ],
       [ "carpet_legguards", 8 ],
       [ "legguard_paper", 7 ],
       [ "chaps_leather", 15 ],
       [ "chaps_cut_resistant", 10 ],
-      [ "legguard_hard", 10 ]
+      [ "legguard_hard", 10 ],
+      [ "mc_chainmail_legs", 3 ],
+      [ "ti_alloy_chainmail_legs", 1 ]
     ]
   },
   {
@@ -464,6 +488,8 @@
       [ "wetsuit_gloves", 5 ],
       [ "beekeeping_gloves", 5 ],
       [ "gloves_cut_resistant", 10 ],
+      [ "mc_chainmail_hands", 3 ],
+      [ "ti_alloy_chainmail_hands", 1 ],
       [ "wetsuit_gloves_thick", 3 ],
       [ "gloves_tactical", 10 ],
       [ "fire_gauntlets", 5 ],

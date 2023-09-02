@@ -883,7 +883,7 @@
     "id": "chainmail_junk_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
     "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "weight": "2812 g",
     "volume": "750 ml",
@@ -940,7 +940,7 @@
     "id": "lc_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
+    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
     "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "weight": "2812 g",
     "volume": "750 ml",
@@ -989,7 +989,7 @@
     "id": "xl_lc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
-    "name": { "str": "XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
+    "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
     "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1022,7 +1022,7 @@
     "id": "xs_lc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
-    "name": { "str": "XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
+    "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
     "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1056,7 +1056,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "material": [ "mc_steel_chain" ],
-    "name": { "str": "medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
+    "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
     "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
@@ -1071,7 +1071,7 @@
     "id": "xl_mc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_arms",
-    "name": { "str": "XL medium steel chainmail sleeves", "str_pl": "pairs of XL medium steel chainmail sleeves" },
+    "name": { "str": "pair of XL medium steel chainmail sleeves", "str_pl": "pairs of XL medium steel chainmail sleeves" },
     "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1104,7 +1104,7 @@
     "id": "xs_mc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_arms",
-    "name": { "str": "XS medium steel chainmail sleeves", "str_pl": "pairs of XS medium steel chainmail sleeves" },
+    "name": { "str": "pair of XS medium steel chainmail sleeves", "str_pl": "pairs of XS medium steel chainmail sleeves" },
     "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1138,7 +1138,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
+    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
     "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
@@ -1153,7 +1153,7 @@
     "id": "xl_hc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",
-    "name": { "str": "XL high steel chainmail sleeves", "str_pl": "pairs of XL high steel chainmail sleeves" },
+    "name": { "str": "pair of XL high steel chainmail sleeves", "str_pl": "pairs of XL high steel chainmail sleeves" },
     "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1186,7 +1186,7 @@
     "id": "xs_hc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",
-    "name": { "str": "XS high steel chainmail sleeves", "str_pl": "pairs of XS high steel chainmail sleeves" },
+    "name": { "str": "pair of XS high steel chainmail sleeves", "str_pl": "pairs of XS high steel chainmail sleeves" },
     "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1220,7 +1220,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "material": [ "ch_steel_chain" ],
-    "name": { "str": "hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
+    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
     "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
@@ -1235,7 +1235,7 @@
     "id": "xl_ch_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_arms",
-    "name": { "str": "XL hardened steel chainmail sleeves", "str_pl": "pairs of XL hardened steel chainmail sleeves" },
+    "name": { "str": "pair of XL hardened steel chainmail sleeves", "str_pl": "pairs of XL hardened steel chainmail sleeves" },
     "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1268,7 +1268,7 @@
     "id": "xs_ch_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_arms",
-    "name": { "str": "XS hardened steel chainmail sleeves", "str_pl": "pairs of XS hardened steel chainmail sleeves" },
+    "name": { "str": "pair of XS hardened steel chainmail sleeves", "str_pl": "pairs of XS hardened steel chainmail sleeves" },
     "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1302,7 +1302,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "material": [ "qt_steel_chain" ],
-    "name": { "str": "tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
+    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
     "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
@@ -1317,7 +1317,7 @@
     "id": "xl_qt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_arms",
-    "name": { "str": "XL tempered steel chainmail sleeves", "str_pl": "pairs of XL tempered steel chainmail sleeves" },
+    "name": { "str": "pair of XL tempered steel chainmail sleeves", "str_pl": "pairs of XL tempered steel chainmail sleeves" },
     "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1350,7 +1350,7 @@
     "id": "xs_qt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_arms",
-    "name": { "str": "XS tempered steel chainmail sleeves", "str_pl": "pairs of XS tempered steel chainmail sleeves" },
+    "name": { "str": "pair of XS tempered steel chainmail sleeves", "str_pl": "pairs of XS tempered steel chainmail sleeves" },
     "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1383,7 +1383,7 @@
     "id": "ti_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "titanium chainmail sleeves", "str_pl": "pairs of titanium chainmail sleeves" },
+    "name": { "str": "pair of titanium chainmail sleeves", "str_pl": "pairs of titanium chainmail sleeves" },
     "description": "A pair of titanium chainmail arm protectors.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "weight": "1546 g",
     "volume": "750 ml",
@@ -1433,7 +1433,7 @@
     "type": "ARMOR",
     "copy-from": "ti_chainmail_arms",
     "looks_like": "ti_chainmail_arms",
-    "name": { "str": "XL titanium chainmail sleeves", "str_pl": "pairs of XL titanium chainmail sleeves" },
+    "name": { "str": "pair of XL titanium chainmail sleeves", "str_pl": "pairs of XL titanium chainmail sleeves" },
     "description": "A pair of oversized titanium chainmail arm protectors.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1467,7 +1467,7 @@
     "type": "ARMOR",
     "copy-from": "ti_chainmail_arms",
     "looks_like": "ti_chainmail_arms",
-    "name": { "str": "XS titanium chainmail sleeves", "str_pl": "pairs of XS titanium chainmail sleeves" },
+    "name": { "str": "pair of XS titanium chainmail sleeves", "str_pl": "pairs of XS titanium chainmail sleeves" },
     "description": "A pair of undersized titanium chainmail arm protectors.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1500,7 +1500,7 @@
     "id": "nh_ti_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "hardened titanium chainmail sleeves", "str_pl": "pairs of hardened titanium chainmail sleeves" },
+    "name": { "str": "pair of hardened titanium chainmail sleeves", "str_pl": "pairs of hardened titanium chainmail sleeves" },
     "description": "A pair of durable titanium chainmail arm protectors made from nitrogen-hardened rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "weight": "1546 g",
     "volume": "750 ml",
@@ -1550,7 +1550,7 @@
     "type": "ARMOR",
     "copy-from": "nh_ti_chainmail_arms",
     "looks_like": "nh_ti_chainmail_arms",
-    "name": { "str": "XL hardened titanium chainmail sleeves", "str_pl": "pairs of XL hardened titanium chainmail sleeves" },
+    "name": { "str": "pair of XL hardened titanium chainmail sleeves", "str_pl": "pairs of XL hardened titanium chainmail sleeves" },
     "description": "A pair of oversized, durable titanium chainmail arm protectors made from nitrogen-hardened rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1584,7 +1584,7 @@
     "type": "ARMOR",
     "copy-from": "nh_ti_chainmail_arms",
     "looks_like": "nh_ti_chainmail_arms",
-    "name": { "str": "XS hardened titanium chainmail sleeves", "str_pl": "pairs of XS hardened titanium chainmail sleeves" },
+    "name": { "str": "pair of XS hardened titanium chainmail sleeves", "str_pl": "pairs of XS hardened titanium chainmail sleeves" },
     "description": "A pair of undersized, durable titanium chainmail arm protectors made from nitrogen-hardened rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
@@ -1616,7 +1616,7 @@
   {
     "id": "ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "titanium alloy chainmail sleeves", "str_pl": "pairs of titanium alloy chainmail sleeves" },
+    "name": { "str": "pair of titanium alloy chainmail sleeves", "str_pl": "pairs of titanium alloy chainmail sleeves" },
     "description": "A pair of cut-resistant titanium alloy chainmail arm protectors, often seen in meat or lumber processing.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "ti_chainmail_arms",
     "looks_like": "ti_chainmail_arms",
@@ -1625,7 +1625,7 @@
   {
     "id": "xl_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "XL titanium alloy chainmail sleeves", "str_pl": "pairs of XL titanium alloy chainmail sleeves" },
+    "name": { "str": "pair of XL titanium alloy chainmail sleeves", "str_pl": "pairs of XL titanium alloy chainmail sleeves" },
     "description": "A pair of oversized, cut-resistant titanium alloy chainmail arm protectors, often seen in meat or lumber processing.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "xl_ti_chainmail_arms",
     "looks_like": "xl_ti_chainmail_arms",
@@ -1634,7 +1634,7 @@
   {
     "id": "xs_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "XS titanium alloy chainmail sleeves", "str_pl": "pairs of XS titanium alloy chainmail sleeves" },
+    "name": { "str": "pair of XS titanium alloy chainmail sleeves", "str_pl": "pairs of XS titanium alloy chainmail sleeves" },
     "description": "A pair of undersized, cut-resistant titanium alloy chainmail arm protectors, often seen in meat or lumber processing.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "xs_ti_chainmail_arms",
     "looks_like": "xs_ti_chainmail_arms",
@@ -1643,7 +1643,7 @@
   {
     "id": "qt_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "tempered titanium alloy chainmail sleeves", "str_pl": "pairs of tempered titanium alloy chainmail sleeves" },
+    "name": { "str": "pair of tempered titanium alloy chainmail sleeves", "str_pl": "pairs of tempered titanium alloy chainmail sleeves" },
     "description": "A pair of high-performance titanium alloy chainmail arm protectors made from quench-tempered rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "ti_chainmail_arms",
     "looks_like": "ti_chainmail_arms",
@@ -1652,7 +1652,7 @@
   {
     "id": "xl_qt_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "XL tempered titanium alloy chainmail sleeves", "str_pl": "pairs of XL tempered titanium alloy chainmail sleeves" },
+    "name": { "str": "pair of XL tempered titanium alloy chainmail sleeves", "str_pl": "pairs of XL tempered titanium alloy chainmail sleeves" },
     "description": "A pair of oversized, high-performance titanium alloy chainmail arm protectors made from quench-tempered rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "xl_ti_chainmail_arms",
     "looks_like": "xl_ti_chainmail_arms",
@@ -1661,7 +1661,7 @@
   {
     "id": "xs_qt_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "XS tempered titanium alloy chainmail sleeves", "str_pl": "pairs of XS tempered titanium alloy chainmail sleeves" },
+    "name": { "str": "pair of XS tempered titanium alloy chainmail sleeves", "str_pl": "pairs of XS tempered titanium alloy chainmail sleeves" },
     "description": "A pair of undersized, high-performance titanium alloy chainmail arm protectors made from quench-tempered rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "xs_ti_chainmail_arms",
     "looks_like": "xs_ti_chainmail_arms",

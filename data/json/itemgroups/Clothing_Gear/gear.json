@@ -57,7 +57,10 @@
       {
         "distribution": [
           { "item": "PR24-retracted", "prob": 20 },
-          { "collection": [ { "item": "knife_combat" }, { "item": "sheath" } ], "prob": 30 },
+          { "collection": [ { "item": "knife_combat" }, { "item": "sheath" } ], "prob": 25 },
+          { "collection": [ { "item": "knife_rm42" }, { "item": "sheath" } ], "prob": 1 },
+          { "collection": [ { "item": "knife_combat_ti" }, { "item": "sheath" } ], "prob": 2 },
+          { "collection": [ { "item": "ti_alloy_knife" }, { "item": "sheath" } ], "prob": 3 },
           { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 }
         ]
       }
@@ -231,7 +234,8 @@
       { "item": "soft_3a_vest", "prob": 15 },
       { "item": "stab_vest", "prob": 15 },
       { "item": "chestguard_hard", "prob": 5 },
-      { "item": "vest_leather", "prob": 10 },
+      { "item": "apron_cut_resistant", "prob": 5 },
+      { "item": "motorbike_armor", "prob": 5 },
       {
         "collection": [ { "item": "ballistic_vest_light" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
         "prob": 10
@@ -256,9 +260,11 @@
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
     "entries": [
-      { "group": "some_steel_front_plates", "prob": 30 },
       { "group": "some_stab_front_plates", "prob": 45 },
-      { "group": "pristine_esapi_front_plates", "prob": 25 }
+      { "group": "some_steel_front_plates", "prob": 30 },
+      { "group": "some_esapi_front_plates", "prob": 20 },
+      { "group": "some_heavy_steel_front_plates", "prob": 3 },
+      { "group": "some_titanium_front_plates", "prob": 2 }
     ]
   },
   {

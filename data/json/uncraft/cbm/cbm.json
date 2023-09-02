@@ -81,5 +81,71 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "element", 1 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bio_weight",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap_ti_alloy", 20 ] ], [ [ "ti_alloy_chunk", 8 ] ], [ [ "sheet_ti_alloy_small", 8 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bio_armor_head",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "scrap_ti_alloy", 6 ] ], [ [ "ti_alloy_chunk", 1 ] ], [ [ "sheet_ti_alloy_small", 2 ] ], [ [ "ti_alloy_wire", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bio_armor_torso",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 4 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "scrap_ti_alloy", 10 ] ], [ [ "ti_alloy_chunk", 4 ] ], [ [ "sheet_ti_alloy_small", 6 ] ], [ [ "ti_alloy_wire", 6 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bio_armor_arms",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap_ti_alloy", 8 ] ], [ [ "ti_alloy_chunk", 2 ] ], [ [ "sheet_ti_alloy_small", 4 ] ], [ [ "ti_alloy_wire", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bio_armor_legs",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap_ti_alloy", 8 ] ], [ [ "ti_alloy_chunk", 2 ] ], [ [ "sheet_ti_alloy_small", 4 ] ], [ [ "ti_alloy_wire", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "burnt_out_bionic",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "scrap_ti_alloy", 8 ] ] ]
   }
 ]

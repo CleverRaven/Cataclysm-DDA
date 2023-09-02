@@ -53,6 +53,46 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
+    "result": "titanium_sheet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "150 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_titanium_small", 24 ] ] ]
+  },
+  {
+    "result": "sheet_titanium_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_titanium", 5 ] ] ]
+  },
+  {
+    "result": "ti_alloy_sheet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "150 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_ti_alloy_small", 24 ] ] ]
+  },
+  {
+    "result": "sheet_ti_alloy_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_ti_alloy", 5 ] ] ]
+  },
+  {
     "result": "exodii_ingot_tin",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -228,6 +268,30 @@
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
     "components": [ [ [ "steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "exodii_ingot_titanium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "16 h",
+    "tools": [ [ [ "angle_grinder", 500 ] ] ],
+    "components": [ [ [ "10l_titanium", 80 ] ] ]
+  },
+  {
+    "result": "10l_titanium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_titanium", 2 ] ] ]
+  },
+  {
+    "result": "5l_titanium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "titanium_lump", 39 ] ] ]
   },
   {
     "result": "exodii_ingot_copper",

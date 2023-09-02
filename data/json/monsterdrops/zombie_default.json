@@ -187,6 +187,7 @@
         "distribution": [
           { "item": "pockknife", "prob": 50 },
           { "item": "knife_folding", "prob": 30 },
+          { "item": "knife_folding_ti", "prob": 5 },
           { "item": "knife_swissarmy", "prob": 10 },
           { "item": "switchblade", "prob": 10 }
         ],
