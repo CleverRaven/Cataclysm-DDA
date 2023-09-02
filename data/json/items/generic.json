@@ -1044,6 +1044,31 @@
   },
   {
     "type": "GENERIC",
+    "id": "titanium_wire",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "titanium wire" },
+    "description": "A length of stiff but workable titanium wire.  The sort you'd make cut-resistant chain links from.",
+    "category": "spare_parts",
+    "price": 32000,
+    "price_postapoc": 16,
+    "material": [ "titanium" ],
+    "weight": "85 g",
+    "volume": "100 ml",
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "ti_alloy_wire",
+    "copy-from": "titanium_wire",
+    "name": { "str": "titanium alloy wire" },
+    "description": "A length of performance titanium alloy wire.  The sort you'd make cut-resistant chain links from.",
+    "price": 40000,
+    "price_postapoc": 20,
+    "material": [ "ti_alloy" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "wire_barbed",
     "symbol": ";",
     "color": "light_gray",
@@ -1992,17 +2017,16 @@
     "type": "GENERIC",
     "id": "burnt_out_bionic",
     "symbol": ",",
-    "color": "dark_gray",
+    "color": "light_gray",
     "name": { "str": "burnt out bionic" },
     "category": "spare_parts",
     "description": "Once a valuable bionic implant, it has not held up well under repeated use.  It has been destroyed by excessive electric current and is now useless.",
     "price": 13500,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
+    "price_postapoc": 16,
+    "material": [ "ti_alloy", "plastic" ],
     "weight": "317 g",
     "volume": "2500 ml",
-    "to_hit": -1,
-    "flags": [ "TRADER_AVOID" ]
+    "to_hit": -1
   },
   {
     "type": "GENERIC",
@@ -3541,8 +3565,8 @@
     "price": 10000,
     "price_postapoc": 100,
     "material": [ "qt_steel" ],
-    "weight": "1500 g",
-    "volume": "500 ml",
+    "weight": "3810 g",
+    "volume": "476 ml",
     "melee_damage": { "bash": 6 }
   },
   {
@@ -3556,8 +3580,23 @@
     "price": 9000,
     "price_postapoc": 50,
     "material": [ "steel" ],
-    "weight": "1000 g",
-    "volume": "500 ml",
+    "weight": "1500 g",
+    "volume": "188 ml",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "titanium_armor",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "laminar titanium plate" },
+    "description": "A light armor plate made from laminated hard and ductile titanium layers, designed for use in a bullet-resistant armor.",
+    "price": 12000,
+    "price_postapoc": 120,
+    "material": [ "ti_alloy", "nh_titanium" ],
+    "weight": "1320 g",
+    "volume": "300 ml",
     "melee_damage": { "bash": 5 }
   },
   {

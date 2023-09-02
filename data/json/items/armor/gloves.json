@@ -203,6 +203,154 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "ti_chainmail_hands",
+    "type": "ARMOR",
+    "looks_like": "lc_chainmail_hands",
+    "category": "armor",
+    "name": { "str": "pair of titanium chainmail gloves", "str_pl": "pairs of titanium chainmail gloves" },
+    "description": "A pair of lightweight titanium chainmail gloves that fully enclose the hands.",
+    "weight": "526 g",
+    "volume": "500 ml",
+    "price": 8000, 
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_hands",
+    "looks_like": "ti_chainmail_hands",
+    "name": { "str": "pair of XL titanium chainmail gloves", "str_pl": "pairs of XL titanium chainmail gloves" },
+    "description": "A pair of oversized lightweight titanium chainmail gloves, which fully enclose the hands.",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hands",
+    "looks_like": "ti_chainmail_hands",
+    "name": { "str": "pair of XS titanium chainmail gloves", "str_pl": "pairs of XS titanium chainmail gloves" },
+    "description": "A pair of undersized lightweight titanium chainmail gloves, which fully enclose the hands.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of hardened titanium chainmail gloves", "str_pl": "pairs of hardened titanium chainmail gloves" },
+    "description": "A pair of sturdy golden-colored titanium chainmail gloves, made from nitrogen-hardened chain.  They fully enclose the hands.",
+    "looks_like": "ti_chainmail_hands",
+    "weight": "622 g",
+    "volume": "500 ml",
+    "price": 8000, 
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "nh_titanium_chain" ],
+    "symbol": "[",
+    "color": "yellow",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "nh_titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 9
+      }
+    ]
+  },
+  {
+    "id": "xl_nh_ti_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_hands",
+    "looks_like": "nh_ti_chainmail_hands",
+    "name": { "str": "pair of XL hardened titanium chainmail gloves", "str_pl": "pairs of XL hardened titanium chainmail gloves" },
+    "description": "A pair of oversized sturdy golden-colored titanium chainmail gloves, made from nitrogen-hardened chain.  They fully enclose the hands.",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_hands",
+    "looks_like": "nh_ti_chainmail_hands",
+    "name": { "str": "pair of XS hardened titanium chainmail gloves", "str_pl": "pairs of XS hardened titanium chainmail gloves" },
+    "description": "A pair of undersized sturdy golden-colored titanium chainmail gloves, made from nitrogen-hardened chain.  They fully enclose the hands.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ti_alloy_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_hands",
+    "looks_like": "ti_chainmail_hands",
+    "name": { "str": "pair of titanium alloy chainmail gloves", "str_pl": "pairs of titanium alloy chainmail gloves" },
+    "description": "A pair of cut-resistant titanium alloy chainmail gloves, often seen in meat and lumber processing.  Fully enclose the hands.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "ti_alloy_chainmail_hands",
+    "looks_like": "ti_alloy_chainmail_hands",
+    "name": { "str": "pair of XL titanium alloy chainmail gloves", "str_pl": "pairs of XL titanium alloy chainmail gloves" },
+    "description": "A pair of oversized cut-resistant titanium alloy chainmail gloves, often seen in meat and lumber processing.  Fully enclose the hands.",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "ti_alloy_chainmail_hands",
+    "looks_like": "ti_alloy_chainmail_hands",
+    "name": { "str": "pair of XS titanium alloy chainmail gloves", "str_pl": "pairs of XS titanium alloy chainmail gloves" },
+    "description": "A pair of undersized cut-resistant titanium alloy chainmail gloves, often seen in meat and lumber processing.  Fully enclose the hands.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_hands",
+    "looks_like": "ti_chainmail_hands",
+    "name": { "str": "pair of tempered titanium alloy chainmail gloves", "str_pl": "pairs of tempered titanium alloy chainmail gloves" },
+    "description": "A pair of high-performance titanium alloy chainmail gloves, made from quench-tempered chain.  Fully enclose the hands.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "qt_ti_alloy_chainmail_hands",
+    "looks_like": "qt_ti_alloy_chainmail_hands",
+    "name": { "str": "pair of XL tempered titanium alloy chainmail gloves", "str_pl": "pairs of XL tempered titanium alloy chainmail gloves" },
+    "description": "A pair of oversized high-performance titanium alloy chainmail gloves, made from quench-tempered chain.  Fully enclose the hands.",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "qt_ti_alloy_chainmail_hands",
+    "looks_like": "qt_ti_alloy_chainmail_hands",
+    "name": { "str": "pair of XS tempered titanium alloy chainmail gloves", "str_pl": "pairs of XS tempered titanium alloy chainmail gloves" },
+    "description": "A pair of undersized high-performance titanium alloy chainmail gloves, made from quench-tempered chain.  Fully enclose the hands.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "fire_gauntlets",
     "type": "ARMOR",
     "category": "armor",

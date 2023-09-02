@@ -279,5 +279,53 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
     "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "ti_alloy_frame",
+    "type": "vehicle_part",
+    "copy-from": "frame_abstract",
+    "name": { "str": "titanium alloy frame" },
+    "item": "ti_alloy_frame",
+    "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "//": "assuming about 50 cm square for a frame's welds",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "10 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
+    },
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "id": "ti_alloy_folding_frame",
+    "type": "vehicle_part",
+    "copy-from": "frame_abstract",
+    "name": { "str": "foldable titanium alloy frame" },
+    "item": "ti_alloy_foldframe",
+    "durability": 300,
+    "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "folded_volume": "2500 ml",
+    "breaks_into": [ { "item": "ti_alloy_chunk", "count": [ 0, 2 ] }, { "item": "scrap_ti_alloy", "count": [ 1, 2 ] } ],
+    "//": "assuming about 50 cm square for a frame's welds",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "10 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
+    },
+    "damage_reduction": { "all": 10 }
   }
 ]

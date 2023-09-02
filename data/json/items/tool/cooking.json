@@ -46,6 +46,20 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
+    "id": "butchering_kit_ti",
+    "name": { "str": "fine butchering kit" },
+    "type": "TOOL",
+    "description": "A full kit of specialized titanium alloy knives, often found in professional meat-processing facilities.  Reliable high-performance tools for deboning, skining, and preparing meat.",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "butchering_kit",
+    "weight": "644 g",
+    "volume": "800 ml",
+    "longest_side": "40 cm",
+    "price": 16000,
+    "price_postapoc": 300,
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 40 ] ]
+  },
+  {
     "id": "butter_churn",
     "type": "TOOL",
     "name": { "str": "pseudo butter churn" },

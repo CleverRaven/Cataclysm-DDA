@@ -1112,6 +1112,294 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "ti_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "titanium chainmail leggings", "str_pl": "pairs of titanium chainmail leggings" },
+    "description": "Lightweight titanium chainmail leggings, held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "weight": "2316 g",
+    "volume": "1500 ml",
+    "price": 10000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "lc_chainmail_legs",
+    "color": "light_gray",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_legs",
+    "looks_like": "ti_chainmail_legs",
+    "name": { "str": "XL titanium chainmail leggings", "str_pl": "pairs of XL titanium chainmail leggings" },
+    "description": "Lightweight titanium chainmail leggings, sized for large bodies, and held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_legs",
+    "looks_like": "ti_chainmail_legs",
+    "name": { "str": "XS titanium chainmail leggings", "str_pl": "pairs of XS titanium chainmail leggings" },
+    "description": "Lightweight titanium chainmail leggings, sized for small bodies, and held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "hardened titanium chainmail leggings", "str_pl": "pairs of hardened titanium chainmail leggings" },
+    "description": "Sturdy titanium chainmail leggings made from nitrogen-hardened rings, held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "weight": "2738 g",
+    "volume": "1500 ml",
+    "price": 10000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "nh_titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "ti_chainmail_legs",
+    "color": "yellow",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "nh_titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 9
+      }
+    ]
+  },
+  {
+    "id": "xl_nh_ti_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_legs",
+    "looks_like": "nh_ti_chainmail_legs",
+    "name": { "str": "XL hardened titanium chainmail leggings", "str_pl": "pairs of XL hardened titanium chainmail leggings" },
+    "description": "Sturdy titanium chainmail leggings made from nitrogen-hardened rings, sized for large bodies, and held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_legs",
+    "looks_like": "nh_ti_chainmail_legs",
+    "name": { "str": "XS hardened titanium chainmail leggings", "str_pl": "pairs of XS hardened titanium chainmail leggings" },
+    "description": "Sturdy titanium chainmail leggings made from nitrogen-hardened rings, sized for small bodies, and held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ti_alloy_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy chainmail leggings", "str_pl": "pairs of titanium alloy chainmail leggings" },
+    "description": "Cut-resistant titanium alloy chainmail leggings, often seen in meat or lumber processing.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "copy-from": "ti_chainmail_legs",
+    "looks_like": "ti_chainmail_legs",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail leggings", "str_pl": "pairs of XL titanium alloy chainmail leggings" },
+    "description": "Cut-resistant titanium alloy chainmail leggings made for large bodies, often seen in meat or lumber processing.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "copy-from": "xl_ti_chainmail_legs",
+    "looks_like": "xl_ti_chainmail_legs",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail leggings", "str_pl": "pairs of XS titanium alloy chainmail leggings" },
+    "description": "Cut-resistant titanium alloy chainmail leggings made for small bodies, often seen in meat or lumber processing.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "copy-from": "xs_ti_chainmail_legs",
+    "looks_like": "xs_ti_chainmail_legs",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy chainmail leggings", "str_pl": "pairs of tempered titanium alloy chainmail leggings" },
+    "description": "High-performance titanium alloy chainmail leggings, made from quench-tempered rings.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "copy-from": "ti_chainmail_legs",
+    "looks_like": "ti_chainmail_legs",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered titanium alloy chainmail leggings", "str_pl": "pairs of XL tempered titanium alloy chainmail leggings" },
+    "description": "High-performance titanium alloy chainmail leggings sized for large bodies, made from quench-tempered rings.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "copy-from": "xl_ti_chainmail_legs",
+    "looks_like": "xl_ti_chainmail_legs",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered titanium alloy chainmail leggings", "str_pl": "pairs of XS tempered titanium alloy chainmail leggings" },
+    "description": "High-performance titanium alloy chainmail leggings sized for small bodies, made from quench-tempered rings.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
+    "copy-from": "xs_ti_chainmail_legs",
+    "looks_like": "xs_ti_chainmail_legs",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
     "id": "leggings_thessalonian",
     "type": "ARMOR",
     "category": "armor",

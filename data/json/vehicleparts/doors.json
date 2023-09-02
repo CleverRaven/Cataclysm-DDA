@@ -71,14 +71,32 @@
   },
   {
     "id": "door_opaque",
+    "type": "vehicle_part",
     "copy-from": "door",
     "description": "A door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
     "name": { "str": "opaque door" },
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
-    "type": "vehicle_part",
     "variants_bases": [ { "id": "full", "label": "Full" } ]
+  },
+  {
+    "id": "ti_alloy_door",
+    "type": "vehicle_part",
+    "copy-from": "door",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy door.  Has a window so you can see out of it, even when closed.",
+    "name": { "str": "titanium alloy door" }
+  },  
+  {
+    "id": "ti_alloy_door_opaque",
+    "type": "vehicle_part",
+    "copy-from": "door_opaque",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy door.  Solid construction means you can't see through it when closed.",
+    "name": { "str": "titanium alloy opaque door" }
   },
   {
     "id": "hddoor",
@@ -119,6 +137,14 @@
     "type": "vehicle_part"
   },
   {
+    "type": "vehicle_part",
+    "id": "ti_alloy_door_internal",
+    "copy-from": "door_internal",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy interior door.  Solid construction means you can't see through it when closed.",
+    "name": { "str": "titanium alloy internal door" }
+  },
+  {
     "id": "hatch",
     "copy-from": "door",
     "description": "A strong door.  A window lets you see through it when closed.",
@@ -152,6 +178,24 @@
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ti_alloy_hatch",
+    "copy-from": "hatch",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy armored door.  Solid construction means you can't see through it when closed.",
+    "name": { "str": "titanium alloy hatch" }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ti_alloy_hatch_opaque",
+    "copy-from": "hatch_opaque",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy armored door.  Solid construction means you can't see through it when closed.",
+    "name": { "str": "titanium alloy opaque hatch" }
   },
   {
     "id": "hdhatch",
@@ -240,6 +284,15 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ti_alloy_door_trunk",
+    "copy-from": "door_trunk",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy short door.  You can always see over it, open or closed.",
+    "name": { "str": "titanium alloy trunk door" }
+  },
+  {
+    "type": "vehicle_part",
     "id": "hddoor_trunk",
     "copy-from": "door_trunk",
     "name": { "str": "heavy-duty trunk door" },
@@ -283,5 +336,23 @@
     "description": "A door.  A window lets you see through it when closed.",
     "breaks_into": "ig_vp_frame",
     "delete": { "flags": [ "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ti_alloy_door_shutter",
+    "copy-from": "door_shutter",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy shutter door.  Solid construction means you can't see through it when closed.",
+    "name": { "str": "titanium alloy shutter door" }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ti_alloy_door_sliding",
+    "copy-from": "door_sliding",
+    "item": "ti_alloy_frame",
+    "breaks_into": "ig_vp_ti_alloy_frame",
+    "description": "A light but sturdy sliding door.  A window lets you see through it when closed.",
+    "name": { "str": "titanium alloy sliding door" }
   }
 ]

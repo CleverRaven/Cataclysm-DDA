@@ -6,7 +6,7 @@
     "name": { "str": "abstract bionic module" },
     "weight": "2041 g",
     "volume": "2500 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ "ti_alloy", "plastic" ],
     "symbol": ":",
     "color": "yellow",
     "price_postapoc": 1000,

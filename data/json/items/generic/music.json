@@ -30,10 +30,32 @@
     "type": "GENERIC",
     "id": "headphones_circumaural",
     "name": { "str_sp": "headphones" },
-    "description": "A pair of headphones that cover your ears for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
+    "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
     "symbol": "Ω",
     "volume": "400 ml",
-    "weight": "100 g"
+    "weight": "100 g",
+    "variants": [
+      {
+        "id": "headphones_generic",
+        "name": { "str": "headphones" },
+        "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
+        "weight": 2
+      },
+      {
+        "id": "headphones_mic",
+        "name": { "str": "microphone headset" },
+        "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening.  This pair features a small microphone attached to one side by an adjustable arm.",
+        "weight": 2
+      },
+      {
+        "id": "headphones_cat",
+        "name": { "str": "cat ear headphones" },
+        "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening. This pair is styled with a set of colorful cat-like plastic ears on top.",
+        "color": "light_blue",
+        "weight": 1
+      }
+    ],
+    "flags": [ "DEAF" ]
   },
   {
     "type": "GENERIC",

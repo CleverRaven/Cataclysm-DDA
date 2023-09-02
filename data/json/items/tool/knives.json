@@ -9,8 +9,11 @@
     "longest_side": "25 cm",
     "price": 3000,
     "price_postapoc": 10,
-    "to_hit": -1,
-    "material": [ "copper" ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [
+      { "type": "cotton" },
+      { "type": "copper", "portion": 9 }
+    ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
@@ -30,7 +33,10 @@
     "price": 4000,
     "price_postapoc": 500,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "material": [ "bronze", "leather" ],
+    "material": [
+      { "type": "leather" },
+      { "type": "bronze", "portion": 9 }
+    ],
     "symbol": "/",
     "color": "yellow",
     "looks_like": "copper_knife",
@@ -38,27 +44,6 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 14 }
-  },
-  {
-    "id": "diveknife",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "dive knife", "str_pl": "dive knives" },
-    "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
-    "description": "A short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, this knife has been fitted with cork to slow its descent if dropped underwater, so it takes up more space than usual.",
-    "weight": "226 g",
-    "volume": "250 ml",
-    "price": 14000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "yellow",
-    "qualities": [ [ "CUT", 2 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
-    "use_action": [ "CROWBAR" ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "cut": 12 }
   },
   {
     "id": "honey_scraper",

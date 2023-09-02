@@ -4,9 +4,19 @@
     "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
     "description": "generic item template",
     "type": "TOOL",
-    "material": [ "steel" ],
+    "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray"
+  },
+  {
+    "abstract": "base_titanium_kitchen_knife",
+    "name": { "str": "generic titanium kitchen knife", "str_pl": "generic titanium kitchen knives" },
+    "description": "generic item template",
+    "type": "TOOL",
+    "material": [ "thermo_resin", "ti_alloy" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "//": "based on https://www.claussco.com/products/food-service-processing/knives.html"
   },
   {
     "id": "knife_butcher",
@@ -28,6 +38,26 @@
     "melee_damage": { "bash": 2, "stab": 14 }
   },
   {
+    "id": "knife_butcher_ti",
+    "name": { "str": "titanium butcher knife", "str_pl": "titanium butcher knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A light, high-performance knife for cutting meat and bone.  Features a wear-resistant titanium alloy blade, durable construction, and even an antimicrobial handle.",
+    "ascii_picture": "knife_butcher",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_butcher",
+    "weight": "210 g",
+    "volume": "300 ml",
+    "longest_side": "35 cm",
+    "price": 6000,
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 30 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 16 }
+  },
+  {
     "id": "knife_steak",
     "name": { "str": "steak knife", "str_pl": "steak knives" },
     "type": "TOOL",
@@ -45,6 +75,28 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 7 }
+  },
+  {
+    "id": "knife_steak_ti",
+    "name": { "str": "titanium steak knife", "str_pl": "titanium steak knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A rainbow-anodized serrated knife, made for slicing meat.  It's light enough to strike quickly, but is better suited for butchering.",
+    "ascii_picture": "knife_steak",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_steak",
+    "replace_materials": { "ti_alloy": "titanium" },
+    "color": "pink",
+    "weight": "62 g",
+    "volume": "100 ml",
+    "longest_side": "25 cm",
+    "price": 300,
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 9 }
   },
   {
     "id": "knife_paring",
@@ -66,6 +118,25 @@
     "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
+    "id": "knife_paring_ti",
+    "name": { "str": "titanium paring knife", "str_pl": "titanium paring knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A high-performance kitchen knife with a short blade, made for peeling vegetables with precise cuts.  Features a wear-resistant titanium alloy blade, durable construction, and even an antimicrobial handle.",
+    "ascii_picture": "knife_paring",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_paring",
+    "weight": "28 g",
+    "volume": "30 ml",
+    "longest_side": "15 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 1, "stab": 8 }
+  },
+  {
     "id": "knife_chef",
     "name": { "str": "chef knife", "str_pl": "chef knives" },
     "type": "TOOL",
@@ -84,6 +155,26 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 16 }
+  },
+  {
+    "id": "knife_chef_ti",
+    "name": { "str": "titanium chef knife", "str_pl": "titanium chef knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A light, long-bladed, high-performance kitchen knife.  The curved wide blade is ideal for quickly dicing and chopping, and makes for a decent weapon.  Features a wear-resistant titanium alloy blade, durable construction, and even an antimicrobial handle.",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_chef",
+    "ascii_picture": "knife_chef",
+    "weight": "155 g",
+    "volume": "200 ml",
+    "longest_side": "30 cm",
+    "price": 3000,
+    "price_postapoc": 200,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 18 }
   },
   {
     "id": "knife_carving",
@@ -107,6 +198,26 @@
     "//": "Based on https://www.amazon.com/dp/B0195V29HG"
   },
   {
+    "id": "knife_carving_ti",
+    "name": { "str": "titanium carving knife", "str_pl": "titanium carving knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A high-performance kitchen knife with a long, thin, slightly curved blade.  Made for precisely slicing meat from bone, but it makes for a decent melee weapon.  Features a wear-resistant titanium alloy blade, durable construction, and even an antimicrobial handle.",
+    "ascii_picture": "knife_carving",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_carving",
+    "weight": "62 g",
+    "volume": "80 ml",
+    "longest_side": "30 cm",
+    "price": "34 USD",
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 25 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 1, "stab": 20 }
+  },
+  {
     "id": "knife_bread",
     "name": { "str": "bread knife", "str_pl": "bread knives" },
     "type": "TOOL",
@@ -124,6 +235,25 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 4, "cut": 6 }
+  },
+  {
+    "id": "knife_bread_ti",
+    "name": { "str": "titanium bread knife", "str_pl": "titanium bread knives" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "This light, performance knife has a long serrated blade for cutting soft bread without squishing it.  It's scalloped teeth can slice and tear well enough in a fight.  Features a wear-resistant titanium alloy blade, durable construction, and even an antimicrobial handle.",
+    "ascii_picture": "knife_bread",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_bread",
+    "weight": "155 g",
+    "volume": "200 ml",
+    "longest_side": "35 cm",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 4, "cut": 8 }
   },
   {
     "id": "knife_vegetable_cleaver",
@@ -147,6 +277,25 @@
     "//2": "Based on https://www.amazon.com/dp/B001JL4J0G"
   },
   {
+    "id": "knife_vegetable_cleaver_ti",
+    "name": { "str": "titanium vegetable cleaver" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A menacing performance knife with a broad, square chopping blade.  It's size and speed makes it a decent cutting weapon in a pinch.  Features a wear-resistant titanium alloy blade, durable construction, and even an antimicrobial handle.",
+    "ascii_picture": "knife_vegetable_cleaver",
+    "copy-from": "base_titanium_kitchen_knife",
+    "looks_like": "knife_vegetable_cleaver",
+    "weight": "188 g",
+    "volume": "653 ml",
+    "longest_side": "33 cm",
+    "price": "44 USD",
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 18 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 3, "cut": 19 }
+  },
+  {
     "id": "knife_meat_cleaver",
     "name": { "str": "meat cleaver" },
     "type": "TOOL",
@@ -164,5 +313,24 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 6, "cut": 16 }
+  },
+  {
+    "id": "knife_meat_cleaver_ti",
+    "name": { "str": "titanium meat cleaver" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "A menacing-looking knife with a broad, square-shaped blade.  Its heft and sharpness would make it a very effective melee weapon and an excellent butchering tool.",
+    "ascii_picture": "knife_meat_cleaver",
+    "copy-from": "base_kitchen_knife",
+    "looks_like": "knife_butcher",
+    "weight": "248 g",
+    "volume": "1 L",
+    "longest_side": "30 cm",
+    "price": 7000,
+    "price_postapoc": 100,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 30 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 6, "cut": 18 }
   }
 ]

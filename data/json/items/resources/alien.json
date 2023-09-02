@@ -232,6 +232,20 @@
     "color": "light_gray"
   },
   {
+    "id": "exodii_ingot_titanium",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "enormous titanium ingot" },
+    "description": "A colossal cube of pure titanium.  You never imagined you'd see so much in one place.",
+    "weight": "3520 kg",
+    "volume": "800 L",
+    "price": 16000,
+    "price_postapoc": 780,
+    "material": [ "titanium" ],
+    "symbol": "#",
+    "color": "light_gray"
+  },
+  {
     "id": "exodii_ingot_tin",
     "type": "GENERIC",
     "category": "spare_parts",

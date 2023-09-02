@@ -11,6 +11,26 @@
   },
   {
     "type": "item_group",
+    "id": "ig_vp_ti_frame",
+    "subtype": "collection",
+    "entries": [
+      { "item": "titanium_lump", "count": [ 4, 6 ] },
+      { "item": "titanium_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap_titanium", "count": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ig_vp_ti_alloy_frame",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ti_alloy_lump", "count": [ 4, 6 ] },
+      { "item": "ti_alloy_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap_ti_alloy", "count": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ig_vp_prison_bench",
     "subtype": "collection",
     "entries": [
@@ -60,6 +80,26 @@
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 5, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ig_vp_ti_alloy_sheet",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ti_alloy_lump", "count": [ 3, 4 ] },
+      { "item": "ti_alloy_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap_ti_alloy", "count": [ 8, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ig_vp_ti_alloy_plate",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ti_alloy_lump", "count": [ 4, 7 ] },
+      { "item": "ti_alloy_chunk", "count": [ 5, 6 ] },
+      { "item": "scrap_ti_alloy", "count": [ 4, 6 ] }
     ]
   },
   {
@@ -1922,6 +1962,33 @@
     },
     "flags": [ "ARMOR" ],
     "breaks_into": "ig_vp_steel_plate",
+    "damage_reduction": { "all": 56 },
+    "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_ti_alloy",
+    "name": { "str": "titanium alloy plating" },
+    "categories": [ "warfare" ],
+    "durability": 660,
+    "item": "ti_alloy_plate",
+    "location": "armor",
+    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "50 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+    },
+    "flags": [ "ARMOR" ],
+    "breaks_into": "ig_vp_ti_alloy_plate",
     "damage_reduction": { "all": 56 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
   },

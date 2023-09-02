@@ -421,6 +421,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "argon",
+    "name": "argon",
+    "default": "argon"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "chlorine",
+    "name": "chlorine",
+    "default": "chlorine"
+  },
+  {
+    "type": "ammunition_type",
     "id": "motor_oil",
     "name": "motor oil",
     "default": "motor_oil"

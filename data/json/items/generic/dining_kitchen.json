@@ -45,6 +45,21 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
+    "abstract": "base_titanium_silverware",
+    "name": { "str": "generic silverware" },
+    "type": "GENERIC",
+    "description": "generic item template",
+    "symbol": ";",
+    "color": "pink",
+    "price": 200,
+    "price_postapoc": 10,
+    "weight": "26 g",
+    "volume": "25 ml",
+    "material": [ "titanium" ],
+    "to_hit": -1,
+    "melee_damage": { "bash": 1, "cut": 1 }
+  },
+  {
     "abstract": "base_ceramic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
@@ -262,6 +277,27 @@
     "looks_like": "ceramic_plate",
     "copy-from": "base_tin_dish",
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "tin_bowl",
+    "name": { "str": "tin bowl" },
+    "symbol": ")",
+    "description": "An enameled tin soup bowl, light and portable.",
+    "looks_like": "ceramic_bowl",
+    "copy-from": "base_tin_dish",
+    "volume": "625 ml",
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -502,6 +538,23 @@
   {
     "type": "GENERIC",
     "category": "other",
+    "id": "fork_ti",
+    "name": { "str": "titanium fork" },
+    "description": "A light titanium fork, anodized in a rainbow of blues, yellows, and purples.",
+    "weight": "25 g",
+    "volume": "45 ml",
+    "longest_side": "21 cm",
+    "price": 520,
+    "copy-from": "base_titanium_silverware",
+    "looks_like": "fork",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 1, "stab": 2 },
+    "//": "Based on https://www.theluxuryartmepra.com/linea-rainbow.html"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
     "id": "plastic_fork",
     "name": { "str": "plastic fork" },
     "description": "A plastic disposable fork.  Great for picnic lunches in the post-apocalyptic wasteland.",
@@ -527,6 +580,22 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "//": "Based on https://www.amazon.com/dp/B0886HQRD3"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "spoon_ti",
+    "name": { "str": "titanium spoon" },
+    "description": "A light titanium spoon, anodized in a rainbow of blues, yellows, and purples.",
+    "weight": "25 g",
+    "volume": "70 ml",
+    "longest_side": "19 cm",
+    "price": 520,
+    "looks_like": "spoon",
+    "copy-from": "base_titanium_silverware",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.theluxuryartmepra.com/linea-rainbow.html"
   },
   {
     "type": "GENERIC",
@@ -575,6 +644,23 @@
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "knife_butter_ti",
+    "name": { "str": "titanum butter knife", "str_pl": "titanium butter knives" },
+    "description": "A lightweight blunt knife, anodized in a rainbow of blues, yellows, and purples.",
+    "weight": "25 g",
+    "volume": "75 ml",
+    "longest_side": "23 cm",
+    "price": "80 USD",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "looks_like": "knife_butter",
+    "copy-from": "base_titanium_silverware",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 1, "stab": 2 },
+    "//": "Based on https://www.theluxuryartmepra.com/linea-rainbow.html"
   },
   {
     "type": "GENERIC",
@@ -673,9 +759,20 @@
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "looks_like": "fork",
+    "looks_like": "spoon",
     "copy-from": "base_silverware",
     "melee_damage": { "bash": 2, "stab": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "spork_ti",
+    "name": { "str": "titanium spork" },
+    "description": "A lightweight, rainbow-anodized hybrid of a spoon and fork.  Generally found in camping mess kits, or the kitchens of people who prefer exotic cutlery.",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "looks_like": "spork",
+    "copy-from": "base_titanium_silverware",
+    "melee_damage": { "bash": 1, "stab": 2 }
   },
   {
     "type": "GENERIC",
@@ -684,9 +781,20 @@
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "looks_like": "spork",
+    "looks_like": "fork",
     "copy-from": "base_silverware",
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "melee_damage": { "bash": 1, "stab": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "foon_ti",
+    "name": { "str": "titanium foon" },
+    "description": "A lightweight, rainbow-anodized hybrid of a fork and spoon.  Though most can't tell the difference between this and a spork, true cutlery connoisseurs know that the tines are longer, and the scoop is narrower.",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "looks_like": "foon",
+    "copy-from": "base_titanium_silverware",
+    "melee_damage": { "bash": 1, "stab": 2 }
   },
   {
     "type": "GENERIC",
@@ -827,7 +935,7 @@
     "type": "GENERIC",
     "category": "tools",
     "id": "pot",
-    "name": { "str": "pot" },
+    "name": { "str": "steel pot" },
     "description": "A cooking pot, useful for boiling water and making all kinds of food.",
     "copy-from": "base_cookpot",
     "material": [ "steel" ],

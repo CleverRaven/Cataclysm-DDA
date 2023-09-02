@@ -118,6 +118,44 @@
     "extend": { "flags": [ "HALF_BOARD" ] }
   },
   {
+    "abstract": "ti_alloy_board_abstract",
+    "copy-from": "base_board_abstract",
+    "type": "vehicle_part",
+    "item": "ti_alloy_sheet",
+    "durability": 120,
+    "breaks_into": "ig_vp_ti_alloy_sheet",
+    "//": "1m square sheet, assume 200cm weld, 50cm weld per damage quadrant to repair",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "40 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "ti_alloy_board",
+    "type": "vehicle_part",
+    "copy-from": "board_abstract",
+    "looks_like": "board",
+    "name": { "str": "titanium alloy board" },
+    "description": "A light but sturdy metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "id": "ti_alloy_halfboard",
+    "copy-from": "board_abstract",
+    "looks_like": "halfboard",
+    "type": "vehicle_part",
+    "name": { "str": "titanium alloy quarterpanel" },
+    "description": "A light but sturdy half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
+  },
+  {
     "abstract": "clothboard_abstract",
     "copy-from": "base_board_abstract",
     "type": "vehicle_part",

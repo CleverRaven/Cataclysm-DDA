@@ -135,12 +135,12 @@
     "id": "armor_lamellar_lc",
     "type": "ARMOR",
     "name": { "str": "mild steel lamellar cuirass", "str_pl": "mild steel lamellar cuirasses" },
-    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  It's less Mad Max and more Garage Mongolian, but the classics are classic for a reason.",
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chainmail and plate armor.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.  It's less Mad Max and more Garage Mongolian, but the classics are classic for a reason.",
     "weight": "14000 g",
     "volume": "9250 ml",
     "price": 26000,
     "price_postapoc": 2500,
-    "material": [ "lc_steel" ],
+    "material": [ "lc_steel_scale" ],
     "symbol": "[",
     "looks_like": "armor_lorica",
     "color": "light_gray",
@@ -150,7 +150,7 @@
     "flags": [ "VARSIZE", "OUTER", "NO_REPAIR", "ABLATIVE_CHAINMAIL_TORSO" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "lc_steel_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
         "coverage": 95,
         "cover_ranged": 95,
@@ -158,7 +158,7 @@
         "covers": [ "torso" ]
       },
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "lc_steel_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 16,
         "coverage": 90,
         "cover_ranged": 95,
@@ -167,7 +167,7 @@
         "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
       },
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "lc_steel_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
         "encumbrance": 22,
         "coverage": 90,
         "cover_ranged": 95,
@@ -181,7 +181,7 @@
     "id": "xl_armor_lamellar_lc",
     "type": "ARMOR",
     "name": { "str": "XL mild steel lamellar cuirass", "str_pl": "XL mild steel lamellar cuirasses" },
-    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  The perfect size for an orc or bipedal grizzly bear.",
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chainmail and plate armor.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.  The perfect size for an orc or bipedal grizzly bear.",
     "copy-from": "armor_lamellar_lc",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -192,7 +192,7 @@
     "copy-from": "armor_lamellar_lc",
     "looks_like": "armor_lamellar_lc",
     "name": { "str": "XS mild steel lamellar cuirass", "str_pl": "XS mild steel lamellar cuirasses" },
-    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Perfectly sized for a particularly angry rat-person, yes-yes.",
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chainmail and plate armor.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.  Perfectly sized for a particularly angry rat-person, yes-yes.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -201,15 +201,15 @@
     "type": "ARMOR",
     "copy-from": "armor_lamellar_lc",
     "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
-    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  This one has been hardened for extra protection.",
+    "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chainmail and plate armor.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.  This one has been hardened for extra protection.",
     "looks_like": "armor_lamellar_lc",
-    "replace_materials": { "lc_steel": "ch_steel" }
+    "replace_materials": { "lc_steel_scale": "ch_steel_scale" }
   },
   {
     "id": "xl_armor_lamellar_ch",
     "type": "ARMOR",
     "name": { "str": "XL hardened steel lamellar cuirass", "str_pl": "XL hardened steel lamellar cuirasses" },
-    "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Built larger for a minotaur guarding their labyrinth.",
+    "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chainmail and plate armor.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.  Built larger for a minotaur guarding their labyrinth.",
     "copy-from": "armor_lamellar_ch",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -220,7 +220,196 @@
     "copy-from": "armor_lamellar_ch",
     "looks_like": "armor_lamellar_ch",
     "name": { "str": "XS hardened steel lamellar cuirass", "str_pl": "XS hardened steel lamellar cuirasses" },
-    "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Just the right size for a fantasy dwarf.",
+    "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chainmail and plate armor.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.  Just the right size for a fantasy dwarf.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_lamellar_ti",
+    "type": "ARMOR",
+    "name": { "str": "titanium lamellar cuirass", "str_pl": "titanium lamellar cuirasses" },
+    "description": "A cuirass made of small silvery strips of titanium, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "weight": "7700 g",
+    "volume": "9250 ml",
+    "price": 40000,
+    "price_postapoc": 4000,
+    "material": [ "titanium_scale" ],
+    "symbol": "[",
+    "looks_like": "armor_lamellar_lc",
+    "color": "light_gray",
+    "longest_side": "60 cm",
+    "warmth": 20,
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "OUTER", "NO_REPAIR", "ABLATIVE_CHAINMAIL_TORSO" ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 12,
+        "coverage": 95,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [ { "type": "titanium_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 9,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
+      },
+      {
+        "material": [ { "type": "titanium_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 12,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_hip_l", "leg_upper_r", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lamellar_ti",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium lamellar cuirass", "str_pl": "XL titanium lamellar cuirasses" },
+    "description": "An oversized cuirass made of small silvery strips of titanium, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_lamellar_ti",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti",
+    "name": { "str": "XS titanium lamellar cuirass", "str_pl": "XS titanium lamellar cuirasses" },
+    "description": "An undersized cuirass made of small silvery strips of titanium, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_lamellar_nh_ti",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti",
+    "name": { "str": "hardened titanium lamellar cuirass", "str_pl": "hardened titanium lamellar cuirasses" },
+    "description": "A cuirass made of small golden strips of nitrogen-hardened titanium, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "material": [ "nh_titanium_scale" ],
+    "color": "yellow",
+    "weight": "9100 g",
+    "price": 50000,
+    "price_postapoc": 4500,
+    "armor": [
+      {
+        "material": [ { "type": "nh_titanium_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 14,
+        "coverage": 95,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [ { "type": "nh_titanium_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 10,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
+      },
+      {
+        "material": [ { "type": "nh_titanium_scale", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 14,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_hip_l", "leg_upper_r", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_lamellar_nh_ti",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened titanium lamellar cuirass", "str_pl": "XL hardened titanium lamellar cuirasses" },
+    "description": "An oversized cuirass made of small golden strips of nitrogen-hardened titanium, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "copy-from": "armor_lamellar_nh_ti",
+    "looks_like": "armor_lamellar_nh_ti",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_lamellar_nh_ti",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_nh_ti",
+    "looks_like": "armor_lamellar_nh_ti",
+    "name": { "str": "XS hardened titanium lamellar cuirass", "str_pl": "XS hardened titanium lamellar cuirasses" },
+    "description": "An undersized cuirass made of small golden strips of nitrogen-hardened titanium, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_lamellar_ti_alloy",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy lamellar cuirass", "str_pl": "titanium alloy lamellar cuirasses" },
+    "description": "A cuirass made of small silvery strips of titanium alloy, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti",
+    "price": 50000,
+    "price_postapoc": 4500,
+    "replace_materials": { "titanium_scale": "ti_alloy_scale" }
+  },
+  {
+    "id": "xl_armor_lamellar_ti_alloy",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_ti_alloy",
+    "looks_like": "armor_lamellar_ti_alloy",
+    "name": { "str": "XL titanium alloy lamellar cuirass", "str_pl": "XL titanium alloy lamellar cuirasses" },
+    "description": "An oversized cuirass made of small silvery strips of titanium alloy, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_lamellar_ti_alloy",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_ti_alloy",
+    "looks_like": "armor_lamellar_ti_alloy",
+    "name": { "str": "XS titanium alloy lamellar cuirass", "str_pl": "XS titanium alloy lamellar cuirasses" },
+    "description": "An undersized cuirass made of small silvery strips of titanium alloy, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_lamellar_qt_ti_alloy",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy lamellar cuirass", "str_pl": "tempered titanium alloy lamellar cuirasses" },
+    "description": "A cuirass made of small silvery strips of tempered titanium alloy, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti_alloy",
+    "price": 60000,
+    "price_postapoc": 500,
+    "replace_materials": { "titanium_scale": "qt_ti_alloy_scale" }
+  },
+    {
+    "id": "xl_armor_lamellar_qt_ti_alloy",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium lamellar cuirass", "str_pl": "XL titanium lamellar cuirasses" },
+    "description": "An oversized cuirass made of small silvery strips of tempered titanium alloy, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_lamellar_qt_ti_alloy",
+    "type": "ARMOR",
+    "copy-from": "armor_lamellar_ti",
+    "looks_like": "armor_lamellar_ti",
+    "name": { "str": "XS titanium lamellar cuirass", "str_pl": "XS titanium lamellar cuirasses" },
+    "description": "An undersized cuirass made of small silvery strips of tempered titanium alloy, laced together like scales.  More flexible than plate, sturdier than chainmail, and far lighter than any ancient armor thanks to the use of modern materials.  Impractical to repair with a forge; instead, you must rebuild sections of damaged lamellae entirely.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -290,7 +479,7 @@
     "price": 50000,
     "price_postapoc": 3500,
     "to_hit": -5,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron_scale", "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lamellar",
@@ -624,6 +813,7 @@
     "id": "xl_lc_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "XL mild steel chainmail vest" },
+    "description": "An oversized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "copy-from": "lc_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -646,6 +836,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
     "name": { "str": "XS mild steel chainmail vest" },
+    "description": "An undersized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -675,6 +866,7 @@
     "id": "xl_mc_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "XL medium steel chainmail vest" },
+    "description": "An oversized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "copy-from": "mc_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -697,6 +889,7 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_vest",
     "name": { "str": "XS medium steel chainmail vest" },
+    "description": "An undersized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -725,6 +918,7 @@
     "id": "xl_hc_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "XL high steel chainmail vest" },
+    "description": "An oversized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "copy-from": "hc_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -747,6 +941,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
     "name": { "str": "XS high steel chainmail vest" },
+    "description": "An undersized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -768,13 +963,14 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
     "name": { "str": "hardened steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "description": "A customized steel chainmail vest, made from case-hardened rings.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "XL hardened steel chainmail vest" },
+    "description": "An oversized steel chainmail vest, made from case-hardened rings.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "copy-from": "ch_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -797,6 +993,7 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_vest",
     "name": { "str": "XS hardened steel chainmail vest" },
+    "description": "An undersized steel chainmail vest, made from case-hardened rings.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -818,13 +1015,14 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
     "name": { "str": "tempered steel chainmail vest" },
-    "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "description": "A customized steel chainmail vest, made from tempered rings.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "XL tempered steel chainmail vest" },
+    "description": "An oversized steel chainmail vest, made from tempered rings.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "copy-from": "qt_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -847,6 +1045,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_vest",
     "name": { "str": "XS tempered steel chainmail vest" },
+    "description": "An undersized steel chainmail vest, made from tempered rings.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -863,6 +1062,236 @@
     ],
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
+  {
+    "id": "ti_chainmail_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "titanium chainmail vest" },
+    "description": "A titanium chainmail vest.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "weight": "3792 g",
+    "volume": "1 L",
+    "price": 20000,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "chainmail_vest",
+    "color": "light_gray",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium chainmail vest" },
+    "description": "An oversized titanium chainmail vest.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "ti_chainmail_vest",
+    "looks_like": "ti_chainmail_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_vest",
+    "looks_like": "ti_chainmail_vest",
+    "name": { "str": "XS titanium chainmail vest" },
+    "description": "An undersized titanium chainmail vest.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "hardened titanium chainmail vest" },
+    "description": "A durable golden-hued titanium alloy chainmail vest, made from nitrogen-hardened rings.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "ti_chainmail_vest",
+    "looks_like": "ti_chainmail_vest",
+    "color": "yellow",
+    "material": [ "nh_titanium_chain" ],
+    "armor": [
+      {
+        "material": [ { "type": "nh_titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "nh_titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "nh_titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "xl_nh_ti_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened titanium chainmail vest" },
+    "description": "A durable, oversized, golden-hued titanium chainmail vest, made from nitrogen-hardened rings.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "nh_ti_chainmail_vest",
+    "looks_like": "nh_ti_chainmail_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_vest",
+    "looks_like": "nh_ti_chainmail_vest",
+    "name": { "str": "XS titanium chainmail vest" },
+    "description": "A durable, undersized, golden-hued titanium chainmail vest, made from nitrogen-hardened rings.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ti_alloy_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy chainmail vest" },
+    "description": "A cut-resistant titanium alloy chainmail vest, often seen in meat or lumber processing.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "ti_chainmail_vest",
+    "looks_like": "ti_chainmail_vest",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail vest" },
+    "description": "An oversized cut-resistant titanium alloy chainmail vest, often seen in meat or lumber processing.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "xl_ti_chainmail_vest",
+    "looks_like": "xl_ti_chainmail_vest",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail vest" },
+    "description": "An undersized cut-resistant titanium alloy chainmail vest, often seen in meat or lumber processing.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "xs_ti_chainmail_vest",
+    "looks_like": "xs_ti_chainmail_vest",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy chainmail vest" },
+    "description": "A high-performance titanium alloy chainmail vest, made from quench-tempered rings.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "ti_chainmail_vest",
+    "looks_like": "ti_chainmail_vest",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail vest" },
+    "description": "An oversized high-performance titanium alloy chainmail vest, made from quench-tempered rings.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "xl_ti_chainmail_vest",
+    "looks_like": "xl_ti_chainmail_vest",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail vest" },
+    "description": "An undersized high-performance titanium alloy chainmail vest, made from quench-tempered rings.  Remarkably light and easy to move in, with small straps that help distribute the weight.",
+    "copy-from": "xs_ti_chainmail_vest",
+    "looks_like": "xs_ti_chainmail_vest",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  }, 
   {
     "id": "cloth_shirt_padded",
     "type": "ARMOR",

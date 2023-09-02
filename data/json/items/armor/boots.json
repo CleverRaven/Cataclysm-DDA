@@ -2589,6 +2589,184 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "ti_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of titanium chainmail chausses", "str_pl": "pairs of titanium chainmail chausses" },
+    "description": "Lightweight titanium chainmail chausses that cover the feet, like booties made of chainmail.",
+    "looks_like": "lc__chainmail_feet",
+    "weight": "990 g",
+    "volume": "500 ml",
+    "price": 6000,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 8,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_feet",
+    "name": { "str": "pair of XL titanium chainmail chausses", "str_pl": "pairs of XL titanium chainmail chausses" },
+    "description": "Lightweight, oversized titanium chainmail chausses that cover the feet, like booties made of chainmail.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_feet",
+    "name": { "str": "pair of XS titanium chainmail chausses", "str_pl": "pairs of XS titanium chainmail chausses" },
+    "description": "Lightweight, undersized titanium chainmail chausses that cover the feet, like booties made of chainmail.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_feet",
+    "looks_like": "ti_chainmail_feet",
+    "name": { "str": "pair of hardened titanium chainmail chausses", "str_pl": "pairs of hardened titanium chainmail chausses" },
+    "description": "Sturdy titanium chainmail chausses that cover the feet, made from nitrogen-hardened rings.  Like booties made of chainmail.",
+    "weight": "1170 g",
+    "material": [ "nh_titanium_chain" ],
+    "color": "yellow",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nh_titanium_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 9,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_nh_ti_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_feet",
+    "looks_like": "nh_ti_chainmail_feet",
+    "name": { "str": "pair of XL hardened titanium chainmail chausses", "str_pl": "pairs of XL hardened titanium chainmail chausses" },
+    "description": "Sturdy, oversized titanium chainmail chausses that cover the feet, made from nitrogen-hardened rings.  Like booties made of chainmail.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "nh_ti_chainmail_feet",
+    "looks_like": "nh_ti_chainmail_feet",
+    "name": { "str": "pair of XS hardened titanium chainmail chausses", "str_pl": "pairs of XS hardened titanium chainmail chausses" },
+    "description": "Sturdy, undersized titanium chainmail chausses that cover the feet, made from nitrogen-hardened rings.  Like booties made of chainmail.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ti_alloy_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_feet",
+    "looks_like": "ti_chainmail_feet",
+    "name": { "str": "pair of titanium alloy chainmail chausses", "str_pl": "pairs of titanium alloy chainmail chausses" },
+    "description": "Cut-resistant titanium chainmail chausses that cover the feet, sometimes found in meat and lumber processing.  Like booties made of chainmail.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_alloy_chainmail_feet",
+    "looks_like": "ti_alloy_chainmail_feet",
+    "name": { "str": "pair of XL titanium alloy chainmail chausses", "str_pl": "pairs of XL titanium alloy chainmail chausses" },
+    "description": "Cut-resistant, oversized titanium chainmail chausses that cover the feet, sometimes found in meat and lumber processing.  Like booties made of chainmail.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_alloy_chainmail_feet",
+    "looks_like": "ti_alloy_chainmail_feet",
+    "name": { "str": "pair of XS titanium alloy chainmail chausses", "str_pl": "pairs of XS titanium alloy chainmail chausses" },
+    "description": "Cut-resistant, oversized titanium chainmail chausses that cover the feet, sometimes found in meat and lumber processing.  Like booties made of chainmail.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ti_chainmail_feet",
+    "looks_like": "ti_chainmail_feet",
+    "name": { "str": "pair of tempered titanium alloy chainmail chausses", "str_pl": "pairs of tempered titanium alloy chainmail chausses" },
+    "description": "High-performance titanium chainmail chausses that cover the feet, made from quench-tempered rings.  Like booties made of chainmail.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_ti_alloy_chainmail_feet",
+    "looks_like": "qt_ti_alloy_chainmail_feet",
+    "name": { "str": "pair of XL tempered titanium chainmail chausses", "str_pl": "pairs of XL tempered titanium chainmail chausses" },
+    "description": "High-performance, oversized titanium chainmail chausses that cover the feet, made from quench-tempered rings.  Like booties made of chainmail.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_ti_alloy_chainmail_feet",
+    "looks_like": "qt_ti_alloy_chainmail_feet",
+    "name": { "str": "pair of XS tempered titanium chainmail chausses", "str_pl": "pairs of XS tempered titanium chainmail chausses" },
+    "description": "High-performance, undersized titanium chainmail chausses that cover the feet, made from quench-tempered rings.  Like booties made of chainmail.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "nomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },

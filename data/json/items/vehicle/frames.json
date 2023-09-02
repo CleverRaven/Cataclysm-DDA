@@ -48,6 +48,29 @@
   },
   {
     "type": "GENERIC",
+    "id": "ti_alloy_frame",
+    "name": { "str": "titanium frame" },
+    "description": "A large lightweight frame made of titanium.  Useful for crafting.",
+    "weight": "11000 g",
+    "color": "light_gray",
+    "material": [ "ti_alloy" ],
+    "price": 7500,
+    "price_postapoc": 150,
+    "copy-from": "frame"
+  },
+  {
+    "type": "GENERIC",
+    "id": "ti_alloy_foldframe",
+    "name": { "str": "foldable titanium frame" },
+    "description": "A small, lightweight foldable titanium frame.",
+    "weight": "2750 g",
+    "material": [ "ti_alloy" ],
+    "price": 5000,
+    "price_postapoc": 125,
+    "copy-from": "foldframe"
+  },
+  {
+    "type": "GENERIC",
     "id": "hdframe",
     "name": { "str": "heavy-duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.",

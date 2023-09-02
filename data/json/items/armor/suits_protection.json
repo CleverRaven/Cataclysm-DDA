@@ -4311,6 +4311,1106 @@
     "extend": { "flags": [ "ELECTRIC_IMMUNE", "UNDERSIZE" ] }
   },
   {
+    "id": "ti_chainmail_hauberk",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "titanium chainmail hauberk" },
+    "description": "A lightweight titanium chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "5145 g",
+    "//": "Should be lighter when irl hauberk as it does not cover legs",
+    "volume": "2750 ml",
+    "price": 38000,
+    "price_postapoc": 18000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "lc_chainmail_hauberk",
+    "color": "light_gray",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium chainmail hauberk" },
+    "description": "A lightweight, oversized titanium chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_hauberk",
+    "looks_like": "ti_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium chainmail hauberk" },
+    "description": "A lightweight, undersized titanium chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_hauberk",
+    "looks_like": "ti_chainmail_hauberk",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "hardened titanium chainmail hauberk" },
+    "copy-from": "ti_chainmail_hauberk",
+    "looks_like": "ti_chainmail_hauberk",
+    "description": "A durable, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xl_nh_ti_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened titanium chainmail hauberk" },
+    "copy-from": "xl_ti_chainmail_hauberk",
+    "looks_like": "nh_ti_chainmail_hauberk",
+    "description": "A durable, oversized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XS hardened titanium chainmail hauberk" },
+    "copy-from": "xs_ti_chainmail_hauberk",
+    "looks_like": "nh_ti_chainmail_hauberk",
+    "description": "A durable, undersized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "ti_alloy_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy chainmail hauberk" },
+    "copy-from": "ti_chainmail_hauberk",
+    "looks_like": "ti_chainmail_hauberk",
+    "description": "A cut-resistant titanium alloy chainmail outfit, covering the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail hauberk" },
+    "copy-from": "xl_ti_chainmail_hauberk",
+    "looks_like": "ti_alloy_chainmail_hauberk",
+    "description": "A cut-resistant, oversized titanium alloy chainmail outfit.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail hauberk" },
+    "copy-from": "xs_ti_chainmail_hauberk",
+    "looks_like": "ti_alloy_chainmail_hauberk",
+    "description": "A cut-resistant, undersized titanium alloy chainmail outfit.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy chainmail hauberk" },
+    "copy-from": "ti_chainmail_hauberk",
+    "looks_like": "ti_chainmail_hauberk",
+    "description": "A high-performance titanium alloy chainmail outfit, made from quench-tempered rings.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered titanium alloy chainmail hauberk" },
+    "copy-from": "xl_ti_chainmail_hauberk",
+    "looks_like": "qt_ti_alloy_chainmail_hauberk",
+    "description": "A high-performance, oversized titanium alloy chainmail outfit, made from quench-tempered rings.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered titanium alloy chainmail hauberk" },
+    "copy-from": "xs_ti_chainmail_hauberk",
+    "looks_like": "qt_ti_alloy_chainmail_hauberk",
+    "description": "A high-performance, undersized titanium alloy chainmail outfit, made from quench-tempered rings.  Covers the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "ti_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "titanium chainmail sleeveless jumpsuit" },
+    "description": "A lightweight titanium chainmail outfit, covering torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "5868 g",
+    "//": "Should be lighter when irl hauberk as it does not cover legs",
+    "volume": "2750 ml",
+    "price": 40000,
+    "price_postapoc": 19000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "lc_chainmail_sjumpsuit",
+    "color": "light_gray",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium chainmail sleeveless jumpsuit" },
+    "description": "A lightweight, oversized titanium chainmail outfit, covering torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_sjumpsuit",
+    "looks_like": "ti_chainmail_sjumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium chainmail sleeveless jumpsuit" },
+    "description": "A lightweight, undersized titanium chainmail outfit, covering torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_sjumpsuit",
+    "looks_like": "ti_chainmail_sjumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "hardened titanium chainmail sleeveless jumpsuit" },
+    "copy-from": "ti_chainmail_sjumpsuit",
+    "looks_like": "ti_chainmail_sjumpsuit",
+    "description": "A durable, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xl_nh_ti_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened titanium chainmail sleeveless jumpsuit" },
+    "copy-from": "xl_ti_chainmail_sjumpsuit",
+    "looks_like": "nh_ti_chainmail_sjumpsuit",
+    "description": "A durable, oversized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS hardened titanium chainmail sleeveless jumpsuit" },
+    "copy-from": "xs_ti_chainmail_sjumpsuit",
+    "looks_like": "nh_ti_chainmail_sjumpsuit",
+    "description": "A durable, undersized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "ti_alloy_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy chainmail sleeveless jumpsuit" },
+    "copy-from": "ti_chainmail_sjumpsuit",
+    "looks_like": "ti_chainmail_sjumpsuit",
+    "description": "A cut-resistant titanium alloy chainmail outfit, covering the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail sleeveless jumpsuit" },
+    "copy-from": "xl_ti_chainmail_sjumpsuit",
+    "looks_like": "ti_alloy_chainmail_sjumpsuit",
+    "description": "A cut-resistant, oversized titanium alloy chainmail outfit.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail sleeveless jumpsuit" },
+    "copy-from": "xs_ti_chainmail_sjumpsuit",
+    "looks_like": "ti_alloy_chainmail_sjumpsuit",
+    "description": "A cut-resistant, undersized titanium alloy chainmail outfit.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy chainmail sleeveless jumpsuit" },
+    "copy-from": "ti_chainmail_sjumpsuit",
+    "looks_like": "ti_chainmail_sjumpsuit",
+    "description": "A high-performance titanium alloy chainmail outfit, made from quench-tempered rings.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered titanium alloy chainmail sleeveless jumpsuit" },
+    "copy-from": "xl_ti_chainmail_sjumpsuit",
+    "looks_like": "qt_ti_alloy_chainmail_sjumpsuit",
+    "description": "A high-performance, oversized titanium alloy chainmail outfit, made from quench-tempered rings.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered titanium alloy chainmail sleeveless jumpsuit" },
+    "copy-from": "xs_ti_chainmail_sjumpsuit",
+    "looks_like": "qt_ti_alloy_chainmail_sjumpsuit",
+    "description": "A high-performance, undersized titanium alloy chainmail outfit, made from quench-tempered rings.  Covers the torso and legs.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "ti_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "titanium chainmail jumpsuit" },
+    "description": "A lightweight titanium chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "7222 g",
+    "volume": "3250 ml",
+    "price": 45000,
+    "price_postapoc": 19000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "lc_chainmail_jumpsuit",
+    "color": "light_gray",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium chainmail jumpsuit" },
+    "description": "A lightweight, oversized titanium chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_jumpsuit",
+    "looks_like": "ti_chainmail_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium chainmail jumpsuit" },
+    "description": "A lightweight, undersized titanium chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_jumpsuit",
+    "looks_like": "ti_chainmail_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "hardened titanium chainmail jumpsuit" },
+    "copy-from": "ti_chainmail_jumpsuit",
+    "looks_like": "ti_chainmail_jumpsuit",
+    "description": "A durable, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "8535 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xl_nh_ti_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened titanium chainmail jumpsuit" },
+    "copy-from": "xl_ti_chainmail_jumpsuit",
+    "looks_like": "nh_ti_chainmail_jumpsuit",
+    "description": "A durable, oversized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "8535 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS hardened titanium chainmail jumpsuit" },
+    "copy-from": "xs_ti_chainmail_jumpsuit",
+    "looks_like": "nh_ti_chainmail_jumpsuit",
+    "description": "A durable, undersized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "8535 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "ti_alloy_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy chainmail jumpsuit" },
+    "copy-from": "ti_chainmail_jumpsuit",
+    "looks_like": "ti_chainmail_jumpsuit",
+    "description": "A cut-resistant titanium alloy chainmail outfit, covering the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail jumpsuit" },
+    "copy-from": "xl_ti_chainmail_jumpsuit",
+    "looks_like": "ti_alloy_chainmail_jumpsuit",
+    "description": "A cut-resistant, oversized titanium alloy chainmail outfit.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail jumpsuit" },
+    "copy-from": "xs_ti_chainmail_jumpsuit",
+    "looks_like": "ti_alloy_chainmail_jumpsuit",
+    "description": "A cut-resistant, undersized titanium alloy chainmail outfit.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy chainmail jumpsuit" },
+    "copy-from": "ti_chainmail_jumpsuit",
+    "looks_like": "ti_chainmail_jumpsuit",
+    "description": "A high-performance titanium alloy chainmail outfit, made from quench-tempered rings.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered titanium alloy chainmail jumpsuit" },
+    "copy-from": "xl_ti_chainmail_jumpsuit",
+    "looks_like": "qt_ti_alloy_chainmail_jumpsuit",
+    "description": "A high-performance, oversized titanium alloy chainmail outfit, made from quench-tempered rings.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered titanium alloy chainmail jumpsuit" },
+    "copy-from": "xs_ti_chainmail_jumpsuit",
+    "looks_like": "qt_ti_alloy_chainmail_jumpsuit",
+    "description": "A high-performance, undersized titanium alloy chainmail outfit, made from quench-tempered rings.  Leaves the head uncovered.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "ti_chainmail_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "titanium chainmail armor" },
+    "description": "A lightweight titanium chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "7945 g",
+    "volume": "3250 ml",
+    "price": 50000,
+    "price_postapoc": 20000,
+    "to_hit": -1,
+    "material": [ "titanium_chain" ],
+    "symbol": "[",
+    "looks_like": "lc_chainmail_suit",
+    "color": "light_gray",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "xl_ti_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium chainmail armor" },
+    "description": "A lightweight, oversized titanium chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_suit",
+    "looks_like": "ti_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ti_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium chainmail armor" },
+    "description": "A lightweight, undersized titanium chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "copy-from": "ti_chainmail_suit",
+    "looks_like": "ti_chainmail_suit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "nh_ti_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "hardened titanium chainmail armor" },
+    "copy-from": "ti_chainmail_suit",
+    "looks_like": "ti_chainmail_suit",
+    "description": "A durable, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "9390 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xl_nh_ti_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened titanium chainmail armor" },
+    "copy-from": "xl_ti_chainmail_suit",
+    "looks_like": "nh_ti_chainmail_suit",
+    "description": "A durable, oversized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "xs_nh_ti_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XS hardened titanium chainmail armor" },
+    "copy-from": "xs_ti_chainmail_suit",
+    "looks_like": "nh_ti_chainmail_suit",
+    "description": "A durable, undersized, golden-hued titanium chainmail outfit made from nitrogen-hardened rings.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "6082 g",
+    "color": "yellow",
+    "replace_materials": { "titanium_chain": "nh_titanium_chain" }
+  },
+  {
+    "id": "ti_alloy_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "titanium alloy chainmail armor" },
+    "copy-from": "ti_chainmail_suit",
+    "looks_like": "ti_chainmail_suit",
+    "description": "A cut-resistant titanium alloy chainmail outfit, covering the torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xl_ti_alloy_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL titanium alloy chainmail armor" },
+    "copy-from": "xl_ti_chainmail_suit",
+    "looks_like": "ti_alloy_chainmail_suit",
+    "description": "A cut-resistant, oversized titanium alloy chainmail outfit.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "xs_ti_alloy_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XS titanium alloy chainmail armor" },
+    "copy-from": "xs_ti_chainmail_suit",
+    "looks_like": "ti_alloy_chainmail_suit",
+    "description": "A cut-resistant, undersized titanium alloy chainmail outfit.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "ti_alloy_chain" }
+  },
+  {
+    "id": "qt_ti_alloy_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "tempered titanium alloy chainmail armor" },
+    "copy-from": "ti_chainmail_suit",
+    "looks_like": "ti_chainmail_suit",
+    "description": "A high-performance titanium alloy chainmail outfit, made from quench-tempered rings.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xl_qt_ti_alloy_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered titanium alloy chainmail armor" },
+    "copy-from": "xl_ti_chainmail_suit",
+    "looks_like": "qt_ti_alloy_chainmail_suit",
+    "description": "A high-performance, oversized titanium alloy chainmail outfit, made from quench-tempered rings.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
+    "id": "xs_qt_ti_alloy_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered titanium alloy chainmail armor" },
+    "copy-from": "xs_ti_chainmail_suit",
+    "looks_like": "qt_ti_alloy_chainmail_suit",
+    "description": "A high-performance, undersized titanium alloy chainmail outfit, made from quench-tempered rings.  Combine with a aketon or other padded layer for optimal protection.",
+    "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
+  },
+  {
     "id": "cleansuit",
     "repairs_like": "bunker_coat",
     "//": "Should be somewhat more difficult to repair than ordinary plastic",
