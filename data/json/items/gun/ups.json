@@ -68,6 +68,10 @@
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ],
+    "overheat_threshold": 200,
+    "cooling_value": 2,
+    "heat_per_shot": 6,
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -105,6 +109,10 @@
       "NEEDS_NO_LUBE",
       "USE_UPS"
     ],
+    "overheat_threshold": 100,
+    "cooling_value": 2,
+    "heat_per_shot": 17,
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 6 }
   },
   {
