@@ -62,12 +62,12 @@ int creator::main_window::execute( QApplication &app )
     creator_main_window.setCentralWidget(tabWidget);
 
     //Create the spell window and add it as a tab
-    spell_window spell_editor;
-    tabWidget->addTab(&spell_editor, "Spell");
+    spell_editor = new spell_window();
+    tabWidget->addTab(spell_editor, "Spell");
 
     //Create the item group window and add it as a tab
-    item_group_window item_group_editor;
-    tabWidget->addTab(&item_group_editor, "Item group");
+    item_group_editor = new item_group_window();
+    tabWidget->addTab(item_group_editor, "Item group");
 
     //Create the mod selection window and add it as a tab
     mod_selection = new mod_selection_window();
