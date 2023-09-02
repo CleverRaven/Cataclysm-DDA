@@ -1393,65 +1393,6 @@
     ]
   },
   {
-    "id": "car_sedan_solar",
-    "type": "vehicle",
-    "copy-from": "car_sedan_abstract",
-    "name": "Solar Sedan",
-    "parts": [
-      { "x": 2, "y": 0, "parts": [ "engine_electric_large" ] },
-      { "x": -1, "y": 0, "parts": [ "seat_back#left", "seatbelt" ] },
-      { "x": -1, "y": 1, "parts": [ "seat_back#right", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 1, "parts": [ "solar_panel", "storage_battery" ] }
-    ],
-    "items": [ { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] } ]
-  },
-  {
-    "id": "car_sedan_luxury_solar",
-    "type": "vehicle",
-    "copy-from": "car_sedan_abstract",
-    "name": "Luxury Solar Sedan",
-    "parts": [
-      { "x": -2, "y": 0, "parts": [ "engine_electric_large" ] },
-      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
-      { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 1, "parts": [ "solar_panel", "storage_battery" ] }
-    ],
-    "items": [ { "x": 0, "y": 1, "chance": 10, "item_groups": [ "suits" ] } ]
-  },
-  {
-    "id": "car_sedan_sports_solar",
-    "type": "vehicle",
-    "copy-from": "car_sedan_abstract",
-    "name": "Solar Sports Sedan",
-    "parts": [
-      { "x": -2, "y": 0, "parts": [ "engine_electric_enhanced" ] },
-      { "x": -1, "y": 0, "parts": [ "seat_back_leather#left", "seatbelt" ] },
-      { "x": -1, "y": 1, "parts": [ "seat_back_leather#right", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "reclining_seat_leather#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 1, "parts": [ "solar_panel", "storage_battery" ] }
-    ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
-      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] },
-      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "snacks_fancy" ] },
-      { "x": -1, "y": 1, "chance": 5, "item_groups": [ "snacks_fancy" ] }
-    ]
-  },
-  {
     "abstract": "car_town_abstract",
     "type": "vehicle",
     "name": "Town Car",
@@ -1785,57 +1726,6 @@
     ]
   },
   {
-    "id": "car_coupe_solar",
-    "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
-    "name": "Solar Coupe",
-    "parts": [
-      { "x": -1, "y": 0, "parts": [ "engine_electric_large" ] },
-      { "x": 0, "y": 0, "parts": [ "seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "seat#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 1, "parts": [ "solar_panel", "storage_battery" ] }
-    ],
-    "items": [ { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] } ]
-  },
-  {
-    "id": "car_coupe_luxury_solar",
-    "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
-    "name": "Luxury Solar Coupe",
-    "parts": [
-      { "x": -1, "y": 0, "parts": [ "engine_electric_large" ] },
-      { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 1, "parts": [ "solar_panel", "storage_battery" ] }
-    ],
-    "items": [ { "x": 0, "y": 1, "chance": 10, "item_groups": [ "suits" ] } ]
-  },
-  {
-    "id": "car_coupe_sports_solar",
-    "type": "vehicle",
-    "copy-from": "car_coupe_abstract",
-    "name": "Solar Sports Coupe",
-    "parts": [
-      { "x": -1, "y": 0, "parts": [ "engine_electric_enhanced" ] },
-      { "x": 0, "y": 0, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 1, "parts": [ "seat_leather#windshield_front", "seatbelt" ] },
-      { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "solar_panel", "storage_battery" ] },
-      { "x": 0, "y": 1, "parts": [ "solar_panel", "storage_battery" ] }
-    ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
-      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
-    ]
-  },
-  {
     "abstract": "car_super_abstract",
     "type": "vehicle",
     "name": "Supercar",
@@ -1923,41 +1813,6 @@
       { "x": -2, "y": 1, "parts": [ "engine_electric_enhanced" ] },
       { "x": 0, "y": 0, "parts": [ "storage_battery" ] },
       { "x": 0, "y": 1, "parts": [ "storage_battery" ] },
-      { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "storage_battery" ] }
-    ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
-      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
-    ]
-  },
-  {
-    "id": "car_super_solar",
-    "type": "vehicle",
-    "copy-from": "car_super_abstract",
-    "name": "Solar Super Car",
-    "parts": [
-      { "x": -2, "y": 0, "parts": [ "engine_electric_super" ] },
-      { "x": 0, "y": 0, "parts": [ "storage_battery", "solar_panel" ] },
-      { "x": 0, "y": 1, "parts": [ "storage_battery", "solar_panel" ] },
-      { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
-      { "x": -1, "y": 1, "parts": [ "storage_battery" ] }
-    ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
-      { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
-    ]
-  },
-  {
-    "id": "car_super_solar_alt",
-    "type": "vehicle",
-    "copy-from": "car_super_abstract",
-    "name": "Solar Super Car",
-    "parts": [
-      { "x": -2, "y": 0, "parts": [ "engine_electric_enhanced" ] },
-      { "x": -2, "y": 1, "parts": [ "engine_electric_enhanced" ] },
-      { "x": 0, "y": 0, "parts": [ "storage_battery", "solar_panel" ] },
-      { "x": 0, "y": 1, "parts": [ "storage_battery", "solar_panel" ] },
       { "x": -1, "y": 0, "parts": [ "storage_battery" ] },
       { "x": -1, "y": 1, "parts": [ "storage_battery" ] }
     ],
