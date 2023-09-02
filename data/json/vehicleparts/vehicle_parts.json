@@ -821,7 +821,7 @@
     "type": "vehicle_part",
     "id": "trunk_sedan",
     "name": { "str": "sedan trunk" },
-    "looks_like": "f_locker",
+    "looks_like": "trunk",
     "categories": [ "cargo" ],
     "color": "brown",
     "broken_color": "brown",
