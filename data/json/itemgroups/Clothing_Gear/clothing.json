@@ -284,10 +284,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       {
-        "distribution": [
-          { "group": "military_ballistic_vest", "prob": 75 },
-          { "group": "pmc_ballistic_vest", "prob": 25 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vest", "prob": 75 }, { "group": "pmc_ballistic_vest", "prob": 25 } ],
         "prob": 90
       },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },
@@ -341,10 +338,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       {
-        "distribution": [
-          { "group": "military_ballistic_vest", "prob": 75 },
-          { "group": "pmc_ballistic_vest", "prob": 25 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vest", "prob": 75 }, { "group": "pmc_ballistic_vest", "prob": 25 } ],
         "prob": 100
       },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },
@@ -373,10 +367,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       {
-        "distribution": [
-          { "group": "military_ballistic_vest_heavy", "prob": 75 },
-          { "group": "pmc_ballistic_vest_heavy", "prob": 25 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vest_heavy", "prob": 75 }, { "group": "pmc_ballistic_vest_heavy", "prob": 25 } ],
         "prob": 90
       },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },
@@ -405,10 +396,7 @@
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       {
-        "distribution": [
-          { "group": "military_ballistic_vest", "prob": 75 },
-          { "group": "pmc_ballistic_vest", "prob": 25 }
-        ],
+        "distribution": [ { "group": "military_ballistic_vest", "prob": 75 }, { "group": "pmc_ballistic_vest", "prob": 25 } ],
         "prob": 90
       },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },

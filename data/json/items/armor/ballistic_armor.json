@@ -33,10 +33,7 @@
     "//2": "20cm x 15cm x .35cm",
     "price": "400 USD",
     "price_postapoc": "80 USD",
-    "material": [
-      { "type": "nylon" },
-      { "type": "kevlar", "portion": 2.3 }
-    ],
+    "material": [ { "type": "nylon" }, { "type": "kevlar", "portion": 2.3 } ],
     "repairs_with": [ "kevlar" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -68,10 +65,7 @@
     "longest_side": "20 cm",
     "price": "200 USD",
     "price_postapoc": "40 USD",
-    "material": [
-      { "type": "nylon" },
-      { "type": "kevlar", "portion": 2.3 }
-    ],
+    "material": [ { "type": "nylon" }, { "type": "kevlar", "portion": 2.3 } ],
     "repairs_with": [ "kevlar" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -104,10 +98,7 @@
     "longest_side": "30 cm",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "material": [
-      { "type": "nylon" },
-      { "type": "qt_steel", "portion": 6.35 }
-    ],
+    "material": [ { "type": "nylon" }, { "type": "qt_steel", "portion": 6.35 } ],
     "repairs_with": [ "qt_steel" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -140,10 +131,7 @@
     "longest_side": "20 cm",
     "price": "400 USD",
     "price_postapoc": "80 USD",
-    "material": [
-      { "type": "nylon" },
-      { "type": "qt_steel", "portion": 6.35 }
-    ],
+    "material": [ { "type": "nylon" }, { "type": "qt_steel", "portion": 6.35 } ],
     "repairs_with": [ "qt_steel" ],
     "symbol": ",",
     "color": "dark_gray",
