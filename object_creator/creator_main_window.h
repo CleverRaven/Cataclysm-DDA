@@ -5,6 +5,8 @@
 #include "mod_selection_window.h"
 #include "item_group_window.h"
 #include "spell_window.h"
+//include unistd.h for the sleep function
+#include <unistd.h>
 
 class QApplication;
 
