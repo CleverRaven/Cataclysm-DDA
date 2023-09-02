@@ -8,6 +8,8 @@
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qmainwindow.h>
 #include <QtWidgets/qtabwidget.h>
+#include <QtWidgets/qsplashscreen.h>
+#include <QtGui/qpainter.h>
 
 
 namespace io
@@ -31,8 +33,28 @@ namespace io
 int creator::main_window::execute( QApplication &app )
 {
 
+    //Create a splash screen that tells the user we're loading
+    //First we create a pixmap with the desired size
+    QPixmap splash( QSize(640, 480) );
+    splash.fill(Qt::gray);
+    //Then we use a painter to draw text on it
+    QPainter painter( &splash );
+    painter.setPen( Qt::black );
+    painter.setFont( QFont( "Arial", 20 ) );
+    painter.drawText( QRect( 0, 0, 640, 480 ), Qt::AlignCenter, "Loading main window..." );
+    painter.end();
+
+    //Then we create the splash screen and show it
+    QSplashScreen splashscreen( splash );
+    splashscreen.show();
+
+    app.processEvents();
     //Create the main window
     QMainWindow creator_main_window;
+
+    app.processEvents();
+    //destroy the splashscreen when creator_main_window is shown
+    splashscreen.finish( &creator_main_window );
 
 
     //Create a tab widget and add it to the main window
@@ -53,6 +75,7 @@ int creator::main_window::execute( QApplication &app )
     
     //Make the main window maximized
     creator_main_window.showMaximized();
+
 
     return app.exec();
 }

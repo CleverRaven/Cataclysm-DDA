@@ -111,7 +111,6 @@ int main( int argc, char *argv[] )
     MAP_SHARING::setDefaults();
 
     QApplication app( argc, argv );
-
     //Create a splash screen that tells the user we're loading
     //First we create a pixmap with the desired size
     QPixmap splash( QSize(640, 480) );
@@ -120,13 +119,12 @@ int main( int argc, char *argv[] )
     QPainter painter( &splash );
     painter.setPen( Qt::black );
     painter.setFont( QFont( "Arial", 20 ) );
-    painter.drawText( QRect( 0, 0, 640, 480 ), Qt::AlignCenter, "Object Creator is Loading..." );
+    painter.drawText( QRect( 0, 0, 640, 480 ), Qt::AlignCenter, "The Object Creator is loading..." );
     painter.end();
-    
+
     //Then we create the splash screen and show it
     QSplashScreen splashscreen( splash );
     splashscreen.show();
-    app.processEvents();
 
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
                         "CleverRaven", "Cataclysm - DDA" );
@@ -150,14 +148,17 @@ int main( int argc, char *argv[] )
     }
 
     loading_ui ui( false );
+    app.processEvents();
 
     get_options().init();
     get_options().load();
 
     init_colors();
 
+
     world_generator = std::make_unique<worldfactory>();
     world_generator->init();
+
     std::vector<mod_id> mods;
     mods.push_back( mod_id( "dda" ) );
     if( settings.contains( "mods/include" ) ) {
@@ -171,5 +172,7 @@ int main( int argc, char *argv[] )
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
+    //destroy the splash screen
+    splashscreen.finish( nullptr );
     creator::main_window().execute( app );
 }
