@@ -3850,10 +3850,13 @@
     "id": "blackbelt_novice",
     "name": "Novice Martial Artist",
     "description": "You've decided today is the day to take your first lesson at the local dojo.  You'll be great at it, you're sure of it.",
-    "points": 0,
+    "points": 1,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "unarmed" } ],
     "items": {
-      "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
+      "both": { 
+        "items": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
+        "entries": [ { "item": "manual_karate", "custom-flags": [ "auto_wield" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     },
