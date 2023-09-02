@@ -34,10 +34,6 @@
       ],
       "palettes": [ "lodge_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
-      "place_vehicles": [
-        { "vehicle": "cars_shootingbrakes", "x": 13, "y": 10, "chance": 25 },
-        { "vehicle": "cars_shootingbrakes", "x": 13, "y": 15, "chance": 25 }
-      ],
       "place_nested": [
         {
           "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
@@ -83,7 +79,6 @@
       "palettes": [ "lodge_palette" ],
       "place_monsters": [ { "monster": "GROUP_PETS", "x": 29, "y": 4 } ],
       "place_npcs": [ { "class": "ABENAKI_Glooscap", "x": 28, "y": 11 } ],
-      "place_vehicles": [ { "vehicle": "cars_shootingbrakes", "x": 13, "y": 15, "chance": 50 } ],
       "place_nested": [
         {
           "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
