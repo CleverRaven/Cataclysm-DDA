@@ -3396,10 +3396,9 @@
     "result": "pipe",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
-    "skill_used": "mechanics",
     "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 12 ] ] ]
   },
   {
     "result": "hc_steel_lump",

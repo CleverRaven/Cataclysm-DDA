@@ -3,9 +3,9 @@
     "type": "GENERIC",
     "id": "pipe",
     "name": { "str": "pipe" },
-    "description": "A steel pipe; makes a good melee weapon.  Useful in a few crafting recipes.",
+    "description": "A steel pipe; makes a good melee weapon.  Useful in a bunch of crafting recipes.",
     "category": "spare_parts",
-    "weight": "1250 g",
+    "weight": "600 g",
     "longest_side": "60 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "color": "dark_gray",
@@ -15,9 +15,10 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "volume": "370 ml",
-    "price": 7500,
+    "price": "38 USD",
     "price_postapoc": 10,
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "//": "Based on https://en.stainlesseurope.com/en_US/p/Stainless-steel-acid-resistant-seamless-tube-DN20-OD-28-mm-x-1%2C5-mm-1.4571-316Ti-60cm/13983"
   },
   {
     "id": "scrap",
