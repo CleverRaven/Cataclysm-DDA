@@ -115,20 +115,17 @@ int main( int argc, char *argv[] )
     //First we create a pixmap with the desired size
     QPixmap splash( QSize(640, 480) );
     splash.fill(Qt::gray);
-    //Then we use a painter to draw text on it
-    QPainter painter( &splash );
-    painter.setPen( Qt::black );
-    painter.setFont( QFont( "Arial", 20 ) );
-    painter.drawText( QRect( 0, 0, 640, 480 ), Qt::AlignCenter, "The Object Creator is loading..." );
-    painter.end();
 
     //Then we create the splash screen and show it
     QSplashScreen splashscreen( splash );
     splashscreen.show();
+    splashscreen.showMessage( "Initializing Object Creator...", Qt::AlignCenter );
+    //let the thread sleep for a second to show the splashscreen
+    sleep( 1 );
+    app.processEvents();
 
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
                         "CleverRaven", "Cataclysm - DDA" );
-
 
     cli_opts cli;
 
@@ -148,13 +145,11 @@ int main( int argc, char *argv[] )
     }
 
     loading_ui ui( false );
-    app.processEvents();
 
     get_options().init();
     get_options().load();
 
     init_colors();
-
 
     world_generator = std::make_unique<worldfactory>();
     world_generator->init();
@@ -171,8 +166,8 @@ int main( int argc, char *argv[] )
 
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
+    
+    splashscreen.finish( nullptr ); //Destroy the splashscreen
 
-    //destroy the splash screen
-    splashscreen.finish( nullptr );
     creator::main_window().execute( app );
 }

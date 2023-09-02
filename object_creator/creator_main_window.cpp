@@ -1,7 +1,4 @@
 #include "creator_main_window.h"
-
-#include "spell_window.h"
-#include "item_group_window.h"
 #include "enum_conversions.h"
 #include "translations.h"
 
@@ -32,30 +29,20 @@ namespace io
 
 int creator::main_window::execute( QApplication &app )
 {
-
+    //Create the main window
+    QMainWindow creator_main_window;
     //Create a splash screen that tells the user we're loading
     //First we create a pixmap with the desired size
     QPixmap splash( QSize(640, 480) );
     splash.fill(Qt::gray);
-    //Then we use a painter to draw text on it
-    QPainter painter( &splash );
-    painter.setPen( Qt::black );
-    painter.setFont( QFont( "Arial", 20 ) );
-    painter.drawText( QRect( 0, 0, 640, 480 ), Qt::AlignCenter, "Loading main window..." );
-    painter.end();
 
     //Then we create the splash screen and show it
     QSplashScreen splashscreen( splash );
     splashscreen.show();
-
+    splashscreen.showMessage( "Loading mainwindow...", Qt::AlignCenter );
+    //let the thread sleep for a second to show the splashscreen
+    sleep( 1 );
     app.processEvents();
-    //Create the main window
-    QMainWindow creator_main_window;
-
-    app.processEvents();
-    //destroy the splashscreen when creator_main_window is shown
-    splashscreen.finish( &creator_main_window );
-
 
     //Create a tab widget and add it to the main window
     QTabWidget* tabWidget = new QTabWidget(&creator_main_window);
@@ -72,10 +59,9 @@ int creator::main_window::execute( QApplication &app )
     //Create the mod selection window and add it as a tab
     mod_selection = new mod_selection_window();
     tabWidget->addTab(mod_selection, "Mod selection");
-    
-    //Make the main window maximized
+
     creator_main_window.showMaximized();
-
-
+    splashscreen.finish( &creator_main_window ); //Destroy the splashscreen
+    
     return app.exec();
 }
