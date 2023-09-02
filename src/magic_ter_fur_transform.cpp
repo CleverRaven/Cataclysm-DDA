@@ -79,7 +79,7 @@ template<class T>
 void ter_furn_data<T>::load( const JsonObject &jo )
 {
     load_transform_results( jo, "result", list );
-    message = jo.get_string( "message", "" );
+    jo.read( "message", message, false );
     message_good = jo.get_bool( "message_good", true );
 }
 
@@ -158,7 +158,7 @@ std::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
 }
 
 template<class T, class K>
-std::optional<std::pair<T, std::pair<std::string, bool>>> ter_furn_transform::next( const
+std::optional<std::pair<T, std::pair<translation, bool>>> ter_furn_transform::next( const
         std::map<K, ter_furn_data<T>> &list,
         const K &key ) const
 {
@@ -170,44 +170,44 @@ std::optional<std::pair<T, std::pair<std::string, bool>>> ter_furn_transform::ne
     return std::nullopt;
 }
 
-std::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_ter(
+std::optional<std::pair<ter_str_id, std::pair<translation, bool>>> ter_furn_transform::next_ter(
     const ter_str_id &ter ) const
 {
     return next( ter_transform, ter );
 }
 
-std::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_ter(
+std::optional<std::pair<ter_str_id, std::pair<translation, bool>>> ter_furn_transform::next_ter(
     const std::string &flag ) const
 {
     return next( ter_flag_transform, flag );
 }
 
-std::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_furn(
+std::optional<std::pair<furn_str_id, std::pair<translation, bool>>> ter_furn_transform::next_furn(
     const furn_str_id &furn ) const
 {
     return next( furn_transform, furn );
 }
 
-std::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_furn(
+std::optional<std::pair<furn_str_id, std::pair<translation, bool>>> ter_furn_transform::next_furn(
     const std::string &flag ) const
 {
     return next( furn_flag_transform, flag );
 }
 
-std::optional<std::pair<field_type_id, std::pair<std::string, bool>>>
+std::optional<std::pair<field_type_id, std::pair<translation, bool>>>
 ter_furn_transform::next_field(
     const field_type_id &field ) const
 {
     return next( field_transform, field );
 }
 
-std::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_trap(
+std::optional<std::pair<trap_str_id, std::pair<translation, bool>>> ter_furn_transform::next_trap(
     const trap_str_id &trap ) const
 {
     return next( trap_transform, trap );
 }
 
-std::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> ter_furn_transform::next_trap(
+std::optional<std::pair<trap_str_id, std::pair<translation, bool>>> ter_furn_transform::next_trap(
     const std::string &flag ) const
 {
     return next( trap_flag_transform, flag );
@@ -217,25 +217,25 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
 {
     avatar &you = get_avatar();
     const ter_id ter_at_loc = m.ter( location );
-    std::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_potential = next_ter(
+    std::optional<std::pair<ter_str_id, std::pair<translation, bool>>> ter_potential = next_ter(
                 ter_at_loc->id );
     const furn_id furn_at_loc = m.furn( location );
-    std::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> furn_potential = next_furn(
+    std::optional<std::pair<furn_str_id, std::pair<translation, bool>>> furn_potential = next_furn(
                 furn_at_loc->id );
     const trap_str_id trap_at_loc = m.maptile_at( location ).get_trap().id();
-    std::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> trap_potential = next_trap(
+    std::optional<std::pair<trap_str_id, std::pair<translation, bool>>> trap_potential = next_trap(
                 trap_at_loc );
 
     const field &field_at_loc = m.field_at( location );
     for( const auto &fld : field_at_loc ) {
-        std::optional<std::pair<field_type_id, std::pair<std::string, bool>>> field_potential = next_field(
+        std::optional<std::pair<field_type_id, std::pair<translation, bool>>> field_potential = next_field(
                     fld.first );
         if( field_potential ) {
             m.add_field( location, field_potential->first, fld.second.get_field_intensity(),
                          fld.second.get_field_age(), true );
             m.remove_field( location, fld.first );
-            if( you.sees( location ) ) {
-                you.add_msg_if_player( field_potential->second.first,
+            if( you.sees( location ) && !field_potential->second.first.empty() ) {
+                you.add_msg_if_player( field_potential->second.first.translated(),
                                        field_potential->second.second ? m_good : m_bad );
             }
         }
@@ -279,21 +279,22 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
 
     if( ter_potential ) {
         m.ter_set( location, ter_potential->first );
-        if( you.sees( location ) ) {
-            you.add_msg_if_player( ter_potential->second.first, ter_potential->second.second ? m_good : m_bad );
+        if( you.sees( location ) && !ter_potential->second.first.empty() ) {
+            you.add_msg_if_player( ter_potential->second.first.translated(),
+                                   ter_potential->second.second ? m_good : m_bad );
         }
     }
     if( furn_potential ) {
         m.furn_set( location, furn_potential->first );
-        if( you.sees( location ) ) {
-            you.add_msg_if_player( furn_potential->second.first,
+        if( you.sees( location ) && !furn_potential->second.first.empty() ) {
+            you.add_msg_if_player( furn_potential->second.first.translated(),
                                    furn_potential->second.second ? m_good : m_bad );
         }
     }
     if( trap_potential ) {
         m.trap_set( location, trap_potential->first );
-        if( you.sees( location ) ) {
-            you.add_msg_if_player( trap_potential->second.first,
+        if( you.sees( location ) && !trap_potential->second.first.empty() ) {
+            you.add_msg_if_player( trap_potential->second.first.translated(),
                                    trap_potential->second.second ? m_good : m_bad );
         }
     }

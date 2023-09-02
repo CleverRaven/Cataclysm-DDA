@@ -1,0 +1,278 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "nether_crystal_field",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "  A_A_A_A_A_A_A_A_A_A_  ",
+        " A_A_A_A_A_A_A_A_A_A_A_ ",
+        "A_A_A_A_A_A_A_A_A_A_A___",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "A_A_A_A_A_A_A_A_A_A_A___",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "A_A_A_A_A_A_A_A_A_A_A___",
+        "_A_A_A___________A_A_A__",
+        "A_A_A_A___________A_A___",
+        "_A_A_A___________A_A_A__",
+        "A_A_A_A___________A_A___",
+        "_A_A_A___________A_A_A__",
+        "A_A_A_A___________A_A___",
+        "_A_A_A___________A_A_A__",
+        "A_A_A_A___________A_A___",
+        "_A_A_A___________A_A_A__",
+        "A_A_A_A___________A_A___",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "A_A_A_A_A_A_A_A_A_A_A___",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "A_A_A_A_A_A_A_A_A_A_A___",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        " ______________________ ",
+        "  ____________________  "
+      ],
+      "terrain": {
+        "_": [
+          [ "t_region_groundcover", 3 ],
+          [ "t_dirt", 3 ],
+          [ "t_grass_alien", 1 ],
+          [ "t_grass_alien_2", 1 ],
+          [ "t_grass_alien_3", 1 ],
+          [ "t_grass_alien_4", 1 ],
+          [ "t_nether_stone", 1 ]
+        ]
+      },
+      "monsters": {
+        "_": [
+          { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0003 },
+          { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "chance": 10, "density": 0.0003 }
+        ],
+        "A": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0003 }
+      },
+      "nested": { "A": { "chunks": [ [ "crystal_moss_or_trees_3x3", 1 ], [ "null", 15 ] ] } },
+      "place_nested": [ { "chunks": [ "crystal_field_central_10x10" ], "x": 7, "y": 7 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        " N ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": [ [ "t_nether_stone", 1 ], [ "t_null", 1 ] ], "N": "t_nether_stone" },
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_central_10x10",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   SSSS   ",
+        "  SSssSS  ",
+        " SSsddsSS ",
+        "SSsdDDdsSS",
+        "SsdDDDDdsS",
+        "SsdDDDDdsS",
+        "SSsdDDdsSS",
+        " SSsddsSS ",
+        "  SSssSS  ",
+        "   SSSS   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "D": "t_nether_water_dp",
+        "d": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 1 ] ],
+        "s": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 4 ] ],
+        "S": [ [ "t_nether_water_sh", 1 ], [ "t_nether_stone", 1 ] ],
+        " ": "t_null"
+      },
+      "furniture": { "S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 3 ] ] },
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD", "x": [ 0, 9 ], "y": [ 0, 9 ], "chance": 50, "repeat": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_central_10x10",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   GGGG   ",
+        " GGGCCGGG ",
+        " GGCCCCGG ",
+        "GGCCCCCCGG",
+        "GCCCCCCCCG",
+        "GCCCCCCCCG",
+        "GGCCCCCCGG",
+        " GGCCCCGG ",
+        " GGGCCGGG ",
+        "   GGGG   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "C": "t_nether_stone", "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ], "N": "t_nether_stone", " ": "t_null" },
+      "furniture": { "C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_nested": [ { "chunks": [ "crystal_field_chunk_center_2x2" ], "x": 4, "y": 4 } ],
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD", "x": [ 0, 9 ], "y": [ 0, 9 ], "chance": 50, "repeat": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "N ",
+        " N"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_fields": [
+        { "field": "fd_fatigue", "x": 0, "y": 1, "intensity": [ 2, 3 ] },
+        { "field": "fd_fatigue", "x": 1, "y": 0, "intensity": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        " N",
+        "N "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_fields": [
+        { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": [ 2, 3 ] },
+        { "field": "fd_fatigue", "x": 1, "y": 1, "intensity": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "NC",
+        "CN"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "C": "t_nether_stone" },
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "items": { "C": { "item": "dist_matrix_crystals", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "CN",
+        "NC"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "C": "t_nether_stone" },
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "items": { "C": { "item": "dist_matrix_crystals", "chance": 50 } }
+    }
+  }
+]

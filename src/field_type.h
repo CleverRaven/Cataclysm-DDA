@@ -57,7 +57,6 @@ struct enum_traits<description_affix> {
 
 generic_factory<field_type> &get_all_field_types();
 
-
 struct field_immunity_data {
     std::vector<json_character_flag> immunity_data_flags;
     std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
@@ -213,7 +212,6 @@ struct field_type {
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;
-
 
         int priority = 0;
         time_duration half_life = 0_turns;

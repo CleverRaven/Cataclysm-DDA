@@ -428,6 +428,16 @@ inline bool query_yn( const char *const msg, Args &&... args )
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
+enum class query_ynq_result {
+    quit, no, yes
+};
+query_ynq_result query_ynq( const std::string &text );
+template<typename ...Args>
+inline query_ynq_result query_ynq( const char *const msg, Args &&... args )
+{
+    return query_ynq( string_format( msg, std::forward<Args>( args )... ) );
+}
+
 bool query_int( int &result, const std::string &text );
 template<typename ...Args>
 inline bool query_int( int &result, const char *const msg, Args &&... args )
@@ -745,7 +755,6 @@ std::string get_labeled_bar( double val, int width, const std::string &label,
 template<typename BarIterator>
 std::string get_labeled_bar( double val, int width, const std::string &label,
                              BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
-
 
 /**
  * @return String containing the bar. Example: "Label [************]".
@@ -1235,7 +1244,7 @@ class tab_list
 
         std::string cur() const {
             if( _list->empty() ) {
-                return std::string( "" );
+                return std::string();
             }
             return ( *_list )[_index];
         }

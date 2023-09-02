@@ -46,5 +46,12 @@
     "id": "OGRE",
     "description": "a monstrous, powerful humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "AIR_SPIRIT",
+    "description": "A magical being of wind and rain.",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "bleeds": "fd_cold_air1"
   }
 ]

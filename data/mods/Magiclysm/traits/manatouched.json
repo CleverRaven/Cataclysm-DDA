@@ -74,20 +74,20 @@
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
     "types": [ "STR" ],
-    "category": [ "MANATOUCHED", "RAT", "BIRD", "SLIME" ],
+    "category": [ "MANATOUCHED", "RAT", "BIRD", "SLIME", "SPECIES_ELF" ],
     "cancels": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
   },
   {
     "id": "STR_UP",
     "type": "mutation",
     "copy-from": "STR_UP",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": [ "WEAK" ], "category": [ "SPECIES_LIZARDFOLK", "SPECIES_DWARF" ] }
   },
   {
     "id": "STR_UP_2",
     "type": "mutation",
     "copy-from": "STR_UP_2",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": [ "WEAK" ], "category": [ "SPECIES_DWARF" ] }
   },
   {
     "id": "STR_UP_3",
@@ -121,7 +121,7 @@
     "type": "mutation",
     "id": "PALE",
     "copy-from": "PALE",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -183,8 +183,8 @@
     "name": { "str": "Mana Siphon" },
     "points": 1,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED", "DRAGON_BLACK" ],
-    "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
+    "category": [ "MANATOUCHED", "DRAGON_BLACK", "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK", "THRESH_SPECIES_ELF" ],
     "types": [ "MANA_SIPHON" ],
     "changes_to": [ "MANA_SIPHON_2" ],
     "enchantments": [ "ench_mana_siphon_1" ]
@@ -257,19 +257,19 @@
     "type": "mutation",
     "id": "BADBACK",
     "copy-from": "BADBACK",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "LIGHT_BONES",
     "copy-from": "LIGHT_BONES",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -282,14 +282,14 @@
     "id": "FASTREADER",
     "copy-from": "FASTREADER",
     "valid": true,
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "GOODMEMORY",
     "copy-from": "GOODMEMORY",
     "valid": true,
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -317,6 +317,6 @@
     "id": "MORE_PAIN",
     "copy-from": "MORE_PAIN",
     "valid": true,
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
   }
 ]

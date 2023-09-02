@@ -15,11 +15,27 @@
 #include <string>
 
 #if defined(_WIN32)
+#include <windows.h>
+
 static void erase_char( std::string &s, const char &c )
 {
     s.erase( std::remove( s.begin(), s.end(), c ), s.end() );
 }
 #endif
+
+static bool enable_stdout_ansi_colors()
+{
+#if defined(_WIN32)
+    // enable ANSI colors on windows consoles https://superuser.com/a/1529908
+    DWORD dwMode;
+    GetConsoleMode( GetStdHandle( STD_OUTPUT_HANDLE ), &dwMode );
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    // may fail on Windows 10 earlier than 1511
+    return SetConsoleMode( GetStdHandle( STD_OUTPUT_HANDLE ), dwMode );
+#else
+    return true;
+#endif
+}
 
 int main( int argc, char *argv[] )
 {
@@ -35,6 +51,10 @@ int main( int argc, char *argv[] )
     json_error_output_colors = supports_color
                                ? json_error_output_colors_t::ansi_escapes
                                : json_error_output_colors_t::no_colors;
+
+    if( !enable_stdout_ansi_colors() ) {
+        json_error_output_colors = json_error_output_colors_t::no_colors;
+    }
 
     std::stringstream in;
     std::stringstream out;

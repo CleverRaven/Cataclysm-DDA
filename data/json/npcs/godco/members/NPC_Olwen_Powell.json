@@ -1,0 +1,175 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_GODCO_Olwen_2", "TALK_GODCO_Olwen_Mood", "TALK_GODCO_Olwen_Story", "TALK_GODCO_Olwen_Skills" ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Olwen_Story" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Olwen_Mood" },
+      { "text": "How's your family?", "topic": "TALK_GODCO_Olwen_Family" },
+      { "text": "I heard you were handy with computers.", "topic": "TALK_GODCO_Olwen_Skills" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_1",
+    "dynamic_line": {
+      "npc_has_var": "u_met_godco_olwen",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
+      "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
+    },
+    "responses": [
+      {
+        "text": "I'm just a traveler.",
+        "effect": { "npc_add_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Olwen_Firstmeet"
+      },
+      {
+        "text": "Hi, Olwen.  What's up?",
+        "topic": "TALK_GODCO_Olwen_2",
+        "condition": { "npc_has_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hey, Olwen.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Firstmeet",
+    "dynamic_line": "You look somewhat interesting.  So, what's your story?",
+    "responses": [
+      {
+        "text": "I'm just a curious traveler.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Olwen_Traveler"
+      },
+      {
+        "text": "I'm seeking asylum here.",
+        "condition": {
+          "and": [
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Firstmeet_Joinee"
+      },
+      {
+        "text": "I'm just a curious traveler.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Olwen_Mutant_Traveler"
+      },
+      { "text": "I'd rather not say, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Traveler",
+    "dynamic_line": "Not many travelers come through here these days.  There's not much left to wander too, besides a horde of <zombies>.",
+    "responses": [
+      { "text": "Any old port in a storm, I guess.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Mutant_Traveler",
+    "dynamic_line": "Not many travelers come through here these days.  There's not much left to wander too, besides a horde of <zombies>.  The people here won't be too friendly with you either, so that sucks.",
+    "responses": [
+      { "text": "Sure does.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "Why would that be?", "topic": "TALK_GODCO_Olwen_You_Mutant" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Joinee",
+    "dynamic_line": "I suppose a lot of us are these days, with all the nasty things wandering around.  I hope you like it here, might not be the most comfortable, but it'll do for me.",
+    "responses": [
+      { "text": "Any old port in a storm, I guess.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_2",
+    "dynamic_line": "What's up?",
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "npc_has_var": "olwen_can_teach", "type": "general", "context": "training", "value": "yes" },
+        "topic": "TALK_TRAIN"
+      },
+      { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Mood",
+    "dynamic_line": "They're alright, I suppose.  Helena's an asshole as usual, we're low on supplies, and all scared to go twenty feet outside the gate.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Story",
+    "dynamic_line": "Not much too it, really.  I came here on that bus with everyone else when <the_cataclysm> happened to stroll by.  I've been servicing everyone's electronics since then.",
+    "responses": [
+      { "text": "Could you tell me about your past?", "topic": "TALK_GODCO_Olwen_Background" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Background",
+    "dynamic_line": "Why not?  Oversharing is kind of my thing anyway.  Got any more interview questions?",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Family",
+    "dynamic_line": "My dad's having a hard time letting go of the past.  Got any more interview questions?",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Skills",
+    "dynamic_line": "Yeah, I got a master's in computer science from the University of Rhode Island.  Everyone around here comes to me when they want to keep their computers running.  Corrie works more with the hardware portion of these things; I'd recommend visiting her.",
+    "speaker_effect": { "effect": { "npc_add_var": "olwen_can_teach", "type": "general", "context": "training", "value": "yes" } },
+    "responses": [
+      { "text": "Could you teach me anything?", "topic": "TALK_TRAIN" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_You_Mutant",
+    "dynamic_line": "Well, this is a really xenophobic bunch, and regard some of your, changes, as a curse brought on by God.  I'm cool with you though, not like some of these other <name_b>.  There are a few who wouldn't mind you, though.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "In that case, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

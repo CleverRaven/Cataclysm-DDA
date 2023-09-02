@@ -27,7 +27,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -512,7 +511,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     return ui.run();
 }
 
-static double occupied_tile_fraction( creature_size target_size )
+double occupied_tile_fraction( creature_size target_size )
 {
     switch( target_size ) {
         case creature_size::tiny:
@@ -578,9 +577,10 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-
+    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes );
+        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -739,9 +739,9 @@ bool Character::handle_gun_damage( item &it )
         }
     }
     // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
-    if( dirt_dbl > 5000 &&
-        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
-                5555555555555 ) ) {
+    // if you have a bullet loaded with match head powder this can happen randomly at any time. The chances are about the same as a recycled ammo jamming the gun
+    if( ( dirt_dbl > 5000 && x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) ||
+        ( curammo_effects.count( "MATCHHEAD" ) && one_in( 256 ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
@@ -948,7 +948,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-
         // Vehicle turrets drain vehicle battery and do not care about this
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();
@@ -970,6 +969,14 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_attack( *this, *gun_id );
+
+    const islot_gun &firing = *gun.type->gun;
+    for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
+        apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
+        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
+                               _( "<npcname>'s %s is hurt by the recoil!" ),
+                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+    }
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
@@ -1402,16 +1409,19 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
-    you.set_activity_level( scaled_str_ratio );
+    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
+    you.set_activity_level( 10 * str_ratio );
 
-    // Calculate stamina drain based on archery and athletics skill
+    // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
     const float archery_skill = you.get_skill_level( skill_archery );
     const float athletics_skill = you.get_skill_level( skill_swimming );
-    const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
+    const float skill_modifier = ( 2.0f * archery_skill + athletics_skill ) / 3.0f;
+    const int stamina_cost = pow( 10.0f * str_ratio + 10 - skill_modifier, 2 );
 
-    const int stamina_cost = pow( 20 - skill_modifier, 2 );
     you.mod_stamina( -stamina_cost );
+    add_msg_debug( debugmode::DF_RANGED,
+                   "-%i stamina: %.1f str ratio, %.1f skill mod",
+                   stamina_cost, str_ratio, skill_modifier );
 }
 
 static void do_aim( Character &you, const item &relevant, const double min_recoil )
@@ -1567,10 +1577,11 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
-
+    const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -2072,7 +2083,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, false ),
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -3415,7 +3426,7 @@ void target_ui::draw_terrain_overlay()
 
     // Draw spell AOE
     if( mode == TargetMode::Spell ) {
-        drawsq_params params;
+        drawsq_params params = drawsq_params().highlight( true ).center( center );
         for( const tripoint &tile : spell_aoe ) {
             if( tile.z != center.z ) {
                 continue;

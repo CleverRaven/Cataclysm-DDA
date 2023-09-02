@@ -250,7 +250,7 @@
       { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
       { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
     ],
-    "//": "Based on https://www.amazon.com/Black-Novelty-Coffee-Homeyes-Ceramic/dp/B0B6CWNKCP/ref=sr_1_51?keywords=ceramic%2Bmug&qid=1684583367&sr=8-51&th=1"
+    "//": "Based on https://www.amazon.com/dp/B0B6CWNKCP"
   },
   {
     "type": "GENERIC",
@@ -357,7 +357,7 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "//": "Based on https://www.amazon.com/ADERIA-8612-Glass-IPT-Plaisir-Japan/dp/B01M4OEU65/ref=sr_1_5?crid=K7O7AHRUN33T&keywords=250ml%2Bwine%2Bglass&qid=1688217534&sprefix=250ml%2Bwine%2Bglass%2Caps%2C426&sr=8-5&th=1"
+    "//": "Based on https://www.amazon.com/dp/B01M4OEU65"
   },
   {
     "type": "GENERIC",
@@ -497,7 +497,7 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "//": "Based on https://www.amazon.com/Stainless-Silverware-Flatware-Dishwasher-Restaurant/dp/B086D4PV2G/ref=sr_1_6?crid=18H1OA6OULCBH&keywords=fork&qid=1684410017&sprefix=fo%2Caps%2C365&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
   },
   {
     "type": "GENERIC",
@@ -526,7 +526,7 @@
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
-    "//": "Based on https://www.amazon.com/dp/B0886HQRD3/ref=emc_b_5_i?th=1"
+    "//": "Based on https://www.amazon.com/dp/B0886HQRD3"
   },
   {
     "type": "GENERIC",
@@ -574,7 +574,7 @@
     "copy-from": "base_silverware",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "//": "Based on https://www.amazon.com/Stainless-Spreader-Multifunctional-Chopping-Serrated/dp/B08NFVGSRJ/ref=sr_1_6?crid=1GUK0X805PBB&keywords=butter%2Bknife&qid=1684409167&sprefix=butter%2Bknife%2Caps%2C274&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
     "type": "GENERIC",
@@ -615,7 +615,7 @@
     "price": "9 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "//2": "Based on https://www.amazon.com/Cooking-Light-Wine-Professional-Opener/dp/B081R28ZLP/ref=sr_1_12?crid=1XEV9UEX382A&keywords=corkscrew&qid=1684583858&sprefix=corkscrew%2Caps%2C236&sr=8-12"
+    "//2": "Based on https://www.amazon.com/dp/B081R28ZLP"
   },
   {
     "type": "GENERIC",
@@ -625,7 +625,14 @@
     "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "knife_butter",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weight": "82 g",
+    "volume": "138 ml",
+    "longest_side": "19 cm",
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "steel", "portion": 3 } ],
+    "price": "12 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B00004OCIP"
   },
   {
     "type": "GENERIC",
@@ -657,7 +664,7 @@
       { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." },
       { "id": "bottleopener9", "text": "This novelty bottle opener is designed to look like a hobo clown." }
     ],
-    "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Bottle-Opener/dp/B087QF9SWM/ref=sr_1_27?crid=3FSB1YEYIF4T8&keywords=bottle%2Bopener&qid=1684578611&sprefix=bottle%2Bopener%2Caps%2C229&sr=8-27&th=1"
+    "//": "Based on https://www.amazon.com/dp/B087QF9SWM"
   },
   {
     "type": "GENERIC",
@@ -698,7 +705,7 @@
     "material": [ "wood" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 1 },
-    "//": "Based on https://www.amazon.com/Fuji-Merchandise-Quality-Wooden-Chopsticks/dp/B07N47CN44/ref=sr_1_8?crid=28MLMFZEJET90&keywords=chopsticks%2Bsingle%2Bpair&qid=1683476295&sprefix=chopsticks%2Bsingle%2Bpai%2Caps%2C210&sr=8-8&th=1"
+    "//": "Based on https://www.amazon.com/dp/B07N47CN44"
   },
   {
     "type": "GENERIC",
@@ -741,7 +748,13 @@
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
     "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "weight": "238 g",
+    "volume": "224 ml",
+    "longest_side": "17 cm",
+    "price": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
     "type": "GENERIC",
@@ -756,7 +769,7 @@
     "volume": "364 ml",
     "longest_side": "21 cm",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
-    "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Can-Opener/dp/B087MSWH65/ref=sr_1_36?crid=15C7UP9YX6W0E&keywords=can+opener&qid=1688240425&sprefix=can+opener%2Caps%2C610&sr=8-36 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
+    "//": "Based on https://www.amazon.com/dp/B087MSWH65 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
   },
   {
     "type": "GENERIC",
@@ -773,7 +786,7 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 3, "stab": 2 },
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
-    "//": "Based on https://www.amazon.com/OXO-Grips-Stainless-Steel-Carving/dp/B083FJXZM5/ref=sr_1_5?crid=RS6T8L8IQF4N&keywords=carving%2Bfork&qid=1688901582&sprefix=carving%2Bfork%2Caps%2C230&sr=8-5&th=1"
+    "//": "Based on https://www.amazon.com/dp/B083FJXZM5"
   },
   {
     "type": "GENERIC",
@@ -788,7 +801,7 @@
     "price": 435,
     "material": [ "rubber" ],
     "copy-from": "base_plastic_silverware",
-    "//": "Based on https://www.amazon.com/Rubbermaid-Commercial-Products-Spatula-FG1901000000/dp/B001BKWXOY/ref=sr_1_8?crid=1JRXNWE266SFB&keywords=rubber%2Bspatula&qid=1683210364&sprefix=rubber%2Bspatula%2Caps%2C238&sr=8-8&th=1"
+    "//": "Based on https://www.amazon.com/dp/B001BKWXOY"
   },
   {
     "type": "GENERIC",
@@ -808,7 +821,7 @@
     "price_postapoc": 5,
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 7 },
-    "//": "Based on https://www.amazon.com/Goodcook-05717000817-Good-Cook-23830/dp/B000ARPJRM/ref=sr_1_6?crid=934OZ18675K2&keywords=rolling%2Bpin&qid=1683202158&sprefix=rollingpin%2Caps%2C512&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B000ARPJRM"
   },
   {
     "type": "GENERIC",
@@ -833,7 +846,7 @@
       }
     ],
     "melee_damage": { "bash": 6 },
-    "//": "Based on https://www.amazon.com/jalz-Stainless-Saucepan-Classic-Cookware/dp/B087PB2L83/ref=sr_1_14?crid=1RO37Q8AD174O&keywords=2l%2Bstainless%2Bsteel%2Bpot&qid=1683292826&sprefix=steel%2Bpot%2B2l%2Caps%2C184&sr=8-14&th=1"
+    "//": "Based on https://www.amazon.com/dp/B087PB2L83"
   },
   {
     "type": "GENERIC",
@@ -892,19 +905,21 @@
     "copy-from": "base_cookpot",
     "material": [ "ceramic" ],
     "color": "white",
-    "weight": "650 g",
-    "volume": "2100 ml",
-    "longest_side": "23 cm",
+    "weight": "1400 g",
+    "volume": "3140 ml",
+    "longest_side": "22 cm",
+    "price": "20 USD",
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "//": "Based on https://www.amazon.com/dp/B08J7TPT98"
   },
   {
     "type": "GENERIC",
@@ -929,7 +944,7 @@
       }
     ],
     "melee_damage": { "bash": 8 },
-    "//": "Based on https://www.amazon.com/Stockpots-Diameter-Height-Litres-Stainless/dp/B08RD3RDYL/ref=sr_1_4?crid=2LB23F5EZM7PV&keywords=12l%2Bstock%2Bpot&qid=1688902380&sprefix=12l%2Bstock%2Bpo%2Caps%2C206&sr=8-4&th=1"
+    "//": "Based on https://www.amazon.com/dp/B08RD3RDYL"
   },
   {
     "id": "pot_canning",
@@ -958,7 +973,7 @@
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 10 },
-    "//": "Based on https://www.amazon.com/Kitchen-Crop-Brands-Canner-Capacity/dp/B0075O2Z34/ref=sr_1_5?crid=28HN2SUYQWFT5&keywords=canning+pot+25l&qid=1688899863&sprefix=canning+pot+25l%2Caps%2C177&sr=8-5"
+    "//": "Based on https://www.amazon.com/dp/B0075O2Z34"
   },
   {
     "id": "pot_canning_clay",
@@ -1011,10 +1026,10 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
+    "extend": { "qualities": [ [ "HAMMER", 1 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 12 },
-    "//": "Based on https://www.amazon.com/Lodge-Skillet-Pre-Seasoned-Ready-Stove/dp/B00006JSUA/ref=sr_1_5?crid=SPLV6RIP18RL&keywords=cast%2Biron%2Bfrying%2Bpan&qid=1688243417&sprefix=cast%2Biron%2Bfrying%2Bp%2Caps%2C491&sr=8-5&th=1 BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
+    "//": "Based on https://www.amazon.com/dp/B00006JSUA BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
   {
     "type": "GENERIC",
@@ -1039,8 +1054,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1066,8 +1080,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1140,7 +1153,7 @@
     "weight": "728 g",
     "volume": "1575 ml",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "delete": { "qualities": [ "COOK" ] },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -1156,7 +1169,7 @@
     "volume": "3100 ml",
     "melee_damage": { "bash": 5 },
     "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [ "COOK" ] }
   },
   {
     "id": "colander_steel",
@@ -1167,6 +1180,7 @@
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
@@ -1178,6 +1192,7 @@
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
@@ -1199,7 +1214,7 @@
     "price": "48 USD",
     "price_postapoc": 5,
     "melee_damage": { "bash": 7 },
-    "//": "Based on https://www.amazon.com/John-Boos-Chop-N-Slice-Maple-Cutting/dp/B00063QBL8/ref=sr_1_51?crid=3HQVDF1UITVHX&keywords=cutting%2Bboard&qid=1683203867&sprefix=cutting%2Bboard%2Caps%2C213&sr=8-51&th=1"
+    "//": "Based on https://www.amazon.com/dp/B00063QBL8"
   },
   {
     "id": "mess_tray",
@@ -1330,8 +1345,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {

@@ -59,5 +59,21 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "matchhead_pistol_ball",
+    "copy-from": "bp_pistol_ball",
+    "type": "AMMO",
+    "name": { "str_sp": "pistol ammo, ball (matchhead powder)" },
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "matchhead_pistol_jhp",
+    "copy-from": "bp_pistol_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": "pistol ammo, JHP (matchhead powder)" },
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

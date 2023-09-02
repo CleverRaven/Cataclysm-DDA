@@ -33,6 +33,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "calendar_ui.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -136,7 +137,6 @@ static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -237,6 +237,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_EXPORT: return "VEHICLE_EXPORT";
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
@@ -523,6 +524,7 @@ static int vehicle_uilist()
         { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 's', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::VEHICLE_DELETE, true, 'd', _( "Delete vehicle" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_EXPORT, true, 'e', _( "Export vehicle as prototype" ) ) }
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -1852,7 +1854,7 @@ static void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
+        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
@@ -1876,6 +1878,7 @@ static void character_edit_menu()
         nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
+    nmenu.addentry( D_BIONICS, true, 'b', "%s", _( "Edit [b]ionics" ) );
     nmenu.addentry( D_STATUS, true,
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
                     "%s", _( "Status window" ) );
@@ -2032,6 +2035,9 @@ static void character_edit_menu()
             }
             break;
         }
+        case D_BIONICS:
+            wishbionics( &you );
+            break;
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_lifestyle() );
@@ -2518,71 +2524,6 @@ static void debug_menu_spawn_vehicle()
     }
 }
 
-static void debug_menu_change_time()
-{
-    auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
-        string_input_popup pop;
-        const int new_value = pop
-                              .title( msg )
-                              .width( 20 )
-                              .text( std::to_string( initial ) )
-                              .only_digits( true )
-                              .query_int();
-        if( pop.canceled() ) {
-            return;
-        }
-        const time_duration offset = ( new_value - initial ) * factor;
-        // Arbitrary maximal value.
-        const time_point max = calendar::turn_zero + time_duration::from_turns(
-                                   std::numeric_limits<int>::max() / 2 );
-        calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
-    };
-
-    uilist smenu;
-    static const auto years = []( const time_point & p ) {
-        return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
-    };
-    do {
-        const int iSel = smenu.ret;
-        smenu.reset();
-        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-        smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                        _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-        smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-        smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-        smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
-                        to_turns<int>( calendar::turn - calendar::turn_zero ) );
-        smenu.selected = iSel;
-        smenu.query();
-
-        switch( smenu.ret ) {
-            case 0:
-                set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
-                break;
-            case 1:
-                set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
-                          _( "Set season to?  (0 = spring)" ) );
-                break;
-            case 2:
-                set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
-                break;
-            case 3:
-                set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
-                break;
-            case 4:
-                set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
-                break;
-            case 5:
-                set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
-                          string_format( _( "Set turn to?  (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
-                break;
-            default:
-                break;
-        }
-    } while( smenu.ret != UILIST_CANCEL );
-}
-
 static void debug_menu_force_temperature()
 {
     uilist tempmenu;
@@ -2660,7 +2601,6 @@ static npc *select_follower_to_export()
     }
     return followers[charmenu.ret];
 }
-
 
 static cata_path prepare_export_dir_and_find_unused_name( const std::string &character_name )
 {
@@ -3132,7 +3072,7 @@ void debug()
             g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME:
-            debug_menu_change_time();
+            calendar::turn = calendar_ui::select_time_point( calendar::turn );
             break;
         case debug_menu_index::FORCE_TEMP:
             debug_menu_force_temperature();
@@ -3446,6 +3386,31 @@ void debug()
             }
             break;
         }
+        case debug_menu_index::VEHICLE_EXPORT: {
+            if( optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+                cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+                assure_dir_exist( export_dir );
+                const std::string text = string_input_popup()
+                                         .title( _( "Exported file name?" ) )
+                                         .width( 20 )
+                                         .query_string();
+                cata_path veh_path = export_dir / ( text + ".json" );
+                try {
+                    write_to_file( veh_path, [&]( std::ostream & fout ) {
+                        JsonOut jsout( fout );
+                        ovp->vehicle().refresh();
+                        vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+                    } );
+                } catch( const std::exception &err ) {
+                    debugmsg( _( "Failed to export vehicle: %s" ), err.what() );
+                }
+                popup( _( "Written: %s .\n Please format the exported file for readability." ),
+                       veh_path.get_unrelative_path().string() );
+                break;
+            }
+            add_msg( m_bad, _( "There's no vehicle there." ) );
+            break;
+        }
 
         case debug_menu_index::EDIT_CAMP_LARDER: {
             faction *your_faction = get_player_character().get_faction();
@@ -3511,7 +3476,6 @@ void debug()
         case debug_menu_index::QUICK_SETUP: {
             std::vector<trait_id> setup_traits;
             setup_traits.emplace_back( trait_DEBUG_BIONICS );
-            setup_traits.emplace_back( trait_DEBUG_BIONIC_POWERGEN );
             setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
             setup_traits.emplace_back( trait_DEBUG_CLOAK );
             setup_traits.emplace_back( trait_DEBUG_HS );

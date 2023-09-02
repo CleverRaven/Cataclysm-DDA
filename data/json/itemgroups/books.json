@@ -183,7 +183,8 @@
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
-      { "item": "holybook_satanic", "prob": 1 }
+      { "item": "holybook_satanic", "prob": 1 },
+      { "item": "book_judaica_siddur", "prob": 1 }
     ]
   },
   {
@@ -322,7 +323,9 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
       { "item": "cookbook_bloodforgood", "prob": 2 },
-      { "group": "memorial", "prob": 10 }
+      { "group": "memorial", "prob": 10 },
+      { "item": "book_judaica_hardcover", "prob": 5 },
+      { "item": "book_judaica_softcover", "prob": 5 }
     ]
   },
   {
@@ -409,8 +412,7 @@
       { "item": "vacuum_sealing", "prob": 5 },
       { "item": "arduino_experiments", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "book_pneumatics", "prob": 3 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "book_pneumatics", "prob": 3 }
     ]
   },
   {
@@ -492,7 +494,6 @@
       { "item": "book_lockpick", "prob": 2 },
       { "item": "basic_chemistry", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 },
       { "item": "textbook_arthropod", "prob": 5 },
       { "item": "textbook_botany", "prob": 5 },
       { "item": "theater_props", "prob": 2 }
@@ -592,6 +593,7 @@
       { "item": "textbook_gaswarfare", "prob": 15 },
       { "item": "text_gunsmith", "prob": 10 },
       { "item": "glassblowing_book", "prob": 12 },
+      { "item": "alloy_book", "prob": 12 },
       { "item": "plastics_book", "prob": 12 },
       { "item": "cookbook_human", "prob": 10 },
       { "item": "collector_book", "prob": 10 },

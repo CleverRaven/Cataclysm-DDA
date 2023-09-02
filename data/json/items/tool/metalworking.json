@@ -50,7 +50,7 @@
     "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 7, "cut": 4 },
-    "//": "Based on https://www.amazon.com/WORKPRO-Cutter-Chrome-Molybdenum-Cutting/dp/B09YH5T9DV/ref=sr_1_6?crid=2BB5ZEJFUVI0O&keywords=bolt%2Bcutters%2B18%2Binch&qid=1683477343&sprefix=boltcutter%2Caps%2C239&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B09YH5T9DV"
   },
   {
     "id": "char_forge",
@@ -65,8 +65,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500 } } ],
+    "ammo": [ "charcoal", "coal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500, "coal": 2500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 9 }
@@ -322,7 +322,7 @@
     "weight": "800 g",
     "volume": "500 ml",
     "price": 1600,
-    "price_postapoc": 25,
+    "price_postapoc": 200,
     "to_hit": 1,
     "material": [ "steel" ],
     "symbol": ";",
@@ -338,7 +338,7 @@
     "weight": "1200 g",
     "volume": "750 ml",
     "price": 2400,
-    "price_postapoc": 40,
+    "price_postapoc": 200,
     "to_hit": 1,
     "material": [ "steel" ],
     "symbol": ";",
@@ -349,12 +349,12 @@
   {
     "id": "tongs",
     "type": "TOOL",
-    "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
+    "name": { "str": "pair of kitchen tongs", "str_pl": "pairs of kitchen tongs" },
     "description": "A pair of long, metal tongs.  They are commonly used for cooking.",
-    "weight": "540 g",
-    "volume": "500 ml",
+    "weight": "167 g",
+    "volume": "210 ml",
     "longest_side": "30 cm",
-    "price": 1600,
+    "price": "13 USD",
     "price_postapoc": 10,
     "material": [ "steel" ],
     "symbol": ";",
@@ -362,7 +362,8 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "//": "Based on https://www.amazon.com/dp/B07Q5CJDM9"
   },
   {
     "id": "metalworking_tongs",
@@ -373,7 +374,7 @@
     "volume": "500 ml",
     "longest_side": "30 cm",
     "price": 1600,
-    "price_postapoc": 10,
+    "price_postapoc": 300,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",

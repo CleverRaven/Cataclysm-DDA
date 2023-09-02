@@ -143,6 +143,37 @@
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
+    "id": "fridgetank_large",
+    "type": "vehicle_part",
+    "name": { "str": "refrigerated tank (100L)" },
+    "item": "fridgetank_large",
+    "location": "fuel_source",
+    "broken_color": "red",
+    "durability": 170,
+    "description": "A 100L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "categories": [ "cargo" ],
+    "damage_modifier": 80,
+    "epower": "-80 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "110 m",
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "65 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+    },
+    "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
+  },
+  {
     "id": "heattank",
     "type": "vehicle_part",
     "name": { "str": "heated tank (60L)" },

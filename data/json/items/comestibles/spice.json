@@ -95,15 +95,14 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "price": 387,
-    "price_postapoc": 300,
+    "price": "5 cent",
+    "price_postapoc": "4 cent",
     "material": [ "powder", "junk" ],
     "primary_material": "powder",
-    "volume": "250 ml",
+    "volume": "3 ml",
     "calories": 19,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
-    "charges": 71
+    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted."
   },
   {
     "type": "COMESTIBLE",
@@ -113,10 +112,10 @@
     "copy-from": "sugar",
     "container": "bottle_plastic_small",
     "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
-    "price": 399,
-    "price_postapoc": 200,
+    "price": "6 cent",
+    "price_postapoc": "3 cent",
     "calories": 20,
-    "charges": 66
+    "volume": "4 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -129,13 +128,11 @@
     "quench": -1,
     "calories": 9,
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and fireweed.",
-    "price": 190,
-    "price_postapoc": 50,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "veggy" ],
-    "volume": "250 ml",
-    "charges": 20,
+    "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "stack_size": 100,
     "fun": -1
   },
   {

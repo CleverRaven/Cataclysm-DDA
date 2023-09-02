@@ -372,7 +372,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint_zero ); } );
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_zero ); } );
             break;
         }
     }
@@ -526,6 +526,15 @@ void vehicle::toggle_autopilot()
         stop_engines();
     } );
 
+    menu.add( precollision_on ? _( "Disable pre-collision system" ) :
+              _( "Enable pre-collision system" ) )
+    .hotkey( "CONTROL_AUTOPILOT_CAS" )
+    .desc( _( "Toggle pre-collision system" ) )
+    .on_submit( [this] {
+        precollision_on = !precollision_on;
+        add_msg( precollision_on ? _( "You turn on pre-collision system." ) : _( "You turn off pre-collision system." ) );
+    } );
+
     menu.query();
 }
 
@@ -549,7 +558,8 @@ item vehicle::init_cord( const tripoint &pos )
     cord.link->t_state = link_state::vehicle_port;
     cord.link->t_veh_safe = get_safe_reference();
     cord.link->t_abs_pos = get_map().getglobal( pos );
-    cord.active = true;
+    cord.set_link_traits();
+    cord.link->max_length = 2;
 
     return cord;
 }
@@ -559,7 +569,7 @@ void vehicle::plug_in( const tripoint &pos )
     item cord = init_cord( pos );
 
     if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, false, pos );
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
     }
 }
 
@@ -568,32 +578,42 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     item cord = init_cord( source_pos );
     map &here = get_map();
 
-    const optional_vpart_position target_vp = here.veh_at( target_pos );
-    const optional_vpart_position source_vp = here.veh_at( source_pos );
+    const optional_vpart_position sel_vp = here.veh_at( target_pos );
+    const optional_vpart_position prev_vp = here.veh_at( source_pos );
 
-    if( !target_vp ) {
+    if( !sel_vp ) {
         return;
     }
-    vehicle *const target_veh = &target_vp->vehicle();
-    vehicle *const source_veh = &source_vp->vehicle();
-    if( source_veh == target_veh ) {
+    vehicle *const sel_veh = &sel_vp->vehicle();
+    vehicle *const prev_veh = &prev_vp->vehicle();
+    if( prev_veh == sel_veh ) {
         return ;
     }
 
-    tripoint target_global = here.getabs( target_pos );
     const vpart_id vpid( cord.typeId().str() );
 
-    point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, item( cord ) );
-    source_part.target.first = target_global;
-    source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, std::move( source_part ) );
+    // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
+    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
+                here.getabs( target_pos ),
+                sel_veh->global_square_location().raw() );
+    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
+                ( cord.link->t_abs_pos + prev_veh->coord_translate( cord.link->t_mount ) ).raw(),
+                cord.link->t_abs_pos.raw() );
 
-    vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, item( cord ) );
-    target_part.target.first = cord.link->t_abs_pos.raw();
-    target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, std::move( target_part ) );
+    const point vcoords1 = cord.link->t_mount;
+    const point vcoords2 = sel_vp->mount();
+
+    vehicle_part prev_veh_part( vpid, item( cord ) );
+    prev_veh_part.target.first = prev_part_target.first;
+    prev_veh_part.target.second = prev_part_target.second;
+    prev_veh->install_part( vcoords1, std::move( prev_veh_part ) );
+    prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
+
+    vehicle_part sel_veh_part( vpid, item( cord ) );
+    sel_veh_part.target.first = sel_part_target.first;
+    sel_veh_part.target.second = sel_part_target.second;
+    sel_veh->install_part( vcoords2, std::move( sel_veh_part ) );
+    sel_veh->precalc_mounts( 1, sel_veh->pivot_rotation[1], sel_veh->pivot_anchor[1] );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
@@ -950,7 +970,7 @@ void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( player_character, vp.pos(), 15, 30 );
+        iuse::play_music( &player_character, vp.pos(), 15, 30 );
     }
 }
 
@@ -1832,9 +1852,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const vpart_position vp = *ovp;
     const tripoint vppos = vp.pos();
 
+    std::vector<vehicle_part *> vp_parts = get_parts_at( vppos, "", part_status_flag::working );
+
     // @returns true if pos contains available part with a flag
-    const auto has_part_here = [this, vppos]( const std::string & flag ) {
-        return !get_parts_at( vppos, flag, part_status_flag::working ).empty();
+    const auto has_part_here = [vp_parts]( const std::string & flag ) {
+        return std::any_of( vp_parts.begin(), vp_parts.end(), [flag]( const vehicle_part * vp_part ) {
+            return vp_part->info().has_flag( flag );
+        } );
     };
 
     const bool remote = g->remoteveh() == this;
@@ -1846,13 +1870,24 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
                                &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
                                false;
+    bool power_linked = false;
+    bool cable_linked = false;
+    for( vehicle_part *vp_part : vp_parts ) {
+        power_linked = power_linked ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
+        cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
+                       vp_part->info().has_flag( "TOW_CABLE" );
+    }
 
     if( !is_appliance() ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .skip_locked_check()
         .hotkey( "EXAMINE_VEHICLE" )
-        .on_submit( [this] { g->exam_vehicle( *this ); } );
+        .on_submit( [this, vp] {
+            const vpart_position non_fake( *this, get_non_fake_part( vp.part_index() ) );
+            const point start_pos = non_fake.mount().rotate( 2 );
+            g->exam_vehicle( *this, start_pos );
+        } );
 
         menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
         .skip_theft_check()
@@ -1959,7 +1994,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .on_submit( [] { handbrake(); } );
         }
 
-        if( controls_here && engines.size() > 1 ) {
+        const bool has_engine_or_fuel_controls = ( engines.size() > 1 ) ||
+        std::any_of( engines.begin(), engines.end(), [&]( int engine_idx ) {
+            return parts[engine_idx].info().engine_info->fuel_opts.size() > 1;
+        } );
+
+        if( controls_here && has_engine_or_fuel_controls ) {
             menu.add( _( "Control individual engines" ) )
             .hotkey( "CONTROL_ENGINES" )
             .on_submit( [this] { control_engines(); } );
@@ -2057,18 +2097,68 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    for( const auto&[tool_item, hotkey_event] : vp.get_tools() ) {
+    if( power_linked ) {
+        menu.add( _( "Disconnect power connections" ) )
+        .enable( !cable_linked )
+        .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
+        .skip_locked_check()
+        .hotkey( "DISCONNECT_CABLES" )
+        .on_submit( [this, vp_parts] {
+            for( vehicle_part *vp_part : vp_parts )
+            {
+                if( vp_part->info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
+                    item drop = part_to_item( *vp_part );
+                    if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
+                        get_player_character().i_add_or_drop( drop );
+                        add_msg( _( "You detach the %s and take it." ), drop.type_name() );
+                    } else {
+                        add_msg( _( "You detached the %s." ), drop.type_name() );
+                    }
+                    remove_remote_part( *vp_part );
+                    remove_part( *vp_part );
+                }
+            }
+            get_player_character().pause();
+        } );
+    }
+    if( cable_linked ) {
+        menu.add( _( "Disconnect cables" ) )
+        .skip_locked_check()
+        .hotkey( "DISCONNECT_CABLES" )
+        .on_submit( [this, vp_parts] {
+            for( vehicle_part *vp_part : vp_parts )
+            {
+                if( vp_part->has_flag( vp_flag::linked_flag ) ) {
+                    vp_part->last_disconnected = calendar::turn;
+                    vp_part->remove_flag( vp_flag::linked_flag );
+                    linked_item_epower_this_turn = 0_W;
+                    add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
+                }
+                if( vp_part->info().has_flag( "TOW_CABLE" ) ) {
+                    invalidate_towing( true, &get_player_character() );
+                    if( get_player_character().can_stash( vp_part->get_base() ) ) {
+                        add_msg( _( "You detach the %s and take it." ), vp_part->name( false ) );
+                    } else {
+                        add_msg( _( "You detached the %s." ), vp_part->name( false ) );
+                    }
+                }
+            }
+            get_player_character().pause();
+        } );
+    }
+
+    for( const auto&[tool_item, hk] : vp.get_tools() ) {
         const itype_id &tool_type = tool_item.typeId();
         if( !tool_type->has_use() ) {
             continue; // passive tool
         }
-        if( !hotkey_event.sequence.empty() && hotkey_event.sequence.front() == -1 ) {
+        if( hk == -1 ) {
             continue; // skip old passive tools
         }
         const auto &[tool_ammo, ammo_amount] = tool_ammo_available( tool_type );
         menu.add( string_format( _( "Use %s" ), tool_type->nname( 1 ) ) )
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
-        .hotkey( hotkey_event )
+        .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
         .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, vppos, tool_type ); } );
     }
@@ -2251,7 +2341,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             Character &you = get_player_character();
             vehicle_part &vp = part( vp_idx );
             std::set<itype_id> allowed_types = vp.info().toolkit_info->allowed_types;
-            for( const std::pair<const item, input_event> &pair : prepare_tools( vp ) )
+            for( const std::pair<const item, int> &pair : prepare_tools( vp ) )
             {
                 allowed_types.erase( pair.first.typeId() ); // one tool of each kind max
             }

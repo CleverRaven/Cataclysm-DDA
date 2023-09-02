@@ -42,14 +42,14 @@
     "volume": "40 ml",
     "longest_side": "36 cm",
     "price": "7 USD",
-    "price_postapoc": 100,
+    "price_postapoc": 15,
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
     "qualities": [ [ "KNIT", 1 ] ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 1 },
-    "//": "Based on https://www.amazon.com/Knitting-Straight-Supplies-Beginners-Handmade/dp/B0BCQML8GQ/ref=sr_1_4?crid=O82H3RN7R3PQ&keywords=knitting+needles&qid=1683483113&sprefix=knitting+needle%2Caps%2C238&sr=8-4"
+    "//": "Based on https://www.amazon.com/dp/B0BCQML8GQ"
   },
   {
     "id": "loom_frame",
@@ -255,7 +255,7 @@
     "weight": "300 g",
     "volume": "250 ml",
     "price": 100,
-    "price_postapoc": 50,
+    "price_postapoc": 15,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "yellow",

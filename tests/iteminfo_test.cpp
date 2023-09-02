@@ -1279,11 +1279,11 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
 
     SECTION( "moderate protection from physical and environmental damage" ) {
         // Hazmat suit, material:plastic, thickness:2
-        // 2/2/2 bash/cut/bullet x 2 thickness
+        // 2/2/1 bash/cut/bullet x 2 thickness
         // 9/1/20 acid/fire/env
         item hazmat( "test_hazmat_suit" );
         REQUIRE( hazmat.get_covered_body_parts().any() );
-        expected_armor_values( hazmat, 4, 4, 3.2, 4, 9, 1, 20 );
+        expected_armor_values( hazmat, 4, 4, 3.2, 2, 9, 1, 20 );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( hazmat, protection ) ==
@@ -1294,11 +1294,35 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
                "<color_c_white>Protection</color>:\n"
                "  Bash: <color_c_yellow>4.00</color>\n"
                "  Cut: <color_c_yellow>4.00</color>\n"
-               "  Ballistic: <color_c_yellow>4.00</color>\n"
+               "  Ballistic: <color_c_yellow>2.00</color>\n"
                "  Pierce: <color_c_yellow>3.20</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
                "  Environmental: <color_c_yellow>20</color>\n"
+             );
+    }
+
+    SECTION( "check that material resistances are properly overriden" ) {
+        // Zentai suit, material:lycra_resist_override_stab, thickness:1
+        // 2/2/2/50 bash/cut/bullet/stab x 1 thickness
+        item zentai( "test_zentai_resist_stab_cut" );
+        REQUIRE( zentai.get_covered_body_parts().any() );
+        expected_armor_values( zentai, 2, 2, 50, 2, 9, 2, 10 );
+
+        // Protection info displayed on two lines
+        CHECK( item_info_str( zentai, protection ) ==
+               "--\n"
+               "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>eyes</color>. The <color_c_cyan>feet</color>. The <color_c_cyan>hands</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>mouth</color>. The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
+               "  Default:  <color_c_yellow>100</color>\n"
+               "<color_c_white>Protection</color>:\n"
+               "  Bash: <color_c_yellow>2.00</color>\n"
+               "  Cut: <color_c_yellow>2.00</color>\n"
+               "  Ballistic: <color_c_yellow>2.00</color>\n"
+               "  Pierce: <color_c_yellow>50.00</color>\n"
+               "  Acid: <color_c_yellow>9.00</color>\n"
+               "  Fire: <color_c_yellow>2.00</color>\n"
+               "  Environmental: <color_c_yellow>10</color>\n"
              );
     }
 
@@ -1327,16 +1351,16 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
     SECTION( "pet armor with good physical and environmental protection" ) {
         // Kevlar cat harness, for reasons
         // material:layered_kevlar, thickness:2
-        // 2/3/5 bash/cut/bullet x 2 thickness
+        // 1.5/2/5 bash/cut/bullet x 2 thickness
         // 5/3/10 acid/fire/env
         item meower_armor( "test_meower_armor" );
-        expected_armor_values( meower_armor, 4, 6, 4.8, 10, 5, 3, 10 );
+        expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
 
         CHECK( item_info_str( meower_armor, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>4.00</color>\n"
-               "  Cut: <color_c_yellow>6.00</color>\n"
+               "  Bash: <color_c_yellow>3.00</color>\n"
+               "  Cut: <color_c_yellow>4.00</color>\n"
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"
@@ -2462,14 +2486,14 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
+           "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated multitool.\n"
+           "<color_c_white>Repair</color> using integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, or TEST soldering iron.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
@@ -2776,7 +2800,6 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
 
-
     }
 }
 
@@ -2864,8 +2887,8 @@ TEST_CASE( "final_info", "[iteminfo][final]" )
 
         CHECK( item_info_str( wine_must, brew_products ) ==
                "--\n"
-               "* Fermenting this will produce <color_c_yellow>test tennis ball wine</color>.\n"
-               "* Fermenting this will produce <color_c_yellow>yeast</color>.\n" );
+               "* Fermenting this will produce <color_c_yellow>yeast</color>.\n"
+               "* Fermenting this will produce <color_c_yellow>test tennis ball wine</color>.\n" );
     }
 
     SECTION( "radioactivity" ) {

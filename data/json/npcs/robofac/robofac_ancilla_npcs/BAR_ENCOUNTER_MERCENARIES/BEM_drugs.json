@@ -43,10 +43,10 @@
     "subtype": "collection",
     "entries": [
       { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
-      { "item": "coke", "prob": 30, "charges": [ 1, 8 ] },
-      { "item": "pure_meth", "prob": 30, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 100, "charges": [ 1, 4 ] },
-      { "item": "oxycodone", "prob": 100, "charges": [ 1, 10 ] },
+      { "prob": 30, "group": "coke_bag_zipper_1_8" },
+      { "prob": 30, "group": "pure_meth_bag_zipper_1_6" },
+      { "prob": 100, "group": "heroin_bag_zipper_1_4" },
+      { "prob": 100, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
       { "group": "harddrugs", "prob": 100, "count": [ 6, 12 ] }
     ]
   },
@@ -58,5 +58,13 @@
       { "text": "Sure, let see what you offer.", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Not interested.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pure_meth_bag_zipper_1_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "pure_meth", "container-item": "null", "count": [ 1, 6 ] } ]
   }
 ]

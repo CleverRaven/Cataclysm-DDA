@@ -172,7 +172,6 @@
             "prob": 24
           },
           { "group": "grenades", "prob": 10 },
-          { "group": "mil_hw", "prob": 1 },
           { "group": "launchers", "prob": 1 },
           { "group": "stash_food", "prob": 40 },
           { "group": "ammo_common", "prob": 26 },

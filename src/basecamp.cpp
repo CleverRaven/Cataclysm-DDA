@@ -309,11 +309,6 @@ bool basecamp::has_provides( const std::string &req, const std::optional<point> 
     return false;
 }
 
-bool basecamp::can_expand() const
-{
-    return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
-}
-
 bool basecamp::has_water() const
 {
     // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)

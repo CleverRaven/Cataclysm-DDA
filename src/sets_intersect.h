@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_SETS_INTERSECT_H
 #define CATA_SRC_SETS_INTERSECT_H
 

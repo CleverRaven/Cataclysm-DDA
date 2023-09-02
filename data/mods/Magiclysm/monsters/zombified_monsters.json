@@ -210,7 +210,7 @@
     "id": "mon_feral_human_magician",
     "type": "MONSTER",
     "name": { "str": "feral wizard" },
-    "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occaisional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
+    "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occasional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -235,7 +235,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_feral_wizard_base" }, "cooldown": 4 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_feral_wizard_base" }, "cooldown": 10 } ],
     "death_drops": {
       "subtype": "distribution",
       "items": [

@@ -117,6 +117,7 @@ static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
+static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -165,6 +166,8 @@ static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
@@ -298,6 +301,10 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             act.moves_left = 0;
             return;
         }
+    }
+
+    if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
+        you.recoil = 0;
     }
 
     g->temp_exit_fullscreen();
@@ -783,10 +790,6 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.get_location() );
-            }
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -1585,27 +1588,21 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.is_avatar() ) {
-        // he following check doesn't work for NPCs
-        // because it is counted for player's submap and z-level only
-        if( who.fine_detail_vision_mod() > 4 ) {
-            // It got too dark during the process of reading, bail out.
-            act.set_to_null();
-            who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
-            return;
-        }
+    if( who.fine_detail_vision_mod() > 4 ) {
+        // It got too dark during the process of reading, bail out.
+        act.set_to_null();
+        who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+        return;
+    }
 
-        if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-            who.mod_stamina( -1 );
-        }
+    if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
+        who.mod_stamina( -1 );
+    }
 
-        // do not spam the message log
-        if( calendar::once_every( 5_minutes ) ) {
-            add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string_writable( time_duration::from_moves( act.moves_left ) ) );
-        }
-    } else {
-        who.moves = 0;
+    // do not spam the message log
+    if( calendar::once_every( 5_minutes ) ) {
+        add_msg_debug( debugmode::DF_ACT_READ, "%s reading time = %s",
+                       who.name, to_string_writable( time_duration::from_moves( act.moves_left ) ) );
     }
 
     if( using_ereader && !ereader ) {
@@ -1830,7 +1827,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( &you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -2574,10 +2571,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( destroy && lockpick.has_value() ) {
@@ -2786,8 +2779,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves = 0;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        ret = player_character.will_eat( *consume_location, true );
+        ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2797,8 +2789,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
         }
     } else if( !consume_item.is_null() ) {
-        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        ret = player_character.will_eat( consume_item, true );
+        ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -3231,7 +3222,7 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
     item *craft = craft_item.get_item();
 
     // item_location::get_item() will return nullptr if the item is lost
-    if( !craft ) {
+    if( !craft || square_dist( craft_item.pos_bub(), crafter.pos_bub() ) > 1 ) {
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "
@@ -3261,6 +3252,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;
+    act.targets.clear();
+    act.targets.push_back( craft_item );
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -3649,7 +3642,11 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
         default:
             query_int( length, _( "Train for how long (minutes): " ) );
             elapsed += act.moves_total - act.moves_left;
-            act.moves_total = to_moves<int>( length * 1_minutes );
+            duration = 0_minutes;
+            if( length > 0 ) {
+                duration = length * 1_minutes;
+            }
+            act.moves_total = to_moves<int>( duration );
             act.moves_left = act.moves_total;
             return true;
     }
@@ -4187,7 +4184,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
-                                                 /*ignore_settings*/true );
+                                                 /*ignore_settings*/true,
+                                                 /*into_bottom*/true );
                 success = result > 0;
 
                 if( success ) {
@@ -5051,18 +5049,14 @@ void reel_cable_activity_actor::start( player_activity &act, Character & )
 
 void reel_cable_activity_actor::finish( player_activity &act, Character &who )
 {
-    cable->active = false;
-    cable->charges = cable->link->max_length;
-    cable->link.reset();
-    if( parent_item ) {
-        parent_item->contents_linked = false;
-        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
-                               parent_item->label( 1 ) ) );
-    } else {
-        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
-                               cable->label( 1 ) ) );
-    }
-    if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
+    cable->link->length = 0;
+    cable->link->s_state = link_state::no_link;
+    cable->link->t_state = link_state::no_link;
+    cable->reset_link( &who, -2 );
+    who.add_msg_if_player( m_info,
+                           string_format( cable->has_flag( flag_CABLE_SPOOL ) ? _( "You reel in the %s and wind it up." ) :
+                                          _( "You reel in the %s's cable and wind it up." ), cable->type_name() ) );
+    if( cable->has_flag( flag_NO_DROP ) ) {
         cable.remove_item();
     }
     act.set_to_null();
@@ -5073,17 +5067,15 @@ void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
     jsout.member( "cable", cable );
-    jsout.member( "parent_item", parent_item );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
 {
-    reel_cable_activity_actor actor( 0, {}, {} );
+    reel_cable_activity_actor actor( 0, {} );
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
     data.read( "cable", actor.cable );
-    data.read( "parent_item", actor.parent_item );
 
     return actor.clone();
 }
@@ -5356,10 +5348,6 @@ void prying_activity_actor::handle_prying( Character &who )
         get_event_bus().send<event_type::triggers_alarm>( who.getID() );
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( !data->message().empty() ) {
@@ -5679,6 +5667,41 @@ std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsi
     data.read( "target_items", actor.target_items );
     data.read( "quantities", actor.quantities );
     data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
+{
+    item_location _item = item;
+    std::string _method = method;
+    if( method.empty() ) {
+        who.cancel_activity();
+        who.invoke_item( _item.get_item() );
+        return;
+    }
+    who.cancel_activity();
+    who.invoke_item( _item.get_item(), _method );
+}
+
+void invoke_item_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "item", item );
+    jsout.member( "method", method );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonValue &jsin )
+{
+    invoke_item_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "item", actor.item );
+    data.read( "method", actor.method );
 
     return actor.clone();
 }
@@ -6081,7 +6104,8 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     if( used_tool->has_flag( flag_SINGLE_USE ) ) {
         it.remove_item();
     } else if( used_tool->is_medication() ) {
-        if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+        if( !it->count_by_charges() ||
+            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
@@ -7200,6 +7224,7 @@ deserialize_functions = {
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
+    { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },

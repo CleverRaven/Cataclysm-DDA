@@ -199,7 +199,7 @@
     "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "fridgetank",
-    "name": { "str": "refrigerated tank" },
+    "name": { "str": "refrigerated tank (60L)", "str_pl": "refrigerated tanks (60L)" },
     "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
     "insulation": 10,
     "volume": "72 L",
@@ -211,6 +211,26 @@
         "watertight": true,
         "max_contains_volume": "60 L",
         "max_contains_weight": "400 kg"
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "washing_machine",
+    "id": "fridgetank_large",
+    "name": { "str": "refrigerated tank (100L)", "str_pl": "refrigerated tanks (100L)" },
+    "description": "A 100L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "looks_like": "fridgetank",
+    "insulation": 10,
+    "volume": "112 L",
+    "weight": "67 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "500 kg"
       }
     ]
   },

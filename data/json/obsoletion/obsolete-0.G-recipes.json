@@ -204,5 +204,15 @@
     "result": "xs_k_gambeson_hood",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "sieve_steel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "wire_mesh",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

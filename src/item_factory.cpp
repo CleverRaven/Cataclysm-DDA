@@ -667,6 +667,10 @@ void Item_factory::finalize_pre( itype &obj )
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
     }
 
+    if( obj.can_use( "link_up" ) ) {
+        obj.ammo_scale.emplace( "link_up", 0 );
+    }
+
     if( obj.longest_side == -1_mm ) {
         units::volume effective_volume = obj.count_by_charges() &&
                                          obj.stack_size > 0 ? ( obj.volume / obj.stack_size ) : obj.volume;
@@ -1319,8 +1323,11 @@ void Item_factory::finalize()
             it->second.recipes.push_back( p.first );
         }
     }
+    for( auto &e : m_template_groups ) {
+        auto &isd = e.second;
+        isd->finalize( itype_id::NULL_ID() );
+    }
 }
-
 void item_blacklist_t::clear()
 {
     blacklist.clear();
@@ -1546,8 +1553,8 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character *p, item &it, bool a, const tripoint &pos ) const override {
-            return cpp_function( p, &it, a, pos );
+        std::optional<int> use( Character *p, item &it, const tripoint &pos ) const override {
+            return cpp_function( p, &it, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper>( *this );
@@ -1644,10 +1651,12 @@ void Item_factory::init()
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
+    add_iuse( "ELECTRIC_CIRCSAW_ON", &iuse::e_circsaw_on );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
+    add_iuse( "TOOLWEAPON_DEACTIVATE", &iuse::toolweapon_deactivate );
     add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
     add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
@@ -1656,6 +1665,7 @@ void Item_factory::init()
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
+    add_iuse( "DIVE_TANK_ACTIVATE", &iuse::dive_tank_activate );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
@@ -1663,37 +1673,40 @@ void Item_factory::init()
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
+    add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
+    add_iuse( "EPIC_MUSIC", &iuse::epic_music );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
     add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
     add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
-    add_iuse( "EMF_PASSIVE_OFF", &iuse::emf_passive_off );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
     add_iuse( "FILL_PIT", &iuse::fill_pit );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
-    add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
     add_iuse( "FIRECRACKER_PACK_ACT", &iuse::firecracker_pack_act );
     add_iuse( "FISH_ROD", &iuse::fishing_rod );
     add_iuse( "FISH_TRAP", &iuse::fish_trap );
+    add_iuse( "FISH_TRAP_TICK", &iuse::fish_trap_tick );
     add_iuse( "FITNESS_CHECK", &iuse::fitness_check );
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FOODPERSON", &iuse::foodperson );
+    add_iuse( "FOODPERSON_VOICE", &iuse::foodperson_voice );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "GASMASK", &iuse::gasmask,
+    add_iuse( "GASMASK_ACTIVATE", &iuse::gasmask_activate,
               to_translation( "Can be activated to <good>increase environmental "
                               "protection</good>.  Will consume charges when active, "
                               "but <info>only when environmental hazards are "
                               "present</info>."
                             ) );
+    add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GRANADE", &iuse::granade );
+    add_iuse( "GEIGER_ACTIVE", &iuse::geiger_active );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
@@ -1728,9 +1741,10 @@ void Item_factory::init()
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
+    add_iuse( "MP3_DEACTIVATE", &iuse::mp3_deactivate );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
+    add_iuse( "MULTICOOKER_TICK", &iuse::multicooker_tick );
     add_iuse( "MYCUS", &iuse::mycus );
-    add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
     add_iuse( "OXYGEN_BOTTLE", &iuse::oxygen_bottle );
     add_iuse( "OXYTORCH", &iuse::oxytorch );
@@ -1749,12 +1763,15 @@ void Item_factory::init()
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );
     add_iuse( "RADIOCONTROL", &iuse::radiocontrol );
+    add_iuse( "RADIOCONTROL_TICK", &iuse::radiocontrol_tick );
     add_iuse( "RADIO_MOD", &iuse::radio_mod );
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
+    add_iuse( "RADIO_TICK", &iuse::radio_tick );
     add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
     add_iuse( "BINDER_MANAGE_RECIPE", &iuse::binder_manage_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
+    add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
@@ -1813,6 +1830,8 @@ void Item_factory::init()
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<message_iuse>() );
+    add_actor( std::make_unique<sound_iuse>() );
+    add_actor( std::make_unique<play_instrument_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
@@ -2025,6 +2044,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( !type->can_have_charges() && type->charges_default() > 0 ) {
+            msg += "charges defined but can not have any\n";
+        } else if( type->comestible && type->can_have_charges() && type->charges_default() <= 0 ) {
+            msg += "charges expected but not defined or <= 0\n";
+        }
+
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
         }
@@ -2124,9 +2149,9 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( auto &b : type->brewable->results ) {
-                if( !has_template( b ) ) {
-                    msg += string_format( "invalid result id %s\n", b.c_str() );
+            for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
+                if( !has_template( b.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
                 }
             }
         }
@@ -2709,6 +2734,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     }
 
     assign( jo, "modes", slot.modes );
+    assign( jo, "hurt_part_when_fired", slot.hurt_part_when_fired );
 }
 
 void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
@@ -3302,7 +3328,13 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 void islot_brewable::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "time", time, 1_turns );
-    mandatory( jo, was_loaded, "results", results );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
+    }
 }
 
 void islot_brewable::deserialize( const JsonObject &jo )
@@ -3715,21 +3747,11 @@ void Item_factory::add_special_pockets( itype &def )
     if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
     }
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) ) {
-        const use_function *iuse = def.get_use( "link_up" );
-        if( iuse != nullptr ) {
-            const link_up_actor *actor_ptr =
-                static_cast<const link_up_actor *>( iuse->get_actor_ptr() );
-            if( actor_ptr != nullptr && !actor_ptr->is_cable_item ) {
-                pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
-                cable_pocket.rigid = true;
-                cable_pocket.volume_capacity = units::from_milliliter( 1 );
-                cable_pocket.max_contains_weight = units::from_gram( 1 );
-                cable_pocket.weight_multiplier = 0.0f;
-                cable_pocket.volume_multiplier = 0.0f;
-                def.pockets.emplace_back( cable_pocket );
-            }
-        }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) &&
+        def.get_use( "link_up" ) != nullptr ) {
+        pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
+        cable_pocket.rigid = false;
+        def.pockets.emplace_back( cable_pocket );
     }
 }
 
@@ -3954,8 +3976,17 @@ static void replace_materials( const JsonObject &jo, itype &def )
         material_id replacement = material_id( jv.get_string() );
 
         units::mass original_weight = def.weight;
-
         int mat_portion = def.materials[to_replace];
+
+        // make repairs_with act the same way
+        if( !def.repairs_with.empty() ) {
+            const auto iter = def.repairs_with.find( to_replace );
+            if( iter != def.repairs_with.end() ) {
+                def.repairs_with.erase( iter );
+                def.repairs_with.insert( replacement );
+            }
+        }
+
         // material is defined
         if( mat_portion != 0 ) {
             double mat_percent = static_cast<double>( mat_portion ) / static_cast<double>
@@ -4055,8 +4086,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
-
-    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
+    assign( jo, "repairs_with", def.repairs_with );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -4235,6 +4265,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             tmp.allow_omitted_members();
             delete_qualities_from_json( tmp, "qualities", def );
         }
+        if( jo.has_object( "relative" ) ) {
+            JsonObject tmp = jo.get_object( "relative" );
+            tmp.allow_omitted_members();
+            relative_qualities_from_json( tmp, "qualities", def );
+        }
     }
 
     if( jo.has_member( "charged_qualities" ) ) {
@@ -4246,11 +4281,24 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( const std::string &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
+    if( jo.has_member( "techniques" ) ) {
+        def.techniques.clear();
+        set_techniques_from_json( jo, "techniques", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_techniques_from_json( tmp, "techniques", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_techniques_from_json( tmp, "techniques", def );
+        }
     }
 
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
+    set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );
@@ -4352,7 +4400,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
-
 
     // potentially replace materials and update their values
     JsonObject replace_val = jo.get_object( "replace_materials" );
@@ -4556,10 +4603,23 @@ void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::
 void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
-    for( JsonArray curr : jo.get_array( member ) ) {
-        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
-        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+    for( std::string curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr ) );
+        if( iter != def.qualities.end() ) {
             def.qualities.erase( iter );
+        }
+    }
+}
+
+void Item_factory::relative_qualities_from_json( const JsonObject &jo,
+        const std::string_view member, itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const quality_id key = quality_id( curr.get_string( 0 ) );
+        if( def.qualities.find( quality_id( key ) ) != def.qualities.end() ) {
+            def.qualities[ key ] += curr.get_int( 1 );
+        } else {
+            jo.throw_error_at( member, "Quality specified wasn't inherited" );
         }
     }
 }
@@ -4577,6 +4637,43 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
         }
     } else {
         jo.throw_error_at( member, "Properties list is not an array" );
+    }
+}
+
+void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
+        itype &def )
+{
+    if( jo.has_array( member ) ) {
+        for( std::string curr : jo.get_array( member ) ) {
+            const matec_id tech = matec_id( curr );
+            // Prevent duplicates
+            if( def.techniques.count( tech ) > 0 ) {
+                jo.throw_error_at( member, "Duplicated technique" );
+            }
+            def.techniques.insert( tech );
+        }
+    } else {
+        jo.throw_error_at( member, "Techniques list is not an array" );
+    }
+}
+
+void Item_factory::extend_techniques_from_json( const JsonObject &jo, const std::string_view member,
+        itype &def )
+{
+    for( std::string curr : jo.get_array( member ) ) {
+        def.techniques.insert( matec_id( curr ) );
+    }
+}
+
+void Item_factory::delete_techniques_from_json( const JsonObject &jo, const std::string_view member,
+        itype &def )
+{
+    for( std::string curr : jo.get_array( member ) ) {
+        const matec_id tech = matec_id( curr );
+        const auto iter = def.techniques.find( tech );
+        if( iter != def.techniques.end() ) {
+            def.techniques.erase( tech );
+        }
     }
 }
 
@@ -4803,6 +4900,9 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
+    if( obj.has_string( "entry-wrapper" ) ) {
+        sptr->set_container_item( itype_id( obj.get_string( "entry-wrapper" ) ) );
+    }
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
@@ -5127,26 +5227,6 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
         rval.push_back( group_pair.first );
     }
     return rval;
-}
-
-bool Item_factory::add_item_to_group( const item_group_id &group_id, const itype_id &item_id,
-                                      int chance )
-{
-    if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
-        return false;
-    }
-    Item_spawn_data &group_to_access = *m_template_groups[group_id];
-    if( group_to_access.has_item( item_id ) ) {
-        group_to_access.remove_item( item_id );
-    }
-
-    Item_group *ig = dynamic_cast<Item_group *>( &group_to_access );
-    if( chance != 0 && ig != nullptr ) {
-        // Only re-add if chance != 0
-        ig->add_item_entry( item_id, chance );
-    }
-
-    return true;
 }
 
 void item_group::debug_spawn()

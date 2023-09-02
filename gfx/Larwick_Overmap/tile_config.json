@@ -6122,6 +6122,7 @@
         { "id": "lake_surface", "fg": 316 },
         { "id": "lake_water_cube", "fg": 316 },
         { "id": "lake_bed", "fg": 316 },
+        { "id": "backfloorchamber", "fg": 183 },
         { "id": "clear", "fg": 273 },
         { "id": [ "portal_storm", "close_portal_storm" ], "fg": 208 },
         { "id": [ "early_portal_storm", "distant_portal_storm" ], "fg": 206 },
