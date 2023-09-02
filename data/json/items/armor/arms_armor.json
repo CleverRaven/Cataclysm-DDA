@@ -1643,7 +1643,10 @@
   {
     "id": "qt_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "pair of tempered titanium alloy chainmail sleeves", "str_pl": "pairs of tempered titanium alloy chainmail sleeves" },
+    "name": {
+      "str": "pair of tempered titanium alloy chainmail sleeves",
+      "str_pl": "pairs of tempered titanium alloy chainmail sleeves"
+    },
     "description": "A pair of high-performance titanium alloy chainmail arm protectors made from quench-tempered rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "ti_chainmail_arms",
     "looks_like": "ti_chainmail_arms",
@@ -1652,7 +1655,10 @@
   {
     "id": "xl_qt_ti_alloy_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "pair of XL tempered titanium alloy chainmail sleeves", "str_pl": "pairs of XL tempered titanium alloy chainmail sleeves" },
+    "name": {
+      "str": "pair of XL tempered titanium alloy chainmail sleeves",
+      "str_pl": "pairs of XL tempered titanium alloy chainmail sleeves"
+    },
     "description": "A pair of oversized, high-performance titanium alloy chainmail arm protectors made from quench-tempered rings.  Surprisingly light, with belted straps connecting them to improve support.  They leave the hands fully exposed, and can be worn with gloves.",
     "copy-from": "xl_ti_chainmail_arms",
     "looks_like": "xl_ti_chainmail_arms",

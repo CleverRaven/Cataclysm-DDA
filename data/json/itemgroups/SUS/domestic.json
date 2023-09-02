@@ -85,7 +85,14 @@
     "//2": "This group is for a drawer full of knives and related implements.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "knife_chef", "prob": 30 }, { "item": "knife_vegetable_cleaver", "prob": 10 }, { "item": "knife_chef_ti", "prob": 6 }, { "item": "knife_vegetable_cleaver_ti", "prob": 4 } ] },
+      {
+        "distribution": [
+          { "item": "knife_chef", "prob": 30 },
+          { "item": "knife_vegetable_cleaver", "prob": 10 },
+          { "item": "knife_chef_ti", "prob": 6 },
+          { "item": "knife_vegetable_cleaver_ti", "prob": 4 }
+        ]
+      },
       { "item": "knife_paring" },
       {
         "distribution": [ { "item": "knife_paring", "prob": 5 }, { "item": "knife_paring_ti", "prob": 1 } ],
@@ -97,7 +104,12 @@
         "prob": 45
       },
       {
-        "distribution": [ { "item": "knife_butcher", "prob": 25 }, { "item": "knife_meat_cleaver", "prob": 15 }, { "item": "knife_butcher_ti", "prob": 6 }, { "item": "knife_meat_cleaver_ti", "prob": 4 } ],
+        "distribution": [
+          { "item": "knife_butcher", "prob": 25 },
+          { "item": "knife_meat_cleaver", "prob": 15 },
+          { "item": "knife_butcher_ti", "prob": 6 },
+          { "item": "knife_meat_cleaver_ti", "prob": 4 }
+        ],
         "prob": 65
       },
       {
@@ -105,9 +117,10 @@
         "prob": 75
       },
       {
-        "collection": [ 
+        "collection": [
           { "distribution": [ { "item": "knife_carving", "prob": 5 }, { "item": "knife_carving_ti", "prob": 1 } ] },
-          { "item": "carving_fork", "prob": 90 } ],
+          { "item": "carving_fork", "prob": 90 }
+        ],
         "prob": 85
       },
       { "item": "scissors", "prob": 80 },

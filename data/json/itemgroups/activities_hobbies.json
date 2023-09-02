@@ -249,8 +249,8 @@
       [ "aluminum_pan", 10 ],
       [ "copper_pan", 5 ],
       { "item": "mess_kit", "prob": 10 },
-      { "distribution": [
-        { "item": "spork" }, { "item": "foon" }, { "item": "spork_ti" }, { "item": "foon_ti" } ],
+      {
+        "distribution": [ { "item": "spork" }, { "item": "foon" }, { "item": "spork_ti" }, { "item": "foon_ti" } ],
         "prob": 20
       },
       [ "folded_inflatable_boat", 25 ],
@@ -472,8 +472,8 @@
       [ "aluminum_pan", 10 ],
       [ "copper_pan", 5 ],
       { "item": "mess_kit", "prob": 10 },
-      { "distribution": [
-        { "item": "spork" }, { "item": "foon" }, { "item": "spork_ti" }, { "item": "foon_ti" } ],
+      {
+        "distribution": [ { "item": "spork" }, { "item": "foon" }, { "item": "spork_ti" }, { "item": "foon_ti" } ],
         "prob": 25
       },
       [ "folded_inflatable_boat", 25 ],
