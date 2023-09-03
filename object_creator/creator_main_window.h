@@ -6,7 +6,9 @@
 #include "item_group_window.h"
 #include "spell_window.h"
 //include unistd.h for the sleep function
+#if defined(__linux__)
 #include <unistd.h>
+#endif // __linux__
 
 class QApplication;
 
