@@ -72,6 +72,12 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "dist_pulse_rifles_heavy_prototype",
+    "items": [ { "item": "mom_pulse_rifle", "prob": 1 }, { "item": "mom_pulse_rifle_prototype", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "dist_psionic_shield_belts",
     "groups": [ [ "dist_fire_shield_belts", 1 ], [ "dist_shield_belts", 1 ] ]
   },
