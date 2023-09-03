@@ -40,7 +40,8 @@
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "sense_unnatural",
-    "duration": 86000,
+    "min_duration": 30000,
+    "max_duration": 45000,
     "shape": "blast",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   }
