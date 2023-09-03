@@ -41,7 +41,7 @@ int creator::main_window::execute( QApplication &app )
     splashscreen.show();
     splashscreen.showMessage( "Loading mainwindow...", Qt::AlignCenter );
     //let the thread sleep for a second to show the splashscreen
-    sleep( 1 );
+    std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
     app.processEvents();
 
     //Create a tab widget and add it to the main window

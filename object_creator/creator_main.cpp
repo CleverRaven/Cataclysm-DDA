@@ -120,8 +120,8 @@ int main( int argc, char *argv[] )
     QSplashScreen splashscreen( splash );
     splashscreen.show();
     splashscreen.showMessage( "Initializing Object Creator...", Qt::AlignCenter );
-    //let the thread sleep for a second to show the splashscreen
-    sleep( 1 );
+    //let the thread sleep for two seconds to show the splashscreen
+    std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
     app.processEvents();
 
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
