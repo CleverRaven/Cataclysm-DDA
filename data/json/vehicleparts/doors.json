@@ -88,7 +88,7 @@
     "breaks_into": "ig_vp_ti_alloy_frame",
     "description": "A light but sturdy door.  Has a window so you can see out of it, even when closed.",
     "name": { "str": "titanium alloy door" }
-  },  
+  },
   {
     "id": "ti_alloy_door_opaque",
     "type": "vehicle_part",

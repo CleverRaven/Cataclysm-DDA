@@ -108,7 +108,15 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "scrap_ti_alloy", 6 ] ], [ [ "ti_alloy_chunk", 1 ] ], [ [ "sheet_ti_alloy_small", 2 ] ], [ [ "ti_alloy_wire", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "e_scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "scrap_ti_alloy", 6 ] ],
+      [ [ "ti_alloy_chunk", 1 ] ],
+      [ [ "sheet_ti_alloy_small", 2 ] ],
+      [ [ "ti_alloy_wire", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "uncraft",
@@ -119,7 +127,15 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 4 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "scrap_ti_alloy", 10 ] ], [ [ "ti_alloy_chunk", 4 ] ], [ [ "sheet_ti_alloy_small", 6 ] ], [ [ "ti_alloy_wire", 6 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "e_scrap", 4 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap_ti_alloy", 10 ] ],
+      [ [ "ti_alloy_chunk", 4 ] ],
+      [ [ "sheet_ti_alloy_small", 6 ] ],
+      [ [ "ti_alloy_wire", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "uncraft",
@@ -130,7 +146,15 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap_ti_alloy", 8 ] ], [ [ "ti_alloy_chunk", 2 ] ], [ [ "sheet_ti_alloy_small", 4 ] ], [ [ "ti_alloy_wire", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "e_scrap", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap_ti_alloy", 8 ] ],
+      [ [ "ti_alloy_chunk", 2 ] ],
+      [ [ "sheet_ti_alloy_small", 4 ] ],
+      [ [ "ti_alloy_wire", 4 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "uncraft",
@@ -141,7 +165,15 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap_ti_alloy", 8 ] ], [ [ "ti_alloy_chunk", 2 ] ], [ [ "sheet_ti_alloy_small", 4 ] ], [ [ "ti_alloy_wire", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "e_scrap", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap_ti_alloy", 8 ] ],
+      [ [ "ti_alloy_chunk", 2 ] ],
+      [ [ "sheet_ti_alloy_small", 4 ] ],
+      [ [ "ti_alloy_wire", 4 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "uncraft",
