@@ -465,7 +465,7 @@
       {
         "item": "ballistic_vest_esapi",
         "variant": "swat_ballistic_vest",
-        "contents-group": "private_medium_vest",
+        "contents-group": "used_private_medium_vest",
         "prob": 7
       },
       {
@@ -493,7 +493,7 @@
     "type": "item_group",
     "//": "ESAPI vest plus plates",
     "subtype": "distribution",
-    "entries": [ { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "kitted_medium_vest" } ]
+    "entries": [ { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "private_medium_vest" } ]
   },
   {
     "id": "military_ballistic_vest_pristine",
@@ -568,11 +568,47 @@
     ]
   },
   {
+    "id": "pmc_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "Black ESAPI vest plus non-standard plates in perfect shape",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "item": "ballistic_vest_esapi",
+            "variant": "pmc_ballistic_vest",
+            "contents-group": "private_medium_vest",
+            "prob": 100
+          },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "pmc_ballistic_vest", "contents-group": "pristine_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "pmc_armor_vest", "contents-group": "pristine_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "pmc_ballistic_vest_light_pristine", "prob": 10 },
+      { "group": "pmc_ballistic_vest_heavy_pristine", "prob": 5 }
+    ]
+  },
+  {
     "id": "pmc_ballistic_vest_light",
     "type": "item_group",
     "//": "black light ballistic vests with assorted plates",
     "subtype": "distribution",
     "entries": [
+<<<<<<< Updated upstream
       {
         "item": "ballistic_vest_light",
         "variant": "ballistic_vest_light_black",
@@ -591,10 +627,33 @@
         "contents-group": "private_light_vest",
         "prob": 50
       }
+=======
+      { "item": "ballistic_vest_light", "variant": "ballistic_vest_light_black", "contents-group": "used_private_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_pouches", "variant": "ballistic_vest_light_black", "contents-group": "used_private_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_operator", "variant": "ballistic_vest_light_black", "contents-group": "used_private_light_vest", "prob": 50 }
     ]
   },
   {
     "id": "pmc_ballistic_vest_heavy",
+    "type": "item_group",
+    "//": "black heavy ballistic vest with assorted plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "variant": "ballistic_vest_heavy_pmc", "contents-group": "used_private_heavy_vest" } ]
+  },
+  {
+    "id": "pmc_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "black light ballistic vests with assorted plates",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ballistic_vest_light", "variant": "ballistic_vest_light_black", "contents-group": "private_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_pouches", "variant": "ballistic_vest_light_black", "contents-group": "private_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_operator", "variant": "ballistic_vest_light_black", "contents-group": "private_light_vest", "prob": 50 }
+>>>>>>> Stashed changes
+    ]
+  },
+  {
+    "id": "pmc_ballistic_vest_heavy_pristine",
     "type": "item_group",
     "//": "black heavy ballistic vest with assorted plates",
     "subtype": "collection",
