@@ -317,7 +317,9 @@
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
       "install": {
-        "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
