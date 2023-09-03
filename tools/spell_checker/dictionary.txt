@@ -421,6 +421,9 @@ burdocks
 burette
 burnback
 burnin
+bushwhack
+bushwhacked
+bushwhacking
 butadiene
 butternut
 butternuts

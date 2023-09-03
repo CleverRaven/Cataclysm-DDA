@@ -37,6 +37,7 @@
     "variants": [
       {
         "id": "headphones_generic",
+        "name": { "str": "pair of headphones", "str_pl": "pairs of headphones" },
         "name": { "str": "headphones" },
         "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
         "weight": 2
@@ -49,7 +50,7 @@
       },
       {
         "id": "headphones_cat",
-        "name": { "str": "cat ear headphones" },
+        "name": { "str": "pair of cat ear headphones", "str_pl": "pairs of cat ear headphones" },
         "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening. This pair is styled with a set of colorful cat-like plastic ears on top.",
         "color": "light_blue",
         "weight": 1

@@ -861,7 +861,7 @@
       {
         "id": "ballistic_vest_light_aqua",
         "name": { "str": "blue light ballistic pouch vest", "str_pl": "blue light ballistic pouch vests" },
-        "description": "It's styled in stormy blue-gray digital camo, based on the 'aqua-flage' once worn by the US navy.",
+        "description": "It's styled in stormy blue-gray digital camo, based on the \"aquaflage\" once worn by the US navy.",
         "color": "light_blue",
         "weight": 2,
         "append": true
@@ -877,7 +877,7 @@
       {
         "id": "ballistic_vest_light_purple",
         "name": { "str": "magenta light ballistic pouch vest", "str_pl": "magenta light ballistic pouch vests" },
-        "description": "It's decorated in a faux-camoflage of purples and pinks, for those who want to stand out rather than blend in.",
+        "description": "It's decorated in a faux-camouflage of purples and pinks, for those who want to stand out rather than blend in.",
         "color": "pink",
         "weight": 1,
         "append": true
@@ -979,7 +979,7 @@
       {
         "id": "ballistic_vest_light_aqua",
         "name": { "str": "blue light ballistic operator vest", "str_pl": "blue light ballistic operator vests" },
-        "description": "It's styled in stormy blue-gray digital camo, based on the 'aqua-flage' once worn by the US navy.",
+        "description": "It's styled in stormy blue-gray digital camo, based on the \"aquaflage\" once worn by the US navy.",
         "color": "light_blue",
         "weight": 2,
         "append": true
@@ -995,7 +995,7 @@
       {
         "id": "ballistic_vest_light_purple",
         "name": { "str": "magenta light ballistic operator vest", "str_pl": "magenta light ballistic operator vests" },
-        "description": "It's decorated in a faux-camoflage of purples and pinks, for those who want to stand out rather than blend in.",
+        "description": "It's decorated in a faux-camouflage of purples and pinks, for those who want to stand out rather than blend in.",
         "color": "pink",
         "weight": 1,
         "append": true

@@ -907,7 +907,7 @@
     "id": "machete_ti",
     "type": "TOOL",
     "name": { "str": "titanium machete" },
-    "description": "Thanks to its performance titanium alloy blade, this huge knife delivers solid strikes, yet is surprisingly light.  Ideal for bushwacking through the wilderness, or slicing and dicing your way through the apocalypse.",
+    "description": "Thanks to its performance titanium alloy blade, this huge knife delivers solid strikes, yet is surprisingly light.  Ideal for bushwhacking through the wilderness, or slicing and dicing your way through the apocalypse.",
     "copy-from": "machete",
     "looks_like": "machete",
     "weight": "296 g",
