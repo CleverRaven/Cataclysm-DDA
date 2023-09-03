@@ -1786,6 +1786,7 @@
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
     "repair_difficulty": 7
   },
+
   {
     "type": "material",
     "id": "budget_steel",
@@ -2945,7 +2946,7 @@
     "specific_heat_liquid": 0.75,
     "specific_heat_solid": 0.54,
     "latent_heat": 390,
-    "conductive": true,
+    "conductive": false,
     "chip_resist": 20,
     "repaired_with": "qt_ti_alloy_chunk",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],

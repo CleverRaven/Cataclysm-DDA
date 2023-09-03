@@ -694,13 +694,13 @@
     "type": "ARMOR",
     "copy-from": "ballistic_vest_esapi",
     "//": "based on smaller thorax only plate carriers",
-    "name": { "str": "light ballistic MOLLE vest", "str_pl": "light ballistic MOLLE vests" },
+    "name": { "str": "light ballistic MOLLE vest" },
     "description": "A simple plate carrier covering the thorax, with front and back pockets for armor plates.  Designed to keep your organs from being perforated by small-arms fire.  This version has a MOLLE cummerbund that you can tuck a few magazines into.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "ballistic_vest_light_olive",
-        "name": { "str": "olive light ballistic MOLLE vest", "str_pl": "olive light ballistic MOLLE vests" },
+        "name": { "str": "olive light ballistic MOLLE vest" },
         "description": "It's styled in a dark olive color, to match standard camouflage.",
         "color": "light_green",
         "weight": 4,
@@ -708,7 +708,7 @@
       },
       {
         "id": "ballistic_vest_light_tan",
-        "name": { "str": "tan light ballistic MOLLE vest", "str_pl": "tan light ballistic MOLLE vests" },
+        "name": { "str": "tan light ballistic MOLLE vest" },
         "description": "It's styled in a tan color, to match desert camouflage.",
         "color": "brown",
         "weight": 4,
@@ -716,7 +716,7 @@
       },
       {
         "id": "ballistic_vest_light_black",
-        "name": { "str": "black light ballistic MOLLE vest", "str_pl": "black light ballistic MOLLE vests" },
+        "name": { "str": "black light ballistic MOLLE vest" },
         "description": "It's colored a solid dark gray, like something a contractor might wear.",
         "color": "dark_gray",
         "weight": 4,
@@ -724,7 +724,7 @@
       },
       {
         "id": "ballistic_vest_light_aqua",
-        "name": { "str": "blue light ballistic MOLLE vest", "str_pl": "blue light ballistic MOLLE vests" },
+        "name": { "str": "blue light ballistic MOLLE vest" },
         "description": "It's styled in stormy blue-gray digital camo, based on the \"aquaflage\" once worn by the US navy.",
         "color": "light_blue",
         "weight": 2,
@@ -732,7 +732,7 @@
       },
       {
         "id": "ballistic_vest_light_arctic",
-        "name": { "str": "white light ballistic MOLLE vest", "str_pl": "white light ballistic MOLLE vests" },
+        "name": { "str": "white light ballistic MOLLE vest" },
         "description": "It's styled in frosty white and gray digital camo, based on the snow camouflage once worn by the US military.",
         "color": "light_gray",
         "weight": 2,
@@ -740,7 +740,7 @@
       },
       {
         "id": "ballistic_vest_light_purple",
-        "name": { "str": "magenta light ballistic MOLLE vest", "str_pl": "magenta light ballistic MOLLE vests" },
+        "name": { "str": "magenta light ballistic MOLLE vest" },
         "description": "It's decorated in a faux-camouflage of purples and pinks, for those who want to stand out rather than blend in.",
         "color": "pink",
         "weight": 1,
@@ -748,7 +748,7 @@
       },
       {
         "id": "ballistic_vest_light_future",
-        "name": { "str": "hexagonal light ballistic MOLLE vest", "str_pl": "hexagonal light ballistic MOLLE vests" },
+        "name": { "str": "hexagonal light ballistic MOLLE vest" },
         "description": "It's decorated in a futuristic pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
         "weight": 1,
@@ -756,7 +756,7 @@
       },
       {
         "id": "ballistic_vest_light_punisher",
-        "name": { "str": "skull light ballistic MOLLE vest", "str_pl": "skull light ballistic MOLLE vests" },
+        "name": { "str": "skull light ballistic MOLLE vest" },
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
@@ -765,7 +765,7 @@
       },
       {
         "id": "ballistic_vest_light_meme",
-        "name": { "str": "gaudy light ballistic MOLLE vest", "str_pl": "gaudy light ballistic MOLLE vests" },
+        "name": { "str": "gaudy light ballistic MOLLE vest" },
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
@@ -830,13 +830,13 @@
     "type": "ARMOR",
     "copy-from": "ballistic_vest_light",
     "//": "based on smaller thorax only plate carriers",
-    "name": { "str": "light ballistic storage vest", "str_pl": "light ballistic storage vests" },
+    "name": { "str": "light ballistic storage vest" },
     "description": "A simple plate carrier covering the thorax, with front and back pockets for armor plates.  Designed to keep your organs from being perforated by small-arms fire.  This version has a small pouch on the front to store stuff.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "ballistic_vest_light_olive",
-        "name": { "str": "olive light ballistic pouch vest", "str_pl": "olive light ballistic pouch vests" },
+        "name": { "str": "olive light ballistic pouch vest" },
         "description": "It's styled in a dark olive color, to match standard camouflage.",
         "color": "light_green",
         "weight": 4,
@@ -844,7 +844,7 @@
       },
       {
         "id": "ballistic_vest_light_tan",
-        "name": { "str": "tan light ballistic pouch vest", "str_pl": "tan light ballistic pouch vests" },
+        "name": { "str": "tan light ballistic pouch vest" },
         "description": "It's styled in a tan color, to match desert camouflage.",
         "color": "brown",
         "weight": 4,
@@ -852,7 +852,7 @@
       },
       {
         "id": "ballistic_vest_light_black",
-        "name": { "str": "black light ballistic pouch vest", "str_pl": "black light ballistic pouch vests" },
+        "name": { "str": "black light ballistic pouch vest" },
         "description": "It's colored a solid dark gray, like something a contractor might wear.",
         "color": "dark_gray",
         "weight": 4,
@@ -860,7 +860,7 @@
       },
       {
         "id": "ballistic_vest_light_aqua",
-        "name": { "str": "blue light ballistic pouch vest", "str_pl": "blue light ballistic pouch vests" },
+        "name": { "str": "blue light ballistic pouch vest" },
         "description": "It's styled in stormy blue-gray digital camo, based on the \"aquaflage\" once worn by the US navy.",
         "color": "light_blue",
         "weight": 2,
@@ -868,7 +868,7 @@
       },
       {
         "id": "ballistic_vest_light_arctic",
-        "name": { "str": "white light ballistic pouch vest", "str_pl": "white light ballistic pouch vests" },
+        "name": { "str": "white light ballistic pouch vest" },
         "description": "It's styled in frosty white and gray digital camo, based on the snow camouflage once worn by the US military.",
         "color": "light_gray",
         "weight": 2,
@@ -876,7 +876,7 @@
       },
       {
         "id": "ballistic_vest_light_purple",
-        "name": { "str": "magenta light ballistic pouch vest", "str_pl": "magenta light ballistic pouch vests" },
+        "name": { "str": "magenta light ballistic pouch vest" },
         "description": "It's decorated in a faux-camouflage of purples and pinks, for those who want to stand out rather than blend in.",
         "color": "pink",
         "weight": 1,
@@ -884,7 +884,7 @@
       },
       {
         "id": "ballistic_vest_light_future",
-        "name": { "str": "hexagonal light ballistic pouch vest", "str_pl": "hexagonal light ballistic pouch vests" },
+        "name": { "str": "hexagonal light ballistic pouch vest" },
         "description": "It's decorated in a futuristic pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
         "weight": 1,
@@ -892,7 +892,7 @@
       },
       {
         "id": "ballistic_vest_light_punisher",
-        "name": { "str": "skull light ballistic pouch vest", "str_pl": "skull light ballistic pouch vests" },
+        "name": { "str": "skull light ballistic pouch vest" },
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
@@ -901,7 +901,7 @@
       },
       {
         "id": "ballistic_vest_light_meme",
-        "name": { "str": "gaudy light ballistic pouch vest", "str_pl": "gaudy light ballistic pouch vests" },
+        "name": { "str": "gaudy light ballistic pouch vest" },
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
@@ -948,13 +948,13 @@
     "type": "ARMOR",
     "copy-from": "ballistic_vest_light",
     "//": "based on smaller thorax only plate carriers",
-    "name": { "str": "light ballistic operator vest", "str_pl": "light ballistic operator vests" },
+    "name": { "str": "light ballistic operator vest" },
     "description": "A simple plate carrier covering the thorax, with front and back pockets for armor plates.  Designed to keep your organs from being perforated by small-arms fire.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "ballistic_vest_light_olive",
-        "name": { "str": "olive light ballistic operator vest", "str_pl": "olive light ballistic operator vests" },
+        "name": { "str": "olive light ballistic operator vest" },
         "description": "It's styled in a dark olive color, to match standard camouflage.",
         "color": "light_green",
         "weight": 4,
@@ -962,7 +962,7 @@
       },
       {
         "id": "ballistic_vest_light_tan",
-        "name": { "str": "tan light ballistic operator vest", "str_pl": "tan light ballistic operator vests" },
+        "name": { "str": "tan light ballistic operator vest" },
         "description": "It's styled in a tan color, to match desert camouflage.",
         "color": "brown",
         "weight": 4,
@@ -970,7 +970,7 @@
       },
       {
         "id": "ballistic_vest_light_black",
-        "name": { "str": "black light ballistic operator vest", "str_pl": "black light ballistic operator vests" },
+        "name": { "str": "black light ballistic operator vest" },
         "description": "It's colored a solid dark gray, like something a contractor might wear.",
         "color": "dark_gray",
         "weight": 4,
@@ -978,7 +978,7 @@
       },
       {
         "id": "ballistic_vest_light_aqua",
-        "name": { "str": "blue light ballistic operator vest", "str_pl": "blue light ballistic operator vests" },
+        "name": { "str": "blue light ballistic operator vest" },
         "description": "It's styled in stormy blue-gray digital camo, based on the \"aquaflage\" once worn by the US navy.",
         "color": "light_blue",
         "weight": 2,
@@ -986,7 +986,7 @@
       },
       {
         "id": "ballistic_vest_light_arctic",
-        "name": { "str": "white light ballistic operator vest", "str_pl": "white light ballistic operator vests" },
+        "name": { "str": "white light ballistic operator vest" },
         "description": "It's styled in frosty white and gray digital camo, based on the snow camouflage once worn by the US military.",
         "color": "light_gray",
         "weight": 2,
@@ -994,7 +994,7 @@
       },
       {
         "id": "ballistic_vest_light_purple",
-        "name": { "str": "magenta light ballistic operator vest", "str_pl": "magenta light ballistic operator vests" },
+        "name": { "str": "magenta light ballistic operator vest" },
         "description": "It's decorated in a faux-camouflage of purples and pinks, for those who want to stand out rather than blend in.",
         "color": "pink",
         "weight": 1,
@@ -1002,7 +1002,7 @@
       },
       {
         "id": "ballistic_vest_light_future",
-        "name": { "str": "hexagonal light ballistic operator vest", "str_pl": "hexagonal light ballistic operator vests" },
+        "name": { "str": "hexagonal light ballistic operator vest" },
         "description": "It's decorated in a futuristic pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
         "weight": 1,
@@ -1010,7 +1010,7 @@
       },
       {
         "id": "ballistic_vest_light_punisher",
-        "name": { "str": "skull light ballistic operator vest", "str_pl": "skull light ballistic operator vests" },
+        "name": { "str": "skull light ballistic operator vest" },
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
@@ -1019,7 +1019,7 @@
       },
       {
         "id": "ballistic_vest_light_meme",
-        "name": { "str": "gaudy light ballistic operator vest", "str_pl": "gaudy light ballistic operator vests" },
+        "name": { "str": "gaudy light ballistic operator vest" },
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
