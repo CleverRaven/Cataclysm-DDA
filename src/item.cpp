@@ -138,6 +138,8 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const fault_id fault_overheat_safety( "fault_overheat_safety" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -1451,6 +1453,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         return false;
     }
     if( techniques != rhs.techniques ) {
+        return false;
+    }
+    if( overheat_symbol() != rhs.overheat_symbol() ) {
         return false;
     }
     // Guns with enough fouling to change the indicator symbol don't stack
@@ -6397,6 +6402,32 @@ std::string item::dirt_symbol() const
     }
 }
 
+std::string item::overheat_symbol() const
+{
+
+    if( !is_gun() || type->gun->overheat_threshold <= 0.0 ) {
+        return "";
+    }
+    if( faults.count( fault_overheat_safety ) ) {
+        return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
+    }
+    switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
+                                           0 ) / ( type->gun->overheat_threshold ) * 5.0 ) ) ) {
+        case 1:
+            return "";
+        case 2:
+            return string_format( _( "<color_yellow>\u2583HEAT </color>" ) );
+        case 3:
+            return string_format( _( "<color_light_red>\u2585HEAT </color>" ) );
+        case 4:
+            return string_format( _( "<color_red>\u2587HEAT! </color>" ) ); // NOLINT(cata-text-style)
+        case 5:
+            return string_format( _( "<color_pink>\u2588HEAT!! </color>" ) ); // NOLINT(cata-text-style)
+        default:
+            return "";
+    }
+}
+
 std::string item::degradation_symbol() const
 {
     const int inc = max_damage() / 5;
@@ -6438,6 +6469,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     damtext += dirt_symbol();
+    damtext += overheat_symbol();
 
     if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
@@ -12323,7 +12355,7 @@ int item::processing_speed() const
 
     if( active || ethereal || wetness || link ||
         has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
-        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -13479,6 +13511,32 @@ bool item::process_blackpowder_fouling( Character *carrier )
     return false;
 }
 
+bool item::process_gun_cooling( Character *carrier )
+{
+    double heat = get_var( "gun_heat", 0 );
+    double threshold = type->gun->overheat_threshold;
+    heat -= type->gun->cooling_value;
+    set_var( "gun_heat", std::max( 0.0, heat ) );
+    if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
+        faults.erase( fault_overheat_safety );
+        if( carrier ) {
+            carrier->add_msg_if_player( m_good, _( "Your %s beeps as its cooling cycle concludes." ), tname() );
+        }
+    }
+    if( carrier ) {
+        if( heat > threshold ) {
+            carrier->add_msg_if_player( m_bad,
+                                        _( "You can feel the struggling systems of your %s beneath the blare of the overheat alarm." ),
+                                        tname() );
+        } else if( heat > threshold * 0.8 ) {
+            carrier->add_msg_if_player( m_bad, _( "Your %s frantically sounds an overheat alarm." ), tname() );
+        } else if( heat > threshold * 0.6 ) {
+            carrier->add_msg_if_player( m_warning, _( "Your %s sounds a heat warning chime!" ), tname() );
+        }
+    }
+    return false;
+}
+
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent, bool recursive )
 {
@@ -13640,6 +13698,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         // guns are never active so we only need to tick this on inactive items. For performance reasons.
         if( has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
             return process_blackpowder_fouling( carrier );
+        }
+        if( get_var( "gun_heat", 0 ) > 0 ) {
+            return process_gun_cooling( carrier );
         }
     }
 

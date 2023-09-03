@@ -191,6 +191,11 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "OVERHEATS",
+    "type": "json_flag",
+    "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
+  },
+  {
     "id": "DIAMOND",
     "type": "json_flag",
     "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",

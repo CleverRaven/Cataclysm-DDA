@@ -373,6 +373,11 @@ class item : public visitable
         std::string dirt_symbol() const;
 
         /**
+         * Returns a symbol for indicating the overheat level for a gun.
+         */
+        std::string overheat_symbol() const;
+
+        /**
          * Returns a symbol indicating the current degradation of the item.
          */
         std::string degradation_symbol() const;
@@ -2954,6 +2959,7 @@ class item : public visitable
         bool process_link( map &here, Character *carrier, const tripoint &pos );
         bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
+        bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
 
     public:

@@ -1180,6 +1180,7 @@
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
@@ -1191,6 +1192,7 @@
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
