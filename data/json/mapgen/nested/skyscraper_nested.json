@@ -129,7 +129,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "This is a grocery store in the middle right.  It and the map below are linked across tile boundaries",
+    "//": "This is an electronics store in the middle right.  It and the map below are linked across tile boundaries",
     "nested_mapgen_id": "skyscraper_shopping_0_mr_upper_store",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -197,7 +197,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "This is a grocery store in the middle right.  It and the map above are linked across tile boundaries",
+    "//": "This is an electronics store in the middle right.  It and the map above are linked across tile boundaries",
     "nested_mapgen_id": "skyscraper_shopping_0_mr_lower_store",
     "object": {
       "mapgensize": [ 24, 24 ],
