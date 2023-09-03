@@ -970,6 +970,7 @@
     "name": { "male": "Frost Cream Man", "female": "Frost Cream Woman" },
     "description": "You learned Kelvinist spells to keep equipment costs down on your ice cream truck.  While their tastes have changed, the kids still scream for you.",
     "points": 4,
+    "proficiencies": [ "prof_driver" ],
     "spells": [ { "id": "chilling_touch", "level": 3 }, { "id": "frost_spray", "level": 3 } ],
     "skills": [
       { "level": 2, "name": "speech" },

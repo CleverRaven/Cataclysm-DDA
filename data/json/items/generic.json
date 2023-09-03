@@ -1063,14 +1063,14 @@
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "steel mesh", "str_pl": "steel meshes" },
-    "description": "A mat of finely-woven steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chain link fencing will do these days.",
+    "description": "A 6-inch square piece of finely-woven steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put this on a window to keep mosquitoes and other bugs out if it was larger, but chain link fencing will do these days.",
     "category": "spare_parts",
-    "weight": "318 g",
-    "volume": "500 ml",
+    "//": "Reference tables for calculating steel mesh weight (current one assumes 100 mesh twill weave): http://www.wirecloth.com/mesh-cloth-specification-tables/",
+    "weight": "19 g",
+    "volume": "6 ml",
     "price": 700,
     "price_postapoc": 100,
-    "material": [ "steel" ],
-    "melee_damage": { "bash": 2 }
+    "material": [ "steel" ]
   },
   {
     "type": "GENERIC",

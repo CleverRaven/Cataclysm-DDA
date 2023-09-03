@@ -894,6 +894,7 @@
     "price_postapoc": 10,
     "material": [ "paper" ],
     "symbol": ";",
+    "qualities": [ [ "SIEVE", 1 ] ],
     "color": "light_gray",
     "melee_damage": { "bash": 1 }
   },
@@ -910,7 +911,23 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "sieve_steel_makeshift",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "makeshift sieve" },
+    "description": "Some fine steel mesh attached to a length of thicker steel wire, forming a rigid frame.  Useful for sieving.",
+    "volume": "106 ml",
+    "weight": "170 g",
+    "price": 700,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ]
   },
   {
     "id": "still",
