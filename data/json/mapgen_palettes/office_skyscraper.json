@@ -421,7 +421,6 @@
       }
     },
     "terrain": {
-      "~": { "param": "carpet_type", "fallback": "t_floor" },
       "*": "t_null",
       "/": "t_open_air",
       "#": "t_concrete_wall",
@@ -491,7 +490,7 @@
       "Y": "f_rack_coat"
     },
     "items": {
-      "d": [ { "item": "SUS_office_desk", "chance": 50 } ],
+      "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
       "e": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ],
       "o": { "item": "oven", "chance": 70 },
       "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],

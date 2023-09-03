@@ -71,8 +71,13 @@
         { "vehicle": "car", "x": 40, "y": 40, "rotation": 90, "chance": 25 },
         { "vehicle": "beetle", "x": 28, "y": 40, "rotation": 270, "chance": 25 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 } ],
-      "palettes": [ "office_palette" ]
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 5, 19 ], "chance": 70, "repeat": [ 5, 10 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 45 ], "y": [ 5, 19 ], "chance": 70, "repeat": [ 5, 10 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 24, 34 ], "chance": 70, "repeat": [ 5, 10 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 45 ], "y": [ 24, 42 ], "chance": 70, "repeat": [ 5, 10 ] }
+      ],
+      "palettes": [ "skyscraper_office_palette" ]
     }
   },
   {
@@ -135,15 +140,20 @@
       "place_nested": [
         { "chunks": [ "skyscraper_shopping_0_toilets_7x7_W" ], "x": 13, "y": 30 },
         { "chunks": [ "skyscraper_shopping_0_toilets_7x7_E" ], "x": 28, "y": 30 },
-        { "chunks": [ "skyscraper_shopping_0_ul_pet_supply_1" ], "x": 0, "y": 0 },
-        { "chunks": [ "skyscraper_shopping_0_ml_upper_grocer_1" ], "x": 0, "y": 0 },
-        { "chunks": [ "skyscraper_shopping_0_ml_lower_canteen_1" ], "x": 0, "y": 24 },
-        { "chunks": [ "skyscraper_shopping_0_ur_salon_1" ], "x": 24, "y": 0 },
-        { "chunks": [ "skyscraper_shopping_0_mr_upper_electronics_1" ], "x": 24, "y": 0 },
-        { "chunks": [ "skyscraper_shopping_0_mr_lower_electronics_1" ], "x": 24, "y": 24 },
-        { "chunks": [ "skyscraper_shopping_0_lr_laundromat_1" ], "x": 24, "y": 24 }
+        { "chunks": [ "skyscraper_shopping_0_ul_store_1" ], "x": 0, "y": 0 },
+        { "chunks": [ "skyscraper_shopping_0_ml_upper_store_1" ], "x": 0, "y": 0 },
+        { "chunks": [ "skyscraper_shopping_0_ml_lower_store_1" ], "x": 0, "y": 24 },
+        { "chunks": [ "skyscraper_shopping_0_ur_store_1" ], "x": 24, "y": 0 },
+        { "chunks": [ "skyscraper_shopping_0_mr_upper_store" ], "x": 24, "y": 0 },
+        { "chunks": [ "skyscraper_shopping_0_mr_lower_store" ], "x": 24, "y": 24 },
+        { "chunks": [ "skyscraper_shopping_0_lr_entrance_store" ], "x": 24, "y": 24 }
       ],
-      "monsters": { ":": { "monster": "GROUP_ZOMBIE", "chance": 100 } },
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 20, 23 ], "y": [ 5, 23 ], "chance": 50, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 27 ], "y": [ 5, 23 ], "chance": 50, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 20, 23 ], "y": [ 24, 42 ], "chance": 50, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 27 ], "y": [ 24, 42 ], "chance": 50, "repeat": [ 6, 12 ] }
+      ],
       "palettes": [ "skyscraper_shopping_palette" ]
     }
   },
@@ -207,11 +217,11 @@
         "////////////////////////////////////////////////",
         "////////////////////////////////////////////////"
       ],
-      "place_monsters": [
-        { "monster": "GROUP_VANILLA", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.1 },
-        { "monster": "GROUP_VANILLA", "x": [ 24, 43 ], "y": [ 5, 23 ], "density": 0.1 },
-        { "monster": "GROUP_VANILLA", "x": [ 4, 23 ], "y": [ 24, 42 ], "density": 0.1 },
-        { "monster": "GROUP_VANILLA", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.1 }
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 5, 23 ], "y": [ 5, 23 ], "chance": 80, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_VANILLA", "x": [ 24, 42 ], "y": [ 5, 23 ], "chance": 80, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_VANILLA", "x": [ 5, 23 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_VANILLA", "x": [ 24, 42 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 6, 12 ] }
       ],
       "palettes": [ "skyscraper_apartment_palette" ]
     }
@@ -276,11 +286,11 @@
         "////////////////////////////////////////////////",
         "////////////////////////////////////////////////"
       ],
-      "place_monsters": [
-        { "monster": "GROUP_VANILLA", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.1 },
-        { "monster": "GROUP_VANILLA", "x": [ 24, 43 ], "y": [ 5, 23 ], "density": 0.1 },
-        { "monster": "GROUP_VANILLA", "x": [ 4, 23 ], "y": [ 24, 42 ], "density": 0.1 },
-        { "monster": "GROUP_VANILLA", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.1 }
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 5, 23 ], "y": [ 5, 23 ], "chance": 80, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_VANILLA", "x": [ 24, 42 ], "y": [ 5, 23 ], "chance": 80, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_VANILLA", "x": [ 5, 23 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_VANILLA", "x": [ 24, 42 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 6, 12 ] }
       ],
       "palettes": [ "skyscraper_apartment_palette" ]
     }
@@ -310,23 +320,23 @@
         "///V::::::::::::::H..........H::::::::::::::V///",
         "///V::::::::::::::G..........G::::::::::::::V///",
         "///V::::::::::::::H..........H::::::::::::::V///",
-        "///|::::::::|--|-|-|........|-|-|--|::::::::|///",
-        "///|::::::::|SS|T|T|........|T|T|SS|::::::::|///",
-        "///|----|:::+ii|+|+|........|+|+|ii+:::|----|///",
-        "///|rrrr|:::|iiiiii|........|iiiiii|:::|rrrr|///",
+        "///|::::::::|--|-|-|^......^|-|-|--|::::::::|///",
+        "///|::::::::|SS|T|T|^......^|T|T|SS|::::::::|///",
+        "///|----|:::+ii|+|+|^......^|+|+|ii+:::|----|///",
+        "///|rrrr|:::|iiiiii|^......^|iiiiii|:::|rrrr|///",
         "///|''''+:::|---|--||......||--|---|:::+''''|///",
         "///|rrrr|:::|<R>|EEE|......|xEE|<R>|:::|rrrr|///",
         "///|----|:::|'R'|EEED......DEEE|'R'|:::|----|///",
         "///|::::::::|'''|EEED......DEEE|'''|::::::::|///",
         "///|::::::::+'''|EEx|......|EEE|'''+::::::::|///",
         "///|::::::::|---|-|-|......|-|-|---|::::::::|///",
-        "///V::::::::::::::|..........|:::::|::::::::V///",
-        "///V::::::::::::::|..........|:::::|::::::::V///",
+        "///V::::::::::::::|^........^|:::::|::::::::V///",
+        "///V::::::::::::::|^........^|:::::|::::::::V///",
         "///V::::::::::::::|^........^|:::::|::::::::V///",
         "///|::::::::::::::|-HHHGGHHH-|:::::|::::::::|///",
-        "///V::::::::::::::............::::::::::::::V///",
-        "///V::::::::::::::............::::::::::::::V///",
-        "///V::::::::::::::.a..........::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V:::::::::::::::a::::::::::::::::::::::::V///",
         "///|::::::::::::::|-HHHGGHHH-|::::::::::::::|///",
         "///V::::::::::::::::::::::::::::::::::::::::V///",
         "///V::::::::::::::::::::::::::::::::::::::::V///",
@@ -342,6 +352,7 @@
         "////////////////////////////////////////////////",
         "////////////////////////////////////////////////"
       ],
+      "terrain": { "a": "t_linoleum_gray" },
       "place_nested": [
         {
           "chunks": [ [ "skyscraper_4x4_cr1_l", 20 ], [ "skyscraper_4x4_cr2_l", 20 ], [ "skyscraper_4x4_cr3_l", 20 ] ],
@@ -368,7 +379,7 @@
         {
           "chunks": [
             [ "skyscraper_office_slide_dl", 20 ],
-            [ "skyscraper_glass_dl", 20 ],
+            [ "skyscraper_office_glass_dl", 20 ],
             [ "skyscraper_private_dl", 20 ],
             [ "skyscraper_crowded_dl", 20 ],
             [ "skyscraper_generic_dl", 20 ]
@@ -513,11 +524,11 @@
           "y": [ 35, 35 ]
         }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.3 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 29, 47 ], "density": 0.3 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.3 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.3 }
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 23 ], "chance": 80, "repeat": [ 10, 20 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 6, 23 ], "chance": 80, "repeat": [ 10, 20 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 5, 23 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 10, 20 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 24, 42 ], "chance": 80, "repeat": [ 10, 20 ] }
       ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -547,10 +558,10 @@
         "///V::::::::::::::H..........H::::::::::::::V///",
         "///V::::::::::::::G..........G::::::::::::::V///",
         "///V::::::::::::::H..........H::::::::::::::V///",
-        "///|::::::::|--|-|-|........|-|-|--|::::::::|///",
-        "///|::::::::|SS|T|T|........|T|T|SS|::::::::|///",
-        "///|----|:::+ii|+|+|........|+|+|ii+:::|----|///",
-        "///|rrrr|:::|iiiiii|........|iiiiii|:::|rrrr|///",
+        "///|::::::::|--|-|-|^......^|-|-|--|::::::::|///",
+        "///|::::::::|SS|T|T|^......^|T|T|SS|::::::::|///",
+        "///|----|:::+ii|+|+|^......^|+|+|ii+:::|----|///",
+        "///|rrrr|:::|iiiiii|^......^|iiiiii|:::|rrrr|///",
         "///|''''+:::|---|--||......||--|---|:::+''''|///",
         "///|rrrr|:::|>R<|EEE|......|xEE|>R<|:::|rrrr|///",
         "///|----|:::|'R'|EEED......DEEE|'R'|:::|----|///"
@@ -624,9 +635,9 @@
           "y": [ 4, 4 ]
         }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.3 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.3 }
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 23 ], "chance": 80, "repeat": [ 10, 20 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 6, 23 ], "chance": 80, "repeat": [ 10, 20 ] }
       ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -692,7 +703,7 @@
       "terrain": { "#": "t_concrete_wall", "R": "t_glass_railing", "'": "t_thconc_floor" },
       "furniture": { "x": "f_console_broken", "X": "f_generator_broken", "N": "f_machinery_heavy" },
       "place_nested": [
-        { "chunks": [ [ "roof_16x16_help", 3000 ], [ "null", 10 ] ], "x": [ 4, 8 ], "y": [ 30, 38 ] },
+        { "chunks": [ [ "roof_16x16_help", 10 ], [ "null", 10 ] ], "x": [ 4, 8 ], "y": [ 30, 38 ] },
         {
           "chunks": [
             [ "null", 20 ],
@@ -730,9 +741,11 @@
           "y": [ 6, 15 ]
         }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 23 ], "density": 0.3 },
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 18 ], "density": 0.3 }
+      "place_monster": [
+        { "group": "GROUP_ROOF_ZOMBIE", "x": [ 5, 23 ], "y": [ 6, 23 ], "chance": 80, "repeat": [ 3, 8 ] },
+        { "group": "GROUP_ROOF_ZOMBIE", "x": [ 5, 23 ], "y": [ 24, 40 ], "chance": 80, "repeat": [ 3, 8 ] },
+        { "group": "GROUP_ROOF_ZOMBIE", "x": [ 24, 40 ], "y": [ 6, 23 ], "chance": 80, "repeat": [ 3, 8 ] },
+        { "group": "GROUP_ROOF_ZOMBIE", "x": [ 24, 40 ], "y": [ 24, 40 ], "chance": 80, "repeat": [ 3, 8 ] }
       ]
     }
   },

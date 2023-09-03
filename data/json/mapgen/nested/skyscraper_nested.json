@@ -2,7 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_lr_laundromat_1",
+    "//": "This is a laundromat on the bottom-right",
+    "nested_mapgen_id": "skyscraper_shopping_0_lr_entrance_store",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -61,13 +62,75 @@
         { "item": "laundromat_bleach", "x": [ 17, 18 ], "y": [ 12, 16 ], "chance": 30, "repeat": [ 4, 8 ] },
         { "item": "cash_register_random", "x": [ 5, 7 ], "y": 13, "chance": 100 }
       ],
-      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 60 } }
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 10, 18 ], "chance": 60, "repeat": [ 6, 12 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_mr_upper_electronics_1",
+    "//": "This is a fitness gym on the bottom right",
+    "nested_mapgen_id": "skyscraper_shopping_0_lr_entrance_store",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    SSLLB.R.R..P.P.P    ",
+        "    ...&B...........H   ",
+        "    BB+BB.R.R.......H   ",
+        "    ^..bb.....T.T.T.H   ",
+        "    ................    ",
+        "  ^ ..C]CBb.E.E.E.E.H   ",
+        "   G..X..Bb.........H   ",
+        "   G..$..Bb.E.E.E.E.H   ",
+        "  ^ ^.C&.Bb.........    ",
+        "     HHHH HHHH HHHH     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_linoleum_white", "+": "t_door_c", "B": "t_brick_wall", "G": "t_door_glass_c", "H": "t_wall_glass" },
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 10, "x2": 19, "y2": 18 } ],
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "X": "f_console_broken",
+        "C": "f_counter",
+        "$": "f_counter",
+        "b": "f_bench",
+        "]": "f_counter_gate_c",
+        "E": "f_exercise",
+        "R": "f_ergometer",
+        "L": "f_locker",
+        "S": "f_shower",
+        "P": "f_punching_bag",
+        "T": "f_treadmill",
+        "&": "f_trashcan"
+      },
+      "items": {
+        "$": [ { "item": "cash_register_random", "chance": 100 }, { "item": "behindcounter", "chance": 50 } ],
+        "C": { "item": "behindcounter", "chance": 40 },
+        "b": { "item": "gym", "chance": 30 },
+        "L": { "item": "gym", "chance": 60, "repeat": [ 4, 9 ] },
+        ".": { "item": "gym", "chance": 5 },
+        "&": { "item": "trash", "chance": 50, "repeat": [ 2, 4 ] }
+      },
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 10, 18 ], "chance": 60, "repeat": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is a grocery store in the middle right.  It and the map below are linked across tile boundaries",
+    "nested_mapgen_id": "skyscraper_shopping_0_mr_upper_store",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -128,13 +191,14 @@
         { "item": "elecsto_lights", "x": [ 13, 14 ], "y": [ 21, 22 ], "chance": 70, "repeat": [ 2, 6 ] }
       ],
       "place_loot": [ { "group": "cash_register_random", "x": [ 4, 6 ], "y": 18 } ],
-      "monsters": { ".": { "monster": "GROUP_ELECTRO", "chance": 18 } }
+      "place_monster": [ { "group": "GROUP_ELECTRO", "x": [ 4, 19 ], "y": [ 16, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_mr_lower_electronics_1",
+    "//": "This is a grocery store in the middle right.  It and the map above are linked across tile boundaries",
+    "nested_mapgen_id": "skyscraper_shopping_0_mr_lower_store",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -173,13 +237,14 @@
         "d": { "item": "elecsto_diy", "chance": 50, "repeat": [ 1, 3 ] },
         "D": { "item": "elecsto_displ", "chance": 50, "repeat": [ 1, 3 ] }
       },
-      "monsters": { ".": { "monster": "GROUP_ELECTRO", "chance": 18 } }
+      "place_monster": [ { "group": "GROUP_ELECTRO", "x": [ 12, 19 ], "y": [ 0, 7 ], "chance": 80, "repeat": [ 5, 10 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_ur_salon_1",
+    "//": "This is a beauty salon in the upper right",
+    "nested_mapgen_id": "skyscraper_shopping_0_ur_store_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -241,7 +306,7 @@
         "t": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] },
         "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
       },
-      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 60 } }
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 14 ], "chance": 60, "repeat": [ 6, 10 ] } ]
     }
   },
   {
@@ -263,7 +328,7 @@
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
       "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
-      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 25 } },
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
     }
   },
@@ -286,14 +351,15 @@
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
       "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
-      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 25 } },
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_ml_lower_canteen_1",
+    "//": "This is a food court in the middle left",
+    "nested_mapgen_id": "skyscraper_shopping_0_ml_lower_store_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -364,20 +430,21 @@
         "$": { "item": "cash_register_random", "chance": 100 }
       },
       "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 4, 11 ], "y": [ 0, 1 ] } ],
-      "place_monsters": [
-        { "monster": "GROUP_GROCERY", "x": [ 4, 10 ], "y": 1, "chance": 5 },
-        { "monster": "GROUP_GROCERY", "x": 1, "y": [ 0, 3 ], "chance": 5 },
-        { "monster": "GROUP_PLAGUE_ROACH", "x": [ 4, 10 ], "y": 1, "chance": 20 },
-        { "monster": "GROUP_PLAGUE_ROACH", "x": 1, "y": [ 0, 3 ], "chance": 20 },
-        { "monster": "GROUP_ROACH", "x": [ 4, 10 ], "y": 1, "chance": 20 },
-        { "monster": "GROUP_ROACH", "x": 1, "y": [ 0, 3 ], "chance": 20 }
+      "place_monster": [
+        { "group": "GROUP_GROCERY", "x": [ 4, 10 ], "y": 1, "chance": 5, "repeat": [ 1, 5 ] },
+        { "group": "GROUP_GROCERY", "x": 1, "y": [ 0, 3 ], "chance": 5, "repeat": [ 1, 5 ] },
+        { "group": "GROUP_PLAGUE_ROACH", "x": [ 4, 10 ], "y": 1, "chance": 20, "repeat": [ 1, 5 ] },
+        { "group": "GROUP_PLAGUE_ROACH", "x": 1, "y": [ 0, 3 ], "chance": 20, "repeat": [ 1, 5 ] },
+        { "group": "GROUP_ROACH", "x": [ 4, 10 ], "y": 1, "chance": 20, "repeat": [ 1, 5 ] },
+        { "group": "GROUP_ROACH", "x": 1, "y": [ 0, 3 ], "chance": 20, "repeat": [ 1, 5 ] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_grocer_1",
+    "//": "This is a grocery store in the middle left",
+    "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_store_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -463,13 +530,201 @@
         { "item": "produce", "x": [ 11, 13 ], "y": 14, "chance": 85, "repeat": [ 1, 10 ] },
         { "item": "cannedfood", "x": [ 11, 13 ], "y": 16, "chance": 80, "repeat": [ 1, 8 ] }
       ],
-      "monsters": { ".": { "monster": "GROUP_GROCERY", "chance": 10 } }
+      "place_monster": [ { "group": "GROUP_GROCERY", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 3, 9 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_shopping_0_ul_pet_supply_1",
+    "//": "This is a grocery store in the middle left",
+    "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_store_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    RG..........]..U    ",
+        "    RG..tttttt..cbS.    ",
+        "    RG..------..cc$c ^  ",
+        "    --..rrrrrr......G   ",
+        "   H................G   ",
+        "   H.ffffff.r|t.r|G# ^  ",
+        "   H.------.r|t.r|.A    ",
+        "  d .rrrrrr.r|t.r|.A    ",
+        "  d ........            ",
+        "  s!.BBBBBB.            ",
+        "                        "
+      ],
+      "set": [
+        { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 13, "x2": 11, "y2": 22 },
+        { "square": "terrain", "id": "t_linoleum_white", "x": 12, "y": 13, "x2": 19, "y2": 20 }
+      ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "R": "t_thconc_floor",
+        "!": "t_door_metal_locked",
+        "-": "t_wall_w",
+        "|": "t_wall_w",
+        "#": "t_brick_wall",
+        "A": "t_atm",
+        "s": "t_sidewalk",
+        "d": "t_region_groundcover_forest",
+        "G": "t_door_glass_c",
+        "H": "t_wall_glass"
+      },
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "$": "f_counter",
+        "c": "f_counter",
+        "]": "f_counter_gate_c",
+        "f": "f_glass_fridge",
+        "B": "f_bookcase",
+        "r": "f_rack",
+        "R": "f_rack",
+        "t": "f_table",
+        "d": "f_dumpster",
+        "S": "f_stool",
+        "U": "f_trashcan"
+      },
+      "items": {
+        "b": { "item": "behindcounter", "chance": 60 },
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+      },
+      "place_items": [
+        { "item": "magazines", "x": [ 5, 7 ], "y": 22, "chance": 80, "repeat": [ 3, 10 ] },
+        { "item": "novels", "x": [ 8, 10 ], "y": 22, "chance": 80, "repeat": [ 2, 6 ] },
+        { "item": "behindcounter", "x": 16, "y": 18, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "softdrugs", "x": 16, "y": 19, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "cleaning", "x": 16, "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_premade", "x": [ 5, 10 ], "y": 18, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "alcohol", "x": 14, "y": [ 18, 20 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "item": "groce_pasta", "x": 12, "y": 18, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_ingredient", "x": 12, "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_frozen", "x": 4, "y": 13, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_meat", "x": 4, "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_dairyegg", "x": 4, "y": 15, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_cereal", "x": [ 5, 6 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_bread", "x": [ 7, 8 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "snacks", "x": [ 9, 10 ], "y": 20, "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "groce_softdrink", "x": [ 8, 10 ], "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_condiment", "x": [ 8, 10 ], "y": 16, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "produce", "x": [ 11, 13 ], "y": 14, "chance": 85, "repeat": [ 1, 10 ] },
+        { "item": "cannedfood", "x": [ 11, 13 ], "y": 16, "chance": 80, "repeat": [ 1, 8 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_GROCERY", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is a book store in the middle left",
+    "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_store_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    QQQQQQQQQQ#..BBB    ",
+        "    Q.....Q...].....    ",
+        "    Q..a..Q.a.ccc$cc ^  ",
+        "    Q.....Q.........G   ",
+        "   H..........KKK...G   ",
+        "   Ha..UUUU..WWWWW.. ^  ",
+        "   H................    ",
+        "  d .NNNPPP..OOTTJJJ    ",
+        "  d ........            ",
+        "  s!.IIIAMM.            ",
+        "                        "
+      ],
+      "set": [
+        { "square": "terrain", "id": "t_floor", "x": 4, "y": 13, "x2": 11, "y2": 22 },
+        { "square": "terrain", "id": "t_floor", "x": 12, "y": 13, "x2": 19, "y2": 20 }
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "!": "t_door_metal_locked",
+        "-": "t_wall_w",
+        "|": "t_wall_w",
+        "#": "t_brick_wall",
+        "s": "t_sidewalk",
+        "d": "t_region_groundcover_forest",
+        "G": "t_door_glass_c",
+        "H": "t_wall_glass"
+      },
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "a": "f_armchair",
+        "$": "f_counter",
+        "c": "f_counter",
+        "]": "f_counter_gate_c",
+        "A": "f_bookcase",
+        "B": "f_bookcase",
+        "Q": "f_bookcase",
+        "K": "f_bookcase",
+        "J": "f_bookcase",
+        "I": "f_bookcase",
+        "T": "f_bookcase",
+        "O": "f_bookcase",
+        "M": "f_bookcase",
+        "N": "f_bookcase",
+        "P": "f_bookcase",
+        "U": "f_bookcase",
+        "W": "f_bookcase",
+        "t": "f_table",
+        "d": "f_dumpster",
+        "S": "f_stool"
+      },
+      "items": {
+        "b": { "item": "behindcounter", "chance": 60 },
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] },
+        "B": { "item": "homebooks", "chance": 50, "repeat": [ 2, 5 ] },
+        "K": { "item": "SUS_business_bookcase", "chance": 80 },
+        "J": { "item": "SUS_engineering_bookcase", "chance": 75 },
+        "W": { "item": "SUS_crafts_bookcase", "chance": 75 },
+        "U": { "item": "SUS_cooking_bookcase", "chance": 75 },
+        "I": { "item": "SUS_tailoring_bookcase", "chance": 75 },
+        "T": { "item": "SUS_computers_bookcase", "chance": 70 },
+        "O": { "item": "SUS_electronics_bookcase", "chance": 75 },
+        "M": { "item": "SUS_historical_manufacturing_bookcase", "chance": 60 },
+        "N": { "item": "SUS_chemistry_bookcase", "chance": 75 },
+        "P": { "item": "SUS_medicine_bookcase", "chance": 60 },
+        "A": { "item": "SUS_bushcraft_bookcase", "chance": 75 },
+        "Q": { "item": "SUS_fiction_bookcase", "chance": 70 },
+        "d": { "item": "SUS_office_desk", "chance": 70 },
+        "L": { "item": "SUS_janitors_closet", "chance": 100 }
+      },
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 3, 8 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is a pet supply store in the upper-left.",
+    "nested_mapgen_id": "skyscraper_shopping_0_ul_store_1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -532,7 +787,7 @@
         "t": { "item": "magazines", "chance": 70, "repeat": [ 1, 6 ] },
         "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
       },
-      "monsters": { ".": { "monster": "GROUP_VANILLA", "chance": 80 }, "~": { "monster": "GROUP_VANILLA", "chance": 80 } }
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 4, 18 ], "y": [ 5, 11 ], "chance": 50, "repeat": [ 6, 10 ] } ]
     }
   },
   {
@@ -549,9 +804,11 @@
         "ddx.c",
         "....."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2, "rotation": 90, "chance": 75 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2, "rotation": 90, "chance": 75 } ],
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 2 ], "chance": 80, "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -568,9 +825,11 @@
         "---+-",
         "....."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "rotation": 90, "chance": 75 } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "rotation": 90, "chance": 75 } ],
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 2 ], "chance": 80, "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -585,8 +844,94 @@
         "?....",
         "?.nn.",
         "^...M",
-        "....."
+        ":::::"
       ],
+      "terrain": {
+        "?": "t_carpet_green",
+        "n": "t_carpet_green",
+        ".": "t_carpet_green",
+        "^": "t_carpet_green",
+        "M": "t_carpet_green",
+        ":": "t_linoleum_gray"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_sofa_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "?????",
+        "?....",
+        "?.nn.",
+        "^...M",
+        ":::::"
+      ],
+      "terrain": {
+        "?": "t_carpet_purple",
+        "n": "t_carpet_purple",
+        ".": "t_carpet_purple",
+        "^": "t_carpet_purple",
+        "M": "t_carpet_purple",
+        ":": "t_linoleum_gray"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_sofa_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "?????",
+        "?....",
+        "?.nn.",
+        "^...M",
+        ":::::"
+      ],
+      "terrain": {
+        "?": "t_carpet_red",
+        "n": "t_carpet_red",
+        ".": "t_carpet_red",
+        "^": "t_carpet_red",
+        "M": "t_carpet_red",
+        ":": "t_linoleum_gray"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_sofa_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "?????",
+        "?....",
+        "?.nn.",
+        "^...M",
+        ":::::"
+      ],
+      "terrain": {
+        "?": "t_carpet_yellow",
+        "n": "t_carpet_yellow",
+        ".": "t_carpet_yellow",
+        "^": "t_carpet_yellow",
+        "M": "t_carpet_yellow",
+        ":": "t_linoleum_gray"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -599,12 +944,123 @@
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "xcFcx",
+        "xdFdx",
         "dh.hd",
         "d...d",
         "-HGH-",
-        "....."
+        ":::::"
       ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "x": "t_linoleum_white",
+        "d": "t_linoleum_white",
+        "h": "t_linoleum_white",
+        "F": "t_linoleum_white"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_office_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "xdFdx",
+        "dh.hd",
+        "d...d",
+        "-HGH-",
+        ":::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_green",
+        "x": "t_carpet_green",
+        "d": "t_carpet_green",
+        "h": "t_carpet_green",
+        "F": "t_carpet_green"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_office_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "xdFdx",
+        "dh.hd",
+        "d...d",
+        "-HGH-",
+        ":::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "F": "t_carpet_purple"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_office_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "xdFdx",
+        "dh.hd",
+        "d...d",
+        "-HGH-",
+        ":::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_yellow",
+        "x": "t_carpet_yellow",
+        "d": "t_carpet_yellow",
+        "h": "t_carpet_yellow",
+        "F": "t_carpet_yellow"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_small_office_ul",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "xdFdx",
+        "dh.hd",
+        "d...d",
+        "-HGH-",
+        ":::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_red",
+        "x": "t_carpet_red",
+        "d": "t_carpet_red",
+        "h": "t_carpet_red",
+        "F": "t_carpet_red"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -618,12 +1074,132 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "Vdd..F",
-        "Vx...F",
-        "Vcc...",
+        "Vxh..F",
+        "Vdd...",
         "|-HGH-",
-        "......",
-        "......"
+        "::::::",
+        "::::::"
       ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_linoleum_white",
+        "x": "t_linoleum_white",
+        "d": "t_linoleum_white",
+        "h": "t_linoleum_white",
+        "F": "t_linoleum_white"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_6x6_glass_ur",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "Vdd..F",
+        "Vxh..F",
+        "Vdd...",
+        "|-HGH-",
+        "::::::",
+        "::::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_green",
+        "x": "t_carpet_green",
+        "d": "t_carpet_green",
+        "h": "t_carpet_green",
+        "F": "t_carpet_green"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_6x6_glass_ur",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "Vdd..F",
+        "Vxh..F",
+        "Vdd...",
+        "|-HGH-",
+        "::::::",
+        "::::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "F": "t_carpet_purple"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_6x6_glass_ur",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "Vdd..F",
+        "Vxh..F",
+        "Vdd...",
+        "|-HGH-",
+        "::::::",
+        "::::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_red",
+        "x": "t_carpet_red",
+        "d": "t_carpet_red",
+        "h": "t_carpet_red",
+        "F": "t_carpet_red"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_6x6_glass_ur",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "Vdd..F",
+        "Vxh..F",
+        "Vdd...",
+        "|-HGH-",
+        "::::::",
+        "::::::"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        ".": "t_carpet_yellow",
+        "x": "t_carpet_yellow",
+        "d": "t_carpet_yellow",
+        "h": "t_carpet_yellow",
+        "F": "t_carpet_yellow"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
@@ -644,6 +1220,7 @@
         "......",
         "......"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
@@ -664,6 +1241,7 @@
         "..^.^.",
         "......"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -683,6 +1261,7 @@
         "......",
         "......"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -701,6 +1280,7 @@
         "cxddd",
         "....."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 1 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
       "palettes": [ "skyscraper_office_palette" ]
@@ -720,6 +1300,35 @@
         ".....",
         ".cccc"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 80, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "c????",
+        "c...?",
+        "..n.?",
+        "M.n.?",
+        ":::::"
+      ],
+      "terrain": {
+        "?": "t_carpet_purple",
+        "n": "t_carpet_purple",
+        "c": "t_carpet_purple",
+        ".": "t_carpet_purple",
+        "^": "t_carpet_purple",
+        "M": "t_carpet_purple",
+        ":": "t_linoleum_gray"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -736,8 +1345,71 @@
         "c...?",
         "..n.?",
         "M.n.?",
-        "....."
+        ":::::"
       ],
+      "terrain": {
+        "?": "t_carpet_green",
+        "n": "t_carpet_green",
+        "c": "t_carpet_green",
+        ".": "t_carpet_green",
+        "^": "t_carpet_green",
+        "M": "t_carpet_green",
+        ":": "t_linoleum_gray"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "c????",
+        "c...?",
+        "..n.?",
+        "M.n.?",
+        ":::::"
+      ],
+      "terrain": {
+        "?": "t_carpet_red",
+        "n": "t_carpet_red",
+        "c": "t_carpet_red",
+        ".": "t_carpet_red",
+        "^": "t_carpet_red",
+        "M": "t_carpet_red",
+        ":": "t_linoleum_gray"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofa_ur",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "c????",
+        "c...?",
+        "..n.?",
+        "M.n.?",
+        ":::::"
+      ],
+      "terrain": {
+        "?": "t_carpet_yellow",
+        "n": "t_carpet_yellow",
+        "c": "t_carpet_yellow",
+        ".": "t_carpet_yellow",
+        "^": "t_carpet_yellow",
+        "M": "t_carpet_yellow",
+        ":": "t_linoleum_gray"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -750,12 +1422,13 @@
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "d..xc",
-        "d...c",
-        "c...d",
-        "cx..d",
+        "d..xd",
+        "d..hd",
+        "dh..d",
+        "dx..d",
         "....."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
@@ -771,21 +1444,22 @@
       "rows": [
         "*V..............",
         "*VY.............",
-        "*Vch...c.h......",
-        "*|cxdd.cxdd.FF..",
-        "*Vddcc.ddxc.cc..",
-        "*Vx..h..h.c..d..",
-        "*Vc.h..d..h.hd..",
-        "*|cddx.dccx..x..",
-        "*Vdxcc.xddc.cc..",
-        "*Vd.h...h.c..d..",
-        "*Vx..h.c.h..hd..",
-        "*|ccdd.cxdd..x..",
+        "*Vdh...d.h......",
+        "*|dxdd.dxdd.FF..",
+        "*Vdddd.ddxd.dd..",
+        "*Vx..h..h.d..d..",
+        "*Vd.h..d..h.hd..",
+        "*|dddx.dddx..x..",
+        "*Vdxdd.xddd.dd..",
+        "*Vd.h...h.d..d..",
+        "*Vx..h.d.h..hd..",
+        "*|dddd.dxdd..x..",
         "*|-HHH-HHHH-HHH-",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -800,48 +1474,60 @@
         "*V..............",
         "*VY.............",
         "*V..............",
-        "*|cddxcddxcddx..",
-        "*Vc.h.c.h.c.h...",
+        "*|dddxdddxdddx..",
+        "*Vd.h.d.h.d.h...",
         "*V..............",
-        "*Vcddxcddxcddx..",
-        "*|c...c..hch....",
+        "*Vdddxdddxdddx..",
+        "*|d...d..hdh....",
         "*V..h...........",
-        "*Vcddxcddxcddx..",
-        "*Vc.h.c.h.c.....",
+        "*Vdddxdddxdddx..",
+        "*Vd.h.d.h.d.....",
         "*|..........h...",
         "*|-HHH-HHHH-HHH-",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "skyscraper_glass_dl",
+    "nested_mapgen_id": "skyscraper_office_glass_dl",
     "object": {
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "*V..............",
-        "*V..............",
-        "*V^....^..^....^",
+        "*V::::::::::::::",
+        "*V::::::::::::::",
+        "*V^::::^::^::::^",
         "*|-HHHH----HGGH-",
-        "*Vc.h..d.h.....Y",
-        "*Vcddx.dxcc.....",
+        "*Vd.h..d.h.....Y",
+        "*Vdddx.dxdd.....",
         "*V..............",
-        "*|F.............",
-        "*VF.............",
+        "*|F..........MtM",
+        "*VF..........MtM",
         "*V..............",
-        "*Vddcc.xccd.xccd",
+        "*Vdddd.xddd.xddd",
         "*|x.h....hd..h.d",
         "*|-HHH-HHHH-HHH-",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "a": "t_linoleum_gray",
+        "F": "t_linoleum_white",
+        "h": "t_linoleum_white",
+        "d": "t_linoleum_white",
+        "x": "t_linoleum_white",
+        "M": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "Y": "t_linoleum_white"
+      },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -857,19 +1543,20 @@
         "*V..............",
         "*V..FFFFF..^....",
         "*|----|----|d..Y",
-        "*Vdx.c|cx.d|dh..",
-        "*Vdhhd|d.hd|c...",
-        "*Vc.xd|dhxc|cx..",
+        "*Vdx.d|dx.d|dh..",
+        "*Vdhhd|d.hd|d...",
+        "*Vd.xd|dhxd|dx..",
         "*|..............",
         "*V..............",
-        "*Vc.xc|d.xc|dh.c",
+        "*Vd.xd|d.xd|dh.d",
         "*Vdh.d|dhhd|d.hd",
-        "*|dxhd|cx.d|cxxd",
+        "*|dxhd|dx.d|dxxd",
         "*|-HHH-HHHH-HHH-",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -886,18 +1573,19 @@
         "*V..............",
         "*|...FFF..FFF...",
         "*V...-|-..-|-...",
-        "*Vcx.d|cx.d|cx..",
-        "*Vch.d|ch.d|c...",
-        "*|d.hc|d.hc|d.h.",
-        "*Vd.xc|d.xc|d...",
+        "*Vdx.d|dx.d|dx..",
+        "*Vdh.d|dh.d|d...",
+        "*|d.hd|d.hd|d.h.",
+        "*Vd.xd|d.xd|d...",
         "*V....|....|....",
-        "*Vd.h.|c.h.|..hd",
-        "*|dccx|cxdd|xccd",
+        "*Vd.h.|d.h.|..hd",
+        "*|dddx|dxdd|xddd",
         "*|-HHH-HHHH-HHH-",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -909,23 +1597,158 @@
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "..............V*",
-        ".............^V*",
-        "....^..^a.....V*",
+        "::::::::::::::V*",
+        ":::::::::::::^V*",
+        "::::^::^a:::::V*",
         "----|++|HHGGHH|*",
-        "CoSe|..|^....^V*",
-        "Ciii|..|......V*",
-        ".......|..ddxcV*",
-        ".......|.....cV*",
-        "bb...bb|......V*",
+        "CoSe|..|⌅~~~~⌅V*",
+        "Ciii|..|~~~~~~V*",
+        ".......|~~ddxdV*",
+        ".......|~~~~~dV*",
+        "bb...bb|~~~~~~V*",
         "tt...tt|-=----|*",
         "tt...tt|......|*",
-        "bb.a.bb|FQFQFQ|*",
+        "bb.å.bb|FFFFFF|*",
         "-HHHHH-|------|*",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "b": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "å": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "~": "t_carpet_green",
+        "d": "t_carpet_green",
+        "x": "t_carpet_green",
+        "⌅": "t_carpet_green"
+      },
+      "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_boss_cafe_dr",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "::::::::::::::V*",
+        ":::::::::::::^V*",
+        "::::^::^a:::::V*",
+        "----|++|HHGGHH|*",
+        "CoSe|..|⌅~~~~⌅V*",
+        "Ciii|..|~~~~~~V*",
+        ".......|~~ddxdV*",
+        ".......|~~~~~dV*",
+        "bb...bb|~~~~~~V*",
+        "tt...tt|-=----|*",
+        "tt...tt|......|*",
+        "bb.å.bb|FFFFFF|*",
+        "-HHHHH-|------|*",
+        "****************",
+        "****************",
+        "****************"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "b": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "å": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "~": "t_carpet_yellow",
+        "d": "t_carpet_yellow",
+        "x": "t_carpet_yellow",
+        "⌅": "t_carpet_yellow"
+      },
+      "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_boss_cafe_dr",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "::::::::::::::V*",
+        ":::::::::::::^V*",
+        "::::^::^a:::::V*",
+        "----|++|HHGGHH|*",
+        "CoSe|..|⌅~~~~⌅V*",
+        "Ciii|..|~~~~~~V*",
+        ".......|~~ddxdV*",
+        ".......|~~~~~dV*",
+        "bb...bb|~~~~~~V*",
+        "tt...tt|-=----|*",
+        "tt...tt|......|*",
+        "bb.å.bb|FFFFFF|*",
+        "-HHHHH-|------|*",
+        "****************",
+        "****************",
+        "****************"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "b": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "å": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "~": "t_carpet_red",
+        "d": "t_carpet_red",
+        "x": "t_carpet_red",
+        "⌅": "t_carpet_red"
+      },
+      "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_boss_cafe_dr",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "::::::::::::::V*",
+        ":::::::::::::^V*",
+        "::::^::^a:::::V*",
+        "----|++|HHGGHH|*",
+        "CoSe|..|⌅~~~~⌅V*",
+        "Ciii|..|~~~~~~V*",
+        ".......|~~ddxdV*",
+        ".......|~~~~~dV*",
+        "bb...bb|~~~~~~V*",
+        "tt...tt|-=----|*",
+        "tt...tt|......|*",
+        "bb.å.bb|FFFFFF|*",
+        "-HHHHH-|------|*",
+        "****************",
+        "****************",
+        "****************"
+      ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "b": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "å": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "~": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "⌅": "t_carpet_purple"
+      },
+      "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
@@ -941,20 +1764,21 @@
         ".............aV*",
         ".............YV*",
         "..............V*",
-        "..xddcxddcxddc|*",
-        "...h.c.h.c...cV*",
+        "..xdddxdddxddd|*",
+        "...h.d.h.d...dV*",
         "............h.V*",
-        "..xddcxddcxddcV*",
-        "....hch..c.h.c|*",
+        "..xdddxdddxdddV*",
+        "....hdh..d.h.d|*",
         "..............V*",
-        "..xddcxddcxddcV*",
-        ".....c.h.c...cV*",
+        "..xdddxdddxdddV*",
+        ".....d.h.d...dV*",
         "...h.......h..|*",
         "-HHH-HHHH-HHH-|*",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -966,23 +1790,32 @@
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "..............V*",
-        "..............V*",
-        "^....FFFF.....V*",
+        "::::::::::::::V*",
+        "::::::::::::::V*",
+        "^::::FFFF:::::V*",
         "-HGGH----HHHH-|*",
-        "^.....h.d...hcV*",
-        ".....ccxd.xddcV*",
+        "^.....h.d...hdV*",
+        ".....ddxd.xdddV*",
         "..............V*",
         ".............Y|*",
         ".............aV*",
         "..............V*",
-        "dccx.dccx.ccddV*",
+        "dddx.dddx.ddddV*",
         "d..h.d.h...h.x|*",
         "-HHH-HHHH-HHH-|*",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "F": "t_linoleum_gray",
+        "h": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "a": "t_linoleum_white",
+        "d": "t_linoleum_white",
+        "x": "t_linoleum_white"
+      },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -999,18 +1832,19 @@
         "..............V*",
         "...FFF..FFF...|*",
         "-..-|-..-|-...V*",
-        "...d|cx.d|cx.dV*",
-        "...d|ch.d|c.hdV*",
-        "..hc|d.hc|dh.c|*",
-        "..xc|d.xc|d.xcV*",
+        "...d|dx.d|dx.dV*",
+        "...d|dh.d|d.hdV*",
+        "..hc|d.hd|dh.d|*",
+        "..xc|d.xd|d.xdV*",
         "...-|-..-|-...V*",
-        "d.h.|.h.c|.h.dV*",
-        "dccx|ddxc|xccd|*",
+        "d.h.|.h.d|.h.dV*",
+        "dddx|ddxd|xddd|*",
         "-HHH-HHHH-HHH-|*",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1026,20 +1860,21 @@
         "..............V*",
         "..............V*",
         ".....^FFFF^...V*",
-        "..xc|----|----|*",
-        "...c|dcdd|cxddV*",
-        "..hd|dhhc|dhhcV*",
+        "..xd|----|----|*",
+        "...d|dddd|dxddV*",
+        "..hd|dhhc|dhhdV*",
         "...d|x..x|d..xV*",
         "..............|*",
         "..............V*",
         "d.hd|x.hd|dh.dV*",
-        "dh.d|ch.d|d.hdV*",
-        "cxxc|ddcx|xccx|*",
+        "dh.d|dh.d|d.hdV*",
+        "dxxd|dddx|xddx|*",
         "-HHH-HHHH-HHH-|*",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1055,20 +1890,21 @@
         "..............V*",
         "..............V*",
         "......h.x..h.dV*",
-        "..FF.ddcc.ccxd|*",
-        "..dd.ccxd.ddccV*",
+        "..FF.dddd.ddxd|*",
+        "..dd.ddxd.ddddV*",
         "..x...h.d..h.xV*",
-        "..ch.c.h..d.h.V*",
-        "..c..cxdd.dxcc|*",
-        "..dd.ddcc.cddxV*",
-        "..c..xh...c.h.V*",
-        "..ch...hc..h.cV*",
-        "..x..ddxc.ddxc|*",
+        "..dh.d.h..d.h.V*",
+        "..d..dxdd.dxdd|*",
+        "..dd.dddd.dddxV*",
+        "..d..xh...d.h.V*",
+        "..dh...hd..h.dV*",
+        "..x..ddxd.ddxd|*",
         "-HHH-HHHH-HHH-|*",
         "****************",
         "****************",
         "****************"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1083,10 +1919,11 @@
       "rows": [
         ".....",
         "ddddx",
-        "....c",
-        "....c",
+        "....d",
+        "....d",
         "FFF.."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 0, 3 ], "y": [ 2, 3 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
@@ -1101,11 +1938,12 @@
       "rotation": [ 0, 0 ],
       "rows": [
         ".....",
-        "xcdd.",
+        "xddd.",
         "..h..",
         ".h...",
-        "ddcx."
+        "dddx."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1119,11 +1957,12 @@
       "rotation": [ 0, 0 ],
       "rows": [
         ".....",
-        "ccxd.",
+        "ddxd.",
         ".h.d.",
         "d.h..",
-        "dccx^"
+        "dddx^"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1137,11 +1976,97 @@
       "rotation": [ 0, 0 ],
       "rows": [
         ".....",
-        "^.M..",
-        "?...?",
-        "?.n.?",
-        "?...?"
+        "^:M::",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
       ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        ":": "t_carpet_yellow",
+        "?": "t_carpet_yellow",
+        "^": "t_carpet_yellow",
+        "M": "t_carpet_yellow",
+        "n": "t_carpet_yellow"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        ".....",
+        "^:M::",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
+      ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        ":": "t_carpet_red",
+        "M": "t_carpet_red",
+        "^": "t_carpet_red",
+        "?": "t_carpet_red",
+        "n": "t_carpet_red"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        ".....",
+        "^:M::",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
+      ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        ":": "t_carpet_green",
+        "M": "t_carpet_green",
+        "^": "t_carpet_green",
+        "?": "t_carpet_green",
+        "n": "t_carpet_green"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofas_ol",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        ".....",
+        "^:M::",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
+      ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        "^": "t_carpet_purple",
+        "?": "t_carpet_purple",
+        ":": "t_carpet_purple",
+        "M": "t_carpet_purple",
+        "n": "t_carpet_purple"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1158,19 +2083,20 @@
         "****************",
         "****************",
         "*|-HHH-HHHH-HHH-",
-        "*|dccx|cxdd|xccd",
-        "*Vd.h.|c.h.|..hd",
+        "*|dddx|dxdd|xddd",
+        "*Vd.h.|d.h.|..hd",
         "*V...-|-..-|-...",
-        "*Vcx.d|cx.d|cx..",
-        "*|ch.d|c.hd|c...",
-        "*Vd.hc|dh.c|dh..",
-        "*Vd.xc|d.xc|d...",
+        "*Vdx.d|dx.d|dx..",
+        "*|dh.d|d.hd|d...",
+        "*Vd.hc|dh.d|dh..",
+        "*Vd.xc|d.xd|d...",
         "*V...-|-..-|-..a",
         "*|...FFF..FFF..Y",
         "*V..............",
         "*V..............",
         "*V.............."
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -1286,7 +2212,17 @@
         "*V::::::::::::::",
         "*V::::::::::::::"
       ],
-      "terrain": { ":": "t_linoleum_gray", "a": "t_linoleum_gray", "F": "t_linoleum_gray", "h": "t_linoleum_white" },
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "a": "t_linoleum_gray",
+        "F": "t_linoleum_gray",
+        "h": "t_linoleum_white",
+        "d": "t_linoleum_white",
+        "x": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "M": "t_linoleum_white",
+        "t": "t_linoleum_white"
+      },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -1418,20 +2354,28 @@
         "****************",
         "****************",
         "-HHH-HHHH-HHH-|*",
-        "d.h....hc..h.c|*",
-        "dccx.xddc.ddxcV*",
+        "d.h....hd..h.d|*",
+        "dddx.xddd.ddxdV*",
         ".............FV*",
         ".............FV*",
         ".............F|*",
         ".............FV*",
-        ".....xccd.xccdV*",
+        ".....xddd.xdddV*",
         "Y.....h.d..h.dV*",
         "-HGGH----HHHH-|*",
         "a::::^::^:::::V*",
         "::::::::::::::V*",
         "::::::::::::::V*"
       ],
-      "terrain": { ":": "t_linoleum_gray", "a": "t_linoleum_gray", "F": "t_linoleum_gray", "h": "t_linoleum_white" },
+      "terrain": {
+        ":": "t_linoleum_gray",
+        "a": "t_linoleum_gray",
+        "D": "t_linoleum_white",
+        "h": "t_linoleum_white",
+        "d": "t_linoleum_white",
+        "x": "t_linoleum_white",
+        "Y": "t_linoleum_white"
+      },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -1449,6 +2393,7 @@
         "d.h..",
         "..FFF"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1467,6 +2412,7 @@
         ".dh.d",
         ".xccx"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1480,11 +2426,97 @@
       "rotation": [ 0, 0 ],
       "rows": [
         ".....",
-        "..M.^",
-        "?...?",
-        "?.n.?",
-        "?...?"
+        "::M:^",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
       ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        "^": "t_carpet_purple",
+        "M": "t_carpet_purple",
+        ":": "t_carpet_purple",
+        "?": "t_carpet_purple",
+        "n": "t_carpet_purple"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofas_or",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        ".....",
+        "::M:^",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
+      ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        "M": "t_carpet_green",
+        "^": "t_carpet_green",
+        ":": "t_carpet_green",
+        "?": "t_carpet_green",
+        "n": "t_carpet_green"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofas_or",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        ".....",
+        "::M:^",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
+      ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        ":": "t_carpet_red",
+        "M": "t_carpet_red",
+        "^": "t_carpet_red",
+        "?": "t_carpet_red",
+        "n": "t_carpet_red"
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyscraper_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_5x5_sofas_or",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        ".....",
+        "::M:^",
+        "?:::?",
+        "?:n:?",
+        "?:::?"
+      ],
+      "terrain": {
+        ".": "t_linoleum_gray",
+        "M": "t_carpet_yellow",
+        "^": "t_carpet_yellow",
+        ":": "t_carpet_yellow",
+        "?": "t_carpet_yellow",
+        "n": "t_carpet_yellow"
+      },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ]
     }
@@ -1520,6 +2552,7 @@
         "*****",
         "*****"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -1554,6 +2587,7 @@
         "*****",
         "*****"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ]
     }
   },
@@ -1624,6 +2658,7 @@
         "*****",
         "*****"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -1660,6 +2695,7 @@
         "*****",
         "*****"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -1709,14 +2745,96 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "**|HHH-|",
-        "**V...c|",
-        "**V...c|",
+        "**V...d|",
+        "**V...d|",
         "**G.ddx|",
         "**G..h.+",
         "**V.h..|",
         "**VFFFF|",
         "**|----|"
       ],
+      "terrain": {
+        "d": "t_carpet_yellow",
+        "x": "t_carpet_yellow",
+        "h": "t_carpet_yellow",
+        "F": "t_carpet_yellow",
+        ".": "t_carpet_yellow"
+      },
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_boss_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V...d|",
+        "**V...d|",
+        "**G.ddx|",
+        "**G..h.+",
+        "**V.h..|",
+        "**VFFFF|",
+        "**|----|"
+      ],
+      "terrain": { "d": "t_carpet_green", "x": "t_carpet_green", "h": "t_carpet_green", "F": "t_carpet_green", ".": "t_carpet_green" },
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_boss_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V...d|",
+        "**V...d|",
+        "**G.ddx|",
+        "**G..h.+",
+        "**V.h..|",
+        "**VFFFF|",
+        "**|----|"
+      ],
+      "terrain": { "d": "t_carpet_red", "x": "t_carpet_red", "h": "t_carpet_red", "F": "t_carpet_red", ".": "t_carpet_red" },
+      "palettes": [ "skyscraper_office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_boss_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**V...d|",
+        "**V...d|",
+        "**G.ddx|",
+        "**G..h.+",
+        "**V.h..|",
+        "**VFFFF|",
+        "**|----|"
+      ],
+      "terrain": {
+        "d": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "F": "t_carpet_purple",
+        ".": "t_carpet_purple"
+      },
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -1752,6 +2870,34 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "**|HHH-|",
+        "**Vdddx|",
+        "**Vd.h.|",
+        "**G...F|",
+        "**G....|",
+        "**V.h.d|",
+        "**Vxddd|",
+        "**|----|"
+      ],
+      "terrain": {
+        ".": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "F": "t_carpet_purple"
+      },
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
         "**Vdccx|",
         "**Vd:h:|",
         "**G:::F|",
@@ -1760,6 +2906,57 @@
         "**Vxccd|",
         "**|----|"
       ],
+      "terrain": { ":": "t_carpet_red", "h": "t_carpet_red", "x": "t_carpet_red", "d": "t_carpet_red", "F": "t_carpet_red" },
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**Vdccx|",
+        "**Vd:h:|",
+        "**G:::F|",
+        "**G::::|",
+        "**V:h:d|",
+        "**Vxccd|",
+        "**|----|"
+      ],
+      "terrain": { ":": "t_carpet_green", "h": "t_carpet_green", "x": "t_carpet_green", "d": "t_carpet_green", "F": "t_carpet_green" },
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_al",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "**|HHH-|",
+        "**Vdccx|",
+        "**Vd:h:|",
+        "**G:::F|",
+        "**G::::|",
+        "**V:h:d|",
+        "**Vxccd|",
+        "**|----|"
+      ],
+      "terrain": {
+        ":": "t_carpet_yellow",
+        "h": "t_carpet_yellow",
+        "x": "t_carpet_yellow",
+        "d": "t_carpet_yellow",
+        "F": "t_carpet_yellow"
+      },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -1873,14 +3070,93 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "--HHH|**",
-        "FdccxV**",
+        "FdddxV**",
         ".d.h.V**",
         ".....G**",
         ".....G**",
         "..h.dV**",
-        "FxccdV**",
+        "FxdddV**",
         "-----|**"
       ],
+      "terrain": {
+        ".": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "F": "t_carpet_purple"
+      },
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_ar",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "--HHH|**",
+        "FdddxV**",
+        ".d.h.V**",
+        ".....G**",
+        ".....G**",
+        "..h.dV**",
+        "FxdddV**",
+        "-----|**"
+      ],
+      "terrain": { ".": "t_carpet_green", "x": "t_carpet_green", "h": "t_carpet_green", "d": "t_carpet_green", "F": "t_carpet_green" },
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_ar",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "--HHH|**",
+        "FdddxV**",
+        ".d.h.V**",
+        ".....G**",
+        ".....G**",
+        "..h.dV**",
+        "FxdddV**",
+        "-----|**"
+      ],
+      "terrain": { ".": "t_carpet_red", "x": "t_carpet_red", "h": "t_carpet_red", "d": "t_carpet_red", "F": "t_carpet_red" },
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_office_ar",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "--HHH|**",
+        "FdddxV**",
+        ".d.h.V**",
+        ".....G**",
+        ".....G**",
+        "..h.dV**",
+        "FxdddV**",
+        "-----|**"
+      ],
+      "terrain": {
+        ".": "t_carpet_yellow",
+        "x": "t_carpet_yellow",
+        "h": "t_carpet_yellow",
+        "d": "t_carpet_yellow",
+        "F": "t_carpet_yellow"
+      },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -1894,14 +3170,15 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "--HHH|**",
-        "..M.cV**",
-        ".xddcV**",
+        "..M.dV**",
+        ".xdddV**",
         ".h...G**",
         "...h.G**",
         ".....V**",
         "^FFF^V**",
         "-----|**"
       ],
+      "terrain": { ".": "t_linoleum_gray" },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -2274,11 +3551,11 @@
       "rows": [
         "**|.B...",
         "**H.....",
-        "**G..MM.",
-        "**H MnnM",
+        "**G.¢MM¢",
+        "**H.MnnM",
         "**H.MnnM",
         "**G.MnnM",
-        "**H..MM.",
+        "**H.¢MM¢",
         "**|^...."
       ],
       "terrain": {
@@ -2286,7 +3563,8 @@
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
         "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        "n": "t_carpet_yellow",
+        "¢": "t_carpet_yellow"
       },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -2302,11 +3580,11 @@
       "rows": [
         "**|.B...",
         "**H.....",
-        "**G..MM.",
-        "**H MnnM",
+        "**G.¢MM¢",
+        "**H.MnnM",
         "**H.MnnM",
         "**G.MnnM",
-        "**H..MM.",
+        "**H.¢MM¢",
         "**|^...."
       ],
       "terrain": {
@@ -2314,7 +3592,8 @@
         "^": "t_linoleum_white",
         "B": "t_linoleum_white",
         "M": "t_carpet_green",
-        "n": "t_carpet_green"
+        "n": "t_carpet_green",
+        "¢": "t_carpet_green"
       },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -2330,14 +3609,14 @@
       "rows": [
         "**|.B...",
         "**H.....",
-        "**G..MM.",
-        "**H MnnM",
+        "**G.¢MM¢",
+        "**H.MnnM",
         "**H.MnnM",
         "**G.MnnM",
-        "**H..MM.",
+        "**H.¢MM¢",
         "**|^...."
       ],
-      "terrain": { ".": "t_linoleum_white", "M": "t_carpet_red", "n": "t_carpet_red" },
+      "terrain": { ".": "t_linoleum_white", "M": "t_carpet_red", "n": "t_carpet_red", "¢": "t_carpet_red" },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -2352,14 +3631,14 @@
       "rows": [
         "**|.B...",
         "**H.....",
-        "**G..MM.",
-        "**H MnnM",
+        "**G.¢MM¢",
+        "**H.MnnM",
         "**H.MnnM",
         "**G.MnnM",
-        "**H..MM.",
+        "**H.¢MM¢",
         "**|^...."
       ],
-      "terrain": { ".": "t_linoleum_white", "M": "t_carpet_purple", "n": "t_carpet_purple" },
+      "terrain": { ".": "t_linoleum_white", "M": "t_carpet_purple", "n": "t_carpet_purple", "¢": "t_carpet_purple" },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -2508,12 +3787,12 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "....^|**",
-        " nn..H**",
+        "¢nn¢.H**",
         "MnnM.H**",
         "MnnM.G**",
         "MnnM.G**",
         "MnnM.H**",
-        ".nn..H**",
+        "¢nn¢.H**",
         "....Y|**"
       ],
       "terrain": {
@@ -2521,7 +3800,8 @@
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
         "M": "t_carpet_yellow",
-        "n": "t_carpet_yellow"
+        "n": "t_carpet_yellow",
+        "¢": "t_carpet_yellow"
       },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -2536,12 +3816,12 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "....^|**",
-        " nn..H**",
+        "¢nn¢.H**",
         "MnnM.H**",
         "MnnM.G**",
         "MnnM.G**",
         "MnnM.H**",
-        ".nn..H**",
+        "¢nn¢.H**",
         "....Y|**"
       ],
       "terrain": {
@@ -2549,7 +3829,8 @@
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
         "M": "t_carpet_green",
-        "n": "t_carpet_green"
+        "n": "t_carpet_green",
+        "¢": "t_carpet_green"
       },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -2564,15 +3845,22 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "....^|**",
-        " nn..H**",
+        "¢nn¢.H**",
         "MnnM.H**",
         "MnnM.G**",
         "MnnM.G**",
         "MnnM.H**",
-        ".nn..H**",
+        "¢nn¢.H**",
         "....Y|**"
       ],
-      "terrain": { ".": "t_linoleum_white", "Y": "t_linoleum_white", "^": "t_linoleum_white", "M": "t_carpet_red", "n": "t_carpet_red" },
+      "terrain": {
+        ".": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "^": "t_linoleum_white",
+        "M": "t_carpet_red",
+        "n": "t_carpet_red",
+        "¢": "t_carpet_red"
+      },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -2586,12 +3874,12 @@
       "rotation": [ 0, 0 ],
       "rows": [
         "....^|**",
-        " nn..H**",
+        "¢nn¢.H**",
         "MnnM.H**",
         "MnnM.G**",
         "MnnM.G**",
         "MnnM.H**",
-        ".nn..H**",
+        "¢nn¢.H**",
         "....Y|**"
       ],
       "terrain": {
@@ -2599,7 +3887,8 @@
         "Y": "t_linoleum_white",
         "^": "t_linoleum_white",
         "M": "t_carpet_purple",
-        "n": "t_carpet_purple"
+        "n": "t_carpet_purple",
+        "¢": "t_carpet_purple"
       },
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
