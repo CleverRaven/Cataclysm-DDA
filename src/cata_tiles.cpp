@@ -1756,13 +1756,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         tripoint draw_loc = p.com.pos;
                         draw_loc.z = cur_zlevel;
 
-                        // Calculate ll and invisible if not in cache
-                        if( ll_invis_cache.count( draw_loc ) == 0 ) {
-                            ll_invis_cache[ draw_loc ] = calc_ll_invis( draw_loc );
-                        }
-                        const lit_level ll = ll_invis_cache[ draw_loc ].first;
-                        const std::array<bool, 5> invisible = ll_invis_cache[ draw_loc ].second;
-
                         if( const tile_render_info::vision_effect * const
                             var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                             if( f == &cata_tiles::draw_terrain ) {
@@ -1770,6 +1763,23 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             }
                         } else if( const tile_render_info::sprite * const
                                    var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
+
+                            // Get visibility variables
+                            lit_level ll;
+                            std::array<bool, 5> invisible;
+                            if( cur_zlevel == center.z ) {
+                                // For the same z-level, use tile_render_info vars
+                                ll = var->ll;
+                                invisible = var->invisible;
+                            } else {
+                                // Otherwise, recalculate ll and invisible
+                                if( ll_invis_cache.count( draw_loc ) == 0 ) {
+                                    ll_invis_cache[ draw_loc ] = calc_ll_invis( draw_loc );
+                                }
+                                ll = ll_invis_cache[ draw_loc ].first;
+                                invisible = ll_invis_cache[ draw_loc ].second;
+                            }
+
                             if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
                                 int temp_height_3d = p.com.height_3d;
                                 // Reset height_3d to base when drawing vehicles
