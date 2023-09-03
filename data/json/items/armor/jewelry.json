@@ -413,7 +413,6 @@
     ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
-
   {
     "id": "collarpin",
     "type": "ARMOR",
