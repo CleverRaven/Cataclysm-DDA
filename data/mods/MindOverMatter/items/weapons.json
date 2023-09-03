@@ -71,7 +71,7 @@
     "cooling_value": 5,
     "heat_per_shot": 21,
     "recoil": 0,
-    "durability": 3,
+    "durability": 4,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "loudness": 5,
     "reload": 0,
