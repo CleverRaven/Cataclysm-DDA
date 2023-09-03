@@ -2889,6 +2889,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "100 ml",
         "max_contains_weight": "230 g",
+        "max_item_length": "16 cm",
         "moves": 100,
         "watertight": true,
         "rigid": true,
