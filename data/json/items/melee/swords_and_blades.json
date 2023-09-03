@@ -319,12 +319,12 @@
       {
         "id": "knife_folding_ti_dark",
         "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-        "description": "The star of many a flea market knife show, this durable all-titanium knige can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a sleek black carbide coating on the blade and handle.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+        "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a sleek black carbide coating on the blade and handle.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
         "color": "dark_gray",
         "weight": 1
       }
     ],
-    "relative": { "melee_damage": { "bash": 1, "stab": 2 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+    "relative": { "melee_damage": { "bash": 1, "stab": 1 }, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "id": "diveknife",
@@ -363,7 +363,7 @@
     "delete": { "flags": [ "CONDUCTIVE" ] },
     "material": [ "ti_alloy", "thermo_resin" ],
     "repairs_with": "ti_alloy",
-    "relative": { "melee_damage": { "bash": 2, "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+    "relative": { "melee_damage": { "bash": 1, "cut": 1 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "titanium_knife",
@@ -434,7 +434,7 @@
     "replace_materials": { "titanium": "ti_alloy" },
     "color": "light_gray",
     "looks_like": "titanium_knife",
-    "relative": { "melee_damage": { "stab": 2 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+    "relative": { "melee_damage": { "stab": 1 }, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "id": "knife_combat",
@@ -504,7 +504,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 28 }
+    "melee_damage": { "bash": 4, "stab": 27 }
   },
   {
     "id": "tanto_tool_ti",
@@ -531,7 +531,7 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 26 }
+    "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
     "id": "knife_hunting",
@@ -666,7 +666,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "DIAMOND", "NO_REPAIR" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 27 }
+    "melee_damage": { "bash": 4, "stab": 28 }
   },
   {
     "id": "knife_swissarmy",
@@ -918,7 +918,7 @@
     "repairs_with": [ "ti_alloy" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 18 ] ],
     "extend": { "techniques": [ "RAPID" ] },
-    "melee_damage": { "bash": 4, "cut": 25 }
+    "melee_damage": { "bash": 4, "cut": 23 }
   },
   {
     "id": "machete_gimmick",

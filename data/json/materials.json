@@ -2895,7 +2895,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_titanium", 0.5 ] ],
-    "resist": { "bash": 4, "cut": 8, "acid": 12, "heat": 2, "bullet": 4 },
+    "resist": { "bash": 4, "cut": 6, "acid": 12, "heat": 2, "bullet": 6 },
     "repair_difficulty": 5
   },
   {
@@ -2914,7 +2914,7 @@
     "bash_dmg_verb": "chipped",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_titanium", 0.5 ] ],
-    "resist": { "bash": 6, "cut": 10, "acid": 12, "heat": 2, "bullet": 6 },
+    "resist": { "bash": 8, "cut": 8, "acid": 12, "heat": 2, "bullet": 10 },
     "repair_difficulty": 6
   },
   {
@@ -2933,7 +2933,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_titanium", 0.5 ] ],
-    "resist": { "bash": 8, "cut": 10, "acid": 12, "heat": 2, "bullet": 6 },
+    "resist": { "bash": 8, "cut": 10, "acid": 12, "heat": 2, "bullet": 8 },
     "repair_difficulty": 6
   },
   {
@@ -2952,7 +2952,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_titanium", 0.5 ] ],
-    "resist": { "bash": 10, "cut": 12, "acid": 12, "heat": 2, "bullet": 8 },
+    "resist": { "bash": 10, "cut": 12, "acid": 12, "heat": 2, "bullet": 10 },
     "repair_difficulty": 7
   },
   {
