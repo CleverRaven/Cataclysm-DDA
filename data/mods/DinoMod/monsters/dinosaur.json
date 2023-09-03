@@ -70,6 +70,7 @@
     "volume": "400 L",
     "weight": "400 kg",
     "material": [ "flesh" ],
+    "stomach_size": 4,
     "aggression": 5,
     "morale": 40,
     "speed": 90,
@@ -87,8 +88,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "grab_strength": 15,
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "EAT_CARRION", 60 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
     "harvest": "dino_med_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
@@ -108,6 +109,7 @@
     "weight": "540 kg",
     "material": [ "flesh" ],
     "bodytype": "ostrich",
+    "stomach_size": 5,
     "aggression": 10,
     "morale": 70,
     "speed": 80,
@@ -125,8 +127,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "grab_strength": 15,
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "SWIMS" ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "EAT_CARRION", 60 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "SWIMS" ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
@@ -147,6 +149,7 @@
     "//": "When large weights and volumes are fixed this should be 15000 L and 15000 kg",
     "bodytype": "bear",
     "material": [ "flesh" ],
+    "stomach_size": 150,
     "aggression": 15,
     "morale": 70,
     "speed": 90,
@@ -163,8 +166,20 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "grab_strength": 15,
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "PUSH_MON" ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ], [ "EAT_CARRION", 60 ] ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "EATS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "BASHES",
+      "DESTROYS",
+      "WARM",
+      "SWIMS",
+      "PUSH_MON"
+    ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -185,6 +200,7 @@
     "//": "When large weights and volumes are fixed this should be 5000 L and 5000 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 50,
     "aggression": 15,
     "morale": 70,
     "speed": 50,
@@ -202,8 +218,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "grab_strength": 15,
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ], [ "EAT_CARRION", 60 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -223,6 +239,7 @@
     "//": "When large weights and volumes are fixed this should be 1700 L and 1700 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 17,
     "aggression": 15,
     "morale": 80,
     "speed": 100,
@@ -240,8 +257,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "grab_strength": 15,
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "EAT_CARRION", 60 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "allosaurus",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -255,13 +272,19 @@
     "copy-from": "mon_allosaurus",
     "default_faction": "acrocanthosaurus",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "stomach_size": 40,
     "speed": 75,
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "hp": 300,
     "zombify_into": "mon_zacrocanthosaurus",
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 20 ] ],
+    "special_attacks": [
+      { "id": "teeth_grab", "cooldown": 10 },
+      { "id": "teeth_rip", "cooldown": 10 },
+      [ "LUNGE", 20 ],
+      [ "EAT_CARRION", 60 ]
+    ],
     "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
     "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
     "harvest": "acrocanthosaurus",
@@ -274,6 +297,7 @@
     "copy-from": "mon_acrocanthosaurus",
     "default_faction": "giganotosaurus",
     "//": "When large weights and volumes are fixed this should be 10000 L and 10000 kg",
+    "stomach_size": 100,
     "speed": 150,
     "attack_cost": 150,
     "melee_dice": 5,
@@ -292,6 +316,7 @@
     "copy-from": "mon_allosaurus",
     "default_faction": "siats",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "stomach_size": 40,
     "speed": 75,
     "hp": 300,
     "zombify_into": "mon_ziats",
@@ -300,7 +325,8 @@
       { "id": "ranged_pull", "cooldown": 20 },
       { "id": "grab_drag" },
       { "id": "drag_followup" },
-      { "id": "teeth_rip", "cooldown": 10 }
+      { "id": "teeth_rip", "cooldown": 10 },
+      [ "EAT_CARRION", 60 ]
     ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
     "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
@@ -324,7 +350,8 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 15 },
       { "id": "teeth_pull", "cooldown": 15 },
-      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true },
+      [ "EAT_CARRION", 60 ]
     ]
   },
   {
@@ -334,6 +361,7 @@
     "copy-from": "mon_gorgosaurus",
     "default_faction": "appalachiosaurus",
     "//": "When large weights and volumes are fixed this should be 1500 L and 1500 kg",
+    "stomach_size": 15,
     "speed": 130,
     "attack_cost": 130,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
@@ -341,7 +369,12 @@
     "zombify_into": "mon_zappalachiosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.  The snout is long with six ridges.",
     "reproduction": { "baby_egg": "egg_appalachiosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 15 }, { "id": "teeth_pull", "cooldown": 15 }, [ "LUNGE", 20 ] ]
+    "special_attacks": [
+      { "id": "teeth_grab", "cooldown": 15 },
+      { "id": "teeth_pull", "cooldown": 15 },
+      [ "LUNGE", 20 ],
+      [ "EAT_CARRION", 60 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -350,6 +383,7 @@
     "copy-from": "mon_albertosaurus",
     "default_faction": "gorgosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
+    "stomach_size": 25,
     "morale": 80,
     "speed": 60,
     "attack_cost": 60,
@@ -359,7 +393,12 @@
     "zombify_into": "mon_zorgosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_gorgosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 15 ] ]
+    "special_attacks": [
+      { "id": "teeth_grab", "cooldown": 10 },
+      { "id": "teeth_rip", "cooldown": 10 },
+      [ "LUNGE", 15 ],
+      [ "EAT_CARRION", 60 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -373,6 +412,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "//": "When large weights and volumes are fixed this should be 2000 L and 2000 kg",
+    "stomach_size": 20,
     "bodytype": "ostrich",
     "material": [ "flesh" ],
     "aggression": 15,
@@ -392,9 +432,14 @@
     "reproduction": { "baby_egg": "egg_albertosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "grab_strength": 15,
-    "special_attacks": [ { "id": "teeth_puncture", "cooldown": 7 }, { "id": "teeth_pull", "cooldown": 5 }, [ "LUNGE", 10 ] ],
+    "special_attacks": [
+      { "id": "teeth_puncture", "cooldown": 7 },
+      { "id": "teeth_pull", "cooldown": 5 },
+      [ "LUNGE", 10 ],
+      [ "EAT_CARRION", 60 ]
+    ],
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -414,6 +459,7 @@
     "weight": "767 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 7,
     "aggression": 15,
     "morale": 80,
     "speed": 70,
@@ -437,9 +483,10 @@
       { "id": "teeth_puncture", "cooldown": 7 },
       { "id": "teeth_pull", "cooldown": 5 },
       [ "LUNGE", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 30 }
+      { "id": "bio_op_takedown", "cooldown": 30 },
+      [ "EAT_CARRION", 60 ]
     ],
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -454,6 +501,7 @@
     "color": "white",
     "default_faction": "nanuqsaurus",
     "//": "When large weights and volumes are fixed this should be 1500 L and 1500 kg",
+    "stomach_size": 15,
     "speed": 50,
     "attack_cost": 50,
     "hp": 150,
@@ -464,7 +512,8 @@
       { "id": "teeth_puncture", "cooldown": 20 },
       { "id": "teeth_pull", "cooldown": 10 },
       [ "LUNGE", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 20 }
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      [ "EAT_CARRION", 60 ]
     ]
   },
   {
@@ -474,6 +523,7 @@
     "copy-from": "mon_tyrannosaurus",
     "default_faction": "daspletosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
+    "stomach_size": 25,
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
@@ -485,7 +535,8 @@
       { "id": "teeth_puncture", "cooldown": 10 },
       { "id": "teeth_pull", "cooldown": 10 },
       [ "LUNGE", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15 }
+      { "id": "bio_op_takedown", "cooldown": 15 },
+      [ "EAT_CARRION", 60 ]
     ],
     "harvest": "dino_large_feather_pred"
   },
@@ -502,6 +553,7 @@
     "//": "When large weights and volumes are fixed this should be 8500 L and 8500 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 85,
     "aggression": 15,
     "morale": 90,
     "speed": 50,
@@ -524,12 +576,14 @@
       { "id": "teeth_puncture", "cooldown": 7 },
       { "id": "teeth_pull", "cooldown": 5 },
       [ "LUNGE", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15 }
+      { "id": "bio_op_takedown", "cooldown": 15 },
+      [ "EAT_CARRION", 60 ]
     ],
     "flags": [
       "SEES",
       "SMELLS",
       "HEARS",
+      "EATS",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "BASHES",
@@ -908,6 +962,7 @@
     "weight": "15 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 1,
     "aggression": 0,
     "morale": 20,
     "speed": 140,
@@ -925,7 +980,8 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 10 },
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "EAT_CARRION", 60 ]
     ],
     "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
     "reproduction": { "baby_egg": "egg_velociraptor", "baby_count": 3, "baby_timer": 18 },
@@ -935,6 +991,7 @@
       "SEES",
       "SMELLS",
       "HEARS",
+      "EATS",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "KEENNOSE",
@@ -961,6 +1018,7 @@
     "weight": "75 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 1,
     "aggression": 1,
     "morale": 50,
     "speed": 80,
@@ -980,7 +1038,8 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 5 },
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "EAT_CARRION", 60 ]
     ],
     "description": "A medium-sized bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.",
     "reproduction": { "baby_egg": "egg_deinonychus", "baby_count": 3, "baby_timer": 18 },
@@ -990,6 +1049,7 @@
       "SEES",
       "SMELLS",
       "HEARS",
+      "EATS",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "KEENNOSE",
@@ -1017,6 +1077,7 @@
     "weight": "500 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 5,
     "aggression": 15,
     "morale": 80,
     "speed": 80,
@@ -1035,13 +1096,14 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 5 },
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "EAT_CARRION", 60 ]
     ],
     "description": "A large bipedal dinosaur with feathered arms, a long tail, and scythe-like claws.",
     "reproduction": { "baby_egg": "egg_utahraptor", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "EATS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_med_feather_pred",
     "dissect": "dissect_raptor_sample_small",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
@@ -1077,6 +1139,7 @@
     "weight": "35 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
+    "stomach_size": 1,
     "aggression": 0,
     "morale": 50,
     "speed": 100,
@@ -1092,7 +1155,8 @@
     "special_attacks": [
       { "id": "teeth_grab", "cooldown": 20 },
       { "id": "teeth_rip", "cooldown": 10 },
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "EAT_CARRION", 60 ]
     ],
     "description": "A small bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.  Its eyes suggest intelligence.",
     "reproduction": { "baby_egg": "egg_stenonychosaurus", "baby_count": 3, "baby_timer": 18 },
@@ -1102,6 +1166,7 @@
       "SEES",
       "SMELLS",
       "HEARS",
+      "EATS",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "KEENNOSE",
