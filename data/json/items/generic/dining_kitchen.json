@@ -649,7 +649,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "knife_butter_ti",
-    "name": { "str": "titanum butter knife", "str_pl": "titanium butter knives" },
+    "name": { "str": "titanium butter knife", "str_pl": "titanium butter knives" },
     "description": "A lightweight blunt knife, anodized in a rainbow of blues, yellows, and purples.",
     "weight": "25 g",
     "volume": "75 ml",

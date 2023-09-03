@@ -116,6 +116,7 @@ anklebiter
 ankylosaurid
 ankylosaurus
 annelids
+anodized
 anole
 anomurans
 antarvasa
@@ -125,6 +126,7 @@ antiasthmatic
 anticonvulsant
 antihemorrhagic
 antimateriel
+antimicrobial
 antiparasitic
 antipodes
 antisemitism
@@ -144,6 +146,7 @@ appreciably
 aprotic
 aquacultural
 aquaculture
+aquaflage
 aquamarines
 aqueles
 aquilops
@@ -552,6 +555,8 @@ clarifier
 clashin
 cleansuit
 clearcrete
+cleaver
+cleavers
 clickity
 climbable
 clockspring
@@ -716,6 +721,8 @@ deathcam
 deathmobile
 deathrattle
 debatably
+debone
+deboning
 debuff
 debuffs
 debugged
@@ -1114,6 +1121,8 @@ followup
 foodborne
 foodburger
 foodcart
+foon
+foons
 footgear
 footrest
 forager
@@ -2144,6 +2153,7 @@ papyrifera
 parabellum
 parabolan
 parachuter
+paracord
 parasaurolophus
 parasitoid
 paratronic
@@ -2541,6 +2551,7 @@ roguelike
 roguelikes
 roleplay
 roleplaying
+rollable
 rollerskates
 rollmat
 roncone
@@ -2807,6 +2818,7 @@ spoked
 spongey
 sporeling
 spork
+sporks
 sporter
 sprayable
 spraypainted

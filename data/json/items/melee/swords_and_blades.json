@@ -512,7 +512,7 @@
     "type": "TOOL",
     "name": { "str_sp": "MDK-TI tactical tanto" },
     "looks_like": "tanto",
-    "description": "A tempered titanium alloy straight blade designed for Navy EOD teams, and patterned after the Japanese tanto.  Its rugged, non-conductive construction makes it a servicable tool for prying, or digging through soil without setting off magnetic mines.  It's an effective weapon as well, whether cutting durable materials or rotten flesh, and can be attached to weapons as a long bayonet.",
+    "description": "A tempered titanium alloy straight blade designed for Navy EOD teams, and patterned after the Japanese tanto.  Its rugged, non-conductive construction makes it a serviceable tool for prying, or digging through soil without setting off magnetic mines.  It's an effective weapon as well, whether cutting durable materials or rotten flesh, and can be attached to weapons as a long bayonet.",
     "//": "based on: https://missionknives.com/products/mdk",
     "material": [ "qt_ti_alloy", "thermo_resin" ],
     "color": "light_gray",
@@ -1865,7 +1865,7 @@
     "looks_like": "tanto",
     "type": "TOOL",
     "name": { "str_sp": "titanium tanto" },
-    "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  It feels unusually light, but is still sharp and sturdy enough to make for a servicable knife.",
+    "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  It feels unusually light, but is still sharp and sturdy enough to make for a serviceable knife.",
     "weight": "306 g",
     "price": 20000,
     "price_postapoc": 1600,
@@ -1877,20 +1877,20 @@
       {
         "id": "ti_tanto_generic",
         "name": { "str_sp": "titanium tanto" },
-        "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  It feels unusually light, but is still sharp and sturdy enough to make for a servicable knife.",
+        "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  It feels unusually light, but is still sharp and sturdy enough to make for a serviceable knife.",
         "weight": 1
       },
       {
         "id": "ti_tanto_gradient",
         "name": { "str_sp": "titanium tanto" },
-        "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  Its blade is heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  It feels unusually light, but despite being made more for form than function, it still seems sharp and sturdy enough to make for a servicable knife.",
+        "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  Its blade is heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  It feels unusually light, but despite being made more for form than function, it still seems sharp and sturdy enough to make for a serviceable knife.",
         "color": "magenta",
         "weight": 2
       },
       {
         "id": "ti_tanto_dark",
         "name": { "str_sp": "titanium tanto" },
-        "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  Its blade is coated with black carbide, giving it a sleek and futuristic look.  It feels unusually light, but despite being made more for form than function, it still seems sharp and sturdy enough to make for a servicable knife.",
+        "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  Its blade is coated with black carbide, giving it a sleek and futuristic look.  It feels unusually light, but despite being made more for form than function, it still seems sharp and sturdy enough to make for a serviceable knife.",
         "color": "dark_gray",
         "weight": 2
       }

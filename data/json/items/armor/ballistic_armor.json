@@ -223,7 +223,7 @@
     "name": { "str": "laminar titanium ballistic plate" },
     "//1": "based on dual-hardness titanium plate armors, made from hard (Nitrided Titanium) and ductile (Grade 5 Alloy) titanium laminated layers, capable of stopping an AK-47 round at muzzle velocity.",
     "//2": "naval research and test data: https://apps.dtic.mil/sti/pdfs/AD1060002.pdf",
-    "description": "A curved ballistic plate, made from alternating layers of hard and ductile titanium.  Surprisingly light, yet capable of stopping some high-caliber rounds.  Printed on the front are the words \"TITANIUM ARMOR PLATE\" and \"EXTERIOR\" in smaller lettering, while the back sports a polyethelyne foam pad.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
+    "description": "A curved ballistic plate, made from alternating layers of hard and ductile titanium.  Surprisingly light, yet capable of stopping some high-caliber rounds.  Printed on the front are the words \"TITANIUM ARMOR PLATE\" and \"EXTERIOR\" in smaller lettering, while the back sports a polyethylene foam pad.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
     "weight": "1515 g",
     "//3": "30cm x 25cm x .5cm (2/5 Grade 5 Ti, 2/5 TiN, 1/5 Thermoplastic",
     "volume": "375 ml",
@@ -255,7 +255,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "laminar titanium side plate" },
-    "description": "A small ballistic plate, made from alternating layers of hard and ductile titanium.  Surprisingly light, yet capable of stopping some high-caliber rounds.  Printed on the front are the words \"TITANIUM ARMOR PLATE\" and \"EXTERIOR\" in smaller lettering, while the back sports a polyethelyne foam pad.  This is designed to be inserted into the side panel of a ballistic plate carrier, rather than worn.",
+    "description": "A small ballistic plate, made from alternating layers of hard and ductile titanium.  Surprisingly light, yet capable of stopping some high-caliber rounds.  Printed on the front are the words \"TITANIUM ARMOR PLATE\" and \"EXTERIOR\" in smaller lettering, while the back sports a polyethylene foam pad.  This is designed to be inserted into the side panel of a ballistic plate carrier, rather than worn.",
     "weight": "606 g",
     "//": "20cm x 15cm x .5cm (2/5 Grade 5 Ti, 2/5 TiN, 1/5 Thermoplastic",
     "volume": "150 ml",
@@ -725,7 +725,7 @@
       {
         "id": "ballistic_vest_light_aqua",
         "name": { "str": "blue light ballistic MOLLE vest", "str_pl": "blue light ballistic MOLLE vests" },
-        "description": "It's styled in stormy blue-gray digital camo, based on the 'aqua-flage' once worn by the US navy.",
+        "description": "It's styled in stormy blue-gray digital camo, based on the \"aquaflage\" once worn by the US navy.",
         "color": "light_blue",
         "weight": 2,
         "append": true
@@ -741,7 +741,7 @@
       {
         "id": "ballistic_vest_light_purple",
         "name": { "str": "magenta light ballistic MOLLE vest", "str_pl": "magenta light ballistic MOLLE vests" },
-        "description": "It's decorated in a faux-camoflage of purples and pinks, for those who want to stand out rather than blend in.",
+        "description": "It's decorated in a faux-camouflage of purples and pinks, for those who want to stand out rather than blend in.",
         "color": "pink",
         "weight": 1,
         "append": true
@@ -1257,7 +1257,7 @@
       {
         "id": "pmc_armor_vest",
         "name": { "str": "tactical armor vest" },
-        "description": "This solid black ballistic vest was manufactured and sold privately, whether to a security guard or a private military corporation you can't be sure.  It is unlabelled and unremarkable by design, but offers adequate protection against small-caliber weapons, and additional protection when eqipped with hard armor inserts.",
+        "description": "This solid black ballistic vest was manufactured and sold privately, whether to a security guard or a private military corporation you can't be sure.  It is unlabeled and unremarkable by design, but offers adequate protection against small-caliber weapons, and additional protection when equipped with hard armor inserts.",
         "weight": 1
       }
     ],

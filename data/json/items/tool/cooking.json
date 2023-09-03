@@ -49,7 +49,7 @@
     "id": "butchering_kit_ti",
     "name": { "str": "fine butchering kit" },
     "type": "TOOL",
-    "description": "A full kit of specialized titanium alloy knives, often found in professional meat-processing facilities.  Reliable high-performance tools for deboning, skining, and preparing meat.",
+    "description": "A full kit of specialized titanium alloy knives, often found in professional meat-processing facilities.  Reliable high-performance tools for deboning, skinning, and preparing meat.",
     "copy-from": "base_titanium_kitchen_knife",
     "looks_like": "butchering_kit",
     "weight": "644 g",
