@@ -2693,7 +2693,10 @@
     "type": "ARMOR",
     "copy-from": "nh_ti_chainmail_feet",
     "looks_like": "nh_ti_chainmail_feet",
-    "name": { "str": "pair of XL hardened titanium chainmail chausses", "str_pl": "pairs of XL hardened titanium chainmail chausses" },
+    "name": {
+      "str": "pair of XL hardened titanium chainmail chausses",
+      "str_pl": "pairs of XL hardened titanium chainmail chausses"
+    },
     "description": "Sturdy, oversized titanium chainmail chausses that cover the feet, made from nitrogen-hardened rings.  Like booties made of chainmail.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -2703,7 +2706,10 @@
     "type": "ARMOR",
     "copy-from": "nh_ti_chainmail_feet",
     "looks_like": "nh_ti_chainmail_feet",
-    "name": { "str": "pair of XS hardened titanium chainmail chausses", "str_pl": "pairs of XS hardened titanium chainmail chausses" },
+    "name": {
+      "str": "pair of XS hardened titanium chainmail chausses",
+      "str_pl": "pairs of XS hardened titanium chainmail chausses"
+    },
     "description": "Sturdy, undersized titanium chainmail chausses that cover the feet, made from nitrogen-hardened rings.  Like booties made of chainmail.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -2742,7 +2748,10 @@
     "type": "ARMOR",
     "copy-from": "ti_chainmail_feet",
     "looks_like": "ti_chainmail_feet",
-    "name": { "str": "pair of tempered titanium alloy chainmail chausses", "str_pl": "pairs of tempered titanium alloy chainmail chausses" },
+    "name": {
+      "str": "pair of tempered titanium alloy chainmail chausses",
+      "str_pl": "pairs of tempered titanium alloy chainmail chausses"
+    },
     "description": "High-performance titanium chainmail chausses that cover the feet, made from quench-tempered rings.  Like booties made of chainmail.",
     "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
   },
@@ -2751,7 +2760,10 @@
     "type": "ARMOR",
     "copy-from": "qt_ti_alloy_chainmail_feet",
     "looks_like": "qt_ti_alloy_chainmail_feet",
-    "name": { "str": "pair of XL tempered titanium chainmail chausses", "str_pl": "pairs of XL tempered titanium chainmail chausses" },
+    "name": {
+      "str": "pair of XL tempered titanium chainmail chausses",
+      "str_pl": "pairs of XL tempered titanium chainmail chausses"
+    },
     "description": "High-performance, oversized titanium chainmail chausses that cover the feet, made from quench-tempered rings.  Like booties made of chainmail.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -2761,7 +2773,10 @@
     "type": "ARMOR",
     "copy-from": "qt_ti_alloy_chainmail_feet",
     "looks_like": "qt_ti_alloy_chainmail_feet",
-    "name": { "str": "pair of XS tempered titanium chainmail chausses", "str_pl": "pairs of XS tempered titanium chainmail chausses" },
+    "name": {
+      "str": "pair of XS tempered titanium chainmail chausses",
+      "str_pl": "pairs of XS tempered titanium chainmail chausses"
+    },
     "description": "High-performance, undersized titanium chainmail chausses that cover the feet, made from quench-tempered rings.  Like booties made of chainmail.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

@@ -285,7 +285,7 @@
     "looks_like": "knife_folding",
     "type": "TOOL",
     "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-        "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a silvery full metal construction.  This knife may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+    "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a silvery full metal construction.  This knife may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
     "//": "Data estimated from ColdSteel 1911 folding knife, with values adjusted for full titanium construction. Bash increased per increased handle density.",
     "weight": "48 g",
     "price": 6000,
@@ -377,10 +377,7 @@
     "price": 9000,
     "price_postapoc": 800,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "material": [
-      { "type": "nylon" },
-      { "type": "titanium", "portion": 9 }
-    ],
+    "material": [ { "type": "nylon" }, { "type": "titanium", "portion": 9 } ],
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "bronze_knife",

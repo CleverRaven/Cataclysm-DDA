@@ -393,7 +393,7 @@
     "price_postapoc": 500,
     "replace_materials": { "titanium_scale": "qt_ti_alloy_scale" }
   },
-    {
+  {
     "id": "xl_armor_lamellar_qt_ti_alloy",
     "type": "ARMOR",
     "name": { "str": "XL titanium lamellar cuirass", "str_pl": "XL titanium lamellar cuirasses" },
@@ -1291,7 +1291,7 @@
     "copy-from": "xs_ti_chainmail_vest",
     "looks_like": "xs_ti_chainmail_vest",
     "replace_materials": { "titanium_chain": "ti_alloy_chain" }
-  }, 
+  },
   {
     "id": "cloth_shirt_padded",
     "type": "ARMOR",

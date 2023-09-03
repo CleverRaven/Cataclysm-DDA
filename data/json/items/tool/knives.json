@@ -10,10 +10,7 @@
     "price": 3000,
     "price_postapoc": 10,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "material": [
-      { "type": "cotton" },
-      { "type": "copper", "portion": 9 }
-    ],
+    "material": [ { "type": "cotton" }, { "type": "copper", "portion": 9 } ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
@@ -33,10 +30,7 @@
     "price": 4000,
     "price_postapoc": 500,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "material": [
-      { "type": "leather" },
-      { "type": "bronze", "portion": 9 }
-    ],
+    "material": [ { "type": "leather" }, { "type": "bronze", "portion": 9 } ],
     "symbol": "/",
     "color": "yellow",
     "looks_like": "copper_knife",

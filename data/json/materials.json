@@ -1786,7 +1786,6 @@
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
     "repair_difficulty": 7
   },
-
   {
     "type": "material",
     "id": "budget_steel",

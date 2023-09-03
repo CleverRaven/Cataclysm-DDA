@@ -211,7 +211,7 @@
     "description": "A pair of lightweight titanium chainmail gloves that fully enclose the hands.",
     "weight": "526 g",
     "volume": "500 ml",
-    "price": 8000, 
+    "price": 8000,
     "price_postapoc": 3000,
     "to_hit": -1,
     "material": [ "titanium_chain" ],
@@ -256,7 +256,7 @@
     "looks_like": "ti_chainmail_hands",
     "weight": "622 g",
     "volume": "500 ml",
-    "price": 8000, 
+    "price": 8000,
     "price_postapoc": 3000,
     "to_hit": -1,
     "material": [ "nh_titanium_chain" ],
@@ -326,7 +326,10 @@
     "type": "ARMOR",
     "copy-from": "ti_chainmail_hands",
     "looks_like": "ti_chainmail_hands",
-    "name": { "str": "pair of tempered titanium alloy chainmail gloves", "str_pl": "pairs of tempered titanium alloy chainmail gloves" },
+    "name": {
+      "str": "pair of tempered titanium alloy chainmail gloves",
+      "str_pl": "pairs of tempered titanium alloy chainmail gloves"
+    },
     "description": "A pair of high-performance titanium alloy chainmail gloves, made from quench-tempered chain.  Fully enclose the hands.",
     "replace_materials": { "titanium_chain": "qt_ti_alloy_chain" }
   },
@@ -335,7 +338,10 @@
     "type": "ARMOR",
     "copy-from": "qt_ti_alloy_chainmail_hands",
     "looks_like": "qt_ti_alloy_chainmail_hands",
-    "name": { "str": "pair of XL tempered titanium alloy chainmail gloves", "str_pl": "pairs of XL tempered titanium alloy chainmail gloves" },
+    "name": {
+      "str": "pair of XL tempered titanium alloy chainmail gloves",
+      "str_pl": "pairs of XL tempered titanium alloy chainmail gloves"
+    },
     "description": "A pair of oversized high-performance titanium alloy chainmail gloves, made from quench-tempered chain.  Fully enclose the hands.",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -345,7 +351,10 @@
     "type": "ARMOR",
     "copy-from": "qt_ti_alloy_chainmail_hands",
     "looks_like": "qt_ti_alloy_chainmail_hands",
-    "name": { "str": "pair of XS tempered titanium alloy chainmail gloves", "str_pl": "pairs of XS tempered titanium alloy chainmail gloves" },
+    "name": {
+      "str": "pair of XS tempered titanium alloy chainmail gloves",
+      "str_pl": "pairs of XS tempered titanium alloy chainmail gloves"
+    },
     "description": "A pair of undersized high-performance titanium alloy chainmail gloves, made from quench-tempered chain.  Fully enclose the hands.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

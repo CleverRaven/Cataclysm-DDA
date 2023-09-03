@@ -1384,7 +1384,10 @@
   {
     "id": "xl_qt_ti_alloy_chainmail_legs",
     "type": "ARMOR",
-    "name": { "str": "XL tempered titanium alloy chainmail leggings", "str_pl": "pairs of XL tempered titanium alloy chainmail leggings" },
+    "name": {
+      "str": "XL tempered titanium alloy chainmail leggings",
+      "str_pl": "pairs of XL tempered titanium alloy chainmail leggings"
+    },
     "description": "High-performance titanium alloy chainmail leggings sized for large bodies, made from quench-tempered rings.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
     "copy-from": "xl_ti_chainmail_legs",
     "looks_like": "xl_ti_chainmail_legs",
@@ -1393,7 +1396,10 @@
   {
     "id": "xs_qt_ti_alloy_chainmail_legs",
     "type": "ARMOR",
-    "name": { "str": "XS tempered titanium alloy chainmail leggings", "str_pl": "pairs of XS tempered titanium alloy chainmail leggings" },
+    "name": {
+      "str": "XS tempered titanium alloy chainmail leggings",
+      "str_pl": "pairs of XS tempered titanium alloy chainmail leggings"
+    },
     "description": "High-performance titanium alloy chainmail leggings sized for small bodies, made from quench-tempered rings.  Held in place by belts and straps.  They end above the ankle, leaving room for boots and footwear.",
     "copy-from": "xs_ti_chainmail_legs",
     "looks_like": "xs_ti_chainmail_legs",

@@ -91,7 +91,13 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap_ti_alloy", 20 ] ], [ [ "ti_alloy_chunk", 8 ] ], [ [ "sheet_ti_alloy_small", 8 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap_ti_alloy", 20 ] ],
+      [ [ "ti_alloy_chunk", 8 ] ],
+      [ [ "sheet_ti_alloy_small", 8 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "uncraft",
