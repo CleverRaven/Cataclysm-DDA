@@ -3868,11 +3868,6 @@ void game::draw( ui_adaptor &ui )
         return;
     }
 
-    //temporary fix for updating visibility for minimap
-    ter_view_p.z = ( u.pos() + u.view_offset ).z;
-    m.build_map_cache( ter_view_p.z );
-    m.update_visibility_cache( ter_view_p.z );
-
     werase( w_terrain );
     void_blink_curses();
     draw_ter();
