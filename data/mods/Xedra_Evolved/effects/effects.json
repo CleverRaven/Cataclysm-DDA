@@ -26,20 +26,6 @@
   },
   {
     "type": "effect_type",
-    "id": "sense_unnatural",
-    "name": [ "Sense Unnatural" ],
-    "desc": [ "You can sense the presence of things that do not belong in this world." ],
-    "apply_message": "",
-    "remove_message": "Your awareness of the unnatural fades.",
-    "rating": "good",
-    "enchantments": [
-      {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_val('spell_level', 'school: EATER') * 1.5) + 3)" ] } } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
