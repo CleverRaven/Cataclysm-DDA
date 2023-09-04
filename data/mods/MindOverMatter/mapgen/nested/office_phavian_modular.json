@@ -717,7 +717,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a weapons lab",
-    "weight": 50,
+    "weight": 450,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -726,19 +726,23 @@
         "........",
         "...çç...",
         "...ⱮⱮ..ç",
-        "C..Aɱ..ç",
+        "C..Aɱ..è",
         "C......M",
         "CA....cɱ",
         "C.....UU"
       ],
       "palettes": [ "office_phavian_palette" ],
+      "furniture": { "è": "f_lab_bench" },
       "place_item": [
         { "item": "grenade_inferno", "x": 7, "y": 3, "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "mom_pulse_rifle", "x": 7, "y": 4, "chance": 15 },
         { "item": "grenade_inferno", "x": 7, "y": 4, "chance": 60, "repeat": [ 1, 3 ] },
         { "item": "schematics_grenade_inferno", "x": 7, "y": 7, "chance": 60 }
       ],
       "items": {
+        "è": [
+          { "item": "psi_lab", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "dist_pulse_rifles_heavy_prototype", "chance": 40 }
+        ],
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
@@ -753,7 +757,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a weapons lab",
-    "weight": 50,
+    "weight": 450,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -761,20 +765,24 @@
         "UU.....C",
         "ɱc....AC",
         "M......C",
-        "ç..ɱA..C",
+        "è..ɱA..C",
         "ç..ⱮⱮ...",
         "...çç...",
         "........",
         "....l&.."
       ],
+      "furniture": { "è": "f_lab_bench" },
       "palettes": [ "office_phavian_palette" ],
       "place_item": [
         { "item": "grenade_inferno", "x": 0, "y": 4, "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "mom_pulse_rifle", "x": 0, "y": 3, "chance": 15 },
         { "item": "grenade_inferno", "x": 0, "y": 3, "chance": 60, "repeat": [ 1, 3 ] },
         { "item": "schematics_grenade_inferno", "x": 0, "y": 0, "chance": 60 }
       ],
       "items": {
+        "è": [
+          { "item": "psi_lab", "chance": 20, "repeat": [ 1, 3 ] },
+          { "item": "dist_pulse_rifles_heavy_prototype", "chance": 40 }
+        ],
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
