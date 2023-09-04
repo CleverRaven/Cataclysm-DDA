@@ -58,6 +58,7 @@
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
+#include "skill_ui.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -2747,7 +2748,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
-        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, 6 ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, iHeaderHeight ) );
         details_recalc = true;
         w_keybindings = catacurses::newwin( static_cast<int>( keybinding_hint.size() ), TERMX - 2, point( 1,
                                             iHeaderHeight + iContentHeight ) );
@@ -2756,7 +2757,8 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
+    std::vector<const Skill *> sorted_skills = Skill::get_skills_sorted_by(
+    []( const Skill & a, const Skill & b ) {
         return localized_compare( a.name(), b.name() );
     } );
 
@@ -2765,19 +2767,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         return a->display_category() < b->display_category();
     } );
 
-    std::vector<std::pair<skill_displayType_id, const Skill *>> skill_list;
-    for( const Skill *skl : sorted_skills ) {
-        if( skill_list.empty() ) {
-            skill_list.emplace_back( skl->display_category(), nullptr );
-        }
-
-        if( skl->display_category() == skill_list.back().first ) {
-            skill_list.emplace_back( skl->display_category(), skl );
-        } else {
-            skill_list.emplace_back( skl->display_category(), nullptr );
-            skill_list.emplace_back( skl->display_category(), skl );
-        }
-    }
+    std::vector<HeaderSkill> skill_list = get_HeaderSkills( sorted_skills );
 
     const int num_skills = skill_list.size();
     int cur_offset = 1;
@@ -2785,48 +2775,12 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     const Skill *currentSkill = nullptr;
 
     const int scroll_rate = num_skills > 20 ? 5 : 2;
-    auto get_next = [&]( bool go_up, bool fast_scroll ) {
-        bool invalid = true;
-        while( invalid ) {
-            if( fast_scroll ) {
-                if( go_up ) {
-                    if( cur_pos == 0 ) {
-                        cur_pos = num_skills - 1;
-                    } else if( cur_pos <= scroll_rate ) {
-                        cur_pos = 0;
-                    } else {
-                        cur_pos += -scroll_rate;
-                    }
-                } else {
-                    if( cur_pos == num_skills - 1 ) {
-                        cur_pos = 0;
-                    } else if( cur_pos + scroll_rate >= num_skills ) {
-                        cur_pos = num_skills - 1;
-                    } else {
-                        cur_pos += +scroll_rate;
-                    }
-                }
-            } else {
-                if( go_up ) {
-                    cur_pos--;
-                    if( cur_pos < 0 ) {
-                        cur_pos = num_skills - 1;
-                    }
-                } else {
-                    cur_pos++;
-                    if( cur_pos >= num_skills ) {
-                        cur_pos = 0;
-                    }
-                }
-            }
-            currentSkill = skill_list[cur_pos].second;
-            if( currentSkill ) {
-                invalid = false;
-            }
-        }
+    auto get_next = [&]( bool go_up ) {
+        skip_skill_headers( skill_list, cur_pos, !go_up );
+        currentSkill = skill_list[cur_pos].skill;
     };
 
-    get_next( false, false );
+    get_next( false );
 
     std::map<skill_id, int> prof_skills;
     const profession::StartingSkillList &pskills = u.prof->skills();
@@ -2874,10 +2828,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
             const int y = i - cur_offset;
-            const skill_displayType_id &display_type = skill_list[i].first;
-            const Skill *thisSkill = skill_list[i].second;
+            const Skill *thisSkill = skill_list[i].skill;
             int prof_skill_level = 0;
-            if( !!thisSkill ) {
+            if( !skill_list[i].is_header ) {
                 for( auto &prof_skill : u.prof->skills() ) {
                     if( prof_skill.first == thisSkill->ident() ) {
                         prof_skill_level += prof_skill.second;
@@ -2889,8 +2842,8 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             if( i == cur_pos ) {
                 ui.set_cursor( w_list, opt_pos );
             }
-            if( !thisSkill ) {
-                mvwprintz( w_list, opt_pos, c_yellow, display_type->display_string() );
+            if( skill_list[i].is_header ) {
+                mvwprintz( w_list, opt_pos, c_yellow, thisSkill->display_category()->display_string() );
             } else if( static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) + prof_skill_level == 0 ) {
                 mvwprintz( w_list, opt_pos,
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
@@ -2909,7 +2862,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 6 )
+        .offset_y( iHeaderHeight )
         .content_size( num_skills )
         .viewport_pos( cur_offset )
         .viewport_size( iContentHeight )
@@ -2936,28 +2889,15 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             if( scrollbar_pos != cur_offset ) {
                 cur_offset = scrollbar_pos;
                 cur_pos = cur_offset + ( iContentHeight - 1 ) / 2; // Get approximate location
-                get_next( false, false ); // Then make sure it's a skill rather than a heading
+                get_next( false ); // Then make sure it's a skill rather than a heading
                 if( cur_pos < num_skills / 2 ) {
-                    get_next( true, false ); // Go back to where we were to ensure we can drag to the top
+                    get_next( true ); // Go back to where we were to ensure we can drag to the top
                 }
             }
-        } else if( action == "DOWN" ) {
-            get_next( false, false );
-        } else if( action == "UP" ) {
-            get_next( true, false );
-        } else if( action == "PAGE_DOWN" ) {
-            get_next( false, true );
-        } else if( action == "PAGE_UP" ) {
-            get_next( true, true );
-        } else if( action == "HOME" ) {
-            // Start at the bottom and go down so `get_next()` handles invariants for us
-            cur_pos = skill_list.size() - 1;
-            get_next( false, false );
-        } else if( action == "END" ) {
-            // Start at the top and go up so `get_next()` handles invariants for us
-            cur_pos = 0;
-            get_next( true, false );
-            currentSkill = skill_list[cur_pos].second;
+        } else if( navigate_ui_list( action, cur_pos, scroll_rate, skill_list.size(), true ) ) {
+            // omitting action == "PAGE_UP", because that shouldn't wrap
+            const bool go_up = action == "UP" || action == "SCROLL_UP";
+            get_next( go_up );
         } else if( action == "LEFT" ) {
             const skill_id &skill_id = currentSkill->ident();
             const int level = u.get_skill_level( skill_id );
