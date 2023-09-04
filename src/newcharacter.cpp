@@ -970,12 +970,20 @@ static const char *g_switch_msg( const avatar &u )
 
 void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
 {
+    const int iSecondColumn = 31;
+    const int iHeaderHeight = 6;
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 3;
+
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+        isWide = freeWidth > 15;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( TERMY - 11, TERMX - 35, point( 31, 6 ) );
+        w_description = catacurses::newwin( TERMY - iHeaderHeight - iHelpHeight - 1,
+                                            TERMX - iSecondColumn - 1, point( iSecondColumn, iHeaderHeight ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -1017,8 +1025,24 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     int highlighted = 0;
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
-        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
+        const std::string help_text =
+            ( isWide ? string_format(
+                  _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                     "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
+                     "<color_light_green>%s</color> to confirm selection.\n"
+                     "Press <color_light_green>%s</color> to go to the next tab or "
+                     "<color_light_green>%s</color> to return to main menu." ),
+                  ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+                  ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) )
+              : string_format(
+                  _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                  ctxt.get_desc( "HELP_KEYBINDINGS" ) )
+            );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         tabs.draw( w );
 
@@ -1048,20 +1072,8 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
                         COL_SKILL_USED, std::get<2>( cur_opt ) );
 
         // Helptext points tab
-        if( isWide ) {
-            fold_and_print( w, point( 2, TERMY - 4 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                               "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
-                               "<color_light_green>%s</color> to confirm selection.\n"
-                               "Press <color_light_green>%s</color> to go to the next tab or "
-                               "<color_light_green>%s</color> to return to main menu." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) );
-        } else {
-            fold_and_print( w, point( 2, TERMY - 2 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-        }
+        fold_and_print( w, point( 2, TERMY - foldstring( help_text, getmaxx( w ) - 4 ).size() - 1 ),
+                        getmaxx( w ) - 4, COL_NOTE_MINOR, help_text );
         wnoutrefresh( w );
         wnoutrefresh( w_description );
     } );
