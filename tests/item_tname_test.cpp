@@ -258,18 +258,6 @@ TEST_CASE( "diamond_item", "[item][tname][diamond]" )
     CHECK( katana.tname() == "diamond katana" );
 }
 
-TEST_CASE( "truncated_item_name", "[item][tname][truncate]" )
-{
-    SECTION( "plain item name can be truncated" ) {
-        item katana( "katana" );
-
-        CHECK( katana.tname() == "katana" );
-        CHECK( katana.tname( 1, false, 5 ) == "katan" );
-    }
-
-    // TODO: color-coded or otherwise embellished item name can be truncated
-}
-
 TEST_CASE( "engine_displacement_volume", "[item][tname][engine]" )
 {
     item vtwin = item( "v2_combustion" );

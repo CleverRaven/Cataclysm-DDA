@@ -21,6 +21,7 @@ class enum_bitset
         enum_bitset() = default;
         enum_bitset( const enum_bitset & ) = default;
         enum_bitset &operator=( const enum_bitset & ) = default;
+        explicit constexpr enum_bitset( unsigned long long val ) noexcept : bits( val ) {}
 
         bool operator==( const enum_bitset &rhs ) const noexcept {
             return bits == rhs.bits;
@@ -61,6 +62,18 @@ class enum_bitset
 
         bool test( E e ) const {
             return bits.test( get_pos( e ) );
+        }
+
+        bool any() const noexcept {
+            return bits.any();
+        }
+
+        bool all() const noexcept {
+            return bits.all();
+        }
+
+        bool none() const noexcept {
+            return bits.none();
         }
 
         static constexpr size_t size() noexcept {

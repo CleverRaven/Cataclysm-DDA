@@ -61,6 +61,7 @@
 #include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_tname.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -6590,329 +6591,29 @@ std::string item::degradation_symbol() const
     return type->degrade_increments() == 0 ? "" : dgr_symbol;
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
-                         bool with_contents_full, bool with_collapsed, bool with_contents_abbrev ) const
+std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
-    // item damage and/or fouling level
-    std::string damtext;
+    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname );
+}
 
-    // add first prefix if item has a fault that defines a prefix (prioritize?)
-    for( const fault_id &f : faults ) {
-        const std::string prefix = f->item_prefix();
-        if( !prefix.empty() ) {
-            damtext = prefix + " ";
-            break;
+std::string item::tname( unsigned int quantity, tname::segment_bitset const &segments ) const
+{
+    std::string ret;
+
+    for( size_t i = 0; i < static_cast<size_t>( tname::segments::last_segment ); i++ ) {
+        tname::segments const idx = static_cast<tname::segments>( i );
+        if( !segments[idx] ) {
+            continue;
         }
-    }
-    damtext += dirt_symbol();
-    damtext += overheat_symbol();
-
-    if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
-        if( is_favorite ) {
-            damtext += _( "* " ); // Display asterisk for favorite items, before item's name
-        }
-    }
-
-    // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
-    unsigned int truncate_override = 0;
-
-    const std::string item_health_option = get_option<std::string>( "ITEM_HEALTH" );
-    const bool show_bars  = item_health_option == "both" || item_health_option == "bars";
-    if( ( damage() != 0 || ( degradation() > 0 && degradation() >= max_damage() / 5 ) ||
-          ( show_bars  && is_armor() ) ) && !is_null() && with_prefix ) {
-        damtext += durability_indicator();
-        if( show_bars ) {
-            // get the utf8 width of the tags
-            truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
-        }
-    }
-
-    std::string vehtext;
-    if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%gL " ),
-                                 engine_displacement() / 100.0f );
-
-    } else if( is_wheel() && type->wheel->diameter > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
-    }
-
-    std::string burntext;
-    if( with_prefix && !made_of_from_type( phase_id::LIQUID ) ) {
-        if( volume() >= 1_liter && burnt * 125_ml >= volume() ) {
-            burntext = pgettext( "burnt adjective", "badly burnt " );
-        } else if( burnt > 0 ) {
-            burntext = pgettext( "burnt adjective", "burnt " );
-        }
-    }
-
-    std::string maintext;
-    std::string contents_suffix_text;
-
-    if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
-        maintext = type_name( quantity );
-    } else if( ( ( is_gun() || is_tool() || is_magazine() ) && !is_power_armor() ) ||
-               contents.has_additional_pockets() ) {
-        int amt = 0;
-        maintext = label( quantity );
-        for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
-            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ||
-                !type->gun->default_mods.count( mod->typeId() ) ) {
-                amt++;
-            }
-        }
-        amt += contents.get_added_pockets().size();
-        if( amt ) {
-            maintext += string_format( "+%d", amt );
-        }
-    } else if( is_craft() ) {
-        if( typeId() == itype_disassembly ) {
-            maintext = string_format( _( "in progress disassembly of %s" ),
-                                      craft_data_->making->result_name() );
-        } else {
-            maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
-        }
-        if( charges > 1 ) {
-            maintext += string_format( " (%d)", charges );
-        }
-        const int percent_progress = item_counter / 100000;
-        maintext += string_format( " (%d%%)", percent_progress );
-    } else {
-        maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
-    }
-
-    std::vector<const item_pocket *> pkts = get_all_contained_pockets();
-    bool wl = false;
-    bool bl = false;
-    bool player_wbl = false;
-    for( item_pocket const *pkt : pkts ) {
-        bool const wl_ = !pkt->settings.get_item_whitelist().empty() ||
-                         !pkt->settings.get_category_whitelist().empty();
-        bool const bl_ = !pkt->settings.get_item_blacklist().empty() ||
-                         !pkt->settings.get_category_blacklist().empty();
-        player_wbl |= ( wl_ || bl_ ) && pkt->settings.was_edited();
-        wl |= wl_;
-        bl |= bl_;
-    }
-    std::string const wltext =
-        wl || bl ? colorize( "⁺", player_wbl ? c_light_gray : c_dark_gray ) : std::string();
-
-    /* only expand full contents name if with_contents == true */
-    if( with_contents_full && !contents.empty() && contents_only_one_type() ) {
-        const item &contents_item = contents.first_item();
-        const unsigned contents_count =
-            ( ( contents_item.made_of( phase_id::LIQUID ) ||
-                contents_item.is_food() || contents_item.count_by_charges() ) &&
-              contents_item.charges > 1 )
-            ? contents_item.charges
-            : contents.num_item_stacks();
-
-        if( !contents_item.is_null() ) {
-            // with_contents=false for nested items to prevent excessively long names
-            const std::string contents_tname = contents_item.tname( contents_count, true, 0, false, false,
-                                               contents_count == 1 );
-            std::string const ctnc = colorize( contents_tname, contents_item.color_in_inventory() );
-            if( contents_count == 1 || !ammo_types().empty() ) {
-                // Don't append an item count for single items, or items that are ammo-exclusive
-                // (eg: quivers), as they format their own counts.
-                contents_suffix_text = string_format( pgettext( "item name",
-                                                      //~ [container item name] " > [inner item name]
-                                                      " > %1$s" ), ctnc );
-            } else if( contents_count != 0 ) {
-                // Otherwise, add a contents count!
-                contents_suffix_text = string_format( pgettext( "item name",
-                                                      //~ [container item name] " > [inner item name] (qty)
-                                                      " > %1$s (%2$zd)" ), ctnc, contents_count );
-            }
-
-            if( is_collapsed() && with_collapsed ) {
-                contents_suffix_text += string_format( " %s", _( "hidden" ) );
-            }
-        }
-    } else if( with_contents_abbrev && !contents.empty_container() &&
-               contents.num_item_stacks() != 0 ) {
-        std::string const suffix =
-            npgettext( "item name",
-                       //~ [container item name] " > [count] item"
-                       " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
-        std::string const hidden =
-            is_collapsed() && with_collapsed ? string_format( " %s", _( "hidden" ) ) : std::string();
-        contents_suffix_text = string_format( suffix, contents.num_item_stacks(), hidden );
-    }
-
-    Character &player_character = get_player_character();
-    std::string tagtext;
-    if( is_food() ) {
-        if( has_flag( flag_HIDDEN_POISON ) &&
-            player_character.get_greater_skill_or_knowledge_level( skill_survival ) >= 3 ) {
-            tagtext += _( " (poisonous)" );
-        } else if( has_flag( flag_HIDDEN_HALLU ) &&
-                   player_character.get_greater_skill_or_knowledge_level( skill_survival ) >= 5 ) {
-            tagtext += _( " (hallucinogenic)" );
-        }
-    }
-    if( has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( get_var( "spawn_location_omt", tripoint_zero ) );
-        tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs( player_character.pos() ) ) );
-        int dist = rl_dist( player_loc, loc );
-        if( dist < 1 ) {
-            tagtext += _( " (from here)" );
-        } else if( dist < 6 ) {
-            tagtext += _( " (from nearby)" );
-        } else if( dist < 30 ) {
-            tagtext += _( " (from this area)" );
-        } else {
-            tagtext += _( " (from far away)" );
-        }
-    }
-    if( ethereal ) {
-        tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
-    } else if( goes_bad() || is_food() ) {
-        if( has_own_flag( flag_DIRTY ) ) {
-            tagtext += _( " (dirty)" );
-        } else if( rotten() ) {
-            tagtext += _( " (rotten)" );
-        } else if( has_flag( flag_MUSHY ) ) {
-            tagtext += _( " (mushy)" );
-        } else if( is_going_bad() ) {
-            tagtext += _( " (old)" );
-        } else if( is_fresh() ) {
-            tagtext += _( " (fresh)" );
-        }
-        if( has_own_flag( flag_IRRADIATED ) ) {
-            tagtext += _( " (irradiated)" );
-        }
-    }
-    if( has_temperature() ) {
-        if( has_flag( flag_HOT ) ) {
-            tagtext += _( " (hot)" );
-        }
-        if( has_flag( flag_COLD ) ) {
-            tagtext += _( " (cold)" );
-        }
-        if( has_flag( flag_FROZEN ) ) {
-            tagtext += _( " (frozen)" );
-        } else if( has_flag( flag_MELTS ) ) {
-            tagtext += _( " (melted)" ); // he melted
-        }
-    }
-
-    const sizing sizing_level = get_sizing( player_character );
-
-    if( sizing_level == sizing::human_sized_small_char ) {
-        tagtext += _( " (too big)" );
-    } else if( sizing_level == sizing::big_sized_small_char ) {
-        tagtext += _( " (huge!)" );
-    } else if( sizing_level == sizing::human_sized_big_char ||
-               sizing_level == sizing::small_sized_human_char ) {
-        tagtext += _( " (too small)" );
-    } else if( sizing_level == sizing::small_sized_big_char ) {
-        tagtext += _( " (tiny!)" );
-    } else if( !has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
-        tagtext += _( " (poor fit)" );
-    }
-
-    if( is_filthy() ) {
-        tagtext += _( " (filthy)" );
-    }
-    if( is_gun() && ( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) &&
-        with_collapsed ) {
-        tagtext += _( " (folded)" );
-    }
-    if( is_broken() ) {
-        tagtext += _( " (broken)" );
-    }
-    if( is_bionic() && !has_flag( flag_NO_PACKED ) ) {
-        if( !has_flag( flag_NO_STERILE ) ) {
-            tagtext += _( " (sterile)" );
-        } else {
-            tagtext += _( " (packed)" );
-        }
-    }
-
-    if( is_tool() && has_flag( flag_USE_UPS ) ) {
-        tagtext += _( " (UPS)" );
-    }
-
-    if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        if( has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
-            //~ Single-use descriptor for nanofab templates. %s = name of resulting item. The leading space is intentional.
-            tagtext += string_format( _( " (SINGLE USE %s)" ),
-                                      nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
-        } else {
-            tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
-        }
-    }
-
-    if( has_flag( flag_RADIO_MOD ) ) {
-        tagtext += _( " (radio:" );
-        if( has_flag( flag_RADIOSIGNAL_1 ) ) {
-            tagtext += pgettext( "The radio mod is associated with the [R]ed button.", "R)" );
-        } else if( has_flag( flag_RADIOSIGNAL_2 ) ) {
-            tagtext += pgettext( "The radio mod is associated with the [B]lue button.", "B)" );
-        } else if( has_flag( flag_RADIOSIGNAL_3 ) ) {
-            tagtext += pgettext( "The radio mod is associated with the [G]reen button.", "G)" );
-        } else {
-            debugmsg( "Why is the radio neither red, blue, nor green?" );
-            tagtext += "?)";
-        }
-    }
-
-    if( has_flag( flag_WET ) || wetness ) {
-        tagtext += _( " (wet)" );
-    }
-    if( already_used_by_player( player_character ) ) {
-        tagtext += _( " (used)" );
-    }
-    if( active && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
-        tagtext += _( " (lit)" );
-    } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
-        tagtext += _( " (plugged in)" );
-    } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
-        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
-        // in their name, also food is active while it rots.
-        tagtext += _( " (active)" );
-    }
-
-    if( all_pockets_sealed() ) {
-        tagtext += _( " (sealed)" );
-    } else if( any_pockets_sealed() ) {
-        tagtext += _( " (part sealed)" );
-    }
-
-    if( get_option<std::string>( "ASTERISK_POSITION" ) == "suffix" ) {
-        if( is_favorite ) {
-            tagtext += _( " *" ); // Display asterisk for favorite items, after item's name
-        }
-    }
-
-    std::string modtext;
-    if( gunmod_find( itype_barrel_small ) ) {
-        modtext += _( "sawn-off " );
-    }
-    if( is_gun() && has_flag( flag_REMOVED_STOCK ) ) {
-        modtext += _( "pistol " );
-    }
-    if( is_relic() && relic_data->max_charges() > 0 && relic_data->charges_per_use() > 0 ) {
-        tagtext += string_format( " (%d/%d)", relic_data->charges(), relic_data->max_charges() );
-    }
-    if( has_flag( flag_DIAMOND ) ) {
-        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
-    }
-
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). %5$s: main item text (e.g. "apple"). %6$s: whitelist marker (e.g. "⁺"). %7$s: tags (e.g. "(wet) (poor fit)").%8$s: inner contents suffix (e.g. " > rock" or " > 5 items").
-    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s" ), damtext, burntext,
-                                     modtext, vehtext, maintext, wltext, tagtext, contents_suffix_text );
-
-    if( truncate != 0 ) {
-        ret = utf8_truncate( ret, truncate + truncate_override );
+        ret += ( *tname::segment_map.at( idx ) )( *this, quantity, segments );
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
         return string_format( _( "*%s*" ), ret );
-    } else {
-        return ret;
     }
+
+    return ret;
 }
 
 std::string item::display_money( unsigned int quantity, unsigned int total,
@@ -14466,7 +14167,8 @@ bool item::is_reloadable() const
     return false;
 }
 
-std::string item::type_name( unsigned int quantity ) const
+std::string item::type_name( unsigned int quantity, bool use_variant, bool use_cond_name,
+                             bool use_corpse ) const
 {
     const auto iter = item_vars.find( "name" );
     std::string ret_name;
@@ -14480,14 +14182,16 @@ std::string item::type_name( unsigned int quantity ) const
         }
     } else if( iter != item_vars.end() ) {
         return iter->second;
-    } else if( has_itype_variant() ) {
+    } else if( use_variant && has_itype_variant() ) {
         ret_name = itype_variant().alt_name.translated( quantity );
     } else {
         ret_name = type->nname( quantity );
     }
 
     // Apply conditional names, in order.
-    for( const conditional_name &cname : type->conditional_names ) {
+    std::vector<conditional_name> const &cond_names =
+        use_cond_name ? type->conditional_names : std::vector<conditional_name> {};
+    for( const conditional_name &cname : cond_names ) {
         // Lambda for searching for a item ID among all components.
         std::function<bool( const item_components & )> component_id_equals =
         [&]( const item_components & components ) {
@@ -14546,7 +14250,7 @@ std::string item::type_name( unsigned int quantity ) const
     }
 
     // Identify who this corpse belonged to, if applicable.
-    if( corpse != nullptr && has_flag( flag_CORPSE ) ) {
+    if( corpse != nullptr && use_corpse && has_flag( flag_CORPSE ) ) {
         if( corpse_name.empty() ) {
             //~ %1$s: name of corpse with modifiers;  %2$s: species name
             ret_name = string_format( pgettext( "corpse ownership qualifier", "%1$s of a %2$s" ),
@@ -14624,13 +14328,14 @@ bool item::has_label() const
     return has_var( "item_label" );
 }
 
-std::string item::label( unsigned int quantity ) const
+std::string item::label( unsigned int quantity, bool use_variant,
+                         bool use_cond_name, bool use_corpse ) const
 {
     if( has_label() ) {
         return get_var( "item_label" );
     }
 
-    return type_name( quantity );
+    return type_name( quantity, use_variant, use_cond_name, use_corpse );
 }
 
 bool item::has_infinite_charges() const

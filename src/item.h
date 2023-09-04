@@ -26,6 +26,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "material.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -404,15 +405,11 @@ class item : public visitable
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
          * returns "rock" for quantity 1 and "rocks" for quantity > 0.
-         * @param with_prefix determines whether to include more item properties, such as
-         * the extent of damage and burning (was created to sort by name without prefix
-         * in additional inventory)
-         * @param with_contents determines whether to add a suffix with the full name of the contents
-         * of this item (if with_contents = false and item is not empty, "n items" will be added)
+         * @param segments determines which tname elements are included
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents_full = true,
-                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
+        std::string tname( unsigned int quantity = 1,
+                           tname::segment_bitset const &segments = tname::default_tname ) const;
+        std::string tname( unsigned int quantity, bool with_prefix ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -1847,7 +1844,8 @@ class item : public visitable
          * Or "The jacket is too small", when it applies to all jackets, not just the one the
          * character tried to wear).
          */
-        std::string type_name( unsigned int quantity = 1 ) const;
+        std::string type_name( unsigned int quantity = 1, bool use_variant = true,
+                               bool use_cond_name = true, bool use_corpse = true ) const;
 
         /**
          * Number of (charges of) this item that fit into the given volume.
@@ -2759,7 +2757,8 @@ class item : public visitable
         /**
         * Returns label from "item_label" itemvar and quantity
         */
-        std::string label( unsigned int quantity = 0 ) const;
+        std::string label( unsigned int quantity = 0, bool use_variant = true,
+                           bool use_cond_name = true, bool use_corpse = true ) const;
 
         bool has_infinite_charges() const;
 
