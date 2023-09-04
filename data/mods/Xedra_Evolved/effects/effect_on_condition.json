@@ -38,11 +38,10 @@
     "global": true,
     "recurrence": [ "12 hours", "72 hours" ],
     "condition": {
-      "and": [
-        { "math": [ "u_val('spell_count', 'school: EATER')", ">=", "6" ] },
-        { "not": [ { "u_has_trait": "EATER_SIXTH_SENSE" } ] }
+        { "math": [ "u_val('spell_count', 'school: EATER')", ">=", "6" ] }
       ]
     },
+    "deactivate_condition": { "u_has_trait": "EATER_SIXTH_SENSE" },
     "effect": [
       {
         "u_message": "You suddenly realize that your ability to sense the unnatural has expanded to a level beyond those of the normal five senses.",
