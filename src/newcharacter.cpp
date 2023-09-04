@@ -1231,6 +1231,20 @@ static std::string assemble_stat_details( avatar &u, const unsigned char sel )
     return description_str;
 }
 
+static std::string assemble_stat_help( const input_context &ctxt )
+{
+    return string_format(
+               _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                  "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select stat.\n"
+                  "Press <color_light_green>%s</color> to increase stat or "
+                  "<color_light_green>%s</color> to decrease stat.\n"
+                  "Press <color_light_green>%s</color> to go to the next tab or "
+                  "<color_light_green>%s</color> to return to the previous tab." ),
+               ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+               ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+               ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+}
+
 /** Handle the stats tab of the character generation menu */
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
@@ -1243,7 +1257,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
     int iSecondColumn;
     const int iHeaderHeight = 6;
-    const int iHelpHeight = 4;
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 4;
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1270,24 +1285,21 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
-
     std::array<int *, 4> stats = { &u.str_max, &u.dex_max, &u.int_max, &u.per_max };
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        const std::string help_text = assemble_stat_help( ctxt );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         tabs.draw( w );
         mvwputch( w, point( iSecondColumn, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
         // Helptext stats tab
-        fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                        _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                           "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select stat.\n"
-                           "Press <color_light_green>%s</color> to increase stat or "
-                           "<color_light_green>%s</color> to decrease stat.\n"
-                           "Press <color_light_green>%s</color> to go to the next tab or "
-                           "<color_light_green>%s</color> to return to the previous tab." ),
-                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                        ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+        fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        help_text );
 
         const point opt_pos( 2, sel + iHeaderHeight );
         ui.set_cursor( w, opt_pos );
@@ -2708,6 +2720,20 @@ static std::string assemble_skill_details( const avatar &u,
     return assembled;
 }
 
+static std::string assemble_skill_help( const input_context &ctxt )
+{
+    return string_format(
+               _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                  "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
+                  "Press <color_light_green>%s</color> to increase skill or "
+                  "<color_light_green>%s</color> to decrease skill.\n"
+                  "Press <color_light_green>%s</color> to go to the next tab or "
+                  "<color_light_green>%s</color> to return to the previous tab." ),
+               ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+               ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+               ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+}
+
 void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 {
     ui_adaptor ui;
@@ -2716,10 +2742,11 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_details_pane;
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
-    catacurses::window w_keybindings;
-    std::vector<std::string> keybinding_hint;
+    const int iSecondColumn = 31;
     int iContentHeight = 0;
     const int iHeaderHeight = 6;
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 4;
     scrollbar list_sb;
     input_context ctxt( "NEW_CHAR_SKILLS" );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
@@ -2735,23 +2762,12 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "QUIT" );
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        keybinding_hint = foldstring( string_format(
-                                          _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                                             "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
-                                             "Press <color_light_green>%s</color> to increase skill or "
-                                             "<color_light_green>%s</color> to decrease skill.\n"
-                                             "Press <color_light_green>%s</color> to go to the next tab or "
-                                             "<color_light_green>%s</color> to return to the previous tab." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                                          ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                                          ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) ), TERMX - 4 );
-        iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
+        iContentHeight = TERMY - iHelpHeight - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
-        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, iHeaderHeight ) );
+        w_list = catacurses::newwin( iContentHeight, iSecondColumn - 1, point( 1, iHeaderHeight ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
+                                             point( iSecondColumn, iHeaderHeight ) );
         details_recalc = true;
-        w_keybindings = catacurses::newwin( static_cast<int>( keybinding_hint.size() ), TERMX - 2, point( 1,
-                                            iHeaderHeight + iContentHeight ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2791,16 +2807,20 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        const std::string help_text = assemble_skill_help( ctxt );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         werase( w_list );
-        werase( w_keybindings );
         tabs.draw( w );
+        mvwputch( w, point( iSecondColumn, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
         draw_points( w, pool, u );
-
-        nc_color cur_color = COL_NOTE_MINOR;
-        for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
-            print_colored_text( w_keybindings, point( 1, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );
-        }
+        // Helptext skill tab
+        fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        help_text );
 
         if( details_recalc ) {
             details.set_text( assemble_skill_details( u, prof_skills, currentSkill ) );
@@ -2870,7 +2890,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
         wnoutrefresh( w );
         wnoutrefresh( w_list );
-        wnoutrefresh( w_keybindings );
         details.draw( c_light_gray );
     } );
 
