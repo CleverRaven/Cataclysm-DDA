@@ -62,7 +62,7 @@ This is much easier!
 # Lore
 
 * Dinosaurs came here through portals at the very beginning of the portal storm
-* The Swampers expected this and were prepared. They believe that the dinosaurs are here to restore our world to be back in harmony with the rest
+* The Swampers expected this and were prepared.  They believe that the dinosaurs are here to restore our world to be back in harmony with the rest
 * Before all this, some of the labs were already pulling dinos and dino material back here for study, including some with CBMs.  They got out.
 * The Exodii don't know that this was a dino free world. That's very rare.
 
