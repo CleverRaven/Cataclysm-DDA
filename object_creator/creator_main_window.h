@@ -3,6 +3,9 @@
 
 #include "enum_traits.h"
 #include "mod_selection_window.h"
+#include "item_group_window.h"
+#include "spell_window.h"
+#include <thread> //include thread for the sleep_for function
 
 class QApplication;
 
@@ -14,6 +17,8 @@ class main_window
         int execute( QApplication &app );
     private:
         mod_selection_window* mod_selection;
+        item_group_window* item_group_editor;
+        spell_window* spell_editor;
 };
 
 enum class jsobj_type {
