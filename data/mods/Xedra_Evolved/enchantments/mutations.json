@@ -31,5 +31,5 @@
     "id": "EATER_SIXTH_SENSE",
     "condition": "ALWAYS",
     "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
-  },
+  }
 ]
