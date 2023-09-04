@@ -529,7 +529,7 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "install_time": "5 s"
     },
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ], [ "DIG", 1 ] ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 25 }
   },
@@ -1963,7 +1963,7 @@
     "looks_like": "katana",
     "type": "TOOL",
     "name": { "str": "titanium katana" },
-    "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Sturdily built, and quick to swing thanks to it's light weight, it should be quite effective in a fight.",
+    "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Sturdily built, and quick to swing thanks to its light weight, it should be quite effective in a fight.",
     "weight": "722 g",
     "price": 100000,
     "price_postapoc": 5000,
@@ -1975,20 +1975,20 @@
       {
         "id": "ti_katana_generic",
         "name": { "str": "titanium katana" },
-        "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Sturdily built, and quick to swing thanks to it's light weight, it should be quite effective in a fight.",
+        "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Sturdily built, and quick to swing thanks to its light weight, it should be quite effective in a fight.",
         "weight": 1
       },
       {
         "id": "ti_katana_gradient",
         "name": { "str": "titanium katana" },
-        "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Its blade is heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  Sturdily built, and quick to swing thanks to it's light weight.  Despite likely having been made for show, it should still be quite effective in a fight.",
+        "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Its blade is heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  Sturdily built, and quick to swing thanks to its light weight.  Despite likely having been made for show, it should still be quite effective in a fight.",
         "color": "magenta",
         "weight": 2
       },
       {
         "id": "ti_katana_dark",
         "name": { "str": "titanium katana" },
-        "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Its blade is coated with black carbide, giving it a sleek and futuristic look.  Sturdily built, and quick to swing thanks to it's light weight.  Despite likely having been made for show, it should still be quite effective in a fight.",
+        "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Its blade is coated with black carbide, giving it a sleek and futuristic look.  Sturdily built, and quick to swing thanks to its light weight.  Despite likely having been made for show, it should still be quite effective in a fight.",
         "color": "dark_gray",
         "weight": 2
       }
