@@ -37,5 +37,52 @@
       { "group": "xe_eater_spells_high", "prob": 100 },
       { "group": "xe_inventor_spells_high", "prob": 100 }
     ]
+  },
+  {
+    "type": "item_group",
+    "//": "Inventor created items itemgroup.",
+    "id": "inventor_creations",
+    "subtype": "distribution",
+    "items": [
+      [ "helmet_inventor", 100 ],
+      [ "inventor_backpack", 100 ],
+      [ "inventor_leg_weight", 100 ],
+      [ "inventor_jump_boots", 100 ],
+      [ "aura_force", 100 ],
+      [ "vision_halo", 100 ],
+      [ "inventor_fists", 100 ],
+      [ "wolf_mask", 100 ],
+      [ "magnetic_holster", 100 ],
+      [ "battery_gun", 100 ],
+      [ "ray_gun", 50 ],
+      [ "ray_rifle", 10 ],
+      [ "rip_ticket", 100 ],
+      [ "ion_gun", 100 ],
+      [ "inventor_shotgun", 100 ],
+      [ "sonic_gun", 100 ],
+      [ "heater_gun", 100 ],
+      [ "inventor_pistol", 100 ],
+      [ "combatsaw_spear_off", 100 ],
+      [ "inventor_light_minus_cell", 100 ],
+      [ "inventor_light_cell", 100 ],
+      [ "inventor_medium_cell", 50 ],
+      [ "inventor_heavy_cell", 10 ],
+      [ "inventor_welder", 5 ],
+      [ "heater_tool", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xe_border_patrol_evidence",
+    "//": "Itemgroup for Border Patrol Evidence rooms",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "xe_all_spells_low", "prob": 400 },
+      { "group": "xe_all_spells_mid", "prob": 200 },
+      { "group": "xe_all_spells_high", "prob": 100 },
+      { "group": "dreamer_artifact", "prob": 50 },
+      { "group": "dreamsmith_artifact", "prob": 50 },
+      { "group": "inventor_creations", "prob": 50 }
+    ]
   }
 ]
