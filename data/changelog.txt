@@ -46,6 +46,7 @@ Friendly NPC crafting by crafting menu
 Functionality to drop items off ledges/cliffs onto creatures below
 NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
+Add overheat mechanics to energy guns.
 
 
 ## Content:
@@ -81,6 +82,12 @@ Add a synagogue
 Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
 Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
+Add coconut bowls and coconut water
+Cowboy & Rancher professions spawns with a long rope for animals.
+Add a new mission to the exodii, as described by #59905
+Add boats to river banks
+Added more vehicles into the game
+Office skyscraper revival
 
 
 ## Interface:
@@ -103,6 +110,8 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
+Merge Object Creator windows into a tabbed view
+Separate Proficiency and Skill training speed option
 
 
 ## Mods:
@@ -143,6 +152,12 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
 [Magiclysm] Add more than a dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
+Add two more playable fantasy species for Magiclysm
+Add even more Magiclysm spells (+ lab special)
+Add RNG to crystallized mana spawns
+Rework Nature's Bow to require ammo, add spell to create ammo
+[DinoMod] more interesting behavior part 1
+Add ancient stone circle (with translocate altar)
 
 
 ## Balance:
@@ -174,6 +189,7 @@ Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
+fewer gas zombies
 
 
 ## Bugfixes:
@@ -243,6 +259,12 @@ Make sure overconfident officers reliably drop their guns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
 Randomly generated characters are now aged appropriately to their profession
+Exploding zombie cows with landmines
+Nerf lift thrust of rotorcraft by 6 orders of magnitude
+Fix Ravenfolk mutation category name
+Remove misplaced carpet from steel mill
+Fix rotorcraft debug message
+Adjust the storage volume and fuel type of the backup generator.
 
 
 ## Performance:
@@ -253,6 +275,8 @@ Fix Nested List lag in crafting menu
 Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
+Improve turn performance by caching default input ctx
+Revert: Improve turn performance by caching default input ctx
 
 
 ## Infrastructure:
@@ -274,6 +298,7 @@ Remove charges from solid comestibles
 New item categories for martial arts manuals and traps
 Update all active items to new tick action system and remove old system
 Add ability to merge appliance into grid
+Distinguish sieving and straining in recipes
 
 
 ## Build:
