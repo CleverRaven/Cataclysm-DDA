@@ -2743,7 +2743,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                                              "<color_light_green>%s</color> to return to the previous tab." ),
                                           ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
                                           ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                                          ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) ), TERMX - 2 );
+                                          ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) ), TERMX - 4 );
         iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
@@ -2845,7 +2845,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
         nc_color cur_color = COL_NOTE_MINOR;
         for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
-            print_colored_text( w_keybindings, point( 0, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );
+            print_colored_text( w_keybindings, point( 1, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );
         }
 
         if( details_recalc ) {
