@@ -267,7 +267,7 @@
     "name": [ "Oppressive Weight" ],
     "desc": [ "Everything feels so much heavier." ],
     "apply_message": "The air itself seems to press down on you!",
-    "remove_message": "The oppressive weight vanishes",
+    "remove_message": "The oppressive weight vanishes.",
     "rating": "bad",
     "max_intensity": 10,
     "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 }, { "value": "MOVE_COST", "multiply": 1.5 } ] } ],
