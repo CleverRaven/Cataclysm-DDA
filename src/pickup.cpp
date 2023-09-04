@@ -161,10 +161,10 @@ bool Pickup::query_thief()
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
                          PickupMap &mapPickup,
-                         bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
+                         bool autopickup, bool &stash_successful, bool &got_frozen_liquid, int batch_num )
 {
     Character &player_character = get_player_character();
-    int moves_taken = loc.obtain_cost( player_character, quantity );
+    int moves_taken = loc.obtain_cost( player_character, quantity, batch_num );
     bool picked_up = false;
     bool crushed = false;
 
@@ -311,7 +311,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
 }
 
 bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                        bool autopickup, bool &stash_successful )
+                        bool autopickup, bool &stash_successful, int &batch_num )
 {
     bool got_water = false;
     bool got_gas = false;
@@ -337,9 +337,11 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
+        bool next_batch_ok = !targets.empty() ? can_batch_move( target, targets.back() ) : false;
         problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
                                 stash_successful,
-                                got_frozen_liquid );
+                                got_frozen_liquid, batch_num );
+        batch_num = next_batch_ok ? batch_num + 1 : 1;
     }
 
     if( !mapPickup.empty() ) {

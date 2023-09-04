@@ -2184,7 +2184,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     }
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
+    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful,
+                            batch_num );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
@@ -3709,7 +3710,7 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
 static std::list<item> obtain_activity_items(
     std::vector<drop_or_stash_item_info> &items,
     contents_change_handler &handler,
-    Character &who )
+    Character &who, int &batch_num )
 {
     std::list<item> res;
 
@@ -3723,7 +3724,8 @@ static std::list<item> obtain_activity_items(
             continue;
         }
 
-        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        bool next_batch_ok = it + 1 != items.end() ? can_batch_move( loc, ( it + 1 )->loc() ) : false;
+        const int consumed_moves = loc.obtain_cost( who, it->count(), batch_num );
         if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
             break;
         }
@@ -3759,6 +3761,7 @@ static std::list<item> obtain_activity_items(
         } else {
             res.push_back( who.i_rem( &*loc ) );
         }
+        batch_num = next_batch_ok ? batch_num + 1 : 1;
     }
 
     // Remove handled items from activity
@@ -3785,7 +3788,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
     const tripoint_bub_ms pos = placement + who.pos_bub();
     who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( items, handler, who ),
+                              obtain_activity_items( items, handler, who, batch_num ),
                               pos, force_ground );
     // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which creates
@@ -3949,7 +3952,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( items, handler, who ),
+        stash_on_pet( obtain_activity_items( items, handler, who, batch_num ),
                       *pet, who );
         if( items.empty() ) {
             who.cancel_activity();

@@ -88,7 +88,7 @@ class item_location
 
         /** Calculate (but do not deduct) number of moves required to obtain an item
          *  @see item_location::obtain */
-        int obtain_cost( const Character &ch, int qty = -1 ) const;
+        int obtain_cost( const Character &ch, int qty = -1, int batch_size = 1 ) const;
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */
@@ -159,4 +159,7 @@ class item_location
 };
 std::unique_ptr<talker> get_talker_for( item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
+
+bool can_batch_move( const item_location lhs, const item_location rhs );
+
 #endif // CATA_SRC_ITEM_LOCATION_H

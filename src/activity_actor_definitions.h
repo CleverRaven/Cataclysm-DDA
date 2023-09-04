@@ -503,6 +503,7 @@ class pickup_activity_actor : public activity_actor
          * if not grabbing from the ground.
          */
         std::optional<tripoint> starting_pos;
+        int batch_num = 1;
 
     public:
         pickup_activity_actor( const std::vector<item_location> &target_items,
@@ -1024,6 +1025,7 @@ class drop_activity_actor : public activity_actor
         contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
+        int batch_num = 1;
 };
 
 class stash_activity_actor: public activity_actor
@@ -1058,6 +1060,7 @@ class stash_activity_actor: public activity_actor
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
         tripoint placement;
+        int batch_num = 1;
 };
 
 class harvest_activity_actor : public activity_actor

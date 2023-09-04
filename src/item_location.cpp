@@ -63,6 +63,18 @@ static item *retrieve_index( const T &sel, int idx )
     return obj;
 }
 
+static inline double batch_obtain_cost_factor( int num )
+{
+    // sigma 10/(n+9)
+    // items   total time
+    //     1            1
+    //    10         7.19
+    //   100        24.44
+    //  1000        46.65
+    // 10000        69.60
+    return 10.0f / ( double )( num + 9 );
+}
+
 class item_location::impl
 {
     public:
@@ -94,7 +106,7 @@ class item_location::impl
         virtual units::volume volume_capacity() const = 0;
         virtual units::mass weight_capacity() const = 0;
         virtual bool check_parent_capacity_recursive() const = 0;
-        virtual int obtain_cost( const Character &, int ) const = 0;
+        virtual int obtain_cost( const Character &, int, int batch_num = 1 ) const = 0;
         virtual void remove_item() = 0;
         virtual void on_contents_changed() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
@@ -153,7 +165,7 @@ class item_location::impl::nowhere : public item_location::impl
             return item_location();
         }
 
-        int obtain_cost( const Character &, int ) const override {
+        int obtain_cost( const Character &, int, int ) const override {
             debugmsg( "invalid use of nowhere item_location" );
             return 0;
         }
@@ -247,14 +259,17 @@ class item_location::impl::item_on_map : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        int obtain_cost( const Character &ch, int qty, int batch_num = 1 ) const override {
             if( !target() ) {
                 return 0;
             }
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos() );
+            mv *= batch_obtain_cost_factor( batch_num );
+            if( batch_num == 1 ) {
+                mv += 100 * rl_dist( ch.pos(), cur.pos() );
+            }
 
             // TODO: handle unpacking costs
 
@@ -384,7 +399,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        int obtain_cost( const Character &ch, int qty, int batch_num = 1 ) const override {
             if( !target() || !ensure_who_unpacked() ) {
                 return 0;
             }
@@ -500,14 +515,17 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        int obtain_cost( const Character &ch, int qty, int batch_num = 1 ) const override {
             if( !target() ) {
                 return 0;
             }
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
+            mv *= batch_obtain_cost_factor( batch_num );
+            if( batch_num == 1 ) {
+                mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
+            }
 
             // TODO: handle unpacking costs
 
@@ -682,7 +700,7 @@ class item_location::impl::item_in_container : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        int obtain_cost( const Character &ch, int qty, int batch_num = 1 ) const override {
             if( !target() ) {
                 return 0;
             }
@@ -695,20 +713,24 @@ class item_location::impl::item_in_container : public item_location::impl
 
             int primary_cost = ch.mutation_value( "obtain_cost_multiplier" ) * ch.item_handling_cost( *target(),
                                true, container_mv );
-            int parent_obtain_cost = container.obtain_cost( ch, qty );
-            if( container->get_use( "holster" ) ) {
-                if( ch.is_worn( *container ) ) {
-                    primary_cost = ch.item_retrieve_cost( *target(), *container, false, container_mv );
-                } else {
-                    primary_cost = ch.item_retrieve_cost( *target(), *container );
+            if( batch_num == 1 ) {
+                int parent_obtain_cost = container.obtain_cost( ch, qty );
+                if( container->get_use( "holster" ) ) {
+                    if( ch.is_worn( *container ) ) {
+                        primary_cost = ch.item_retrieve_cost( *target(), *container, false, container_mv );
+                    } else {
+                        primary_cost = ch.item_retrieve_cost( *target(), *container );
+                    }
+                    // for holsters, we should not include the cost of wielding the holster itself
+                    parent_obtain_cost = 0;
+                } else if( container.where() != item_location::type::container ) {
+                    // Worn items don't need to be retrieved, just accessed.
+                    parent_obtain_cost = 0;
                 }
-                // for holsters, we should not include the cost of wielding the holster itself
-                parent_obtain_cost = 0;
-            } else if( container.where() != item_location::type::container ) {
-                // Worn items don't need to be retrieved, just accessed.
-                parent_obtain_cost = 0;
+                return primary_cost + parent_obtain_cost;
+            } else {
+                return primary_cost * batch_obtain_cost_factor( batch_num );
             }
-            return primary_cost + parent_obtain_cost;
         }
 
         units::volume volume_capacity() const override {
@@ -999,9 +1021,9 @@ item_location item_location::obtain( Character &ch, int qty )
     return ptr->obtain( ch, qty );
 }
 
-int item_location::obtain_cost( const Character &ch, int qty ) const
+int item_location::obtain_cost( const Character &ch, int qty, int batch_num ) const
 {
-    return ptr->obtain_cost( ch, qty );
+    return ptr->obtain_cost( ch, qty, batch_num );
 }
 
 void item_location::remove_item()
@@ -1118,5 +1140,23 @@ std::unique_ptr<talker> get_talker_for( item_location &it )
 std::unique_ptr<talker> get_talker_for( item_location *it )
 {
     return std::make_unique<talker_item>( it );
+}
+
+bool can_batch_move( const item_location lhs, const item_location rhs )
+{
+    if( lhs.where() == rhs.where() && lhs->stacks_with( *rhs ) ) {
+        switch( lhs.where() ) {
+            case item_location::type::container:
+                return lhs.parent_item() == rhs.parent_item();
+                break;
+            case item_location::type::map:
+            case item_location::type::vehicle:
+                return lhs.position() == rhs.position();
+                break;
+            default:
+                break;
+        }
+    }
+    return false;
 }
 
