@@ -1452,6 +1452,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         }
     }
 
+    const int iHeaderHeight = 6;
+    const int iDetailHeight = 3;
     size_t iContentHeight = 0;
     size_t page_width = 0;
 
@@ -1492,14 +1494,18 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui_adaptor ui;
     catacurses::window w;
-    catacurses::window w_description;
+    catacurses::window w_details_pane;
+    scrolling_text_view details( w_details_pane );
+    bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        w_details_pane = catacurses::newwin( iDetailHeight, TERMX - 1,
+                                             point( 0, TERMY - iDetailHeight - 1 ) );
         ui.position_from_window( w );
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
-        iContentHeight = TERMY - 10;
+        iContentHeight = TERMY - iHeaderHeight - iDetailHeight - 1;
 
+        details_recalc = true;
         pos_calc();
     };
     init_windows( ui );
@@ -1507,6 +1513,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     tabs.set_up_tab_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     for( scrollbar &sb : trait_sbs ) {
         sb.set_draggable( ctxt );
     }
@@ -1520,9 +1527,11 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
-        werase( w_description );
 
         tabs.draw( w );
+        for( int i = 1; i < 3; ++i ) {
+            mvwputch( w, point( i * page_width, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        }
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -1591,10 +1600,10 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                                    negativeTrait ? _( "earns" ) : _( "costs" ),
                                    points );
                     }
-                    fold_and_print( w_description, point_zero,
-                                    TERMX - 2, col_tr,
-                                    cursor.desc() );
-
+                    if( details_recalc ) {
+                        details.set_text( colorize( cursor.desc(), col_tr ) );
+                        details_recalc = false;
+                    }
                 }
 
                 nc_color cLine = col_off_pas;
@@ -1631,7 +1640,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                     cLine = c_light_gray;
                 }
 
-                const int cur_line_y = 6 + i - start;
+                const int cur_line_y = iHeaderHeight + i - start;
                 const int cur_line_x = 2 + iCurrentPage * page_width;
                 const point opt_pos( cur_line_x, cur_line_y );
                 if( iCurWorkingPage == iCurrentPage && current == i ) {
@@ -1642,7 +1651,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             }
 
             trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
-            .offset_y( 6 )
+            .offset_y( iHeaderHeight )
             .content_size( traits_size[iCurrentPage] )
             .viewport_pos( start )
             .viewport_size( iContentHeight )
@@ -1650,7 +1659,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         wnoutrefresh( w );
-        wnoutrefresh( w_description );
+        // color is never visible (COL_TR_NEUT), text is already colorized
+        details.draw( COL_TR_NEUT );
     } );
 
     do {
@@ -1712,6 +1722,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         std::array< int, 3> cur_sb_pos = iStartPos;
         bool scrollbar_handled = false;
+        const int iPrevWorkingPage = iCurWorkingPage;
+        const int iPrevLine = iCurrentLine[iCurWorkingPage];
         for( int i = 0; i < static_cast<int>( trait_sbs.size() ); ++i ) {
             if( trait_sbs[i].handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
                                               cur_sb_pos[i] ) ) {
@@ -1728,6 +1740,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         } else if( action == "LEFT" || action == "RIGHT" ) {
             iCurWorkingPage = next_avail_page( action == "LEFT" );
         } else if( scrollbar_handled
+                   || details.handle_navigation( action, ctxt )
                    || navigate_ui_list( action, iCurrentLine[iCurWorkingPage], 10,
                                         traits_size[iCurWorkingPage], true ) ) {
             // No additional action required
@@ -1829,6 +1842,9 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 filterstring.clear();
                 recalc_traits = true;
             }
+        }
+        if( iCurWorkingPage != iPrevWorkingPage || iCurrentLine[iCurWorkingPage] != iPrevLine ) {
+            details_recalc = true;
         }
     } while( true );
 }
