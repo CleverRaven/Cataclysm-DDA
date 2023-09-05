@@ -95,7 +95,8 @@
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       [ "scratch", 7 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 4 }, "cooldown": 20 }
+      { "id": "black_whelp_breath_prep", "type": "spell", "spell_data": { "id": "dragon_deep_breath", "min_level": 4 }, "cooldown": 20, "monster_message": "%1$s takes a deep breath!"},
+      { "id": "black_whelp_breath", "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 4 }, "cooldown": 1, "condition": { "u_has_effect": "effect_dragon_deep_breath" } }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "ACIDPROOF", "PUSH_MON", "FLIES" ],
     "armor": { "bash": 2, "cut": 12, "acid": 600, "bullet": 10 }
