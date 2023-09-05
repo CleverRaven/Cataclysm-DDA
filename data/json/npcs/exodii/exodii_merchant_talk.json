@@ -325,7 +325,7 @@
     "dynamic_line": {
       "u_has_trait": "rubik_translate",
       "no": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.",
-      "yes": "It's a bit of a shock, eh?  Before we came to this land, we were in a place about a half-score century earlier, we reckon'.  Landed in the middle of a war that turned wrong when the dead started joinin' back in.  Truth be told, not a very unusual situation, really.  The enemy makes us fight.  By and by, we came in, an' by then the killin' fields were ripe to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for holdin' off a nibblin' mouth, so we kept some of their armor and weapons to trade."
+      "yes": "It's a bit of a shock, eh?  Before we came to this land, we were in a place about a half-score century earlier, we reckon'.  Landed in the middle of a war that turned wrong when the dead started joinin' back in.  Truth be told, not much an unusual case, really.  The enemy makes us fight.  By and by, we came in, an' by then the killin' fields were ripe to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for holdin' off a nibblin' mouth, so we kept some of their armor and weapons to trade."
     },
     "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade.",
     "responses": [
@@ -357,7 +357,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad2",
     "type": "talk_topic",
-    "dynamic_line": "This 'n that, an I'm ken.  It be made for a fine wander, beladen with the goods o' the hunt, y'see.  By which I'm to say, 'tis well suited to carry all ye can wrest from the cold arms o' the deadlands, without troublin' your gait nor makin' it easy for the cold clutch o' the scrabblin' arm.  Be an' it is tough as a tarket's nut, I'd razz.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "This 'n that, an I'm ken.  It be made for a fine wander, beladen with the goods o' the hunt, y'see.  By which I'm to say, 'tis well suited to carry all ye can wrest from the cold arms o' the deadlands, without troublin' your gait nor makin' it easy for the cold clutch o' the scrabblin' arm.  Be an' it is tough as a tarket's nut, I'd razz.",
+      "yes": "This an' that, you ken.  It's made for a fine wanderer, loaded with the goods o' the hunt, y'see.  By which I mean, 'tis well suited to carry all you can wrestle from the cold arms o' the deadlands, without weighing you down nor makin' it easy for the cold grip of a grabbin' arm.  Plus, it is tough as a tarket's nut, I'd say."
+    },
     "//~": "This and that, you know.  It's made for a travelling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails.",
     "responses": [
       { "text": "Why do I have to make it myself?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad3" },
@@ -369,7 +373,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad3",
     "type": "talk_topic",
-    "dynamic_line": "'Tis as simple as comes to a wobble.  Our vestment be oft made from the fine clothes and hides of the land, and our jibber tears the stuff o' life apart here and there when us'n travel.  For as some can be saved if care be taken, there be no case to store nigh enough o' this.  That, an' our manuc-makers run as hot as a sunstone, no spit'n taste for that which we don't use usselves.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "'Tis as simple as comes to a wobble.  Our vestment be oft made from the fine clothes and hides of the land, and our jibber tears the stuff o' life apart here and there when us'n travel.  For as some can be saved if care be taken, there be no case to store nigh enough o' this.  That, an' our manuc-makers run as hot as a sunstone, no spit'n taste for that which we don't use usselves.",
+      "yes": "It's simply as comes to how we teleport.  Our clothes are often made from the fine cloth and hides of the land, and our device tears living stuff apart here and there when we travel.  Although some can be saved if we're careful, there's no place to store nearly enough of it.  That, an' our manufacturers run all the time, no time to waste for that which we don't use ourselves."
+    },
     "//~": "It's a simple matter of how we teleport.  Our clothes are often made from cloth and hides from wherever we visit, and our teleporter tears living stuff apart here and there when we travel.  Some can be saved if we take care, but there's no room to store nearly enough extra.  That, and our fabricators are always busy, no time to waste on stuff we don't need for ourselves",
     "responses": [
       { "text": "What makes your specific armor so great?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad2" },
@@ -382,14 +390,24 @@
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "rubik_intro",
-      "type": "dialogue",
-      "context": "started",
-      "value": "yes",
-      "yes": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.",
-      "no": "Oy, c'n I bark you summat first?"
+      "u_has_trait": "rubik_translate",
+      "no": {
+        "u_has_var": "rubik_intro",
+        "type": "dialogue",
+        "context": "started",
+        "value": "yes",
+        "yes": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.",
+        "no": "Oy, c'n I bark you summat first?"
+      },
+      "yes": {
+        "u_has_var": "rubik_intro",
+        "type": "dialogue",
+        "context": "started",
+        "value": "yes",
+        "yes": "Sure, you can try.  I'm not the greatest speaker, nor will I chat forever for free, you understand.",
+        "no": "Oy, can I ask you something first?"
+      }
     },
-    "//~": "Yes: You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.  No: Hey, can I ask you something first?",
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "started", "value": "yes" } },
     "responses": [
       { "text": "Like, ask me a question?  Sure, I guess.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro1a" },
@@ -404,19 +422,24 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1a",
     "type": "talk_topic",
     "dynamic_line": "'Ow long's it been since the mess happened?",
+    "//": "Line doesn't change if translated.",
     "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1b",
     "type": "talk_topic",
     "dynamic_line": "Thank ye.  When you an' Rubik first met, how long'd it been since the mess begun?",
+    "//": "Line doesn't change if translated.",
     "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2",
     "type": "talk_topic",
-    "dynamic_line": "Lovely!  Benzete's gonna be a pair, that's a track!  I mean, they'll be right happy.  This is their first jump, and it's a flappin' duck.",
-    "//~": "Lovely!  Benzete (this is a name) is going to be beside themselves, that's for sure.  I mean, they'll be really happy.  This is their first jump, and it's a lucky one.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "Lovely!  Benzete's gonna be a pair, that's a track!  I mean, they'll be right happy.  This is their first jump, and it's a flappin' duck.",
+      "yes": "Lovely!  Benzete's gonna be beside themself, that's a fact!  This is their first jump, and it's a lucky one."
+    },
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "midpoint", "value": "yes" } },
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
@@ -428,8 +451,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2a",
     "type": "talk_topic",
-    "dynamic_line": "So 'twere an I recalt, us're yarkin' of Benzete an' their great first jump.",
-    "//~": "As I recall, we were talking about Benzete and how this is a great jump for their first time.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "So 'twere an I recalt, us're yarkin' of Benzete an' their great first jump.",
+      "yes": "So as I recall, we're talkin' of Benzete and their great first jump."
+    },
     "responses": [
       { "text": "What makes it such a good jump?", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3" },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
@@ -440,13 +466,26 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3",
     "type": "talk_topic",
-    "dynamic_line": "Us gotta leave the old world afore it's worn right to the gums, an y'ken, and find a nice twitchy one on t'other side.  Your deadland be a brand shiny",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "Us gotta leave the old world afore it's worn right to the gums, an y'ken, and find a nice twitchy one on t'other side.  Your deadland be a brand shiny",
+      "yes": "We had to leave the old world before it's worn right to the gums, you understand, and find a nice, fresh, still twitchin' one on the other side.  Your deadland is freshly dead, brand new."
+    },
     "//~": "We've got to leave the old world before it gets too worn out, you see, and find a nice fresh one on the other side.  Your deadland is as fresh as it gets.",
     "responses": [
-      { "text": "I'm not following that at all.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3a" },
+      {
+        "text": "I'm not following that at all.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_Intro3a",
+        "condition": { "not": { "u_has_trait": "rubik_translate" } }
+      },
       {
         "text": "[INT 9] So you mean, we have a nice, freshly dead world for you to visit?",
-        "condition": { "u_has_intelligence": 9 },
+        "condition": { "and": [ { "u_has_intelligence": 9 }, { "not": { "u_has_trait": "rubik_translate" } } ] },
+        "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
+      },
+      {
+        "text": "So we have a nice, freshly dead world for you to visit?",
+        "condition": { "u_has_trait": "rubik_translate" },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
       },
       { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
@@ -458,6 +497,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3a",
     "type": "talk_topic",
     "dynamic_line": "Neverken.  Right and so, the enemy is new here, and us'n have a few good hours in the sun beforenext the jump.",
+    "//": "this dialogue option is not available if you have translation on",
     "//~": "No worries.  I mean, the enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again.",
     "responses": [
       {
@@ -473,6 +513,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro4a",
     "type": "talk_topic",
     "dynamic_line": "That be a part an' switch, but this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+    "//": "this dialogue option is not available if you have translation on",
     "//~": "That's a part of it, sure, but this is nice for other reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
     "speaker_effect": {
       "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
@@ -486,7 +527,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro4b",
     "type": "talk_topic",
-    "dynamic_line": "You kennit rightly!  That and this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "You kennit rightly!  That and this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+      "yes": "Yes.  That and this one's nice for other things, better than the last jump by a long shot.  Otherlands with firearms and vehicles, we can really do well in places like that."
+    },
     "//~": "That's exactly it!  This is nice for many reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
     "responses": [
       {
