@@ -12,16 +12,16 @@
   {
     "id": "mana_energy_weak",
     "type": "requirement",
-    "components": [ 
-      [ 
-        [ "lotus", 1 ], 
-        [ "funnelcap_chunk", 2 ], 
-        [ "mana_dust", 5 ], 
-        [ "mossling_fur", 8 ], 
-        [ "dryad_bark", 3 ], 
-        [ "gnome_eye", 2 ], 
-        [ "bracken_eye", 1 ] 
-      ] 
+    "components": [
+      [
+        [ "lotus", 1 ],
+        [ "funnelcap_chunk", 2 ],
+        [ "mana_dust", 5 ],
+        [ "mossling_fur", 8 ],
+        [ "dryad_bark", 3 ],
+        [ "gnome_eye", 2 ],
+        [ "bracken_eye", 1 ]
+      ]
     ]
   },
   {
