@@ -50,7 +50,7 @@
       {
         "id": "headphones_cat",
         "name": { "str": "pair of cat ear headphones", "str_pl": "pairs of cat ear headphones" },
-        "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening. This pair is styled with a set of colorful cat-like plastic ears on top.",
+        "description": "A pair of headphones that cover your ears and block ambient noise, for improved sound quality and private listening.  This pair is styled with a set of colorful cat-like plastic ears on top.",
         "color": "light_blue",
         "weight": 1
       }

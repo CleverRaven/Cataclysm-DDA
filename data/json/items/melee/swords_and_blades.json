@@ -334,7 +334,7 @@
     "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "description": "A short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying or driving screws.  Used primarily by divers, this knife has been fitted with cork to slow its descent if dropped underwater, so it takes up more space than usual.",
     "weight": "226 g",
-    "volume": "200 ml",
+    "volume": "250 ml",
     "longest_side": "25 cm",
     "price": 14000,
     "price_postapoc": 500,
@@ -354,7 +354,7 @@
     "looks_like": "diveknife",
     "type": "TOOL",
     "name": { "str": "titanium dive knife", "str_pl": "titanium dive knives" },
-    "description": "A light yet sturdy knife made of corrosion-resistant titanium alloy, designed for extended use by marine divers. Its edge has serrations for cutting net and rope, and the blunt tip works well for prying or turning screws.",
+    "description": "A light yet sturdy knife made of corrosion-resistant titanium alloy, designed for extended use by marine divers.  Its edge has serrations for cutting net and rope, and the blunt tip works well for prying or turning screws.",
     "weight": "135 g",
     "price": 24000,
     "price_postapoc": 800,
@@ -442,8 +442,8 @@
     "category": "weapons",
     "name": { "str": "combat knife", "str_pl": "combat knives" },
     "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
-    "weight": "500 g",
-    "volume": "250 ml",
+    "weight": "558 g",
+    "volume": "500 ml",
     "longest_side": "30 cm",
     "price": 10000,
     "price_postapoc": 1250,
@@ -666,7 +666,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "DIAMOND", "NO_REPAIR" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 28 }
+    "melee_damage": { "bash": 4, "stab": 27 }
   },
   {
     "id": "knife_swissarmy",
@@ -1903,7 +1903,7 @@
     "looks_like": "ti_tanto",
     "type": "TOOL",
     "name": { "str_sp": "titanium tanto" },
-    "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern rainbow-anodized titanium. Judging by the look and feel, however, this knife was never meant to be more than a wall decoration.",
+    "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern rainbow-anodized titanium.  Judging by the look and feel, however, this knife was never meant to be more than a wall decoration.",
     "replace_materials": { "titanium": "junk_titanium" },
     "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.28 }, "price": 0.2, "price_postapoc": 0.2 },
     "delete": { "flags": [ "DURABLE_MELEE" ] }
