@@ -28,7 +28,7 @@
       "TALK_EXODII_MERCHANT_Translate2",
       "TALK_EXODII_MERCHANT_Translate3",
       "TALK_EXODII_MERCHANT_TranslateOff",
-      "TALK_EXODII_MERCHANT_TranslateExplain",
+      "TALK_EXODII_MERCHANT_TranslateExplain"
     ],
     "type": "talk_topic",
     "responses": [
@@ -523,7 +523,7 @@
     "type": "talk_topic",
     "dynamic_line": "That be a part an' switch, but this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
     "//": "this dialogue option is not available if you have translation on",
-    "//~": "That's a part of it, sure, but this is nice for other reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
+    "//~": "That's a part of it, sure, but this is nice for other reasons, and much better than our last jump.  Otherlands with fusillies (guns) and mobbings (cars/vehicles) are really useful to us.",
     "speaker_effect": {
       "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
     },
@@ -541,11 +541,16 @@
       "no": "You kennit rightly!  That and this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
       "yes": "Yes.  That and this one's nice for other things, better than the last jump by a long shot.  Otherlands with firearms and vehicles, we can really do well in places like that."
     },
-    "//~": "That's exactly it!  This is nice for many reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us.",
+    "//~": "That's exactly it!  This is nice for many reasons, and much better than our last jump.  Otherlands with fusillies (guns) and mobbings (cars/vehicles) are really useful to us.",
     "responses": [
       {
         "text": "I don't know what fusillies and mobbings are.",
-        "condition": { "not": { "u_has_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" } },
+            { "not": { "u_has_trait": "rubik_translate" } }
+          ]
+        },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro5"
       },
       {
@@ -560,6 +565,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro5",
     "type": "talk_topic",
     "dynamic_line": "Oh, rights.  Many lands be'd assert on thosun's.  A fusilly, she's a weapon, shoots a shot at high speeds usin' bang.  A mobbing, he's a grand box o' metal, pushed by burnin' and boomin' from wit'in, kennit?",
+    "//": "this dialogue option is not available if you have translation on",
     "//~": "Oh, yeah.  Lots of places have different words for those.  A fusilly is a weapon that fires a bullet at high speeds using propellant.  A mobbing is a big metal box that's moved around by an internal explosion.  Do you get it?",
     "responses": [
       {
@@ -576,6 +582,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro6",
     "type": "talk_topic",
     "dynamic_line": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation.",
+    "//": "this dialogue option is not available if you have translation on",
     "//~": "Great, I'll put that in the dictionary.  Here's a token of my gratitude for your explanation.",
     "speaker_effect": {
       "effect": [
@@ -596,10 +603,23 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1",
     "type": "talk_topic",
-    "dynamic_line": "Them's an otherlander from thrice jumps an' change, wide as the sky.  They's got happily on sommat for the tracking, you ken?",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "Them's an otherlander from thrice jumps an' change, wide as the sky.  They's got happily on sommat for the tracking, you ken?",
+      "yes": "They're an otherlander from three jumps and change ago, very green.  They're all happily on about the tracking, you ken?"
+    },
     "//~": "They're an otherlander from around three jumps ago, a real optimistic greenhorn.  They're really interested in how we do tracking, you see?",
     "responses": [
-      { "text": "I… didn't really follow that.", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2" },
+      {
+        "text": "I… didn't really follow that.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
+        "condition": { "not": { "u_has_trait": "rubik_translate" } }
+      },
+      {
+        "text": "I'm not quite sure what you mean about tracking.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
+        "condition": { "u_has_trait": "rubik_translate" }
+      },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -607,10 +627,23 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
     "type": "talk_topic",
-    "dynamic_line": "Hmm.  They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "Hmm.  They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
+      "yes": "I mean they plan out the jumps, like an apprentice to the old tracker."
+    },
     "//~": "Hmm.  They… planned out the last jump?  Like an apprentice to the old tracker.",
     "responses": [
-      { "text": "Oh, like a navigator?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3" },
+      {
+        "text": "Oh, like a navigator?",
+        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3",
+        "condition": { "not": { "u_has_trait": "rubik_translate" } }
+      },
+      {
+        "text": "You said this was an especially good jump?",
+        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
+        "topic": "TALK_EXODII_MERCHANT_Talk_Intro3"
+      },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
