@@ -5166,7 +5166,6 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                           extended_ptr->type_name(), extension->type_name() );
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
-    p->invalidate_weight_carried_cache();
     p->drop_invalid_inventory();
     p->moves -= move_cost;
     return 0;

@@ -207,10 +207,10 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               const vpart_reference &vpr )
 {
-    c.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
+    c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
     const tripoint where = veh.global_part_pos3( vp );
@@ -329,7 +329,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint_bub_ms &where )
 {
-    you.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }

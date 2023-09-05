@@ -6352,7 +6352,6 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.invalidate_weight_carried_cache();
     p.on_item_acquire( *this );
 }
 
@@ -10702,6 +10701,9 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
         qty -= contents.ammo_consume( qty, pos );
+        if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
+            carrier->invalidate_weight_carried_cache();
+        }
     }
 
     // Dirty fix: activating a container of meds leads here, and used to use up all of the charges.
@@ -12022,7 +12024,6 @@ int item::fill_with( const item &contained, const int amount,
                   contained_item.typeId().str(), contained_item.charges, typeId().str() );
     }
     on_contents_changed();
-    get_avatar().invalidate_weight_carried_cache();
     return num_contained;
 }
 
