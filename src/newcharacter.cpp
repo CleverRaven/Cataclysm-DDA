@@ -683,9 +683,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         pool = pool_type::MULTI_POOL;
     }
 
+    bool default_backgrounds = false;
     switch( type ) {
         case character_type::CUSTOM:
             randomize_cosmetics();
+            default_backgrounds = true;
             break;
         case character_type::RANDOM:
             //random scenario, default name if exist
@@ -715,7 +717,11 @@ bool avatar::create( character_type type, const std::string &tempname )
             break;
     }
 
-    add_default_background();
+    if( default_backgrounds )
+        //to check which starts add the basic adult backgrounds
+    {
+        add_default_background();
+    }
 
     auto nameExists = [&]( const std::string & name ) {
         return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&

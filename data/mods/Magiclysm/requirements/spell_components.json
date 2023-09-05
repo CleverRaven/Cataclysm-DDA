@@ -167,5 +167,11 @@
     "id": "spell_components_remove_instability",
     "type": "requirement",
     "components": [ [ [ "purifier", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_bramble_spear",
+    "type": "requirement",
+    "//": "Sticks to turn into a bramble spear",
+    "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
   }
 ]

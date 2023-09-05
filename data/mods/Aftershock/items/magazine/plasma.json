@@ -19,6 +19,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 4 } } ]
   },
   {
+    "id": "afs_20g_plasma",
+    "looks_like": "plasma",
+    "type": "MAGAZINE",
+    "name": { "str": "20g plasma cell" },
+    "description": "A reinforced canister that can safely store up to 20 grams of solid hydrogen in a cryo-pressurized state.",
+    "weight": "30 g",
+    "volume": "120 ml",
+    "price": "1400 USD",
+    "price_postapoc": "1400 USD",
+    "material": [ "hydrogen_cell" ],
+    "symbol": "o",
+    "color": "light_blue",
+    "ammo_type": [ "afs_shydrogen" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "capacity": 4,
+    "reload_time": 10,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 20 } } ]
+  },
+  {
     "id": "afs_40g_plasma_civ",
     "looks_like": "plasma",
     "type": "MAGAZINE",

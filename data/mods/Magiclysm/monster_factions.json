@@ -67,5 +67,9 @@
     "neutral": [ "canidae", "fish", "mega_bird" ],
     "friendly": [ "small_animal", "herbivore", "mega_herbivore" ],
     "hate": [ "zombie", "fungus", "nether_player_hate" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "magical_plant"
   }
 ]

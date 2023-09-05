@@ -176,8 +176,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle.",
         "ripoff": 2
@@ -390,8 +390,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle.",
         "ripoff": 2
@@ -402,8 +402,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle.",
         "ripoff": 2

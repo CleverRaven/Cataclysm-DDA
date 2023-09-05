@@ -1254,6 +1254,14 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_office_skyscraper",
+    "name": "office skyscraper",
+    "copy-from": "generic_city_building",
+    "sym": "S",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "home_improvement",
     "name": "home improvement store",
     "copy-from": "generic_city_building",
@@ -1294,6 +1302,45 @@
   {
     "type": "overmap_terrain",
     "id": [ "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "office_skyscraper_1",
+      "office_skyscraper_2",
+      "office_skyscraper_3",
+      "office_skyscraper_4",
+      "office_skyscraper_5",
+      "office_skyscraper_6",
+      "office_skyscraper_7",
+      "office_skyscraper_8",
+      "office_skyscraper_apartments_111",
+      "office_skyscraper_apartments_011",
+      "office_skyscraper_apartments_101",
+      "office_skyscraper_apartments_001",
+      "office_skyscraper_apartments_112",
+      "office_skyscraper_apartments_012",
+      "office_skyscraper_apartments_102",
+      "office_skyscraper_apartments_002",
+      "office_skyscraper_9",
+      "office_skyscraper_9b",
+      "office_skyscraper_10",
+      "office_skyscraper_10b",
+      "office_skyscraper_11",
+      "office_skyscraper_12",
+      "office_skyscraper_13",
+      "office_skyscraper_14",
+      "office_skyscraper_15",
+      "office_skyscraper_16"
+    ],
+    "copy-from": "generic_office_skyscraper"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_skyscraper_17", "office_skyscraper_18", "office_skyscraper_19", "office_skyscraper_20" ],
     "name": "open air",
     "sym": ".",
     "color": "blue"

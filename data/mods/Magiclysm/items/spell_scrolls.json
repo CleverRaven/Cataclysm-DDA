@@ -1554,5 +1554,68 @@
     "name": { "str": "Scroll of Beguiling the Savage Beast", "str_pl": "Scrolls of Beguiling the Savage Beast" },
     "description": "Charm an animal into your service for a time.  They don't even technically have to be savage!",
     "use_action": { "type": "learn_spell", "spells": [ "druid_beguile_savage_beast" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_robot_shutdown",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Shutdown", "str_pl": "Scrolls of Shutdown" },
+    "description": "Stop a robot, golem, or cyborg in their tracks.  Be perfectly prepared for a different kind of apocalypse.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_robot_shutdown" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_conjure_radio",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Speak through the Aether", "str_pl": "Scrolls of Speak through the Aether" },
+    "description": "Summon up a magical device that allows you to communicate through radio waves.  Well, maybe there's someone still out there.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_conjure_radio" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_conjure_ups",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Power Supply", "str_pl": "Scrolls of Power Supply" },
+    "description": "Power all of your devices using mana instead of electricity.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_conjure_ups" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_welder",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Voltaic Touch", "str_pl": "Scrolls of Voltaic Touch" },
+    "description": "Weld metal using touch alone.  It'll do a number on a zombie too.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_welder" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_granite_aegis",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Granite Aegis", "str_pl": "Scrolls of Granite Aegis" },
+    "description": "When the going gets tough, the tough summon yards-thick walls of solid rock around themselves",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_granite_aegis" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bramble_spear",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Spear of Brambles", "str_pl": "Scrolls of Spear of Brambles" },
+    "description": "Transform a long stick into a spear that drips with sticky sap.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bramble_spear" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_summon_tanglevine",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Summon Tanglevine", "str_pl": "Scrolls of Summon Tanglevine" },
+    "description": "Conjure a lashing bunch of animated vines that will grab and hold your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_summon_tanglevine" ] }
   }
 ]

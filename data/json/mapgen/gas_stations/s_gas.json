@@ -50,7 +50,7 @@
         { "liquid": "gasoline", "x": 2, "y": 3, "repeat": [ 200, 1075 ] },
         { "liquid": "diesel", "x": 4, "y": 3, "repeat": [ 200, 1075 ] }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
@@ -191,7 +191,7 @@
           "y": [ 15, 16 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
@@ -291,7 +291,7 @@
         { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80, "repeat": [ 1, 8 ] }
       ],
       "place_item": [ { "item": "shotgun_s", "x": 3, "y": 20 }, { "item": "shot_00", "x": 7, "y": 19, "chance": 50 } ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
@@ -341,7 +341,7 @@
           "y": [ 12, 17 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   }
 ]

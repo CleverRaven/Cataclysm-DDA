@@ -34,6 +34,7 @@
       [ "spell_scroll_bless", 25 ],
       [ "spell_scroll_create_atomic_lamp", 25 ],
       [ "spell_scroll_taze", 25 ],
+      [ "spell_scroll_technomancer_conjure_radio", 20 ],
       [ "spell_scroll_laze", 25 ],
       [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_x-ray", 30 ],
@@ -63,6 +64,7 @@
       [ "spell_scroll_druid_naturebow1", 20 ],
       [ "spell_scroll_druid_bandage", 30 ],
       [ "spell_scroll_druid_harvest_hunter", 40 ],
+      [ "spell_scroll_druid_bramble_spear", 30 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],
@@ -87,6 +89,7 @@
       [ "spell_scroll_electric_eye", 35 ],
       [ "spell_scroll_biomancer_swim_frog", 25 ],
       [ "spell_scroll_holy_blade", 25 ],
+      [ "spell_scroll_technomancer_welder", 20 ],
       [ "spell_scroll_spirit_armor", 25 ],
       [ "spell_scroll_quantum_tunnel_lesser", 50 ],
       [ "spell_scroll_synaptic_stimulation", 20 ],
@@ -134,6 +137,7 @@
       [ "spell_scroll_eshaper_melee_damage", 30 ],
       [ "spell_scroll_eshaper_crystal_wrap", 50 ],
       [ "spell_scroll_druid_healing", 25 ],
+      [ "spell_scroll_druid_summon_tanglevine", 35 ],
       [ "spell_scroll_fireball", 50 ],
       [ "spell_scroll_cone_cold", 50 ],
       [ "spell_scroll_hoary_blast", 50 ],
@@ -153,6 +157,8 @@
       [ "spell_scroll_animated_blade", 35 ],
       [ "spell_scroll_mirror_image", 15 ],
       [ "spell_scroll_holographic_transposition", 15 ],
+      [ "spell_scroll_technomancer_conjure_ups", 20 ],
+      [ "spell_scroll_technomancer_robot_shutdown", 25 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
       [ "spell_scroll_druid_whisper_leaves", 30 ],
@@ -193,7 +199,8 @@
       [ "spell_scroll_focused_bolt", 4 ],
       [ "spell_scroll_rupture", 4 ],
       [ "spell_scroll_cause_rot", 4 ],
-      [ "spell_scroll_earthshaper_reveal_world_map", 15 ]
+      [ "spell_scroll_earthshaper_reveal_world_map", 15 ],
+      [ "spell_scroll_earthshaper_granite_aegis", 5 ]
     ]
   },
   {
@@ -208,6 +215,7 @@
     "items": [
       [ "wizard_utility", 50 ],
       [ "priest_advanced", 50 ],
+      [ "prepper_spellbook", 30 ],
       [ "techno_fundamentals", 50 ],
       [ "stat_up_spellbook", 45 ],
       [ "tome_of_wind", 45 ],

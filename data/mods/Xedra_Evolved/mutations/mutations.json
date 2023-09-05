@@ -269,6 +269,7 @@
     "name": { "str": "Saint's blood" },
     "points": 0,
     "description": "Through a complicated ritual utilizing a saint's relic, you have transubstantiated your own blood with the holy blood of the saints.  It'll prevent you from becoming infected with vampirism while you live, effects postmortem unknown.",
+    "starting_trait": false,
     "valid": false,
     "purifiable": false,
     "types": [ "BLOOD" ]
@@ -282,5 +283,16 @@
     "starting_trait": false,
     "valid": false,
     "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EATER_SIXTH_SENSE",
+    "name": { "str": "Eater's Sixth Sense" },
+    "points": 0,
+    "description": "You are no longer limited to the five senses common to most humans in your hunt for the unnatural.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [ "EATER_SIXTH_SENSE" ]
   }
 ]
