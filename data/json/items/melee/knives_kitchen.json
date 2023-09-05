@@ -52,7 +52,7 @@
     "price": 6000,
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 30 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 15 }
@@ -93,7 +93,7 @@
     "price": 300,
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 8 }
@@ -132,7 +132,7 @@
     "price": 500,
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
     "melee_damage": { "bash": 1, "stab": 7 }
   },
@@ -171,7 +171,7 @@
     "price": 3000,
     "price_postapoc": 200,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 2, "stab": 17 }
@@ -212,7 +212,7 @@
     "price": "34 USD",
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 1, "stab": 19 }
@@ -251,7 +251,7 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE", "DURABLE_MELEE" ],
     "melee_damage": { "bash": 4, "cut": 7 }
   },
@@ -291,7 +291,7 @@
     "price": "44 USD",
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 18 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 3, "cut": 18 }
   },
@@ -329,7 +329,7 @@
     "price": 7000,
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 30 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 5, "cut": 17 }
   }

@@ -285,46 +285,46 @@
     "looks_like": "knife_folding",
     "type": "TOOL",
     "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-    "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a silvery full metal construction.  This knife may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
-    "//": "Data estimated from ColdSteel 1911 folding knife, with values adjusted for full titanium construction. Bash increased per increased handle density.",
+    "description": "The star of many a flea market knife show, this durable all-titanium alloy knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a silvery full metal construction.  This knife may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+    "//": "Data estimated from ColdSteel 1911 folding knife, with durability and bash increased for titanium alloy handle, instead of plastic.",
     "weight": "48 g",
     "price": 6000,
     "price_postapoc": 200,
     "color": "light_gray",
     "extend": { "flags": [ "DURABLE_MELEE" ] },
     "delete": { "flags": [ "CONDUCTIVE" ] },
-    "material": [ "titanium" ],
+    "material": [ "ti_alloy" ],
     "variant_type": "generic",
     "variants": [
       {
         "id": "knife_folding_ti_generic",
         "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-        "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a silvery full-metal construction.  This knife may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
-        "weight": 1
+        "description": "The star of many a flea market knife show, this durable all-titanium alloy knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a silvery full-metal construction.  This knife may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+        "weight": 2
       },
       {
         "id": "knife_folding_ti_gradient",
         "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-        "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a blade that's been heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+        "description": "The star of many a flea market knife show, this durable all-titanium alloy knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a blade that's been heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
         "color": "magenta",
         "weight": 1
       },
       {
         "id": "knife_folding_ti_rainbow",
         "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-        "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a handle that's been heat-anodized with a swirling damascus rainbow of blues and purples.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+        "description": "The star of many a flea market knife show, this durable all-titanium alloy knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a handle that's been heat-anodized with a swirling damascus rainbow of blues and purples.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
         "color": "magenta",
         "weight": 1
       },
       {
         "id": "knife_folding_ti_dark",
         "name": { "str": "titanium folding knife", "str_pl": "titanium folding knives" },
-        "description": "The star of many a flea market knife show, this durable all-titanium knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a sleek black carbide coating on the blade and handle.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
+        "description": "The star of many a flea market knife show, this durable all-titanium alloy knife can unlock and fold into its handle for storage.  It features a pocket clip, serrated edge, and a sleek black carbide coating on the blade and handle.  It may not be meant for combat, but it's light, it's pretty, and it sure cuts things.",
         "color": "dark_gray",
         "weight": 1
       }
     ],
-    "relative": { "melee_damage": { "bash": 1, "stab": 1 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+    "melee_damage": { "bash": 2, "stab": 13 }
   },
   {
     "id": "diveknife",
@@ -354,16 +354,17 @@
     "looks_like": "diveknife",
     "type": "TOOL",
     "name": { "str": "titanium dive knife", "str_pl": "titanium dive knives" },
-    "description": "A light yet sturdy knife made of corrosion-resistant titanium alloy, designed for extended use by marine divers.  Its edge has serrations for cutting net and rope, and the blunt tip works well for prying or turning screws.",
+    "description": "A light yet sturdy knife made entirely of corrosion-resistant titanium alloy, with a wrist loop and paracord-wrapped handle.  Designed for extended use by marine divers, its edge has serrations for cutting net and rope, and the blunt tip works well for prying or turning screws.",
+    "//": "Durability and bash increased for paracord-wrapped titanium hilt, instead of cork and plastic handle",
     "weight": "135 g",
     "price": 24000,
     "price_postapoc": 800,
     "color": "dark_gray",
     "extend": { "flags": [ "DURABLE_MELEE" ] },
     "delete": { "flags": [ "CONDUCTIVE" ] },
-    "material": [ "ti_alloy", "thermo_resin" ],
+    "material": [ { "type": "nylon" }, { "type": "ti_alloy", "portion": 9 } ],
     "repairs_with": "ti_alloy",
-    "relative": { "melee_damage": { "bash": 1, "cut": 1 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+    "melee_damage": { "bash": 1, "cut": 13 }
   },
   {
     "id": "titanium_knife",
@@ -381,7 +382,7 @@
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "bronze_knife",
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
     "variant_type": "generic",
@@ -407,7 +408,7 @@
         "weight": 1
       }
     ],
-    "melee_damage": { "stab": 16 }
+    "melee_damage": { "stab": 15 }
   },
   {
     "id": "titanium_knife_inferior",
@@ -420,7 +421,7 @@
     "replace_materials": { "titanium": "junk_titanium" },
     "looks_like": "titanium_knife",
     "color": "magenta",
-    "relative": { "melee_damage": { "stab": -2 }, "qualities": [ [ "BUTCHER", -2 ] ] },
+    "relative": { "melee_damage": { "stab": -2 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
@@ -434,7 +435,7 @@
     "replace_materials": { "titanium": "ti_alloy" },
     "color": "light_gray",
     "looks_like": "titanium_knife",
-    "relative": { "melee_damage": { "stab": 1 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+    "relative": { "melee_damage": { "stab": 1 } }
   },
   {
     "id": "knife_combat",
@@ -501,8 +502,7 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "install_time": "5 s"
     },
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 15 } ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 4, "stab": 27 }
   },
@@ -531,7 +531,7 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ], [ "DIG", 1 ] ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 25 }
+    "melee_damage": { "bash": 2, "stab": 23 }
   },
   {
     "id": "knife_hunting",
@@ -860,6 +860,21 @@
     "melee_damage": { "bash": 5, "cut": 21 }
   },
   {
+    "id": "machete_ti",
+    "type": "TOOL",
+    "name": { "str": "titanium machete" },
+    "description": "Thanks to its performance titanium alloy blade, this huge knife delivers solid strikes, yet is surprisingly light.  Ideal for bushwhacking through the wilderness, or slicing and dicing your way through the apocalypse.",
+    "copy-from": "machete",
+    "looks_like": "machete",
+    "weight": "296 g",
+    "color": "light_gray",
+    "price": 4200,
+    "price_postapoc": 2000,
+    "replace_materials": { "wood": "thermo_resin", "steel": "ti_alloy" },
+    "repairs_with": [ "ti_alloy" ],
+    "melee_damage": { "bash": 4, "cut": 22 }
+  },
+  {
     "id": "survivor_machete",
     "copy-from": "machete",
     "looks_like": "machete",
@@ -902,23 +917,6 @@
     "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": 2000 }
-  },
-  {
-    "id": "machete_ti",
-    "type": "TOOL",
-    "name": { "str": "titanium machete" },
-    "description": "Thanks to its performance titanium alloy blade, this huge knife delivers solid strikes, yet is surprisingly light.  Ideal for bushwhacking through the wilderness, or slicing and dicing your way through the apocalypse.",
-    "copy-from": "machete",
-    "looks_like": "machete",
-    "weight": "296 g",
-    "color": "light_gray",
-    "price": 4200,
-    "price_postapoc": 2000,
-    "replace_materials": { "wood": "thermo_resin", "steel": "ti_alloy" },
-    "repairs_with": [ "ti_alloy" ],
-    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 18 ] ],
-    "extend": { "techniques": [ "RAPID" ] },
-    "melee_damage": { "bash": 4, "cut": 23 }
   },
   {
     "id": "machete_gimmick",
@@ -1878,24 +1876,23 @@
         "id": "ti_tanto_generic",
         "name": { "str_sp": "titanium tanto" },
         "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  It feels unusually light, but is still sharp and sturdy enough to make for a serviceable knife.",
-        "weight": 1
+        "weight": 2
       },
       {
         "id": "ti_tanto_gradient",
         "name": { "str_sp": "titanium tanto" },
         "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  Its blade is heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  It feels unusually light, but despite being made more for form than function, it still seems sharp and sturdy enough to make for a serviceable knife.",
         "color": "magenta",
-        "weight": 2
+        "weight": 1
       },
       {
         "id": "ti_tanto_dark",
         "name": { "str_sp": "titanium tanto" },
         "description": "This short, straight blade is patterned after an ancient samurai sidearm, but made from modern titanium.  Its blade is coated with black carbide, giving it a sleek and futuristic look.  It feels unusually light, but despite being made more for form than function, it still seems sharp and sturdy enough to make for a serviceable knife.",
         "color": "dark_gray",
-        "weight": 2
+        "weight": 1
       }
-    ],
-    "relative": { "melee_damage": { "stab": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+    ]
   },
   {
     "id": "ti_tanto_inferior",
@@ -1927,7 +1924,7 @@
         "id": "ti_wakizashi_generic",
         "name": { "str": "titanium wakizashi" },
         "description": "A single-edged blade patterned after an ancient samurai short sword, but made from modern titanium.  It feels light and easy to swing, and should be an effective weapon.",
-        "weight": 1
+        "weight": 2
       },
       {
         "id": "ti_wakizashi_gradient",
@@ -1941,10 +1938,9 @@
         "name": { "str": "titanium wakizashi" },
         "description": "A single-edged blade patterned after an ancient samurai short sword, but made from modern titanium.  Its blade is coated with black carbide, giving it a sleek and futuristic look.  It feels light and easy to swing, and despite probably being meant as decoration, should still be an effective weapon.",
         "color": "dark_gray",
-        "weight": 2
+        "weight": 1
       }
-    ],
-    "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+    ]
   },
   {
     "id": "ti_wakizashi_inferior",
@@ -1976,14 +1972,14 @@
         "id": "ti_katana_generic",
         "name": { "str": "titanium katana" },
         "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Sturdily built, and quick to swing thanks to its light weight, it should be quite effective in a fight.",
-        "weight": 1
+        "weight": 2
       },
       {
         "id": "ti_katana_gradient",
         "name": { "str": "titanium katana" },
         "description": "A long, single-edged weapon patterned after the well-known samurai sword, but made from modern titanium.  Its blade is heat-anodized with a vivid purple-to-yellow sunset gradient, from edge to center.  Sturdily built, and quick to swing thanks to its light weight.  Despite likely having been made for show, it should still be quite effective in a fight.",
         "color": "magenta",
-        "weight": 2
+        "weight": 1
       },
       {
         "id": "ti_katana_dark",
@@ -1993,7 +1989,6 @@
         "weight": 2
       }
     ],
-    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "ti_katana_inferior",

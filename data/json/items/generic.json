@@ -3565,7 +3565,7 @@
     "price": 10000,
     "price_postapoc": 100,
     "material": [ "qt_steel" ],
-    "weight": "3810 g",
+    "weight": "3808 g",
     "volume": "476 ml",
     "melee_damage": { "bash": 6 }
   },
