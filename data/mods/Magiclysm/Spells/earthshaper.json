@@ -885,5 +885,99 @@
     "min_range": 3,
     "max_range": 20,
     "range_increment": 1.2
+  },
+  {
+    "id": "earthshaper_granite_aegis",
+    "type": "SPELL",
+    "name": "Granite Aegis",
+    "description": "In an extremity of danger, summon a hollow shell of rock around yourself.  It lasts only a few moments, but sometimes that's all you need.  You must be standing on the living earth to invoke it.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": 10,
+    "spell_class": "EARTHSHAPER",
+    "energy_source": "MANA",
+    "shape": "blast",
+    "difficulty": 9,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_GRANITE_AEGIS",
+    "base_casting_time": 150,
+    "final_casting_time": 100,
+    "casting_time_increment": -5,
+    "base_energy_cost": 750
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_GRANITE_AEGIS",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain": "t_rock_floor_no_roof" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_claymound" },
+            { "u_is_on_terrain": "t_claymound_underground" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_dirtmoundfloor" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirt_underground" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_soil" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_region_soil" },
+            { "u_is_on_terrain": "t_pit_shallow" },
+            { "u_is_on_terrain": "t_pit" },
+            { "u_is_on_terrain": "t_puddle_underground" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_mud_underground" },
+            { "u_is_on_terrain": "t_concrete_y" },
+            { "u_is_on_terrain": "t_concrete" },
+            { "u_is_on_terrain": "t_thconc_y_olight" },
+            { "u_is_on_terrain": "t_thconc_warning" },
+            { "u_is_on_terrain": "t_thconc_y" },
+            { "u_is_on_terrain": "t_thconc_r" },
+            { "u_is_on_terrain": "t_thconc_floor" },
+            { "u_is_on_terrain": "t_strconc_floor" },
+            { "u_is_on_terrain": "t_strconc_floor_olight" },
+            { "u_is_on_terrain": "t_strconc_floor_no_roof" },
+            { "u_is_on_terrain": "t_railroad_rubble" }
+          ]
+        },
+        { "math": [ "u_val('pos_z')", "<=", "0" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "earthshaper_granite_aegis_location" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "outdoor_only": false
+      },
+      {
+        "u_transform_radius": 1,
+        "ter_furn_transform": "earthshaper_granite_aegis_to_stone",
+        "target_var": { "global_val": "earthshaper_granite_aegis_location" }
+      },
+      {
+        "u_transform_radius": 0,
+        "ter_furn_transform": "earthshaper_granite_aegis_to_stone_safe",
+        "target_var": { "global_val": "earthshaper_granite_aegis_location" },
+        "time_in_future": [ "0 seconds", "0 seconds" ]
+      },
+      {
+        "u_transform_radius": 1,
+        "ter_furn_transform": "earthshaper_granite_aegis_from_stone",
+        "target_var": { "global_val": "earthshaper_granite_aegis_location" },
+        "time_in_future": [ "5 seconds", "20 seconds" ]
+      }
+    ],
+    "false_effect": { "u_message": "Without a connection to the living earth or a flat surface of solid rock, the spell fails." }
   }
 ]
