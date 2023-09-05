@@ -78,6 +78,7 @@
     "material": [ "plastic", "iron" ],
     "volume": "500 ml",
     "weight": "175 g",
+    "longest_side": "30 cm",
     "to_hit": -1,
     "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
     "melee_damage": { "cut": 8 }

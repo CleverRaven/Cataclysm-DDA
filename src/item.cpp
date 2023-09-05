@@ -160,6 +160,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
+static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -613,7 +614,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     return result;
 }
 
-item &item::convert( const itype_id &new_type )
+item &item::convert( const itype_id &new_type, Character *carrier )
 {
     // Carry over relative rot similar to crafting
     const double rel_rot = get_relative_rot();
@@ -634,6 +635,9 @@ item &item::convert( const itype_id &new_type )
     if( temp.type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
+    }
+    if( carrier ) {
+        carrier->on_item_acquire( *this );
     }
 
     return *this;
@@ -6116,13 +6120,20 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        bool has_gun = player_character.has_item_with( [this]( const item & i ) {
-            return i.is_gun() && i.ammo_types().count( ammo_type() );
+        bool has_gun = player_character.cache_has_item_with( "is_gun", &item::is_gun,
+        [this]( const item & i ) {
+            return i.ammo_types().count( ammo_type() );
         } );
-        bool has_mag = player_character.has_item_with( [this]( const item & i ) {
-            return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( ammo_type() ) ) ||
-                   ( i.is_magazine() && i.ammo_types().count( ammo_type() ) );
+        bool has_mag = player_character.cache_has_item_with( "is_gun", &item::is_gun,
+        [this]( const item & i ) {
+            return i.magazine_integral() && i.ammo_types().count( ammo_type() );
         } );
+        has_mag = has_mag ? true :
+                  player_character.cache_has_item_with( "is_magazine", &item::is_magazine,
+        [this]( const item & i ) {
+            return i.ammo_types().count( ammo_type() );
+        } );
+
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {
@@ -6131,8 +6142,9 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
         // ltred if you have one but not the other
-        bool has_gun = player_character.has_item_with( [this]( const item & it ) {
-            return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
+        bool has_gun = player_character.cache_has_item_with( "is_gun", &item::is_gun,
+        [this]( const item & it ) {
+            return it.magazine_compatible().count( typeId() ) > 0;
         } );
         bool has_ammo = !player_character.find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
@@ -8457,6 +8469,11 @@ bool item::ready_to_revive( map &here, const tripoint &pos ) const
 bool item::is_money() const
 {
     return ammo_types().count( ammo_money );
+}
+
+bool item::is_cash_card() const
+{
+    return typeId() == itype_cash_card;
 }
 
 bool item::is_software() const
@@ -12879,11 +12896,11 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
         }
         if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
+            convert( itype_cig_butt, carrier );
         } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+            convert( itype_cigar_butt, carrier );
         } else { // joint
-            convert( itype_joint_roach );
+            convert( itype_joint_roach, carrier );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
@@ -13005,15 +13022,15 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     // cig dies out
     if( has_flag( flag_LITCIG ) ) {
         if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
+            convert( itype_cig_butt, carrier );
         } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+            convert( itype_cigar_butt, carrier );
         } else { // joint
-            convert( itype_joint_roach );
+            convert( itype_joint_roach, carrier );
         }
     } else { // transform (lit) items
         if( type->revert_to ) {
-            convert( *type->revert_to );
+            convert( *type->revert_to, carrier );
         } else {
             type->invoke( carrier, *this, pos, "transform" );
         }
@@ -13024,9 +13041,14 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
+bool item::can_link_up() const
+{
+    return !!link || type->can_use( "link_up" );
+}
+
 void item::set_link_traits( const bool assign_t_state )
 {
-    if( !link || !type->can_use( "link_up" ) ) {
+    if( !can_link_up() ) {
         return;
     }
 
@@ -13038,7 +13060,7 @@ void item::set_link_traits( const bool assign_t_state )
     link->s_bub_pos = tripoint_min;
 
     for( const item *cable : cables() ) {
-        if( !cable->type->can_use( "link_up" ) ) {
+        if( !cable->can_link_up() ) {
             continue;
         }
         const link_up_actor *actor = static_cast<const link_up_actor *>
@@ -13108,10 +13130,10 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         }
     }
     const item_filter used_ups = [&]( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS ) && itm.get_var( "cable" ) == "plugged_in";
+        return itm.get_var( "cable" ) == "plugged_in";
     };
     if( link->s_state == link_state::ups ) {
-        if( carrier == nullptr || !carrier->has_item_with( used_ups ) ) {
+        if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
             add_msg_if_player_sees( pos, m_bad,
                                     string_format( is_cable_item ? _( "The %s has come loose from the UPS." ) :
                                                    _( "The %s's cable has come loose from the UPS." ), type_name() ) );
@@ -13427,7 +13449,8 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
         active = false;
         return false;
     }
-    bool has_connected_cable = carrier->has_item_with( [&required_state]( const item & it ) {
+    bool has_connected_cable = carrier->cache_has_item_with( "can_link_up", &item::can_link_up,
+    [&required_state]( const item & it ) {
         return it.link && it.link->has_state( required_state );
     } );
     if( !has_connected_cable ) {
@@ -13437,11 +13460,11 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
     return false;
 }
 
-bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
+bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
         if( type->revert_to ) {
-            convert( *type->revert_to );
+            convert( *type->revert_to, carrier );
         }
         unset_flag( flag_WET );
         active = false;
@@ -13621,7 +13644,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
-                convert( *type->revert_to );
+                convert( *type->revert_to, carrier );
 
                 active = needs_processing();
             } else {
@@ -14598,6 +14621,11 @@ const item &item::only_item() const
 }
 
 item *item::get_item_with( const std::function<bool( const item & )> &filter )
+{
+    return contents.get_item_with( filter );
+}
+
+const item *item::get_item_with( const std::function<bool( const item & )> &filter ) const
 {
     return contents.get_item_with( filter );
 }
