@@ -301,5 +301,10 @@
       { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_earth_gnome", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAGIC_FIELD",
+    "monsters": [ { "group": "GROUP_FOREST", "weight": 2 }, { "group": "GROUP_FOREST_SPIRIT", "weight": 1 } ]
   }
 ]
