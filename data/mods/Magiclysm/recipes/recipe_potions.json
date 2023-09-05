@@ -450,7 +450,7 @@
       [ [ "potion_starter_superior", 3 ] ],
       [ [ "glowing_mushroom", 2 ] ],
       [ [ "moonflowers", 2 ] ],
-      [ [ "funnelcap_chunk", 15 ], [ "mossling_fur", "20 ] ],
+      [ [ "funnelcap_chunk", 15 ], [ "mossling_fur", 20 ] ],
       [ [ "wood_barnacle", 4 ] ]
     ]
   },
