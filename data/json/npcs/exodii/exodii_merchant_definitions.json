@@ -72,6 +72,7 @@
     "points": 0,
     "description": "You can understand what Rubik means to say.",
     "valid": false,
+    "player_display": false,
     "purifiable": false
   }
 ]
