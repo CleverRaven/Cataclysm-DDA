@@ -134,19 +134,38 @@
     "id": "TALK_EXODII_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_effect": "u_exodii_interaction_timer_short",
-      "yes": [ "Back in a blink and a whiff, eh?", "Forgot sommat?", "Ah, a returnin', an I'm ken." ],
+      "u_has_trait": "rubik_translate",
       "no": {
-        "u_has_var": "u_met_Rubik",
-        "type": "general",
-        "context": "meeting",
-        "value": "yes",
-        "yes": [
-          "And a fine return, matey.",
-          "Fine and you still ain't dead.  What brings ye roun' Rubik's neckawoods?",
-          "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
-        ],
-        "no": "Oy, you ain't dead.  Lookin' t'trade?"
+        "u_has_effect": "u_exodii_interaction_timer_short",
+        "yes": [ "Back in a blink and a whiff, eh?", "Forgot sommat?", "Ah, a returnin', an I'm ken." ],
+        "no": {
+          "u_has_var": "u_met_Rubik",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes",
+          "yes": [
+            "And a fine return, matey.",
+            "Fine and you still ain't dead.  What brings ye roun' Rubik's neckawoods?",
+            "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
+          ],
+          "no": "Oy, you ain't dead.  Lookin' t'trade?"
+        }
+      },
+      "yes": {
+        "u_has_effect": "u_exodii_interaction_timer_short",
+        "yes": [ "So, you're back, hey?", "Forgot something?", "Ah, a repeat customer, I ken." ],
+        "no": {
+          "u_has_var": "u_met_Rubik",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes",
+          "yes": [
+            "Welcome back, matey.",
+            "Nice to see you still ain't dead.  What brings you round Rubik's neck of the woods?",
+            "Bright and sunny, you're back!  I got goods for you, if you got goods for me."
+          ],
+          "no": "Oy, you ain't dead.  Lookin' to trade?"
+        }
       }
     },
     "speaker_effect": [
@@ -267,14 +286,22 @@
   {
     "id": "TALK_EXODII_MERCHANT_New",
     "type": "talk_topic",
-    "dynamic_line": "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+      "yes": "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  This one's called Rubik, and assigned to trade with you.  You looking to trade?  We're always looking for scrap, metal and more."
+    },
     "//~": "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more.",
     "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
     "type": "talk_topic",
-    "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
+    "dynamic_line": {
+      "u_has_trait": "rubik_translate",
+      "no": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
+      "yes": [ "Sounds good then.", "See what you like.", "Not a bad deal, eh?" ]
+    },
     "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": {
