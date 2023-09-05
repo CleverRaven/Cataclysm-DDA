@@ -86,6 +86,16 @@
         "topic": "TALK_EXODII_MERCHANT_ExodizeTest"
       },
       {
+        "text": "Do all your friends talk like you do?",
+        "condition": { "and": [ { "u_has_trait": "CBM_Interface" }, { "not": { "u_has_trait": "rubik_translate" } } ] },
+        "topic": "TALK_EXODII_MERCHANT_Translate1"
+      },
+      {
+        "text": "I have to admit, I miss your old weird way of talking.  Can you change me back?",
+        "condition": { "u_has_trait": "rubik_translate" },
+        "topic": "TALK_EXODII_MERCHANT_TranslateOff"
+      },
+      {
         "text": "I think I'm ready to try becoming a cyborg now.",
         "condition": {
           "and": [
@@ -1008,6 +1018,7 @@
     "//~": "I'm a lowlife from old Upper Landing, this is my way of talking.  Everyone from where I come from talks like this.",
     "responses": [
       { "text": "Tell me about \"ol' Upper Landing\".  What was your home like?", "topic": "TALK_EXODII_MERCHANT_Home" },
+      { "text": "Do all your friends here talk like you?", "topic": "TALK_EXODII_MERCHANT_Translate1" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -1041,6 +1052,54 @@
       },
       { "text": "Well, a person can get sick of trying to piece it together.  See you later.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Translate1",
+    "type": "talk_topic",
+    "dynamic_line": "Nay, and that asayfore.  Rubik be the only 'un from King's Landing in this-else.",
+    "//~": "No, not so much.  I'm the only person from King's Landing around here.",
+    "responses": [
+      {
+        "text": "How do you communicate with each other if you all have different languages?  And more importantly, I get some of that?  It's exhausting trying to follow what you're saying.",
+        "condition": { "and": [ { "u_has_trait": "CBM_Interface" }, { "not": { "u_has_trait": "rubik_translate" } } ] },
+        "topic": "TALK_EXODII_MERCHANT_Translate2"
+      },
+      {
+        "text": "I have to admit, I miss your old weird way of talking.  Can you change me back?",
+        "condition": { "u_has_trait": "rubik_translate" },
+        "topic": "TALK_EXODII_MERCHANT_TranslateOff"
+      },
+      { "text": "Well, a person can get sick of trying to piece it together.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Translate2",
+    "type": "talk_topic",
+    "dynamic_line": "*lets out a distant sigh.  \"'Tis a fine and, but seein' as you've a bit o' the wire-and-jamble in yon ears, ol' Rubik can mayhaps remedy.  Truly be as what ye're desire?\"",
+    "//~": "That can be tough, but since you've got a CBM interface, maybe I can help you out.  Is that what you really want?",
+    "responses": [
+      { "text": "Yes.  Please, hit me with some of that sweet translator juice.", "topic": "TALK_EXODII_MERCHANT_Translate3" },
+      { "text": "On second thought, I don't mind your weird dialect.  I changed my mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Translate3",
+    "type": "talk_topic",
+    "dynamic_line": "*jumbles around in a drawer for a moment and comes up with a device that looks faintly like a voltmeter.  They plug it into their arm, fiddle around for a minute, and then look up at you.  \"Is ol' Rubik translating all right?  Can you follow this'n?\"  You can hear them speaking out loud in their usual dialect, and echoing faintly in your head in plainer English.",
+    "speaker_effect": { "effect": { "u_add_trait": "rubik_translate" } },
+    "responses": [
+      {
+        "text": "Thanks, it seems like it is working.  Feels a bit strange though, I might need a moment.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_TranslateOff",
+    "type": "talk_topic",
+    "dynamic_line": "*pulls out the weird voltmeter again and fiddles with it.  \"Quick as a sly yark, an I'm ken.\"",
+    "speaker_effect": { "effect": { "u_remove_trait": "rubik_translate" } },
+    "responses": [ { "text": "Thanks, although I'm already kind of questioning my choices.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Meetcute",
