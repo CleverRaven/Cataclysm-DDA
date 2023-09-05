@@ -234,9 +234,10 @@ class item : public visitable
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
+         * @param carrier A pointer to the character that's carrying the item, nullptr if none, which is the default.
          * @return same instance to allow method chaining
          */
-        item &convert( const itype_id &new_type );
+        item &convert( const itype_id &new_type, Character *carrier = nullptr );
 
         /**
          * Filter converting this instance to the inactive type
@@ -351,6 +352,7 @@ class item : public visitable
         bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
+        bool is_cash_card() const;
         bool is_software() const;
         bool is_software_storage() const;
 
@@ -1463,6 +1465,11 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
+        /**
+         * @brief Returns true if the item is/has a cable that can link up to other things.
+         */
+        bool can_link_up() const;
+
         /**
          * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
          * @brief max_length is set to the sum of all cable lengths.
@@ -2866,6 +2873,7 @@ class item : public visitable
         item &only_item();
         const item &only_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
 
         /**
          * returns the number of items stacks in contents
