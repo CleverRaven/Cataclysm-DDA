@@ -24,7 +24,11 @@
       "TALK_EXODII_MERCHANT_DoneTrade",
       "TALK_EXODII_MERCHANT_Exodus2",
       "TALK_EXODII_MERCHANT_ExodizeNope",
-      "TALK_EXODII_MERCHANT_Survival2"
+      "TALK_EXODII_MERCHANT_Survival2",
+      "TALK_EXODII_MERCHANT_Translate2",
+      "TALK_EXODII_MERCHANT_Translate3",
+      "TALK_EXODII_MERCHANT_TranslateOff",
+      "TALK_EXODII_MERCHANT_TranslateExplain",
     ],
     "type": "talk_topic",
     "responses": [
@@ -89,6 +93,11 @@
         "text": "Do all your friends talk like you do?",
         "condition": { "and": [ { "u_has_trait": "CBM_Interface" }, { "not": { "u_has_trait": "rubik_translate" } } ] },
         "topic": "TALK_EXODII_MERCHANT_Translate1"
+      },
+      {
+        "text": "How does this translator work?",
+        "condition": { "u_has_trait": "rubik_translate" },
+        "topic": "TALK_EXODII_MERCHANT_TranslateExplain"
       },
       {
         "text": "I have to admit, I miss your old weird way of talking.  Can you change me back?",
@@ -1175,9 +1184,17 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_TranslateExplain",
+    "type": "talk_topic",
+    "dynamic_line": "It's a fine bit of work, I ken.  You can hear my real voice, right?  This one's own brain jobby picks up word-thoughts and makes 'em to some kind of machine-talk, sends it to your brain jobby, which puts it into your ears.  We usually leave it turned off for security, so nobody can shimmy into it.  That's a small risk, the shimmyin', but you see it's a risk no less, so must we leave it off.  Ol' Rubik's given you close-up access to their jobby, and there you have it.  You're a trusted customer, you ken.",
+    "//": "Only available if you have the translator on, no translation needed.",
+    "responses": [ { "text": "Interesting.  I'd better go.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_TranslateOff",
     "type": "talk_topic",
-    "dynamic_line": "*pulls out the weird voltmeter again and fiddles with it.  \"Quick as a sly yark, an I'm ken.\"",
+    "dynamic_line": "*pulls out the weird voltmeter again and fiddles with it.  \"Quick as a yark, I'd razz.\"",
+    "//~": "Quick as you can ask",
     "speaker_effect": { "effect": { "u_remove_trait": "rubik_translate" } },
     "responses": [ { "text": "Thanks, although I'm already kind of questioning my choices.", "topic": "TALK_DONE" } ]
   },
