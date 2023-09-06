@@ -319,7 +319,7 @@
   {
     "id": "corded_powerdrill",
     "type": "TOOL",
-    "name": { "str": "power drill"  },
+    "name": { "str": "power drill" },
     "description": "A power drill with a selection of bits, with a cord for power. ",
     "weight": "2721 g",
     "volume": "750 ml",
@@ -334,15 +334,7 @@
     "qualities": [ [ "SCREW", 1 ] ],
     "charged_qualities": [ [ "DRILL", 3 ] ],
     "charges_per_use": 5,
-"use_action": [
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 3,
-        "charge_rate": "2200 W"
-      }
-    ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "2200 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 3, "cut": 1 }
   },
