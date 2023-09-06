@@ -24,7 +24,7 @@
     "category": "FURN",
     "required_skills": [ [ "spellcraft", 5 ] ],
     "time": "240 m",
-    "qualities": [ [ { "id": "CHISEL", "level": 1 } ], [ { "id": "CUT", "level": 2 } ], [ { "id": "MOP", "level": 1 }, { "id": "GRIND", "level": 2 ] ] ],
+    "qualities": [ [ { "id": "CHISEL", "level": 1 } ], [ { "id": "CUT", "level": 2 } ], [ { "id": "MOP", "level": 1 }, { "id": "GRIND", "level": 2 } ] ],
     "components": [
       [ [ "candle", 8 ] ],
       [ [ "skull_human", 1 ],  [ "skull_goat", 1 ], [ "skull_cougar", 1 ],  [ "skull_pig", 1 ],  [ "skull_canis", 1 ], [ "skull_bear", 1 ], [ "skull_bovine", 1 ],  [ "skull_cervine", 1 ],  [ "skull_cervine_spideer", 1 ], [ "skull_sheep", 1 ],  [ "skull_moose", 1 ], [ "skull_moose_tusked", 1 ], [ "skull_equine", 1 ],  [ "skull_rodent", 10 ], [ "skull_raccoon", 4 ], [ "skull_beaver", 4 ], [ "skull_canis_small", 4 ],  [ "skull_canis_medium", 2 ],  [ "skull_canis", 1 ], [ "skull_feline_small", 4 ], [ "skull_feline_medium", 2 ] ],
@@ -45,5 +45,18 @@
     "components": [ ],
     "pre_special": "check_empty",
     "post_terrain": "f_everburning_torch_candelabra"
+  },
+  {
+    "type": "construction",
+    "id": "ap_everburning_sconce",
+    "group": "place_everburning_sconce",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "everburning_sconce", 1 ] ], [ [ "nail", 4 ] ] ],
+    "pre_flags": "WALL",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]
