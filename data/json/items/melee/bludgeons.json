@@ -1275,7 +1275,7 @@
     "type": "GENERIC",
     "id": "staff_pipe",
     "name": { "str": "pipe staff" },
-    "description": "Three pipes fitted end-to-end in a monstrously heavy facsimile of a quarterstaff.",
+    "description": "Three pipes fitted end-to-end in a heavy facsimile of a quarterstaff.",
     "weight": "1850 g",
     "color": "dark_gray",
     "symbol": "/",

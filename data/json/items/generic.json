@@ -576,7 +576,7 @@
     "category": "spare_parts",
     "name": { "str": "bundle of copper tubing", "str_pl": "bundles of copper tubing" },
     "description": "Ten copper pipes securely tied together for easier transport.  Disassemble to untie them.",
-    "//": "total volume is equal to 10 pipes, assuming uniformity and tight stacking",
+    "//": "Total volume is equal to 10 pipes, assuming uniformity and tight stacking. Total weight is equal to 10 pipes + 2 short ropes, as per the crafting recipe.",
     "volume": "3700 ml",
     "weight": "3400 g",
     "longest_side": "60 cm",
