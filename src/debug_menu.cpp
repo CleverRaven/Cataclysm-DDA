@@ -1696,6 +1696,43 @@ static void character_edit_opinion_menu( npc *np )
     }
 }
 
+static void character_edit_personality_menu( npc *np )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'h', "%s: %d", _( "aggression" ), np->personality.aggression );
+    smenu.addentry( 1, true, 's', "%s: %d", _( "bravery" ), np->personality.bravery );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "collector" ), np->personality.collector );
+    smenu.addentry( 3, true, 'f', "%s: %d", _( "altruism" ), np->personality.altruism );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Set aggression to?  Currently: %d" ),
+                           np->personality.aggression ) ) {
+                np->personality.aggression = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Set bravery to?  Currently: %d" ), np->personality.bravery ) ) {
+                np->personality.bravery = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Set collector to?  Currently: %d" ),
+                           np->personality.collector ) ) {
+                np->personality.collector = value;
+            }
+            break;
+        case 3:
+            if( query_int( value, _( "Set altruism to?  Currently: %d" ),
+                           np->personality.altruism ) ) {
+                np->personality.altruism = value;
+            }
+            break;
+    }
+}
+
 static void character_edit_desc_menu( Character &you )
 {
     uilist smenu;
@@ -1854,7 +1891,7 @@ static void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
+        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
@@ -1897,6 +1934,7 @@ static void character_edit_menu()
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
+        nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1979,6 +2017,9 @@ static void character_edit_menu()
         break;
         case D_OPINION:
             character_edit_opinion_menu( np );
+            break;
+        case D_PERSONALITY:
+            character_edit_personality_menu( np );
             break;
         case D_DESC:
             character_edit_desc_menu( you );
