@@ -25,6 +25,19 @@
   },
   {
     "type": "furniture",
+    "id": "f_magic_circle_2",
+    "name": "Magic Circle",
+    "looks_like": "f_magic_circle",
+    "move_cost_mod": 0,
+    "symbol": "O",
+    "color": "red",
+    "required_str": -1,
+    "crafting_pseudo_item": "magic_circle_rank_2",
+    "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
+    "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks.  It has been enhanced with silver to channel more mana."
+  },
+  {
+    "type": "furniture",
     "id": "f_glow_boulder",
     "looks_like": "f_boulder_large",
     "name": "large glowing boulder",
