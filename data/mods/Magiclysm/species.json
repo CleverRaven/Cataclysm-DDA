@@ -53,5 +53,12 @@
     "description": "A magical being of wind and rain.",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "bleeds": "fd_cold_air1"
+  },
+  {
+    "type": "SPECIES",
+    "id": "RAVENFOLK",
+    "description": "a corvid-like humanoid",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
   }
 ]
