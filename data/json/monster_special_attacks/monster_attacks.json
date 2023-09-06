@@ -141,13 +141,7 @@
     "cooldown": 2,
     "move_cost": 0,
     "hitsize_min": 4,
-    "condition": {
-      "and": [
-        { "not": { "one_in_chance": 4 } },
-        { "u_has_flag": "GRAB_FILTER" },
-        { "npc_has_flag": "GRAB" }
-      ]
-    },
+    "condition": { "and": [ { "not": { "one_in_chance": 4 } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
     "grab": true,
     "grab_data": {
       "exclusive_grab": true,
