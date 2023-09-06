@@ -8,5 +8,10 @@
     "type": "construction_group",
     "id": "build_everburning_torch_candelabra",
     "name": "Set up Everburning Candelabra"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_magiclysm_magic_circle",
+    "name": "Inscribe Magic Circle"
   }
 ]
