@@ -173,7 +173,7 @@
       },
       {
         "id": "scratch",
-        "attack_upper": false,
+        "attack_upper": true,
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 11 } ]
       },
@@ -213,10 +213,9 @@
     "dodge": 1,
     "harvest": "demihuman",
     "special_attacks": [
-      { "id": "bite_humanoid", "attack_upper": false, "cooldown": 2 },
       {
         "id": "scratch",
-        "attack_upper": false,
+        "attack_upper": true,
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 11 } ]
       },
