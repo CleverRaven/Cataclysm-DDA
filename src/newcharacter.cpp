@@ -58,6 +58,7 @@
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
+#include "skill_ui.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -976,12 +977,20 @@ static const char *g_switch_msg( const avatar &u )
 
 void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
 {
+    const int iSecondColumn = 31;
+    const int iHeaderHeight = 6;
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 3;
+
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+        isWide = freeWidth > 15;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( TERMY - 11, TERMX - 35, point( 31, 6 ) );
+        w_description = catacurses::newwin( TERMY - iHeaderHeight - iHelpHeight - 1,
+                                            TERMX - iSecondColumn - 1, point( iSecondColumn, iHeaderHeight ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -1023,8 +1032,24 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     int highlighted = 0;
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
-        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
+        const std::string help_text =
+            ( isWide ? string_format(
+                  _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                     "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
+                     "<color_light_green>%s</color> to confirm selection.\n"
+                     "Press <color_light_green>%s</color> to go to the next tab or "
+                     "<color_light_green>%s</color> to return to main menu." ),
+                  ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+                  ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) )
+              : string_format(
+                  _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                  ctxt.get_desc( "HELP_KEYBINDINGS" ) )
+            );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         tabs.draw( w );
 
@@ -1054,20 +1079,8 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
                         COL_SKILL_USED, std::get<2>( cur_opt ) );
 
         // Helptext points tab
-        if( isWide ) {
-            fold_and_print( w, point( 2, TERMY - 4 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                               "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
-                               "<color_light_green>%s</color> to confirm selection.\n"
-                               "Press <color_light_green>%s</color> to go to the next tab or "
-                               "<color_light_green>%s</color> to return to main menu." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) );
-        } else {
-            fold_and_print( w, point( 2, TERMY - 2 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-        }
+        fold_and_print( w, point( 2, TERMY - foldstring( help_text, getmaxx( w ) - 4 ).size() - 1 ),
+                        getmaxx( w ) - 4, COL_NOTE_MINOR, help_text );
         wnoutrefresh( w );
         wnoutrefresh( w_description );
     } );
@@ -1086,6 +1099,159 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     } while( true );
 }
 
+static std::string assemble_stat_details( avatar &u, const unsigned char sel )
+{
+    std::string description_str;
+    switch( sel ) {
+        case 0: {
+            u.recalc_hp();
+            u.set_stored_kcal( u.get_healthy_kcal() );
+            description_str =
+                string_format( _( "Base HP: %d" ), u.get_part_hp_max( bodypart_id( "head" ) ) )
+                + string_format( _( "\nCarry weight: %.1f %s" ), convert_weight( u.weight_capacity() ),
+                                 weight_units() )
+                + string_format( _( "\nResistance to knock down effect when hit: %.1f" ), u.stability_roll() )
+                + string_format( _( "\nIntimidation skill: %i" ), u.intimidation() )
+                + string_format( _( "\nMaximum oxygen: %i" ), u.get_oxygen_max() )
+                + string_format( _( "\nShout volume: %i" ), u.get_shout_volume() )
+                + string_format( _( "\nLifting strength: %i" ), u.get_lift_str() )
+                + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
+                + colorize(
+                    string_format( _( "\nBash damage bonus: %.1f" ), u.bonus_damage( false ) ),
+                    COL_STAT_BONUS )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Throwing range, accuracy, and damage"
+                       "\n- Reload speed for weapons using muscle power to reload"
+                       "\n- Pull strength of some mutations"
+                       "\n- Resistance for being pulled or grabbed by some monsters"
+                       "\n- Speed of corpses pulping"
+                       "\n- Speed and effectiveness of prying things open, chopping wood, and mining"
+                       "\n- Chance of escaping grabs and traps"
+                       "\n- Power produced by muscle-powered vehicles"
+                       "\n- Most aspects of melee combat"
+                       "\n- Effectiveness of smashing furniture or terrain"
+                       "\n- Resistance to many diseases and poisons"
+                       "\n- Ability to drag heavy objects and grants bonus to speed when dragging them"
+                       "\n- Ability to wield heavy weapons with one hand"
+                       "\n- Ability to manage gun recoil"
+                       "\n- Duration of action of various drugs and alcohol" ),
+                    c_green );
+        }
+        break;
+
+        case 1: {
+            description_str =
+                colorize(
+                    string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
+                    + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
+                                     u.throw_dispersion_per_dodge( false ) ),
+                    COL_STAT_BONUS );
+            if( u.ranged_dex_mod() != 0 ) {
+                description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
+                                             std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );
+            } else {
+                description_str += "\n";
+            }
+            description_str +=
+                string_format( _( "\nDodge skill: %.f" ), u.get_dodge() )
+                + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Effectiveness of lockpicking"
+                       "\n- Resistance for being grabbed by some monsters"
+                       "\n- Chance of escaping grabs and traps"
+                       "\n- Effectiveness of disarming traps"
+                       "\n- Chance of success when manipulating with gun modifications"
+                       "\n- Effectiveness of repairing and modifying clothes and armor"
+                       "\n- Attack speed and chance of critical hits in melee combat"
+                       "\n- Effectiveness of stealing"
+                       "\n- Throwing speed"
+                       "\n- Aiming speed"
+                       "\n- Speed and effectiveness of chopping wood with powered tools"
+                       "\n- Chance to avoid traps"
+                       "\n- Chance to get better results when butchering corpses or cutting items"
+                       "\n- Chance of avoiding cuts on sharp terrain"
+                       "\n- Chance of losing control of vehicle when driving"
+                       "\n- Chance of damaging melee weapon on attack"
+                       "\n- Damage from falling" ),
+                    c_green );
+        }
+        break;
+
+        case 2: {
+            const int read_spd = u.read_speed();
+            description_str =
+                colorize( string_format( _( "Read times: %d%%" ), read_spd ),
+                          ( read_spd == 100 ? COL_STAT_NEUTRAL :
+                            ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ) )
+                + string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
+                + colorize( string_format( _( "\nCrafting bonus: %2d%%" ), u.get_int() ),
+                            COL_STAT_BONUS )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
+                       "\n- Detection and disarming traps"
+                       "\n- Chance of success when installing bionics"
+                       "\n- Chance of success when manipulating with gun modifications"
+                       "\n- Chance to learn a recipe when crafting from a book"
+                       "\n- Chance to learn martial arts techniques when using CQB bionic"
+                       "\n- Chance of hacking computers and card readers"
+                       "\n- Chance of successful robot reprogramming"
+                       "\n- Chance of successful decrypting memory cards"
+                       "\n- Chance of bypassing vehicle security system"
+                       "\n- Chance to get better results when disassembling items"
+                       "\n- Chance of being paralyzed by fear attack" ),
+                    c_green );
+        }
+        break;
+
+        case 3: {
+            if( u.ranged_per_mod() > 0 ) {
+                description_str =
+                    colorize( string_format( _( "Aiming penalty: -%d" ), u.ranged_per_mod() ),
+                              COL_STAT_PENALTY );
+            }
+            description_str +=
+                string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
+                       "\n- Time needed for safe cracking"
+                       "\n- Sight distance on game map and overmap"
+                       "\n- Effectiveness of stealing"
+                       "\n- Throwing accuracy"
+                       "\n- Chance of losing control of vehicle when driving"
+                       "\n- Chance of spotting camouflaged creatures"
+                       "\n- Effectiveness of lockpicking"
+                       "\n- Effectiveness of foraging"
+                       "\n- Precision when examining wounds and using first aid skill"
+                       "\n- Detection and disarming traps"
+                       "\n- Morale bonus when playing a musical instrument"
+                       "\n- Effectiveness of repairing and modifying clothes and armor"
+                       "\n- Chance of critical hits in melee combat" ),
+                    c_green );
+        }
+        break;
+    }
+    return description_str;
+}
+
+static std::string assemble_stat_help( const input_context &ctxt )
+{
+    return string_format(
+               _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                  "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select stat.\n"
+                  "Press <color_light_green>%s</color> to increase stat or "
+                  "<color_light_green>%s</color> to decrease stat.\n"
+                  "Press <color_light_green>%s</color> to go to the next tab or "
+                  "<color_light_green>%s</color> to return to the previous tab." ),
+               ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+               ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+               ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+}
+
+/** Handle the stats tab of the character generation menu */
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
     // TODO: Move this out to a common header and eliminate other separate instances of these strings.
@@ -1094,309 +1260,118 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const int min_stat_points = 4;
 
     unsigned char sel = 0;
-    const int iSecondColumn = std::max( 27,
-                                        utf8_width( pools_to_string( u, pool ), true ) + 9 );
-    input_context ctxt( "NEW_CHAR_STATS" );
-    tabs.set_up_tab_navigation( ctxt );
-    ctxt.register_cardinal();
-    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    int iSecondColumn;
+    const int iHeaderHeight = 6;
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 4;
 
     ui_adaptor ui;
     catacurses::window w;
-    catacurses::window w_description;
+    catacurses::window w_details_pane;
+    scrolling_text_view details( w_details_pane );
+    bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int thirds = std::min( ( TERMX - 4 ) / 3, 38 );  // to allign scrollbar with the traits tab
+        iSecondColumn = std::max( thirds, utf8_width( pools_to_string( u, pool ), true ) + 2 );
+        const size_t iContentHeight = TERMY - iHeaderHeight - iHelpHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 30, TERMX - iSecondColumn - 1,
-                                            point( iSecondColumn, 6 ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
+                                             point( iSecondColumn, iHeaderHeight ) );
+        details_recalc = true;
         ui.position_from_window( w );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    u.reset();
+    input_context ctxt( "NEW_CHAR_STATS" );
+    tabs.set_up_tab_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    ctxt.register_cardinal();
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    u.reset();
     std::array<int *, 4> stats = { &u.str_max, &u.dex_max, &u.int_max, &u.per_max };
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        const std::string help_text = assemble_stat_help( ctxt );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         tabs.draw( w );
+        mvwputch( w, point( iSecondColumn, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
         // Helptext stats tab
-        fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                        _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                           "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select stat.\n"
-                           "Press <color_light_green>%s</color> to increase stat or "
-                           "<color_light_green>%s</color> to decrease stat.\n"
-                           "Press <color_light_green>%s</color> to go to the next tab or "
-                           "<color_light_green>%s</color> to return to the previous tab." ),
-                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                        ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+        fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        help_text );
 
-        // This is description line, meaning its length excludes first column and border
-        const std::string clear_line( getmaxx( w ) - iSecondColumn - 1, ' ' );
-        mvwprintz( w, point( iSecondColumn, 3 ), c_black, clear_line );
-        mvwprintz( w, point( iSecondColumn, 4 ), c_black, clear_line );
-        for( int i = 7; i < 14; i++ ) {
-            mvwprintz( w, point( iSecondColumn, i ), c_black, clear_line );
+        const point opt_pos( 2, sel + iHeaderHeight );
+        ui.set_cursor( w, opt_pos );
+        for( int i = 0; i < 4; i++ ) {
+            mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
+                       stat_labels[i].translated() );
+            mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
         }
 
         draw_points( w, pool, u );
-
-        for( int i = 0; i < 4; i++ ) {
-            mvwprintz( w, point( 2, i + 6 ), c_light_gray, "%s:", stat_labels[i].translated() );
-            mvwprintz( w, point( 16, i + 6 ), c_light_gray, "%2d", *stats[i] );
-        }
-
-        werase( w_description );
-        u.reset_stats();
-        u.set_stored_kcal( u.get_healthy_kcal() );
-        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
-
-        const point opt_pos( 2, sel + 6 );
-        ui.set_cursor( w, opt_pos );
-        mvwprintz( w, opt_pos, COL_SELECT, "%s:", stat_labels[sel].translated() );
-        mvwprintz( w, opt_pos + point( 14, 0 ), c_light_gray, "%2d", *stats[sel] );
+        const point desc_line = point( iSecondColumn, 3 );
         if( *stats[sel] <= min_stat_points ) {
-            mvwprintz( w, point( iSecondColumn, 3 ), c_red,
+            mvwprintz( w, desc_line, c_red,
                        //~ %s - stat
                        string_format( _( "%s cannot be further decreased" ),
                                       stat_labels[sel].translated() ) );
         } else if( *stats[sel] >= max_stat_points ) {
-            mvwprintz( w, point( iSecondColumn, 3 ), c_red,
+            mvwprintz( w, desc_line, c_red,
                        //~ %s - stat
                        string_format( _( "%s cannot be further increased" ),
                                       stat_labels[sel].translated() ) );
         } else if( *stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-            mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
+            mvwprintz( w, desc_line, c_light_red,
                        //~ %s - stat
                        string_format( _( "Increasing %s further costs 2 points" ),
                                       stat_labels[sel].translated() ) );
         }
 
-        switch( sel ) {
-            case 0: {
-                u.recalc_hp();
-                u.set_stored_kcal( u.get_healthy_kcal() );
-                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
-                           u.get_part_hp_max( bodypart_id( "head" ) ) );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
-                           convert_weight( u.weight_capacity() ), weight_units() );
-                mvwprintz( w_description, point( 0, 2 ), COL_STAT_NEUTRAL,
-                           _( "Resistance to knock down effect when hit: %.1f" ), u.stability_roll() );
-                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Intimidation skill: %i" ),
-                           u.intimidation() );
-                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Maximum oxygen: %i" ),
-                           u.get_oxygen_max() );
-                mvwprintz( w_description, point( 0, 5 ), COL_STAT_NEUTRAL, _( "Shout volume: %i" ),
-                           u.get_shout_volume() );
-                mvwprintz( w_description, point( 0, 6 ), COL_STAT_NEUTRAL, _( "Lifting strength: %i" ),
-                           u.get_lift_str() );
-                mvwprintz( w_description, point( 0, 7 ), COL_STAT_NEUTRAL, _( "Move cost while swimming: %i" ),
-                           u.swim_speed() );
-                mvwprintz( w_description, point( 0, 8 ), COL_STAT_BONUS, _( "Bash damage bonus: %.1f" ),
-                           u.bonus_damage( false ) );
-                mvwprintz( w_description, point( 0, 10 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 11;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Throwing range, accuracy, and damage" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Reload speed for weapons using muscle power to reload" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Pull strength of some mutations" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Resistance for being pulled or grabbed by some monsters" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed of corpses pulping" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed and effectiveness of prying things open, chopping wood, and mining" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of escaping grabs and traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Power produced by muscle-powered vehicles" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Most aspects of melee combat" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of smashing furniture or terrain" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Resistance to many diseases and poisons" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Ability to drag heavy objects and grants bonus to speed when dragging them" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Ability to wield heavy weapons with one hand" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Ability to manage gun recoil" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Duration of action of various drugs and alcohol" ) );
-            }
-            break;
-
-            case 1: {
-                mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
-                           u.get_melee_hit_base() );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
-                           _( "Throwing penalty per target's dodge: +%d" ),
-                           u.throw_dispersion_per_dodge( false ) );
-                if( u.ranged_dex_mod() != 0 ) {
-                    mvwprintz( w_description, point( 0, 2 ), COL_STAT_PENALTY, _( "Ranged penalty: -%d" ),
-                               std::abs( u.ranged_dex_mod() ) );
-                }
-                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Dodge skill: %.f" ),
-                           u.get_dodge() );
-                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Move cost while swimming: %i" ),
-                           u.swim_speed() );
-                mvwprintz( w_description, point( 0, 6 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 7;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of lockpicking" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Resistance for being grabbed by some monsters" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of escaping grabs and traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of disarming traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of success when manipulating with gun modifications" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of repairing and modifying clothes and armor" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Attack speed and chance of critical hits in melee combat" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of stealing" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Throwing speed" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Aiming speed" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed and effectiveness of chopping wood with powered tools" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to avoid traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to get better results when butchering corpses or cutting items" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of avoiding cuts on sharp terrain" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of losing control of vehicle when driving" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of damaging melee weapon on attack" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Damage from falling" ) );
-            }
-            break;
-
-            case 2: {
-                const int read_spd = u.read_speed();
-                mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
-                                                        ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
-                           _( "Read times: %d%%" ), read_spd );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Persuade/lie skill: %i" ),
-                           u.persuade_skill() );
-                mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
-                           u.get_int() );
-                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 5;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed of 'catching up' practical experience to theoretical knowledge" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Detection and disarming traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of success when installing bionics" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of success when manipulating with gun modifications" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to learn a recipe when crafting from a book" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to learn martial arts techniques when using CQB bionic" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of hacking computers and card readers" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of successful robot reprogramming" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of successful decrypting memory cards" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of bypassing vehicle security system" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to get better results when disassembling items" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of being paralyzed by fear attack" ) );
-            }
-            break;
-
-            case 3: {
-                if( u.ranged_per_mod() > 0 ) {
-                    mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
-                               u.ranged_per_mod() );
-                }
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Persuade/lie skill: %i" ),
-                           u.persuade_skill() );
-                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 4;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed of 'catching up' practical experience to theoretical knowledge" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Time needed for safe cracking" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Sight distance on game map and overmap" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of stealing" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Throwing accuracy" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of losing control of vehicle when driving" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of spotting camouflaged creatures" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of lockpicking" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of foraging" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Precision when examining wounds and using first aid skill" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Detection and disarming traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Morale bonus when playing a musical instrument" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of repairing and modifying clothes and armor" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of critical hits in melee combat" ) );
-            }
-            break;
+        u.reset_stats();
+        u.set_stored_kcal( u.get_healthy_kcal() );
+        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
+        if( details_recalc ) {
+            details.set_text( assemble_stat_details( u, sel ) );
+            details_recalc = false;
         }
 
         wnoutrefresh( w );
-        wnoutrefresh( w_description );
+        details.draw( COL_STAT_NEUTRAL );
     } );
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        const unsigned char id_for_curr_description = sel;
+
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
+        } else if( details.handle_navigation( action, ctxt ) ) {
+            // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
             if( *stats[sel] > min_stat_points ) {
                 ( *stats[sel] )--;
+                details_recalc = true;
             }
-            continue;
         } else if( action == "RIGHT" ) {
             if( *stats[sel] < max_stat_points ) {
                 ( *stats[sel] )++;
+                details_recalc = true;
             }
-            continue;
         } else if( action == "DOWN" ) {
-            sel = ( sel + 5 ) % 4;
+            sel = ( sel + 1 ) % 4;
         } else if( action == "UP" ) {
             sel = ( sel + 3 ) % 4;
+        }
+        if( sel != id_for_curr_description ) {
+            details_recalc = true;
         }
     } while( true );
 }
@@ -1508,6 +1483,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         }
     }
 
+    const int iHeaderHeight = 6;
+    const int iDetailHeight = 3;
     size_t iContentHeight = 0;
     size_t page_width = 0;
 
@@ -1548,14 +1525,18 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui_adaptor ui;
     catacurses::window w;
-    catacurses::window w_description;
+    catacurses::window w_details_pane;
+    scrolling_text_view details( w_details_pane );
+    bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        w_details_pane = catacurses::newwin( iDetailHeight, TERMX - 1,
+                                             point( 0, TERMY - iDetailHeight - 1 ) );
         ui.position_from_window( w );
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
-        iContentHeight = TERMY - 10;
+        iContentHeight = TERMY - iHeaderHeight - iDetailHeight - 1;
 
+        details_recalc = true;
         pos_calc();
     };
     init_windows( ui );
@@ -1563,6 +1544,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     tabs.set_up_tab_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     for( scrollbar &sb : trait_sbs ) {
         sb.set_draggable( ctxt );
     }
@@ -1576,9 +1558,11 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
-        werase( w_description );
 
         tabs.draw( w );
+        for( int i = 1; i < 3; ++i ) {
+            mvwputch( w, point( i * page_width, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        }
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -1647,10 +1631,10 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                                    negativeTrait ? _( "earns" ) : _( "costs" ),
                                    points );
                     }
-                    fold_and_print( w_description, point_zero,
-                                    TERMX - 2, col_tr,
-                                    cursor.desc() );
-
+                    if( details_recalc ) {
+                        details.set_text( colorize( cursor.desc(), col_tr ) );
+                        details_recalc = false;
+                    }
                 }
 
                 nc_color cLine = col_off_pas;
@@ -1687,7 +1671,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                     cLine = c_light_gray;
                 }
 
-                const int cur_line_y = 6 + i - start;
+                const int cur_line_y = iHeaderHeight + i - start;
                 const int cur_line_x = 2 + iCurrentPage * page_width;
                 const point opt_pos( cur_line_x, cur_line_y );
                 if( iCurWorkingPage == iCurrentPage && current == i ) {
@@ -1698,7 +1682,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             }
 
             trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
-            .offset_y( 6 )
+            .offset_y( iHeaderHeight )
             .content_size( traits_size[iCurrentPage] )
             .viewport_pos( start )
             .viewport_size( iContentHeight )
@@ -1706,7 +1690,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         wnoutrefresh( w );
-        wnoutrefresh( w_description );
+        // color is never visible (COL_TR_NEUT), text is already colorized
+        details.draw( COL_TR_NEUT );
     } );
 
     do {
@@ -1768,6 +1753,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         std::array< int, 3> cur_sb_pos = iStartPos;
         bool scrollbar_handled = false;
+        const int iPrevWorkingPage = iCurWorkingPage;
+        const int iPrevLine = iCurrentLine[iCurWorkingPage];
         for( int i = 0; i < static_cast<int>( trait_sbs.size() ); ++i ) {
             if( trait_sbs[i].handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
                                               cur_sb_pos[i] ) ) {
@@ -1784,6 +1771,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         } else if( action == "LEFT" || action == "RIGHT" ) {
             iCurWorkingPage = next_avail_page( action == "LEFT" );
         } else if( scrollbar_handled
+                   || details.handle_navigation( action, ctxt )
                    || navigate_ui_list( action, iCurrentLine[iCurWorkingPage], 10,
                                         traits_size[iCurWorkingPage], true ) ) {
             // No additional action required
@@ -1885,6 +1873,9 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 filterstring.clear();
                 recalc_traits = true;
             }
+        }
+        if( iCurWorkingPage != iPrevWorkingPage || iCurrentLine[iCurWorkingPage] != iPrevLine ) {
+            details_recalc = true;
         }
     } while( true );
 }
@@ -2169,9 +2160,8 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
-        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
-                  LINE_OXXX );// '^|^' Tee pointing down
-        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );  // '┴'
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, profession_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
@@ -2215,8 +2205,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
         const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
-        int i;
-        for( i = iStartPos; i < end_pos; i++ ) {
+        for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
 
@@ -2233,7 +2222,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            const point opt_pos( 2, 6 + i - iStartPos );
+            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
             if( i == cur_id ) {
                 ui.set_cursor( w, opt_pos );
             }
@@ -2242,7 +2231,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 6 )
+        .offset_y( iHeaderHeight )
         .content_size( profs_length )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
@@ -2480,9 +2469,8 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
-        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
-                  LINE_OXXX );// '^|^' Tee pointing down
-        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );  // '┴'
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, profession_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_hobbies.size();
@@ -2524,8 +2512,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
         const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
-        int i;
-        for( i = iStartPos; i < end_pos; i++ ) {
+        for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.hobbies.count( &sorted_hobbies[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
@@ -2535,7 +2522,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                         sorted_hobbies[i] == sorted_hobbies[cur_id] ? COL_SELECT : c_light_gray );
             }
 
-            const point opt_pos( 2, 6 + i - iStartPos );
+            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
             if( i == cur_id ) {
                 ui.set_cursor( w, opt_pos );
             }
@@ -2739,6 +2726,20 @@ static std::string assemble_skill_details( const avatar &u,
     return assembled;
 }
 
+static std::string assemble_skill_help( const input_context &ctxt )
+{
+    return string_format(
+               _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                  "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
+                  "Press <color_light_green>%s</color> to increase skill or "
+                  "<color_light_green>%s</color> to decrease skill.\n"
+                  "Press <color_light_green>%s</color> to go to the next tab or "
+                  "<color_light_green>%s</color> to return to the previous tab." ),
+               ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+               ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+               ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+}
+
 void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 {
     ui_adaptor ui;
@@ -2747,10 +2748,11 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_details_pane;
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
-    catacurses::window w_keybindings;
-    std::vector<std::string> keybinding_hint;
+    const int iSecondColumn = 31;
     int iContentHeight = 0;
     const int iHeaderHeight = 6;
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 4;
     scrollbar list_sb;
     input_context ctxt( "NEW_CHAR_SKILLS" );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
@@ -2766,29 +2768,19 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "QUIT" );
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        keybinding_hint = foldstring( string_format(
-                                          _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                                             "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
-                                             "Press <color_light_green>%s</color> to increase skill or "
-                                             "<color_light_green>%s</color> to decrease skill.\n"
-                                             "Press <color_light_green>%s</color> to go to the next tab or "
-                                             "<color_light_green>%s</color> to return to the previous tab." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                                          ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                                          ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) ), TERMX - 2 );
-        iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
+        iContentHeight = TERMY - iHelpHeight - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
-        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, 6 ) );
+        w_list = catacurses::newwin( iContentHeight, iSecondColumn - 1, point( 1, iHeaderHeight ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
+                                             point( iSecondColumn, iHeaderHeight ) );
         details_recalc = true;
-        w_keybindings = catacurses::newwin( static_cast<int>( keybinding_hint.size() ), TERMX - 2, point( 1,
-                                            iHeaderHeight + iContentHeight ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
+    std::vector<const Skill *> sorted_skills = Skill::get_skills_sorted_by(
+    []( const Skill & a, const Skill & b ) {
         return localized_compare( a.name(), b.name() );
     } );
 
@@ -2797,19 +2789,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         return a->display_category() < b->display_category();
     } );
 
-    std::vector<std::pair<skill_displayType_id, const Skill *>> skill_list;
-    for( const Skill *skl : sorted_skills ) {
-        if( skill_list.empty() ) {
-            skill_list.emplace_back( skl->display_category(), nullptr );
-        }
-
-        if( skl->display_category() == skill_list.back().first ) {
-            skill_list.emplace_back( skl->display_category(), skl );
-        } else {
-            skill_list.emplace_back( skl->display_category(), nullptr );
-            skill_list.emplace_back( skl->display_category(), skl );
-        }
-    }
+    std::vector<HeaderSkill> skill_list = get_HeaderSkills( sorted_skills );
 
     const int num_skills = skill_list.size();
     int cur_offset = 1;
@@ -2817,48 +2797,12 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     const Skill *currentSkill = nullptr;
 
     const int scroll_rate = num_skills > 20 ? 5 : 2;
-    auto get_next = [&]( bool go_up, bool fast_scroll ) {
-        bool invalid = true;
-        while( invalid ) {
-            if( fast_scroll ) {
-                if( go_up ) {
-                    if( cur_pos == 0 ) {
-                        cur_pos = num_skills - 1;
-                    } else if( cur_pos <= scroll_rate ) {
-                        cur_pos = 0;
-                    } else {
-                        cur_pos += -scroll_rate;
-                    }
-                } else {
-                    if( cur_pos == num_skills - 1 ) {
-                        cur_pos = 0;
-                    } else if( cur_pos + scroll_rate >= num_skills ) {
-                        cur_pos = num_skills - 1;
-                    } else {
-                        cur_pos += +scroll_rate;
-                    }
-                }
-            } else {
-                if( go_up ) {
-                    cur_pos--;
-                    if( cur_pos < 0 ) {
-                        cur_pos = num_skills - 1;
-                    }
-                } else {
-                    cur_pos++;
-                    if( cur_pos >= num_skills ) {
-                        cur_pos = 0;
-                    }
-                }
-            }
-            currentSkill = skill_list[cur_pos].second;
-            if( currentSkill ) {
-                invalid = false;
-            }
-        }
+    auto get_next = [&]( bool go_up ) {
+        skip_skill_headers( skill_list, cur_pos, !go_up );
+        currentSkill = skill_list[cur_pos].skill;
     };
 
-    get_next( false, false );
+    get_next( false );
 
     std::map<skill_id, int> prof_skills;
     const profession::StartingSkillList &pskills = u.prof->skills();
@@ -2869,16 +2813,20 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        const std::string help_text = assemble_skill_help( ctxt );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         werase( w_list );
-        werase( w_keybindings );
         tabs.draw( w );
+        mvwputch( w, point( iSecondColumn, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
         draw_points( w, pool, u );
-
-        nc_color cur_color = COL_NOTE_MINOR;
-        for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
-            print_colored_text( w_keybindings, point( 0, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );
-        }
+        // Helptext skill tab
+        fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        help_text );
 
         if( details_recalc ) {
             details.set_text( assemble_skill_details( u, prof_skills, currentSkill ) );
@@ -2906,10 +2854,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
             const int y = i - cur_offset;
-            const skill_displayType_id &display_type = skill_list[i].first;
-            const Skill *thisSkill = skill_list[i].second;
+            const Skill *thisSkill = skill_list[i].skill;
             int prof_skill_level = 0;
-            if( !!thisSkill ) {
+            if( !skill_list[i].is_header ) {
                 for( auto &prof_skill : u.prof->skills() ) {
                     if( prof_skill.first == thisSkill->ident() ) {
                         prof_skill_level += prof_skill.second;
@@ -2921,8 +2868,8 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             if( i == cur_pos ) {
                 ui.set_cursor( w_list, opt_pos );
             }
-            if( !thisSkill ) {
-                mvwprintz( w_list, opt_pos, c_yellow, display_type->display_string() );
+            if( skill_list[i].is_header ) {
+                mvwprintz( w_list, opt_pos, c_yellow, thisSkill->display_category()->display_string() );
             } else if( static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) + prof_skill_level == 0 ) {
                 mvwprintz( w_list, opt_pos,
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
@@ -2941,7 +2888,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         list_sb.offset_x( 0 )
-        .offset_y( 6 )
+        .offset_y( iHeaderHeight )
         .content_size( num_skills )
         .viewport_pos( cur_offset )
         .viewport_size( iContentHeight )
@@ -2949,7 +2896,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
         wnoutrefresh( w );
         wnoutrefresh( w_list );
-        wnoutrefresh( w_keybindings );
         details.draw( c_light_gray );
     } );
 
@@ -2968,28 +2914,15 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             if( scrollbar_pos != cur_offset ) {
                 cur_offset = scrollbar_pos;
                 cur_pos = cur_offset + ( iContentHeight - 1 ) / 2; // Get approximate location
-                get_next( false, false ); // Then make sure it's a skill rather than a heading
+                get_next( false ); // Then make sure it's a skill rather than a heading
                 if( cur_pos < num_skills / 2 ) {
-                    get_next( true, false ); // Go back to where we were to ensure we can drag to the top
+                    get_next( true ); // Go back to where we were to ensure we can drag to the top
                 }
             }
-        } else if( action == "DOWN" ) {
-            get_next( false, false );
-        } else if( action == "UP" ) {
-            get_next( true, false );
-        } else if( action == "PAGE_DOWN" ) {
-            get_next( false, true );
-        } else if( action == "PAGE_UP" ) {
-            get_next( true, true );
-        } else if( action == "HOME" ) {
-            // Start at the bottom and go down so `get_next()` handles invariants for us
-            cur_pos = skill_list.size() - 1;
-            get_next( false, false );
-        } else if( action == "END" ) {
-            // Start at the top and go up so `get_next()` handles invariants for us
-            cur_pos = 0;
-            get_next( true, false );
-            currentSkill = skill_list[cur_pos].second;
+        } else if( navigate_ui_list( action, cur_pos, scroll_rate, skill_list.size(), true ) ) {
+            // omitting action == "PAGE_UP", because that shouldn't wrap
+            const bool go_up = action == "UP" || action == "SCROLL_UP";
+            get_next( go_up );
         } else if( action == "LEFT" ) {
             const skill_id &skill_id = currentSkill->ident();
             const int level = u.get_skill_level( skill_id );
@@ -3199,9 +3132,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
         tabs.draw( w );
-        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
-                  LINE_OXXX );// '^|^' Tee pointing down
-        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );  // '┴'
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, scenario_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
@@ -3244,8 +3176,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
         const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
-        int i;
-        for( i = iStartPos; i < end_pos; i++ ) {
+        for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
                 if( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] &&
@@ -3263,7 +3194,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            const point opt_pos( 2, 6 + i - iStartPos );
+            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
             if( i == cur_id ) {
                 ui.set_cursor( w, opt_pos );
             }
@@ -3506,11 +3437,70 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
 
 } // namespace char_creation
 
+static std::string assemble_description_help( const input_context &ctxt, const bool allow_reroll )
+{
+    if( !isWide ) {
+        return string_format( _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                              ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    }
+    std::string help_text = string_format(
+                                _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                                ctxt.get_desc( "HELP_KEYBINDINGS" ) )
+                            + string_format( _( "\nPress <color_light_green>%s</color> to save character template." ),
+                                    ctxt.get_desc( "SAVE_TEMPLATE" ) );
+    if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to pick a random name, "
+                            "<color_light_green>%s</color> to randomize all description values, "
+                            "<color_light_green>%s</color> to randomize all but scenario, or "
+                            "<color_light_green>%s</color> to randomize everything." ),
+                         ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
+                         ctxt.get_desc( "REROLL_CHARACTER" ), ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
+    } else {
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to pick a random name, "
+                            "<color_light_green>%s</color> to randomize all description values." ),
+                         ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
+    }
+    help_text += string_format(
+                     _( "\nPress <color_light_green>%1$s</color> to change cataclysm start date, "
+                        "<color_light_green>%2$s</color> to change game start date, "
+                        "<color_light_green>%3$s</color> to reset calendar." ),
+                     ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
+                     ctxt.get_desc( "RESET_CALENDAR" ) );
+    if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to select a specific starting location." ),
+                         ctxt.get_desc( "CHOOSE_LOCATION" ) );
+    } else {
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to select a specific starting city and "
+                            "<color_light_green>%s</color> to select a specific starting location." ),
+                         ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
+    }
+    help_text += string_format(
+                     _( "\nPress <color_light_green>%s</color> or <color_light_green>%s</color> "
+                        "to cycle through editable values." ),
+                     ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ) )
+                 + string_format( _( "\nPress <color_light_green>%s</color> and "
+                                     "<color_light_green>%s</color> to change gender, height, age, and blood type." ),
+                                  ctxt.get_desc( "LEFT" ), ctxt.get_desc( "RIGHT" ) )
+                 + string_format( _( "\nPress <color_light_green>%s</color> to edit value via popup input." ),
+                                  ctxt.get_desc( "CONFIRM" ) )
+                 + string_format( _( "\nPress <color_light_green>%s</color> to finish character creation "
+                                     "or <color_light_green>%s</color> to return to the previous TAB." ),
+                                  ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+    return help_text;
+}
+
 // NOLINTNEXTLINE(readability-function-size)
 void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                       pool_type pool )
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
+
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 10;
 
     ui_adaptor ui;
     catacurses::window w;
@@ -3534,7 +3524,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     catacurses::window w_calendar;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
+        isWide = freeWidth > 15;
         const int beginx2 = 46;
         const int ncol2 = 40;
         const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
@@ -3560,7 +3550,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
             w_skills = catacurses::newwin( TERMY - 11, 23, point( 22, 10 ) );
-            w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
             w_height = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
             w_age = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
             w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 8 ) );
@@ -3579,7 +3568,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_calendar = catacurses::newwin( 4, ncol_small, point( begin_sncol, 13 ) );
             w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 18 ) );
             w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 20 ) );
-            w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
             w_traits = catacurses::window();
             w_bionics = catacurses::window();
             w_proficiencies = catacurses::window();
@@ -3587,6 +3575,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_skills = catacurses::window();
             ui.position_from_window( w );
         }
+        w_guide = catacurses::newwin( iHelpHeight, TERMX - 4, point( 2, TERMY - iHelpHeight - 1 ) );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
@@ -3655,6 +3644,12 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
     bool no_name_entered = false;
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        const std::string help_text = assemble_description_help( ctxt, allow_reroll );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         tabs.draw( w );
         draw_points( w, pool, you );
@@ -3832,78 +3827,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         // Helptext description window
         werase( w_guide );
-        if( isWide ) {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to save character template." ),
-                            ctxt.get_desc( "SAVE_TEMPLATE" ) );
-
-            if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to pick a random name, "
-                                   "<color_light_green>%s</color> to randomize all description values, "
-                                   "<color_light_green>%s</color> to randomize all but scenario, or "
-                                   "<color_light_green>%s</color> to randomize everything." ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
-                                ctxt.get_desc( "REROLL_CHARACTER" ),
-                                ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
-            } else {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to pick a random name, "
-                                   "<color_light_green>%s</color> to randomize all description values." ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
-            }
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to switch gender." ),
-                            ctxt.get_desc( "CHANGE_GENDER" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%1$s</color> to change cataclysm start date, <color_light_green>%2$s</color> to change game start date, <color_light_green>%3$s</color> to reset calendar." ),
-                            ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
-                            ctxt.get_desc( "RESET_CALENDAR" ) );
-
-            if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to select a specific starting location." ),
-                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
-            } else {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to select a specific starting city and <color_light_green>%s</color> to select a specific starting location." ),
-                                ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
-            }
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
-                               "to cycle through editable values." ),
-                            ctxt.get_desc( "UP" ),
-                            ctxt.get_desc( "DOWN" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
-                            ctxt.get_desc( "LEFT" ),
-                            ctxt.get_desc( "RIGHT" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to edit value via popup input." ),
-                            ctxt.get_desc( "CONFIRM" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to finish character creation "
-                               "or <color_light_green>%s</color> to return to the previous TAB." ),
-                            ctxt.get_desc( "NEXT_TAB" ),
-                            ctxt.get_desc( "PREV_TAB" ) );
-        } else {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-
-        }
+        fold_and_print( w_guide, point_zero, getmaxx( w_guide ), c_light_gray, help_text );
         wnoutrefresh( w_guide );
 
         char_creation::draw_name( ui, w_name, you, current_selector == char_creation::NAME,
@@ -3953,11 +3877,10 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             }
         }
         if( isWide ) {
+            mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
             if( prof_addictions.empty() ) {
-                mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 wprintz( w_addictions, c_light_red, _( "None!" ) );
             } else {
-                mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_white, string_format( format, a.type->get_name().translated(),
@@ -3965,11 +3888,10 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 }
             }
         } else {
+            mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
             if( prof_addictions.empty() ) {
-                mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
                 wprintz( w_addictions, c_light_red, _( "None!" ) );
             } else {
-                mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_light_gray, "\n" );
@@ -3989,11 +3911,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
-
-        werase( w_scenario );
-        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
-        wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
-        wnoutrefresh( w_scenario );
 
         werase( w_calendar );
         mvwprintz( w_calendar, point_zero, COL_HEADER, _( "Start of cataclysm:" ) );
