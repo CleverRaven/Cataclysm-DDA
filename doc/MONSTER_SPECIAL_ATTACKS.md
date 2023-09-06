@@ -284,7 +284,7 @@ Casts a separately-defined spell at the monster's target.  Spells with `target_s
 | ---                            | ------------------------------------------------------------------------------------------------------- |
 | `spell_data`                   | List of spell properties for the attack.                                                                |
 | `min_level`                    | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.    |
-| `cooldown `                    | How often the monster can cast this spell.               used if a monster attempts it. Default 100.    |
+| `cooldown `                    | How often the monster can cast this spell.
 | `monster_message`              | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`. |
 | `condition`                    | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the casting monster and `npc` to the target unless the spell allows no target (in which case only self-conditions can be defined).
 | `allow_no_target`              | Bool, default `false`. If `true` the monster will cast it even without a hostile target.                |
