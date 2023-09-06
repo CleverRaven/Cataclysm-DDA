@@ -106,7 +106,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_rootstrike", "min_level": 5 },
         "cooldown": 20,
-        "monster_message": "Questing roots explode out of %1$s! toward <npcname>!"
+        "monster_message": "Questing roots explode out of %1$s toward <npcname>!"
       }
     ],
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
