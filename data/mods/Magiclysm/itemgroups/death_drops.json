@@ -58,7 +58,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "mossling_fur", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "mossling_fur", "prob": 50, "count": [ 1, 10 ] },
       { "item": "stick", "prob": 50, "count": [ 1, 2 ] },
       { "item": "leaves", "prob": 95, "count": [ 8, 16 ] }
     ]
@@ -68,7 +68,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "dryad_bark", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "dryad_bark", "prob": 50, "count": [ 1, 6 ] },
       { "item": "splinter", "prob": 85, "count": [ 20, 40 ] },
       { "item": "stick", "prob": 90, "count": [ 2, 4 ] },
       { "item": "leaves", "prob": 100, "count": [ 10, 30 ] }

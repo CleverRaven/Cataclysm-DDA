@@ -21,22 +21,12 @@
     "melee_dice_sides": 5,
     "dodge": 5,
     "regenerates": 1,
-    "armor": { "bash": 6, "stab": 8, "bullet": 12, "heat": -30 },
+    "armor": { "bash": 6, "stab": 8, "bullet": 18, "heat": -30 },
     "vision_day": 30,
     "vision_night": 5,
     "material": [ "veggy" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "HARDTOSHOOT",
-      "PATH_AVOID_DANGER_1",
-      "HIT_AND_RUN",
-      "PATH_AVOID_FIRE",
-      "FLAMMABLE",
-      "NOHEAD",
-      "NO_BREATHE"
-    ],
+    "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a pile of moss." },
     "death_drops": "mossling_drops"
   },
@@ -101,7 +91,7 @@
     "aggro_character": true,
     "melee_skill": 5,
     "melee_dice": 2,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 4,
     "dodge": 0,
     "regenerates": 3,
     "armor": { "bash": 25, "cut": 5, "stab": 20, "bullet": 100, "heat": -20 },
@@ -110,28 +100,17 @@
     "vision_night": 6,
     "material": [ "veggy" ],
     "special_attacks": [
-      { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
+      { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 15 },
       {
         "id": "spell_brackenwight_root",
         "type": "spell",
         "spell_data": { "id": "druid_rootstrike", "min_level": 5 },
         "cooldown": 20,
-        "monster_message": "Questing roots explode out of %1$s!"
+        "monster_message": "Questing roots explode out of %1$s! toward <npcname>!"
       }
     ],
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "BASHES",
-      "DESTROYS",
-      "ATTACKMON",
-      "NO_BREATHE",
-      "PUSH_MON",
-      "PUSH_VEH",
-      "PATH_AVOID_FIRE",
-      "PLASTIC"
-    ],
+    "flags": [ "SEES", "HEARS", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "PATH_AVOID_FIRE" ],
     "biosignature": { "biosig_item": "withered", "biosig_timer": 12 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "%s collapses into a massive pile of leaves and sticks." },
     "death_drops": "brackenwight_drops"
