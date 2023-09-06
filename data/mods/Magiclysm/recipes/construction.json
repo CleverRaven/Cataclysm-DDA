@@ -36,6 +36,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_magiclysm_magic_circle_2",
+    "group": "build_magiclysm_magic_circle",
+    "category": "FURN",
+    "required_skills": [ [ "spellcraft", 7 ] ],
+    "time": "360 m",
+    "qualities": [ [ { "id": "MOP", "level": 1 }, { "id": "GRIND", "level": 2 } ] ],
+    "components": [ [ [ "silver", 30 ] ],
+      [ [ "crystallized_mana", 5 ] ] ],
+    "pre_terrain": "f_magic_circle",
+    "post_terrain": "f_magic_circle_2"
+  },
+  {
+    "type": "construction",
     "id": "constr_magiclysm_everburning_torch_candelabra",
     "group": "build_everburning_torch_candelabra",
     "category": "FURN",
