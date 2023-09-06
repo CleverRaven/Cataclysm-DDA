@@ -16,5 +16,17 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_magiclysm_translocator_gate"
+  },
+  {
+    "type": "construction",
+    "id": "constr_magiclysm_everburning_torch_candelabra",
+    "group": "build_everburning_torch_candelabra",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "5 m",
+    "qualities": [ ],
+    "components": [ ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_everburning_torch_candelabra"
   }
 ]
