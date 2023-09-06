@@ -19,6 +19,7 @@
     "symbol": "O",
     "color": "red",
     "required_str": -1,
+    "crafting_pseudo_item": "magic_circle_rank_1",
     "flags": [ "ALLOW_FIELD_EFFECT", "TRANSPARENT" ],
     "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
   },
