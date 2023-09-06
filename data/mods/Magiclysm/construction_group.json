@@ -13,5 +13,10 @@
     "type": "construction_group",
     "id": "build_magiclysm_magic_circle",
     "name": "Inscribe Magic Circle"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_everburning_sconce",
+    "name": "Attach Everburning Sconce"
   }
 ]
