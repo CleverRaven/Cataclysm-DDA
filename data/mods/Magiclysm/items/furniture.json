@@ -1,0 +1,18 @@
+[
+    {
+    "type": "GENERIC",
+    "id": "everburning_torch_candelabra",
+    "name": { "str": "everburning torch candelabra" },
+    "description": "A tall, homemade candelabra that holds multiple everburning torches.  You could set it up somewhere to kindle the torches and provide light.",
+    "symbol": "Y",
+    "color": "brown",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": 0,
+    "price_postapoc": "1000 USD",
+    "longest_side": "150 cm",
+    "volume": "200 L",
+    "weight": "48 kg",
+    "material": [ "wood" ],
+    "to_hit": -3
+  }
+]
