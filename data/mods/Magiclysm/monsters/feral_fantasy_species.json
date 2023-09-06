@@ -216,6 +216,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
     "dodge": 1,
+    "armor": { "bash": 3, "cut": 4, "stab": 4, "bullet": 2 },
     "harvest": "lizardfolk",
     "special_attacks": [
       {
