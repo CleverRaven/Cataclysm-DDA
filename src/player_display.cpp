@@ -37,6 +37,7 @@
 #include "proficiency.h"
 #include "sdltiles.h"
 #include "skill.h"
+#include "skill_ui.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -778,13 +779,6 @@ static void draw_effects_info( const catacurses::window &w_info, const unsigned 
     wnoutrefresh( w_info );
 }
 
-struct HeaderSkill {
-    const Skill *skill;
-    bool is_header;
-    HeaderSkill( const Skill *skill, bool is_header ): skill( skill ), is_header( is_header ) {
-    }
-};
-
 static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                              Character &you, unsigned int line, const player_display_tab curtab,
                              std::vector<HeaderSkill> &skillslist )
@@ -1129,18 +1123,6 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     wnoutrefresh( w_tip );
 }
 
-static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsigned int &line,
-                                bool inc, unsigned int line_count )
-{
-    const unsigned int prev_line = line;
-    while( skillslist[line].is_header ) {
-        line = inc_clamp_wrap( line, inc, line_count );
-        if( line == prev_line ) {
-            break;
-        }
-    }
-}
-
 static void on_customize_character( Character &you )
 {
     uilist cmenu;
@@ -1294,7 +1276,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     if( line_count > 0 ) {
         line = std::clamp( line, 0U, line_count - 1 );
         if( curtab == player_display_tab::skills ) {
-            skip_skill_headers( skillslist, line, true, line_count );
+            skip_skill_headers( skillslist, line, true );
         }
     } else {
         line = 0;
@@ -1309,9 +1291,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             ui_tip.invalidate_ui();
         }
         if( curtab == player_display_tab::skills ) {
-            const bool inc = action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ||
-                             action == "HOME";
-            skip_skill_headers( skillslist, line, inc, line_count );
+            // including actios "PAGE_UP", and "HOME", because these shouldn't wrap
+            const bool inc = action == "DOWN" || action == "PAGE_DOWN" || action == "PAGE_UP" ||
+                             action == "SCROLL_DOWN" || action == "HOME";
+            skip_skill_headers( skillslist, line, inc );
         }
         info_line = 0;
         invalidate_tab( curtab );
@@ -1628,15 +1611,7 @@ void Character::disp_info( bool customize_character )
         return a.get_sort_rank() < b.get_sort_rank();
     } );
 
-    std::vector<HeaderSkill> skillslist;
-    skill_displayType_id prev_type = skill_displayType_id::NULL_ID();
-    for( const Skill * const &s : player_skill ) {
-        if( s->display_category() != prev_type ) {
-            prev_type = s->display_category();
-            skillslist.emplace_back( s, true );
-        }
-        skillslist.emplace_back( s, false );
-    }
+    std::vector<HeaderSkill> skillslist = get_HeaderSkills( player_skill );
     const unsigned int skill_win_size_y_max = 1 + skillslist.size();
     const unsigned int info_win_size_y = 6;
 
