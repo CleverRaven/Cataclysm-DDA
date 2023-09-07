@@ -4,12 +4,12 @@
     "id": "dragon_deep_breath",
     "name": { "str": "Take a Deep Breath" },
     "description": "Preps for using dragon breath.",
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "max_level": 40,
     "effect": "attack",
-    "extra_effects": [ { "id": "dragon_deep_breath_self", "hit_self": true, "max_level": 1 } ]
-    "shape": "blast"
+    "extra_effects": [ { "id": "dragon_deep_breath_self", "hit_self": true, "max_level": 1 } ],
+    "shape": "blast",
     "min_range": 8,
     "max_range": 12,
     "range_increment": 0.1
@@ -19,7 +19,7 @@
     "id": "dragon_deep_breath_self",
     "name": { "str": "Took a Deep Breath" },
     "description": "Grants the effect for a dragon to use deep breath.",
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "self" ],
     "max_level": 1,
     "effect": "attack",
