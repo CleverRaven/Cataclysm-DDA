@@ -1745,7 +1745,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
                 // For each layer
                 for( auto f : drawing_layers ) {
-                    std::map<tripoint, std::pair<lit_level, std::array<bool, 5>>> ll_invis_cache;
                     // For each tile
                     for( tile_render_info &p : draw_points[row] ) {
                         // Skip if z-level less than draw_min_z
@@ -2006,6 +2005,11 @@ std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripo
 
     std::pair<lit_level, std::array<bool, 5>> ret( ll, invisible );
     return ret;
+}
+
+void cata_tiles::clear_draw_caches()
+{
+    ll_invis_cache.clear();
 }
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
