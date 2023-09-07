@@ -6322,5 +6322,34 @@
       "male": [ "briefs" ],
       "female": [ "panties", "bra" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "rv_hunter",
+    "name": "RV Hunter",
+    "description": "Ever since you were a child you loved hunting and traveling; so when you scraped enough money, you bought yourself an old rv, a gun, and hit the road.  You've been all over the country, hunting for good game.  Unfortunately the country is all over this time, and even more unfortunately you've lost your ol' reliable in the chaos.  Now you gotta find a new reliable.",
+    "points": 4,
+	"proficiencies": [ "prof_driver", "prof_basic_engines" ],
+    "skills": [
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "swimming" },
+	  { "level": 4, "name": "driving" },
+	  { "level": 4, "name": "mechanics" }
+    ],
+	"vehicle": "rv",
+    "items": {
+      "both": {
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "missions": [ "MISSION_HUNTER" ]
   }
 ]
