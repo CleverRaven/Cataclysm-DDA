@@ -261,8 +261,8 @@
       { "monster": "mon_feral_dwarf_crowbar", "weight": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_elf_axe", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_dwarf_axe", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_goblin", "weight": 20, "pack_size": [ 2, 3 ] }
-      { "monster": "mon_feral_ravenfolk", "weight": 15, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_feral_goblin", "weight": 20, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_ravenfolk", "weight": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_lizardfolk", "weight": 10, "pack_size": [ 2, 3 ] }
     ]
   }
