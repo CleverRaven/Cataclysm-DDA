@@ -6334,8 +6334,8 @@
       { "level": 3, "name": "rifle" },
       { "level": 3, "name": "gun" },
       { "level": 2, "name": "swimming" },
-	  { "level": 4, "name": "driving" },
-	  { "level": 4, "name": "mechanics" }
+      { "level": 4, "name": "driving" },
+      { "level": 4, "name": "mechanics" }
     ],
 	"vehicle": "rv",
     "items": {
