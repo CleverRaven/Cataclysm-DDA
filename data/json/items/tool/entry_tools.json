@@ -92,7 +92,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
-    "melee_damage": { "bash": 12, "cut": 1 }
+    "melee_damage": { "bash": 11, "cut": 1 }
   },
   {
     "id": "picklocks",

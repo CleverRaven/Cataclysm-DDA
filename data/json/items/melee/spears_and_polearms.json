@@ -357,7 +357,7 @@
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "melee_damage": { "bash": 8, "stab": 13 }
+    "melee_damage": { "bash": 3, "stab": 13 }
   },
   {
     "type": "GENERIC",
@@ -392,13 +392,13 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "volume": "1135 ml",
-    "longest_side": "184 cm",
+    "longest_side": "180 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ],
-    "melee_damage": { "bash": 8, "stab": 29 }
+    "melee_damage": { "bash": 7, "stab": 27 }
   },
   {
     "type": "GENERIC",
