@@ -7,7 +7,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 
 | Identifier            | Type      | Description |
 |--------------------- | --------- | ----------- |
-|`recurrence`          | int or variable object or array | The effect_on_condition is automatically invoked (activated) with this many seconds in-between. If it is an object it must have strings `name`, `type`, and `context`. `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.  If it is an array it must have two values which are either ints or varible_objects.
+|`recurrence`          | int or variable object or array | The effect_on_condition is automatically invoked (activated) with this many seconds in-between. If it is an object it must have strings `name`, `type`, and `context`. `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.  If it is an array it must have two values which are either ints or variable_objects.
 |`condition`           | condition  | The condition(s) under which this effect_on_condition, upon activation, will cause its effect.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
 | `deactivate_condition`| condition  | *optional* When an effect_on_condition is automatically activated (invoked) and fails its condition(s), `deactivate_condition` will be tested if it exists and there is no `false_effect` entry.  If it returns true, this effect_on_condition will no longer be invoked automatically every `recurrence` seconds.  Whenever the player/npc gains/loses a trait or bionic all deactivated effect_on_conditions will have `deactivate_condition` run; on a return of false, the effect_on_condition will start being run again.  This is to allow adding effect_on_conditions for specific traits or bionics that don't waste time running when you don't have the target bionic/trait.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
 | `required_event`      | cata_event | The event that when it triggers, this EOC does as well. Only relevant for an EVENT type EOC.
@@ -32,13 +32,13 @@ An effect_on_condition is an object allowing the combination of dialog condition
 
 ## Alpha and Beta Talkers
 
-Talker, in context of effect on condition, is any entity, that can use specific effect or be checked against specific condition. Some effects and conditions don't have talker whatsoever, so any entity can use it (like `mapgen_update` effect can be used no matter is it used by player, NPC, monster or item), other has only one talker (aka alpha talker, aka `u_`) - the entity that call the effect or check (like `u_know_recipe` or `u_has_mission`), and the third has two talkers - alpha and beta (aka `u_` and `npc_`), which allow to check both you and your interlocutor (or enemy, depening on context)
+Talker, in context of effect on condition, is any entity, that can use specific effect or be checked against specific condition. Some effects and conditions don't have talker whatsoever, so any entity can use it (like `mapgen_update` effect can be used no matter is it used by player, NPC, monster or item), other has only one talker (aka alpha talker, aka `u_`) - the entity that call the effect or check (like `u_know_recipe` or `u_has_mission`), and the third has two talkers - alpha and beta (aka `u_` and `npc_`), which allow to check both you and your interlocutor (or enemy, depending on context)
 
 For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant, check the player as beta talker, despite the id imply it should be `npc_`; This is a legacy of dialogue system, from which EoC was extended, and won't be fixed, since dialogues still use it fully
 
 ## Value types
 
-Effect on Condidion uses a huge variety of different values for effects or for conditions to check against, so to standardise it, most of them are explained here
+Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
 
 | name | description | example |
 | --- | --- | --- |
@@ -57,9 +57,9 @@ Variable object is a value, that changes due some conditions. Variable can be in
 
 - `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (despite player can swap to another NPC, for example); 
 - `npc_val` - variable, that is stored in beta talker
-- `global_val` - variable, that is store in the world, and won't be lost untill you delete said world
+- `global_val` - variable, that is store in the world, and won't be lost until you delete said world
 - `context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks:
-`character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store infromation about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
+`character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store information about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
 - `var_val` - var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
 
 | Name | Type | Value |
@@ -334,7 +334,7 @@ Checks do alpha talker has `FEATHERS` mutation
 | ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
 
 #### Examples
-Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster uses it to perform grabs - the game checks do monster (alpha talker, `u_`) has GRAB flag (ie able to grab at all), and check is target able to be grabbed using `GRAB_FILTER` flag
+Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster uses it to perform grabs - the game checks do monster (alpha talker, `u_`) has GRAB flag (i.e. able to grab at all), and check is target able to be grabbed using `GRAB_FILTER` flag
 ```json
 { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" }
 ```
@@ -401,7 +401,7 @@ Checks do alpha talker has `u_met_sadie` variable
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
-checks this vars exist
+checks this var exists
 ```json
 { "expects_vars": [ "u_met_me", "u_met_you", "u_met_yourself" ] }
 ```
@@ -614,7 +614,7 @@ You have equipped an item with
 
 ### `u_can_drop_weapon`, `npc_can_drop_weapon`
 - type: simple string
-- return true if alpha or beta talker wield an item, and can drop it on the ground (ie weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
+- return true if alpha or beta talker wield an item, and can drop it on the ground (i.e. weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
 
 #### Valid talkers:
 
@@ -891,7 +891,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_casts_spell |  | { "character", `character_id` }, { "spell", `spell_id` }, { "difficulty", `int` }, { "cost", `int` }, { "cast_time", `int` }, { "damage", `int` }, |
 | character_consumes_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
 | character_eats_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
-| character_finished_activity | Triggered when character finished or chanceled activity | { "character", `character_id` }, { "activity", `activity_id` }, { "canceled", `bool` } |
+| character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` }, { "activity", `activity_id` }, { "canceled", `bool` } |
 | character_forgets_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
 | character_gains_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
 | character_gets_headshot |  | { "character", `character_id` } |
@@ -943,7 +943,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` }, { "is_debug", `bool` }, { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "avatar_profession", `profession_id` }, { "avatar_custom_profession", `string` }, |
 | game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, |
 | game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, |
-| game_over | Triggers after fully accepting death, epilogues etc have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, |
+| game_over | Triggers after fully accepting death, epilogues etc. have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, |
 | game_save | | { "time_since_load", `chrono_seconds` }, { "total_time_played", `chrono_seconds` }, |
 | game_start | Triggered only during new game character initialization | { "game_version", `string` }, |
 | installs_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
@@ -1720,7 +1720,7 @@ Emit a sound
 | "volume" | **mandatory** | int, float or [variable object](##variable-object) | how loud the sound is (1 unit = 1 tile around the character) | 
 | "type" | **mandatory** | string or [variable object](##variable-object) | Type of the sound; Could be one of `background`, `weather`, `music`, `movement`, `speech`, `electronic_speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, or `order` | 
 | "target_var" | optional | [variable object](##variable-object) | if set, the center of the sound would be centered in this variable's coordinates instead of you or NPC | 
-| "snippet" | optional | boolean | dafault false; if true, `_make_sound` would use a snippet of provided id instead of a message | 
+| "snippet" | optional | boolean | default false; if true, `_make_sound` would use a snippet of provided id instead of a message | 
 | "same_snippet" | optional | boolean | default false; if true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 
 ##### Valid talkers:
@@ -1984,7 +1984,7 @@ You or NPC is teleported to `target_var` coordinates
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](##variable-object) | location to teleport; should use `target_var`, created previously |
-| "success_message" | optional | string or [variable object](##variable-object) | message, that would be printed, if teleportation was sucessful | 
+| "success_message" | optional | string or [variable object](##variable-object) | message, that would be printed, if teleportation was successful | 
 | "fail_message" | optional | string or [variable object](##variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
 
