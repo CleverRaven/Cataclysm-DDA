@@ -7725,6 +7725,11 @@ look_around_result game::look_around(
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
+            // Update map and visibility caches at target z-level
+            // Map cache is also built at player z-level to fix player not visible from higher z-levels
+            m.build_map_cache( u.posz() );
+            m.build_map_cache( center.z );
+            m.update_visibility_cache( center.z );
         } else if( action == "TRAVEL_TO" ) {
             const std::optional<std::vector<tripoint_bub_ms>> try_route = safe_route_to( u, lp,
             0,  []( const std::string & msg ) {
