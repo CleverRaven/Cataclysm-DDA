@@ -320,7 +320,7 @@
     "id": "corded_powerdrill",
     "type": "TOOL",
     "name": { "str": "power drill" },
-    "description": "A power drill with a selection of bits. Uses a power cord.",
+    "description": "A black power drill with a selection of bits.  Uses a power cord, so it will have to be plugged into a power grid or vehicle to function.",
     "weight": "2721 g",
     "volume": "750 ml",
     "longest_side": "22 cm",
