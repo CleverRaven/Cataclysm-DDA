@@ -57,19 +57,38 @@
     "type": "MONSTER_FACTION",
     "name": "earth_spirit_faction",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "herbivore", "insect" ],
     "hate": [ "zombie", "nether_player_hate", "jabberwock" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "forest_spirit_faction",
     "base_faction": "animal",
-    "neutral": [ "canidae", "fish", "mega_bird", "insect" ],
-    "friendly": [ "small_animal", "herbivore", "mega_herbivore" ],
     "hate": [ "zombie", "fungus", "nether_player_hate", "jabberwock" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "magical_plant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fungus",
+    "neutral": [ "bot", "fish", "passive_machine", "yrax" ],
+    "hate": [ "triffid", "forest_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "jabberwock",
+    "neutral": [ "fish" ],
+    "by_mood": [ "jabberwock" ],
+    "hate": [ "zombie", "animal", "insect", "mutant", "human", "forest_spirit_faction", "earth_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether_player_hate",
+    "//": "These creatures aren't necessarily sentient in and of themselves or are drawn to sentient life in and around dimensional breaches.",
+    "base_faction": "nether",
+    "friendly": [ "zombie" ],
+    "neutral": [ "animal" ],
+    "hate": [ "player", "forest_spirit_faction", "earth_spirit_faction" ]
   }
 ]
