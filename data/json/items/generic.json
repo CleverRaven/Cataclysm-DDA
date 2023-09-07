@@ -3794,7 +3794,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "wood" ],
-    "weight": "323 g",
+    "weight": "200 g",
     "volume": "250 ml",
     "to_hit": 1,
     "melee_damage": { "bash": 4 }
