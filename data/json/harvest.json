@@ -2388,5 +2388,289 @@
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
+  },
+  {
+    "id": "tiny_turtle",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_tiny_turtle", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "tiny_turtle_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "turtle",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_turtle", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.003 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.10 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "turtle_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "snapturtle",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_snapturtle", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.003 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.10 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "turtle_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_turtle_big",
+    "type": "harvest",
+    "entries": [
+      { "drop": "turtle_big_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "turtle_big_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_tortoise_big",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tortoise_big_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "tortoise_big_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_snapturtle_big",
+    "type": "harvest",
+    "entries": [
+      { "drop": "snapturtle_big_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "snapturtle_big_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_turtle_big_s",
+    "type": "harvest",
+    "entries": [
+      { "drop": "turtle_big_s_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "turtle_big_s_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_tortoise_big_s",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tortoise_big_s_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "tortoise_big_s_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_snapturtle_big_s",
+    "type": "harvest",
+    "entries": [
+      { "drop": "snapturtle_big_s_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "snapturtle_big_s_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_turtle_giant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tortoise_big_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "tortoise_big_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_tortoise_giant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tortoise_big_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "tortoise_big_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_snapturtle_giant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "snapturtle_giant_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "snapturtle_giant_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_turtle_mega",
+    "type": "harvest",
+    "entries": [
+      { "drop": "turtle_mega_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "turtle_mega_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_tortoise_mega",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tortoise_mega_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "tortoise_mega_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
+  },
+  {
+    "id": "mutant_animal_snapturtle_mega",
+    "type": "harvest",
+    "entries": [
+      { "drop": "snapturtle_mega_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "snapturtle_mega_shell", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 }
+    ]
   }
 ]
