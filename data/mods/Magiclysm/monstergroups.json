@@ -282,6 +282,7 @@
     ]
   },
   {
+    "type": "monstergroup",
     "name": "GROUP_FOREST_SPIRIT",
     "monsters": [
       { "monster": "mon_mossling", "weight": 24, "cost_multiplier": 1 },
