@@ -691,5 +691,35 @@
       "type": "learn_spell",
       "spells": [ "magus_teleport_mark", "magus_word_of_recall", "magus_spiderclimb", "quantum_tunnel_lesser" ]
     }
+  },
+  {
+    "id": "prepper_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "It's the End of the World, But You'll Feel Fine",
+      "str_pl": "copies of It's the End of the World, But You'll Feel Fine"
+    },
+    "//": "3 Druid spells, 1 Earthshaper spell, 1 Biomancer spell, 2 Kelvinist spells",
+    "description": "This thick paperback book is a collection of the proper magical preparations to survive various disasters.  Unfortunately, the zombie apocalypse section doesn't account for everything that's gone wrong in the Cataclysm, but there's still a lot of useful knowledge here.",
+    "weight": "473 g",
+    "volume": "825 ml",
+    "price": 3500,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "yellow",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_harvest_hunter",
+        "druid_naturebow1",
+        "biomancer_carrion_feast",
+        "purify_seed",
+        "earthshaper_turning_of_earth",
+        "create_lighter",
+        "kelvinist_anti_cold"
+      ]
+    }
   }
 ]

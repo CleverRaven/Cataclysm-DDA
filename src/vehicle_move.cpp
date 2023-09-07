@@ -1501,9 +1501,9 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         } else if( one_in( 10 ) ) {
             // Don't warn all the time or it gets spammy
             if( cost >= driver.get_speed() * 2 ) {
-                driver.add_msg_if_player( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
+                driver.add_msg_if_player( m_warning, _( "It takes you a very long time to steer the vehicle!" ) );
             } else if( cost >= driver.get_speed() * 1.5f ) {
-                driver.add_msg_if_player( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
+                driver.add_msg_if_player( m_warning, _( "It takes you a long time to steer the vehicle!" ) );
             }
         }
 

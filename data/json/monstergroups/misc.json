@@ -511,5 +511,65 @@
     "type": "monstergroup",
     "name": "GROUP_JABBERWOCK",
     "monsters": [ { "monster": "mon_jabberwock" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "Can be overwritten by mods.",
+    "//2": "This group always has a chance of being the result, regardless of mission type.",
+    "monsters": [
+      { "monster": "mon_beaver", "weight": 10 },
+      { "monster": "mon_fox_red", "weight": 10 },
+      { "monster": "mon_fox_gray", "weight": 10 },
+      { "monster": "mon_mink", "weight": 5 },
+      { "monster": "mon_muskrat", "weight": 10 },
+      { "monster": "mon_otter", "weight": 10 },
+      { "monster": "mon_duck", "weight": 10 },
+      { "monster": "mon_cockatrice", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_TRAPPING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "Can be overwritten by mods.",
+    "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_black_rat", "weight": 40 },
+      { "monster": "mon_chipmunk", "weight": 30 },
+      { "monster": "mon_groundhog", "weight": 30 },
+      { "monster": "mon_hare", "weight": 20 },
+      { "monster": "mon_lemming", "weight": 40 },
+      { "monster": "mon_opossum", "weight": 10 },
+      { "monster": "mon_rabbit", "weight": 20 },
+      { "monster": "mon_squirrel", "weight": 20 },
+      { "monster": "mon_weasel", "weight": 20 },
+      { "monster": "mon_chicken", "weight": 10 },
+      { "monster": "mon_grouse", "weight": 10 },
+      { "monster": "mon_pheasant", "weight": 10 },
+      { "monster": "mon_turkey", "weight": 20 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING_LARGE",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "Can be overwritten by mods.",
+    "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_chicken", "weight": 20 },
+      { "monster": "mon_grouse", "weight": 2 },
+      { "monster": "mon_pheasant", "weight": 2 },
+      { "monster": "mon_turkey", "weight": 10 },
+      { "monster": "mon_bear", "weight": 1 },
+      { "monster": "mon_cougar", "weight": 5 },
+      { "monster": "mon_cow", "weight": 1 },
+      { "monster": "mon_coyote", "weight": 15 },
+      { "monster": "mon_deer", "weight": 2 },
+      { "monster": "mon_moose", "weight": 1 },
+      { "monster": "mon_pig", "weight": 1 },
+      { "monster": "mon_wolf", "weight": 10 }
+    ]
   }
 ]

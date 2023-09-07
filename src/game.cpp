@@ -2398,14 +2398,7 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
     return ret.first;
 }
 
-static input_context default_mode_input_context = create_default_mode_input_context();
-
-input_context &get_default_mode_input_context()
-{
-    return default_mode_input_context;
-}
-
-input_context create_default_mode_input_context()
+input_context get_default_mode_input_context()
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
@@ -11428,7 +11421,7 @@ void game::water_affect_items( Character &ch ) const
                    && !loc.protected_from_liquids() ) {
             wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet ).active = true;
+            loc->convert( itype_towel_wet, &ch ).active = true;
         }
     }
 
