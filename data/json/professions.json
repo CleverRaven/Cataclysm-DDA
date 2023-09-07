@@ -6337,7 +6337,7 @@
       { "level": 4, "name": "driving" },
       { "level": 4, "name": "mechanics" }
     ],
-	"vehicle": "rv",
+    "vehicle": "rv",
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
