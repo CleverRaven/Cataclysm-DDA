@@ -6329,7 +6329,7 @@
     "name": "RV Hunter",
     "description": "Ever since you were a child you loved hunting and traveling; so when you scraped enough money, you bought yourself an old rv, a gun, and hit the road.  You've been all over the country, hunting for good game.  Unfortunately the country is all over this time, and even more unfortunately you've lost your ol' reliable in the chaos.  Now you gotta find a new reliable.",
     "points": 4,
-	"proficiencies": [ "prof_driver", "prof_basic_engines" ],
+    "proficiencies": [ "prof_driver", "prof_basic_engines" ],
     "skills": [
       { "level": 3, "name": "rifle" },
       { "level": 3, "name": "gun" },
