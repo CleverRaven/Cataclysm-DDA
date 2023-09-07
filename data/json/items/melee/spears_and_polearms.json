@@ -385,7 +385,7 @@
     "id": "spear_pipe",
     "name": { "str": "pipe spear" },
     "description": "Three pipes tightly fit together with some wrappings for a handle around one end and a sharp tip on the other.",
-    "weight": "3890 g",
+    "weight": "2122 g",
     "price_postapoc": 250,
     "color": "light_gray",
     "symbol": "/",
