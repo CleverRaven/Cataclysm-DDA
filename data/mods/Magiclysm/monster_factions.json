@@ -57,12 +57,14 @@
     "type": "MONSTER_FACTION",
     "name": "earth_spirit_faction",
     "base_faction": "animal",
+    "friendly": [ "animal" ],
     "hate": [ "zombie", "nether_player_hate", "jabberwock" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "forest_spirit_faction",
     "base_faction": "animal",
+    "friendly": [ "animal" ],
     "hate": [ "zombie", "fungus", "nether_player_hate", "jabberwock" ]
   },
   {
@@ -90,5 +92,12 @@
     "friendly": [ "zombie" ],
     "neutral": [ "animal" ],
     "hate": [ "player", "forest_spirit_faction", "earth_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "animal",
+    "friendly": [ "attack_player_only", "forest_spirit_faction", "earth_spirit_faction" ],
+    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac", "passive_machine", "nether_player_hate" ],
+    "by_mood": [ "animal" ]
   }
 ]
