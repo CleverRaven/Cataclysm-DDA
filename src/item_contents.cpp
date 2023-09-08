@@ -828,7 +828,8 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
         return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
     }
 
-    ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it, false, true, ignore_contents );
+    ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it, false,
+            true, ignore_contents );
     if( pocket_contain_code.success() ) {
         return pocket;
     }
