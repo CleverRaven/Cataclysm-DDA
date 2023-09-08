@@ -9207,6 +9207,27 @@ const itype_variant_data &item::itype_variant() const
     return *_itype_variant;
 }
 
+std::string item::pick_random_variant()
+{
+    if( type->variants.empty() ) {
+        debugmsg( "Item '%s' called for a random variant but has no variants", this->tname() );
+        return "";
+    }
+
+    // There's probably a better way to do this...
+    std::vector<itype_variant_data> variants;
+    int variant_count;
+    for( const itype_variant_data &option : type->variants ) {
+        variant_count++;
+        variants.emplace_back( option );
+    }
+
+    // Vectors start at 0.  I'm sure there's a simpler way to do this though...
+    int chosen_variant = rng( 0, variant_count - 1 );
+    itype_variant_data variant_data = variants.at( chosen_variant );
+    return variant_data.id;
+}
+
 void item::set_itype_variant( const std::string &variant )
 {
     if( variant.empty() || type->variants.empty() ) {
