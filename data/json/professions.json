@@ -6350,6 +6350,6 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     },
-    "missions": [ "MISSION_HUNTER" ]
+    "missions": [ "MISSION_HUNTER", "MISSION_FIND_RIFLE" ]
   }
 ]
