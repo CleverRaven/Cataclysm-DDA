@@ -13,10 +13,9 @@ creator::collapsing_widget::collapsing_widget(QWidget *parent, const QString &te
     QHBoxLayout *hlayout = new QHBoxLayout();
     layout->addLayout(hlayout);
     QToolButton *button = new QToolButton();
-    // button->setIconSize(QSize(8, 8));
     button->setCheckable(true);
-    button->setArrowType(Qt::ArrowType::DownArrow);
     //make sure the button starts checked
+    button->setArrowType(Qt::ArrowType::DownArrow);
     button->setChecked(true);
     hlayout->addWidget(button);
     QLabel *label = new QLabel();
@@ -50,14 +49,27 @@ creator::collapsing_widget::collapsing_widget(QWidget *parent, const QString &te
 void creator::collapsing_widget::hideContent(QScrollArea* scrollArea) {
     //set the heigth of content to 0
     scrollArea->setMaximumHeight(0);
+    //set the backgroundcolor of the widget to yeklkow
+    scrollArea->setStyleSheet("background-color: mintcream");
+    //set the height of this widget to the size of the label
+    // this->setMaximumHeight(50);
+    // this->setMinimumHeight(30);
+    //Call the adjustsze method of this widget
+    this->adjustSize();
     //set checked to true
     checked = true;
 }
 
 void creator::collapsing_widget::showContent(QScrollArea* scrollArea) {
-    //set the heigth of the contentLayout to the size of the widgets in it
+   //set the height of the contentLayout to the size of the widgets in it plus 20
     scrollArea->setMaximumHeight(scrollArea->layout()->sizeHint().height());
-
+    scrollArea->setStyleSheet("background-color: green");
+     //set the height of this widget to the size of the label
+    // this->setMaximumHeight(this->layout()->sizeHint().height());
+    // this->setMinimumHeight(this->layout()->sizeHint().height());
+    //Call the adjustsze method of this widget
+    this->adjustSize();
+    
     //set checked to false
     checked = false;
 }
