@@ -53,5 +53,20 @@
     "description": "A magical being of wind and rain.",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "bleeds": "fd_cold_air1"
+  },
+  {
+    "type": "SPECIES",
+    "id": "FOREST_SPIRIT",
+    "description": "A magical being of the forest.",
+    "flags": [ "NEVER_WANDER", "PATH_AVOID_FIRE" ],
+    "fear_triggers": [ "FIRE" ],
+    "bleeds": "fd_blood_veggy"
+  },
+  {
+    "type": "SPECIES",
+    "id": "EARTH_SPIRIT",
+    "description": "A magical being of rock and stone.",
+    "flags": [ "NEVER_WANDER", "NO_FUNG_DMG" ],
+    "anger_triggers": [ "FRIEND_ATTACKED" ]
   }
 ]

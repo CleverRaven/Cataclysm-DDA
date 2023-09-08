@@ -306,6 +306,7 @@
       { "item": "bottle_opener", "prob": 75 },
       { "item": "pockknife", "prob": 75 },
       { "item": "cordless_drill", "prob": 70 },
+      { "item": "corded_powerdrill", "prob": 20 },
       { "item": "scissors", "prob": 65 },
       { "item": "pliers", "prob": 65 },
       { "item": "permanent_marker", "prob": 70, "charges-min": 50 },

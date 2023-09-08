@@ -304,7 +304,7 @@
     "subtype": "collection",
     "id": "quiver_modern_archer",
     "entries": [
-      { "item": "arrow_cf", "charges": 16 },
+      { "item": "arrow_cf", "count": 16 },
       { "item": "bow_sight" },
       { "item": "bow_stabilizer_set" },
       { "item": "manual_archery" }
@@ -314,7 +314,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_bow_hunter",
-    "entries": [ { "item": "arrow_cf", "charges": 10 } ]
+    "entries": [ { "item": "arrow_cf", "count": 10 } ]
   },
   {
     "type": "item_group",
@@ -350,7 +350,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_naturalist",
-    "entries": [ { "item": "arrow_wood", "charges": 20 } ]
+    "entries": [ { "item": "arrow_wood", "count": 20 } ]
   },
   {
     "type": "item_group",

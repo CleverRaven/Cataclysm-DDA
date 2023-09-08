@@ -1,0 +1,20 @@
+[
+  {
+    "id": "afs_plasma",
+    "type": "damage_type",
+    "magic_color": "pink",
+    "name": "plasma",
+    "derived_from": [ "heat", 0.4 ]
+  },
+  {
+    "id": "afs_plasma",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "plasma",
+    "bionic_info": { "order": 407, "show_type": true },
+    "protection_info": { "order": 307, "show_type": true },
+    "pet_prot_info": { "order": 307, "show_type": true },
+    "melee_combat_info": { "order": 407, "show_type": true },
+    "ablative_info": { "order": 307, "show_type": true }
+  }
+]
