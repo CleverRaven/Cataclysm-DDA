@@ -9214,17 +9214,12 @@ std::string item::pick_random_variant()
         return "";
     }
 
-    // There's probably a better way to do this...
     std::vector<itype_variant_data> variants;
-    int variant_count;
     for( const itype_variant_data &option : type->variants ) {
-        variant_count++;
         variants.emplace_back( option );
     }
 
-    // Vectors start at 0.  I'm sure there's a simpler way to do this though...
-    int chosen_variant = rng( 0, variant_count - 1 );
-    itype_variant_data variant_data = variants.at( chosen_variant );
+    itype_variant_data variant_data = random_entry( variants );
     return variant_data.id;
 }
 
