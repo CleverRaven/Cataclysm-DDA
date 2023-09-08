@@ -16,7 +16,7 @@
       { "id": "SAW_M", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "byproducts": [ [ "splinter", 168 ] ],
+    "byproducts": [ [ "splinter", 45 ] ],
     "components": [
       [ [ "wooden_post", 3 ] ],
       [ [ "wooden_post_short", 4 ] ],
