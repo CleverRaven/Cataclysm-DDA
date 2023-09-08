@@ -1787,7 +1787,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
     }
 
     Character *carrier = loc.where_recursive() != item_location::type::character ? nullptr :
-        get_creature_tracker().creature_at<Character>( loc.position() );
+                         get_creature_tracker().creature_at<Character>( loc.position() );
 
     // first remove items that shouldn't be in there anyway
     std::unordered_map<itype_id, bool> contained_type_validity;
