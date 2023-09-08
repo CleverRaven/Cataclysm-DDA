@@ -370,7 +370,7 @@ bool trap::has_sound_trigger() const
     return !is_null() && sound_threshold > 0;
 }
 
-bool trap::triggered_by_sound( const int vol, const int dist )
+bool trap::triggered_by_sound( int vol, int dist ) const
 {
     const int volume = vol - dist;
     return !is_null() && volume >= sound_threshold;
