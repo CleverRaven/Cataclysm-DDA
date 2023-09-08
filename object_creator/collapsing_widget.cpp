@@ -54,8 +54,9 @@ void creator::collapsing_widget::hideContent(QScrollArea* scrollArea) {
     //set the height of this widget to the size of the label
     // this->setMaximumHeight(50);
     // this->setMinimumHeight(30);
-    //Call the adjustsze method of this widget
     this->adjustSize();
+    //Adjust the size of the parent widget
+    this->parentWidget()->adjustSize();
     //set checked to true
     checked = true;
 }
@@ -69,6 +70,8 @@ void creator::collapsing_widget::showContent(QScrollArea* scrollArea) {
     // this->setMinimumHeight(this->layout()->sizeHint().height());
     //Call the adjustsze method of this widget
     this->adjustSize();
+    //Adjust the size of the parent widget
+    this->parentWidget()->adjustSize();
     
     //set checked to false
     checked = false;

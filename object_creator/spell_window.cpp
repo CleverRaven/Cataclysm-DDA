@@ -182,10 +182,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     //Add a collapsible widget to show/hide the form elements
     collapsing_widget *basic_info_group = new collapsing_widget( collapsedwidgetscontainer, "Basic info", *basic_info_layout );
     collapsedwidgetscontainerlayout->addWidget( basic_info_group );
-    // basic_info_group->move( QPoint( 2, 700 ) );
-
-
-
 
     effect_label.setText( QString( "spell effect" ) );
     effect_box.setParent( this );
@@ -212,8 +208,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     //Add a collapsible widget to show/hide the form elements
     collapsing_widget *spell_effect_group = new collapsing_widget( collapsedwidgetscontainer, "Spell effect", *spell_effect_layout );
     collapsedwidgetscontainerlayout->addWidget( spell_effect_group );
-    // spell_effect_group->move( QPoint( 2, 200 ) );
-
 
     const int default_text_box_height = 20;
     const int default_text_box_width = 100;

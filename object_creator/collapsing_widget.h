@@ -15,6 +15,7 @@ class collapsing_widget : public QWidget {
         collapsing_widget(QWidget *parent, const QString &text, QLayout& contentLayout);
         void hideContent(QScrollArea* scrollArea);
         void showContent(QScrollArea* scrollArea);
+
     private:
         bool checked = false;
 };
