@@ -23,5 +23,10 @@
     "type": "construction_group",
     "id": "build_magiclysm_magic_circle_2",
     "name": "Enhance existing Magic Circle"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_standing_alembic",
+    "name": "Build Standing Alembic"
   }
 ]
