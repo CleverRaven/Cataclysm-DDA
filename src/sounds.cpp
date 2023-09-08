@@ -484,9 +484,9 @@ void sounds::process_sounds()
         }
         // Trigger sound-triggered traps
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
-            for( tripoint tp : get_map().trap_locations( trapType->id ) ) {
+            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
                 const int dist = sound_distance( source, tp );
-                trap tr = get_map().tr_at( tp );
+                const trap &tr = get_map().tr_at( tp );
                 if( tr.triggered_by_sound( vol, dist ) ) {
                     tr.trigger( tp );
                 }
