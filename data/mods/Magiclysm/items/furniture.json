@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "GENERIC",
     "id": "everburning_torch_candelabra",
     "name": { "str": "everburning torch candelabra" },
@@ -14,5 +14,21 @@
     "weight": "48 kg",
     "material": [ "wood" ],
     "to_hit": -3
+  },
+  {
+    "id": "everburning_sconce",
+    "type": "TOOL",
+    "name": { "str": "everburning sconce", "str_pl": "everburning sconces" },
+    "description": "This is a high quality engraved wooden torch, placed into a wood and metal sconce and ready to be attached to a wall.  It will burn forever with a smokeless light.  Now you can light your wizard's ritual room in the traditional fashion.",
+    "weight": "1531 g",
+    "volume": "2250 ml",
+    "price": 0,
+    "price_postapoc": "150 USD",
+    "longest_side": "60 cm",
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "melee_damage": { "bash": 5 }
   }
 ]

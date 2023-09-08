@@ -345,17 +345,24 @@
     "id": "f_everburning_torch_candelabra",
     "name": "everburning torch candelabra",
     "description": "A candelabra made of a half-dozen everburning torches attached to a wooden support structure.  Plenty of light with no worries about power usage or smoke.  Plus, how can you be a real wizard unless your tower is lit by the flicking light of imperishable flames?",
+    "looks_like": "f_everburning_candelabra",
     "symbol": "Y",
     "color": "red",
-    "move_cost_mod": -1,
+    "move_cost_mod": 2,
     "required_str": 12,
     "light_emitted": 240,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "everburning_torch_candelabra", "count": 1 } ] },
     "bash": {
       "sound": "SMASH!",
       "str_min": 20,
       "str_max": 40,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 3,10 ]}, { "item": "nuts_bolts", "charges": [ 5, 20 ] }, { "item": "mtorch_everburning", "count": [1, 6] } ]
+      "items": [
+        { "item": "splinter", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 10 ] },
+        { "item": "nuts_bolts", "charges": [ 5, 20 ] },
+        { "item": "mtorch_everburning", "count": [ 1, 6 ] }
+      ]
     }
   }
 ]
