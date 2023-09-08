@@ -17,7 +17,7 @@
   },
   {
     "id": "everburning_sconce",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "everburning sconce" },
     "description": "This is a high quality engraved wooden torch, placed into a wood and metal sconce and ready to be attached to a wall.  It will burn forever with a smokeless light.  Now you can light your wizard's ritual room in the traditional fashion.",
     "weight": "1531 g",
@@ -30,5 +30,19 @@
     "symbol": "/",
     "color": "brown",
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "orrery_item",
+    "type": "GENERIC",
+    "name": { "str": "orrery" },
+    "description": "This is a beautiful, non-scale model of the solar system.  A complex series of gears allows the relative motions of the planets to be studied at the turn of a crank.  You could set this up somewhere to have it ",
+    "weight": "15000 g",
+    "volume": "20000 ml",
+    "longest_side": "80 cm",
+    "to_hit": 1,
+    "material": [ "steel", "wood" ],
+    "symbol": "@",
+    "color": "brown",
+    "melee_damage": { "bash": 8 }
   }
 ]

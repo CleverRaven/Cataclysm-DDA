@@ -28,5 +28,10 @@
     "type": "construction_group",
     "id": "build_standing_alembic",
     "name": "Build Standing Alembic"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_orrery",
+    "name": "Place Orrery"
   }
 ]
