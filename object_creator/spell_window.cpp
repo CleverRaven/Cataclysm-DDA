@@ -1,4 +1,5 @@
 #include "spell_window.h"
+#include "collapsing_widget.h"
 
 #include <algorithm>
 #include "bodypart.h"
@@ -69,6 +70,44 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 {
     editable_spell = default_spell_type();
 
+
+    // //Add a new widget to hold the content of the collapse button
+    // QFrame *collapse_content = new QFrame( collapse_button );
+    // collapse_content->show();
+    // collapse_button->setContent( collapse_content );
+
+
+    id_label.setText( QString( "id" ) );
+    id_label.show();
+    id_box.setToolTip( QString( _( "The id of the spell" ) ) );
+    id_box.show();
+    QObject::connect( &id_box, &QLineEdit::textChanged,
+    [&]() {
+        editable_spell.id = spell_id( id_box.text().toStdString() );
+        write_json();
+    } );
+
+    // //add the id_label and id_box to the collapse_content widget
+    // id_label.setParent( collapse_content );
+    // id_box.setParent( collapse_content );
+
+
+    //create a new gridlayout to hold the id_label and id_box
+    QGridLayout *id_layout = new QGridLayout( this );
+    id_layout->addWidget( &id_label, 0, 0 );
+    id_layout->addWidget( &id_box, 0, 1 );
+
+    // //add the id_layout to the collapse_content widget
+    // collapse_content->setLayout( id_layout );
+
+
+    //Add a collapsible widget to show/hide the form elements
+    collapsing_widget *collapse_widget = new collapsing_widget( this, "Basic info", *id_layout );
+    collapse_widget->move( QPoint( 2, 800 ) );
+
+
+
+
     const int default_text_box_height = 20;
     const int default_text_box_width = 100;
     const QSize default_text_box_size( default_text_box_width, default_text_box_height );
@@ -106,11 +145,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     row = 0;
     col = 2;
 
-    id_label.setParent( this );
-    id_label.setText( QString( "id" ) );
-    id_label.resize( default_text_box_size );
-    id_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    id_label.show();
 
     name_label.setParent( this );
     name_label.setText( QString( "name" ) );
@@ -223,17 +257,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     max_row = std::max( max_row, row );
     row = 0;
     col++;
-
-    id_box.setParent( this );
-    id_box.resize( default_text_box_size );
-    id_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    id_box.setToolTip( QString( _( "The id of the spell" ) ) );
-    id_box.show();
-    QObject::connect( &id_box, &QLineEdit::textChanged,
-    [&]() {
-        editable_spell.id = spell_id( id_box.text().toStdString() );
-        write_json();
-    } );
 
     name_box.setParent( this );
     name_box.resize( default_text_box_size );
