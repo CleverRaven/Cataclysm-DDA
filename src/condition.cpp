@@ -3118,9 +3118,9 @@ void conditional_t::set_has_wielded_with_weapon_category( const JsonObject &jo,
         const std::string &member,
         bool is_npc )
 {
-    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [flag, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->wielded_with_flag( flag_id( flag.evaluate( d ) ) );
+    str_or_var w_cat = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [w_cat, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->wielded_with_weapon_category( weapon_category_id( w_cat.evaluate( d ) ) );
     };
 }
 
