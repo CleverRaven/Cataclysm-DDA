@@ -343,7 +343,7 @@ struct trap {
          */
         bool has_sound_trigger() const;
         static const std::vector<const trap *> &get_sound_triggered_traps();
-        bool triggered_by_sound( const int vol, const int dist );
+        bool triggered_by_sound( int vol, int dist ) const;
 
         /*@{*/
         /**
