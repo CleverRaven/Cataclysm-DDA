@@ -18,7 +18,7 @@
   {
     "id": "everburning_sconce",
     "type": "TOOL",
-    "name": { "str": "everburning sconce", "str_pl": "everburning sconces" },
+    "name": { "str": "everburning sconce" },
     "description": "This is a high quality engraved wooden torch, placed into a wood and metal sconce and ready to be attached to a wall.  It will burn forever with a smokeless light.  Now you can light your wizard's ritual room in the traditional fashion.",
     "weight": "1531 g",
     "volume": "2250 ml",
