@@ -730,6 +730,22 @@ check do you wield something with `WHIP` flag
 { "u_has_wielded_with_flag": "WHIP" }
 ```
 
+### `u_has_wielded_with_weapon_category`, `npc_has_wielded_with_weapon_category`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker wield something with specific weapon category
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you wield something with `LONG_SWORDS` weapon category
+```json
+{ "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
+```
+
 ### `u_can_see`, `npc_can_see`
 - type: simple string
 - return true if alpha or beta talker can see (not blind)

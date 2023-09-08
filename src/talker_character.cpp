@@ -4,6 +4,7 @@
 #include "character_martial_arts.h"
 #include "effect.h"
 #include "item.h"
+#include "itype.h"
 #include "magic.h"
 #include "npc.h"
 #include "npctalk.h"
@@ -663,6 +664,12 @@ bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->get_wielded_item() && me_chr_const->get_wielded_item()->has_flag( flag );
+}
+
+bool talker_character_const::wielded_with_weapon_category( const weapon_category_id &w_cat ) const
+{
+    return me_chr_const->get_wielded_item() &&
+           me_chr_const->get_wielded_item()->typeId()->weapon_category.count( w_cat ) > 0;
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
