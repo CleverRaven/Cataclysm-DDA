@@ -140,6 +140,8 @@ struct conditional_t {
         void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
                                         bool is_npc = false );
+        void set_has_wielded_with_weapon_category( const JsonObject &jo, const std::string &member,
+                bool is_npc = false );
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_items( const JsonObject &jo, std::string_view member, bool is_npc = false );

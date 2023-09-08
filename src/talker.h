@@ -555,6 +555,9 @@ class talker
         virtual bool wielded_with_flag( const flag_id & ) const {
             return false;
         }
+        virtual bool wielded_with_weapon_category( const weapon_category_id & ) const {
+            return false;
+        }
         virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
         }
