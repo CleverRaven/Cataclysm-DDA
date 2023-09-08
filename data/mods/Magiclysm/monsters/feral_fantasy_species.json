@@ -105,7 +105,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "families": [ "prof_intro_biology", "prof_wp_demihuman", "prof_wp_child" ],
     "dodge": 3,
     "harvest": "demihuman",
     "grab_strength": 20,
@@ -150,7 +150,7 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "weakpoints": [
       {
         "id": "wing",
@@ -162,7 +162,7 @@
         "coverage": 12
       }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "families": [ "prof_intro_biology", "prof_wp_demihuman", "prof_wp_basic_bird" ],
     "dodge": 3,
     "harvest": "demihuman",
     "grab_strength": 20,
