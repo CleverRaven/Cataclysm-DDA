@@ -70,42 +70,149 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 {
     editable_spell = default_spell_type();
 
+    //Create a new widget with a vertical layout to hold the collapsed widgets
+    QVBoxLayout *collapsedwidgetscontainerlayout = new QVBoxLayout( this );
+    collapsedwidgetscontainerlayout->setSpacing( 0 );
+    collapsedwidgetscontainerlayout->setContentsMargins( 0, 0, 0, 0 );
+    QWidget *collapsedwidgetscontainer = new QWidget( this );
+    collapsedwidgetscontainer->setStyleSheet( "background-color: lightblue" );
+    collapsedwidgetscontainer->setLayout( collapsedwidgetscontainerlayout );
+    //Move collapsedwidgetscontainer to 700 down
+    collapsedwidgetscontainer->move( QPoint( 2, 700 ) );
 
-    // //Add a new widget to hold the content of the collapse button
-    // QFrame *collapse_content = new QFrame( collapse_button );
-    // collapse_content->show();
-    // collapse_button->setContent( collapse_content );
+
 
 
     id_label.setText( QString( "id" ) );
-    id_label.show();
     id_box.setToolTip( QString( _( "The id of the spell" ) ) );
-    id_box.show();
     QObject::connect( &id_box, &QLineEdit::textChanged,
     [&]() {
         editable_spell.id = spell_id( id_box.text().toStdString() );
         write_json();
     } );
 
-    // //add the id_label and id_box to the collapse_content widget
-    // id_label.setParent( collapse_content );
-    // id_box.setParent( collapse_content );
+    name_label.setText( QString( "name" ) );
+    name_box.setToolTip( QString( _( "The name of the spell" ) ) );
+    QObject::connect( &name_box, &QLineEdit::textChanged,
+    [&]() {
+        editable_spell.name = translation::no_translation( name_box.text().toStdString() );
+        write_json();
+    } );
 
+    description_label.setText( QString( "description" ) );
+    description_box.setToolTip( QString( _( "The description of the spell" ) ) );
+    QObject::connect( &description_box, &QPlainTextEdit::textChanged,
+    [&]() {
+        editable_spell.description = translation::no_translation(
+                                         description_box.toPlainText().toStdString() );
+        write_json();
+    } );
 
-    //create a new gridlayout to hold the id_label and id_box
-    QGridLayout *id_layout = new QGridLayout( this );
-    id_layout->addWidget( &id_label, 0, 0 );
-    id_layout->addWidget( &id_box, 0, 1 );
+    spell_class_label.setText( QString( "spell class" ) );
+    spell_class_box.setToolTip( QString(
+                                    _( "The trait required to learn this spell; if the player has a conflicting trait you cannot learn the spell. You gain the trait when you learn the spell." ) ) );
+    QStringList all_traits;
+    all_traits.append( QString( "NONE" ) );
+    for( const mutation_branch &trait : mutation_branch::get_all() ) {
+        all_traits.append( QString( trait.id.c_str() ) );
+    }
+    spell_class_box.addItems( all_traits );
+    QObject::connect( &spell_class_box, &QComboBox::currentTextChanged,
+    [&]() {
+        editable_spell.spell_class = trait_id( spell_class_box.currentText().toStdString() );
+        write_json();
+    } );
 
-    // //add the id_layout to the collapse_content widget
-    // collapse_content->setLayout( id_layout );
+    skill_label.setText( QString( "spell skill" ) );
+    skill_box.setToolTip( QString(
+                              _( "Uses this skill to calculate spell failure chance." ) ) );
+    QStringList all_skills;
+    all_skills.append( QString( "NONE" ) );
+    for( const Skill &sk : Skill::skills ) {
+        all_skills.append( QString( sk.ident().c_str() ) );
+    }
+    skill_box.addItems( all_skills );
+    QObject::connect( &skill_box, &QComboBox::currentTextChanged,
+    [&]() {
+        editable_spell.skill = skill_id( skill_box.currentText().toStdString() );
+        write_json();
+    } );
+    skill_box.setCurrentText( QString( editable_spell.skill.c_str() ) );
+
+    difficulty_label.setText( QString( "difficulty" ) );
+    difficulty_box.setToolTip( QString(
+                                   _( "The difficulty of the spell. This affects spell failure chance." ) ) );
+    difficulty_box.setMaximum( INT_MAX );
+    difficulty_box.setMinimum( 0 );
+    QObject::connect( &difficulty_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.difficulty.min.dbl_val = difficulty_box.value();
+        write_json();
+    } );
+    
+    max_level_label.setText( QString( "max level" ) );
+    max_level_box.setToolTip( QString(
+                                  _( "The max level of the spell. Spell level affects a large variety of things, including spell failure chance, damage, etc." ) ) );
+    max_level_box.setMaximum( 80 );
+    max_level_box.setMinimum( 0 );
+    QObject::connect( &max_level_box, &QSpinBox::textChanged,
+    [&]() {
+        editable_spell.max_level.min.dbl_val = max_level_box.value();
+        write_json();
+    } );
+
+    //create a new gridlayout to hold the id_label and id_box and name_label and name_box
+    QGridLayout *basic_info_layout = new QGridLayout( collapsedwidgetscontainer );
+    basic_info_layout->addWidget( &id_label, 0, 0 );
+    basic_info_layout->addWidget( &id_box, 0, 1 );
+    basic_info_layout->addWidget( &name_label, 1, 0 );
+    basic_info_layout->addWidget( &name_box, 1, 1 );
+    basic_info_layout->addWidget( &description_label, 2, 0 );
+    basic_info_layout->addWidget( &description_box, 2, 1 );
+    basic_info_layout->addWidget( &spell_class_label, 3, 0 );
+    basic_info_layout->addWidget( &spell_class_box, 3, 1 );
+    basic_info_layout->addWidget( &skill_label, 4, 0 );
+    basic_info_layout->addWidget( &skill_box, 4, 1 );
+    basic_info_layout->addWidget( &difficulty_label, 4, 0 );
+    basic_info_layout->addWidget( &difficulty_box, 4, 1 );
+    basic_info_layout->addWidget( &max_level_label, 5, 0 );
+    basic_info_layout->addWidget( &max_level_box, 5, 1 );
 
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *collapse_widget = new collapsing_widget( this, "Basic info", *id_layout );
-    collapse_widget->move( QPoint( 2, 800 ) );
+    collapsing_widget *basic_info_group = new collapsing_widget( collapsedwidgetscontainer, "Basic info", *basic_info_layout );
+    collapsedwidgetscontainerlayout->addWidget( basic_info_group );
+    // basic_info_group->move( QPoint( 2, 700 ) );
 
 
+
+
+    effect_label.setText( QString( "spell effect" ) );
+    effect_box.setParent( this );
+    effect_box.setToolTip( QString(
+                               _( "The type of effect the spell can have.  See MAGIC.md for details." ) ) );
+    QStringList spell_effects;
+    for( const auto &spell_effect_pair : spell_effect::effect_map ) {
+        spell_effects.append( QString( spell_effect_pair.first.c_str() ) );
+    }
+    effect_box.addItems( spell_effects );
+    QObject::connect( &effect_box, &QComboBox::currentTextChanged,
+    [&]() {
+        // no need to look up the actual functor, we aren't going to be using that here.
+        editable_spell.effect_name = effect_box.currentText().toStdString();
+        write_json();
+    } );
+
+
+    //create a new gridlayout to hold the id_label and id_box and name_label and name_box
+    QGridLayout *spell_effect_layout = new QGridLayout( collapsedwidgetscontainer );
+    spell_effect_layout->addWidget( &effect_label, 0, 0 );
+    spell_effect_layout->addWidget( &effect_box, 0, 1 );
+
+    //Add a collapsible widget to show/hide the form elements
+    collapsing_widget *spell_effect_group = new collapsing_widget( collapsedwidgetscontainer, "Spell effect", *spell_effect_layout );
+    collapsedwidgetscontainerlayout->addWidget( spell_effect_group );
+    // spell_effect_group->move( QPoint( 2, 200 ) );
 
 
     const int default_text_box_height = 20;
@@ -146,24 +253,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     col = 2;
 
 
-    name_label.setParent( this );
-    name_label.setText( QString( "name" ) );
-    name_label.resize( default_text_box_size );
-    name_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    name_label.show();
-
-    description_label.setParent( this );
-    description_label.setText( QString( "description" ) );
-    description_label.resize( default_text_box_size );
-    description_label.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    description_label.show();
     row += 3;
-
-    effect_label.setParent( this );
-    effect_label.setText( QString( "spell effect" ) );
-    effect_label.resize( default_text_box_size );
-    effect_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    effect_label.show();
 
     effect_str_label.setParent( this );
     effect_str_label.setText( QString( "effect string" ) );
@@ -258,46 +348,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     row = 0;
     col++;
 
-    name_box.setParent( this );
-    name_box.resize( default_text_box_size );
-    name_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    name_box.show();
-    QObject::connect( &name_box, &QLineEdit::textChanged,
-    [&]() {
-        editable_spell.name = translation::no_translation( name_box.text().toStdString() );
-        write_json();
-    } );
-
-    description_box.setParent( this );
-    description_box.resize( QSize( default_text_box_width, default_text_box_height * 3 ) );
-    description_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    description_box.show();
-    QObject::connect( &description_box, &QPlainTextEdit::textChanged,
-    [&]() {
-        editable_spell.description = translation::no_translation(
-                                         description_box.toPlainText().toStdString() );
-        write_json();
-    } );
     row += 3;
-
-    effect_box.setParent( this );
-    effect_box.resize( default_text_box_size );
-    effect_box.move( QPoint( col * default_text_box_width,
-                             row++ * default_text_box_height ) );
-    effect_box.setToolTip( QString(
-                               _( "The type of effect the spell can have.  See MAGIC.md for details." ) ) );
-    effect_box.show();
-    QStringList spell_effects;
-    for( const auto &spell_effect_pair : spell_effect::effect_map ) {
-        spell_effects.append( QString( spell_effect_pair.first.c_str() ) );
-    }
-    effect_box.addItems( spell_effects );
-    QObject::connect( &effect_box, &QComboBox::currentTextChanged,
-    [&]() {
-        // no need to look up the actual functor, we aren't going to be using that here.
-        editable_spell.effect_name = effect_box.currentText().toStdString();
-        write_json();
-    } );
 
     effect_str_box.setParent( this );
     effect_str_box.resize( default_text_box_size );
@@ -424,24 +475,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     dmg_type_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     dmg_type_label.show();
 
-    spell_class_label.setParent( this );
-    spell_class_label.setText( QString( "spell class" ) );
-    spell_class_label.resize( default_text_box_size );
-    spell_class_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    spell_class_label.show();
-
-    difficulty_label.setParent( this );
-    difficulty_label.setText( QString( "difficulty" ) );
-    difficulty_label.resize( default_text_box_size );
-    difficulty_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    difficulty_label.show();
-
-    max_level_label.setParent( this );
-    max_level_label.setText( QString( "max level" ) );
-    max_level_label.resize( default_text_box_size );
-    max_level_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    max_level_label.show();
-
     spell_message_label.setParent( this );
     spell_message_label.setText( QString( "spell message" ) );
     spell_message_label.resize( default_text_box_size );
@@ -453,12 +486,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     components_label.resize( default_text_box_size );
     components_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     components_label.show();
-
-    skill_label.setParent( this );
-    skill_label.setText( QString( "spell skill" ) );
-    skill_label.resize( default_text_box_size );
-    skill_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    skill_label.show();
 
     field_id_label.setParent( this );
     field_id_label.setText( QString( "field id" ) );
@@ -679,52 +706,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
-    spell_class_box.setParent( this );
-    spell_class_box.resize( default_text_box_size );
-    spell_class_box.move( QPoint( col * default_text_box_width,
-                                  row++ * default_text_box_height ) );
-    spell_class_box.setToolTip( QString(
-                                    _( "The trait required to learn this spell; if the player has a conflicting trait you cannot learn the spell. You gain the trait when you learn the spell." ) ) );
-    spell_class_box.show();
-    QStringList all_traits;
-    all_traits.append( QString( "NONE" ) );
-    for( const mutation_branch &trait : mutation_branch::get_all() ) {
-        all_traits.append( QString( trait.id.c_str() ) );
-    }
-    spell_class_box.addItems( all_traits );
-    QObject::connect( &spell_class_box, &QComboBox::currentTextChanged,
-    [&]() {
-        editable_spell.spell_class = trait_id( spell_class_box.currentText().toStdString() );
-        write_json();
-    } );
-
-    difficulty_box.setParent( this );
-    difficulty_box.resize( default_text_box_size );
-    difficulty_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    difficulty_box.setToolTip( QString(
-                                   _( "The difficulty of the spell. This affects spell failure chance." ) ) );
-    difficulty_box.setMaximum( INT_MAX );
-    difficulty_box.setMinimum( 0 );
-    difficulty_box.show();
-    QObject::connect( &difficulty_box, &QSpinBox::textChanged,
-    [&]() {
-        editable_spell.difficulty.min.dbl_val = difficulty_box.value();
-        write_json();
-    } );
-
-    max_level_box.setParent( this );
-    max_level_box.resize( default_text_box_size );
-    max_level_box.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    max_level_box.setToolTip( QString(
-                                  _( "The max level of the spell. Spell level affects a large variety of things, including spell failure chance, damage, etc." ) ) );
-    max_level_box.setMaximum( 80 );
-    max_level_box.setMinimum( 0 );
-    max_level_box.show();
-    QObject::connect( &max_level_box, &QSpinBox::textChanged,
-    [&]() {
-        editable_spell.max_level.min.dbl_val = max_level_box.value();
-        write_json();
-    } );
 
     spell_message_box.setParent( this );
     spell_message_box.resize( default_text_box_size );
@@ -763,26 +744,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         }
         write_json();
     } );
-
-    skill_box.setParent( this );
-    skill_box.resize( default_text_box_size );
-    skill_box.move( QPoint( col * default_text_box_width,
-                            row++ * default_text_box_height ) );
-    skill_box.setToolTip( QString(
-                              _( "Uses this skill to calculate spell failure chance." ) ) );
-    skill_box.show();
-    QStringList all_skills;
-    all_skills.append( QString( "NONE" ) );
-    for( const Skill &sk : Skill::skills ) {
-        all_skills.append( QString( sk.ident().c_str() ) );
-    }
-    skill_box.addItems( all_skills );
-    QObject::connect( &skill_box, &QComboBox::currentTextChanged,
-    [&]() {
-        editable_spell.skill = skill_id( skill_box.currentText().toStdString() );
-        write_json();
-    } );
-    skill_box.setCurrentText( QString( editable_spell.skill.c_str() ) );
 
     field_id_box.setParent( this );
     field_id_box.resize( default_text_box_size );
