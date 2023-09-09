@@ -37,6 +37,8 @@ const std::string type_fac_hash_str = "__FAC__";
 //Generic activity: maximum search distance for zones, constructions, etc.
 constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
 
+extern const std::vector<zone_type_id> ignorable_zone_types;
+
 class zone_type
 {
     private:
