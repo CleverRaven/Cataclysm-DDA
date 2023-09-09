@@ -2054,7 +2054,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 // add zones using mgr.get_zones_at
                 for( zone_data const *zone : mgr.get_zones_at( src, zone_type, _fac_id( you ) ) ) {
                     ignorable_options const &options = dynamic_cast<const ignorable_options &>( zone->get_options() );
-                    if ( options.get_ignore_contents() ) {
+                    if( options.get_ignore_contents() ) {
                         ignore_contents = true;
                         break;
                     }

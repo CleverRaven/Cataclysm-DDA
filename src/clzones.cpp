@@ -81,12 +81,11 @@ static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
-const std::vector<zone_type_id> ignorable_zone_types =
-        {
-        zone_type_AUTO_EAT,
-        zone_type_AUTO_DRINK,
-        zone_type_SOURCE_FIREWOOD
-        };
+const std::vector<zone_type_id> ignorable_zone_types = {
+    zone_type_AUTO_EAT,
+    zone_type_AUTO_DRINK,
+    zone_type_SOURCE_FIREWOOD
+};
 
 zone_manager::zone_manager()
 {
@@ -212,7 +211,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<loot_options>();
     } else if( type == zone_type_zone_unload_all ) {
         return make_shared_fast<unload_options>();
-    } else if(std::find(ignorable_zone_types.begin(), ignorable_zone_types.end(), type) != ignorable_zone_types.end()) {
+    } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
+                          type ) != ignorable_zone_types.end() ) {
         return make_shared_fast<ignorable_options>();
     }
 
@@ -229,7 +229,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     } else if( type == zone_type_zone_unload_all ) {
         return dynamic_cast<const unload_options *>( &options ) != nullptr;
-    } else if(std::find(ignorable_zone_types.begin(), ignorable_zone_types.end(), type) != ignorable_zone_types.end()) {
+    } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
+                          type ) != ignorable_zone_types.end() ) {
         return dynamic_cast<const ignorable_options *>( &options ) != nullptr;
     }
 
