@@ -6362,7 +6362,7 @@
 	"type": "profession",
 	"id": "prostitute",
 	"name": { "male": "Gigolo", "female": "Prostitute" },
-	"description": "Before the cataclysm hit, you earned your life as a sex worker, selling your body in exchange for money. You don't know how effective your skills will be in the apocalypse, but you know for a fact that monsters do not require your services.",
+	"description": "Before the cataclysm hit, you earned your life as a sex worker, selling your body in exchange for money.  You don't know how effective your skills will be in the apocalypse, but you know for a fact that monsters do not require your services.",
 	"points": 1,
 	"skills": [
 	{ "level": 3, "name": "speech" },
