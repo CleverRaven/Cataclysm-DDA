@@ -96,7 +96,7 @@
   {
     "id": "MATCHHEAD",
     "type": "ammo_effect",
-    "//": "Bullet has a chance of damaging the gun from overpressure regardless of fouling level, used in . Hardcoded"
+    "//": "Bullet has a chance of damaging the gun from overpressure regardless of fouling level, used in rounds, reloaded with matches. Hardcoded"
   },
   {
     "id": "MAGIC",
