@@ -9207,25 +9207,14 @@ const itype_variant_data &item::itype_variant() const
     return *_itype_variant;
 }
 
-std::string item::pick_random_variant()
-{
-    if( type->variants.empty() ) {
-        debugmsg( "Item '%s' called for a random variant but has no variants", this->tname() );
-        return "";
-    }
-
-    std::vector<itype_variant_data> variants;
-    for( const itype_variant_data &option : type->variants ) {
-        variants.emplace_back( option );
-    }
-
-    itype_variant_data variant_data = random_entry( variants );
-    return variant_data.id;
-}
-
 void item::set_itype_variant( const std::string &variant )
 {
     if( variant.empty() || type->variants.empty() ) {
+        return;
+    }
+
+    if( variant == "<any>" ) {
+        select_itype_variant();
         return;
     }
 

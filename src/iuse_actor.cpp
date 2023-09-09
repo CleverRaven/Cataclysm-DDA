@@ -286,11 +286,7 @@ void iuse_transform::do_transform( Character *p, item &it, std::string variant_t
     item obj_it;
     if( container.is_empty() ) {
         obj = &it.convert( target );
-        if( variant_type == "<any>" ) {
-            obj->set_itype_variant( obj->pick_random_variant() );
-        } else {
-            obj->set_itype_variant( variant_type );
-        }
+        obj->set_itype_variant( variant_type );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -313,11 +309,7 @@ void iuse_transform::do_transform( Character *p, item &it, std::string variant_t
         }
     } else {
         obj = &it.convert( container );
-        if( variant_type == "<any>" ) {
-            obj->set_itype_variant( obj->pick_random_variant() );
-        } else {
-            obj->set_itype_variant( variant_type );
-        }
+        obj->set_itype_variant( variant_type );
         int count = std::max( ammo_qty, 1 );
         item cont;
         if( target->count_by_charges() ) {

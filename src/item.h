@@ -2324,8 +2324,6 @@ class item : public visitable
          */
         const itype_variant_data &itype_variant() const;
 
-        std::string pick_random_variant();
-
         /**
          * Set the gun variant of this item
          */
