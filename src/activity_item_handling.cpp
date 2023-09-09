@@ -2052,7 +2052,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             bool ignore_contents = false;
 
             for( zone_data const *zone : zones ) {
-                firewood_options const &options = dynamic_cast<const firewood_options &>( zone->get_options() );
+                ignorable_options const &options = dynamic_cast<const ignorable_options &>( zone->get_options() );
                 ignore_contents |= options.get_ignore_contents();
             }
 

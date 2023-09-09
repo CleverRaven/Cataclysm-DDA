@@ -206,18 +206,18 @@ class blueprint_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
-class firewood_options : public zone_options
+class ignorable_options : public zone_options
 {
     private:
         bool ignore_contents;
 
-        enum query_firewood_result {
+        enum query_ignorable_result {
             canceled,
             successful,
             changed,
         };
 
-        query_firewood_result query_firewood();
+        query_ignorable_result query_ignorable();
 
     public:
         bool get_ignore_contents() const {
@@ -229,8 +229,6 @@ class firewood_options : public zone_options
 
         bool query_at_creation() override;
         bool query() override;
-
-        std::string get_zone_name_suggestion() const override;
 
         std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
 

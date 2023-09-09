@@ -81,6 +81,13 @@ static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
+const std::vector<zone_type_id> ignorable_zone_types =
+        {
+        zone_type_AUTO_EAT,
+        zone_type_AUTO_DRINK,
+        zone_type_SOURCE_FIREWOOD
+        };
+
 zone_manager::zone_manager()
 {
     for( const zone_type &zone : zone_type::get_all() ) {
@@ -205,8 +212,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<loot_options>();
     } else if( type == zone_type_zone_unload_all ) {
         return make_shared_fast<unload_options>();
-    } else if ( type == zone_type_SOURCE_FIREWOOD) {
-        return make_shared_fast<firewood_options>();
+    } else if(std::find(ignorable_zone_types.begin(), ignorable_zone_types.end(), type) != ignorable_zone_types.end()) {
+        return make_shared_fast<ignorable_options>();
     }
 
     return make_shared_fast<zone_options>();
@@ -222,6 +229,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     } else if( type == zone_type_zone_unload_all ) {
         return dynamic_cast<const unload_options *>( &options ) != nullptr;
+    } else if(std::find(ignorable_zone_types.begin(), ignorable_zone_types.end(), type) != ignorable_zone_types.end()) {
+        return dynamic_cast<const ignorable_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types
@@ -280,9 +289,9 @@ blueprint_options::query_con_result blueprint_options::query_con()
     }
 }
 
-firewood_options::query_firewood_result firewood_options::query_firewood()
+ignorable_options::query_ignorable_result ignorable_options::query_ignorable()
 {
-    ignore_contents = query_yn( _( "Ignore items in this space when sorting?" ) );
+    ignore_contents = query_yn( _( "Ignore items in this area when sorting?" ) );
     return changed;
 }
 
@@ -362,9 +371,9 @@ plot_options::query_seed_result plot_options::query_seed()
     }
 }
 
-bool firewood_options::query_at_creation()
+bool ignorable_options::query_at_creation()
 {
-    return query_firewood() != canceled;
+    return query_ignorable() != canceled;
 }
 
 bool loot_options::query_at_creation()
@@ -377,9 +386,9 @@ bool unload_options::query_at_creation()
     return query_unload() != canceled;
 }
 
-bool firewood_options::query()
+bool ignorable_options::query()
 {
-    return query_firewood() == changed;
+    return query_ignorable() == changed;
 }
 
 bool loot_options::query()
@@ -390,14 +399,6 @@ bool loot_options::query()
 bool unload_options::query()
 {
     return query_unload() == changed;
-}
-
-std::string firewood_options::get_zone_name_suggestion() const
-{
-    if ( ignore_contents ) {
-        return _( "Source: Firewood, ignore contents" );
-    }
-    return _( "Source: Firewood" );
 }
 
 std::string loot_options::get_zone_name_suggestion() const
@@ -415,7 +416,7 @@ std::string unload_options::get_zone_name_suggestion() const
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
 }
 
-std::vector<std::pair<std::string, std::string>> firewood_options::get_descriptions() const
+std::vector<std::pair<std::string, std::string>> ignorable_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
     options.emplace_back( _( "Ignore contents: " ),
@@ -442,12 +443,12 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
     return options;
 }
 
-void firewood_options::serialize( JsonOut &json ) const
+void ignorable_options::serialize( JsonOut &json ) const
 {
     json.member( "ignore_contents", ignore_contents );
 }
 
-void firewood_options::deserialize( const JsonObject &jo_zone )
+void ignorable_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "ignore_contents", ignore_contents );
 }
