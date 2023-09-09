@@ -258,5 +258,16 @@
     "anger_relations": [ [ "SYLPH", -20 ], [ "IERDE", 20 ] ],
     "allowed_category": [ "SYLPH" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+    {
+    "type": "mutation",
+    "id": "cloud_of_steam",
+    "name": { "str": "cloud of steam" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
+    "category": [ "SYLPH", "UNDINE" ],
+    "//": "Needs an activated ability that summons a cloud of steam."
   }
 ]

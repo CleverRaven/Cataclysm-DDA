@@ -1,0 +1,14 @@
+[
+  {
+    "type": "enchantment",
+    "id": "undine_resist_acid",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "undine_resist_fire",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ARMOR_FIRE", "multiply": -0.5 } ]
+  }
+]
