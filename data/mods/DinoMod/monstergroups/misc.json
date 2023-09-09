@@ -115,6 +115,7 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//1": "Can be overwritten by mods.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
+    "copy-from": "GROUP_CAMP_HUNTING",
     "monsters": [
       { "monster": "mon_gallimimus", "weight": 5 },
       { "monster": "mon_struthiomimus", "weight": 5 },
@@ -136,6 +137,7 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//1": "Can be overwritten by mods.",
     "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "copy-from": "GROUP_CAMP_TRAPPING",
     "monsters": [
       { "monster": "mon_albertonykus", "weight": 10 },
       { "monster": "mon_compsognathus", "weight": 5 },
@@ -154,6 +156,7 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//1": "Can be overwritten by mods.",
     "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "copy-from": "GROUP_CAMP_HUNTING_LARGE",
     "monsters": [
       { "monster": "mon_tenontosaurus", "weight": 10 },
       { "monster": "mon_dryosaurus", "weight": 10 },
