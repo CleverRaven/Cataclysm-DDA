@@ -338,13 +338,11 @@
   {
     "id": "EXPLOSIVE_HOMEMADE_GRENADE_1",
     "type": "ammo_effect",
-    "//": "",
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
   },
   {
     "id": "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2",
     "type": "ammo_effect",
-    "//": "",
     "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
   },
   {
