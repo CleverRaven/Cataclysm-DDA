@@ -189,11 +189,6 @@
     "//": "Prevent HARDTOSHOOT monster flag from having any effect; automatically applied to ammo with `SHOT` flag or which have liquid phase. Hardcoded"
   },
   {
-    "id": "CASELESS_ROUNDS",
-    "type": "ammo_effect",
-    "//": "This ammo is caseless rounds that cannot be disassembled or reloaded. Hardcoded"
-  },
-  {
     "id": "FLAME",
     "type": "ammo_effect",
     "//": "Very small explosion that lights fires",
