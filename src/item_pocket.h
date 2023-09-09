@@ -310,6 +310,7 @@ class item_pocket
         void clear_items();
         bool has_item( const item &it ) const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
         void remove_items_if( const std::function<bool( item & )> &filter );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
@@ -336,7 +337,7 @@ class item_pocket
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
-        void add( const item &it, int copies, item **ret );
+        void add( const item &it, int copies, std::vector<item *> &added );
         bool can_unload_liquid() const;
 
         int fill_with( const item &contained, Character &guy, int amount = 0,

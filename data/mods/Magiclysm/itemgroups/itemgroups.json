@@ -1126,7 +1126,8 @@
           { "item": "spell_scroll_bless", "prob": 50 },
           { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
           { "item": "spell_scroll_taze", "prob": 50 },
-          { "item": "spell_scroll_laze", "prob": 50 }
+          { "item": "spell_scroll_laze", "prob": 50 },
+          { "item": "spell_scroll_technomancer_conjure_radio", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1138,7 +1139,10 @@
           { "item": "spell_scroll_holy_blade", "prob": 50 },
           { "item": "spell_scroll_spirit_armor", "prob": 50 },
           { "item": "spell_scroll_synaptic_stimulation", "prob": 50 },
-          { "item": "spell_scroll_knock", "prob": 50 }
+          { "item": "spell_scroll_knock", "prob": 50 },
+          { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
+          { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
+          { "item": "spell_scroll_technomancer_welder", "prob": 35 }
         ],
         "prob": 35
       },
@@ -1194,7 +1198,8 @@
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
           { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 }
+          { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 },
+          { "item": "spell_scroll_earthshaper_granite_aegis", "prob": 20 }
         ],
         "prob": 10
       }
@@ -1253,7 +1258,8 @@
           { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 },
           { "item": "spell_scroll_seed_of_growth", "prob": 15 },
-          { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 }
+          { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
+          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1264,7 +1270,8 @@
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
-          { "item": "spell_scroll_purification_seed", "prob": 100 }
+          { "item": "spell_scroll_purification_seed", "prob": 100 },
+          { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 }
         ],
         "prob": 35
       },

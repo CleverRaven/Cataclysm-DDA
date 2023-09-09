@@ -46,6 +46,7 @@ Friendly NPC crafting by crafting menu
 Functionality to drop items off ledges/cliffs onto creatures below
 NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
+Add overheat mechanics to energy guns.
 
 
 ## Content:
@@ -81,6 +82,8 @@ Add a synagogue
 Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
 Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
+Adds a new mission to the Exodii
+Add boats to river banks
 
 
 ## Interface:
@@ -143,6 +146,7 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
 [Magiclysm] Add more than a dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
+[Magiclysm] Add two more playable fantasy species for Magiclysm
 
 
 ## Balance:

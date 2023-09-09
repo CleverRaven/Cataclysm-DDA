@@ -1589,6 +1589,21 @@ item *item_contents::get_item_with( const std::function<bool( const item &it )> 
     return nullptr;
 }
 
+const item *item_contents::get_item_with( const std::function<bool( const item &it )> &filter )
+const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            continue;
+        }
+        const item *it = pocket.get_item_with( filter );
+        if( it != nullptr ) {
+            return it;
+        }
+    }
+    return nullptr;
+}
+
 void item_contents::remove_items_if( const std::function<bool( item & )> &filter )
 {
     for( item_pocket &pocket : contents ) {

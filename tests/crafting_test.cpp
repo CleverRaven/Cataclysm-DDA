@@ -364,7 +364,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 static void give_tools( const std::vector<item> &tools )
 {
     Character &player_character = get_player_character();
-    player_character.worn.clear();
+    player_character.clear_worn();
     player_character.calc_encumbrance();
     player_character.inv->clear();
     player_character.remove_weapon();

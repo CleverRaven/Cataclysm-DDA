@@ -224,7 +224,7 @@
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
-    "learn_spells": { "teleport_displace": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
+    "learn_spells": { "teleport_displacement": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
   },
   {
     "id": "teleport_farstep",

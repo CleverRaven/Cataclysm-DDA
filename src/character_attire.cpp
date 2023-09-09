@@ -1481,9 +1481,9 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         return &it == &wit;
     } );
 
+    it.on_takeoff( guy );
     item takeoff_copy( it );
     worn.erase( iter );
-    takeoff_copy.on_takeoff( guy );
     if( res == nullptr ) {
         guy.i_add( takeoff_copy, true, &it, &it, true, !guy.has_weapon() );
     } else {
@@ -1499,11 +1499,6 @@ void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const
             cloth.mitigate_damage( dam );
         }
     }
-}
-
-void outfit::clear()
-{
-    worn.clear();
 }
 
 bool outfit::empty() const
@@ -1745,15 +1740,6 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
         }
     }
     return used;
-}
-
-void outfit::append_radio_items( std::list<item *> &rc_items )
-{
-    for( item &elem : worn ) {
-        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &elem );
-        }
-    }
 }
 
 void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
@@ -2026,8 +2012,9 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
 {
     for( item &clothing : worn ) {
 
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
-            return it.is_gun();
+        std::vector<item *> guns = guy.cache_get_items_with( "is_gun", &item::is_gun,
+        [&guy]( const item & it ) {
+            return !guy.is_wielding( it );
         } );
 
         if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
