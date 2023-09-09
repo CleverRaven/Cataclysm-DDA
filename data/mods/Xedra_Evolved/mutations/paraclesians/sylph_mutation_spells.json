@@ -155,6 +155,9 @@
     "shape": "blast",
     "damage_type": "electric",
     "difficulty": 2,
+    "min_aoe": 1,
+    "max_aoe": 7,
+    "aoe_increment": 0.5,
     "field_id": "fd_electricity",
     "min_field_intensity": 0,
     "max_field_intensity": 4,
@@ -176,5 +179,40 @@
     "learn_spells": {
       "lightning_field": 5
     }
+  },
+  {
+    "id": "lightning_field",
+    "type": "SPELL",
+    "name": "lightning field",
+    "description": "Summons a field of lightning.",
+    "message": "tsszappp!",
+    "valid_targets": [ "hostile", "ground" ],
+    "skill": "deduction",
+    "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "electric",
+    "difficulty": 2,
+    "min_aoe": 1,
+    "max_aoe": 7,
+    "aoe_increment": 0.5,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 6,
+    "max_field_intensity": 10,
+    "field_intensity_increment": 1,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: electrical_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_range": 70,
+    "energy_source": "MANA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 700,
+    "energy_increment": -125,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_description": "cracklezzbit!"
   }
 ]

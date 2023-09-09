@@ -11,6 +11,20 @@
   },
   {
     "type": "effect_type",
+    "id": "buoyant",
+    "name": [ "Buoyant" ],
+    "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],
+    "apply_message": "You feel more buoyant!",
+    "remove_message": "You feel less buoyant.",
+    "rating": "good",
+    "max_duration": "8 h",
+    "limb_score_mods": [
+      { "limb_score": "swim", "modifier": 2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "xtr_str_aspirin",
     "max_duration": "4 m",
     "base_mods": {
