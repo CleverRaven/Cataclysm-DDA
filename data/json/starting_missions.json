@@ -257,7 +257,14 @@
     "name": { "str": "Find a new rifle" },
     "description": "When you were escaping an evacuation point that was overrun, you had to leave your rifle behind.  Shame on you, what's a hunter without their hunting rifle?  You have to find one immediately.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "or": [ { "u_has_item": "remmington_700" }, { "u_has_item": "modular_ar15" }, { "u_has_item": "remington700_270" }, { "u_has_item": "savage_111f" } ] },
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "remmington_700" },
+        { "u_has_item": "modular_ar15" },
+        { "u_has_item": "remington700_270" },
+        { "u_has_item": "savage_111f" }
+      ]
+    },
     "difficulty": 3,
     "value": 0,
     "end": {
