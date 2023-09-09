@@ -84,7 +84,8 @@ static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 const std::vector<zone_type_id> ignorable_zone_types = {
     zone_type_AUTO_EAT,
     zone_type_AUTO_DRINK,
-    zone_type_SOURCE_FIREWOOD
+    zone_type_SOURCE_FIREWOOD,
+    zone_type_zone_disassemble
 };
 
 zone_manager::zone_manager()
