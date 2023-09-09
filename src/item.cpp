@@ -14019,7 +14019,7 @@ std::string item::type_name( unsigned int quantity ) const
     // Apply conditional names, in order.
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for searching for a item ID among all components.
-        std::function<bool( item_components )> component_id_equals =
+        std::function<bool( const item_components & )> component_id_equals =
         [&]( const item_components & components ) {
             for( const item_components::type_vector_pair &tvp : components ) {
                 for( const item &component : tvp.second ) {
@@ -14031,7 +14031,7 @@ std::string item::type_name( unsigned int quantity ) const
             return false;
         };
         // Lambda for recursively searching for a item ID substring among all components.
-        std::function<bool ( item_components )> component_id_contains =
+        std::function<bool ( const item_components & )> component_id_contains =
         [&]( const item_components & components ) {
             for( const item_components::type_vector_pair &tvp : components ) {
                 for( const item &component : tvp.second ) {
