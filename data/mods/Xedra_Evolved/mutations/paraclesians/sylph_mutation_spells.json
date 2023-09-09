@@ -30,10 +30,7 @@
     "difficulty": 1,
     "sound_description": "a crackle",
     "damage_type": "electric",
-    "learn_spells": {
-      "sylph_call_lightning": 5,
-      "sylph_crash_of_lightning": 9
-    }
+    "learn_spells": { "sylph_call_lightning": 5, "sylph_crash_of_lightning": 9 }
   },
   {
     "id": "sylph_call_lightning",
