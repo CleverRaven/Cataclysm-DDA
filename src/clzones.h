@@ -220,6 +220,9 @@ class firewood_options : public zone_options
         query_firewood_result query_firewood();
 
     public:
+        bool get_ignore_contents() const {
+            return ignore_contents;
+        }
         bool has_options() const override {
             return true;
         }

@@ -2046,10 +2046,21 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 return;
             }
 
-            // skip tiles in IGNORE zone and tiles on fire
-            // (to prevent taking out wood off the lit brazier)
+            std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_SOURCE_FIREWOOD,
+                                                                           _fac_id( you ) );
+
+            bool ignore_contents = false;
+
+            for( zone_data const *zone : zones ) {
+                firewood_options const &options = dynamic_cast<const firewood_options &>( zone->get_options() );
+                ignore_contents |= options.get_ignore_contents();
+            }
+
+            // skip tiles in IGNORE zone or with ignore option,
+            // tiles on fire (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, _fac_id( you ) ) ||
+                ignore_contents ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
                 !here.can_put_items_ter_furn( src_loc ) ) {
                 continue;
@@ -2179,6 +2190,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 mgr.custom_loot_has( src, &thisitem, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
                 continue;
             }
+
+            //insert ignore firewood source here
 
             const std::unordered_set<tripoint_abs_ms> dest_set =
                 mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem, _fac_id( you ) );
