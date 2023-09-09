@@ -96,7 +96,7 @@
   {
     "id": "MATCHHEAD",
     "type": "ammo_effect",
-    "//": "Bullet has a chance of damaging the gun from overpressure regardless of fouling level, used in . Hardcoded"
+    "//": "Bullet has a chance of damaging the gun from overpressure regardless of fouling level, used in rounds, reloaded with matches. Hardcoded"
   },
   {
     "id": "MAGIC",
@@ -187,11 +187,6 @@
     "id": "WIDE",
     "type": "ammo_effect",
     "//": "Prevent HARDTOSHOOT monster flag from having any effect; automatically applied to ammo with `SHOT` flag or which have liquid phase. Hardcoded"
-  },
-  {
-    "id": "CASELESS_ROUNDS",
-    "type": "ammo_effect",
-    "//": "This ammo is caseless rounds that cannot be disassembled or reloaded. Hardcoded"
   },
   {
     "id": "FLAME",
