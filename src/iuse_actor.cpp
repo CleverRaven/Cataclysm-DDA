@@ -429,6 +429,11 @@ void iuse_transform::finalize( const itype_id & )
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    dummy.set_itype_variant( variant_type );
+    // If the variant is to be randomized, use default no-variant name
+    if( variant_type == "<any>" ) {
+        dummy.clear_itype_variant();
+    }
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
