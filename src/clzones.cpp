@@ -465,7 +465,7 @@ std::string unload_options::get_zone_name_suggestion() const
 std::vector<std::pair<std::string, std::string>> blueprint_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options =
-            std::vector<std::pair<std::string, std::string>>();
+                std::vector<std::pair<std::string, std::string>>();
     options.emplace_back( _( "Construct: " ),
                           group ? group->name() : _( "No Construction" ) );
 
@@ -493,8 +493,8 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
     options.emplace_back(
-            _( "Plant seed: " ),
-            !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) );
+        _( "Plant seed: " ),
+        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) );
 
     return options;
 }
