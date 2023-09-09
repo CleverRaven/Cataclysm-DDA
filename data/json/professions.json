@@ -171,7 +171,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_cigs",
-    "entries": [ {"item": "cig", "count": 20, "container-item": "null", "entry-wrapper": "box_cigarette"} ]
+    "entries": [ { "item": "cig", "count": 20, "container-item": "null", "entry-wrapper": "box_cigarette" } ]
   },
   {
     "type": "item_group",
@@ -6369,8 +6369,8 @@
 	{ "level": 1, "name": "unarmed" },
 	{ "level": 1, "name": "melee" }
 	],
-	"items": {
-      "both": {
+    "items": {
+	  "both": {
         "items": [ "switchblade", "gold_ear" ],
         "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_ref_lighter" }, { "group": "charged_cigs" } ]
       },
