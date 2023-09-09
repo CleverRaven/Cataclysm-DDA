@@ -3826,6 +3826,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader: {
                     bool &state = groups_state[curr_item.data];
                     state = !state;
+                    recalc_startpos = true;
                     break;
                 }
                 case ItemType::BlankLine: {
