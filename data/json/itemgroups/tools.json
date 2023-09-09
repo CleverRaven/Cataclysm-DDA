@@ -25,7 +25,8 @@
     "items": [
       { "group": "tools_common", "prob": 100 },
       { "item": "circsaw_off", "prob": 100, "charges": [ 0, 500 ] },
-      { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
+      { "item": "cordless_drill", "prob": 80, "charges": [ 0, 500 ] },
+      { "item": "corded_powerdrill", "prob": 80 },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "hand_drill", 20 ],
@@ -170,9 +171,10 @@
       { "item": "circsaw_off", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "reciprocating_saw", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "cordless_drill", "prob": 45, "charges": [ 0, 500 ] },
-      [ "rope_30", 30 ],
-      [ "long_extension_cable", 20 ]
+      { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "corded_powerdrill", "prob": 20 }
+      { "item": "rope_30", "prob": 30 },
+      { "item": "long_extension_cable", "prob": 20 }
     ]
   },
   {
@@ -206,6 +208,7 @@
       { "item": "back_holster", "prob": 10 },
       { "item": "XL_holster", "prob": 5 },
       { "item": "XL_nylon_holster", "prob": 5 }
+
     ]
   },
   {
@@ -912,6 +915,8 @@
       { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1320 ] },
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
+      { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "corded_powerdrill", "prob": 30 },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },

@@ -246,7 +246,7 @@
     "type": "requirement",
     "//": "Construction of chainmail items",
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "drill_press_tool", 5 ] ] ]
+    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "corded_powerdrill", 10 ], [ "drill_press_tool", 5 ] ] ]
   },
   {
     "id": "soldering_standard",
@@ -259,7 +259,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -331,7 +331,7 @@
         [ "hammer_sledge", -1 ]
       ],
       [ [ "masonrysaw_off", 100 ], [ "electric_masonrysaw_off", 1320 ] ],
-      [ [ "cordless_drill", 200 ] ],
+      [ [ "cordless_drill", 200 ], [ "corded_powerdrill", 200 ] ],
       [ [ "angle_grinder", 200 ] ]
     ]
   },

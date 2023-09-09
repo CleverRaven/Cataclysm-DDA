@@ -2773,7 +2773,8 @@ See [MUTATIONS.md](MUTATIONS.md)
       "spawn_items": [ "beartrap" ]
     },
     "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
-    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!" // This message will be printed when NPC or monster steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!", // This message will be printed when NPC or monster steps on a trap
+    "sound_threshold": 5 // Optional. Minimum volume of sound that will trigger this trap. Defaults to 0 (Will not trigger from sound).
 ```
 
 ### Vehicle Groups

@@ -39,10 +39,7 @@
     "price": "15 kUSD",
     "price_postapoc": "15 kUSD",
     "range": 15,
-    "ranged_damage": [
-      { "damage_type": "bullet", "amount": 15, "armor_penetration": 30 },
-      { "damage_type": "heat", "amount": 40, "armor_penetration": 10 }
-    ],
+    "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 80 } ],
     "delete": { "ammo_effects": [ "FLAME" ] },
     "extend": { "flags": [ "OVERHEATS" ] },
     "ammo": [ "afs_shydrogen" ],
@@ -79,11 +76,9 @@
     "price": "350 USD",
     "price_postapoc": "350 USD",
     "range": 5,
-    "ranged_damage": [
-      { "damage_type": "bullet", "amount": 15, "armor_penetration": 30 },
-      { "damage_type": "heat", "amount": 40, "armor_penetration": 10 }
-    ],
+    "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 50 } ],
     "delete": { "ammo_effects": [ "FLAME" ] },
+    "extend": { "flags": [ "OVERHEATS" ] },
     "built_in_mods": [ "afs_terrible_sights" ],
     "ammo": [ "afs_shydrogen" ],
     "dispersion": 900,
@@ -132,10 +127,7 @@
       "overheat_threshold": 100,
       "cooling_value": 3,
       "heat_per_shot": 27,
-      "ranged_damage": [
-        { "damage_type": "bullet", "amount": 35, "armor_penetration": 30 },
-        { "damage_type": "heat", "amount": 30, "armor_penetration": 10 }
-      ],
+      "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 45 } ],
       "valid_mod_locations": [ [ "sling", 1 ] ]
     },
     "pocket_data": [
