@@ -57,7 +57,7 @@ class iuse_transform : public iuse_actor
         itype_id container;
 
         /** if set choose this variant when transforming */
-        std::string variant_type;
+        std::string variant_type = "<any>";
 
         /** whether the transformed container is sealed */
         bool sealed = true;
