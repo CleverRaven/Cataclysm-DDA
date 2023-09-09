@@ -172,7 +172,8 @@
       { "item": "reciprocating_saw", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
-      { "item": "corded_powerdrill", "prob": 20 }
+      { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "corded_powerdrill", "prob": 20 },
       { "item": "rope_30", "prob": 30 },
       { "item": "long_extension_cable", "prob": 20 }
     ]
