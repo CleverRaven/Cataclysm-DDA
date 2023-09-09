@@ -67,62 +67,42 @@
   },
   {
     "type": "mutation",
-    "id": "breathe_wo_air",
-    "name": { "str": "breathe without air" },
-    "points": 1,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to temporarily breathe without oxygen.  This will prevent damage from a lack of oxygen for a short window.",
-    "category": [ "SYLPH" ],
-    "//": "Needs an activated ability that affects the hidden oxygen stat."
-  },
-  {
-    "type": "mutation",
-    "id": "clap_of_thunder",
-    "name": { "str": "clap of thunder" },
-    "points": 1,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create a loud clap of thunder noise at a distance.",
-    "category": [ "SYLPH" ],
-    "spells_learned": [ [ "clap_of_thunder", 1 ] ]
-  },
-  {
-    "type": "mutation",
-    "id": "create_fog",
+    "id": "CREATE_FOG",
     "name": { "str": "create fog" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to create a cloud of fog.",
     "category": [ "UNDINE" ],
-    "//": "Needs an activated ability that summons a cloud of fog."
+    "spells_learned": [ [ "create_fog", 1 ] ]
   },
   {
     "type": "mutation",
-    "id": "grant_buoyancy",
+    "id": "GRANT_BUOYANCY",
     "name": { "str": "grant buoyancy" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to grant one person the ability to float and swim.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "grant_buoyancy", 1 ] ],
     "//": "Needs an activated ability that gives swimming skill or proficiency."
   },
   {
     "type": "mutation",
-    "id": "acidic_mist",
+    "id": "ACIDIC_MIST",
     "name": { "str": "acidic mist" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to create an acidic mist that damages any creatures inside it.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "acidic_mist", 1 ] ],
     "//": "Needs an activated ability that summons an acidic mist."
   },
   {
     "type": "mutation",
-    "id": "saltwater_to_freshwater",
+    "id": "SALTWATER_TO_FRESHWATER",
     "name": { "str": "saltwater to freshwater" },
     "points": 0,
     "visibility": 0,
@@ -130,17 +110,6 @@
     "description": "Upon gaining this ability the Undine gains the ability to convert salt water into freshwater and vice versa.",
     "category": [ "UNDINE" ],
     "//": "Needs to give a recipe to convert saltwater into freshwater. And vice-versa."
-  },
-  {
-    "type": "mutation",
-    "id": "grant_buoyancy",
-    "name": { "str": "grant buoyancy" },
-    "points": 0,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Undine gains the ability to grant one person the ability to float and swim.",
-    "category": [ "UNDINE" ],
-    "//": "Needs an activated ability that gives swimming skill or proficiency."
   },
   {
     "type": "mutation",
@@ -155,7 +124,7 @@
   },
   {
     "type": "mutation",
-    "id": "foul_water",
+    "id": "FOUL_WATER",
     "name": { "str": "foul water" },
     "points": 0,
     "visibility": 0,
@@ -206,6 +175,7 @@
     "ugliness": 0,
     "description": "The waves themselves answer your call and create a special vehicle for you to travel across the surface of water.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "wave_walker", 1 ] ],
     "//": "Summons a magic kayak vehicle with an engine like the mojocycle.  Make this have a followup spell that summons the vehicle.  Trait should only grant the walker spell."
   },
   {
@@ -217,6 +187,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to create a special pocket that protects things inside of it from water damage.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "water_pocket", 1 ] ],
     "//": "Make spell like the animist spell."
   },
   {
@@ -228,6 +199,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to change the weather to rain.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "summon_rain", 1 ] ],
     "//": "Make spell."
   },
   {
@@ -239,6 +211,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to summon fish and eventually charm them.  Practice this enough and you will be able to befriend sea monsters.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "summon_fish", 1 ] ],
     "//": "Make spell like cause bear, use spell enough and it turns into charm fish, then it summons friendly sea monsters."
   },
   {
@@ -250,6 +223,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to create two liters of water for the cost of a tiny bit of damage.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "create_water", 1 ] ],
     "//": "Make spell like to create water but use HP like animist."
   },
   {
@@ -261,6 +235,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to summon a minor water elemental, eventually graduating to a water elemental.",
     "category": [ "UNDINE" ],
+    "spells_learned": [ [ "summon_water_sprite", 1 ] ],
     "//": "Make spell like the animist spell."
   }
 ]

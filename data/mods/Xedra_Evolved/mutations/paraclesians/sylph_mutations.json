@@ -362,18 +362,19 @@
   },
   {
     "type": "mutation",
-    "id": "breathe_wo_air",
+    "id": "BREATHE_WO_AIR",
     "name": { "str": "breathe without air" },
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to temporarily breathe without oxygen.  This will prevent damage from a lack of oxygen for a short window.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "breathe_wo_air", 1 ] ],
     "//": "Needs an activated ability that affects the hidden oxygen stat."
   },
   {
     "type": "mutation",
-    "id": "clap_of_thunder",
+    "id": "CLAP_OF_THUNDER",
     "name": { "str": "clap of thunder" },
     "points": 1,
     "visibility": 0,
@@ -384,51 +385,55 @@
   },
   {
     "type": "mutation",
-    "id": "cloud_of_steam",
+    "id": "CLOUD_OF_STEAM",
     "name": { "str": "cloud of steam" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "cloud_of_steam", 1 ] ],
     "//": "Needs an activated ability that summons a cloud of steam."
   },
   {
     "type": "mutation",
-    "id": "create_light",
+    "id": "CREATE_LIGHT",
     "name": { "str": "create light" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create light.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "create_light", 1 ] ],
     "//": "Needs an activated ability that creates light."
   },
   {
     "type": "mutation",
-    "id": "ominous_wind",
+    "id": "OMINOUS_WIND",
     "name": { "str": "ominous wind" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon and ominous wind that damages living creatures morale.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "ominous_wind", 1 ] ],
     "//": "Needs an activated ability that summons an ominous wind."
   },
   {
     "type": "mutation",
-    "id": "levitate",
+    "id": "LEVITATE",
     "name": { "str": "levitate" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to levitate themselves.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "levitate", 1 ] ],
     "//": "Needs an activated ability that summons a cloud of steam."
   },
   {
     "type": "mutation",
-    "id": "resist_cold",
+    "id": "SLYPH_RESIST_COLD",
     "name": { "str": "resist cold" },
     "points": 3,
     "visibility": 0,
@@ -444,18 +449,19 @@
   },
   {
     "type": "mutation",
-    "id": "pushing_wind",
+    "id": "PUSHING_WIND",
     "name": { "str": "pushing wind" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "The Sylph learns how to use the wind to push their oponents.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "pushing_wind", 1 ] ],
     "//": "Needs an activated ability that summons a pushing wind."
   },
   {
     "type": "mutation",
-    "id": "electrical_emissions",
+    "id": "ELECTRICAL_EMISSIONS",
     "name": { "str": "electrical emissions" },
     "points": 3,
     "visibility": 0,
@@ -467,14 +473,15 @@
   },
   {
     "type": "mutation",
-    "id": "lightning_field",
-    "name": { "str": "lightning field" },
+    "id": "ELECTRICAL_FIELD",
+    "name": { "str": "electrical field" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to shoot lightning.",
+    "description": "Upon gaining this ability the Sylph gains the ability to summon electrical fields.",
     "category": [ "SYLPH" ],
-    "//": "Needs an activated ability that summons a lightning bolt."
+    "spells_learned": [ [ "electrical_field", 1 ] ],
+    "//": "Needs an activated ability that summons a electrical fields."
   },
   {
     "type": "mutation",
@@ -485,6 +492,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
+    "spells_learned": [ [ "summon_air_sprite", 1 ] ],
     "//": "Needs an activated ability that summons an air sprite."
   }
 ]

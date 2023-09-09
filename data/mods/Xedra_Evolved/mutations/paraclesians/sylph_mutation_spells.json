@@ -143,31 +143,28 @@
     "energy_increment": 8
   },
   {
-    "id": "zap_electrical_emission",
+    "id": "electrical_field",
     "type": "SPELL",
-    "name": "Zap",
-    "description": "Electricity emits from your extremities.",
+    "name": "electrical field",
+    "description": "Summons a field of electricity.",
     "message": "tsszappp!",
     "valid_targets": [ "hostile", "ground" ],
     "skill": "deduction",
     "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "electric",
     "difficulty": 2,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 0,
+    "max_field_intensity": 4,
+    "field_intensity_increment": 1,
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: electrical_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
+    "energy_source": "MANA",
     "base_energy_cost": 1500,
     "final_energy_cost": 300,
     "energy_increment": -125,
@@ -175,14 +172,9 @@
     "final_casting_time": 35,
     "casting_time_increment": -4,
     "sound_type": "combat",
-    "sound_description": "a crackle!",
+    "sound_description": "zzzpptttt!",
     "learn_spells": {
-      "pyrokinetic_call_flames": 5,
-      "pyrokinetic_flamethrower": 7,
-      "pyrokinetic_flash": 9,
-      "pyrokinetic_thermogenesis": 12,
-      "pyrokinetic_blast": 15,
-      "pyrokinetic_cloak": 17
+      "lightning_field": 5
     }
   }
 ]
