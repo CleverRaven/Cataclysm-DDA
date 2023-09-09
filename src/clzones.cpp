@@ -205,6 +205,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<loot_options>();
     } else if( type == zone_type_zone_unload_all ) {
         return make_shared_fast<unload_options>();
+    } else if ( type == zone_type_SOURCE_FIREWOOD) {
+        return make_shared_fast<firewood_options>();
     }
 
     return make_shared_fast<zone_options>();
@@ -276,6 +278,12 @@ blueprint_options::query_con_result blueprint_options::query_con()
     } else {
         return canceled;
     }
+}
+
+firewood_options::query_firewood_result firewood_options::query_firewood()
+{
+    ignore_contents = query_yn( _( "Ignore items in this space when sorting?" ) );
+    return changed;
 }
 
 loot_options::query_loot_result loot_options::query_loot()
@@ -354,6 +362,11 @@ plot_options::query_seed_result plot_options::query_seed()
     }
 }
 
+bool firewood_options::query_at_creation()
+{
+    return query_firewood() != canceled;
+}
+
 bool loot_options::query_at_creation()
 {
     return query_loot() != canceled;
@@ -364,6 +377,11 @@ bool unload_options::query_at_creation()
     return query_unload() != canceled;
 }
 
+bool firewood_options::query()
+{
+    return query_firewood() == changed;
+}
+
 bool loot_options::query()
 {
     return query_loot() == changed;
@@ -372,6 +390,14 @@ bool loot_options::query()
 bool unload_options::query()
 {
     return query_unload() == changed;
+}
+
+std::string firewood_options::get_zone_name_suggestion() const
+{
+    if ( ignore_contents ) {
+        return _( "Source: Firewood, ignore contents" );
+    }
+    return _( "Source: Firewood" );
 }
 
 std::string loot_options::get_zone_name_suggestion() const
@@ -387,6 +413,14 @@ std::string unload_options::get_zone_name_suggestion() const
     return string_format( "%s%s%s%s", _( "Unload: " ), mods ? _( "mods, " ) : "",
                           molle ? _( "MOLLE, " ) : "",
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
+}
+
+std::vector<std::pair<std::string, std::string>> firewood_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> options;
+    options.emplace_back( _( "Ignore contents: " ),
+                          string_format( "%s", ignore_contents ? _( "True" ) : _( "False" ) ) );
+    return options;
 }
 
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
@@ -406,6 +440,16 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
                                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
 
     return options;
+}
+
+void firewood_options::serialize( JsonOut &json ) const
+{
+    json.member( "ignore_contents", ignore_contents );
+}
+
+void firewood_options::deserialize( const JsonObject &jo_zone )
+{
+    jo_zone.read( "ignore_contents", ignore_contents );
 }
 
 void loot_options::serialize( JsonOut &json ) const
@@ -434,6 +478,7 @@ void unload_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "always_unload", always_unload );
 }
 
+// TODO: Sort these with other functions
 bool blueprint_options::query_at_creation()
 {
     return query_con() != canceled;

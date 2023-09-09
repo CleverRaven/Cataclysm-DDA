@@ -206,6 +206,36 @@ class blueprint_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class firewood_options : public zone_options
+{
+    private:
+        bool ignore_contents;
+
+        enum query_firewood_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_firewood_result query_firewood();
+
+    public:
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+
+};
+
 class loot_options : public zone_options, public mark_option
 {
     private:
