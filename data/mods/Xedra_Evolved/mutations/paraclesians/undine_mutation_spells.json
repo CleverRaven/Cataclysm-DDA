@@ -188,7 +188,7 @@
     "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "energy_source": "MANA"
   },
-    {
+  {
     "id": "wave_rider",
     "type": "SPELL",
     "name": "Summon Wave Rider",
