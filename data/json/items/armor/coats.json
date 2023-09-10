@@ -1445,7 +1445,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
-    {
+  {
     "id": "gosling_jacket",
     "type": "ARMOR",
     "name": { "str": "scorpion ornamented jacket" },
