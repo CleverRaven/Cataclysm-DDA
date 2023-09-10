@@ -45,7 +45,7 @@
   {
     "//": "Tools needed to copy books.",
     "type": "item_group",
-    "id": "FREE_MERCHANTS_Shop_Hardware",
+    "id": "FREE_MERCHANTS_Shop_Tools",
     "subtype": "collection",
     "items": [ { "group": "pens", "count": [ 9, 12 ] }, { "item": "xacto", "count": [ 1, 2 ] } ]
   }
