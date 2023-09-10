@@ -2834,7 +2834,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "coverage", coverage, 0 );
 
     // load a breathability override
-    breathability_rating temp_enum;
+    breathability_rating temp_enum = breathability_rating::last;
     optional( jo, false, "breathability", temp_enum, breathability_rating::last );
     if( temp_enum != breathability_rating::last ) {
         breathability = material_type::breathability_to_rating( temp_enum );
