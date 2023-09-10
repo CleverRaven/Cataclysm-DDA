@@ -115,7 +115,7 @@
   {
     "id": "ench_dampened_steps",
     "type": "enchantment",
-    "name": { "str": "Dampened Steps" },
+    "name": { "str_sp": "Dampened Steps" },
     "description": "You are wearing equipment that muffles your footsteps.",
     "has": "WORN",
     "condition": "ACTIVE",
