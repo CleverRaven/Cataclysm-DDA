@@ -68,7 +68,7 @@
   {
     "id": "xe_art_instrument",
     "type": "GENERIC",
-    "name": { "str": "an instrument", "str_pl": "instruments"},
+    "name": { "str": "an instrument", "str_pl": "instruments" },
     "description": "This looks like a musical instrument.  But how would you play it?\nIt may have unknown powers; try activating them.",
     "symbol": "O",
     "volume": "76 ml",
