@@ -15,8 +15,8 @@
   {
     "type": "npc_class",
     "id": "NC_GREAT_LIBRARY_LIBRARIAN",
-    "name": { "str": "Merchant" },
-    "job_description": "I'm a local shopkeeper.",
+    "name": { "str": "Circulations" },
+    "job_description": "I'm a librarian.",
     "common": false,
     "sells_belongings": false,
     "//": "Elvira is a young librarian, one of the few surviving librarians from before.  She is also heir to the fabulous Fish fortune, but she threw that all away to pursue her passion for library science.",
