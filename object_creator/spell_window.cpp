@@ -80,6 +80,11 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     mainRow->addLayout( mainColumn1, 0 );
     mainRow->addLayout( mainColumn2, 1 );
     mainRow->addLayout( mainColumn3, 2 );
+    
+    //Add a stretchfactor so that the first column takes 15%, the second 55% and the third 30% of the width
+    mainRow->setStretchFactor( mainColumn1, 15 );
+    mainRow->setStretchFactor( mainColumn2, 55 );
+    mainRow->setStretchFactor( mainColumn3, 30 );
 
 
     // =========================================================================================
