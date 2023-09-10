@@ -71,7 +71,7 @@
   {
     "id": "create_dream_dross",
     "type": "SPELL",
-    "name": "Bring forth Dreamdross",
+    "name": "Bring Forth Dreamdross",
     "description": "This ritual pulls a small amount of dreamdross into our world and makes it permanent.  These scraps of dreaming can then be used to make permanent objects.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
