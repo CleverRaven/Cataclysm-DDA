@@ -249,7 +249,16 @@
     "material": [ "water" ],
     "symbol": "[",
     "color": "green",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60, "watertight": true, "airtight": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "75 kg",
+        "moves": 60,
+        "watertight": true,
+        "airtight": true
+      }
+    ],
     "material_thickness": 0.1,
     "flags": [
       "BELTED",
