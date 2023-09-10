@@ -6373,5 +6373,28 @@
       "male": [ "leggings", "tank_top", "socks_ankle", "sneakers", "boxer_shorts", "fanny" ],
       "female": [ "nanoskirt", "halter_top", "garter_belt", "stockings", "heels", "panties", "purse" ]
     }
+  },
+  {
+	"type": "profession",
+	"id": "heist_driver",
+	"name": "Heist Driver",
+	"description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now there are no cops and no law, but even after the Cataclysm, you drive.",
+	"points": 5,
+	"proficiencies": [ "prof_driver", "prof_basic_engines", "prof_athlete_basic" ],
+	"skills": [
+	  { "level": 6, "name": "driving" },
+	  { "level": 4, "name": "mechanics"},
+	  { "level": 3, "name": "unarmed" },
+	  { "level": 3, "name": "melee" }
+	],
+	"vehicle": "car_coupe_muscle",
+	"items": {
+	  "both": {
+	    "items": [ "jeans", "tshirt", "gosling_jacket", "gloves_fingerless", "socks", "sneakers", "hammer" ],
+		"entries": [ { "group": "charged_smart_phone" } ]
+	  },
+	  "male": [ "boxer_shorts" ],
+	  "female": [ "panties", "bra" ]
+	}
   }
 ]
