@@ -5,7 +5,6 @@
     "type": "vehicle_part",
     "fuel_type": "mana",
     "m2c": 60,
-    "type": "vehicle_part",
     "item": "unloaded_wave_rider_engine",
     "durability": 200,
     "epower": "-50 W",
