@@ -5880,7 +5880,9 @@
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
-        [ "dry_corn", 2 ]
+        [ "dry_corn", 2 ],
+        [ "can_pineapple", 2 ],
+        [ "pineapple_chunks", 2 ]
       ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
