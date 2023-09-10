@@ -384,6 +384,7 @@
     "professions": [
       "svictim",
       "naked",
+	  "prostitute",
       "unemployed",
       "homeless",
       "hitchhiker",
@@ -844,6 +845,7 @@
       "frat",
       "gangster",
       "lost_sub",
+	  "prostitute",
       "lawyer",
       "politician",
       "dancer",
@@ -948,6 +950,7 @@
     "professions": [
       "naked",
       "maid",
+	  "prostitute",
       "frat",
       "lost_sub",
       "backpacker",
