@@ -210,8 +210,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to summon fish and eventually charm them.  Practice this enough and you will be able to befriend sea monsters.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "summon_fish", 1 ] ],
-    "//": "Make spell like cause bear, use spell enough and it turns into charm fish, then it summons friendly sea monsters."
+    "spells_learned": [ [ "summon_fish", 1 ] ]
   },
   {
     "type": "mutation",
