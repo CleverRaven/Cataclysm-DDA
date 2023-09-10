@@ -1772,11 +1772,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                 invisible = var->invisible;
                             } else {
                                 // Otherwise, recalculate ll and invisible
-                                if( ll_invis_cache.count( draw_loc ) == 0 ) {
-                                    ll_invis_cache[ draw_loc ] = calc_ll_invis( draw_loc );
+                                if( here.ll_invis_cache.count( draw_loc ) == 0 ) {
+                                    here.ll_invis_cache[ draw_loc ] = calc_ll_invis( draw_loc );
                                 }
-                                ll = ll_invis_cache[ draw_loc ].first;
-                                invisible = ll_invis_cache[ draw_loc ].second;
+                                ll = here.ll_invis_cache[ draw_loc ].first;
+                                invisible = here.ll_invis_cache[ draw_loc ].second;
                             }
 
                             if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
@@ -2009,7 +2009,7 @@ std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripo
 
 void cata_tiles::clear_draw_caches()
 {
-    ll_invis_cache.clear();
+    get_map().ll_invis_cache.clear();
 }
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )

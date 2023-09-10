@@ -805,8 +805,6 @@ class cata_tiles
 
         pimpl<pixel_minimap> minimap;
 
-        std::map<tripoint, std::pair<lit_level, std::array<bool, 5>>> ll_invis_cache;
-
     public:
         // Draw caches persist data between draws to avoid unnecessary recalculations
         // Any event that would invalidate cached data should also clear it
