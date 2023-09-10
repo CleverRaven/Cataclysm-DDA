@@ -2396,13 +2396,7 @@ void holster_actor::load( const JsonObject &obj )
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
 {
-    if( !holster.can_contain( obj ).success() ) {
-        return false;
-    }
-    if( obj.active ) {
-        return false;
-    }
-    return holster.can_contain( obj ).success();
+    return obj.active ? false : holster.can_contain( obj ).success();
 }
 
 bool holster_actor::store( Character &you, item &holster, item &obj ) const
