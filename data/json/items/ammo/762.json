@@ -8,7 +8,7 @@
     "volume": "113 ml",
     "longest_side": "56 mm",
     "price": 120,
-    "price_postapoc": 900,
+    "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "steel", "brass", "lead", "powder" ],
     "symbol": "=",
@@ -62,7 +62,7 @@
     "//": "Entirely provisional.  Could someone design a better wound ballistics system?",
     "description": "7.62x39mm M67 ammunition with a 123gr bullet.  The inadequate terminal ballistics of the M43 round led to the development of the M67 round in Yugoslavia in the 1960s.  It destabilizes much faster than M43 after hitting a target, leading to greater damage.",
     "price": 150,
-    "price_postapoc": 6800,
+    "price_postapoc": 800,
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 } }
   },
   {
