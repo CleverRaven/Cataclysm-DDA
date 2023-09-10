@@ -207,22 +207,6 @@
     "explosion": { "power": 60, "distance_factor": 0.7, "fire": true }
   },
   {
-<<<<<<< HEAD
-=======
-    "id": "NAPALM_BIG",
-    "type": "ammo_effect",
-    "//": "Large explosion that spreads fire",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 },
-    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
-  },
-  {
-    "id": "NAPALM_TBG7V",
-    "type": "ammo_effect",
-    "//": "Creates a large fire on hit",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 }
-  },
-  {
->>>>>>> 36b04f0f077bb6013641ee84d003abb96eac2199
     "id": "PYROPHORIC",
     "type": "ammo_effect",
     "//": "Large explosion that spreads fire of high intensity",
@@ -306,15 +290,6 @@
     "explosion": { "power": 2.4, "shrapnel": { "casing_mass": 28, "fragment_mass": 7 } }
   },
   {
-<<<<<<< HEAD
-=======
-    "id": "FRAG",
-    "type": "ammo_effect",
-    "//": "Small explosion that spreads shrapnel",
-    "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.025 } }
-  },
-  {
->>>>>>> 36b04f0f077bb6013641ee84d003abb96eac2199
     "id": "FRAG_20x66",
     "type": "ammo_effect",
     "//": "Small explosion that spreads shrapnel",
