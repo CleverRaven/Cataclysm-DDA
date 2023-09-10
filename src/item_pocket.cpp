@@ -1228,6 +1228,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                            contains_weight() ) );
     }
 
+    if( remaining_volume() < 0_ml || remaining_weight() < 0_gram ) {
+        info.emplace_back( "DESCRIPTION",
+                           colorize( _( "This pocket is over capacity and will spill if moved!" ), c_red ) );
+    }
+
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
         std::vector<std::pair<item const *, int>> counted_contents;

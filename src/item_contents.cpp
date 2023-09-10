@@ -2441,8 +2441,7 @@ float item_contents::relative_encumbrance() const
         nonrigid_max_volume += pocket.max_contains_volume() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
-        debugmsg( "volume exceeds capacity (%sml > %sml)",
-                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_max_volume ) );
+        // volume exceeds capacity and will spill until 1 or lower if picked up, so assume 1
         return 1;
     }
     if( nonrigid_max_volume == 0_ml ) {
