@@ -85,8 +85,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to grant one person the ability to float and swim.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "grant_buoyancy", 1 ] ],
-    "//": "Needs an activated ability that gives swimming skill or proficiency."
+    "spells_learned": [ [ "grant_buoyancy", 1 ] ]
   },
   {
     "type": "mutation",
@@ -97,8 +96,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Undine gains the ability to create an acidic mist that damages any creatures inside it.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "acidic_mist", 1 ] ],
-    "//": "Needs an activated ability that summons an acidic mist."
+    "spells_learned": [ [ "acidic_mist", 1 ] ]
   },
   {
     "type": "mutation",
@@ -107,9 +105,10 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine gains the ability to convert salt water into freshwater and vice versa.",
+    "description": "Upon gaining this ability the Undine can activate this trait to learn how to convert salt water into freshwater and vice versa.",
     "category": [ "UNDINE" ],
-    "//": "Needs to give a recipe to convert saltwater into freshwater. And vice-versa."
+    "active": true,
+    "activated_eocs": [ "EOC_SALTWATER_TO_FRESHWATER" ]
   },
   {
     "type": "mutation",
@@ -129,9 +128,10 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine gains the ability to foul water, making it murky and possibly infested.  Conversely, the Undine can also cleanse water that is not already clean.",
+    "description": "Upon gaining this ability the Undine can activate this trait to gain the ability to foul water, making it murky and possibly infested.  Conversely, the Undine can also cleanse water that is not already clean.",
     "category": [ "UNDINE" ],
-    "//": "Needs to give a recipe to convert clean water into freshwater. And vice-versa."
+    "active": true,
+    "activated_eocs": [ "EOC_FOUL_WATER" ]
   },
   {
     "type": "mutation",
@@ -140,9 +140,10 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine gains the ability to convert salt water into freshwater.",
+    "description": "Upon gaining this ability the Undine can activate this trait to gain the ability to convert various liquids into freshwater.",
     "category": [ "UNDINE" ],
-    "//": "Needs to give a recipe to convert various liquids into water. Not the other way around."
+    "active": true,
+    "activated_eocs": [ "EOC_LIQUID_TO_WATER" ]
   },
   {
     "type": "mutation",
@@ -157,8 +158,8 @@
   },
   {
     "type": "mutation",
-    "id": "RESIST_FIRE",
-    "name": { "str": "resist fire" },
+    "id": "RESIST_ACID",
+    "name": { "str": "resist acid" },
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
@@ -168,15 +169,14 @@
   },
   {
     "type": "mutation",
-    "id": "WAVE_WALKER",
-    "name": { "str": "wave walker" },
+    "id": "WAVE_RIDER",
+    "name": { "str": "wave rider" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
     "description": "The waves themselves answer your call and create a special vehicle for you to travel across the surface of water.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "wave_walker", 1 ] ],
-    "//": "Summons a magic kayak vehicle with an engine like the mojocycle.  Make this have a followup spell that summons the vehicle.  Trait should only grant the walker spell."
+    "spells_learned": [ [ "wave_rider", 1 ] ]
   },
   {
     "type": "mutation",
@@ -187,8 +187,7 @@
     "ugliness": 0,
     "description": "Allows the Undine to create a special pocket that protects things inside of it from water damage.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "water_pocket", 1 ] ],
-    "//": "Make spell like the animist spell."
+    "spells_learned": [ [ "water_pocket", 1 ] ]
   },
   {
     "type": "mutation",
@@ -197,10 +196,10 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Allows the Undine to change the weather to rain.",
+    "description": "Allows the Undine to change the weather to rain. (Currently not working)",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "summon_rain", 1 ] ],
-    "//": "Make spell."
+    "//": "Make spell. Requires C++"
   },
   {
     "type": "mutation",

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "wave_rider_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "mana",
+    "m2c": 60,
+    "type": "vehicle_part",
+    "item": "unloaded_wave_rider_engine",
+    "durability": 200,
+    "epower": "-50 W",
+    "power": "37300 W",
+    "energy_consumption": "124500 W",
+    "folded_volume": "2 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "scrap", "count": [ 10, 20 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 60 },
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] }
+  }
+]

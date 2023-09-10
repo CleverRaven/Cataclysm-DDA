@@ -176,9 +176,7 @@
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_description": "zzzpptttt!",
-    "learn_spells": {
-      "lightning_field": 5
-    }
+    "learn_spells": { "lightning_field": 5 }
   },
   {
     "id": "lightning_field",

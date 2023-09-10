@@ -454,7 +454,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Sylph learns how to use the wind to push their oponents.",
+    "description": "The Sylph learns how to use the wind to push their opponents.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "pushing_wind", 1 ] ],
     "//": "Needs an activated ability that summons a pushing wind."

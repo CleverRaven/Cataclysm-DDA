@@ -237,5 +237,32 @@
     ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
     "use_action": { "type": "effect_on_conditions", "description": "Jump.", "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ] }
+  },
+  {
+    "id": "water_pocket",
+    "type": "ARMOR",
+    "name": { "str": "water pocket" },
+    "description": "A large pouch of churning water on your back, containing a sealed air bubble.  It shifts and adjusts itself to minimize encumbrance.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": 0,
+    "material": [ "water" ],
+    "symbol": "[",
+    "color": "green",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60, "watertight": true, "airtight": true } ],
+    "material_thickness": 0.1,
+    "flags": [
+      "BELTED",
+      "TRADER_AVOID",
+      "WATERPROOF",
+      "STURDY",
+      "OVERSIZE",
+      "NO_TAKEOFF",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT"
+    ],
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   }
 ]
