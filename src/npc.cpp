@@ -764,7 +764,8 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
     personality.collector  = rng( -1, 10 );
-    personality.altruism   = rng( -10, 10 );
+    // Normal distribution. Mean = 0, stddev = 3, clamp at -10 and 10. Rounded to return integer value.
+    personality.altruism   = std::round( std::max( -10.0, std::min( normal_roll( 0, 3 ), 10.0 ) ) );
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );

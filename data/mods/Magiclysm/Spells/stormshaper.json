@@ -894,7 +894,7 @@
     "id": "electric_arts",
     "type": "SPELL",
     "name": "Electric Arts",
-    "description": "This spell were designed for scholars, that just started to learn stormshaping.  It allows them to use their abilities, when their magic control is weak, and they can injure themselves with electricity.",
+    "description": "A spell designed for scholars having just started to learn stormshaping, allowing them to reduce the damage to themselves their often capricious new abilities may cause.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "electric_arts",

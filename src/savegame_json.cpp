@@ -3222,7 +3222,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true, false );
+        contents.combine( read_contents, false, true, false, true );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );

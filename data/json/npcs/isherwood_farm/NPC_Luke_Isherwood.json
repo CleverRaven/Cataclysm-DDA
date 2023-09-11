@@ -112,7 +112,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE",
-    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
+    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

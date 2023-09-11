@@ -37,7 +37,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
+    "ammo_effects": [ "LASER", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
     "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 12 }

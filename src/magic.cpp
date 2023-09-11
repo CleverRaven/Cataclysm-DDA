@@ -1627,7 +1627,7 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
     projectile bolt;
     bolt.speed = 10000;
     bolt.impact = get_damage_instance( caster );
-    bolt.proj_effects.emplace( "magic" );
+    bolt.proj_effects.emplace( "MAGIC" );
 
     dealt_projectile_attack atk;
     atk.end_point = target;
