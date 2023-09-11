@@ -36,7 +36,7 @@
     "traits": [
       "THRESH_SPECIES_DWARF",
       "DARKSIGHT",
-      "NIGHTVISION",
+      "NIGHTVISION2",
       "DWARVEN_BUILD",
       "PAINRESIST",
       "INFRESIST",
@@ -66,7 +66,7 @@
       "DARKSIGHT",
       "GOBLIN_BUILD",
       "GOBLIN_TEETH",
-      "NIGHTVISION2",
+      "NIGHTVISION3",
       "SAPROVORE",
       "SNOUT",
       "NAILS",
