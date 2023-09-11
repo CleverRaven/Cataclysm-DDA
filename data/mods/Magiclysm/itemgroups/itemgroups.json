@@ -932,7 +932,8 @@
       {
         "distribution": [
           { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
-          { "item": "spell_scroll_lightning_blast", "prob": 50 }
+          { "item": "spell_scroll_lightning_blast", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 }
         ],
         "prob": 45
       },
@@ -942,7 +943,8 @@
           { "item": "spell_scroll_lightning_bolt", "prob": 50 },
           { "item": "spell_scroll_windstrike", "prob": 50 },
           { "item": "spell_scroll_windrun", "prob": 50 },
-          { "item": "spell_scroll_repelling_arc", "prob": 50 }
+          { "item": "spell_scroll_repelling_arc", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_heart_of_hurricane", "prob": 50 }
         ],
         "prob": 40
       },
@@ -1271,7 +1273,9 @@
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
-          { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 }
+          { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
+          { "item": "spell_scroll_druid_thornskin", "prob": 75 },
+          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 }
         ],
         "prob": 35
       },
