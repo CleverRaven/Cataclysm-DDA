@@ -1048,9 +1048,7 @@
     "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
     "shape": "blast",
-    "min_damage": 1
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') / 2) + 1) )" ]
-    } 
+    "min_damage": 1,
+    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') / 2) + 1) )" ] }
   }
 ]

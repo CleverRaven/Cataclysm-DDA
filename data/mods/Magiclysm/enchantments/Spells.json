@@ -20,10 +20,16 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "hit_me_effect": [ { "id": "stormshaper_heart_of_hurricane_throw", "hit_self": false, "once_in": 3 } ],
-    "values": [ 
+    "values": [
       { "value": "FOOTSTEP_NOISE", "multiply": 1 },
-      { "value": "KNOCKBACK_RESIST", "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] } }, 
-      { "value": "KNOCKDOWN_RESIST", "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] } },  
+      {
+        "value": "KNOCKBACK_RESIST",
+        "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
+      },
+      {
+        "value": "KNOCKDOWN_RESIST",
+        "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
+      }
     ]
   }
 ]
