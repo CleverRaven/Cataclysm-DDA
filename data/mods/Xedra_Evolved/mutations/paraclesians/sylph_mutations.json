@@ -385,30 +385,6 @@
   },
   {
     "type": "mutation",
-    "id": "CLOUD_OF_STEAM",
-    "name": { "str": "cloud of steam" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
-    "category": [ "SYLPH" ],
-    "spells_learned": [ [ "cloud_of_steam", 1 ] ],
-    "//": "Needs an activated ability that summons a cloud of steam."
-  },
-  {
-    "type": "mutation",
-    "id": "CREATE_LIGHT",
-    "name": { "str": "create light" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
-    "category": [ "SYLPH" ],
-    "spells_learned": [ [ "create_light", 1 ] ],
-    "//": "Needs an activated ability that creates light."
-  },
-  {
-    "type": "mutation",
     "id": "OMINOUS_WIND",
     "name": { "str": "ominous wind" },
     "points": 3,
@@ -421,15 +397,14 @@
   },
   {
     "type": "mutation",
-    "id": "LEVITATE",
-    "name": { "str": "levitate" },
+    "id": "SLOWFALL",
+    "name": { "str": "Slow Fall" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to levitate themselves.",
+    "description": "Upon gaining this ability the Sylph ceases to fall at speeds that would damage themselves, no matter how high the fall is.",
     "category": [ "SYLPH" ],
-    "spells_learned": [ [ "levitate", 1 ] ],
-    "//": "Needs an activated ability that summons a cloud of steam."
+    "flags": [ "FEATHER_FALL" ]
   },
   {
     "type": "mutation",
@@ -480,8 +455,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon electrical fields.",
     "category": [ "SYLPH" ],
-    "spells_learned": [ [ "electrical_field", 1 ] ],
-    "//": "Needs an activated ability that summons a electrical fields."
+    "spells_learned": [ [ "electrical_field", 1 ] ]
   },
   {
     "type": "mutation",

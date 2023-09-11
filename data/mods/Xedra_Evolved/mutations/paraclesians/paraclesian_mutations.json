@@ -269,5 +269,16 @@
     "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
     "category": [ "SYLPH", "UNDINE" ],
     "spells_learned": [ [ "cloud_of_steam", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CREATE_LIGHT",
+    "name": { "str": "create light" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "category": [ "SYLPH", "SALAMANDER" ],
+    "spells_learned": [ [ "create_light", 1 ] ]
   }
 ]
