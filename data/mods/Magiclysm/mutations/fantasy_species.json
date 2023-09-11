@@ -252,6 +252,12 @@
   },
   {
     "type": "mutation",
+    "id": "NIGHTVISION3",
+    "copy-from": "NIGHTVISION3",
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
     "id": "SMELLY",
     "copy-from": "SMELLY",
     "extend": { "category": [ "SPECIES_DWARF" ] }
@@ -503,6 +509,7 @@
     "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.",
     "mixed_effect": true,
     "valid": false,
+    "flags": [ "MYOPIC_IN_LIGHT" ],
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
