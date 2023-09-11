@@ -353,7 +353,7 @@
         { "item": "splinter", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 10 ] },
         { "item": "nuts_bolts", "charges": [ 5, 20 ] },
-        { "item": "mtorch_everburning", "count": [ 1, 6 ] }
+        { "item": "mtorch_everburning", "count": [ 1, 4 ] }
       ]
     }
   }

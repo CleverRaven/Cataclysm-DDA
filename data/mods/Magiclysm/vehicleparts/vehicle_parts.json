@@ -56,8 +56,8 @@
     "bonus": 240,
     "damage_modifier": 10,
     "breaks_into": [
-      { "item": "splinter", "charges": [ 2, 8 ] },
-      { "item": "scrap", "charges": [ 1, 4 ] },
+      { "item": "splinter", "count": [ 2, 8 ] },
+      { "item": "scrap", "count": [ 1, 4 ] },
       { "item": "mtorch_everburning", "count": [ 0, 1 ] }
     ],
     "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE" ],
