@@ -750,6 +750,7 @@
     "apply_message": "",
     "remove_message": "A cool breeze hits your skin.",
     "rating": "good",
+    "removes_effects": [ "effect_kelvinist_anti_heat" ],
     "enchantments": [
       {
         "emitter": "emit_kelvinist_anti_cold",
@@ -771,6 +772,7 @@
     "apply_message": "",
     "remove_message": "A warm breeze hits your skin.",
     "rating": "good",
+    "removes_effects": [ "effect_kelvinist_anti_cold" ],
     "enchantments": [
       {
         "emitter": "emit_kelvinist_anti_heat",
