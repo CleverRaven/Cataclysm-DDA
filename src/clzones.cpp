@@ -456,97 +456,6 @@ std::string loot_options::get_zone_name_suggestion() const
     return _( "Loot: Custom: No Filter" );
 }
 
-std::string unload_options::get_zone_name_suggestion() const
-{
-
-    return string_format( "%s%s%s%s%s", _( "Unload: " ),
-                          mods ? _( "mods, " ) : "",
-                          molle ? _( "MOLLE, " ) : "",
-                          sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
-                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
-}
-
-std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
-{
-    std::vector<std::pair<std::string, std::string>> options;
-    options.emplace_back( _( "Loot: Custom: " ),
-                          !mark.empty() ? mark : _( "No filter" ) );
-
-    return options;
-}
-
-std::vector<std::pair<std::string, std::string>> unload_options::get_descriptions() const
-{
-    std::vector<std::pair<std::string, std::string>> options;
-    options.emplace_back( _( "Unload: " ),
-                          string_format( "%s%s%s%s",
-                                         mods ? _( "mods " ) : "",
-                                         molle ? _( "MOLLE " ) : "",
-                                         sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
-                                         always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
-
-    return options;
-}
-
-void loot_options::serialize( JsonOut &json ) const
-{
-    json.member( "mark", mark );
-}
-
-void loot_options::deserialize( const JsonObject &jo_zone )
-{
-    jo_zone.read( "mark", mark );
-}
-
-void unload_options::serialize( JsonOut &json ) const
-{
-    json.member( "mark", mark );
-    json.member( "mods", mods );
-    json.member( "molle", molle );
-    json.member( "sparse_only", sparse_only );
-    json.member( "sparse_threshold", sparse_threshold );
-    json.member( "always_unload", always_unload );
-}
-
-void unload_options::deserialize( const JsonObject &jo_zone )
-{
-    jo_zone.read( "mark", mark );
-    jo_zone.read( "mods", mods );
-    jo_zone.read( "molle", molle );
-    jo_zone.read( "sparse_only", sparse_only );
-    jo_zone.read( "sparse_threshold", sparse_threshold );
-    jo_zone.read( "always_unload", always_unload );
-}
-
-bool blueprint_options::query_at_creation()
-{
-    return query_con() != canceled;
-}
-
-bool plot_options::query_at_creation()
-{
-    return query_seed() != canceled;
-}
-
-bool blueprint_options::query()
-{
-    return query_con() == changed;
-}
-
-bool plot_options::query()
-{
-    return query_seed() == changed;
-}
-
-std::string blueprint_options::get_zone_name_suggestion() const
-{
-    if( group ) {
-        return group->name();
-    }
-
-    return _( "No construction" );
-}
-
 std::string plot_options::get_zone_name_suggestion() const
 {
     if( !seed.is_empty() ) {
@@ -564,8 +473,11 @@ std::string plot_options::get_zone_name_suggestion() const
 
 std::string unload_options::get_zone_name_suggestion() const
 {
-    return string_format( "%s%s%s%s", _( "Unload: " ), mods ? _( "mods, " ) : "",
+
+    return string_format( "%s%s%s%s%s", _( "Unload: " ),
+                          mods ? _( "mods, " ) : "",
                           molle ? _( "MOLLE, " ) : "",
+                          sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
 }
 
@@ -610,7 +522,10 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
 {
     std::vector<std::pair<std::string, std::string>> options;
     options.emplace_back( _( "Unload: " ),
-                          string_format( "%s%s%s", mods ? _( "mods " ) : "",  molle ? _( "MOLLE " ) : "",
+                          string_format( "%s%s%s%s",
+                                         mods ? _( "mods " ) : "",
+                                         molle ? _( "MOLLE " ) : "",
+                                         sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
                                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
 
     return options;
@@ -672,6 +587,8 @@ void unload_options::serialize( JsonOut &json ) const
     json.member( "mark", mark );
     json.member( "mods", mods );
     json.member( "molle", molle );
+    json.member( "sparse_only", sparse_only );
+    json.member( "sparse_threshold", sparse_threshold );
     json.member( "always_unload", always_unload );
 }
 
@@ -680,6 +597,8 @@ void unload_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "mark", mark );
     jo_zone.read( "mods", mods );
     jo_zone.read( "molle", molle );
+    jo_zone.read( "sparse_only", sparse_only );
+    jo_zone.read( "sparse_threshold", sparse_threshold );
     jo_zone.read( "always_unload", always_unload );
 }
 
