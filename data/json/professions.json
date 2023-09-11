@@ -3736,7 +3736,7 @@
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "general_necklace" } ]
       },
       "male": [ "briefs", "dress_shirt", "suit", "pants" ],
-      "female": [ "dress", "bra", "panties" ]
+      "female": [ "dress", "purse", "bra", "panties" ]
     }
   },
   {
@@ -3752,7 +3752,7 @@
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
       "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
-      "female": [ "skirt_long", "dress_shirt", "bra", "panties" ]
+      "female": [ "skirt_long", "dress_shirt", "purse", "bra", "panties" ]
     }
   },
   {
