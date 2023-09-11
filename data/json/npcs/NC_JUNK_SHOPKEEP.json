@@ -138,7 +138,7 @@
       { "item": "longbow", "prob": 5 },
       { "item": "recurbow", "prob": 15 },
       { "item": "shortbow", "prob": 10 },
-      { "item": "arrow_metal", "prob": 25 },
+      { "group": "archery_ammo", "prob": 25 },
       { "item": "bolt_steel", "prob": 10 },
       { "item": "laser_sight", "prob": 15 },
       { "item": "rail_laser_sight", "prob": 10 },

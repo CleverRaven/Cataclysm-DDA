@@ -2773,7 +2773,8 @@ See [MUTATIONS.md](MUTATIONS.md)
       "spawn_items": [ "beartrap" ]
     },
     "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
-    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!" // This message will be printed when NPC or monster steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!", // This message will be printed when NPC or monster steps on a trap
+    "sound_threshold": 5 // Optional. Minimum volume of sound that will trigger this trap. Defaults to 0 (Will not trigger from sound).
 ```
 
 ### Vehicle Groups
@@ -3245,16 +3246,45 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 
 ### Ammo Effects
 
-```C++
-    "id": "TACTICAL_LASER_EXPLOSION",   // Defines this as some generic item
-    "type": "ammo_effect",              // Defines this as an ammo_effect 
-    "trigger_chance": 5,                // Option one in X chances for the rest of json defined ammo_effect properties to trigger at the hit location. Defaults to 1
-    "explosion": {  }                   // (Optional) Creates an explosion at the hit location. See "explosion" for details.
-    "aoe": {  },                        // (Optional) Spawn a square of specified fields on the hit location.
-    "trail": {  }                       // (Optional) Spawn a line of fields on the projectiles path.  Not affected by trigger_chance.
-    "foamcrete_build": true             // (Optional) Creates foamcrete fields and walls on the hit location.
-    "do_flashbang": true                // (Optional) Creates a hardcoded Flashbang explosion.
-    "do_emp_blast": true                // (Optional) Creates a one tile radious EMP explosion at the hit location.
+ammo_effects define what effect the projectile, that you shoot, would have. List of existing ammo effects, **including hardcoded one**, can be found at `data/json/ammo_effects.json`
+
+```c++
+{
+  "id": "AE_NULL",           // id of an effect
+  "type": "ammo_effect",     // define it is an ammo effect
+  "aoe": {                   // this field would be spawned at the tile projectile hit
+    "field_type": "fd_fog",  // field, that would be spawned around the center of projectile; default "fd_null"
+    "intensity_min": 1,      // min intensity of the field; default 0
+    "intensity_max": 3,      // max intensity of the field; default 0
+    "radius": 5,             // radius of a field to spawn; default 1
+    "radius_z": 1,           // radius across z-level; default 0
+    "chance": 100,           // probability to spawn 1 unit of field, from 0 to 100; default 100
+    "size": 0,               // seems to be the threshold, where autoturret stops shooting the weapon to prevent friendly fire;; default 0
+    "check_passable": false, // if false, projectile is able to penetrate impassable terrains, if penetration is defined (like walls and windows); if true, projectile can't penetrate even the sheet of glass; default false
+    "check_sees": false,     // if false, field can be spawned behind the opaque wall (for example, behind the concrete wall); if true, it can't; default false
+    "check_sees_radius": 0   // if "check_sees" is true, and this value is smaller than "radius", this value is used as radius instead. The purpose nor reasoning is unknown, probably some legacy of mininuke, so just don't use it; default 0
+  },
+  "trail": {                 // this field would be spawned across whole projectile path
+    "field_type": "fd_fog",  // field, that would be spawned; defautl "fd_null"
+    "intensity_min": 1,      // min intensity of the field; default 0
+    "intensity_max": 3,      // max intensity of the field; default 0
+    "chance": 100            // probability to spawn 1 unit of field, from 0 to 100; default 100
+  },
+  "explosion": {             // explosion, that will happen at the tile that projectile hit
+    "power": 0,              // mandatory; power of the explosion, in grams of tnt; pipebomb is about 300, grenade (without shrapnel) is 240
+    "distance_factor": 0.8,  // how fast the explosion decay, closer to 1 mean lesser "power" loss per tile, 0.8 means 20% of power loss per tile; default 0.75, value should be bigger than 0, but lesser than 1
+    "fire": false,           // explosion create a fire, related to it's power, distance and distance_factor
+    "shrapnel": {            // explosion create a shrapnel, that deal the damage, calculated by gurney equasion
+      "casing_mass": 0,      // total mass of casing, casing/power ratio determines fragment velocity.
+      "fragment_mass": 0.0,  // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+      "recovery": 0,         // Percentage chance to drop an item at landing point.
+      "drop": "null"         // Which item to drop at landing point
+    }
+  },
+  "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
+  "do_emp_blast": false      // Creates a hardcoded flashbang explosion; default false
+  "foamcrete_build": false   // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
+}
 ```
 
 ### Magazine

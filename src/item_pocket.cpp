@@ -1228,6 +1228,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                            contains_weight() ) );
     }
 
+    if( remaining_volume() < 0_ml || remaining_weight() < 0_gram ) {
+        info.emplace_back( "DESCRIPTION",
+                           colorize( _( "This pocket is over capacity and will spill if moved!" ), c_red ) );
+    }
+
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
         std::vector<std::pair<item const *, int>> counted_contents;
@@ -1403,26 +1408,20 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
 }
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        int &copies_remaining ) const
+        int &copies_remaining, bool ignore_contents ) const
 {
-    return _can_contain( it, copies_remaining, true );
+    return _can_contain( it, copies_remaining, ignore_contents );
 }
 
-ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
+ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
+        bool ignore_contents ) const
 {
     int copies = 1;
-    return _can_contain( it, copies, true );
-}
-
-ret_val<item_pocket::contain_code> item_pocket::can_contain_skip_space_checks(
-    const item &it ) const
-{
-    int copies = 1;
-    return _can_contain( it, copies, false );
+    return _can_contain( it, copies, ignore_contents );
 }
 
 ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
-        int &copies_remaining, const bool check_for_enough_space ) const
+        int &copies_remaining, const bool ignore_contents ) const
 {
     ret_val<item_pocket::contain_code> compatible = is_compatible( it );
 
@@ -1480,8 +1479,8 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
                    contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
     }
 
-    if( !check_for_enough_space ) {
-        // Skip all the checks that could result in NO_SPACE or CANNOT_SUPPORT errors.
+    if( ignore_contents ) {
+        // Skip all the checks against other pocket contents.
         if( it.weight() > weight_capacity() ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
@@ -1504,17 +1503,17 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
         }
     }
 
-    if( data->ablative && !contents.empty() ) {
-        if( contents.front().can_combine( it ) ) {
-            // Only items with charges can succeed here.
-            return ret_val<item_pocket::contain_code>::make_success();
-        } else {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_NO_SPACE, _( "ablative pocket already contains a plate" ) );
-        }
-    }
-
     if( data->ablative ) {
+        if( !contents.empty() ) {
+            if( contents.front().can_combine( it ) ) {
+                // Only items with charges can succeed here.
+                return ret_val<item_pocket::contain_code>::make_success();
+            } else {
+                return ret_val<item_pocket::contain_code>::make_failure(
+                           contain_code::ERR_NO_SPACE, _( "ablative pocket already contains a plate" ) );
+            }
+        }
+
         if( it.is_rigid() ) {
             for( const sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
                 if( it.is_bp_rigid( sbp ) && std::count( no_rigid.begin(), no_rigid.end(), sbp ) != 0 ) {
@@ -1783,7 +1782,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 
         // if item has any contents, check it individually
         if( !iter->get_contents().empty_with_no_mods() ) {
-            if( !is_type( pocket_type::MIGRATION ) && can_contain_skip_space_checks( *iter ).success() ) {
+            if( !is_type( pocket_type::MIGRATION ) && can_contain( *iter, true ).success() ) {
                 ++iter;
             } else {
                 move_to_parent_pocket_recursive( pos, *iter, loc );
@@ -1796,7 +1795,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
         auto cont_copy_type = contained_type_validity.emplace( iter->typeId(), true );
         if( cont_copy_type.second ) {
             cont_copy_type.first->second = !is_type( pocket_type::MIGRATION ) &&
-                                           can_contain_skip_space_checks( *iter ).success();
+                                           can_contain( *iter, true ).success();
         }
         if( cont_copy_type.first->second ) {
             ++iter;
@@ -2141,10 +2140,10 @@ std::list<item> &item_pocket::edit_contents()
 }
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
-        const bool into_bottom, bool restack_charges )
+        const bool into_bottom, bool restack_charges, bool ignore_contents )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
-            ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
+            ret_val<item_pocket::contain_code>::make_success() : can_contain( it, ignore_contents );
 
     if( ret.success() ) {
         if( !into_bottom ) {
