@@ -121,7 +121,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QFrame *spell_form_frame = new QFrame();
     spell_form_frame->setFrameShape(QFrame::Box);
     spell_form_frame->setFrameShadow(QFrame::Raised);
-    spell_form_frame->setStyleSheet("font-weight: bold; font-size: 20px");
     QVBoxLayout *spell_form_layout = new QVBoxLayout(spell_form_frame);
     scrollArea->setWidget(spell_form_frame);
     mainColumn2->addWidget(scrollArea);

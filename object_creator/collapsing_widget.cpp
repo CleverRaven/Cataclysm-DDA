@@ -1,5 +1,4 @@
 #include "collapsing_widget.h"
-//include qlabel and qtoolbutton
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qtoolbutton.h>
 
@@ -14,8 +13,8 @@ creator::collapsing_widget::collapsing_widget(QWidget *parent, const QString &te
     layout->addLayout(hlayout);
     QToolButton *button = new QToolButton();
     button->setCheckable(true);
-    //make sure the button starts checked
     button->setArrowType(Qt::ArrowType::DownArrow);
+    //make sure the button starts checked
     button->setChecked(true);
     hlayout->addWidget(button);
     QLabel *label = new QLabel();
@@ -27,7 +26,7 @@ creator::collapsing_widget::collapsing_widget(QWidget *parent, const QString &te
     scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     scrollArea->setWidgetResizable(true);
     scrollArea->setLayout(&contentLayout);
-    //Set the vertical spacing and the content margins to 0 for the content layout
+    
     contentLayout.setContentsMargins(0, 0, 0, 0);
     contentLayout.setSpacing(0);
     scrollArea->setMaximumHeight(scrollArea->layout()->sizeHint().height());

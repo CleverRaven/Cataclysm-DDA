@@ -1,7 +1,6 @@
 #ifndef CATA_OBJECT_CREATOR_COLLAPSING_WIDGET_H
 #define CATA_OBJECT_CREATOR_COLLAPSING_WIDGET_H
 
-//import qwidget and qstring and qlayout and scrollarea
 #include <QtWidgets/qscrollarea.h>
 #include <QtCore/qstring.h>
 #include <QtWidgets/qboxlayout.h>

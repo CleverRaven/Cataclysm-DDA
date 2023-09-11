@@ -4,7 +4,6 @@
 #include "format.h"
 #include "json.h"
 
-//include qboxlayout
 #include <QtWidgets/qboxlayout.h>
 
 
