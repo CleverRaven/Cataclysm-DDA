@@ -113,7 +113,8 @@
     "name": "crash",
     "description": "A thunder clap at a distance.",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
-    "effect": "downed",
+    "effect": "blast",
+    "effect_str": "downed",
     "shape": "line",
     "flags": [ "LOUD" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
@@ -212,5 +213,27 @@
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_description": "cracklezzbit!"
+  },
+  {
+    "id": "summon_air_sprite",
+    "type": "SPELL",
+    "name": "Summon Air Sprite",
+    "description": "A lesser air elemental is summoned to support you.",
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 8,
+    "damage_increment": 0.5,
+    "max_level": 35,
+    "difficulty": 3,
+    "effect": "summon",
+    "effect_str": "GROUP_GENIUS_SYLPH",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP", "SPAWN_GROUP" ],
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
   }
 ]

@@ -261,13 +261,13 @@
   },
   {
     "type": "mutation",
-    "id": "cloud_of_steam",
+    "id": "CLOUD_OF_STEAM",
     "name": { "str": "cloud of steam" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
     "category": [ "SYLPH", "UNDINE" ],
-    "//": "Needs an activated ability that summons a cloud of steam."
+    "spells_learned": [ [ "cloud_of_steam", 1 ] ]
   }
 ]

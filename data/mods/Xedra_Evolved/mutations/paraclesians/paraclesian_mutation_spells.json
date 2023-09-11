@@ -1,0 +1,27 @@
+[
+	{
+    "id": "cloud_of_steam",
+    "type": "SPELL",
+    "name": "cloud of steam",
+    "description": "You bring forth a cloud of boiling water.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "max_level": 35,
+    "min_damage": 4,
+    "max_damage": 68,
+    "damage_increment": 2.2,
+    "min_aoe": 3,
+    "max_aoe": 11,
+    "aoe_increment": 0.2,
+    "min_range": 6,
+    "max_range": 20,
+    "range_increment": 1.0,
+    "base_casting_time": 200,
+    "base_energy_cost": 350,
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "damage_type": "heat"
+  }
+]

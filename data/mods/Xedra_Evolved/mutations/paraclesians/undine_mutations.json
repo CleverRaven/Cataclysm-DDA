@@ -196,15 +196,15 @@
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "Allows the Undine to change the weather to rain. (Currently not working)",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "summon_rain", 1 ] ],
     "//": "Make spell. Requires C++"
   },
   {
     "type": "mutation",
     "id": "SUMMON_FISH",
-    "name": { "str": "summon rain" },
+    "name": { "str": "summon fish" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
@@ -214,26 +214,14 @@
   },
   {
     "type": "mutation",
-    "id": "CREATE_WATER",
-    "name": { "str": "create water" },
-    "points": 0,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Allows the Undine to create two liters of water for the cost of a tiny bit of damage.",
-    "category": [ "UNDINE" ],
-    "spells_learned": [ [ "create_water", 1 ] ],
-    "//": "Make spell like to create water but use HP like animist."
-  },
-  {
-    "type": "mutation",
     "id": "SUMMON_WATER_ELEMENTAL",
     "name": { "str": "summon water elemental" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Allows the Undine to summon a minor water elemental, eventually graduating to a water elemental.",
+    "description": "Allows the Undine to summon a minor water elemental to support you in the world for a short time.",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "summon_water_sprite", 1 ] ],
-    "//": "Make spell like the animist spell."
+    "//": "Eventually add further spells in this area with more powerful elementals."
   }
 ]
