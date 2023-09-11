@@ -779,5 +779,16 @@
     "remove_message": "You perfect sense of time fades away.",
     "max_duration": "24 hours",
     "flags": [ "WATCH" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_cloak_of_fog",
+    "name": [ "Cloak of Fog" ],
+    "desc": [ "The fog shields you from sight." ],
+    "apply_message": "",
+    "remove_message": "The fog begins to dissipate.",
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "enchantments": [ "enchant_stormshaper_cloak_of_fog" ]
   }
 ]

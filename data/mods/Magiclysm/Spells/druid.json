@@ -839,7 +839,7 @@
     "id": "druid_summon_brambles",
     "type": "SPELL",
     "name": "Stranglethorns",
-    "description": "Call up brambles, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
+    "description": "Call up thick brambles, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_BRAMBLES_SELECTOR",
