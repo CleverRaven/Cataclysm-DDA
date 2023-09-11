@@ -1021,7 +1021,7 @@
     "id": "stormshaper_heart_of_hurricane",
     "type": "SPELL",
     "name": "Heart of the Hurricane",
-    "description": "Compress the fury of the hurricane winds into a thin shell of raging air around yourself.  It will provide some protection and occasionally throw attackers away from you.",
+    "description": "Compress the fury of the hurricane winds into a thin shell of raging air around yourself.  It will make it harder for you to lose your footing or be knocked down and occasionally throw attackers away from you, but the whirling winds are loud.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
