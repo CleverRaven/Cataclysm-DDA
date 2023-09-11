@@ -123,21 +123,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     spell_form_frame->setFrameShadow(QFrame::Raised);
     spell_form_frame->setStyleSheet("font-weight: bold; font-size: 20px");
     QVBoxLayout *spell_form_layout = new QVBoxLayout(spell_form_frame);
-    // QLabel *spell_form_label = new QLabel("Spell form");
-    // spell_form_layout->addWidget(spell_form_label);
     scrollArea->setWidget(spell_form_frame);
     mainColumn2->addWidget(scrollArea);
-
-
-    //Create a new widget with a vertical layout to hold the collapsed widgets
-    QVBoxLayout *collapsedwidgetscontainerlayout = new QVBoxLayout( this );
-    collapsedwidgetscontainerlayout->setSpacing( 0 );
-    collapsedwidgetscontainerlayout->setContentsMargins( 0, 0, 0, 0 );
-    QWidget *collapsedwidgetscontainer = new QWidget( this );
-    collapsedwidgetscontainer->setStyleSheet( "background-color: lightblue" );
-    collapsedwidgetscontainer->setLayout( collapsedwidgetscontainerlayout );
-    //Move collapsedwidgetscontainer to 700 down
-    // collapsedwidgetscontainer->move( QPoint( 2, 600 ) );
 
 
     // ========================= Basic info ======================================
@@ -162,11 +149,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     description_box.setToolTip( QString( _( "The description of the spell" ) ) );
     description_box.setMaximumHeight( 75 );
     description_box.setMinimumHeight( 75 );
-    //Increase the size of the description box
-    // description_box.resize( QSize( 300, 300 ) );
-    //Set the maximum size of the description box
-    // description_box.setMaximumSize( QSize( 300 , 300 ) );
-    // description_box.setMinimumSize( QSize( 300 , 300 ) );
     QObject::connect( &description_box, &QPlainTextEdit::textChanged,
     [&]() {
         editable_spell.description = translation::no_translation(
@@ -247,16 +229,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     //Add a collapsible widget to show/hide the form elements
     collapsing_widget *basic_info_group = new collapsing_widget( scrollArea, "Basic info", *basic_info_layout );
-        
-    // //Increase the size of the description box
-    // basic_info_group->resize( QSize( 600, 600 ) );
-    // //Set the maximum size of the description box
-    // basic_info_group->setMaximumSize( QSize( 600 , 600 ) );
-    // basic_info_group->setMinimumSize( QSize( 600 , 600 ) );
-    // collapsedwidgetscontainerlayout->addWidget( basic_info_group );
     spell_form_layout->addWidget( basic_info_group );
-    basic_info_group->adjustSize();
-
+    basic_info_group->adjustSize(); //Makes sure the description box gets space to display all its text
 
     // ========================= Spell effect ======================================
 
@@ -275,8 +249,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         editable_spell.effect_name = effect_box.currentText().toStdString();
         write_json();
     } );
-
-
 
     effect_str_label.setText( QString( "effect string" ) );
     effect_str_box.setToolTip( QString(
@@ -311,7 +283,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 
     //create a new gridlayout to hold the widgets for the spell effects
-    QGridLayout *spell_effect_layout = new QGridLayout( collapsedwidgetscontainer );
+    QGridLayout *spell_effect_layout = new QGridLayout( scrollArea );
     spell_effect_layout->addWidget( &effect_label, 0, 0 );
     spell_effect_layout->addWidget( &effect_box, 0, 1 );
     spell_effect_layout->addWidget( &effect_str_label, 1, 0 );
@@ -320,9 +292,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     spell_effect_layout->addWidget( &shape_box, 2, 1 );
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *spell_effect_group = new collapsing_widget( collapsedwidgetscontainer, "Spell effect", *spell_effect_layout );
-
-    // collapsedwidgetscontainerlayout->addWidget( spell_effect_group );
+    collapsing_widget *spell_effect_group = new collapsing_widget( scrollArea, "Spell effect", *spell_effect_layout );
     spell_form_layout->addWidget( spell_effect_group );
 
     // ========================= Field Properties ======================================
@@ -399,7 +369,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     //create a new gridlayout to hold the widgets for the spell effects
-    QGridLayout *field_properties_layout = new QGridLayout( collapsedwidgetscontainer );
+    QGridLayout *field_properties_layout = new QGridLayout( scrollArea );
     field_properties_layout->addWidget( &field_id_label, 0, 0 );
     field_properties_layout->addWidget( &field_id_box, 0, 1 );
     field_properties_layout->addWidget( &field_chance_label, 1, 0 );
@@ -415,8 +385,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *field_properties_group = new collapsing_widget( collapsedwidgetscontainer, "Field properties", *field_properties_layout );
-    // collapsedwidgetscontainerlayout->addWidget( field_properties_group );
+    collapsing_widget *field_properties_group = new collapsing_widget( scrollArea, "Field properties", *field_properties_layout );
     spell_form_layout->addWidget( field_properties_group );
 
     // ========================= Spell power ======================================
@@ -672,7 +641,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     //create a new gridlayout to hold the widgets for the spell power
-    QGridLayout *spell_power_layout = new QGridLayout( collapsedwidgetscontainer );
+    QGridLayout *spell_power_layout = new QGridLayout( scrollArea );
     spell_power_layout->addWidget( &energy_cost_label, 0, 0 );
     spell_power_layout->addWidget( &base_energy_cost_box, 0, 1 );
     spell_power_layout->addWidget( &energy_increment_box, 0, 2 );
@@ -708,8 +677,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *spell_power_group = new collapsing_widget( collapsedwidgetscontainer, "Spell power", *spell_power_layout );
-    // collapsedwidgetscontainerlayout->addWidget( spell_power_group );
+    collapsing_widget *spell_power_group = new collapsing_widget( scrollArea, "Spell power", *spell_power_layout );
     spell_form_layout->addWidget( spell_power_group );
 
 
@@ -772,7 +740,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     //create a new gridlayout to hold the widgets for the spell targets
-    QGridLayout *spell_targets_layout = new QGridLayout( collapsedwidgetscontainer );
+    QGridLayout *spell_targets_layout = new QGridLayout( scrollArea );
     spell_targets_layout->addWidget( &valid_targets_label, 0, 0 );
     spell_targets_layout->addWidget( &valid_targets_box, 0, 1 );
     spell_targets_layout->addWidget( &affected_bps_label, 1, 0 );
@@ -781,8 +749,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *spell_targets_group = new collapsing_widget( collapsedwidgetscontainer, "Spell targets", *spell_targets_layout );
-    // collapsedwidgetscontainerlayout->addWidget( spell_targets_group );
+    collapsing_widget *spell_targets_group = new collapsing_widget( scrollArea, "Spell targets", *spell_targets_layout );
     spell_form_layout->addWidget( spell_targets_group );
 
 
@@ -839,7 +806,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     //create a new gridlayout to hold the widgets for the spell targets
-    QGridLayout *spell_sound_layout = new QGridLayout( collapsedwidgetscontainer );
+    QGridLayout *spell_sound_layout = new QGridLayout( scrollArea );
     spell_sound_layout->addWidget( &sound_description_label, 0, 0 );
     spell_sound_layout->addWidget( &sound_description_box, 0, 1 );
     spell_sound_layout->addWidget( &sound_type_label, 1, 0 );
@@ -854,8 +821,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *spell_sounds_group = new collapsing_widget( collapsedwidgetscontainer, "Spell sound", *spell_sound_layout );
-    // collapsedwidgetscontainerlayout->addWidget( spell_sounds_group );
+    collapsing_widget *spell_sounds_group = new collapsing_widget( scrollArea, "Spell sound", *spell_sound_layout );
     spell_form_layout->addWidget( spell_sounds_group );
 
 
@@ -949,7 +915,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     learn_spells_box.setHorizontalHeaderLabels( QStringList{ "Spell Id", "Level" } );
     learn_spells_box.verticalHeader()->hide();
     learn_spells_box.horizontalHeader()->resizeSection( 0, 100 * 1.45 );
-    learn_spells_box.horizontalHeader()->resizeSection( 1, 100 / 2.0 );
+    // learn_spells_box.horizontalHeader()->resizeSection( 1, 100 / 2.0 );
     learn_spells_box.setSelectionBehavior( QAbstractItemView::SelectionBehavior::SelectItems );
     learn_spells_box.setSelectionMode( QAbstractItemView::SelectionMode::SingleSelection );
 
@@ -984,7 +950,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     additional_spells_box.setText( QString( "Additional Spells" ) );
-    // additional_spells_box.resize( QSize( 100 * 2, 20 * 6 ) );
     additional_spells_box.setMaximumHeight( 100 );
     additional_spells_box.set_spells( editable_spell.additional_spells );
     QObject::connect( &additional_spells_box, &fake_spell_listbox::modified,
@@ -994,7 +959,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     } );
 
     //create a new gridlayout to hold the widgets for the misc fields
-    QGridLayout *spell_misc_layout = new QGridLayout( collapsedwidgetscontainer );
+    QGridLayout *spell_misc_layout = new QGridLayout( scrollArea );
     spell_misc_layout->addWidget( &energy_source_label, 0, 0 );
     spell_misc_layout->addWidget( &energy_source_box, 0, 1 );
     spell_misc_layout->addWidget( &dmg_type_label, 1, 0 );
@@ -1009,13 +974,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 
     //Add a collapsible widget to show/hide the form elements
-    collapsing_widget *spell_misc_group = new collapsing_widget( collapsedwidgetscontainer, "Misc", *spell_misc_layout );
-    // collapsedwidgetscontainerlayout->addWidget( spell_misc_group );
+    collapsing_widget *spell_misc_group = new collapsing_widget( scrollArea, "Misc", *spell_misc_layout );
     spell_form_layout->addWidget( spell_misc_group );
-
-    //add collapsedwidgetscontainer to the second maincolumn
-    // mainColumn2->addWidget( collapsedwidgetscontainer );    
-
 
     // =========================================================================================
     // third column (just json output)
