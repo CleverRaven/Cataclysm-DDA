@@ -252,6 +252,12 @@
   },
   {
     "type": "mutation",
+    "id": "NIGHTVISION3",
+    "copy-from": "NIGHTVISION3",
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
     "id": "SMELLY",
     "copy-from": "SMELLY",
     "extend": { "category": [ "SPECIES_DWARF" ] }
