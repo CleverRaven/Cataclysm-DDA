@@ -1736,9 +1736,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ] }
-    ]
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt_grass",
