@@ -4,30 +4,57 @@
 #include "format.h"
 #include "json.h"
 
+//include qboxlayout
+#include <QtWidgets/qboxlayout.h>
+
 
 creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
     : QListWidget( parent )
 {
-    const int default_text_box_height = 20;
-    const int default_text_box_width = 100;
-    const QSize default_text_box_size( default_text_box_width, default_text_box_height );
+    // const int default_text_box_height = 20;
+    // const int default_text_box_width = 100;
+    // const QSize default_text_box_size( default_text_box_width, default_text_box_height );
 
-    int row = 0;
-    int col = 0;
-    int max_row = 0;
+    // int row = 0;
+    // // int col = 0;
+    // int max_row = 0;
 
-    QListWidget::resize( QSize( default_text_box_width * 2, default_text_box_height * 4 ) );
+    //Make a horizontal layout and add two vertical layouts to it
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    QVBoxLayout *vlayout1 = new QVBoxLayout();
+    vlayout1->setContentsMargins(0, 0, 0, 0);
+    vlayout1->setSpacing(0);
+    QVBoxLayout *vlayout2 = new QVBoxLayout();
+    vlayout2->setContentsMargins(0, 0, 0, 0);
+    vlayout2->setSpacing(0);
+    layout->addLayout(vlayout1);
+    layout->addLayout(vlayout2);
 
-    id_label.setParent( this );
-    id_label.resize( default_text_box_size );
-    id_label.show();
-    row++;
 
-    add_spell_button.setParent( this );
+
+
+    // QListWidget::resize( QSize( default_text_box_width * 2, default_text_box_height * 4 ) );
+
+    // id_label.setParent( this );
+    // id_label.resize( QSize( 100, 20 ) );
+    // id_label.setMaximumHeight( 20 );
+    // id_label.show();
+
+    //Add id_label to vlauout1
+    vlayout1->addWidget(&id_label);
+    //set the backgroundcolor of id_label to red
+    // id_label.setStyleSheet("QLabel { background-color : red; color : blue; }");
+
+
+    // row++;
+
+    // add_spell_button.setParent( this );
     add_spell_button.setText( QString( "Add fake_spell" ) );
-    add_spell_button.resize( default_text_box_size );
-    add_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row++ ) );
-    add_spell_button.show();
+    // add_spell_button.resize( default_text_box_size );
+    // add_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row++ ) );
+    // add_spell_button.show();
     QObject::connect( &add_spell_button, &QPushButton::clicked,
     [&]() {
         const int index = windows.size();
@@ -47,12 +74,14 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
         } );
     } );
     QObject::connect( &add_spell_button, &QPushButton::clicked, this, &fake_spell_listbox::modified );
+    //Add the add_spell_button to vlayout1
+    vlayout1->addWidget(&add_spell_button);
 
-    del_spell_button.setParent( this );
+    // del_spell_button.setParent( this );
     del_spell_button.setText( QString( "Remove fake_spell" ) );
-    del_spell_button.resize( default_text_box_size );
-    del_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row++ ) );
-    del_spell_button.show();
+    // del_spell_button.resize( default_text_box_size );
+    // del_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row++ ) );
+    // del_spell_button.show();
     QObject::connect( &del_spell_button, &QPushButton::clicked,
     [&]() {
         const int index = fake_spell_list_box.currentIndex();
@@ -63,17 +92,20 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
         fake_spell_list_box.removeItem( index );
     } );
     QObject::connect( &del_spell_button, &QPushButton::clicked, this, &fake_spell_listbox::modified );
+    //Add the del_spell_button to vlayout1
+    vlayout1->addWidget(&del_spell_button);
+
 
     // =========================================================================================
     // second column of boxes
-    max_row = std::max( row, max_row );
-    row = 0;
-    col = 1;
+    // max_row = std::max( row, max_row );
+    // row = 0;
+    // col = 1;
 
-    fake_spell_list_box.setParent( this );
-    fake_spell_list_box.resize( QSize( default_text_box_width, default_text_box_height * 4 ) );
-    fake_spell_list_box.move( QPoint( default_text_box_width * col, default_text_box_height * row ) );
-    fake_spell_list_box.show();
+    // fake_spell_list_box.setParent( this );
+    // fake_spell_list_box.resize( QSize( default_text_box_width, default_text_box_height * 4 ) );
+    // fake_spell_list_box.move( QPoint( default_text_box_width * col, default_text_box_height * row ) );
+    // fake_spell_list_box.show();
     QObject::connect( &fake_spell_list_box, qOverload<int>( &QComboBox::currentIndexChanged ),
     [&]() {
         for( fake_spell_window *win : windows ) {
@@ -94,7 +126,11 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
         fake_spell_list_box.setCurrentText( windows.at( fake_spell_list_box.currentIndex() )
                                             ->get_fake_spell().id.c_str() );
     } );
-    row += 4;
+
+    //add the fake_spell_list_box to vlayout2
+    vlayout2->addWidget(&fake_spell_list_box);
+    this->adjustSize();
+    // row += 4;
 }
 
 void creator::fake_spell_listbox::set_spells( const std::vector<fake_spell> &spells )
