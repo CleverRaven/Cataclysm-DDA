@@ -2996,6 +2996,7 @@ item Character::remove_weapon()
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
+    invalidate_weight_carried_cache();
     return tmp;
 }
 
@@ -3011,7 +3012,9 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
     // In case we've moved out of range of lifting assist.
-    invalidate_weight_carried_cache();
+    if( using_lifting_assist ) {
+        invalidate_weight_carried_cache();
+    }
 }
 
 units::mass Character::weight_carried() const
@@ -3087,6 +3090,9 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
             best_nearby_lifting_assist() < weaponweight ) ) {
         ret += weaponweight;
+        using_lifting_assist = false;
+    } else {
+        using_lifting_assist = true;
     }
 
     return ret;
@@ -9544,6 +9550,7 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
+    invalidate_weight_carried_cache();
     invalidate_leak_level_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
         // flag these mutations to be removed at the start of the next turn
@@ -9576,6 +9583,8 @@ void Character::on_item_acquire( const item &it )
         }
         return VisitResponse::NEXT;
     } );
+
+    invalidate_weight_carried_cache();
 
     if( update_overmap_seen ) {
         g->update_overmap_seen();
@@ -11063,6 +11072,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     target->casings_handle( [&]( item & e ) {
         return this->i_add_or_drop( e );
     } );
+
+    invalidate_weight_carried_cache();
 
     if( target->is_magazine() ) {
         if( bypass_activity ) {
