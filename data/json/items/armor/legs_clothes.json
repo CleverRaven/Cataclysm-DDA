@@ -1720,7 +1720,7 @@
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   },
-   {
+  {
     "id": "skirt_long",
     "type": "ARMOR",
     "name": { "str": "long skirt" },
@@ -1736,9 +1736,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ] }
-    ]
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt_grass",
