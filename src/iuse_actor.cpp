@@ -278,7 +278,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
     return result;
 }
 
-void iuse_transform::do_transform( Character *p, item &it, const std::string variant_type ) const
+void iuse_transform::do_transform( Character *p, item &it, const std::string &variant_type ) const
 {
     item obj_copy( it );
     item *obj;
