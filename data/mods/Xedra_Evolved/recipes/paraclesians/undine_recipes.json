@@ -21,7 +21,7 @@
     "skill_used": "deduction",
     "time": "1 m",
     "flags": [ "BLIND_EASY", "SECRET" ],
-    "components": [ [ "salt_water", 1 ] ]
+    "components": [ "salt_water", 1 ]
   },
   {
     "type": "recipe",

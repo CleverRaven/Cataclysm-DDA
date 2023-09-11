@@ -197,7 +197,7 @@
     "visibility": 0,
     "ugliness": 0,
     "valid": false,
-    "description": "Allows the Undine to change the weather to rain. (Currently not working)",
+    "description": "Allows the Undine to change the weather to rain.  (Currently not working)",
     "category": [ "UNDINE" ],
     "//": "Make spell. Requires C++"
   },
