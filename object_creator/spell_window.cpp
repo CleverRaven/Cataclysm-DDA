@@ -914,7 +914,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     learn_spells_box.insertRow( 0 );
     learn_spells_box.setHorizontalHeaderLabels( QStringList{ "Spell Id", "Level" } );
     learn_spells_box.verticalHeader()->hide();
-    learn_spells_box.horizontalHeader()->resizeSection( 0, 100 * 1.45 );
+    learn_spells_box.horizontalHeader()->resizeSection( 0, 200 * 1.45 );
     // learn_spells_box.horizontalHeader()->resizeSection( 1, 100 / 2.0 );
     learn_spells_box.setSelectionBehavior( QAbstractItemView::SelectionBehavior::SelectItems );
     learn_spells_box.setSelectionMode( QAbstractItemView::SelectionMode::SingleSelection );
