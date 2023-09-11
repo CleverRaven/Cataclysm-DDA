@@ -954,7 +954,7 @@
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "DRUID",
-    "difficulty": 6,
+    "difficulty": 8,
     "min_damage": 1,
     "max_damage": 1,
     "max_level": 15,

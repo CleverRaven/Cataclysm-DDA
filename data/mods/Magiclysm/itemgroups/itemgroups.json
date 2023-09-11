@@ -197,7 +197,9 @@
     "id": "trash",
     "type": "item_group",
     "copy-from": "trash",
-    "extend": { "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ] ] }
+    "extend": {
+      "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ], [ "spell_scroll_stormshaper_cloak_of_frog", 5 ] ]
+    }
   },
   {
     "type": "item_group",
@@ -933,7 +935,8 @@
         "distribution": [
           { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
           { "item": "spell_scroll_lightning_blast", "prob": 50 },
-          { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 }
+          { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 }
         ],
         "prob": 45
       },
@@ -1274,7 +1277,6 @@
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
-          { "item": "spell_scroll_druid_thornskin", "prob": 75 },
           { "item": "spell_scroll_druid_summon_brambles", "prob": 60 }
         ],
         "prob": 35
@@ -1283,6 +1285,7 @@
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
+          { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
           { "item": "spell_scroll_druid_bandage", "prob": 100 },

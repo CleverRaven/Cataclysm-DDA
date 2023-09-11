@@ -264,7 +264,7 @@
   {
     "type": "ter_furn_transform",
     "id": "earthshaper_granite_aegis_from_stone",
-    "terrain": [ { "result": "t_dirtmound", "valid_terrain": [ "t_rock_smooth" ], "message": "The stone wall crumbes to dust." } ]
+    "terrain": [ { "result": "t_dirtmound", "valid_terrain": [ "t_rock_smooth" ], "message": "The stone wall crumbles to dust." } ]
   },
   {
     "type": "ter_furn_transform",
