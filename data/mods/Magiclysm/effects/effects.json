@@ -871,7 +871,7 @@
     "name": [ "Know the Day and the Hour" ],
     "desc": [ "You know exactly what time it is." ],
     "apply_message": "",
-    "remove_message": "You perfect sense of time fades away.",
+    "remove_message": "Your perfect sense of time fades away.",
     "max_duration": "24 hours",
     "flags": [ "WATCH" ]
   },

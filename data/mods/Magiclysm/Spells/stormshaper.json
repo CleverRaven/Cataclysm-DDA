@@ -944,7 +944,7 @@
     "id": "stormshaper_cloak_of_fog",
     "type": "SPELL",
     "name": "Cloak of Fog",
-    "description": "Call out to the sky spirits for aid and ask them to hide your passage from your enemies.  The fog will hide your passage, but you do not have any special ability to see through it yourself.",
+    "description": "Call out to the sky spirits for aid and ask them to conceal you from your enemies.  The fog will hide your passage, but you do not have any special ability to see through it yourself.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
