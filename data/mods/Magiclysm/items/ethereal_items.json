@@ -1582,7 +1582,7 @@
     "//": " 'Tornskin' but working right.  Values copied from the Bark mutation.",
     "type": "ARMOR",
     "name": "Thornskin",
-    "description": "Your skin is barklike and covered in thorns.",
+    "description": "Your skin is bark-like and covered in thorns.",
     "weight": "6 kg",
     "volume": "7500 ml",
     "price": 0,

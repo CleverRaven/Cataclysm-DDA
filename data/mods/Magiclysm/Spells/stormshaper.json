@@ -1049,7 +1049,8 @@
     "effect": "directed_push",
     "shape": "blast",
     "min_damage": 1,
-    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') / 2) + 1)" ] }
+    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') / 2) + 1)" ] },
+    "min_range": 1
   },
   {
     "id": "stormshaper_cloak_of_frog",
