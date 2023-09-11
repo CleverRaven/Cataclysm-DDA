@@ -189,12 +189,11 @@
         "scent_neutralization": 3
       },
       { "name": "very thick fog", "translucency": 8, "color": "light_gray", "scent_neutralization": 6 },
-      { "name": "impenetrable fog", "translucency": 0, "color": "dark_gray", "scent_neutralization": 9 }
+      { "name": "impenetrable fog", "transparent": false, "color": "dark_gray", "scent_neutralization": 9 }
     ],
     "decay_amount_factor": 15,
     "gas_absorption_factor": 5,
     "percent_spread": 35,
-    "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,

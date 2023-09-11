@@ -71,6 +71,6 @@
     "type": "emit",
     "field": "fd_obscuring_fog",
     "intensity": 3,
-    "qty": 40
+    "qty": 80
   }
 ]
