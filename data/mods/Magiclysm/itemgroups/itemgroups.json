@@ -21,7 +21,7 @@
     "type": "item_group",
     "id": "homebooks",
     "copy-from": "homebooks",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 } ] }
+    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 }, { "item": "history_botanical_enchantment", "prob": 2 } ] }
   },
   {
     "type": "item_group",
