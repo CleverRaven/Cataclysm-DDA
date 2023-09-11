@@ -31,6 +31,7 @@ creator::collapsing_widget::collapsing_widget(QWidget *parent, const QString &te
     contentLayout.setContentsMargins(0, 0, 0, 0);
     contentLayout.setSpacing(0);
     scrollArea->setMaximumHeight(scrollArea->layout()->sizeHint().height());
+    scrollArea->setMinimumHeight(scrollArea->layout()->sizeHint().height());
     layout->addWidget(scrollArea);
 
     //When the button is pressed, toggle the content
@@ -42,6 +43,7 @@ creator::collapsing_widget::collapsing_widget(QWidget *parent, const QString &te
 
 void creator::collapsing_widget::hideContent(QScrollArea* scrollArea) {
     scrollArea->setMaximumHeight(0);
+    scrollArea->setMinimumHeight(0);
     this->adjustSize();
     this->parentWidget()->adjustSize();
     checked = true;
@@ -49,6 +51,7 @@ void creator::collapsing_widget::hideContent(QScrollArea* scrollArea) {
 
 void creator::collapsing_widget::showContent(QScrollArea* scrollArea) {
     scrollArea->setMaximumHeight(scrollArea->layout()->sizeHint().height());
+    scrollArea->setMinimumHeight(scrollArea->layout()->sizeHint().height());
     this->adjustSize();
     this->parentWidget()->adjustSize();
     checked = false;
