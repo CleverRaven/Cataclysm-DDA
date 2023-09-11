@@ -1660,7 +1660,7 @@
     "id": "spell_scroll_stormshaper_cloak_of_frog",
     "//": "Stormshaper spell",
     "name": { "str": "Scribbled Scroll" },
-    "description": "Someone has scribbled on this scroll in…colored pencil? You're pretty sure whatever it does now isn't the spell's original function.",
+    "description": "Someone has scribbled on this scroll in…colored pencil?  You're pretty sure whatever it does now isn't the spell's original function.",
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_frog" ] }
   }
 ]
