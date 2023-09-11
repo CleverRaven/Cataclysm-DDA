@@ -885,5 +885,14 @@
     "rating": "good",
     "max_duration": "10 minutes",
     "enchantments": [ "enchant_stormshaper_cloak_of_fog" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_heart_of_hurricane",
+    "name": [ "Heart of the Hurricane" ],
+    "desc": [ "Barely-controlled winds rage around you." ],
+    "remove_message": "The wind around you dies down.",
+    "rating": "good",
+    "enchantments": [ "enchant_stormshaper_heart_of_hurricane" ]
   }
 ]
