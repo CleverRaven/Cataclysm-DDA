@@ -941,5 +941,27 @@
     "max_level": 15,
     "min_range": { "math": [ "( (u_val('spell_level', 'spell: druid_summon_brambles') * 1) + 1)" ] },
     "max_range": { "math": [ "( (u_val('spell_level', 'spell: druid_summon_brambles') * 1) + 1)" ] }
+  },
+  {
+		"id": "druid_thorn_skin",
+		"type": "SPELL",
+		"name": "Thornskin",
+		"description": "This spell transforms the druid's skin into a bark-like consistency covered in large thorns.",
+		"valid_targets": [ "self" ],
+		"flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+		"effect": "spawn_item",
+		"effect_str": "druid_thorn_skin",
+		"shape": "blast",
+		"energy_source": "MANA",
+		"spell_class": "DRUID",
+		"difficulty": 6,
+		"min_damage": 1,
+		"max_damage": 1,
+		"max_level": 15,
+		"base_casting_time": 600,
+		"base_energy_cost": 500,
+		"min_duration": 24000,
+		"max_duration": 360000,
+		"duration_increment": 24000
   }
 ]
