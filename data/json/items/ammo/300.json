@@ -98,7 +98,7 @@
     "copy-from": "300_winmag",
     "type": "AMMO",
     "name": { "str_sp": ".300 Winchester Magnum, reloaded" },
-    "description": "A .300 Winchester Magnum round, an extremely versatile cartridge that has been adopted by many shooting disciplines, finding use with hunters, military units, and law enforcement departments.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo..",
+    "description": "A .300 Winchester Magnum round, an extremely versatile cartridge that has been adopted by many shooting disciplines, finding use with hunters, military units, and law enforcement departments.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

@@ -1597,7 +1597,7 @@
     "id": "spell_scroll_earthshaper_granite_aegis",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Granite Aegis", "str_pl": "Scrolls of Granite Aegis" },
-    "description": "When the going gets tough, the tough summon yards-thick walls of solid rock around themselves",
+    "description": "When the going gets tough, the tough summon yards-thick walls of solid rock around themselves.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_granite_aegis" ] }
   },
   {
