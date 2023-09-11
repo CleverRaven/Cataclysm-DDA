@@ -227,8 +227,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
-    //create a new gridlayout to hold the id_label and id_box and name_label and name_box
-    QGridLayout *basic_info_layout = new QGridLayout( collapsedwidgetscontainer );
+    //create a new gridlayout to hold the basic info widgets
+    QGridLayout *basic_info_layout = new QGridLayout( scrollArea );
     basic_info_layout->addWidget( &id_label, 0, 0 );
     basic_info_layout->addWidget( &id_box, 0, 1 );
     basic_info_layout->addWidget( &name_label, 1, 0 );
@@ -1251,9 +1251,18 @@ void creator::spell_window::populate_fields()
             min_range_box.setValue( sp_t.min_range.min.dbl_val.value() );
             range_increment_box.setValue( sp_t.range_increment.min.dbl_val.value() );
             max_range_box.setValue( sp_t.max_range.min.dbl_val.value() );
-            min_damage_box.setValue( sp_t.min_damage.min.dbl_val.value() );
+            
+            if(sp_t.min_damage.min.is_constant()) {
+                min_damage_box.setValue( sp_t.min_damage.min.dbl_val.value() );
+            } else {
+                min_damage_box.setValue( 0 );
+            }
             damage_increment_box.setValue( sp_t.damage_increment.min.dbl_val.value() );
-            max_damage_box.setValue( sp_t.max_damage.min.dbl_val.value() );
+            if(sp_t.max_damage.min.is_constant()) {
+                max_damage_box.setValue( sp_t.max_damage.min.dbl_val.value() );
+            } else {
+                max_damage_box.setValue( 0 );
+            }
             if(sp_t.min_aoe.min.dbl_val.has_value()) {
                 min_aoe_box.setValue( sp_t.min_aoe.min.dbl_val.value() );
             } else {
