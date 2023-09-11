@@ -1016,5 +1016,41 @@
     "min_field_intensity": 2,
     "max_field_intensity": 3,
     "field_chance": 2
+  },
+  {
+    "id": "stormshaper_heart_of_hurricane",
+    "type": "SPELL",
+    "name": "Heart of the Hurricane",
+    "description": "Compress the fury of the hurricane winds into a thin shell of raging air around yourself.  It will provide some protection and occasionally throw attackers away from you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_heart_of_hurricane",
+    "shape": "blast",
+    "spell_class": "STORMSHAPER",
+    "difficulty": 7,
+    "max_level": 20,
+    "min_duration": 15000,
+    "max_duration": 90000,
+    "duration_increment": 3750,
+    "energy_source": "MANA",
+    "base_energy_cost": 650,
+    "base_casting_time": 1500
+  },
+  {
+    "id": "stormshaper_heart_of_hurricane_throw",
+    "type": "SPELL",
+    "name": "Heart of the Hurricane Throw",
+    "description": "This is the spell that throws your target back.  It's a bug if you have it directly.",
+    "message": "The winds lash out and hurl <npcname> away!",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "STORMSHAPER",
+    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 1
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') / 2) + 1) )" ]
+    } 
   }
 ]
