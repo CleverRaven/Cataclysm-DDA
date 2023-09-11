@@ -946,7 +946,6 @@
     "name": "Cloak of Fog",
     "description": "Call out to the sky spirits for aid and ask them to hide your passage from your enemies.",
     "valid_targets": [ "self" ],
-    "skill": "occult",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "extra_effects": [
@@ -961,7 +960,7 @@
     "min_aoe": 4,
     "max_aoe": 20,
     "aoe_increment": 0.65,
-    "field_id": "fd_fog",
+    "field_id": "fd_obscuring_fog",
     "min_field_intensity": 2,
     "max_field_intensity": 3,
     "field_chance": 1,
@@ -1012,7 +1011,7 @@
     "min_aoe": 4,
     "max_aoe": 20,
     "aoe_increment": 0.65,
-    "field_id": "fd_fog",
+    "field_id": "fd_obscuring_fog",
     "min_field_intensity": 2,
     "max_field_intensity": 3,
     "field_chance": 2
