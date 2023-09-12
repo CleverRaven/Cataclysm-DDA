@@ -1772,10 +1772,17 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             } else {
                                 // Otherwise, recalculate ll and invisible
                                 if( here.ll_invis_cache.count( draw_loc ) == 0 ) {
-                                    here.ll_invis_cache[ draw_loc ] = calc_ll_invis( draw_loc );
+                                    const std::pair<lit_level, std::array<bool, 5>> ll_invis = calc_ll_invis( draw_loc );
+                                    ll = ll_invis.first;
+                                    invisible = ll_invis.second;
+                                    // Only cache ll_invis if not in test mode
+                                    if( !test_mode ) {
+                                        here.ll_invis_cache[ draw_loc ] = ll_invis;
+                                    }
+                                } else {
+                                    ll = here.ll_invis_cache[ draw_loc ].first;
+                                    invisible = here.ll_invis_cache[ draw_loc ].second;
                                 }
-                                ll = here.ll_invis_cache[ draw_loc ].first;
-                                invisible = here.ll_invis_cache[ draw_loc ].second;
                             }
 
                             if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
