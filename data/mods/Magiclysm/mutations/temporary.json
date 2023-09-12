@@ -32,7 +32,7 @@
     "attacks": {
       "attack_text_u": "You lash at %s with your tentacles!",
       "attack_text_npc": "%1$s lashes at %2$s with their tentacles!",
-      "chance": 30,
+      "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 11 }
     }
   }
