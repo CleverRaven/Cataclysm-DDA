@@ -14,7 +14,7 @@
   {
     "id": "create_fog",
     "type": "SPELL",
-    "name": "create fog",
+    "name": "Create Fog",
     "description": "Summons a field of fog.",
     "message": "whoosh!",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
@@ -48,7 +48,7 @@
   {
     "id": "fog_bank",
     "type": "SPELL",
-    "name": "fog bank",
+    "name": "Fog Bank",
     "description": "Summons a bank of fog.",
     "message": "whoosh!",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
@@ -102,7 +102,7 @@
   {
     "id": "acidic_mist",
     "type": "SPELL",
-    "name": "acidic mist",
+    "name": "Acidic Mist",
     "description": "Summons an acidic mist.",
     "message": "whoosh!",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
@@ -136,7 +136,7 @@
   {
     "id": "deadly_mist",
     "type": "SPELL",
-    "name": "deadly mist",
+    "name": "Deadly Mist",
     "description": "Summons a deadly mist.",
     "message": "whoosh!",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
@@ -169,7 +169,7 @@
   {
     "id": "water_pocket",
     "type": "SPELL",
-    "name": "water pocket",
+    "name": "Water Pocket",
     "description": "This spell summons a pocket made of churning water that contains an air bubble inside and prevents any items in it from being damaged by water.",
     "valid_targets": [ "none" ],
     "skill": "deduction",

@@ -2,7 +2,7 @@
   {
     "id": "cloud_of_steam",
     "type": "SPELL",
-    "name": "cloud of steam",
+    "name": "Cloud of Steam",
     "description": "You bring forth a cloud of boiling water.",
     "effect": "attack",
     "shape": "blast",
@@ -23,5 +23,28 @@
     "energy_source": "MANA",
     "difficulty": 4,
     "damage_type": "heat"
+  },
+  {
+    "id": "create_light",
+    "type": "SPELL",
+    "name": "Light",
+    "description": "Creates a magical light.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE" ],
+    "min_range": 0,
+    "max_range": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "magic_lamp",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "difficulty": 2,
+    "max_level": 20,
+    "base_casting_time": 200,
+    "base_energy_cost": 150,
+    "min_duration": 100000,
+    "max_duration": 1000000,
+    "duration_increment": 45000
   }
 ]

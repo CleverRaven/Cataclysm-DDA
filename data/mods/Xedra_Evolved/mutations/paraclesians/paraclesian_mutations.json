@@ -262,7 +262,7 @@
   {
     "type": "mutation",
     "id": "CLOUD_OF_STEAM",
-    "name": { "str": "cloud of steam" },
+    "name": { "str": "Cloud of Steam" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -273,7 +273,7 @@
   {
     "type": "mutation",
     "id": "CREATE_LIGHT",
-    "name": { "str": "create light" },
+    "name": { "str": "Create Light" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,

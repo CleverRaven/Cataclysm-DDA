@@ -126,7 +126,7 @@
   {
     "type": "SPELL",
     "id": "clap_of_thunder",
-    "name": "clap of thunder",
+    "name": "Clap of Thunder",
     "description": "A thunder clap at a distance.",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "effect": "flashbang",
@@ -146,7 +146,7 @@
   {
     "id": "electrical_field",
     "type": "SPELL",
-    "name": "electrical field",
+    "name": "Electrical Field",
     "description": "Summons a field of electricity.",
     "message": "tsszappp!",
     "valid_targets": [ "hostile", "ground" ],
@@ -182,7 +182,7 @@
   {
     "id": "lightning_field",
     "type": "SPELL",
-    "name": "lightning field",
+    "name": "Lightning Field",
     "description": "Summons a field of lightning.",
     "message": "tsszappp!",
     "valid_targets": [ "hostile", "ground" ],
