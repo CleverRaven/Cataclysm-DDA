@@ -62,7 +62,7 @@
     "species": [ "PLANT" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 80,
+    "hp": 120,
     "speed": 70,
     "material": [ "veggy" ],
     "symbol": "F",
@@ -84,9 +84,16 @@
       {
         "id": "triffid_seedshaper_heal",
         "type": "spell",
-        "spell_data": { "id": "triffid_pollen_heal", "min_level": 3 },
-        "cooldown": 25,
+        "spell_data": { "id": "triffid_pollen_heal", "min_level": 4 },
+        "cooldown": 30,
         "monster_message": "%1$s waves its fronds and a glow surrounds <npcname>."
+      },
+      {
+        "id": "triffid_seedshaper_speed",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_speed", "min_level": 6 },
+        "cooldown": 25,
+        "monster_message": "%1$s waves its fronds and <npcname> starts moving faster!"
       }
     ],
     "bleed_rate": 60,
