@@ -21,7 +21,7 @@
   {
     "type": "mutation",
     "id": "BIO_LASHING_TENTACLES",
-    "name": { "str": "Lashing Tentacles" },
+    "name": { "str_sp": "Lashing Tentacles" },
     "description": "You have a pair of vicious barbed tentacles growing from your shoulders.",
     "points": 2,
     "visibility": 6,
