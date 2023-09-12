@@ -374,7 +374,6 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Sylphs often develop electrical emissions that can culminate in lightning bolts.",
-    "leads_to": [ "lightning_field" ],
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "zap_electrical_emission", 1 ] ]
   },
