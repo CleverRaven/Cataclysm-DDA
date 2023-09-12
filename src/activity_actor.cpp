@@ -3786,7 +3786,6 @@ void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint_bub_ms pos = placement + who.pos_bub();
-    who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who ),
                               pos, force_ground );
@@ -6731,6 +6730,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
         bool unload_mods = false;
         bool unload_molle = false;
+        bool unload_sparse_only = false;
+        int unload_sparse_threshold = 20;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
                 fac_id );
@@ -6740,6 +6741,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
+            unload_sparse_only |= options.unload_sparse_only();
+            unload_sparse_threshold |= options.unload_sparse_threshold();
         }
 
         //Skip items that have already been processed
@@ -6770,9 +6773,21 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
+                    std::unordered_map<itype_id, int> item_counts;
+                    if( unload_sparse_only ) {
+                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                item_counts[contained->typeId()]++;
+                            }
+                        }
+                    }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if( unload_sparse_only &&
+                                item_counts[contained->typeId()] > unload_sparse_threshold ) {
+                                continue;
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }

@@ -604,6 +604,7 @@
     "description": "A popular, fancy smartphone.  Capable of taking photos with its integrated camera and illuminating an area with its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
     "weight": "200 g",
     "volume": "100 ml",
+    "longest_side": "15 cm",
     "price": 20000,
     "price_postapoc": 200,
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
