@@ -10,11 +10,11 @@
     "shape": "cone",
     "flags": [ "SILENT", "NO_PROJECTILE" ],
     "max_level": 15,
-    "min_range": 1
-    "max_range": 15
+    "min_range": 1,
+    "max_range": 15,
     "range_increment": 1,
-    "min_aoe": 30
-    "max_aoe": 60
+    "min_aoe": 30,
+    "max_aoe": 60,
     "aoe_increment": 2
   },
   {
@@ -45,17 +45,44 @@
     "valid_targets": [ "ally" ],
     "max_level": 5,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
-    "effect": "recover_energy",
+    "effect": "attack",
+    "extra_effects": [ { "id": "triffid_pollen_emit" } ],
     "shape": "blast",
-    "min_damage": 10,
-    "max_damage": 50,
+    "min_damage": -10,
+    "max_damage": -50,
     "min_range": 4,
-    "max_range": 9,
-    "min_aoe": 2,
+    "max_range": 15,
+    "range_increment": 2
+  },
+  {
+    "id": "triffid_pollen_speed",
+    "type": "SPELL",
+    "name": { "str": "Pollen enhancement" },
+    "description": "Increases the speed of other triffids.",
+    "valid_targets": [ "ally" ],
+    "max_level": 8,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "extra_effects": [ { "id": "triffid_pollen_emit" } ],
+    "effect": "attack",
+    "effect_str": "flask_speed_eff",
+    "shape": "blast",
+    "min_range": 4,
+    "max_range": 12,
     "range_increment": 1,
-    "field_id": "fd_pollen_triffid",
-    "field_chance": 2,
-    "min_field_intensity": 1,
-    "max_field_intensity": 2
+    "min_duration": 500,
+    "max_duration": 3000
+  },
+  {
+    "id": "triffid_pollen_emit",
+    "type": "SPELL",
+    "name": { "str": "Pollen Emit Spell" },
+    "description": "Causes a pollen emit when the triffid seedshaper uses other spells.",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "emit",
+    "effect_str": "emit_pollen_stream",
+    "shape": "blast",
+    "min_range": 30
   }
 ]
