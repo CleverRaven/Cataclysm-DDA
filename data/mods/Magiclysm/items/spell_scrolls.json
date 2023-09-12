@@ -1668,7 +1668,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_lashing_tentacles",
     "//": "Biomancer spell",
-    "name": { "str": "Lashing Tentacles" },
+    "name": { "str": "Scroll of Lashing Tentacles", "str_pl": "Scrolls of Lashing Tentacles" },
     "description": "Grow a pair of barbed tentacles from your shoulders that will attack enemies in melee range.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_lashing_tentacles" ] }
   }
