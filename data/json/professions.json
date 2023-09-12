@@ -3726,7 +3726,7 @@
   {
     "type": "profession",
     "id": "priest",
-    "name": { "male": "Protestant Priest", "female": "Churchwoman" },
+    "name": "Pastor",
     "description": "Armageddon has come!  You did everything you could to protect your community, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
