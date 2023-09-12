@@ -1754,7 +1754,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         }
                         tripoint draw_loc = p.com.pos;
                         draw_loc.z = cur_zlevel;
-
                         if( const tile_render_info::vision_effect * const
                             var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                             if( f == &cata_tiles::draw_terrain ) {
