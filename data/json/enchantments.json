@@ -50,15 +50,6 @@
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
   },
   {
-    "id": "ench_climate_control_cold",
-    "type": "enchantment",
-    "name": { "str": "Warm Climate Control" },
-    "description": "You are wearing equipment that helps handle harsh climates.",
-    "has": "WORN",
-    "condition": "ALWAYS",
-    "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-  },
-  {
     "id": "ench_climate_control_warm",
     "type": "enchantment",
     "name": { "str": "Cold Climate Control" },
