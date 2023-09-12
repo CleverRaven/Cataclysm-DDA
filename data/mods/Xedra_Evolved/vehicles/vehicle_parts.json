@@ -23,5 +23,28 @@
     },
     "damage_reduction": { "all": 60 },
     "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] }
+  },
+  {
+    "id": "mana",
+    "name": "mana energy",
+    "default": "mana",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "mana",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "mana core power",
+    "description": "Seeing this is a bug.",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "phase": "solid",
+    "material": [ "mana" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "symbol": "?",
+    "color": "magenta",
+    "count": 1,
+    "ammo_type": "mana",
+    "melee_damage": { "bash": 1 }
   }
 ]
