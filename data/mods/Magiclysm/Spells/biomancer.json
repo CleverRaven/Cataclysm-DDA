@@ -566,5 +566,28 @@
       { "u_message": "The tentacles recede back into your body.", "type": "bad" },
       { "u_lose_trait": "BIO_LASHING_TENTACLES" }
     ]
+  },
+  {
+    "id": "biomancer_cure_disease_minor",
+    "type": "SPELL",
+    "name": "Cure Disease, Minor",
+    "description": "Cure any flu or common cold you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_cure_disease_minor",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 10,
+    "min_duration": 100,
+    "max_duration": 100,
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 90000,
+    "final_casting_time": 30000,
+    "casting_time_increment": -6000
   }
 ]

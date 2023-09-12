@@ -894,5 +894,14 @@
     "remove_message": "The wind around you dies down.",
     "rating": "good",
     "enchantments": [ "enchant_stormshaper_heart_of_hurricane" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_cure_disease_minor",
+    "name": [ "Cure Disease, Minor" ],
+    "desc": [ "Cold and flu begone." ],
+    "remove_message": "You feel much better.",
+    "rating": "good",
+    "removes_effects": [ "common_cold", "flu" ]
   }
 ]

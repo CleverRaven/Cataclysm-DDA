@@ -1223,7 +1223,8 @@
           { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
           { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
-          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 }
+          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
+          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 }
         ],
         "prob": 45
       },

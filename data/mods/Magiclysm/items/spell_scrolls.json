@@ -1671,5 +1671,14 @@
     "name": { "str": "Scroll of Lashing Tentacles", "str_pl": "Scrolls of Lashing Tentacles" },
     "description": "Grow a pair of barbed tentacles from your shoulders that will attack enemies in melee range.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_lashing_tentacles" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_cure_disease_minor",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Cure Disease, Minor", "str_pl": "Scrolls of Cure Disease, Minor" },
+    "description": "Snap your fingers and get rid of that nasty cold or flu.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
   }
 ]

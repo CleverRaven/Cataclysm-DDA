@@ -10,6 +10,7 @@
       [ "spell_scroll_summon_undead", 25 ],
       [ "spell_scroll_light_healing", 50 ],
       [ "spell_scroll_bio_acidicspray", 35 ],
+      [ "spell_scroll_biomancer_cure_disease_minor", 40 ],
       [ "spell_scroll_create_atomic_light", 50 ],
       [ "spell_scroll_blinding_flash", 50 ],
       [ "spell_scroll_ethereal_grasp", 50 ],
