@@ -1510,7 +1510,7 @@
     "id": "technomancer_summoned_ups",
     "type": "MAGAZINE",
     "category": "tool_magazine",
-    "name": { "str_sp": "technomantic power supply" },
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
     "weight": "125 g",
     "volume": "65 ml",

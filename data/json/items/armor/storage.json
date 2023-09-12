@@ -1495,7 +1495,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
+        "max_item_length": "16 cm",
         "moves": 100,
         "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
       }
@@ -1535,7 +1535,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
+        "max_item_length": "16 cm",
         "moves": 200
       }
     ],

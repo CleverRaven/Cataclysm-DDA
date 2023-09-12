@@ -243,7 +243,7 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.1 },
     "dispersion": 285,
     "loudness": 0,
-    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ],
+    "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_SMALL" ],
     "melee_damage": { "bash": 2 }
   },
   {

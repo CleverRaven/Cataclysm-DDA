@@ -64,9 +64,14 @@
     "//": "Ammo effect, applied to thrown projectile, when it has 'burst_when_filled' defined, which makes it spills the contents on hit. Hardcoded, and probably can't be used as actual ammo effect"
   },
   {
+    "id": "SPECIAL_COOKOFF",
+    "type": "ammo_effect",
+    "//": "Ammo item explodes when lit on fire with it's ammo_effect. Strength of the explosion do not scale to the amount of ammo. If both COOKOFF and SPECIAL_COOKOFF is used, only SPECIAL_ effect would be used. Hardcoded"
+  },
+  {
     "id": "COOKOFF",
     "type": "ammo_effect",
-    "//": "Ammo item explodes when lit on fire. Hardcoded"
+    "//": "Ammo item create an explosion when lit on fire. Strength of the explosion scale to the amount of ammo. Hardcoded"
   },
   {
     "id": "BLACKPOWDER",
@@ -202,19 +207,6 @@
     "explosion": { "power": 60, "distance_factor": 0.7, "fire": true }
   },
   {
-    "id": "NAPALM_BIG",
-    "type": "ammo_effect",
-    "//": "Large explosion that spreads fire",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 },
-    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
-  },
-  {
-    "id": "NAPALM_TBG7V",
-    "type": "ammo_effect",
-    "//": "Creates a large fire on hit",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 }
-  },
-  {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
     "//": "Large explosion that spreads fire of high intensity",
@@ -283,16 +275,6 @@
     "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
   },
   {
-    "id": "EXPLOSIVE_HUGE",
-    "type": "ammo_effect",
-    "explosion": { "power": 1200 }
-  },
-  {
-    "id": "EXPLOSIVE_BIG",
-    "type": "ammo_effect",
-    "explosion": { "power": 600 }
-  },
-  {
     "id": "EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 360 }
@@ -306,12 +288,6 @@
     "id": "EXPLOSIVE_RAUFOSS",
     "type": "ammo_effect",
     "explosion": { "power": 2.4, "shrapnel": { "casing_mass": 28, "fragment_mass": 7 } }
-  },
-  {
-    "id": "FRAG",
-    "type": "ammo_effect",
-    "//": "Small explosion that spreads shrapnel",
-    "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.025 } }
   },
   {
     "id": "FRAG_20x66",
@@ -366,34 +342,9 @@
     "explosion": { "power": 42, "shrapnel": { "casing_mass": 198, "fragment_mass": 0.08 } }
   },
   {
-    "id": "EXPLOSIVE_HOMEMADE",
-    "type": "ammo_effect",
-    "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.15 } }
-  },
-  {
     "id": "EXPLOSIVE_66mmHEAT",
     "type": "ammo_effect",
     "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_OG7V",
-    "type": "ammo_effect",
-    "explosion": { "power": 266, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.08 } }
-  },
-  {
-    "id": "EXPLOSIVE_PG7VL",
-    "type": "ammo_effect",
-    "explosion": { "power": 598, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_PG7VR",
-    "type": "ammo_effect",
-    "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_TBG7V",
-    "type": "ammo_effect",
-    "explosion": { "power": 66, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.15 } }
   },
   {
     "id": "EXPLOSIVE_84x246HE",

@@ -1292,7 +1292,7 @@
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
-    "effects": [ "COOKOFF", "TRAIL", "EXPLOSIVE" ]
+    "effects": [ "SPECIAL_COOKOFF", "TRAIL", "EXPLOSIVE" ]
   },
   {
     "type": "AMMO",
@@ -1311,7 +1311,7 @@
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
-    "effects": [ "COOKOFF", "TRAIL", "NAPALM" ]
+    "effects": [ "SPECIAL_COOKOFF", "TRAIL", "NAPALM" ]
   },
   {
     "type": "AMMO",

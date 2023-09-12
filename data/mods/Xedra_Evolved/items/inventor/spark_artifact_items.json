@@ -68,8 +68,8 @@
   {
     "id": "xe_art_instrument",
     "type": "GENERIC",
-    "name": { "str": "an instrument" },
-    "description": "It looks like it could be a musical instrument.  But how would you play it?\nIt may have unknown powers; try activating them.",
+    "name": { "str": "an instrument", "str_pl": "instruments" },
+    "description": "This looks like a musical instrument.  But how would you play it?\nIt may have unknown powers; try activating them.",
     "symbol": "O",
     "volume": "76 ml",
     "weight": "125 g",

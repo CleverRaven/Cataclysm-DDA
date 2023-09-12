@@ -168,6 +168,7 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "target", target, true );
 
     obj.read( "msg", msg_transform );
+    obj.read( "variant_type", variant_type );
     obj.read( "container", container );
     obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
@@ -265,10 +266,10 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
 
     if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
         item take_one = it.split( 1 );
-        do_transform( p, take_one );
+        do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );
     } else {
-        do_transform( p, it );
+        do_transform( p, it, variant_type );
     }
 
     if( it.is_tool() ) {
@@ -277,7 +278,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
     return result;
 }
 
-void iuse_transform::do_transform( Character *p, item &it ) const
+void iuse_transform::do_transform( Character *p, item &it, const std::string &variant_type ) const
 {
     item obj_copy( it );
     item *obj;
@@ -285,6 +286,7 @@ void iuse_transform::do_transform( Character *p, item &it ) const
     item obj_it;
     if( container.is_empty() ) {
         obj = &it.convert( target, p );
+        obj->set_itype_variant( variant_type );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -307,6 +309,7 @@ void iuse_transform::do_transform( Character *p, item &it ) const
         }
     } else {
         obj = &it.convert( container, p );
+        obj->set_itype_variant( variant_type );
         int count = std::max( ammo_qty, 1 );
         item cont;
         if( target->count_by_charges() ) {
@@ -426,6 +429,11 @@ void iuse_transform::finalize( const itype_id & )
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    dummy.set_itype_variant( variant_type );
+    // If the variant is to be randomized, use default no-variant name
+    if( variant_type == "<any>" ) {
+        dummy.clear_itype_variant();
+    }
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
@@ -5160,7 +5168,6 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                           extended_ptr->type_name(), extension->type_name() );
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
-    p->invalidate_weight_carried_cache();
     p->drop_invalid_inventory();
     p->moves -= move_cost;
     return 0;
