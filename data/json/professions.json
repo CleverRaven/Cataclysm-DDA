@@ -6376,22 +6376,6 @@
   },
   {
     "type": "profession",
-    "id": "prostitute",
-    "name": { "male": "Gigolo", "female": "Prostitute" },
-    "description": "Before the Cataclysm hit, you earned your life as a sex worker, selling your body in exchange for money.  You don't know how effective your skills will be in the apocalypse, but you know for a fact that monsters do not require your services.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "unarmed" }, { "level": 1, "name": "melee" } ],
-    "items": {
-      "both": {
-        "items": [ "switchblade", "gold_ear" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_ref_lighter" }, { "group": "charged_cigs" } ]
-      },
-      "male": [ "leggings", "tank_top", "socks_ankle", "sneakers", "boxer_shorts", "fanny" ],
-      "female": [ "nanoskirt", "halter_top", "garter_belt", "stockings", "heels", "panties", "purse" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "heist_driver",
     "name": "Heist Driver",
     "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now there are no cops and no law, but even after the Cataclysm, you drive.",
