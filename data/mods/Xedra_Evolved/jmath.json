@@ -55,5 +55,11 @@
     "id": "str_to_level",
     "num_args": 1,
     "return": "(u_val('strength') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "scaling_factor",
+    "num_args": 1,
+    "return": "( ( _0 + 10) / 20 )"
   }
 ]
