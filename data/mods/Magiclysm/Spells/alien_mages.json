@@ -1,0 +1,20 @@
+[ 
+  {
+    "id": "triffid_brambles_arc",
+    "type": "SPELL",
+    "name": "Triffid Summon Brambles",
+    "description": "Call up brambles to trap a pathetic mammal.  This is the triffid version with no math.",
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "ter_transform",
+    "effect_str": "druid_summoned_brambles",
+    "shape": "cone",
+    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "max_level": 15,
+    "min_range": 1
+    "max_range": 15
+    "range_increment": 1,
+    "min_aoe": 30
+    "max_aoe": 60
+    "aoe_increment": 2
+  }
+]
