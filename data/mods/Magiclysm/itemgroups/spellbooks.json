@@ -131,6 +131,7 @@
       [ "spell_scroll_dominate", 50 ],
       [ "spell_scroll_life_detonation", 50 ],
       [ "spell_scroll_summon_floating_disk", 25 ],
+      [ "spell_scroll_biomancer_lashing_tentacles", 50 ],
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
       [ "spell_scroll_megablast", 10 ],
