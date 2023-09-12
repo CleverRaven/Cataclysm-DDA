@@ -73,22 +73,22 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-     "special_attacks": [
-       {
-         "id": "triffid_seedshaper_pollen",
-         "type": "spell",
-         "spell_data": { "id": "triffid_pollen_cone", "min_level": 3 },
-         "cooldown": 15,
-         "monster_message": "%1$s waves its fronds and pollen cascades over <npcname>."
-       },
-       {
-         "id": "triffid_seedshaper_heal",
-         "type": "spell",
-         "spell_data": { "id": "triffid_pollen_heal", "min_level": 3 },
-         "cooldown": 25,
-         "monster_message": "%1$s waves its fronds and a glow surrounds <npcname>."
-       }
-     ],
+    "special_attacks": [
+      {
+        "id": "triffid_seedshaper_pollen",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_cone", "min_level": 3 },
+        "cooldown": 15,
+        "monster_message": "%1$s waves its fronds and pollen cascades over <npcname>."
+      },
+      {
+        "id": "triffid_seedshaper_heal",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_heal", "min_level": 3 },
+        "cooldown": 25,
+        "monster_message": "%1$s waves its fronds and a glow surrounds <npcname>."
+      }
+    ],
     "bleed_rate": 60,
     "harvest": "triffid_paralytic",
     "emit_fields": [ { "emit_id": "emit_pollen_stream", "delay": "3 s" } ],
