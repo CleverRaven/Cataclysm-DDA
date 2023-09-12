@@ -16,5 +16,46 @@
     "min_aoe": 30
     "max_aoe": 60
     "aoe_increment": 2
+  },
+  {
+    "id": "triffid_pollen_cone",
+    "type": "SPELL",
+    "name": { "str": "Pollen Spray" },
+    "description": "Spews pollen in a cone.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 5,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_aoe": 45,
+    "max_aoe": 45,
+    "min_range": 4,
+    "max_range": 8,
+    "range_increment": 1,
+    "field_id": "fd_pollen_triffid",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "max_field_intensity": 2
+  },
+  {
+    "id": "triffid_pollen_heal",
+    "type": "SPELL",
+    "name": { "str": "Pollen Heal" },
+    "description": "Heals other triffids.",
+    "valid_targets": [ "ally" ],
+    "max_level": 5,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "effect": "recover_energy",
+    "shape": "blast",
+    "min_damage": 10,
+    "max_damage": 50,
+    "min_range": 4,
+    "max_range": 9,
+    "min_aoe": 2,
+    "range_increment": 1,
+    "field_id": "fd_pollen_triffid",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 2
   }
 ]
