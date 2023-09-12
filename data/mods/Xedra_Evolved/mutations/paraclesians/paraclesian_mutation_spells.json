@@ -36,7 +36,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "magic_lamp",
+    "effect_str": "magic_light",
     "shape": "blast",
     "energy_source": "MANA",
     "difficulty": 2,

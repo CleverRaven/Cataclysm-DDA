@@ -297,7 +297,7 @@
   {
     "type": "mutation",
     "id": "BREATHE_WO_AIR",
-    "name": { "str": "breathe without air" },
+    "name": { "str": "Breathe Without Air" },
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
@@ -308,8 +308,19 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_EYES",
+    "name": { "str": "Sylph Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph's eyes begin reflecting their mood with lightning and storms when angry and clear skies when happy.  Glare no longer impacts them.",
+    "category": [ "SYLPH" ],
+    "integrated_armor": [ "integrated_sylph_eyes" ]
+  },
+  {
+    "type": "mutation",
     "id": "CLAP_OF_THUNDER",
-    "name": { "str": "clap of thunder" },
+    "name": { "str": "Clap of Thunder" },
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
@@ -320,7 +331,7 @@
   {
     "type": "mutation",
     "id": "OMINOUS_WIND",
-    "name": { "str": "ominous wind" },
+    "name": { "str": "Ominous Wind" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -342,11 +353,12 @@
   {
     "type": "mutation",
     "id": "SLYPH_RESIST_COLD",
-    "name": { "str": "resist cold" },
+    "name": { "str": "Resist Cold" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "changes_to": "SLYPH_RESIST_COLD2",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -357,8 +369,25 @@
   },
   {
     "type": "mutation",
+    "id": "SLYPH_RESIST_COLD2",
+    "name": { "str": "Born of a Gale" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+
+    "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
     "id": "PUSHING_WIND",
-    "name": { "str": "pushing wind" },
+    "name": { "str": "Pushing Wind" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -369,7 +398,7 @@
   {
     "type": "mutation",
     "id": "ELECTRICAL_EMISSIONS",
-    "name": { "str": "electrical emissions" },
+    "name": { "str": "Electrical Emissions" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -380,7 +409,7 @@
   {
     "type": "mutation",
     "id": "ELECTRICAL_FIELD",
-    "name": { "str": "electrical field" },
+    "name": { "str": "Electrical Field" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -391,7 +420,7 @@
   {
     "type": "mutation",
     "id": "air_sprite",
-    "name": { "str": "summon air sprite" },
+    "name": { "str": "Summon Air Sprite" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
