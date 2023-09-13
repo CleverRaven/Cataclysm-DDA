@@ -33,6 +33,6 @@
       }
     ],
     "armor": { "bash": 10, "electric": 1, "bullet": 40 },
-    "extend": { "flags": [ "FLIES" ] }
+    "extend": { "flags": [ "CLIMBS" ] }
   }
 ]
