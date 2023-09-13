@@ -13250,7 +13250,7 @@ void game::climb_down( const tripoint &examp )
                 if( climb_cost <= 0 ) {
                     climb_back_up = _( "You <color_red>probably won't be able</color> to climb back up." );
                 } else if( climb_cost < 200 ) {
-                    climb_back_up = _( "You <color_light_blue>should be able</color> to climb back up <color_light_blue>easily</color>." );
+                    climb_back_up = _( "You <color_light_blue>should be easily able</color> to climb back up." );
                 } else {
                     climb_back_up = _( "You <color_yellow>may have problems</color> trying to climb back up." );
                 }
