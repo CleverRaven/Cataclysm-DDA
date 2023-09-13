@@ -1029,13 +1029,12 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "tailoring_faux_fur_patchwork", 2 ], [ "tailoring_cotton", 14 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "faux_fur", 6 ], [ "cotton_patchwork", 5 ] ],
+    "byproducts": [ [ "faux_fur", 6 ], [ "cotton_patchwork", 5 ], [ "scrap_faux_fur", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 3 ] ]
+    ]
   },
   {
     "result": "pants_leather",
