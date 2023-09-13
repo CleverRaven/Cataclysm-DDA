@@ -12985,13 +12985,19 @@ int game::slip_down_chance( bool show_messages )
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
     if( parkour && badknees ) {
-        if( show_messages ) add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+        }
     } else if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
-        if( show_messages ) add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
+        }
     } else if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
-        if( show_messages ) add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
+        }
     }
 
     add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
@@ -13021,11 +13027,17 @@ int game::slip_down_chance( bool show_messages )
         }
     }
     if( wet_feet && wet_hands ) {
-        if( show_messages ) add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
+        }
     } else if( wet_feet ) {
-        if( show_messages ) add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
+        }
     } else if( wet_hands ) {
-        if( show_messages ) add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
+        }
     }
 
     // Apply wetness penalty
@@ -13056,15 +13068,15 @@ int game::slip_down_chance( bool show_messages )
     if( stamina_ratio < 0.8 ) {
         slip /= std::max( stamina_ratio, .1f );
 
-        if ( stamina_ratio > 0.6 ) {
+        if( stamina_ratio > 0.6 ) {
             if( show_messages ) {
                 add_msg( m_info, _( "You are winded, which makes climbing harder." ) );
             }
-        } else if ( stamina_ratio > 0.4 ) {
+        } else if( stamina_ratio > 0.4 ) {
             if( show_messages ) {
                 add_msg( m_info, _( "You are out of breath, which makes climbing much harder." ) );
             }
-        } else if ( stamina_ratio > 0.2 ) {
+        } else if( stamina_ratio > 0.2 ) {
             if( show_messages ) {
                 add_msg( m_info, _( "You can't catch your breath, which makes it much more difficult to climb." ) );
             }
