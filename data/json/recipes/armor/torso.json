@@ -121,7 +121,8 @@
     "time": "90 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 5 ], [ "tailoring_lycra_patchwork", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_cotton", 3 ], [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "xl_binder_top",
@@ -148,7 +149,8 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
-    "using": [ [ "sewing_standard", 10 ], [ "tailoring_lycra_patchwork", 1 ] ]
+    "using": [ [ "sewing_standard", 10 ], [ "tailoring_lycra_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "bikini_top_fur",
@@ -1104,7 +1106,8 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 13 ], [ "fabric_lycra", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "long_undertop",
@@ -1793,14 +1796,16 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "xssports_bra",
     "type": "recipe",
     "copy-from": "sports_bra",
     "time": "1 h 30 m",
-    "using": [ [ "tailoring_lycra_patchwork", 1 ] ]
+    "using": [ [ "tailoring_lycra_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "xlsports_bra",
@@ -1814,7 +1819,8 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "sundress",
@@ -1933,7 +1939,8 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "trenchcoat",
@@ -2097,7 +2104,8 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "undershirt",
@@ -2124,7 +2132,8 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 7 ] ]
   },
   {
     "result": "kevlar",

@@ -82,6 +82,16 @@
     "material": [ "leather" ]
   },
   {
+    "id": "scrap_lycra",
+    "copy-from": "scrap_cotton",
+    "type": "GENERIC",
+    "name": { "str_sp": "lycra scraps" },
+    "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
+    "price": 0,
+    "volume": "4 ml",
+    "material": [ "lycra" ]
+  },
+  {
     "id": "scrap_neoprene",
     "copy-from": "scrap_cotton",
     "type": "GENERIC",

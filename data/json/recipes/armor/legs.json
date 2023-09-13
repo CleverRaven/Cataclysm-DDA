@@ -100,7 +100,8 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.25, "skill_penalty": 0.15 } ],
-    "using": [ [ "tailoring_lycra_patchwork", 1 ] ]
+    "using": [ [ "tailoring_lycra_patchwork", 1 ] ],
+    "byproducts": [ [ "lycra_patch", 1 ], [ "scrap_lycra", 1 ] ]
   },
   {
     "result": "boy_shorts",
@@ -237,14 +238,14 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_lycra_patchwork", 1 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "lycra_patch", 2 ] ]
+    "byproducts": [ [ "lycra_patch", 2 ], [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "hot_pants_fur",
     "type": "recipe",
     "copy-from": "hot_pants",
     "using": [ [ "tailoring_lycra_patchwork", 1 ], [ "tailoring_fur", 1 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "fur", 1 ] ]
+    "byproducts": [ [ "fur", 1 ], [ "scrap_fur", 3 ], [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "hot_pants_leather",
@@ -417,7 +418,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_lycra_patchwork", 6 ] ],
-    "byproducts": [ [ "lycra_patch", 5 ] ],
+    "byproducts": [ [ "lycra_patch", 5 ], [ "scrap_lycra", 9 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1267,7 +1268,8 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
-    "using": [ [ "tailoring_lycra_patchwork", 3 ] ]
+    "using": [ [ "tailoring_lycra_patchwork", 3 ] ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "lc_chainmail_legs",

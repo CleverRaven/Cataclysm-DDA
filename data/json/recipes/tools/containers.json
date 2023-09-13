@@ -1244,7 +1244,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" }
     ],
-    "components": [ [ [ "duct_tape", 400 ] ] ]
+    "components": [ [ [ "duct_tape", 400 ] ] ],
+    "byproducts": [ [ "scrap_lycra", 16 ] ]
   },
   {
     "type": "recipe",

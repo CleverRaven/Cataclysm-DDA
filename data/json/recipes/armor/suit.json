@@ -1916,7 +1916,8 @@
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 300 ] ],
       [ [ "sheet_kevlar", 590 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 9 ] ]
   },
   {
     "result": "xs_hsurvivor_jumpsuit",
@@ -2212,7 +2213,8 @@
     "time": "2 h",
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_lycra_patchwork", 20 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "sleeping_bag_improvised",
