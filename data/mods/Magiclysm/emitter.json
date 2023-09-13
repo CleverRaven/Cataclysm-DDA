@@ -81,5 +81,12 @@
     "field": "fd_rad_mage_aura",
     "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_obscuring_fog",
+    "type": "emit",
+    "field": "fd_obscuring_fog",
+    "intensity": 3,
+    "qty": 80
   }
 ]

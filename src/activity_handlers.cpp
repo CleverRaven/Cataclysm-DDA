@@ -2689,27 +2689,46 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 
     recipe_id id( act->name );
     std::string itname;
-    if( act->index == 0 ) {
-        // act->name is itype_id
-        itype_id it( act->name );
-        itname = it->nname( 1U );
-    } else {
-        // act->name is recipe_id
-        itname = id->result_name();
-    }
-    if( id.is_null() || !id.is_valid() ) {
-        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
-        return;
-    }
-
     const inventory &inven = you->crafting_inventory();
     const std::vector<npc *> &helpers = you->get_crafting_helpers();
-    if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+    if( act->index != 0 ) {
+        // act->name is recipe_id
+        itname = id->result_name();
+        if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+            add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
+            return;
+        }
+        you->craft( std::nullopt, id );
+        return;
+    }
+    // act->name is itype_id
+    itype_id item( act->name );
+    itname = item->nname( 1U );
+
+    bool is_byproduct = false;  // product or byproduct
+    bool can_craft = false;
+    // Does a recipe for the item exist?
+    for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
+        const recipe &r = ( *it ).second;
+        if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
+            is_byproduct = true;
+            // If if exists, do I know it?
+            if( you->get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                can_craft = true;
+                break;
+            }
+        }
+    }
+    if( !is_byproduct ) {
+        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
+        return;
+    } else if( !can_craft ) {
         add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
         return;
     }
 
-    you->craft( std::nullopt, id );
+    std::string filterstring = string_format( "r:%s", itname );
+    you->craft( std::nullopt, recipe_id(), filterstring );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
