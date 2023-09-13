@@ -19,6 +19,7 @@
     "name": { "str": "bandersnatch", "str_pl": "bandersnatches" },
     "description": "An American black bear.  A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  This one is distinguished from its fellows by its intent expression, its lack of caution in your presence, and the fact that it's hovering six inches off the ground.",
     "aggression": 0,
+    "grab_strength": 50
     "fear_triggers": [ "SOUND" ],
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "regenerates": 1,
@@ -26,11 +27,14 @@
       [ "EAT_FOOD", 20 ],
       { "type": "bite", "cooldown": 15, "infection_chance": 44 },
       {
-        "id": "psi_bandersnatch_telegrab",
-        "type": "spell",
-        "spell_data": { "id": "telekinetic_pull_monster", "min_level": 4 },
-        "cooldown": 15,
-        "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
+        "id": "ranged_pull",
+        "cooldown": 20,
+        "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
+        "hit_dmg_npc": "%1$s  growls and <npcname> is dragged toward them!",
+        "miss_msg_u": "",
+        "miss_msg_npc": "",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": ""
       }
     ],
     "armor": { "bash": 10, "electric": 1, "bullet": 40, "psi_telekinetic_damage": 35 },
