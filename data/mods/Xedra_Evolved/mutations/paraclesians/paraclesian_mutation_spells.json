@@ -19,7 +19,11 @@
     "max_range": 20,
     "range_increment": 1.0,
     "base_casting_time": 200,
+    "final_casting_time": 120,
+    "casting_time_increment": 4,
     "base_energy_cost": 350,
+    "final_energy_cost": 100,
+    "energy_increment": 8,
     "energy_source": "MANA",
     "difficulty": 4,
     "damage_type": "heat"
