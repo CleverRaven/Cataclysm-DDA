@@ -7291,7 +7291,7 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
         const int viewer_furn_coverage = viewer_furn->coverage;
         eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
     }
-    const float dist_to_ledge_base = rl_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) ) - 0.5f;
+    float dist_to_ledge_base = rl_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) );
     const int flat_dist = rl_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
 
     double tangent;
@@ -7300,6 +7300,8 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
     if( viewer_p.z < target_p.z ) {
         // Viewer looking at target above
 
+        // Adjustment to ledge distance because ledge is assumed to be between two grids
+        dist_to_ledge_base -= 0.5f;
         // Calculate tangent of elevation angle between viewer and ledge
         tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge_base;
         // Amount of height relative to ground at viewer covered by ledge at target's distance in grids
@@ -7310,6 +7312,8 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
     } else {
         // Viewer looking at target below
 
+        // Adjustment to ledge distance because ledge is assumed to be between two grids
+        dist_to_ledge_base += 0.5f;
         // Calculate tangent of elevation angle between viewer and ledge
         tangent = dist_to_ledge_base / eye_level;
         // Amount of coverage provided by ledge to view target
