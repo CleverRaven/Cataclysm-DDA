@@ -1617,5 +1617,23 @@
     "name": { "str": "Scroll of Summon Tanglevine", "str_pl": "Scrolls of Summon Tanglevine" },
     "description": "Conjure a lashing bunch of animated vines that will grab and hold your enemies.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_summon_tanglevine" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_dispel_magic",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Dispel Magic", "str_pl": "Scrolls of Dispel Magic" },
+    "description": "Enemy wizards got you down?  Just remove all their magic and punch them in the face.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_disjunction",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Disjunction", "str_pl": "Scrolls of Disjunction" },
+    "description": "Remove all magic from your target, even rare or powerful spells.  Who's the archmage now?",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
   }
 ]
