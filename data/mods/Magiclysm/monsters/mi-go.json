@@ -1,0 +1,74 @@
+[
+   {
+    "id": "mon_mi_go_nethermancer",
+    "type": "MONSTER",
+    "name": { "str": "mi-go nethermancer" },
+    "description": "This mi-go has a slender body with snaking carapace along it, decorated in some kind of regular pattern.  The pattern occasionally shifts as you look at it before settling into a new configuration.",
+    "default_faction": "mi-go",
+    "bodytype": "migo",
+    "species": [ "MIGO" ],
+    "looks_like": "mon_mi_go",
+    "volume": "92500 ml",
+    "weight": "110 kg",
+    "hp": 160,
+    "speed": 120,
+    "material": [ "flesh" ],
+    "symbol": "&",
+    "color": "red",
+    "aggression": 20,
+    "morale": 30,
+    "melee_skill": 7,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "dodge": 4,
+    "bleed_rate": 75,
+    "vision_day": 50,
+    "vision_night": 20,
+    "harvest": "zombie_meatslug",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "scents_ignored": [ "sc_fetid" ],
+    "special_attacks": [
+      [ "PARROT", 100 ],
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] },
+      {
+        "id": "migo_nethermancer_grab",
+        "type": "spell",
+        "spell_data": { "id": "sorcerer_hand_monster", "min_level": 2 },
+        "cooldown": 15,
+        "monster_message": "%1$s twitches its antennae at %3$s and %3$s is lifted up and pulled towards them!"
+      },
+      {
+        "id": "migo_nethermancer_no_escape",
+        "type": "spell",
+        "spell_data": { "id": "teleport_anchor_monster", "min_level": 4 },
+        "cooldown": 50,
+        "monster_message": "%1$s numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "migo_nethermancer_summon",
+        "type": "spell",
+        "spell_data": { "id": "migo_nethermancer_summon_nether", "min_level": 0 },
+        "cooldown": 40,
+        "monster_message": "%1$s numerous antennae sync their movements for a brief moment."
+      }
+    ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "ARTHROPOD_BLOOD",
+      "PATH_AVOID_DANGER_1",
+      "CAN_OPEN_DOORS",
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
+    ],
+    "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
+  }
+]
