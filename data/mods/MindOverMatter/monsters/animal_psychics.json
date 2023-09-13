@@ -19,7 +19,7 @@
     "name": { "str": "bandersnatch", "str_pl": "bandersnatches" },
     "description": "An American black bear.  A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  This one is distinguished from its fellows by its intent expression, its lack of caution in your presence, and the fact that it's hovering six inches off the ground.",
     "aggression": 0,
-    "fear_triggers": [  ],
+    "fear_triggers": [ "SOUND" ],
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "regenerates": 1,
     "special_attacks": [
