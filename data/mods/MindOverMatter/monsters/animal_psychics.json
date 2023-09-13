@@ -30,7 +30,7 @@
         "id": "ranged_pull",
         "cooldown": 20,
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
-        "hit_dmg_npc": "%1$s  growls and <npcname> is dragged toward them!",
+        "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
         "miss_msg_u": "",
         "miss_msg_npc": "",
         "no_dmg_msg_u": "",
