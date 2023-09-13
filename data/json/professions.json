@@ -6381,11 +6381,7 @@
     "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now there are no cops and no law, but even after the Cataclysm, you drive.",
     "points": 4,
     "proficiencies": [ "prof_driver", "prof_basic_engines", "prof_athlete_basic" ],
-    "skills": [
-      { "level": 6, "name": "driving" },
-      { "level": 4, "name": "mechanics" },
-      { "level": 1, "name": "melee" }
-    ],
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 2, "name": "melee" } ],
     "vehicle": "car_coupe_muscle",
     "items": {
