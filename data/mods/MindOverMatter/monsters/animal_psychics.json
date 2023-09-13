@@ -15,7 +15,7 @@
     "copy-from": "mon_bear",
     "type": "MONSTER",
     "looks_like": "mon_bear",
-    "name": { "str": "bandersnatch" },
+    "name": { "str": "bandersnatch", "str_pl": "bandersnatches" },
     "description": "An American black bear. A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  This one is distinguished from its fellows by its intent expression, its lack of caution in your presence, and the fact that it's hovering six inches off the ground.",
     "aggression": 0,
     "fear_triggers": [  ],
