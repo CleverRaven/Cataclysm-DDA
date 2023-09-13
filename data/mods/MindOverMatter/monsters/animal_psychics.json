@@ -30,7 +30,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 4 },
         "cooldown": 15,
-        "monster_message": "%1$s stares at <npcname> and <npcname> is lifted up and pulled towards them!"
+        "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       }
     ],
     "armor": { "bash": 10, "electric": 1, "bullet": 40, "psi_telekinetic_damage": 35 },
