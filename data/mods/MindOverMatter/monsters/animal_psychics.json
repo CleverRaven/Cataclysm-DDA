@@ -28,7 +28,7 @@
         "id": "psi_bandersnatch_telegrab",
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 4 },
-        "cooldown": 10,
+        "cooldown": 15,
         "monster_message": "%1$s stares at <npcname> and <npcname> is lifted up and pulled towards them!"
       }
     ],
