@@ -3424,7 +3424,7 @@ class Character : public Creature, public visitable
          * @param goto_recipe the recipe to display initially. A null recipe_id opens the default crafting screen.
          */
         void craft( const std::optional<tripoint> &loc = std::nullopt,
-                    const recipe_id &goto_recipe = recipe_id() );
+                    const recipe_id &goto_recipe = recipe_id(), const std::string &filterstring = "" );
         void recraft( const std::optional<tripoint> &loc = std::nullopt );
         void long_craft( const std::optional<tripoint> &loc = std::nullopt,
                          const recipe_id &goto_recipe = recipe_id() );

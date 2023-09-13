@@ -1125,7 +1125,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
 }
 
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe,
-                                      Character &crafter )
+                                      Character &crafter, std::string filterstring )
 {
     recipe_result_info_cache result_info( crafter );
     recipe_info_cache r_info_cache;
@@ -1246,7 +1246,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
     const inventory &crafting_inv = crafter.crafting_inventory();
     const std::vector<npc *> helpers = crafter.get_crafting_helpers();
-    std::string filterstring;
 
     const recipe_subset &available_recipes = crafter.get_available_recipes( crafting_inv,
             &helpers );
