@@ -962,7 +962,7 @@
     "//": "Removes all effects from spells.",
     "desc": [ "All enchantments are being stripped away from you." ],
     "apply_message": "",
-    "remove_message": "You feel a audden acute sense of loss.",
+    "remove_message": "You feel a sudden acute sense of loss.",
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
