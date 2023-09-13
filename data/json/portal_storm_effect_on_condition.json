@@ -989,7 +989,7 @@
           }
         },
         {
-          "case": 5,
+          "case": 10,
           "effect": {
             "u_spawn_monster": "mon_twisted_reflection",
             "real_count": 1,
@@ -999,7 +999,7 @@
           }
         },
         {
-          "case": 10,
+          "case": 30,
           "effect": {
             "u_spawn_monster": "mon_dark_reflection",
             "real_count": 1,
@@ -1009,7 +1009,7 @@
           }
         },
         {
-          "case": 15,
+          "case": 50,
           "effect": {
             "u_spawn_monster": "mon_better_half",
             "real_count": 1,
@@ -1020,6 +1020,35 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
+    "effect": [ 
+      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_SHADOW_SPAWN",
+    "global": true,
+    "condition": { "and": [ { "u_has_trait": "TAINTED_SHADOW" }, { "math": [ "u_monsters_nearby('mon_tainted_shadow')", "<", "1" ] } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_tainted_shadow",
+        "real_count": 1,
+        "min_radius": 2,
+        "max_radius": 3,
+        "friendly": true,
+        "spawn_message": "Your shadow is no longer attached to you."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_SHADOW_RESPAWN",
+    "condition": { "x_in_y_chance": { "x": 8, "y": 10 } },
+    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
+    "false_effect": [ { "u_lose_trait": "TAINTED_SHADOW" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1036,22 +1065,6 @@
       { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD" },
       { "math": [ "portal_dungeon_level", "=", "0" ] },
       { "alter_timed_events": "portal_dungeon" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_SHADOW_SPAWN",
-    "global": true,
-    "condition": { "and": [ { "u_has_trait": "TAINTED_SHADOW" }, { "math": [ "u_monsters_nearby('mon_tainted_shadow')", "<", "1" ] } ] },
-    "effect": [
-      {
-        "u_spawn_monster": "mon_tainted_shadow",
-        "real_count": 1,
-        "min_radius": 2,
-        "max_radius": 3,
-        "friendly": true,
-        "spawn_message": "Your shadow is no longer attached to you."
-      }
     ]
   },
   {

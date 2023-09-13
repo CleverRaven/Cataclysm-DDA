@@ -40,5 +40,78 @@
       "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
     },
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the calm at the end of a portal storm."
+  },
+  {
+    "id": "blood_imitation",
+    "type": "COMESTIBLE",
+    "name": { "str": "blood?" },
+    "description": "Even though it looks and smells just like blood, you can't help but feel that something is very wrong with it.",
+    "//": "Values are mainly placeholders",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "comestible_type": "DRINK",
+    "charges": 1,
+    "phase": "liquid",
+    "price": 0,
+    "symbol": "-",
+    "color": "red",
+    "flags": [ "SPAWN_ACTIVE" ],
+    "material": [ "hblood" ], 
+    "looks_like": "blood",
+    "vitamins": [  ],
+    "countdown_interval": "10 seconds",
+    "countdown_action": {
+      "type": "sound", 
+      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",          
+      "sound_message": "the strange blood sizzling and suddenly vanishing with a pop, as if it was never there.",
+      "sound_id": "misc",      
+      "sound_volume": 2         
+    }
+  },
+  {
+    "id": "innards_imitation",
+    "type": "COMESTIBLE",
+    "name": { "str": "organ?", "str_pl": "organs?" },
+    "description": "This grotesque lump of fat, flesh and muscle appears to convulse sporadically, emitting a sickening, squelching sound that strikes a chord with you in some bizarre way.",
+    "//": "Values are mainly placeholders but its comestible for a reason.",
+    "weight": "1500 g",
+    "volume": "2000 ml",
+    "price": 0,
+    "symbol": "*",
+    "color": "red",
+    "comestible_type": "INVALID",
+    "flags": [ "SPAWN_ACTIVE" ],
+    "material": [ "hflesh" ], 
+    "countdown_interval": "15 minutes",
+    "countdown_action": {
+      "type": "sound",
+      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player." ,     
+      "sound_message": "the mysterious lump of flesh convulsing rapidly and then dissapearing with a loud snap, leaving no trace.", 
+      "sound_id": "misc",      
+      "sound_volume": 2         
+    }
+  },
+  {
+    "id": "corpse_imitation",
+    "type": "GENERIC",
+    "category": "corpses",
+    "name": { "str": "corpse?", "str_pl": "corpses?" },
+    "description": "This corpse looks eerily similar to you, yet you feel like something fundamental is completely absent from it. Your mind screams discordant warnings if your gaze lingers on it for too long.",
+    "weight": "5000 g",
+    "volume": "10000 ml",
+    "price": 0,
+    "symbol": "!",
+    "color": "red",
+    "looks_like": "corpse_generic_human",
+    "flags": [ "SPAWN_ACTIVE" ],
+    "material": [ "hflesh" ], 
+    "countdown_interval": "1 hour",
+    "countdown_action": {
+      "type": "sound",
+      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",
+      "sound_message": "the mysterious corpse fracturing and folding in impossible ways before dissapearing into nothingness with a reverberating crack.", 
+      "sound_id": "misc",      
+      "sound_volume": 2         
+    }
   }
 ]

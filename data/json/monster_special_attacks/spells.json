@@ -743,7 +743,7 @@
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 20 } ] }
+      { "math": [ "u_val('stamina')", "-=", "20" ] }
     ]
   },
   {
@@ -782,7 +782,8 @@
     "copy-from": "base_portal",
     "min_range": 15,
     "max_range": 15,
-    "effect_str": "EOC_mon_reflection_attack"
+    "effect_str": "EOC_mon_reflection_attack",
+    "extra_effects": [ { "id": "mon_reflection_attack_progression" } ]
   },
   {
     "type": "effect_on_condition",
@@ -794,28 +795,21 @@
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
-              "max": 1200
-            },
-            {
-              "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
-            }
+            { "math": [ "u_val('fatigue')", "+=", "portal_dungeon_reflect_strength * 1.5" ] },
+            { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
         {
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
-              "max": 1200
-            },
-            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
+            { "math": [ "u_val('fatigue')", "+=", "portal_dungeon_reflect_strength" ] },
+            { "math": [ "u_val('fatigue')", "=", "min( u_val('fatigue') , 1200 )" ] },
+            { "math": [ "portal_dungeon_reflect_strength", "++" ] }
           ]
         },
         {
-          "case": 8,
+          "case": 6,
           "effect": [
             {
               "switch": { "rand": 10 },
@@ -849,7 +843,7 @@
                         "real_count": 1,
                         "min_radius": 2,
                         "max_radius": 4,
-                        "spawn_message": "Something deep inside you is manifested physically."
+                        "spawn_message": "Something deep within you is manifested physically."
                       }
                     }
                   }
@@ -870,7 +864,7 @@
                         "real_count": 1,
                         "min_radius": 2,
                         "max_radius": 4,
-                        "spawn_message": "Something deep inside you is manifested physically."
+                        "spawn_message": "Something deep within you is manifested physically."
                       }
                     }
                   }
@@ -883,66 +877,92 @@
     }
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_reflection_banish",
+    "effect": [
+      { "u_message": "recover_essence", "type": "good", "snippet": true },
+      { "math": [ "u_val('fatigue')", "-=", "portal_dungeon_reflect_strength * 1.5" ] },
+      { "math": [ "portal_dungeon_reflect_strength", "-=", "3" ] },
+      { "math": [ "portal_dungeon_reflect_strength", "=", "clamp(portal_dungeon_reflect_strength, 1, 1200)" ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_reflection_attack_progression",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_mon_reflection_attack_progression",
+    "//": "Placed here to override the copy of extra_effect from base_portal",
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": false } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_reflection_attack_progression",
+    "//": "Depending on at what stage the reflection is, attacking the player does different things, like harm themselves (a property of all portal storm creatures) more or less. This is mainly framework for later",
+    "effect": {
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" },
+      "cases": [
+        {
+          "case": 0, "//": "Pale reflection",
+          "effect": [
+            { "run_eocs": "EOC_pale_reflection_drain" }
+          ] 
+        },
+        {
+          "case": 10, "//": "Twisted reflection",
+          "effect": [
+            { "run_eocs": "EOC_twisted_reflection_drain" }
+          ]
+        },
+        {
+          "case": 30, "//": "Dark reflection",
+          "effect": [
+            { "run_eocs": "EOC_dark_reflection_drain" }
+          ] 
+        },
+        {
+          "case": 50, "//": "Better half",
+          "effect": [
+            { "run_eocs": "EOC_better_half_drain" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_pale_reflection_drain",
+    "condition": { "one_in_chance": 2 },
+    "effect": [ { "npc_cast_spell": { "id": "portal_hurt_self", "hit_self": true } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_twisted_reflection_drain",
+    "condition": { "one_in_chance": 3 },
+    "effect": [ { "npc_cast_spell": { "id": "portal_hurt_self", "hit_self": true } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_dark_reflection_drain",
+    "condition": { "one_in_chance": 4 },
+    "effect": [ { "npc_cast_spell": { "id": "portal_hurt_self", "hit_self": true } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_better_half_drain",
+    "condition": { "one_in_chance": 10 },
+    "effect": [
+      { "u_message": "lost_willpower", "snippet": true, "type": "bad" },
+      {
+        "u_add_effect": "sad",
+        "intensity": { "math": [ "u_val('fatigue')" ] },
+        "duration": { "math": [ "portal_dungeon_reflect_strength" ] }
+      }
+    ]
+  },  
+  {
     "type": "ter_furn_transform",
     "id": "clear_portal_walls",
     "terrain": [ { "result": [ "t_floor_warped" ], "valid_terrain": [ "t_wall_warped" ] } ]
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_reflection_revive",
-    "name": { "str": "Reflection Revive" },
-    "description": "Revives the reflection.",
-    "valid_targets": [ "self", "ground" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
-    "min_range": 15,
-    "max_range": 15,
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_XEDRA_officer_banish",
-    "name": { "str": "Officer banish" },
-    "description": "Stops the haunting.",
-    "valid_targets": [ "self", "ground" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "base_casting_time": 75,
-    "min_range": 15,
-    "max_range": 15,
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_HAUNTING_QUEUE_STOP"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_tainted_shadow_revive",
-    "name": { "str": "Tainted Shadow Revive" },
-    "description": "Revives the tainted shadow.",
-    "valid_targets": [ "self", "ground" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
-    "min_range": 15,
-    "max_range": 15,
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_PORTAL_STORM_SHADOW_RESPAWN"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_SHADOW_RESPAWN",
-    "condition": { "x_in_y_chance": { "x": 8, "y": 10 } },
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
-    "false_effect": [ { "u_lose_trait": "TAINTED_SHADOW" } ]
   },
   {
     "id": "hallu_touch_suicide",

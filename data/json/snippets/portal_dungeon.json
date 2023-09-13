@@ -1,0 +1,25 @@
+[
+  {
+    "type": "snippet",
+    "category": "recover_essence",
+    "text": [
+      "You feel whole, if only for a moment.",
+      "You feel reinvigorated.",
+      "An intangible warmth provides respite to your tired mind.",
+      "You recover a piece of what you are.",
+      "Encouraging whispers bring clarity to your mind."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lost_willpower",
+    "text": [
+      "Your will falters under the weight of your burdens.",
+      "You feel tired of everything.",
+      "Sorrow wells up from deep within your heart.",
+      "Suddenly the world feels a little duller.",
+      "Your every movement feels like a chore.",
+      "Fleeting voices become the judges of your actions."
+    ]
+  } 
+]

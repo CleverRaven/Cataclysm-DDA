@@ -1306,25 +1306,62 @@
     "id": "mon_pale_reflection",
     "type": "MONSTER",
     "name": { "str": "pale reflection" },
-    "description": "This looks nothing like you.  It's barely real.  So why does your mind keep mistaking it for you?",
+    "//": "Values are mainly placeholders",
+    "description": "This amorphous blob of white light seems to have seared itself into your mind, its present wherever you look and you are certain that it will pursue you wherever you may go. When focusing on its form you feel as if you are gazing into a misty mirror, one that stares right back at you.",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 20,
+    "speed": 100,
+    "symbol": "O",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s vanishes but you know its still around.",
+      "effect": { "id": "mon_reflection_banish" }
+    },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "monster_message": "You can faintly feel the %s.",
+        "spell_data": { "id": "mon_reflection_attack", "min_level": 1, "hit_self": false },
+        "cooldown": 5
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_twisted_reflection",
+    "type": "MONSTER",
+    "name": { "str": "twisted reflection" },
+    "//": "Values are mainly placeholders",
+    "speed": 90,
+    "description": "This fluctuating mass of translucent faces and extremities is seemingly struggling to maintain one single form, yet its limbs are always reaching for you, uncaring of the distance that separates you both. In the midst of its chaotic shifting, you can sometimes recognize some of the faces.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
     "hp": 35,
-    "speed": 80,
     "symbol": "O",
-    "color": "dark_gray",
+    "color": "light_gray",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "death_drops": "twisted_reflection_drops",
     "death_function": {
-      "effect": { "id": "mon_reflection_revive", "hit_self": true },
       "corpse_type": "NO_CORPSE",
-      "message": "The %s vanishes but you can still feel it."
+      "message": "The %s mostly vanishes, yet a small puddle of blood remains. You can still feel its presence",
+      "effect": { "id": "mon_reflection_banish" }
     },
     "special_attacks": [
       {
@@ -1337,28 +1374,102 @@
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
-    "id": "mon_twisted_reflection",
-    "type": "MONSTER",
-    "name": { "str": "twisted reflection" },
-    "speed": 90,
-    "description": "This looks almost nothing like you.  It's form isn't even stable.  So why does your mind keep mistaking it for you?",
-    "copy-from": "mon_pale_reflection"
-  },
-  {
     "id": "mon_dark_reflection",
     "type": "MONSTER",
     "name": { "str": "dark reflection" },
-    "speed": 100,
-    "description": "This only looks a little like you.  It's obviously not you.  So why does your mind keep mistaking it for you?",
-    "copy-from": "mon_pale_reflection"
+    "//": "Values are mainly placeholders",
+    "speed": 80,
+    "description": "This being is a mockery of the human form, its body lacks any distinctive features as if it were a mere sketch, meanwhile its face is a replica of yours, though its carries a disturbingly ecstatic expression that deforms it unnaturally. You are certain that you are the source of the bliss it is experiencing and it craves more.",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 50,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
+    "death_drops": "dark_reflection_drops",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "A clump flesh and viscera falls from the %s vanishing body. You still feel its gaze upon you",
+      "effect": { "id": "mon_reflection_banish" }
+    },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "monster_message": "The %s and you feel eachother.",
+        "spell_data": { "id": "mon_reflection_attack", "min_level": 1, "hit_self": false },
+        "cooldown": 5
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_better_half",
     "type": "MONSTER",
     "name": { "str": "better half", "str_pl": "better halves" },
+    "//": "Values are mainly placeholders",
     "speed": 110,
-    "description": "This doesn't look like you.  It looks like what you've dreamed you could be.  Why does your mind keep mistaking you for a bad copy of it?",
-    "copy-from": "mon_pale_reflection"
+    "description": "Your own body walks towards you, with a grace impossible for you to achieve and an angelical smile that betrays no ill intentions. As you sense that this entity is somehow incomplete an unnatural pity takes hold in your heart, yet when you meet its gaze you can only see a profound disgust in its eyes, as if your very existence was an affront to its being.",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 60,
+    "symbol": "O",
+    "color": "black_white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
+    "death_drops": "better_half_drops",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s body collapses to the ground. You know it is not truly dead.",
+      "effect": { "id": "mon_reflection_banish" }
+    },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "monster_message": "The %s feels you.",
+        "spell_data": { "id": "mon_reflection_attack", "min_level": 1, "hit_self": false },
+        "cooldown": 5
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_tainted_shadow",
+    "type": "MONSTER",
+    "name": { "str": "tainted shadow" },
+    "description": "Your shadow is host to something alien.",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER_EMANATION" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 35,
+    "speed": 100,
+    "symbol": "H",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "death_function": {
+      "effect": { "id": "mon_tainted_shadow_revive", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "Your shadow seemingly becomes normal again."
+    },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
   {
     "id": "mon_XEDRA_officer",
@@ -1390,32 +1501,6 @@
     "name": { "str": "mercenary ghost" },
     "copy-from": "mon_zombie_soldier_blackops_1",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The soldier fades away to nothing." }
-  },
-  {
-    "id": "mon_tainted_shadow",
-    "type": "MONSTER",
-    "name": { "str": "tainted shadow" },
-    "description": "Your shadow is host to something alien.",
-    "default_faction": "nether_player_hate",
-    "species": [ "NETHER_EMANATION" ],
-    "volume": "62500 ml",
-    "weight": "0 g",
-    "hp": 35,
-    "speed": 100,
-    "symbol": "H",
-    "color": "dark_gray",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "death_function": {
-      "effect": { "id": "mon_tainted_shadow_revive", "hit_self": true },
-      "corpse_type": "NO_CORPSE",
-      "message": "Your shadow seemingly becomes normal again."
-    },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   },
   {
     "id": "mon_hallucinator",
