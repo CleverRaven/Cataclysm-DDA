@@ -314,9 +314,7 @@
     ],
     "armor": [
       {
-        "material": [
-          { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 }
-        ],
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 0,
@@ -406,9 +404,7 @@
     ],
     "armor": [
       {
-        "material": [
-          { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 }
-        ],
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 0,
