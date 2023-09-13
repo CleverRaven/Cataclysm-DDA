@@ -1085,14 +1085,6 @@
   },
   {
     "type": "item_group",
-    "id": "offal_canned_jar_3l_glass_sealed_12",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "offal_canned", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
     "id": "can_beans_can_food_big_12",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
