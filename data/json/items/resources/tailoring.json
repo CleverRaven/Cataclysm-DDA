@@ -28,6 +28,18 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "scrap_faux_fur",
+    "copy-from": "scrap_cotton",
+    "type": "GENERIC",
+    "name": { "str_sp": "faux fur scraps" },
+    "description": "A handful of oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
+    "weight": "3 g",
+    "volume": "7 ml",
+    "price": 0,
+    "price_postapoc": 5,
+    "material": [ "faux_fur" ]
+  },
+  {
     "id": "scrap_felt",
     "copy-from": "scrap_cotton",
     "type": "GENERIC",

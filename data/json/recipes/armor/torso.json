@@ -493,7 +493,8 @@
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 3 ], [ "scrap_faux_fur", 5 ] ]
   },
   {
     "result": "xs_coat_faux_fur",
@@ -745,7 +746,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 3 ], [ "scrap_faux_fur", 7 ] ]
   },
   {
     "result": "xs_duster_faux_fur",
@@ -1433,7 +1435,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 1 ], [ "scrap_faux_fur", 6 ] ]
   },
   {
     "result": "sleeveless_duster_fur",
@@ -1462,7 +1465,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 4 ] ],
+    "byproducts": [ [ "faux_fur", 4 ], [ "scrap_faux_fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
@@ -1614,7 +1617,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 4 ] ],
+    "byproducts": [ [ "faux_fur", 4 ], [ "scrap_faux_fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
@@ -1658,7 +1661,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 1 ], [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "sleeveless_trenchcoat_leather",
@@ -1982,7 +1986,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 2 ], [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "trenchcoat_leather",
