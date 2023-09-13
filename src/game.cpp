@@ -13309,7 +13309,7 @@ void game::climb_down( const tripoint &examp )
     } else if( !g->slip_down( true, false ) ) {
         // One tile of falling less (possibly zero)
         add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
-        you.add_msg_if_player( _( "You climb down." ) );
+        you.add_msg_if_player( _( "You lower yourself from the ledge." ) );
         g->vertical_move( -1, true );
     } else {
         // The player slipped.  This result leaves the player in mid-air, about to fall.
