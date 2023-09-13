@@ -270,7 +270,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_denim_patchwork", 8 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "denim_patch", 6 ] ]
+    "byproducts": [ [ "denim_patch", 6 ], [ "scrap_denim", 15 ] ]
   },
   {
     "result": "canvas_pants_padded",
@@ -1197,7 +1197,7 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "tailoring_denim_patchwork", 4 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "denim_patch", 6 ] ],
+    "byproducts": [ [ "denim_patch", 6 ], [ "scrap_denim", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1211,7 +1211,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "flags": [ "NO_RESIZE" ],
-    "byproducts": [ [ "denim_patch", 4 ] ],
+    "byproducts": [ [ "denim_patch", 4 ], [ "scrap_denim", 8 ] ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {

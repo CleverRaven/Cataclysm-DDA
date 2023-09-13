@@ -606,6 +606,21 @@
     "color": "dark_gray"
   },
   {
+    "id": "scrap_denim",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str_sp": "denim scraps" },
+    "description": "Oddly-shaped smallish denim patches, waste material from tailoring projects.",
+    "weight": "2 g",
+    "volume": "2 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "denim" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "denim_patch",
     "symbol": ",",
