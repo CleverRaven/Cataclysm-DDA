@@ -1808,19 +1808,38 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const recipe &craft_recipe = it.is_craft() ? it.get_making() :
-                                 recipe_dictionary::get_craft( it.typeId() );
-    if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
-        return hint_rating::cant;
-    }
     const inventory &inven = you.crafting_inventory();
     const std::vector<npc *> helpers = you.get_crafting_helpers();
-    if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
-        return hint_rating::good;
-    } else if( craft_recipe.ident().is_valid() ) {
-        return hint_rating::iffy;
+    if( it.is_craft() ) {
+        const recipe &craft_recipe = it.get_making();
+        if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
+            return hint_rating::cant;
+        } else if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+            return hint_rating::good;
+        }
+    } else {
+        itype_id item = it.typeId();
+        bool is_byproduct = false;  // product or byproduct
+        bool can_craft = false;
+        // Does a recipe for the item exist?
+        for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
+            const recipe &r = ( *it ).second;
+            if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
+                is_byproduct = true;
+                // If if exists, do I know it?
+                if( you.get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                    can_craft = true;
+                    break;
+                }
+            }
+        }
+        if( !is_byproduct ) {
+            return hint_rating::cant;
+        } else if( can_craft ) {
+            return hint_rating::good;
+        }
     }
-    return hint_rating::cant;
+    return hint_rating::iffy;
 }
 
 static hint_rating rate_action_eat( const avatar &you, const item &it )
