@@ -6382,7 +6382,6 @@
     "points": 4,
     "proficiencies": [ "prof_driver", "prof_basic_engines", "prof_athlete_basic" ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
-    "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 2, "name": "melee" } ],
     "vehicle": "car_coupe_muscle",
     "items": {
       "both": {
