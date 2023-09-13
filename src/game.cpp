@@ -12985,13 +12985,13 @@ int game::slip_down_chance( bool show_messages )
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
     if( parkour && badknees ) {
-        if ( show_messages ) add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+        if( show_messages ) add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
     } else if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
-        if ( show_messages ) add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
+        if( show_messages ) add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     } else if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
-        if ( show_messages ) add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
+        if( show_messages ) add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
 
     add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
@@ -13021,11 +13021,11 @@ int game::slip_down_chance( bool show_messages )
         }
     }
     if( wet_feet && wet_hands ) {
-        if ( show_messages ) add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
+        if( show_messages ) add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
     } else if( wet_feet ) {
-        if ( show_messages ) add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
+        if( show_messages ) add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
     } else if( wet_hands ) {
-        if ( show_messages ) add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
+        if( show_messages ) add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
     }
 
     // Apply wetness penalty
@@ -13054,22 +13054,22 @@ int game::slip_down_chance( bool show_messages )
     // Decreasing stamina makes you slip up more often
     const float stamina_ratio = static_cast<float>( u.get_stamina() ) / u.get_stamina_max();
     if( stamina_ratio < 0.8 ) {
-        slip /= std::max(stamina_ratio, .1f);
+        slip /= std::max( stamina_ratio, .1f );
 
         if ( stamina_ratio > 0.6 ) {
-            if ( show_messages ) {
+            if( show_messages ) {
                 add_msg( m_info, _( "You are winded, which makes climbing harder." ) );
             }
         } else if ( stamina_ratio > 0.4 ) {
-            if ( show_messages ) {
+            if( show_messages ) {
                 add_msg( m_info, _( "You are out of breath, which makes climbing much harder." ) );
             }
         } else if ( stamina_ratio > 0.2 ) {
-            if ( show_messages ) {
+            if( show_messages ) {
                 add_msg( m_info, _( "You can't catch your breath, which makes it much more difficult to climb." ) );
             }
         } else {
-            if ( show_messages ) {
+            if( show_messages ) {
                 add_msg( m_info, _( "You feel faint and can't keep your balance." ) );
             }
         }
@@ -13078,19 +13078,19 @@ int game::slip_down_chance( bool show_messages )
                    stamina_ratio, slip );
 
     if( weight_ratio >= 1 ) {
-        if ( show_messages ) {
+        if( show_messages ) {
             add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
         }
     } else if( weight_ratio > .75 ) {
-        if ( show_messages ) {
+        if( show_messages ) {
             add_msg( m_info, _( "You strain to climb with the weight of your possessions." ) );
         }
     } else if( weight_ratio > .5 ) {
-        if ( show_messages ) {
+        if( show_messages ) {
             add_msg( m_info, _( "You feel the weight of your luggage makes it more difficult to climb." ) );
         }
     } else if( weight_ratio > .25 ) {
-        if ( show_messages ) {
+        if( show_messages ) {
             add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
         }
     }
