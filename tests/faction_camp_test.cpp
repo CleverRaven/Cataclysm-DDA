@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "basecamp.h"
-#include "calendar.h"
 #include "cata_catch.h"
 #include "clzones.h"
 #include "coordinates.h"
@@ -15,42 +14,8 @@
 #include "overmapbuffer.h"
 #include "player_helpers.h"
 
-static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-
-static const recipe_id recipe_test_200_kcal( "test_200_kcal" );
-
-static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
-
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
-
-static time_point midday = calendar::turn_zero + 12_hours;
-
-// copied almost wholesale from the crafting test. This could probably be simpler, but we need a comestible that's inherited calories.
-static void setup_test_craft( const recipe_id &rid )
-{
-    clear_avatar();
-    set_time( midday ); // Ensure light for crafting
-    avatar &player_character = get_avatar();
-    const recipe &rec = rid.obj();
-    REQUIRE( player_character.morale_crafting_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( player_character.lighting_craft_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( !player_character.activity );
-
-    // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
-    player_character.learn_recipe( &rec );
-    const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
-    player_character.remove_weapon();
-    REQUIRE( !player_character.is_armed() );
-    player_character.make_craft( rid, 1 );
-    REQUIRE( player_character.activity );
-    REQUIRE( player_character.activity.id() == ACT_CRAFT );
-    // Extra safety
-    item_location wielded = player_character.get_wielded_item();
-    REQUIRE( wielded );
-}
-
 
 TEST_CASE( "camp_calorie_counting", "[camp]" )
 {
@@ -77,20 +42,16 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
 
     WHEN( "an item with inherited components is added to larder" ) {
         camp_faction->food_supply = 0;
-        Character &player_character = get_player_character();
-        player_character.toggle_trait( trait_DEBUG_CNF );
-        player_character.setpos( zone_loc );
         item test_100_kcal( "test_100_kcal" );
-        // Make sure we add exactly 2 for the recipe, and no more
-        m.add_item( zone_loc, test_100_kcal, 1 );
-        // Do crafting and drop on zone_loc.
-        setup_test_craft( recipe_test_200_kcal );
-        calendar::turn += 5_seconds;
-        for( item_location loc : player_character.top_items_loc() ) {
-            player_character.drop( loc, zone_loc );
-        }
+        item test_200_kcal( "test_200_kcal" );
+        item_components made_of;
+        made_of.add( test_100_kcal );
+        made_of.add( test_100_kcal );
+        // Setting the actual components. This will return 185 unless it's actually made up of two 100kcal components!
+        test_200_kcal.components = made_of;
+        m.add_item_or_charges( zone_loc, test_200_kcal );
         test_camp->distribute_food();
         CHECK( camp_faction->food_supply == 200 );
     }
 }
-// TODO: Tests for: Check calorie display at various activity levels, camp crafting works as expected (consumes inputs, returns outputs+byproducts)
+// TODO: Tests for: Check calorie display at various activity levels, camp crafting works as expected (consumes inputs, returns outputs+byproducts, costs calories)

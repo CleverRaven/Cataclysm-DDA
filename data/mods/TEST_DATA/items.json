@@ -4757,7 +4757,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "comestible_type" : "FOOD",
+    "comestible_type": "FOOD",
     "id": "test_100_kcal",
     "category": "spare_parts",
     "symbol": ",",
@@ -4775,7 +4775,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "comestible_type" : "FOOD",
+    "comestible_type": "FOOD",
     "id": "test_200_kcal",
     "category": "spare_parts",
     "symbol": ",",
