@@ -6384,7 +6384,7 @@
     "skills": [
       { "level": 6, "name": "driving" },
       { "level": 4, "name": "mechanics" },
-      { "level": 2, "name": "melee" }
+      { "level": 1, "name": "melee" }
     ],
     "vehicle": "car_coupe_muscle",
     "items": {
