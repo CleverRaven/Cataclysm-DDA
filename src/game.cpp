@@ -13190,8 +13190,8 @@ void game::climb_down( const tripoint &examp )
 
         if( !can_use_ladder && !has_grapnel ) {
             const char *query;
-            const char *climb_back_up = "";
-            const char *potential_injury = "";
+            std::string climb_back_up;
+            std::string potential_injury;
             if( web_rappel ) {
                 query = _( "Use your webs to descend?" );
             } else {
