@@ -13057,26 +13057,42 @@ int game::slip_down_chance( bool show_messages )
         slip /= std::max(stamina_ratio, .1f);
 
         if ( stamina_ratio > 0.6 ) {
-            if ( show_messages ) add_msg( m_info, _( "You are winded, which makes climbing harder." ) );
+            if ( show_messages ) {
+                add_msg( m_info, _( "You are winded, which makes climbing harder." ) );
+            }
         } else if ( stamina_ratio > 0.4 ) {
-            if ( show_messages ) add_msg( m_info, _( "You are out of breath, which makes climbing much harder." ) );
+            if ( show_messages ) {
+                add_msg( m_info, _( "You are out of breath, which makes climbing much harder." ) );
+            }
         } else if ( stamina_ratio > 0.2 ) {
-            if ( show_messages ) add_msg( m_info, _( "You can't catch your breath, which makes it much more difficult to climb." ) );
+            if ( show_messages ) {
+                add_msg( m_info, _( "You can't catch your breath, which makes it much more difficult to climb." ) );
+            }
         } else {
-            if ( show_messages ) add_msg( m_info, _( "You feel faint and can't keep your balance." ) );
+            if ( show_messages ) {
+                add_msg( m_info, _( "You feel faint and can't keep your balance." ) );
+            }
         }
     }
     add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, final slip chance %d%%",
                    stamina_ratio, slip );
 
     if( weight_ratio >= 1 ) {
-        if ( show_messages ) add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
+        if ( show_messages ) {
+            add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
+        }
     } else if( weight_ratio > .75 ) {
-        if ( show_messages ) add_msg( m_info, _( "You strain to climb with the weight of your possessions." ) );
+        if ( show_messages ) {
+            add_msg( m_info, _( "You strain to climb with the weight of your possessions." ) );
+        }
     } else if( weight_ratio > .5 ) {
-        if ( show_messages ) add_msg( m_info, _( "You feel the weight of your luggage makes it more difficult to climb." ) );
+        if ( show_messages ) {
+            add_msg( m_info, _( "You feel the weight of your luggage makes it more difficult to climb." ) );
+        }
     } else if( weight_ratio > .25 ) {
-        if ( show_messages ) add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
+        if ( show_messages ) {
+            add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
+        }
     }
 
     return slip;
@@ -13133,7 +13149,8 @@ void game::climb_down( const tripoint &examp )
         return;
     }
 
-    bool can_use_ladder = ( height == 1 ) && m.has_flag( "LADDER", where ) || m.has_flag( "GOES_UP", where );
+    bool can_use_ladder = ( m.has_flag( "LADDER", where ) || m.has_flag( "GOES_UP", where ) )
+                          && ( height == 1 );
     bool has_grapnel = you.has_amount( itype_grapnel, 1 );
     bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
     const int climb_cost = you.climbing_cost( where, examp );
@@ -13163,8 +13180,7 @@ void game::climb_down( const tripoint &examp )
                 has_grapnel = false;
                 web_rappel = false;
             }
-        }
-        else if( has_grapnel ) {
+        } else if( has_grapnel ) {
             if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
                 has_grapnel = false;
             } else {
@@ -13187,7 +13203,7 @@ void game::climb_down( const tripoint &examp )
                 if( damage_estimate <= 30 ) {
                     damage_estimate *= fall_mod;
                 } else {
-                    damage_estimate *= std::pow(fall_mod, 30.f / damage_estimate);
+                    damage_estimate *= std::pow( fall_mod, 30.f / damage_estimate );
                 }
 
                 if( damage_estimate >= 100 ) {
@@ -13201,11 +13217,11 @@ void game::climb_down( const tripoint &examp )
                 } else if( damage_estimate >= 5 ) {
                     potential_injury = _( "injury" );
                 } else {
-                    potential_injury = _( "embarassment" ); // Not displayed :)
+                    potential_injury = _( "embarrassment" ); // Not displayed :)
                 }
 
                 // Rough messaging about safety.  "very small risk" may or may not be zero chance.
-                if ( slip_chance <= -4 || damage_estimate < 5 ) {
+                if( slip_chance <= -4 || damage_estimate < 5 ) {
                     query = _( "Climbing down looks perfectly safe. %s %s  Climb down?" );
                 } else if( slip_chance <= 2 ) {
                     query = _( "Climbing down runs a very small risk of %s.  %s  Climb down?" );
