@@ -53,7 +53,7 @@
     "color": "red",
     "broken_color": "blue",
     "durability": 20,
-    "bonus": 240,
+    "bonus": 60,
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "splinter", "count": [ 2, 8 ] },
