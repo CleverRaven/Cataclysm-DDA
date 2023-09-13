@@ -40,7 +40,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 2 },
         "cooldown": 25,
-        "monster_message": "%1$s twitches its base and roots burst from the ground around <npcname>."
+        "monster_message": "%1$s twitches its base and roots burst from the ground around %3$s."
       }
     ],
     "vision_day": 30,
@@ -79,21 +79,28 @@
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_cone", "min_level": 3 },
         "cooldown": 15,
-        "monster_message": "%1$s waves its fronds and pollen cascades over <npcname>."
+        "monster_message": "%1$s waves its fronds and pollen erupts out in a cone!."
       },
       {
         "id": "triffid_seedshaper_heal",
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_heal", "min_level": 4 },
         "cooldown": 30,
-        "monster_message": "%1$s waves its fronds and a glow surrounds <npcname>."
+        "monster_message": "%1$s waves its fronds and a glow surrounds %3$s."
       },
       {
         "id": "triffid_seedshaper_speed",
         "type": "spell",
         "spell_data": { "id": "triffid_pollen_speed", "min_level": 6 },
         "cooldown": 25,
-        "monster_message": "%1$s waves its fronds and <npcname> starts moving faster!"
+        "monster_message": "%1$s waves its fronds and %3$s starts moving faster!"
+      },
+      {
+        "id": "triffid_seedshaper_blind",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_blind", "min_level": 6 },
+        "cooldown": 35,
+        "monster_message": "%1$s waves its fronds and golden pollen cascades down over %3$s!"
       }
     ],
     "bleed_rate": 60,
