@@ -4754,5 +4754,42 @@
     "to_hit": -3,
     "melee_damage": { "bash": 1 },
     "revert_to": "cheese_hard"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type" : "FOOD",
+    "id": "test_100_kcal",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST rock cheese" },
+    "description": "A perfectly divided 100kcal portion of pure food.",
+    "price": 0,
+    "spoils_in": "360 days",
+    "calories": 100,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type" : "FOOD",
+    "id": "test_200_kcal",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST 200kcal recipe inherited" },
+    "description": "Two 100kcal portions of pure food smashed together by a rude survivor.  Not a sandwich.",
+    "price": 0,
+    "spoils_in": "360 days",
+    "//": "The purpose of this item is to make sure it gives 200kcal when crafted from 100+100, and not the set calories",
+    "calories": 185,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "melee_damage": { "bash": 1 }
   }
 ]
