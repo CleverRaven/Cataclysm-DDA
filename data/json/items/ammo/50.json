@@ -72,7 +72,7 @@
     "copy-from": "50_incendiary",
     "type": "AMMO",
     "name": { "str_sp": ".50 BMG tracer, reloaded" },
-    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.  This one has been hand-reloaded  by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo..",
+    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.  This one has been hand-reloaded  by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

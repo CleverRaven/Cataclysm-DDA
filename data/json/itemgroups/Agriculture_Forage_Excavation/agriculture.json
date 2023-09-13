@@ -52,9 +52,9 @@
       [ "bucket", 40 ],
       [ "gloves_rubber", 60 ],
       [ "fertilizer_liquid", 20 ],
-      [ "fertilizer_commercial", 30 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "fungicide", 20 ],
-      [ "insecticide", 30 ],
+      { "group": "insecticide_bag_plastic", "prob": 30 },
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
@@ -85,7 +85,7 @@
   {
     "type": "item_group",
     "id": "fertilizers",
-    "items": [ [ "fertilizer_liquid", 90 ], [ "fertilizer_commercial", 60 ] ]
+    "items": [ [ "fertilizer_liquid", 90 ], { "group": "fertilizer_commercial_bag_canvas_60", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -159,8 +159,8 @@
     "subtype": "distribution",
     "items": [
       [ "fertilizer_liquid", 10 ],
-      [ "fertilizer_commercial", 10 ],
-      [ "insecticide", 10 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 10 },
+      { "group": "insecticide_bag_plastic", "prob": 10 },
       [ "pot_canning", 5 ],
       { "item": "jar_3l_glass_sealed", "prob": 25, "count": [ 2, 10 ] },
       { "item": "wooden_barrel", "prob": 20, "count": [ 2, 4 ] }
@@ -188,15 +188,20 @@
     "ammo": 100,
     "magazine": 100,
     "subtype": "distribution",
-    "entries": [
-      { "item": "wooden_barrel", "prob": 100, "sealed": true },
-      { "item": "juice_pulp", "prob": 100, "charges": [ 7, 77 ], "container-item": "wooden_barrel" }
-    ]
+    "entries": [ { "item": "wooden_barrel", "prob": 100, "sealed": true }, { "prob": 100, "group": "juice_pulp_wooden_barrel_7_77" } ]
   },
   {
     "type": "item_group",
     "id": "sometimes_manure",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_manure", "prob": 1 } ]
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_manure", "prob": 1, "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "juice_pulp_wooden_barrel_7_77",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wooden_barrel",
+    "entries": [ { "item": "juice_pulp", "count": [ 7, 77 ] } ]
   }
 ]

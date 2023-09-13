@@ -398,7 +398,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -407,7 +408,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -416,7 +418,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -425,7 +428,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -463,7 +467,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P2"
+        "name": "P2",
+        "transparent": true
       },
       {
         "holster": true,
@@ -473,7 +478,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P3"
+        "name": "P3",
+        "transparent": true
       },
       {
         "holster": true,
@@ -483,7 +489,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P4"
+        "name": "P4",
+        "transparent": true
       },
       {
         "holster": true,
@@ -493,7 +500,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P5"
+        "name": "P5",
+        "transparent": true
       },
       {
         "holster": true,
@@ -503,7 +511,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P6"
+        "name": "P6",
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -611,7 +620,8 @@
         "max_contains_weight": "1000 g",
         "max_item_length": "15 cm",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "//": "Large holster for an axe or Halligan bar",
@@ -622,7 +632,8 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "80 cm",
         "moves": 200,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "//": "Flexible water pouch for drinks or other liquid.  Integrated straw for fast access.",
@@ -1456,6 +1467,116 @@
     ]
   },
   {
+    "id": "test_waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "long waist apron" },
+    "description": "A long waist apron made of cotton.",
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "vest_leather",
+    "volume": "1750 ml",
+    "weight": "226 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "warmth": 2,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "POCKETS", "BELTED" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 70,
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black long waist apron" },
+        "description": "It's colored black, commonly used by chefs working in the night or who just want to look cool.",
+        "color": "dark_gray",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue long waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red long waist apron" },
+        "description": "It's colored red.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who like pink.",
+        "color": "pink",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral long waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "color": "yellow",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo long waist apron" },
+        "description": "It has a camouflage pattern, perfect for chefs who want to hide in the wild.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull long waist apron" },
+        "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid long waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic long waist apron" },
+        "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "color": "light_red",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "test_umbrella",
     "type": "GENERIC",
     "category": "tools",
@@ -1530,6 +1651,8 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
+    "//": "stackable to keep the test using this item working",
+    "stackable": true,
     "vitamins": [ [ "iron", 9 ] ],
     "fun": 2
   },
@@ -2325,6 +2448,7 @@
     "phase": "liquid",
     "weight": "250 g",
     "volume": "250 ml",
+    "charges": 1,
     "price": 50,
     "symbol": "~",
     "color": "light_blue"
@@ -2538,6 +2662,7 @@
     "price_postapoc": 50,
     "material": [ "milk" ],
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
@@ -2619,6 +2744,7 @@
     "volume": "250 ml",
     "price": 100,
     "price_postapoc": 100,
+    "stackable": true,
     "charges": 10,
     "stack_size": 100,
     "symbol": "*",
@@ -2649,6 +2775,7 @@
     "//": "*May* have been commercially traded.",
     "material": [ "flesh" ],
     "volume": "250 ml",
+    "stackable": true,
     "charges": 2,
     "stack_size": 4,
     "vitamins": [  ],
@@ -2678,6 +2805,7 @@
     "volume": "100 ml",
     "price_postapoc": 500,
     "material": [ "flesh" ],
+    "stackable": true,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
@@ -3182,6 +3310,7 @@
     "volume": "100 ml",
     "price": 500,
     "price_postapoc": 2000,
+    "stackable": true,
     "charges": 20,
     "stack_size": 20,
     "symbol": "!",

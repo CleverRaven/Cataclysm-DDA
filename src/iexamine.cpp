@@ -722,7 +722,7 @@ class atm_menu
                           _( "You need a charged cash card before you can deposit money!" ) );
             }
 
-            if( card_count >= 1 && you.has_item_with_flag( flag_OLD_CURRENCY ) ) {
+            if( card_count >= 1 && you.cache_has_item_with( flag_OLD_CURRENCY ) ) {
                 add_choice( exchange_cash, _( "Exchange Cash for eCash (1%% fee)" ) );
             }
 
@@ -805,9 +805,8 @@ class atm_menu
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
 
-            std::vector<item *> cash_cards_on_hand = you.items_with( []( const item & i ) {
-                return i.typeId() == itype_cash_card;
-            } );
+            std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
+                    &item::is_cash_card );
             if( cash_cards_on_hand.empty() ) {
                 //Just in case we run into an edge case
                 popup( _( "You do not have a cash card to withdraw money!" ) );
@@ -866,9 +865,8 @@ class atm_menu
                     return false;
                 }
             } else {
-                const std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
-                    return i.typeId() == itype_cash_card;
-                } );
+                const std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card",
+                                                       &item::is_cash_card );
                 if( cash_cards.empty() ) {
                     popup( _( "You do not have a cash card." ) );
                     return false;
@@ -915,9 +913,8 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
-            std::vector<item *> cash_cards_on_hand = you.items_with( []( const item & i ) {
-                return i.typeId() == itype_cash_card;
-            } );
+            std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
+                    &item::is_cash_card );
             if( you.activity.id() == ACT_ATM ) {
                 dst = you.activity.targets.front().get_item();
                 you.activity.set_to_null(); // stop for now, if required, it will be created again.
@@ -930,7 +927,7 @@ class atm_menu
                 if( cash_cards_on_hand.empty() ) {
                     return false;
                 }
-                dst = cash_cards_on_hand.front();
+                dst = *cash_cards_on_hand.begin();
             }
 
             for( item *i : cash_cards_on_hand ) {
@@ -1024,6 +1021,8 @@ void iexamine::vending( Character &you, const tripoint &examp )
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
     ctxt.register_navigate_ui_list();
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1048,6 +1047,9 @@ void iexamine::vending( Character &you, const tripoint &examp )
     }
 
     int cur_pos = 0;
+    int item_info_scroll_pos = 0;
+    const int &item_info_scroll_delta = list_lines;
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const int num_items = item_list.size();
         const int page_size = std::min( num_items, list_lines );
@@ -1088,19 +1090,12 @@ void iexamine::vending( Character &you, const tripoint &examp )
         auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
         auto &cur_item  = cur_items.back();
 
-        werase( w_item_info );
-        // | {line}|
-        // 12      3
-        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info( true ) );
-        wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        std::vector<iteminfo> cur_item_info;
+        cur_item->info( true, cur_item_info );
 
-        //+<{name}>+
-        //12      34
-        const std::string name = utf8_truncate( cur_item->display_name(),
-                                                static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, point_east, "<%s>", name );
-        wnoutrefresh( w_item_info );
+        item_info_data data( cur_item->display_name(), "", cur_item_info, {}, item_info_scroll_pos );
+        data.without_getch = true;
+        draw_item_info( w_item_info, data );
     } );
 
     for( ;; ) {
@@ -1114,6 +1109,12 @@ void iexamine::vending( Character &you, const tripoint &examp )
 
         const std::string &action = ctxt.handle_input();
         if( navigate_ui_list( action, cur_pos, 3, num_items, true ) ) {
+            item_info_scroll_pos = 0;
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
+            // clamping to min/max is done in draw_item_info
+            item_info_scroll_pos -= item_info_scroll_delta;
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
+            item_info_scroll_pos += item_info_scroll_delta;
         } else if( action == "CONFIRM" ) {
             const int iprice = cur_item->price( false );
 
@@ -1137,6 +1138,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
                 continue;
             }
 
+            item_info_scroll_pos = 0;
             item_list.erase( std::begin( item_list ) + cur_pos );
             if( item_list.empty() ) {
                 add_msg( _( "With a beep, the empty vending machine shuts down." ) );
@@ -1749,7 +1751,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
 {
     bool has_cracking_tool = you.has_flag( json_flag_SUPER_HEARING );
     // short-circuit to avoid the more expensive iteration over items
-    has_cracking_tool = has_cracking_tool || you.has_item_with_flag( flag_SAFECRACK );
+    has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
 
     if( !has_cracking_tool ) {
         you.moves -= to_moves<int>( 10_seconds );
@@ -1858,7 +1860,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
                                target_name, best_prying.tname() );
-        iuse::crowbar( &you, &best_prying, false, examp );
+        iuse::crowbar( &you, &best_prying, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
     }
@@ -1930,9 +1932,9 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                                target_name, it->tname() );
-        const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
+        const ret_val<void> can_use = iuse_fn->can_call( you, *it, examp );
         if( can_use.success() ) {
-            iuse_fn->call( &you, *it, false, examp );
+            iuse_fn->call( &you, *it, examp );
             return;
         } else {
             you.add_msg_if_player( m_bad, can_use.str() );
@@ -2521,9 +2523,7 @@ void iexamine::dirtmound( Character &you, const tripoint &examp )
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<item *> seed_inv = you.items_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
+    std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", &item::is_seed );
     if( seed_inv.empty() ) {
         add_msg( m_info, _( "You have no seeds to plant." ) );
         return;
@@ -2701,7 +2701,8 @@ ret_val<void> iexamine::can_fertilize( Character &you, const tripoint &tile,
     if( here.i_at( tile ).size() > 1 ) {
         return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
     }
-    if( !you.has_charges( fertilizer, 1 ) ) {
+    if( ( fertilizer->count_by_charges() && !you.has_charges( fertilizer, 1 ) ) ||
+        !you.has_amount( fertilizer, 1 ) ) {
         return ret_val<void>::make_failure(
                    _( "Tried to fertilize with %s, but player doesn't have any." ),
                    fertilizer.c_str() );
@@ -2719,7 +2720,12 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
         return;
     }
 
-    std::list<item> planted = you.use_charges( fertilizer, 1 );
+    std::list<item> planted;
+    if( fertilizer->count_by_charges() ) {
+        planted = you.use_charges( fertilizer, 1 );
+    } else {
+        planted = you.use_amount( fertilizer, 1 );
+    }
 
     // Reduce the amount of time it takes until the next stage of the plant by
     // 20% of a seasons length. (default 2.8 days).
@@ -2757,7 +2763,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
-    std::vector<const item *> f_inv = you.all_items_with_flag( flag_FERTILIZER );
+    std::vector<item *> f_inv = you.cache_get_items_with( flag_FERTILIZER );
     if( f_inv.empty() ) {
         add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
         return itype_id();
@@ -2765,7 +2771,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
 
     std::vector<itype_id> f_types;
     std::vector<std::string> f_names;
-    for( const item *&f : f_inv ) {
+    for( const item * const &f : f_inv ) {
         if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
             f_types.push_back( f->typeId() );
             f_names.push_back( f->tname() );
@@ -3108,7 +3114,6 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 }
 //arc furnace end
 
-
 void iexamine::stook_empty( Character &, const tripoint &examp )
 {
     map &here = get_map();
@@ -3323,7 +3328,7 @@ static void add_firestarter( item *it, std::multimap<int, item *> &firestarters,
     const use_function *usef = it->type->get_use( "firestarter" );
     if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
         const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, false, examp ).success() ) {
+        if( actor->can_use( you, *it, examp ).success() ) {
             firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
         }
     }
@@ -3402,9 +3407,9 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<void> can_use = actor->can_use( you, *it, false, examp );
+                const ret_val<void> can_use = actor->can_use( you, *it, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( &you, *it, false, examp ).value_or( 0 );
+                    const int charges = actor->use( &you, *it, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -3471,7 +3476,6 @@ static void fvat_set_full( const tripoint &pos )
     }
 }
 
-
 void iexamine::fvat_empty( Character &you, const tripoint &examp )
 {
     itype_id brew_type;
@@ -3499,9 +3503,7 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
     if( !brew_present ) {
         add_msg( _( "This keg is empty." ) );
         // TODO: Allow using brews from crafting inventory
-        const auto b_inv = you.items_with( []( const item & it ) {
-            return it.is_brewable();
-        } );
+        const auto b_inv = you.cache_get_items_with( "is_brewable", &item::is_brewable );
         if( b_inv.empty() ) {
             add_msg( m_info, _( "You have no brew to ferment." ) );
             return;
@@ -3643,20 +3645,29 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
         }
 
         if( query_yn( _( "Finish brewing?" ) ) ) {
-            const auto results = brew_i.brewing_results();
+            const std::map<itype_id, int> results = brew_i.brewing_results();
 
             here.i_clear( examp );
-            for( const auto &result : results ) {
+            for( const std::pair<const itype_id, int> &result : results ) {
+                int amount = result.second * brew_i.count();
                 // TODO: Different age based on settings
-                item booze( result, brew_i.birthday(), brew_i.charges );
-                here.add_item( examp, booze );
-                if( booze.made_of_from_type( phase_id::LIQUID ) ) {
-                    add_msg( _( "The %s is now ready for bottling." ), booze.tname() );
+                item booze( result.first, brew_i.birthday() );
+                if( result.first->phase == phase_id::LIQUID ) {
+                    booze.charges = amount;
+                    here.add_item( examp, booze );
+                    add_msg( _( "The %s is now ready for bottling." ), result.first->nname( amount ) );
+                } else {
+                    you.i_add_or_drop( booze, amount );
+                    add_msg( _( "You remove the %s from the vat." ), result.first->nname( amount ) );
                 }
             }
 
             you.moves -= to_moves<int>( 5_seconds );
             you.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
+        }
+
+        if( here.i_at( examp ).empty() ) {
+            fvat_set_empty( examp );
         }
 
         return;
@@ -4563,7 +4574,6 @@ void iexamine::sign( Character &you, const tripoint &examp )
             you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
         }
 
-
         // Allow chance to modify message.
         std::vector<tool_comp> tools;
         std::vector<const item *> filter = you.crafting_inventory().items_with( []( const item & it ) {
@@ -4677,9 +4687,9 @@ static int findBestGasDiscount( Character &you )
 {
     int discount = 0;
 
-    for( const item *it : you.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
-        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
-    }
+    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item & it ) {
+        discount = std::max( discount, getGasDiscountCardQuality( it ) );
+    } );
 
     return discount;
 }
@@ -4976,9 +4986,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
-            return i.typeId() == itype_cash_card;
-        } );
+        std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card", &item::is_cash_card );
         if( cash_cards.empty() ) {
             popup( _( "You do not have a cash card to refund money!" ) );
             return;
@@ -5858,13 +5866,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             const int charges = it.count() * mdata.conversion_rate_;
-            if( charges <= 0 ) {
-                // not enough material, just remove the item
-                // (may happen if the player did not add enough charges to the mill
-                // or if the conversion rate is changed between versions)
-                iter = items.erase( iter );
-            } else {
-                item result( mdata.into_, start_time + milling_time, charges );
+            // if not enough material, just remove the item (0 loops)
+            // (may happen if the player did not add enough charges to the mill
+            // or if the conversion rate is changed between versions)
+            for( int i = 0; i < charges; i++ ) {
+                item result( mdata.into_, start_time + milling_time );
                 result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
                 for( const flag_id &f : it.type->get_flags() ) {
@@ -5877,9 +5883,9 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                 result.set_flag( flag_PROCESSING_RESULT );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( flag_PROCESSING_RESULT );
-                it = result;
-                ++iter;
+                here.add_item( examp, result );
             }
+            iter = items.erase( iter );
         } else {
             ++iter;
         }
@@ -5915,7 +5921,10 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
             } else {
                 it.calc_rot_while_processing( 6_hours );
 
-                item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
+                item result( it.get_comestible()->smoking_result, start_time + 6_hours );
+                if( it.count_by_charges() ) {
+                    result.charges = it.charges;
+                }
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( flag_PROCESSING_RESULT );
@@ -5932,7 +5941,7 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
                     }
                     result.components.add( it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
-                    result.recipe_charges = it.charges;
+                    result.recipe_charges = it.count();
                     result.set_flag_recursive( flag_COOKED );
                 }
 
@@ -5964,21 +5973,24 @@ static void smoker_load_food( Character &you, const tripoint &examp,
     units::volume vol = remaining_capacity;
     for( const drop_location &dloc : locs ) {
         item_location original = dloc.first;
+        original.overflow();
         item copy( *original );
-        copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+        if( copy.count_by_charges() ) {
+            copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+        }
 
         if( vol < copy.volume() ) {
-            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.charges ) );
+            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.count() ) );
             continue;
         }
 
         here.add_item( examp, copy );
         you.mod_moves( -you.item_handling_cost( copy ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.charges,
-                 copy.tname( copy.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.count(),
+                 copy.tname( copy.count() ) );
 
         vol -= copy.volume();
-        if( original->charges == copy.charges ) {
+        if( !copy.count_by_charges() || original->charges == copy.charges ) {
             original.remove_item();
         } else {
             original->charges -= copy.charges;
@@ -6088,8 +6100,8 @@ static void mill_load_food( Character &you, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         you.mod_moves( -you.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.charges,
-                 m.tname( m.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.count(),
+                 m.tname( m.count() ) );
     }
     you.invalidate_crafting_inventory();
 }

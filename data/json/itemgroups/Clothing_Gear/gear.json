@@ -153,8 +153,8 @@
       { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
       { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
       [ "UPS_OFF", 2 ],
-      { "item": "prussian_blue", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "iodine", "prob": 50, "charges": [ 1, 10 ] }
+      { "prob": 25, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 50, "group": "iodine_bottle_plastic_pill_supplement_1_10" }
     ]
   },
   {

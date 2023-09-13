@@ -223,7 +223,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "charges": [ 150, 180 ] } ]
+      "items": [ { "item": "cardboard", "count": [ 150, 180 ] } ]
     }
   },
   {
@@ -249,7 +249,7 @@
       "str_max": 16,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "charges": [ 300, 360 ] } ]
+      "items": [ { "item": "cardboard", "count": [ 300, 360 ] } ]
     }
   },
   {
@@ -1647,7 +1647,7 @@
       "sound": "rip!",
       "sound_fail": "wham!",
       "furn_set": "f_pallet_belted_open",
-      "items": [ { "item": "rope_6", "count": [ 1, 2 ] }, { "item": "plastic_sheet", "charges": [ 1, 2 ] } ]
+      "items": [ { "item": "rope_6", "count": [ 1, 2 ] }, { "item": "plastic_sheet", "count": [ 1, 2 ] } ]
     }
   },
   {

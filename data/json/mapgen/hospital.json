@@ -194,6 +194,7 @@
           { "item": "surgery", "chance": 60 }
         ]
       },
+      "monster": { "B": { "monster": "mon_civilian_icu", "chance": 10 } },
       "place_monster": [
         { "group": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 15, 20 ] },
         { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },

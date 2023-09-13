@@ -21,7 +21,7 @@
 namespace creator
 {
     class nested_group_container;
-    class item_group_window : public QMainWindow
+    class item_group_window : public QWidget
     {
 
     public:

@@ -1,5 +1,65 @@
 [
   {
+    "id": "fd_pyrokinetic_summon_heat_1",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 2 },
+      { "color": "yellow", "convection_temperature_mod": 3 },
+      { "color": "red", "convection_temperature_mod": 6 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_summon_heat_2",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 4 },
+      { "color": "yellow", "convection_temperature_mod": 8 },
+      { "color": "red", "convection_temperature_mod": 16 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_summon_heat_3",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 10 },
+      { "color": "yellow", "convection_temperature_mod": 20 },
+      { "color": "red", "convection_temperature_mod": 40 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_pyrokinetic_summon_heat_4",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 16 },
+      { "color": "yellow", "convection_temperature_mod": 38 },
+      { "color": "red", "convection_temperature_mod": 75 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "40 minutes",
+    "priority": -1,
+    "half_life": "20 minutes",
+    "phase": "gas"
+  },
+  {
     "id": "fd_pyrokinetic_heat",
     "type": "field_type",
     "intensity_levels": [

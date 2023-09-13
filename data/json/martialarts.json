@@ -7,7 +7,8 @@
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
     "leg_block": 99,
-    "allow_all_weapons": true
+    "allow_all_weapons": true,
+    "teachable": false
   },
   {
     "type": "martial_art",
@@ -18,7 +19,8 @@
     "arm_block": 1,
     "leg_block": 99,
     "force_unarmed": true,
-    "prevent_weapon_blocking": true
+    "prevent_weapon_blocking": true,
+    "teachable": false
   },
   {
     "type": "martial_art",
@@ -719,8 +721,8 @@
     "type": "martial_art",
     "id": "style_kickboxing",
     "name": { "str": "Kickboxing" },
-    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.",
-    "initiate": [ "You assume a kickboxing stance and focus power into your limbs.", "%s assumes a kickboxing stance." ],
+    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.  American Kickboxing in particular focuses on high kicks without knee or elbow strikes.",
+    "initiate": [ "You bring your fists up and stay light on your feet.", "%s brings their fists up and stays light on their feet." ],
     "learn_difficulty": 4,
     "arm_block": 2,
     "leg_block": 4,
@@ -735,11 +737,10 @@
     ],
     "techniques": [
       "tec_kickboxing_rapid",
+      "tec_kickboxing_cross",
+      "tec_kickboxing_push",
       "tec_kickboxing_upper",
-      "tec_kickboxing_roundhouse",
-      "tec_kickboxing_sidekick",
-      "tec_kickboxing_straight_knee",
-      "tec_kickboxing_flying_knee"
+      "tec_kickboxing_roundhouse"
     ]
   },
   {

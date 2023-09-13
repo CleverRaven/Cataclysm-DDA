@@ -1,0 +1,261 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Corrie_FirstmeetA",
+      "TALK_GODCO_Corrie_FirstmeetB",
+      "TALK_GODCO_Corrie_FirstmeetC",
+      "TALK_GODCO_Corrie_2",
+      "TALK_GODCO_Corrie_Story",
+      "TALK_GODCO_Corrie_Mission",
+      "TALK_GODCO_Corrie_Mood"
+    ],
+    "responses": [
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Corrie_Story" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Corrie_Mood" },
+      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Corrie_Community" },
+      {
+        "text": "Want to come with me?",
+        "topic": "TALK_GODCO_Corrie_Recruit",
+        "condition": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" }
+      },
+      {
+        "text": "What needs to be done?",
+        "topic": "TALK_GODCO_Corrie_Mission",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" } },
+            {
+              "not": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_1",
+    "dynamic_line": "Hey there, <name_g>.  Welcome to the losers club.",
+    "responses": [
+      {
+        "text": "I'm just passing through.",
+        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Corrie_FirstmeetA"
+      },
+      {
+        "text": "Nice to meet you.",
+        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Corrie_FirstmeetB"
+      },
+      {
+        "text": "Nice to meet you.",
+        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Corrie_FirstmeetC"
+      },
+      {
+        "text": "Hey Corrie, you free?",
+        "condition": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Corrie_2"
+      },
+      {
+        "text": "Hey Corrie.  I gotta go.",
+        "condition": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_FirstmeetA",
+    "dynamic_line": "Well if that's the case, I don't suppose you could help out struggling survivors, do you?",
+    "responses": [ { "text": "Sorry, not interested.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_FirstmeetB",
+    "dynamic_line": "Hey, we're on the same boat, aren't we?",
+    "responses": [
+      { "text": "What needs to be done?", "topic": "TALK_GODCO_Corrie_Mission" },
+      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_FirstmeetC",
+    "dynamic_line": "Just so you know, a lot of the folks here might not take to kindly to your appearance.  I'm cool with it, though.",
+    "responses": [
+      { "text": "Why would that be?", "topic": "TALK_GODCO_Corrie_You_Mutant" },
+      { "text": "Thank you for your politeness and generosity.  I'll be seeing you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_2",
+    "dynamic_line": [ "Sure.  I can clear a few minutes of my oh-so hectic schedule." ],
+    "responses": [ { "text": "Sorry Corrie, I can't stay to chat.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Story",
+    "dynamic_line": "&Corrie blankly stares at the wall for a moment.  \"Me and my friends were in the cities when it hit, I was the only one to make it out.  Some gigantic horror… devoured… everything in its way.  There was a memorial service and all, organized by the church-goers.  By far the nicest thing they've done for me.\"",
+    "responses": [
+      { "text": "Sorry for bringing it up.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sorry for bringing it up.  Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Community",
+    "dynamic_line": "Like second-class citizens, that's how they treat us.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Mood",
+    "dynamic_line": "I'm just here, really.  I'm the local mechanic around here, I just fiddle with the machinery.  Just about all of it is a <swear> <name_b>, older than dirt and nearly unfixable.  They're running a wood-fire generator for power, the <swear> thing is the noisiest clunker I've ever heard.",
+    "responses": [
+      {
+        "text": "How have things changed after that deal with Helena?",
+        "topic": "TALK_GODCO_Corrie_Result_rewardIcon",
+        "condition": {
+          "and": [
+            { "u_has_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "icon" },
+            { "u_has_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "How have things changed after that deal with Helena?",
+        "topic": "TALK_GODCO_Corrie_Result_rewardRation",
+        "condition": {
+          "and": [
+            { "u_has_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "ration" },
+            { "u_has_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "No rest for the weary…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Result_rewardIcon",
+    "dynamic_line": "Not much.  I told you not to go for the icons.",
+    "responses": [
+      {
+        "text": "Sorry to hear that.  What were you saying before?",
+        "effect": [
+          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+        ],
+        "topic": "TALK_NONE"
+      },
+      {
+        "text": "No rest for the weary…",
+        "effect": [
+          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Result_rewardRation",
+    "dynamic_line": "Yeah, yeah they have.  I've noticed a change in attitude towards us, the new guys.  Positive ones.  Things might be looking up, a little bit.",
+    "responses": [
+      {
+        "text": "How about some food as payment?",
+        "topic": "TALK_GODCO_Corrie_Result_rewardIcon1",
+        "effect": [
+          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+        ]
+      },
+      {
+        "text": "Maybe you can teach me something as payment?",
+        "topic": "TALK_TRAIN",
+        "condition": "npc_train_skills",
+        "effect": [
+          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
+          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+        ]
+      },
+      {
+        "text": "Glad to help.  What were you saying before?",
+        "topic": "TALK_NONE",
+        "effect": [ { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" } ]
+      },
+      {
+        "text": "Glad to help.  See you around, Corrie.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" } ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Result_rewardIcon1",
+    "dynamic_line": "Oh, I completely forget.  Here you are.",
+    "speaker_effect": { "effect": [ { "u_spawn_item": "jerky", "count": 5 } ] },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Mission",
+    "dynamic_line": "Basic repairs and upkeep, mostly.  The generator in the basement is on its last legs, so I've been thinking about building a solar array for this place.  Helena's against it, but I want to change her mind.  All I need are a few spare parts.",
+    "responses": [
+      { "text": "I can help you get the items you need.", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_Recruit",
+    "dynamic_line": "Sure, I'll come.  I hate staying here, and you've gone out of your way to help me.  I appreciate that, <name_g>.",
+    "responses": [ { "text": "Let's hit the road.", "topic": "TALK_DONE", "effect": "follow" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_You_Mutant",
+    "dynamic_line": "Nearly everyone here went to a church that was a bit… out there, shall we say.  They hate what they call \"mutants\", how some creatures and people have physically changed inexplicably after everything went to shit.  I'm glad they didn't kill you on the spot, not many people are left out there.",
+    "responses": [
+      { "text": "Well, thank's for telling me.  Let's talk about something else.", "topic": "TALK_GODCO_Corrie_2" },
+      { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
+    ]
+  }
+]

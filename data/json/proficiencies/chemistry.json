@@ -47,6 +47,26 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_mycology",
+    "category": "prof_chem",
+    "name": { "str": "Mycology" },
+    "description": "Knowledge of the esoteric biology of fungi.",
+    "can_learn": true,
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_mycology_advanced",
+    "category": "prof_chem",
+    "name": { "str": "Doctorate of Mycology" },
+    "description": "Extensive and detailed knowledge of the esoteric biology of fungi, to an extremely nerdy degree.",
+    "can_learn": false,
+    "required_proficiencies": [ "prof_mycology" ],
+    "time_to_learn": "18 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_biochemistry",
     "category": "prof_chem",
     "name": { "str": "Biochemistry" },

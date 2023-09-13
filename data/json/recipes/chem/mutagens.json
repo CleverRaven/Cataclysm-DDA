@@ -891,7 +891,7 @@
       [ [ "mutagen", 1 ] ],
       [ [ "batrachian_sample", 1 ] ],
       [ [ "chem_rocket_fuel", 1 ], [ "tool_rocket_candy", 2 ] ],
-      [ [ "egg_frog", 1 ], [ "batrachian_sample", 1 ] ]
+      [ [ "eggs_frog", 1, "LIST" ], [ "batrachian_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
   },

@@ -2,6 +2,38 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "solar_farm_spawn",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "faction_owner": [ { "id": "gods_community", "x": [ 1, 1 ], "y": [ 1, 1 ] } ],
+      "place_vehicles": [ { "vehicle": "makeshift_solar_farm", "x": 1, "y": 1, "chance": 100, "status": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "olwen_radio_adapter",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "." ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_radio_tower" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spawn_planer",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "." ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { ".": "f_planer" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "darryl_coop",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -367,25 +399,29 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "godco_permanent_trader",
+    "nested_mapgen_id": "godco_permanent_trader_predatory",
     "object": {
       "mapgensize": [ 5, 5 ],
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
       "rows": [
         "#####",
         "#CCC#",
-        "#b  +",
+        "#b..+",
         "#CCb#",
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_npcs": [ { "class": "FM_godco_merchant_random", "x": 0, "y": 1 }, { "class": "FM_caravan_guard_B", "x": 2, "y": 3 } ],
+      "place_npcs": [
+        { "class": "FM_caravan_merchant_godco_predatory", "x": 0, "y": 1 },
+        { "class": "FM_caravan_guard_predatory", "x": 2, "y": 3 }
+      ],
       "place_zones": [
         { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": [ 1, 2 ], "y": 3 },
         {
           "type": "LOOT_ITEM_GROUP",
           "filter": "NC_EVAC_SHOPKEEP_misc",
           "faction": "free_merchants",
+          "repeat": [ 2, 3 ],
           "x": [ 1, 3 ],
           "y": 1
         },
@@ -393,6 +429,7 @@
           "type": "LOOT_ITEM_GROUP",
           "filter": "NC_EVAC_SHOPKEEP_misc",
           "faction": "free_merchants",
+          "repeat": [ 2, 3 ],
           "x": [ 1, 3 ],
           "y": 3
         }
@@ -402,8 +439,22 @@
         "C": "t_dirtfloor_thatchroof",
         "b": "t_dirtfloor_thatchroof",
         "#": "t_dirtfloor_thatchroof",
-        "+": "t_dirtfloor_thatchroof"
+        "+": "t_dirtfloor_thatchroof",
+        ".": "t_dirtfloor_thatchroof"
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "godco_permanent_trader_predatory_remove",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "remove_npcs": [
+        { "class": "FM_caravan_merchant_godco_predatory", "x": 0, "y": 1 },
+        { "class": "FM_caravan_guard_predatory", "x": 2, "y": 3 }
+      ],
+      "place_npcs": [ { "class": "FM_godco_merchant_random", "x": 0, "y": 1 }, { "class": "FM_caravan_guard_B", "x": 2, "y": 3 } ]
     }
   }
 ]

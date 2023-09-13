@@ -438,7 +438,7 @@ class liquid_inventory_selector_preset : public inventory_selector_preset
                     return string_format( "%s %s", format_volume( loc.get_item()->max_containable_volume() ),
                                           volume_units_abbr() );
                 }
-                return std::string( "" );
+                return std::string();
             }, _( "Storage (L)" ) );
         }
 
@@ -880,7 +880,7 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
     bool has_fitness_band =  you.is_wearing( itype_fitness_band ) || you.has_bionic( bio_fitnessband );
-    bool has_tracker = has_fitness_band || you.has_item_with_flag( json_flag_CALORIES_INTAKE );
+    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1087,7 +1087,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             }
 
             if( uses.size() == 1 ) {
-                const auto ret = uses.begin()->second.can_call( you, it, false, you.pos() );
+                const auto ret = uses.begin()->second.can_call( you, it, you.pos() );
                 if( !ret.success() ) {
                     return trim_trailing_punctuations( ret.str() );
                 }
@@ -2091,7 +2091,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     ( const std::vector<std::pair<item_location, int>> &locs ) {
         units::volume added_volume = 0_ml;
         for( std::pair<item_location, int> loc : locs ) {
-            added_volume += loc.first->volume() * loc.second / loc.first->charges;
+            added_volume += loc.first->volume() * loc.second / loc.first->count();
         }
         std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
         return inventory_selector::stats{
@@ -2187,9 +2187,12 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
             ui.on_redraw( [&]( const ui_adaptor & ) {
                 if( !confirm_message.empty() ) {
                     draw_border( wnd_message );
-                    mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
-                              + " " + ctxt.describe_key_and_name( "CONFIRM" )
-                              + " " + ctxt.describe_key_and_name( "QUIT" ) );
+                    nc_color col = c_white;
+                    print_colored_text(
+                        wnd_message, point( 3, 1 ), col, col,
+                        confirm_message + " " +
+                        ctxt.describe_key_and_name( "CONFIRM" ) + " " +
+                        ctxt.describe_key_and_name( "QUIT" ) );
                     wnoutrefresh( wnd_message );
                 }
 

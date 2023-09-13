@@ -2,7 +2,7 @@
   {
     "id": "gasfilter_sm",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "gas mask cartridge" },
     "description": "A small-sized, replaceable filter cartridge for an air filtration mask.",
     "weight": "2 g",
@@ -20,7 +20,7 @@
   {
     "id": "gasfilter_med",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "gas mask cartridge" },
     "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
     "weight": "2 g",
@@ -38,7 +38,7 @@
   {
     "id": "rebreather_cartridge_air",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "rebreather scrubber cartridge, air tank", "str_pl": "rebreather scrubber cartridges, air tanks" },
     "price": 8500,
     "price_postapoc": 1000,
@@ -55,7 +55,7 @@
   {
     "id": "rebreather_cartridge_o2",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "rebreather scrubber cartridge, oxygen tank", "str_pl": "rebreather scrubber cartridges, oxygen tanks" },
     "price": 8500,
     "price_postapoc": 1000,
@@ -72,7 +72,7 @@
   {
     "id": "rebreather_cartridge_regen",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "rebreather oxygen regenerator cartridge" },
     "price": 8500,
     "price_postapoc": 1000,

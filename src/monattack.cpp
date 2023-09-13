@@ -472,8 +472,10 @@ bool mattack::eat_food( monster *z )
             if( !z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
                 return true;

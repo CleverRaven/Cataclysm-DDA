@@ -1318,7 +1318,6 @@ bool effect::activated( const time_point &when, const std::string &arg, int val,
         return false;
     }
 
-
     int bot = eff_type->get_mod_value( arg, mod_action::CHANCE_BOT, reduced, intensity );
 
     // Check if tick allows for triggering.
@@ -1565,7 +1564,6 @@ std::vector<limb_score_effect> effect::get_limb_score_data() const
 {
     return eff_type->limb_score_data;
 }
-
 
 bool effect::kill_roll( bool reduced ) const
 {

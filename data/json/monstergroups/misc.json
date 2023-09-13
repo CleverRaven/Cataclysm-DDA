@@ -32,8 +32,13 @@
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fireman", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 5 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 5 },
-      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 1,
+        "cost_multiplier": 5,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
@@ -284,7 +289,8 @@
       { "monster": "mon_goose_golden", "weight": 1 },
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
-      { "monster": "mon_cicada_nymph", "weight": 10 }
+      { "monster": "mon_cicada_nymph", "weight": 10 },
+      { "group": "GROUP_FROGS_NATURAL", "weight": 10 }
     ]
   },
   {
@@ -357,17 +363,17 @@
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_frog", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
       { "monster": "mon_slug_giant", "weight": 75, "starts": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_toad", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
+      { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
+      { "group": "GROUP_TADPOLES_SEWER", "weight": 100 },
+      { "group": "GROUP_FROGS_SEWER", "weight": 100 }
     ]
   },
   {
@@ -488,12 +494,10 @@
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_frog", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_toad", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
     ]
@@ -507,5 +511,62 @@
     "type": "monstergroup",
     "name": "GROUP_JABBERWOCK",
     "monsters": [ { "monster": "mon_jabberwock" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//2": "This group always has a chance of being the result, regardless of mission type.",
+    "monsters": [
+      { "monster": "mon_beaver", "weight": 10 },
+      { "monster": "mon_fox_red", "weight": 10 },
+      { "monster": "mon_fox_gray", "weight": 10 },
+      { "monster": "mon_mink", "weight": 5 },
+      { "monster": "mon_muskrat", "weight": 10 },
+      { "monster": "mon_otter", "weight": 10 },
+      { "monster": "mon_duck", "weight": 10 },
+      { "monster": "mon_cockatrice", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_TRAPPING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_black_rat", "weight": 40 },
+      { "monster": "mon_chipmunk", "weight": 30 },
+      { "monster": "mon_groundhog", "weight": 30 },
+      { "monster": "mon_hare", "weight": 20 },
+      { "monster": "mon_lemming", "weight": 40 },
+      { "monster": "mon_opossum", "weight": 10 },
+      { "monster": "mon_rabbit", "weight": 20 },
+      { "monster": "mon_squirrel", "weight": 20 },
+      { "monster": "mon_weasel", "weight": 20 },
+      { "monster": "mon_chicken", "weight": 10 },
+      { "monster": "mon_grouse", "weight": 10 },
+      { "monster": "mon_pheasant", "weight": 10 },
+      { "monster": "mon_turkey", "weight": 20 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING_LARGE",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_chicken", "weight": 20 },
+      { "monster": "mon_grouse", "weight": 2 },
+      { "monster": "mon_pheasant", "weight": 2 },
+      { "monster": "mon_turkey", "weight": 10 },
+      { "monster": "mon_bear", "weight": 1 },
+      { "monster": "mon_cougar", "weight": 5 },
+      { "monster": "mon_cow", "weight": 1 },
+      { "monster": "mon_coyote", "weight": 15 },
+      { "monster": "mon_deer", "weight": 2 },
+      { "monster": "mon_moose", "weight": 1 },
+      { "monster": "mon_pig", "weight": 1 },
+      { "monster": "mon_wolf", "weight": 10 }
+    ]
   }
 ]

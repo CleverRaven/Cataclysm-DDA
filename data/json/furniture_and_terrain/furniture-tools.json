@@ -867,7 +867,7 @@
         { "item": "material_soil", "count": [ 2, 10 ] },
         { "item": "mutant_bug_hydrogen_sacs", "count": [ 0, 2 ] },
         { "item": "egg_firefly", "count": [ 0, 1 ] },
-        { "item": "mutant_bug_organs", "charges": [ 0, 5 ] }
+        { "item": "mutant_bug_organs", "count": [ 0, 5 ] }
       ]
     }
   },
@@ -1051,7 +1051,7 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "element", "charges": [ 4, 8 ] },
+        { "item": "element", "count": [ 4, 8 ] },
         { "item": "55gal_drum", "count": [ 3, 5 ] },
         { "item": "pipe", "count": [ 2, 5 ] },
         { "item": "thermometer", "count": [ 1, 4 ] },

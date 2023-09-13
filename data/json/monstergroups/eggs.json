@@ -227,11 +227,6 @@
     "monsters": [ { "monster": "mon_snail_larva" } ]
   },
   {
-    "name": "GROUP_EGG_FROG",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tadpole" } ]
-  },
-  {
     "name": "GROUP_EGG_GOOSE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_goose_chick" } ]
@@ -270,11 +265,6 @@
     "name": "GROUP_EGG_GREBE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_grebe_chick" } ]
-  },
-  {
-    "name": "GROUP_EGG_TOAD",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tadpole_brown" } ]
   },
   {
     "name": "GROUP_EGG_WATER_BEETLE",
@@ -495,5 +485,65 @@
     "name": "GROUP_EGG_FALLFISH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_fallfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_LEO_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_leo_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PATTERN_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pattern_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_BULLFROG_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_bullfrog_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_STRANGE_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_strange_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_FOWLER_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fowler_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_FOUL_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_foul_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_FREEDOM_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_freedom_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_ODD_TOAD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_odd_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PEEPER_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_peeper_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_VOCAL_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_vocal_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_GRAY_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gray_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_SHIFT_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_shift_tadpole" } ]
   }
 ]

@@ -1123,8 +1123,14 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
 
 std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
+    return choose_adjacent( get_player_character().pos(), message, allow_vertical );
+}
+
+std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
+        bool allow_vertical )
+{
     const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + get_player_character().pos() : dir;
+    return dir ? *dir + pos : dir;
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
@@ -1141,11 +1147,18 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical, const bool allow_autoselect )
 {
+    return choose_adjacent_highlight( get_avatar().pos(), message, failure_message, allowed,
+                                      allow_vertical, allow_autoselect );
+}
+
+std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical, bool allow_autoselect )
+{
     std::vector<tripoint> valid;
-    avatar &player_character = get_avatar();
     map &here = get_map();
     if( allowed ) {
-        for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+        for( const tripoint &pos : here.points_in_radius( pos, 1 ) ) {
             if( allowed( pos ) ) {
                 valid.emplace_back( pos );
             }
@@ -1170,5 +1183,5 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         g->add_draw_callback( hilite_cb );
     }
 
-    return choose_adjacent( message, allow_vertical );
+    return choose_adjacent( pos, message, allow_vertical );
 }

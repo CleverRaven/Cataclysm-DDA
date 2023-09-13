@@ -44,7 +44,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 2 }
   },
@@ -100,7 +101,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
   },
@@ -150,7 +152,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
   },
@@ -209,7 +212,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 17, "cut": 22, "bullet": 18, "electric": 4 }
   },
@@ -268,7 +272,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6 }
   },

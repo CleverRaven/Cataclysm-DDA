@@ -109,17 +109,9 @@
     "id": "mc_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
     "description": "A pair of customized medium steel chainmail gloves that fully enclose the hands.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_hands",
@@ -141,17 +133,9 @@
     "id": "hc_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
     "description": "A pair of customized high steel chainmail gloves that fully enclose the hands.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_hands",
@@ -173,17 +157,9 @@
     "id": "ch_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
-    "material": [ "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
     "description": "A pair of customized hardened steel chainmail gloves that fully enclose the hands.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_hands",
@@ -208,14 +184,7 @@
     "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
     "description": "A pair of customized tempered steel chainmail gloves that fully enclose the hands.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_hands",
@@ -1445,39 +1414,8 @@
     "id": "mc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "pair of medium steel demi-gauntlets", "str_pl": "pairs of medium steel demi-gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 10,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_demi_gaunt",
@@ -1491,39 +1429,8 @@
     "id": "hc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "pair of high steel demi-gauntlets", "str_pl": "pairs of high steel demi-gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 10,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_demi_gaunt",
@@ -1537,39 +1444,8 @@
     "id": "ch_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel demi-gauntlets", "str_pl": "pairs of hardened steel demi-gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 10,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_demi_gaunt",
@@ -1585,37 +1461,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "name": { "str": "pair of tempered steel demi-gauntlets", "str_pl": "pairs of tempered steel demi-gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 10,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_demi_gaunt",
@@ -1689,40 +1535,8 @@
     "id": "mc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "pair of medium steel mitten gauntlets", "str_pl": "pairs of medium steel mitten gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 20,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_mitten_gaunt",
@@ -1736,40 +1550,8 @@
     "id": "hc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "pair of high steel mitten gauntlets", "str_pl": "pairs of high steel mitten gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 20,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_mitten_gaunt",
@@ -1783,40 +1565,8 @@
     "id": "ch_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
-    "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel mitten gauntlets", "str_pl": "pairs of hardened steel mitten gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 20,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_mitten_gaunt",
@@ -1830,40 +1580,8 @@
     "id": "qt_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel mitten gauntlets", "str_pl": "pairs of tempered steel mitten gauntlets" },
-    "armor": [
-      {
-        "encumbrance": 20,
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "material": [
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      },
-      {
-        "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_mitten_gaunt",

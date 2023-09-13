@@ -361,6 +361,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
     optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
+    optional( jsobj, was_loaded, "give_mut_on_removal", give_mut_on_removal );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
@@ -446,6 +447,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
+                spell_on_activate ||
                 charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
@@ -1138,9 +1140,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = items_with( []( const item & it ) {
-            return it.has_flag( flag_CABLE_SPOOL );
-        } );
+        std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
@@ -1148,7 +1148,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            for( item *cable : cables ) {
+            for( const item *cable : cables ) {
                 if( !cable->link || cable->link->has_no_links() ) {
                     free_cable = true;
                 } else if( cable->link->has_states( link_state::no_link, link_state::bio_cable ) ) {
@@ -2223,6 +2223,13 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
+
+        // give us any muts it's supposed to (silently) if removed
+        for( const trait_id &mid : bio_id->give_mut_on_removal ) {
+            if( !has_trait( mid ) ) {
+                set_mutation( mid );
+            }
+        }
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio_id->itype() ) ) {
@@ -3359,10 +3366,9 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
         return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
-    } );
-    int n = cables.size();
+    } ).size();
     if( n == 0 ) {
         return stored_fuels;
     }
@@ -3392,10 +3398,9 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
         return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
-    } );
-    int n = cables.size();
+    } ).size();
     if( n == 0 ) {
         return solar_sources;
     }
@@ -3419,11 +3424,12 @@ std::vector<item *> Character::get_cable_solar()
     return solar_sources;
 }
 
-std::vector<vehicle *> Character::get_cable_vehicle()
+std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
+    std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
+    []( const item & it ) {
         return it.link && it.link->has_state( link_state::bio_cable ) &&
                ( it.link->has_state( link_state::vehicle_battery ) ||
                  it.link->has_state( link_state::vehicle_port ) );

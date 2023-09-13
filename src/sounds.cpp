@@ -37,6 +37,7 @@
 #include "safemode_ui.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
@@ -479,6 +480,16 @@ void sounds::process_sounds()
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
+            }
+        }
+        // Trigger sound-triggered traps
+        for( const trap *trapType : trap::get_sound_triggered_traps() ) {
+            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
+                const int dist = sound_distance( source, tp );
+                const trap &tr = get_map().tr_at( tp );
+                if( tr.triggered_by_sound( vol, dist ) ) {
+                    tr.trigger( tp );
+                }
             }
         }
     }
@@ -1745,17 +1756,12 @@ void sfx::do_footstep()
             ter_t_railroad_track_d2,
             ter_t_railroad_tie,
             ter_t_railroad_tie_d,
-            ter_t_railroad_tie_d,
             ter_t_railroad_tie_h,
             ter_t_railroad_tie_v,
-            ter_t_railroad_tie_d,
             ter_t_railroad_track_on_tie,
             ter_t_railroad_track_h_on_tie,
             ter_t_railroad_track_v_on_tie,
             ter_t_railroad_track_d_on_tie,
-            ter_t_railroad_tie,
-            ter_t_railroad_tie_h,
-            ter_t_railroad_tie_v,
             ter_t_railroad_tie_d1,
             ter_t_railroad_tie_d2,
         };

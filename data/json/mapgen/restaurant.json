@@ -155,8 +155,8 @@
         { "group": "alcohol_bottled_canned", "x": 8, "y": 18, "chance": 80 },
         { "group": "baked_goods", "x": [ 9, 11 ], "y": 20, "chance": 50, "repeat": [ 2, 3 ] },
         { "group": "groce_bread", "x": [ 9, 11 ], "y": 20, "chance": 50, "repeat": [ 2, 3 ] },
-        { "group": "cannedfood", "x": [ 12, 13 ], "y": 18, "chance": 50, "repeat": [ 2, 3 ] },
-        { "group": "cannedfood", "x": [ 16, 18 ], "y": 18, "chance": 50, "repeat": [ 2, 3 ] }
+        { "group": "cannedfood_commercial", "x": [ 12, 13 ], "y": 18, "chance": 50, "repeat": [ 2, 4 ] },
+        { "group": "cannedfood_commercial", "x": [ 16, 18 ], "y": 18, "chance": 50, "repeat": [ 2, 4 ] }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

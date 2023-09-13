@@ -209,8 +209,7 @@
     "comestible_type": "INVALID",
     "fun": -100,
     "healthy": -20,
-    "volume": "1 L",
-    "stack_size": 10,
+    "volume": "100 ml",
     "weight": "80 g"
   },
   {

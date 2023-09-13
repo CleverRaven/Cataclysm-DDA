@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_SUMMON",
+    "effect": [
+      { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 1, 3 ], "min_radius": 2, "max_radius": 6 }
+    ]
+  }
+]

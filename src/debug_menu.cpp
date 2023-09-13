@@ -33,6 +33,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "calendar_ui.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -136,7 +137,6 @@ static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -1696,6 +1696,43 @@ static void character_edit_opinion_menu( npc *np )
     }
 }
 
+static void character_edit_personality_menu( npc *np )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'h', "%s: %d", _( "aggression" ), np->personality.aggression );
+    smenu.addentry( 1, true, 's', "%s: %d", _( "bravery" ), np->personality.bravery );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "collector" ), np->personality.collector );
+    smenu.addentry( 3, true, 'f', "%s: %d", _( "altruism" ), np->personality.altruism );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Set aggression to?  Currently: %d" ),
+                           np->personality.aggression ) ) {
+                np->personality.aggression = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Set bravery to?  Currently: %d" ), np->personality.bravery ) ) {
+                np->personality.bravery = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Set collector to?  Currently: %d" ),
+                           np->personality.collector ) ) {
+                np->personality.collector = value;
+            }
+            break;
+        case 3:
+            if( query_int( value, _( "Set altruism to?  Currently: %d" ),
+                           np->personality.altruism ) ) {
+                np->personality.altruism = value;
+            }
+            break;
+    }
+}
+
 static void character_edit_desc_menu( Character &you )
 {
     uilist smenu;
@@ -1854,7 +1891,7 @@ static void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
+        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
@@ -1878,6 +1915,7 @@ static void character_edit_menu()
         nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
+    nmenu.addentry( D_BIONICS, true, 'b', "%s", _( "Edit [b]ionics" ) );
     nmenu.addentry( D_STATUS, true,
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
                     "%s", _( "Status window" ) );
@@ -1896,6 +1934,7 @@ static void character_edit_menu()
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
+        nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1922,7 +1961,7 @@ static void character_edit_menu()
                 break;
             }
             you.worn.on_takeoff( you );
-            you.worn.clear();
+            you.clear_worn();
             you.inv->clear();
             you.remove_weapon();
             break;
@@ -1979,6 +2018,9 @@ static void character_edit_menu()
         case D_OPINION:
             character_edit_opinion_menu( np );
             break;
+        case D_PERSONALITY:
+            character_edit_personality_menu( np );
+            break;
         case D_DESC:
             character_edit_desc_menu( you );
             break;
@@ -2034,6 +2076,9 @@ static void character_edit_menu()
             }
             break;
         }
+        case D_BIONICS:
+            wishbionics( &you );
+            break;
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_lifestyle() );
@@ -2520,71 +2565,6 @@ static void debug_menu_spawn_vehicle()
     }
 }
 
-static void debug_menu_change_time()
-{
-    auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
-        string_input_popup pop;
-        const int new_value = pop
-                              .title( msg )
-                              .width( 20 )
-                              .text( std::to_string( initial ) )
-                              .only_digits( true )
-                              .query_int();
-        if( pop.canceled() ) {
-            return;
-        }
-        const time_duration offset = ( new_value - initial ) * factor;
-        // Arbitrary maximal value.
-        const time_point max = calendar::turn_zero + time_duration::from_turns(
-                                   std::numeric_limits<int>::max() / 2 );
-        calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
-    };
-
-    uilist smenu;
-    static const auto years = []( const time_point & p ) {
-        return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
-    };
-    do {
-        const int iSel = smenu.ret;
-        smenu.reset();
-        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-        smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                        _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-        smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-        smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-        smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
-                        to_turns<int>( calendar::turn - calendar::turn_zero ) );
-        smenu.selected = iSel;
-        smenu.query();
-
-        switch( smenu.ret ) {
-            case 0:
-                set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
-                break;
-            case 1:
-                set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
-                          _( "Set season to?  (0 = spring)" ) );
-                break;
-            case 2:
-                set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
-                break;
-            case 3:
-                set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
-                break;
-            case 4:
-                set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
-                break;
-            case 5:
-                set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
-                          string_format( _( "Set turn to?  (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
-                break;
-            default:
-                break;
-        }
-    } while( smenu.ret != UILIST_CANCEL );
-}
-
 static void debug_menu_force_temperature()
 {
     uilist tempmenu;
@@ -2662,7 +2642,6 @@ static npc *select_follower_to_export()
     }
     return followers[charmenu.ret];
 }
-
 
 static cata_path prepare_export_dir_and_find_unused_name( const std::string &character_name )
 {
@@ -3134,7 +3113,7 @@ void debug()
             g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME:
-            debug_menu_change_time();
+            calendar::turn = calendar_ui::select_time_point( calendar::turn );
             break;
         case debug_menu_index::FORCE_TEMP:
             debug_menu_force_temperature();
@@ -3538,7 +3517,6 @@ void debug()
         case debug_menu_index::QUICK_SETUP: {
             std::vector<trait_id> setup_traits;
             setup_traits.emplace_back( trait_DEBUG_BIONICS );
-            setup_traits.emplace_back( trait_DEBUG_BIONIC_POWERGEN );
             setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
             setup_traits.emplace_back( trait_DEBUG_CLOAK );
             setup_traits.emplace_back( trait_DEBUG_HS );

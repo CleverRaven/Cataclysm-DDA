@@ -97,7 +97,7 @@ jobs:
             # ~30MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
-            ccache_key: linux-llvm-10
+            ccache_key: linux-llvm-10-break1
 
           - compiler: clang++
             os: macos-12
@@ -111,7 +111,7 @@ jobs:
             title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
             # cache size ??? to be observed
             ccache_limit: 4G
-            ccache_key: macos-llvm-14-universal
+            ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
             os: ubuntu-latest
@@ -260,7 +260,7 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.os == 'ubuntu-20.04' }}
       run: |
           sudo apt-get remove --purge -y ccache
-          curl -sL https://github.com/ccache/ccache/releases/download/v4.8/ccache-4.8-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.8-linux-x86_64/ccache
+          curl -sL https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.8.3-linux-x86_64/ccache
           ccache --version
     - name: set up a mock GCC toolchain root for Clang (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}

@@ -443,5 +443,24 @@
     "max_field_intensity": 1,
     "field_chance": 1,
     "energy_source": "MANA"
+  },
+  {
+    "id": "classless_watch_spell",
+    "type": "SPELL",
+    "name": "Knowing the Day and the Hour",
+    "description": "Probably the single greatest example of technology rendering magic obsolete, this spell allows you know exactly what time it is.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_classless_watch",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 12,
+    "min_duration": 720000,
+    "max_duration": 8640000,
+    "duration_increment": 720000,
+    "energy_source": "MANA",
+    "base_energy_cost": 150,
+    "base_casting_time": 6000
   }
 ]

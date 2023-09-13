@@ -39,8 +39,7 @@
     "material": [ "black_dragon_hide", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "vitamins": [  ],
-    "volume": "4 L",
-    "stack_size": 1
+    "volume": "4 L"
   },
   {
     "id": "black_dragon_tanning_hide",

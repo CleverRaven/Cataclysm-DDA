@@ -111,6 +111,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "ALWAYS_AIMED",
+    "type": "json_flag",
+    "info": "This gun is <good>always fully aimed</good>."
+  },
+  {
     "id": "AURA",
     "type": "json_flag",
     "//": "This item goes in the outer aura layer, intended for metaphysical effects.",
@@ -184,6 +189,11 @@
     "type": "json_flag",
     "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
     "conflicts": [ "PARTIAL_DEAF" ]
+  },
+  {
+    "id": "OVERHEATS",
+    "type": "json_flag",
+    "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
   },
   {
     "id": "DIAMOND",
@@ -1242,10 +1252,6 @@
     "type": "json_flag"
   },
   {
-    "id": "AUTO_DELETE_CABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
@@ -1894,10 +1900,6 @@
   },
   {
     "id": "DETERGENT",
-    "type": "json_flag"
-  },
-  {
-    "id": "MODE_BURST",
     "type": "json_flag"
   },
   {

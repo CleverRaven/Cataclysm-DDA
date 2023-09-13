@@ -665,22 +665,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "welding_components",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "mechanics",
-    "skills_required": [ "electronics", 4 ],
-    "difficulty": 4,
-    "time": "10 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "electrolysis_kit",
     "category": "CC_ELECTRONIC",

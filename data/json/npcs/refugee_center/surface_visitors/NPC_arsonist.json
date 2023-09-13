@@ -117,7 +117,11 @@
       { "text": "Heard anything about the outside world?", "topic": "TALK_ARSONIST_WORLD" },
       { "text": "Is there any way I can join your group?", "topic": "TALK_ARSONIST_JOIN" },
       { "text": "Do you have any jobs for me?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What's with your ears?", "topic": "TALK_ARSONIST_MUTATION" },
+      {
+        "text": "What's with your ears?",
+        "condition": { "npc_has_visible_trait": "FELINE_EARS" },
+        "topic": "TALK_ARSONIST_MUTATION"
+      },
       {
         "text": "How are you doing these days?",
         "condition": { "u_has_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" },

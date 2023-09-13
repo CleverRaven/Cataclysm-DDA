@@ -944,7 +944,8 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
         current_location = current_location.parent_item();
     }
 
-    int charges = std::min( it.charges_per_weight( max_weight ), it.charges_per_volume( max_volume ) );
+    int charges = std::min( it.charges_per_weight( max_weight, true ),
+                            it.charges_per_volume( max_volume, true ) );
     return charges;
 }
 
@@ -1039,10 +1040,12 @@ void item_location::make_active()
         }
         case type::vehicle: {
             dynamic_cast<impl::item_on_vehicle *>( ptr.get() )->make_active( *this );
+            break;
         }
         case type::invalid:
         case type::character: {
             // NOOP: characters don't cache active items
+            break;
         }
     }
 }

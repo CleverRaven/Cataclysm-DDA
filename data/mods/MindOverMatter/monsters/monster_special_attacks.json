@@ -2,18 +2,15 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
-    "id": "tk_smash",
+    "id": "teleport_touch",
     "move_cost": 80,
-    "cooldown": 10,
-    "damage_max_instance": [ { "damage_type": "bash", "amount": 25, "armor_penetration": 10 } ],
-    "hitsize_min": 12,
-    "range": 6,
-    "throw_strength": 60,
+    "cooldown": 15,
+    "accuracy": 5,
+    "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
     "blockable": false,
-    "effects_require_dmg": false,
-    "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
-    "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
-    "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
-    "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+    "hit_dmg_u": "%1$s touches you and the world warps around you!",
+    "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
+    "miss_msg_u": "%s reaches for you but you avoid their touch!",
+    "miss_msg_npc": "%s reaches for <npcname> but they dodge!"
   }
 ]

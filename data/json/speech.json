@@ -2528,6 +2528,19 @@
   },
   {
     "type": "speech",
+    "speaker": [
+      "mon_dog_samoyed",
+      "mon_dog_mutant_mongrel",
+      "mon_dog_mutant_loper",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon"
+    ],
+    "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
     "sound": "heavy breathing.",
     "volume": 10
@@ -2784,5 +2797,29 @@
     "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "an unrestrained warcry.",
     "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "\"Honey, where are you?\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "\"Honey, you need to hurry!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "\"I am not leaving without you!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "someone calling for their child.",
+    "volume": 25
   }
 ]

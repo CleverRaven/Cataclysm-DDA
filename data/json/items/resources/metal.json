@@ -1021,7 +1021,7 @@
     "category": "spare_parts",
     "description": "A handful of small pieces of aluminum, usable for crafting or repairs.",
     "price": 1000,
-    "price_postapoc": 10,
+    "price_postapoc": 2,
     "material": [ "aluminum" ],
     "volume": "20 ml",
     "weight": "50 g",

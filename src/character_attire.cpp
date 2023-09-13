@@ -529,7 +529,6 @@ item *Character::item_worn_with_id( const itype_id &i )
     return worn.item_worn_with_id( i );
 }
 
-
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
@@ -955,7 +954,6 @@ bool outfit::is_worn_module( const item &thing ) const
     } );
 }
 
-
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
@@ -1168,7 +1166,9 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
 {
     units::mass ret = 0_gram;
     for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
+        if( without.empty() ) {
+            ret += i.weight();
+        } else if( !without.count( &i ) ) {
             for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );
@@ -1481,9 +1481,9 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         return &it == &wit;
     } );
 
+    it.on_takeoff( guy );
     item takeoff_copy( it );
     worn.erase( iter );
-    takeoff_copy.on_takeoff( guy );
     if( res == nullptr ) {
         guy.i_add( takeoff_copy, true, &it, &it, true, !guy.has_weapon() );
     } else {
@@ -1499,11 +1499,6 @@ void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const
             cloth.mitigate_damage( dam );
         }
     }
-}
-
-void outfit::clear()
-{
-    worn.clear();
 }
 
 bool outfit::empty() const
@@ -1745,15 +1740,6 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
         }
     }
     return used;
-}
-
-void outfit::append_radio_items( std::list<item *> &rc_items )
-{
-    for( item &elem : worn ) {
-        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &elem );
-        }
-    }
 }
 
 void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
@@ -2026,8 +2012,9 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
 {
     for( item &clothing : worn ) {
 
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
-            return it.is_gun();
+        std::vector<item *> guns = guy.cache_get_items_with( "is_gun", &item::is_gun,
+        [&guy]( const item & it ) {
+            return !guy.is_wielding( it );
         } );
 
         if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
@@ -2444,6 +2431,7 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
+    guy.invalidate_weight_carried_cache();
     if( ignore_pkt_settings ) {
         // Crawl all pockets regardless of priority
         // Crawl First : wielded item

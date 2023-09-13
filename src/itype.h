@@ -124,7 +124,7 @@ struct islot_comestible {
         itype_id tool = itype_id::NULL_ID();
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
-        int def_charges = 1;
+        int def_charges = 0;
 
         /** effect on character thirst (may be negative) */
         int quench = 0;
@@ -204,7 +204,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<itype_id> results;
+    std::map<itype_id, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -755,7 +755,30 @@ struct islot_gun : common_ranged_data {
 
     int ammo_to_fire = 1;
 
+    /**
+    * The amount by which the item's overheat value is reduced every turn. Used in
+    * overheat-based guns.
+    */
+    double cooling_value = 100.0;
+
+    /**
+    *  Used only in overheat-based guns. No melting LMG barrels yet.
+    */
+    double heat_per_shot = 0.0;
+
+    /**
+    * Used in overheat-based guns.
+    * Heat value at which critical overheat faults might occur.
+    * A value beneath 0.0 means that the gun cannot overheat.
+    */
+    double overheat_threshold = -1.0;
+
     std::map<ammotype, std::set<itype_id>> cached_ammos;
+
+    /**
+     * Used for the skullgun cbm. Hurts the bodypart by that much when fired
+     */
+    std::map<bodypart_str_id, int> hurt_part_when_fired;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -1413,7 +1436,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable_ || ammo || comestible;
+            return stackable_ || ammo || ( comestible && phase != phase_id::SOLID );
         }
 
         int charges_default() const;
@@ -1463,7 +1486,6 @@ struct itype {
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
-void load_charge_migration_blacklist( const JsonObject &jo, std::string_view src );
 void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src );
 
 #endif // CATA_SRC_ITYPE_H

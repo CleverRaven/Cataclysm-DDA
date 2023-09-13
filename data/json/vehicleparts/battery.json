@@ -22,6 +22,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
     },
     "damage_reduction": { "bash": 10 },
+    "flags": [ "BATTERY" ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
@@ -77,7 +78,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] }
     },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for most people.",
-    "flags": [ "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "BATTERY", "NEEDS_BATTERY_MOUNT" ]
   },
   {
     "id": "medium_storage_battery",
@@ -132,6 +133,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": "vehicle_weld_removal" }
     },
     "damage_reduction": { "bash": 10 },
+    "flags": [ "BATTERY" ],
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
@@ -145,7 +147,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] }
     },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for some people.",
-    "flags": [ "NEEDS_BATTERY_MOUNT" ]
+    "flags": [ "BATTERY", "NEEDS_BATTERY_MOUNT" ]
   },
   {
     "id": "car_light_minus_battery_cell",
@@ -161,7 +163,7 @@
     "durability": 10,
     "folded_volume": "10 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_light_battery_cell",
@@ -177,7 +179,7 @@
     "durability": 20,
     "folded_volume": "25ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_light_plus_battery_cell",
@@ -193,7 +195,7 @@
     "durability": 20,
     "folded_volume": "35ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_medium_battery_cell",
@@ -209,7 +211,7 @@
     "durability": 30,
     "folded_volume": "450 ml",
     "breaks_into": [ { "item": "light_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_medium_plus_battery_cell",
@@ -225,7 +227,7 @@
     "durability": 30,
     "folded_volume": "525 ml",
     "breaks_into": [ { "item": "light_plus_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_heavy_battery_cell",
@@ -241,7 +243,7 @@
     "durability": 40,
     "folded_volume": "1225 ml",
     "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_heavy_plus_battery_cell",
@@ -257,6 +259,6 @@
     "durability": 40,
     "folded_volume": "1500 ml",
     "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   }
 ]

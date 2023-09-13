@@ -27,7 +27,7 @@
     "dynamic_line": "Sitting among the glass cushions of the couch is the only thing among all the glass which is soft; the limbless, faceless torso of a worn plush doll.  It is warm to the touch, but it doesn't feel right to pick it up while it's so damaged.",
     "responses": [
       {
-        "text": "Reassmble the doll.",
+        "text": "Reassemble the doll.",
         "condition": {
           "and": [
             { "u_has_item": "imperfect_doll_features" },

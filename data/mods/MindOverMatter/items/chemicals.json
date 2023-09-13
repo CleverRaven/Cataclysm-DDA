@@ -8,6 +8,7 @@
     "material": [ "alien_liquid", "nether_crystal", "water" ],
     "weight": "30 g",
     "volume": "25 ml",
+    "charges": 1,
     "phase": "liquid",
     "price": 10,
     "price_postapoc": 1,

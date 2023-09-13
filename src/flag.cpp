@@ -33,7 +33,6 @@ const flag_id flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 const flag_id flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
 const flag_id flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 const flag_id flag_AURA( "AURA" );
-const flag_id flag_AUTO_DELETE_CABLE( "AUTO_DELETE_CABLE" );
 const flag_id flag_BAROMETER( "BAROMETER" );
 const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );

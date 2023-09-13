@@ -18,7 +18,7 @@
     "color": "black",
     "move_cost": 2,
     "emissions": [ "emit_clairvoyant" ],
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "EMITTER" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   },
   {
     "type": "terrain",

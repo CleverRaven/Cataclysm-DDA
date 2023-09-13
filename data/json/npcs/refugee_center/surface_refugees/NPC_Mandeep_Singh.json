@@ -72,7 +72,13 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Mandeep_2", "TALK_REFUGEE_Mandeep_Background", "TALK_REFUGEE_Mandeep_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Mandeep_2",
+      "TALK_REFUGEE_Mandeep_Background",
+      "TALK_REFUGEE_Mandeep_Situation",
+      "TALK_REFUGEE_Mandeep_Survival3",
+      "TALK_REFUGEE_Mandeep_Background3"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -87,6 +93,7 @@
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_World" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
     ]
   },
@@ -140,8 +147,62 @@
     "id": "TALK_REFUGEE_Mandeep_Background",
     "dynamic_line": "My story?  It is much the same as everyone's, I fear.  Loss and violence.  I have not lost as much as many; by the grace of the Lord I have still got my wife and son.  I could not be more grateful.",
     "responses": [
+      { "text": "Tell me about yourself.  What did you do before?", "topic": "TALK_REFUGEE_Mandeep_Background2" },
+      { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Background2",
+    "dynamic_line": "*he blinks, looking a bit surprised.  \"'Before'.  It sounds so dramatic, doesn't it?  I suppose drama is appropriate.  Well, in India, I was actually a junior university professor, in archaeology.  When I brought my family to the United States, I was to have a job at Emerson.\"  He smiles sadly.  \"Things don't always work out as we hope.  Most lately, I have been driving truck for UPS.\"",
+    "responses": [
+      { "text": "What happened with your professor job?", "topic": "TALK_REFUGEE_Mandeep_Background3" },
+      { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Background3",
+    "dynamic_line": "*shakes his head briefly.  \"I will not bore you with tales of a past that will never again matter.  Suffice to say that the offers I thought I had were not what I believed them to be.  I am fortunate at least that I was able to bring my family.  We made a good life for ourselves, though I often wonder what it would have been had we stayed.\"",
+    "responses": [
+      { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Survival",
+    "dynamic_line": "That is a hard question to ask a man, in these times.\"  He looks you up and down carefully for a moment, shifting a little on his feet.  \"To be honest with you, I made a delivery run here a few months ago to drop off some office supplies.  When I saw the state the world was in, I thought perhaps this would be a safer place to go than many, and so we made our way here.  It was a difficult journey, but I'm sure you've heard many tales of that time, and have your own.  We were nearly gunned down at a road stop, but I knew a back route and managed to slip away.  There was a pickup truck with a travel trailer that tried to take the back route, though, and overturned.  It nearly blocked the road, and the trailer had been full of people.  Many of them were now returned, and were stumbling around.  We made it through, barely, but the car was damaged then.  You get the idea.\"  He sighs, rubbing his beard idly, his expression flat.  \"Somehow, we made it.  What's more, all three of us made it, and again made it through the disaster in the back room here.  We were very lucky.",
+    "responses": [
+      { "text": "Tell me about yourself.  What did you do before?", "topic": "TALK_REFUGEE_Mandeep_Background2" },
+      {
+        "text": "Are you kidding?  That sounds like an amazing story.  What happened after you got past the trailer?",
+        "topic": "TALK_REFUGEE_Mandeep_Survival2"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Survival2",
+    "dynamic_line": "*smiles, very briefly, and nods.  \"Very well.  The blockage had forced us to go through the woods, and our rusty old sedan was not suited to it.  We must have jarred something loose, because we were not far past the trailer when there was a loud bang, and the wheels stopped turning.  The engine spun and the axles rattled, but it was all sound and fury, signifying nothing.  We'd moved far enough from the overturned trailer to buy time, but as we got out of the vehicle, we could hear their moans on the wind, drawing closer.\"  As he dives into the story, Mandeep becomes more animated, his resonant accented voice carrying naturally over the rolling cadence of his words.  \"I am no mechanic, and even if I were, there was no time for repairs.  We took what we owned and carried on on foot.  The center was not far, I knew, and at least Guneet and I had our kirpan, should we be forced to defend ourselves.\"  He touches the handle of the sword at his side, giving you a moment to interrupt if you want.",
+    "responses": [
+      { "text": "(Say nothing)", "topic": "TALK_REFUGEE_Mandeep_Survival3" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Survival3",
+    "dynamic_line": "The roads further on were muddy: soon, we couldn't walk any further.  Our pace was enough to keep us ahead of the dead, but I feared for our safety should we stop.  We went on until we had no choice.  Our feet blistered in shoes not meant for such a journey, and our packs weighed us down; we knew that if we met any more zombies, we couldn't escape nor fight them.  At last, a long-abandoned shack gave us refuge, its roof collapsed and its windows boarded up.\"  He flares his nostrils.  \"I had expected some awful smell, and animal dung, but to be honest, it was still surprisingly dry and dusty inside.  We had a packed lunch, and feasted on cold, leftover samosa that night.\"  With a little wink, he pats his belly.  \"I suppose it was the last time I enjoyed my wife's home cooking, in a way.  It was hard to enjoy it.  Under no circumstances could we risk a fire.  We each took a turn guarding in the dark, and got what sleep we could in the cold of that old ruin.\"  Glancing around at the cramped shelter room, he pauses for a moment.  \"It seems almost like a memory that didn't happen, too outlandish to fit with the rest of my mundane life.  The next day dawned, damp and cold, but without pursuers.  By then I was confident we'd lost the zombies.\"  He gives you a solemn look.  \"That is, truly, the end of this story.  Once the sun was up, we made our way through the forest, onto the road, and from there it was a short walk to this center.",
+    "responses": [
+      { "text": "Tell me about yourself.  What did you do before?", "topic": "TALK_REFUGEE_Mandeep_Background2" },
+      { "text": "Thanks for the story.  I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {

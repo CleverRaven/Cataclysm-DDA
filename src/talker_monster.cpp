@@ -12,7 +12,6 @@
 
 class time_duration;
 
-
 talker_monster::talker_monster( monster *new_me )
 {
     me_mon = new_me;
@@ -180,6 +179,11 @@ void talker_monster::die()
     me_mon->die( nullptr );
 }
 
+void talker_monster::set_all_parts_hp_cur( int set ) const
+{
+    me_mon->set_hp( set );
+}
+
 std::vector<std::string> talker_monster_const::get_topics( bool )
 {
     return me_mon_const->type->chat_topics;
@@ -188,6 +192,11 @@ std::vector<std::string> talker_monster_const::get_topics( bool )
 int talker_monster_const::get_cur_hp( const bodypart_id & ) const
 {
     return me_mon_const->get_hp();
+}
+
+int talker_monster_const::get_hp_max( const bodypart_id & ) const
+{
+    return me_mon_const->get_hp_max();
 }
 
 bool talker_monster_const::will_talk_to_u( const Character &you, bool )

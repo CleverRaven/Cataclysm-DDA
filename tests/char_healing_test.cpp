@@ -203,10 +203,10 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
     SECTION( "Disintegration" ) {
         give_one_trait( dummy, "ROT3" );
 
-        REQUIRE( dummy.mutation_value( "healing_awake" ) == -0.88f );
+        REQUIRE( dummy.mutation_value( "healing_awake" ) == -1.0f );
         REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.75f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -0.88f ) );
+        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -1.0f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ) );
     }
 }

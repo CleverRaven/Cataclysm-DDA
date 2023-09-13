@@ -508,7 +508,6 @@
       },
       "item": { " ": { "item": "material_soil", "chance": 5, "amount": [ 5, 10 ] } },
       "items": { "S": { "item": "archeology_tools", "chance": 90, "repeat": [ 1, 2 ] } },
-      "monster": { " ": { "monster": "mon_feral_human_archaeologist", "chance": 5 } },
       "nested": { "1": { "chunks": [ [ "mine_finale_archaeology", 100 ] ] } }
     }
   },

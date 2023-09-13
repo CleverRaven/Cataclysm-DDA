@@ -34,6 +34,12 @@ const activity_type &string_id<activity_type>::obj() const
     return found->second;
 }
 
+template<>
+bool string_id<activity_type>::is_valid() const
+{
+    return activity_type_all.find( *this ) != activity_type_all.end();
+}
+
 namespace io
 {
 template<>

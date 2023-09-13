@@ -742,7 +742,7 @@
     "id": "bot_yrax_trifacet",
     "type": "TOOL",
     "name": { "str": "inactive trifacet" },
-    "description": "A featureless quartz pyramid that, although obviously artificial, shows no real indication of ever having been an advanced robot.  Although this trifacet could probably be reactivated, it's unlikely to recognize you as an ally.",
+    "description": "A featureless quartz pyramid that, although obviously artificial, shows no real indication of ever having been an advanced robot.  Perhaps you could try reactivating it?",
     "weight": "30 kg",
     "volume": "50 L",
     "price": 64500,
@@ -751,16 +751,7 @@
     "material": [ "steel", "ceramic" ],
     "symbol": ",",
     "color": "cyan",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_yrax_trifacet",
-      "friendly_msg": "Your attempt at reprogramming the trifacet is somehow successful!",
-      "hostile_msg": "The hostile trifacet violently unfolds just clear of your hand!",
-      "difficulty": 12,
-      "moves": 60,
-      "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
-    },
+    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_trifacet_activation" ] },
     "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },

@@ -7,5 +7,68 @@
     "copy-from": "meditation",
     "points": 4,
     "skills": [ { "level": 3, "name": "metaphysics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_biokinetic",
+    "name": "Newly-Awakened Biokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run a mile and climb a mountain and then wake up and do it again.  You'll probably need it.",
+    "points": 3,
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_clairsentient",
+    "name": "Newly-Awakened Clairsentient",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you you just knew they were there.",
+    "points": 3,
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_pyrokinetic",
+    "name": "Newly-Awakened Pyrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie while scavenging in a ruined house to ash.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
+    "points": 5,
+    "traits": [ "PYROKINETIC", "PYROGLOW_WEAK", "PYROGLOW_STRONG" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_telekinetic",
+    "name": "Newly-Awakened Telekinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can lift things with your mind.  Mostly just small things, but during the chaos a group of rioters jumped you and you hurled them off of you just by thinking about it.  This will definitely come in handy.",
+    "points": 4,
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_telepath",
+    "name": "Newly-Awakened Telepath",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  The crazies were bad enough during the riots, but once you were stopped by a police officer whose bloodshot eyes told you that he wasn't going to let you off with a warning.  But you could somehow hear his thoughts, a chaotic jumble of rage and hunger and fear, you just…nudged them a little bit, and he wandered off and left you alone.  It doesn't work the same way with the zombies, but you can't have everything.",
+    "points": 3,
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_teleporter",
+    "name": "Newly-Awakened Teleporter",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then…you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
+    "points": 6,
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "newly_vitakinetic",
+    "name": "Newly-Awakened Vitakinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
+    "points": 3,
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
   }
 ]

@@ -270,6 +270,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_default );
+    optional( jo, was_loaded, "teachable", teachable, true );
     optional( jo, was_loaded, "components", spell_components, spell_components_default );
     optional( jo, was_loaded, "message", message, message_default );
     optional( jo, was_loaded, "sound_description", sound_description, sound_description_default );
@@ -466,6 +467,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
     json.member( "effect_str", effect_str, effect_str_default );
     json.member( "skill", skill, skill_default );
+    json.member( "teachable", teachable, true );
     json.member( "components", spell_components, spell_components_default );
     json.member( "message", message.translated(), message_default.translated() );
     json.member( "sound_description", sound_description.translated(),
@@ -1491,7 +1493,6 @@ int spell::get_temp_level_adjustment() const
     return temp_level_adjustment;
 }
 
-
 void spell::set_temp_level_adjustment( int adjustment )
 {
     temp_level_adjustment = adjustment;
@@ -1626,7 +1627,7 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
     projectile bolt;
     bolt.speed = 10000;
     bolt.impact = get_damage_instance( caster );
-    bolt.proj_effects.emplace( "magic" );
+    bolt.proj_effects.emplace( "MAGIC" );
 
     dealt_projectile_attack atk;
     atk.end_point = target;
@@ -1673,7 +1674,6 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
                 this->casting_time( *caster ),
                 this->damage( source ) );
     }
-
 
     type->effect( *this, source, target );
 }
@@ -1864,7 +1864,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                     trait_cancel += ".";
                 }
             }
-            if( query_yn(
+            if( !guy.is_avatar() || query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
                     sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
                 guy.set_mutation( sp->spell_class );
@@ -1878,9 +1878,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
     if( force || can_learn_spell( guy, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
         get_event_bus().send<event_type::character_learns_spell>( guy.getID(), sp->id );
-        guy.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
+        guy.add_msg_player_or_npc( m_good, _( "You learned %s!" ), _( "<npcname> learned %s!" ), sp->name );
     } else {
-        guy.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+        guy.add_msg_player_or_npc( m_bad, _( "You can't learn this spell." ),
+                                   _( "<npcname> can't learn this spell." ) );
     }
 }
 

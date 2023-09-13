@@ -506,7 +506,10 @@
       "k": { "item": "chem_school", "chance": 80, "repeat": [ 1, 4 ] },
       "l": { "item": "school", "chance": 60 },
       "o": { "item": "book_school", "chance": 100 },
-      "r": [ { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] }, { "item": "cannedfood", "chance": 60, "repeat": [ 1, 3 ] } ],
+      "r": [
+        { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "cannedfood_commercial", "chance": 60, "repeat": [ 1, 3 ] }
+      ],
       "p": { "item": "gym_school", "chance": 70, "repeat": [ 1, 5 ] },
       "R": { "item": "tools_plumbing", "chance": 55, "repeat": [ 1, 2 ] },
       "t": { "item": "dining", "chance": 33, "repeat": [ 1, 2 ] },
@@ -514,7 +517,7 @@
       "F": { "item": "file_room", "chance": 85, "repeat": [ 1, 4 ] },
       "U": [
         { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "cannedfood", "chance": 70, "repeat": [ 1, 3 ] },
+        { "item": "cannedfood_commercial", "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "dining", "chance": 5, "repeat": [ 1, 3 ] }
       ]
     },

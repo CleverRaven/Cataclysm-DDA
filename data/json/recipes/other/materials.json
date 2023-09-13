@@ -115,7 +115,7 @@
     "difficulty": 2,
     "time": "10 m",
     "batch_time_factors": [ 90, 4 ],
-    "autolearn": true,
+    "book_learn": [ [ "alloy_book", 4 ] ],
     "using": [ [ "forging_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -315,7 +315,7 @@
     "skill_used": "tailor",
     "time": "9 m",
     "autolearn": true,
-    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "count": 2 } ],
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
@@ -331,7 +331,7 @@
     "id_suffix": "spinningwheel",
     "time": "27 s",
     "autolearn": true,
-    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "count": 2 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
@@ -347,7 +347,7 @@
     "id_suffix": "electric_spinwheel",
     "time": "27 s",
     "autolearn": true,
-    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "count": 2 } ],
     "tools": [ [ [ "electric_spinwheel", 1 ] ] ],
     "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
@@ -1179,7 +1179,7 @@
     "difficulty": 5,
     "time": "4 h",
     "batch_time_factors": [ 90, 2 ],
-    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
@@ -1194,7 +1194,7 @@
     "difficulty": 5,
     "time": "6 h",
     "batch_time_factors": [ 90, 2 ],
-    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
@@ -1209,7 +1209,7 @@
     "difficulty": 5,
     "time": "7 h",
     "batch_time_factors": [ 90, 2 ],
-    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
@@ -1225,7 +1225,7 @@
     "difficulty": 5,
     "time": "3 h",
     "batch_time_factors": [ 90, 2 ],
-    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
     "components": [

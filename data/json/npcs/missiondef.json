@@ -839,8 +839,8 @@
     },
     "end": {
       "effect": [
-        { "u_sell_item": "duffelbag" },
         { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "u_sell_item": "duffelbag" },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
         { "u_message": "You learn how to craft cattail jelly.", "popup": true },
@@ -979,8 +979,6 @@
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "//": "If you're looking to change the cooldown simply replace the below value with how long the cooldown should be, in seconds.",
-    "//2": "7,776,000 seconds = 90 days",
     "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 90 d')" ] } ]
   },
   {

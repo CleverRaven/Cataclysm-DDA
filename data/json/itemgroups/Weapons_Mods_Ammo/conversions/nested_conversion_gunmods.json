@@ -310,28 +310,28 @@
     "subtype": "collection",
     "id": "nested_ar15_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_ar15kits" }, { "item": "modular_ar15", "charges-min": 0, "charges-max": 0 } ]
+    "entries": [ { "group": "boxed_ar15kits" }, { "item": "modular_ar15" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_mdrx_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_mdrxkits" }, { "item": "mdrx", "charges-min": 0, "charges-max": 0 } ]
+    "entries": [ { "group": "boxed_mdrxkits" }, { "item": "mdrx" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_axmc_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_axmckits" }, { "item": "axmc", "charges-min": 0, "charges-max": 0 } ]
+    "entries": [ { "group": "boxed_axmckits" }, { "item": "axmc" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_cz600_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_cz600kits" }, { "item": "cz600", "charges-min": 0, "charges-max": 0 } ]
+    "entries": [ { "group": "boxed_cz600kits" }, { "item": "cz600" } ]
   },
   {
     "type": "item_group",

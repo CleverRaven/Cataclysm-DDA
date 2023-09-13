@@ -102,6 +102,7 @@
     "id": "clay_urn",
     "type": "TOOL",
     "name": { "str": "clay urn" },
+    "category": "container",
     "description": "A clay container for storing cremated ashes.",
     "weight": "1600 g",
     "volume": "4280 ml",
@@ -371,13 +372,7 @@
         "menu_text": "Turn on",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
     ],
     "pocket_data": [
       {
@@ -407,13 +402,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
     ]
   },
   {
@@ -589,13 +578,7 @@
         "menu_text": "Turn on",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "500 W"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
     ],
     "pocket_data": [
       {
@@ -625,13 +608,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "500 W"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
     ]
   },
   {
@@ -641,6 +618,7 @@
     "description": "An aerosol spray can filled with paint.  Activate it to make graffiti on the floor.",
     "weight": "340 g",
     "volume": "250 ml",
+    "longest_side": "21 cm",
     "price": 500,
     "price_postapoc": 10,
     "material": [ "aluminum" ],
@@ -658,6 +636,7 @@
     "description": "A ten-foot wooden stepladder.  Activate it to set it down.",
     "weight": "20000 g",
     "volume": "50 L",
+    "longest_side": "150 cm",
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -792,6 +771,7 @@
     "description": "A telescoping umbrella which has been collapsed down for easy storage.  May be used to keep dry when extended and wielded.",
     "weight": "411 g",
     "volume": "1500 ml",
+    "longest_side": "25 cm",
     "price": 12000,
     "price_postapoc": 100,
     "to_hit": -2,
@@ -969,6 +949,7 @@
     "looks_like": "stepladder",
     "weight": "15750 g",
     "volume": "50 L",
+    "longest_side": "150 cm",
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,

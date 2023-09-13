@@ -61,6 +61,10 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 5 ) );
     CHECK( testexp.parse( "2+-3" ) ); // equivalent to 2+(-3)
     CHECK( testexp.eval( d ) == Approx( -1 ) );
+    CHECK( testexp.parse( "!1" ) );
+    CHECK( testexp.eval( d ) == Approx( 0 ) );
+    CHECK( testexp.parse( "!(1 == 0)" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
 
     //ternary
     CHECK( testexp.parse( "0?1:2" ) );

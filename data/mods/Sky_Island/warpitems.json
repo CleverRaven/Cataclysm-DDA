@@ -54,7 +54,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Choose your challenge.",
-      "effect_on_conditions": [ "EOC_difficultycheck0" ]
+      "effect_on_conditions": [ "EOC_difficultycheck" ]
     },
     "volume": "250 ml",
     "weight": "10 g",
