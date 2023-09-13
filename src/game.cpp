@@ -13207,40 +13207,40 @@ void game::climb_down( const tripoint &examp )
                 }
 
                 if( damage_estimate >= 100 ) {
-                    potential_injury = _( "instant death" );
+                    potential_injury = _( "<color_pink>instant death</color>" );
                 } else if( damage_estimate >= 60 ) {
-                    potential_injury = _( "life-threatening injury" );
+                    potential_injury = _( "<color_pink>life-threatening injury</color>" );
                 } else if( damage_estimate >= 40 ) {
-                    potential_injury = _( "grievous injury" );
+                    potential_injury = _( "<color_pink>grievous injury</color>" );
                 } else if( damage_estimate >= 20 ) {
-                    potential_injury = _( "serious injury" );
+                    potential_injury = _( "<color_red>severe injury</color>" );
                 } else if( damage_estimate >= 5 ) {
-                    potential_injury = _( "injury" );
+                    potential_injury = _( "<color_red>painful injury</color>" );
                 } else {
                     potential_injury = _( "embarrassment" ); // Not displayed :)
                 }
 
                 // Rough messaging about safety.  "very small risk" may or may not be zero chance.
                 if( slip_chance <= -4 || damage_estimate < 5 ) {
-                    query = _( "Climbing down looks perfectly safe. %s %s  Climb down?" );
+                    query = _( "Climbing down looks <color_light_green>perfectly safe</color>. %s %s  Climb down?" );
                 } else if( slip_chance <= 2 ) {
-                    query = _( "Climbing down runs a very small risk of %s.  %s  Climb down?" );
+                    query = _( "Climbing down runs a <color_light_gray>very small risk</color> of %s.  %s  Climb down?" );
                 } else if( slip_chance <= 6 ) {
-                    query = _( "Climbing down runs a small risk of %s.  %s  Climb down?" );
+                    query = _( "Climbing down runs a <color_yellow>small risk</color> of %s.  %s  Climb down?" );
                 } else if( slip_chance <= 20 ) {
-                    query = _( "Climbing down runs a risk of %s.  %s  Climb down?" );
+                    query = _( "Climbing down runs a <color_red>medium risk</color> of %s.  %s  Climb down?" );
                 } else if( slip_chance <= 60 ) {
-                    query = _( "Climbing down runs a large risk of %s.  %s  Climb down?" );
+                    query = _( "Climbing down runs a <color_pink>large risk</color> of %s.  %s  Climb down?" );
                 } else {
-                    query = _( "Climbing down will probably result in %s.  %s  Climb down?" );
+                    query = _( "Climbing down runs an <color_pink>overwhelming risk</color> of %s.  %s  Climb down?" );
                 }
 
                 if( climb_cost <= 0 ) {
-                    climb_back_up = _( "You probably won't be able to get up." );
+                    climb_back_up = _( "You <color_red>probably won't be able</color> to climb back up." );
                 } else if( climb_cost < 200 ) {
-                    climb_back_up = _( "You should be able to climb back up easily." );
+                    climb_back_up = _( "You <color_light_blue>should be able</color> to climb back up <color_light_blue>easily</color>." );
                 } else {
-                    climb_back_up = _( "You may have problems climbing back up." );
+                    climb_back_up = _( "You <color_yellow>may have problems</color> trying to climb back up." );
                 }
             }
 
