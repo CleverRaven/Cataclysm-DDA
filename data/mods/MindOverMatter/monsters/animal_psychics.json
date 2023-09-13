@@ -33,7 +33,7 @@
         "monster_message": "%1$s stares at <npcname> and <npcname> is lifted up and pulled towards them!"
       }
     ],
-    "armor": { "bash": 10, "electric": 1, "bullet": 40 },
+    "armor": { "bash": 10, "electric": 1, "bullet": 40, "psi_telekinetic_damage": 35 },
     "extend": { "flags": [ "CLIMBS" ] }
   }
 ]
