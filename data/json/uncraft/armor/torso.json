@@ -51,5 +51,47 @@
       [ [ "zipper_long_plastic", 4 ] ],
       [ [ "faux_fur", 4 ] ]
     ]
+  },
+  {
+    "result": "duster_faux_fur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "components": [
+      [ [ "sheet_cotton_patchwork", 5 ] ],
+      [ [ "sheet_faux_fur_patchwork", 5 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "faux_fur", 2 ] ]
+    ]
+  },
+  {
+    "result": "xs_duster_faux_fur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "components": [
+      [ [ "sheet_cotton_patchwork", 4 ] ],
+      [ [ "sheet_faux_fur_patchwork", 4 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "faux_fur", 2 ] ]
+    ]
+  },
+  {
+    "result": "xl_duster_faux_fur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "components": [
+      [ [ "sheet_cotton_patchwork", 6 ] ],
+      [ [ "sheet_faux_fur_patchwork", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "faux_fur", 2 ] ]
+    ]
   }
 ]
