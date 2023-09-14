@@ -1618,6 +1618,7 @@
     "id": "shillelagh_fake",
     "type": "GENERIC",
     "symbol": "/",
+    "looks_like": "shillelagh",
     "color": "brown",
     "name": { "str": "shillelagh" },
     "description": "A fake shillelagh massproduced as a souvenir for tourists.  This knotty stick has not been cured in a chimney like a traditional shillelagh, but instead has had fake black soot painted on.",
