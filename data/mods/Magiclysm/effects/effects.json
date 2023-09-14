@@ -162,6 +162,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_shape_of_dust",
+    "name": [ "Shape of Dust" ],
+    "desc": [ "Clouds of dust around you are hiding you from your enemies." ],
+    "apply_message": "Dust springs up and hides your presence.",
+    "remove_message": "The clouds of dust around you die down",
+    "max_duration": "10 minutes",
+    "enchantments": [ "ench_shape_of_dust" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_acid_res_aura",
+    "name": [ "Acid Resist Aura" ],
+    "desc": [ "You are protected from acid damage." ],
+    "apply_message": "Your body tingles.",
+    "remove_message": "The tingling fades.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_ACID",
+            "multiply": { "math": [ "((u_val('spell_level', 'spell: acid_resistance') * -0.02) - 0.2)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_acid_res_aura_greater",
+    "name": [ "Greater Acid Resist Aura" ],
+    "desc": [ "You are greatly protected from acid damage." ],
+    "apply_message": "Your body tingles.",
+    "remove_message": "The tingling fades.",
+    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_acidburn",
     "name": [ "Acidic burn" ],
     "desc": [ "Burned with acid" ],
