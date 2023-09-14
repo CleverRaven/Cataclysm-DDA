@@ -733,6 +733,14 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "\nput into the item. This allows water, that contains a book, that contains";
     tooltipText += "\na steel frame, that contains a corpse.";
     contentsGroup_frame->setToolTip( tooltipText );
+
+    containerItem_frame = new simple_property_widget( this, QString( "container-item" ), 
+                                            property_type::LINEEDIT, this );
+    containerItem_frame->hide();
+    containerItem_frame->allow_hiding( true );
+    tooltipText = "The container that the item spawns in.";
+    tooltipText += "\nWill override the item's default container.";
+    containerItem_frame->setToolTip( tooltipText );
     
 
     if( !group ) {
@@ -752,9 +760,9 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
                                                     "contents-item", "contents-group" } );
     } else {
         add_property->addItems( QStringList{ "Add property", "count", "charges", "damage",
-                                            "contents-item", "contents-group", "variant" } );
+                                            "contents-item", "contents-group", "container-item", "variant" } );
     }
-    add_property->setMaximumWidth( 60 );
+    add_property->setMaximumWidth( 120 );
     connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
                                     [=](){ add_property_changed(); }) ;
 
@@ -772,6 +780,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     flowLayout->addWidget( damage_frame );
     flowLayout->addWidget( contentsItem_frame );
     flowLayout->addWidget( contentsGroup_frame );
+    flowLayout->addWidget( containerItem_frame );
 
     //Variant only applies to items, not groups
     if ( !group ) {
@@ -834,6 +843,8 @@ void creator::itemGroupEntry::add_property_changed() {
         contentsItem_frame->show();
     } else if ( prop == "contents-group" ){
         contentsGroup_frame->show();
+    } else if ( prop == "container-item" ){
+        containerItem_frame->show();
     } else if ( prop == "variant" ){
         variant_frame->show();
     }
@@ -885,6 +896,9 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     }
     if( !contentsGroup_frame->isHidden() ) {
         contentsGroup_frame->get_json( jo );
+    }
+    if( !containerItem_frame->isHidden() ) {
+        containerItem_frame->get_json( jo );
     }
     if( this->objectName() == "item" ) {
         if( !variant_frame->isHidden() ) {
