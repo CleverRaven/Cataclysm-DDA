@@ -46,5 +46,15 @@
     "time": "35 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_lycra_patchwork", 18 ] ], [ [ "button_plastic", 1 ] ], [ [ "waterproofing_plastic_sheets", 9 ] ] ]
+  },
+  {
+    "result": "dry_bag_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_lycra_patchwork", 9 ] ], [ [ "button_plastic", 1 ] ], [ [ "waterproofing_plastic_sheets", 38 ] ] ]
   }
 ]
