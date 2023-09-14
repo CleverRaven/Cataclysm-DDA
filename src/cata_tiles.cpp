@@ -1855,6 +1855,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
+            const point colrow = player_to_tile( { mem_x, mem_y } );
+            if( is_isometric() && top_any_tile_range.contains( colrow ) ) {
+                continue;
+            }
             const tripoint p( mem_x, mem_y, center.z );
             lit_level lighting = ch.visibility_cache[p.x][p.y];
             // `apply_vision_effects` does not memorize anything so we only need
