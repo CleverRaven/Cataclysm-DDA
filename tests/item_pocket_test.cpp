@@ -296,7 +296,7 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
         }
         THEN( "it cannot contain solid items larger than the opening" ) {
             REQUIRE_FALSE( rock.is_soft() );
-            expect_cannot_contain( pocket_jug, rock, "item too big",
+            expect_cannot_contain( pocket_jug, rock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -404,7 +404,7 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
 
             THEN( "it cannot contain items that are not ammo" ) {
                 item rag( "test_rag" );
-                expect_cannot_contain( pocket_mag, rag, "item is not an ammo",
+                expect_cannot_contain( pocket_mag, rag, "item is not ammunition",
                                        item_pocket::contain_code::ERR_AMMO );
             }
         }
@@ -542,12 +542,12 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
                 REQUIRE( axe.volume() > data_belt.max_contains_volume() );
 
                 THEN( "pocket cannot contain it, because it is too big" ) {
-                    expect_cannot_contain( pocket_belt, axe, "item too big",
+                    expect_cannot_contain( pocket_belt, axe, "item is too big",
                                            item_pocket::contain_code::ERR_TOO_BIG );
                 }
 
                 THEN( "item cannot be inserted into the pocket" ) {
-                    expect_cannot_insert( pocket_belt, axe, "item too big",
+                    expect_cannot_insert( pocket_belt, axe, "item is too big",
                                           item_pocket::contain_code::ERR_TOO_BIG );
                 }
             }
@@ -631,12 +631,12 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
         item_pocket pocket_holster( &data_holster );
 
         THEN( "it cannot contain the item, because it is too big" ) {
-            expect_cannot_contain( pocket_holster, glock, "item too big",
+            expect_cannot_contain( pocket_holster, glock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
 
         THEN( "item cannot be successfully inserted" ) {
-            expect_cannot_insert( pocket_holster, glock, "item too big",
+            expect_cannot_insert( pocket_holster, glock, "item is too big",
                                   item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
