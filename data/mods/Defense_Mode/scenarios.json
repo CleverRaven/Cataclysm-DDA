@@ -24,7 +24,7 @@
       "sugar_house",
       "sloc_bank",
       "sloc_pawn_shop",
-      "sloc_restraunt"
+      "sloc_restaurant"
     ],
     "eoc": [ "scenario_defense_mode" ],
     "forced_traits": [ "HAS_NEMESIS" ],
