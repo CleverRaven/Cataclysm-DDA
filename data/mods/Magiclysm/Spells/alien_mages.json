@@ -14,6 +14,32 @@
     "damage_increment": -1
   },
   {
+    "id": "migo_fleshwarper_blood_poison_spell",
+    "type": "SPELL",
+    "name": "Blood Poison Monster",
+    "description": "Projects a spray of acrid blood and gore all around the monster while also doing damage.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_AOE" ],
+    "effect": "attack",
+    "effect_str": "badpoison",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 1,
+    "max_damage": 10,
+    "damage_type": "biological",
+    "min_aoe": 2,
+    "max_aoe": 6,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 200,
+    "max_duration": 3000,
+    "field_id": "fd_blood",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_intensity_increment": 0.1
+  },
+  {
     "id": "migo_fleshwarper_mutate",
     "type": "SPELL",
     "name": "Fleshwarp Target ",
@@ -24,7 +50,9 @@
     "shape": "blast",
     "effect": "mutate",
     "min_damage": 2500,
-    "max_damage": 7500
+    "max_damage": 7500,
+    "min_range": 1,
+    "max_range": 1
   },
   {
     "id": "migo_nethermancer_summon_nether",
@@ -97,6 +125,27 @@
     "min_aoe": 30,
     "max_aoe": 60,
     "aoe_increment": 2
+  },
+  {
+    "id": "triffid_summon_tanglevine",
+    "type": "SPELL",
+    "name": "Summon Tanglevine",
+    "description": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "RANDOM_AOE", "RANDOM_DURATION", "HOSTILE_SUMMON" ],
+    "effect": "summon",
+    "effect_str": "mon_tanglevine",
+    "shape": "blast",
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 5,
+    "max_range": 15,
+    "range_increment": 0.8,
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "min_duration": 12000,
+    "max_duration": 42000
   },
   {
     "id": "triffid_pollen_cone",

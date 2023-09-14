@@ -11,7 +11,9 @@
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 240,
-    "speed": 120,
+    "speed": 135,
+    "diff": 50,
+    "//": "Speed (and armor values and regeneration) assume additional protective spells",
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "pink",
@@ -22,6 +24,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
+    "regenerates": 2,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
@@ -38,25 +41,25 @@
         "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
       },
       {
-        "id": "migo_fleshwarper_visceral_spell",
+        "id": "migo_fleshwarper_blood_spell",
         "type": "spell",
-        "spell_data": { "id": "biomancer_visceral_projection", "min_level": 5 },
-        "cooldown": 35,
+        "spell_data": { "id": "migo_fleshwarper_blood_poison_spell", "min_level": 5 },
+        "cooldown": 20,
         "monster_message": "%1$s's numerous antennae move rhythmically for a moment."
       },
       {
         "id": "migo_fleshwarper_cure_spell",
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "hit_self": true, "min_level": 15 },
-        "cooldown": 45,
+        "cooldown": 30,
         "monster_message": "%1$s's numerous antennae twitch in all directions for a moment."
       },
       {
         "id": "migo_fleshwarper_mutate_spell",
         "type": "spell",
         "spell_data": { "id": "migo_fleshwarper_mutate", "min_level": 1 },
-        "cooldown": 75,
-        "monster_message": "As %1$s touches %3$s, %3$s's flesh warps and twists!"
+        "cooldown": 50,
+        "monster_message": "As %1$s touches %3$s, the flesh warps and twists!"
       }
     ],
     "flags": [
@@ -73,7 +76,7 @@
       "PRIORITIZE_TARGETS",
       "CORNERED_FIGHTER"
     ],
-    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
+    "armor": { "bash": 15, "cut": 20, "stab": 10, "bullet": 10, "electric": 3, "acid": 40 }
   },
   {
     "id": "mon_mi_go_nethermancer",
@@ -88,6 +91,7 @@
     "weight": "110 kg",
     "hp": 160,
     "speed": 120,
+    "diff": 35,
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "red",
@@ -120,7 +124,7 @@
         "id": "migo_nethermancer_no_escape",
         "type": "spell",
         "spell_data": { "id": "teleport_anchor_monster", "min_level": 4 },
-        "cooldown": 50,
+        "cooldown": 30,
         "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       },
       {
@@ -134,7 +138,7 @@
         "id": "migo_nethermancer_dispel",
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 8 },
-        "cooldown": 40,
+        "cooldown": 30,
         "monster_message": "%1$s numerous antennae point directlty at %3$s."
       }
     ],
@@ -152,6 +156,7 @@
       "PRIORITIZE_TARGETS",
       "CORNERED_FIGHTER"
     ],
-    "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
+    "//": "Armor value assumes some kind of space-warping protective spell to defend against bullets (no way to single out arrows from spears etc or I'd add those too)",
+    "armor": { "bash": 5, "cut": 13, "bullet": 80, "electric": 3 }
   }
 ]

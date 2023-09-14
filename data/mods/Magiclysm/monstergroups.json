@@ -416,5 +416,19 @@
       { "monster": "mon_mi_go_nethermancer", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHERMANCER_SUMMON",
+    "default": "mon_blank",
+    "monsters": [
+      { "monster": "mon_flying_polyp_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter_migo", "weight": 100, "starts": "180 hours" },
+      { "monster": "mon_yugg_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_kreck_migo", "weight": 100, "cost_multiplier": 0 }
+    ]
   }
 ]

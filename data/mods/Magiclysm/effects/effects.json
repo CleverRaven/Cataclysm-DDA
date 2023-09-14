@@ -914,5 +914,14 @@
     "max_duration": "10 s",
     "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "hurt_chance_bot": [ 5 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_anchor",
+    "name": [ "Teleport Anchor" ],
+    "desc": [ "You're not going anywhere." ],
+    "apply_message": "Your body tingles.",
+    "rating": "bad",
+    "flags": [ "DIMENSIONAL_ANCHOR" ]
   }
 ]

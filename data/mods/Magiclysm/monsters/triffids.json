@@ -31,15 +31,15 @@
       {
         "id": "triffid_vineweaver_tanglevine",
         "type": "spell",
-        "spell_data": { "id": "druid_summon_tanglevine", "min_level": 6 },
-        "cooldown": 35,
+        "spell_data": { "id": "triffid_summon_tanglevine", "min_level": 6 },
+        "cooldown": 50,
         "monster_message": "%1$s waves its fronds toward the ground."
       },
       {
         "id": "triffid_vineweaver_druid_veggrasp",
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 2 },
-        "cooldown": 25,
+        "cooldown": 30,
         "monster_message": "%1$s twitches its base and roots burst from the ground around %3$s."
       }
     ],
@@ -65,6 +65,7 @@
     "weight": "81500 g",
     "hp": 120,
     "speed": 70,
+    "diff": 25,
     "material": [ "veggy" ],
     "symbol": "F",
     "color": "light_green",
