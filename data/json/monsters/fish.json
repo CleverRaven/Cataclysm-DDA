@@ -1218,7 +1218,7 @@
     "hp": 110,
     "armor": { "bash": 4, "cut": 3, "pierce": 3, "bullet": 2 },
     "speed": 175,
-    "attack_cost": 150,
+    "attack_cost": 145,
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "white_magenta",
