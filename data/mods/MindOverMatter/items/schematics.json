@@ -55,16 +55,6 @@
     "symbol": "ç",
     "color": "blue"
   },
-  "description": "This is a series of technical design documents for using matrix crystals to shield the wearer from excess Netherum energies with the drawback of also shutting down any psionic ability they have while worn.",
-  "copy-from": "schematics_generic",
-  "skill": "fabrication",
-  "required_level": 3,
-  "max_level": 3,
-  "intelligence": 10,
-  "time": "45 m",
-  "symbol": "ç",
-  "color": "blue"
-},
   {
     "id": "schematics_grenade_inferno",
     "type": "BOOK",
