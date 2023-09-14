@@ -11,20 +11,20 @@
     "points": 0,
     "description": "You do not know who you are, nor do you know why you're here.  All you know is that you must fight and defend yourself from the horde.",
     "allowed_locs": [
-      "bar",
-      "hospital",
+      "sloc_bar",
+      "sloc_hospital",
       "public_works",
       "megastore",
       "mansion",
       "sloc_shelter_a",
-      "gunstore",
+      "sloc_gun_store",
       "survivor_camp",
-      "cabin",
+      "sloc_cabin",
       "cave",
       "sugar_house",
-      "dm_bank",
-      "pawn_shop",
-      "dm_restraunt"
+      "sloc_bank",
+      "sloc_pawn_shop",
+      "sloc_restraunt"
     ],
     "eoc": [ "scenario_defense_mode" ],
     "forced_traits": [ "HAS_NEMESIS" ],
@@ -34,13 +34,13 @@
   },
   {
     "type": "start_location",
-    "id": "bar",
+    "id": "sloc_bar",
     "name": "Bar",
     "terrain": [ "bar" ]
   },
   {
     "type": "start_location",
-    "id": "hospital",
+    "id": "sloc_hospital",
     "name": "Hospital",
     "terrain": [ "dm_hospital_3" ]
   },
@@ -64,7 +64,7 @@
   },
   {
     "type": "start_location",
-    "id": "gunstore",
+    "id": "sloc_gun_store",
     "name": "Gun Store",
     "terrain": [ "s_gunstore_looted" ]
   },
@@ -73,12 +73,6 @@
     "id": "survivor_camp",
     "name": "Survivor Camp",
     "terrain": [ "dm_survivor_forest_camp" ]
-  },
-  {
-    "type": "start_location",
-    "id": "cabin",
-    "name": "Cabin",
-    "terrain": [ "Cabin" ]
   },
   {
     "type": "start_location",
@@ -100,19 +94,19 @@
   },
   {
     "type": "start_location",
-    "id": "pawn_shop",
+    "id": "sloc_pawn_shop",
     "name": "Pawn Shop",
     "terrain": [ "pawn" ]
   },
   {
     "type": "start_location",
-    "id": "dm_restraunt",
-    "name": "Restraunt",
+    "id": "sloc_restaurant",
+    "name": "Restaurant",
     "terrain": [ "s_restaurant" ]
   },
   {
     "type": "start_location",
-    "id": "dm_bank",
+    "id": "sloc_bank",
     "name": "Bank",
     "terrain": [ "bank" ]
   }
