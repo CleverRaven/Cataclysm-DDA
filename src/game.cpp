@@ -10534,6 +10534,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 
+        // Update map and visibility caches
+        m.build_map_cache( u.posz() );
+        m.update_visibility_cache( u.posz() );
+
         // Add trail animation when sprinting
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
             if( u.posy() < oldpos.y ) {
