@@ -32,5 +32,19 @@
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Almousin, gibor, jehosua, evam, zariatnatmik, veni, veni, veni…\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "//~": "The mi-go is reciting an incantation here that should not be translated.",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Y'ai 'nh'ngah h'ee-l'geb f'ai throdog uaaah!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//~": "The mi-go is reciting an incantation here that should not be translated.",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Ogthrod ai'f geb'l-ee'h 'ngah'ng ai'y zhro!\"",
+    "volume": 20
   }
 ]

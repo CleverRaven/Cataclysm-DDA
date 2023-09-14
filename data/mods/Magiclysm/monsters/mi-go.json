@@ -32,13 +32,10 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       {
-        "id": "migo_fleshwarper_rending_spell",
-        "type": "spell",
-        "spell_data": { "id": "rending_flesh_monster", "min_level": 5 },
-        "cooldown": 20,
-        "monster_message": "%1$s's numerous antennae sync for a brief moment."
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ],
+        "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
       },
       {
         "id": "migo_fleshwarper_visceral_spell",
@@ -46,6 +43,13 @@
         "spell_data": { "id": "biomancer_visceral_projection", "min_level": 5 },
         "cooldown": 35,
         "monster_message": "%1$s's numerous antennae move rhythmically for a moment."
+      },
+      {
+        "id": "migo_fleshwarper_cure_spell",
+        "type": "spell",
+        "spell_data": { "id": "monster_heal_spell", "hit_self": true, "min_level": 15 },
+        "cooldown": 45,
+        "monster_message": "%1$s's numerous antennae twitch in all directions for a moment."
       },
       {
         "id": "migo_fleshwarper_mutate_spell",
@@ -76,85 +80,6 @@
     "type": "MONSTER",
     "name": { "str": "mi-go nethermancer" },
     "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.  Its carapace is covered in regular patterns which occasionally shift as you look at them before settling into a new configuration.",
-    "default_faction": "mi-go",
-    "bodytype": "migo",
-    "species": [ "MIGO" ],
-    "looks_like": "mon_mi_go",
-    "volume": "92500 ml",
-    "weight": "110 kg",
-    "hp": 160,
-    "speed": 120,
-    "material": [ "flesh" ],
-    "symbol": "&",
-    "color": "red",
-    "aggression": 20,
-    "morale": 30,
-    "melee_skill": 7,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "dodge": 4,
-    "bleed_rate": 75,
-    "vision_day": 50,
-    "vision_night": 20,
-    "harvest": "zombie_meatslug",
-    "families": [ "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [
-      [ "PARROT", 100 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] },
-      {
-        "id": "migo_nethermancer_grab",
-        "type": "spell",
-        "spell_data": { "id": "sorcerer_hand_monster", "min_level": 2 },
-        "cooldown": 15,
-        "monster_message": "%1$s twitches its antennae at %3$s and %3$s is lifted up and pulled towards them!"
-      },
-      {
-        "id": "migo_nethermancer_no_escape",
-        "type": "spell",
-        "spell_data": { "id": "teleport_anchor_monster", "min_level": 4 },
-        "cooldown": 50,
-        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
-      },
-      {
-        "id": "migo_nethermancer_summon",
-        "type": "spell",
-        "spell_data": { "id": "migo_nethermancer_summon_nether", "min_level": 0 },
-        "cooldown": 40,
-        "monster_message": "%1$s's numerous antennae weave in a complicated pattern."
-      },
-      {
-        "id": "migo_nethermancer_dispel",
-        "type": "spell",
-        "spell_data": { "id": "dispel_magic_monster", "min_level": 8 },
-        "cooldown": 40,
-        "monster_message": "%1$s numerous antennae point directlty at %3$s."
-      }
-    ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
-      "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER"
-    ],
-    "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
-  },
-  {
-    "id": "mon_mi_go_nethermancer",
-    "type": "MONSTER",
-    "name": { "str": "mi-go nethermancer" },
-    "description": "This mi-go has a slender body with snaking carapace along it, decorated in some kind of regular pattern.  The pattern occasionally shifts as you look at it before settling into a new configuration.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "MIGO" ],

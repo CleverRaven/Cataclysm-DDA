@@ -1,5 +1,19 @@
 [
   {
+    "id": "monster_heal_spell",
+    "type": "SPELL",
+    "name": "Heal Self Monster ",
+    "description": "A spell for a monster to heal themselves.  How DARE they!.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "max_level": 50,
+    "min_damage": -1,
+    "max_damage": -50,
+    "damage_increment": -1
+  },
+  {
     "id": "migo_fleshwarper_mutate",
     "type": "SPELL",
     "name": "Fleshwarp Target ",
