@@ -1039,6 +1039,25 @@
     ]
   },
   {
+    "id": "zucchetto",
+    "type": "ARMOR",
+    "name": { "str": "Zucchetto" },
+    "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "red",
+    "warmth": 3,
+    "material_thickness": 0.2,
+    "armor": [
+      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+    ]
+  },
+  {
     "id": "kufi",
     "type": "ARMOR",
     "name": { "str": "kufi cap" },

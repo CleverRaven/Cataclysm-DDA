@@ -211,6 +211,20 @@
     ]
   },
   {
+    "name": "GROUP_FROGS_CLOAK",
+    "//": "Nature frogs with no seasonal limits",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_bullfrog_frog", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_fowler_toad", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_freedom_toad", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_peeper_frog", "weight": 100, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_gray_frog", "weight": 100, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_GOBLIN_STANDARD",
     "monsters": [

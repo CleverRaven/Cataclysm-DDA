@@ -1537,7 +1537,17 @@
     "symbol": "$",
     "color": "red",
     "material": [ "concentrated_mana" ],
-    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "INTEGRATED", "PADDED", "OUTER", "ONLY_ONE", "NO_DROP" ],
+    "flags": [
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "NO_DROP"
+    ],
     "qualities": [ [ "WELD", 2 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 2 },
@@ -1566,5 +1576,54 @@
     "price": 1,
     "qualities": [ [ "COOK", 1 ] ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "hit_you_effect": [ { "id": "bramble_spear_slow", "hit_self": false } ] } ] }
+  },
+  {
+    "id": "druid_thorn_skin_item",
+    "//": " 'Tornskin' but working right.  Values copied from the Bark mutation.",
+    "type": "ARMOR",
+    "name": "Thornskin",
+    "description": "Your skin is bark-like and covered in thorns.",
+    "weight": "6 kg",
+    "volume": "7500 ml",
+    "price": 0,
+    "material": [ "wood" ],
+    "symbol": "x",
+    "color": "brown",
+    "flags": [
+      "PERSONAL",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
+          "values": [
+            { "value": "DEXTERITY", "add": -1 },
+            { "value": "STRENGTH", "add": 1 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
+            { "value": "ARMOR_HEAT", "multiply": 0.6 },
+            { "value": "ITEM_DAMAGE_STAB", "add": 3 }
+          ]
+        }
+      ]
+    },
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 100,
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   }
 ]
