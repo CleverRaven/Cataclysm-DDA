@@ -3156,9 +3156,9 @@
     "result": "makeshift_crowbar",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "15 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 12 ] ] ]
   },
   {
     "result": "makeshift_sling",
@@ -3395,7 +3395,7 @@
   {
     "result": "pipe",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 12 ] ] ]
