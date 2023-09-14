@@ -21,7 +21,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
 {
     clear_map();
     map &m = get_map();
-    tripoint const zone_loc = m.getabs( tripoint{ 5, 5, 0 } );
+    const tripoint zone_loc = m.getabs( tripoint{ 5, 5, 0 } );
     mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_FOOD, your_fac, {},
                        "food" );
     mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_STORAGE, your_fac, {},
