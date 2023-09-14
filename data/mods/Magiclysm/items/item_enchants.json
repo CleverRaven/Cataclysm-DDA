@@ -74,5 +74,21 @@
         }
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_storm_hammer",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "name": { "str": "Storm hammer" },
+    "description": "A magical hammer whose damage increases with the spell.",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_ELEC",
+        "add": {
+          "math": [ "(5 + (1 * u_val('spell_level', 'spell: storm_hammer')) + (1 * u_val('spell_level', 'spell: storm_hammer_plus')))" ]
+        }
+      }
+    ]
   }
 ]

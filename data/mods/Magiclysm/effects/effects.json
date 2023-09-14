@@ -199,6 +199,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_thorns_electric",
+    "name": [ "Aura of Repelling Arc" ],
+    "desc": [ "Anyone who attacks you will be electrified." ],
+    "apply_message": "The air around you sparks with electricity.",
+    "remove_message": "The air around you loses its charge.",
+    "enchantments": [ { "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_acidburn",
     "name": [ "Acidic burn" ],
     "desc": [ "Burned with acid" ],
