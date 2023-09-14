@@ -229,7 +229,11 @@
     "id": "novice_stormshaper",
     "name": "Novice Stormshaper",
     "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded…",
-    "spells": [ { "id": "shocking_lash", "level": 1 }, { "id": "windrun", "level": 1 } ],
+    "spells": [
+      { "id": "shocking_lash", "level": 1 },
+      { "id": "windrun", "level": 1 },
+      { "id": "stormshaper_cloak_of_fog", "level": 1 }
+    ],
     "points": 0,
     "items": {
       "both": {
@@ -536,7 +540,8 @@
       { "id": "create_atomic_light", "level": 4 },
       { "id": "magus_force_jar", "level": 3 },
       { "id": "magus_haste", "level": 2 },
-      { "id": "cats_grace", "level": 1 }
+      { "id": "cats_grace", "level": 1 },
+      { "id": "classless_watch_spell", "level": 1 }
     ],
     "traits": [ "MAGUS" ],
     "items": {
@@ -556,7 +561,8 @@
       { "id": "summon_wolf_druid", "level": 3 },
       { "id": "purify_seed", "level": 3 },
       { "id": "dark_sight", "level": 2 },
-      { "id": "classless_watch_spell", "level": 1 }
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "druid_summon_brambles", "level": 3 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],

@@ -871,8 +871,37 @@
     "name": [ "Know the Day and the Hour" ],
     "desc": [ "You know exactly what time it is." ],
     "apply_message": "",
-    "remove_message": "You perfect sense of time fades away.",
+    "remove_message": "Your perfect sense of time fades away.",
     "max_duration": "24 hours",
     "flags": [ "WATCH" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_cloak_of_fog",
+    "name": [ "Cloak of Fog" ],
+    "desc": [ "The fog shields you from sight." ],
+    "apply_message": "",
+    "remove_message": "The fog begins to dissipate.",
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "enchantments": [ "enchant_stormshaper_cloak_of_fog" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_heart_of_hurricane",
+    "name": [ "Heart of the Hurricane" ],
+    "desc": [ "Barely-controlled winds rage around you." ],
+    "remove_message": "The wind around you dies down.",
+    "rating": "good",
+    "enchantments": [ "enchant_stormshaper_heart_of_hurricane" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_cure_disease_minor",
+    "name": [ "Cure Disease, Minor" ],
+    "desc": [ "Cold and flu begone." ],
+    "remove_message": "You feel much better.",
+    "rating": "good",
+    "removes_effects": [ "common_cold", "flu" ]
   }
 ]

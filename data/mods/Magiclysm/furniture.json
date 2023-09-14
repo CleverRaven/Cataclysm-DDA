@@ -342,7 +342,7 @@
     "color": "red",
     "move_cost_mod": 2,
     "required_str": 12,
-    "light_emitted": 240,
+    "light_emitted": 120,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "everburning_torch_candelabra", "count": 1 } ] },
     "bash": {

@@ -9229,6 +9229,11 @@ void item::set_itype_variant( const std::string &variant )
         return;
     }
 
+    if( variant == "<any>" ) {
+        select_itype_variant();
+        return;
+    }
+
     for( const itype_variant_data &option : type->variants ) {
         if( option.id == variant ) {
             _itype_variant = &option;

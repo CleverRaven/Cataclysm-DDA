@@ -1356,29 +1356,6 @@
   },
   {
     "type": "item_group",
-    "id": "oa_ig_cs_desks",
-    "//": "For cs_car_showroom",
-    "items": [
-      { "group": "ammo_pocket_batteries_full", "prob": 30 },
-      { "item": "radio", "prob": 10, "charges": [ 1, 100 ] },
-      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
-      [ "cotton_patchwork", 30 ],
-      { "item": "paper", "prob": 30, "count": [ 10, 30 ] },
-      [ "foon", 30 ],
-      [ "spork", 30 ],
-      [ "coffee_raw", 20 ],
-      [ "coffee_syrup", 20 ],
-      [ "crude_picklock", 10 ],
-      [ "picklocks", 5 ],
-      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      [ "file", 40 ],
-      [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ],
-      { "group": "writing_utensils", "prob": 20 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "oa_ig_cs_lockers",
     "//": "For cs_car_showroom",
     "items": [
@@ -1404,29 +1381,6 @@
   },
   {
     "type": "item_group",
-    "id": "oa_ig_cd_desks",
-    "//": "for cs_car_dealership",
-    "items": [
-      { "group": "ammo_pocket_batteries_full", "prob": 30 },
-      { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
-      [ "cotton_patchwork", 30 ],
-      { "item": "paper", "prob": 30, "count": [ 10, 30 ] },
-      [ "foon", 30 ],
-      [ "spork", 30 ],
-      [ "coffee_raw", 20 ],
-      [ "coffee_syrup", 20 ],
-      [ "crude_picklock", 10 ],
-      [ "picklocks", 5 ],
-      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      [ "file", 40 ],
-      [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ],
-      { "group": "writing_utensils", "prob": 20 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "oa_ig_cd_lockers",
     "//": "for cs_car_dealership",
     "items": [
@@ -1446,34 +1400,6 @@
       [ "wrench", 10 ],
       [ "socket_wrench_set", 5 ],
       [ "socket_screwdriver_set", 5 ],
-      [ "gloves_work", 10 ],
-      [ "glasses_safety", 10 ],
-      [ "solar_cell", 10 ],
-      [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
-      { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
-      [ "solar_panel", 15 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "oa_ig_cd_crates",
-    "//": "for cs_car_dealership",
-    "items": [
-      { "group": "ammo_any_batteries_full", "prob": 10 },
-      { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      [ "cotton_patchwork", 30 ],
-      [ "jack", 20 ],
-      [ "jack_small", 30 ],
-      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
-      { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
-      [ "jumper_cable", 20 ],
-      [ "jumper_cable_heavy", 10 ],
-      [ "pliers", 10 ],
-      [ "battery_motorbike", 10 ],
-      [ "battery_car", 10 ],
-      [ "stereo", 10 ],
-      [ "wrench", 10 ],
       [ "gloves_work", 10 ],
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
@@ -2146,15 +2072,6 @@
       [ "tailor_portfolio", 5 ],
       [ "recipe_fauxfur", 5 ],
       [ "textbook_tailor", 3 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "gunshop_accessories",
-    "items": [
-      { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] },
-      [ "ear_plugs", 80 ],
-      { "item": "powered_earplugs", "prob": 50, "charges": [ 0, 75 ] }
     ]
   },
   {
