@@ -398,7 +398,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ],
-    "melee_damage": { "bash": 7, "stab": 22 }
+    "melee_damage": { "bash": 7, "stab": 23 }
   },
   {
     "type": "GENERIC",
