@@ -21,6 +21,7 @@
       { "item": "bandages", "prob": 25, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 25 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
+      { "group": "cotton_ball_bag_full", "prob": 20 },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 7, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
       { "item": "morphine", "prob": 3, "count": [ 1, 4 ] },

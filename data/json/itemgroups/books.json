@@ -741,12 +741,6 @@
     "entries": [ { "item": "record_weather", "prob": 100 } ]
   },
   {
-    "id": "isherwood_mission_reward_herbal",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "isherwood_herbal_remedies", "prob": 100 } ]
-  },
-  {
     "id": "tailorbooks",
     "type": "item_group",
     "subtype": "distribution",

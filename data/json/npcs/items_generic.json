@@ -480,6 +480,7 @@
       [ "corded_powerdrill", 2 ],
       [ "cornmeal", 3 ],
       { "group": "cotton_ball_bag_used", "prob": 3 },
+      { "group": "cotton_ball_bag_full", "prob": 1 },
       [ "crack", 3 ],
       [ "crackers", 5 ],
       [ "cranberries", 5 ],
