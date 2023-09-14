@@ -282,6 +282,7 @@
     "spells_learned": [ [ "create_light", 1 ] ]
   },
   {
+    "type": "mutation",
     "id": "ELEMENTAL_MANA1",
     "name": "Born of the Elements",
     "points": 1,
