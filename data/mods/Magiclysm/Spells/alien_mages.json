@@ -1,11 +1,27 @@
 [
   {
+    "id": "migo_fleshwarper_mutate",
+    "type": "SPELL",
+    "name": "Fleshwarp Target ",
+    "description": "A spell for the mi-go fleshwarper to cause a random mutation.",
+    "valid_targets": [ "hostile" ],
+    "//": "Random 25% to 75% chance to cause a mutation",
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "min_damage": 2500,
+    "max_damage": 7500
+  },
+  {
     "id": "migo_nethermancer_summon_nether",
     "type": "SPELL",
     "name": "Summon Nether Being",
     "description": "A spell for the mi-go nethermancer to summon a nether being.  It's a bug if you have this.",
     "valid_targets": [ "ground" ],
     "flags": [ "HOSTILE_SUMMON", "LOUD", "NO_PROJECTILE", "SPAWN_GROUP" ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "GROUP_NETHER_FATIGUE_FIELD",
     "min_damage": 1,
     "max_damage": 1,
     "min_aoe": 3,
@@ -14,10 +30,7 @@
     "max_range": 10,
     "min_duration": 30000,
     "max_duration": 30000,
-    "shape": "blast",
-    "effect": "summon",
-    "effect_str": "GROUP_NETHER_FATIGUE_FIELD",
-    "sound_description": "a roar"
+    "sound_description": "a high-pitched whine"
   },
   {
     "id": "sorcerer_hand_monster",

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Abra-cadabra!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Per Adonai Elohim, Adonai Jehova, Adonai Sabaoth…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Metraton on agla mathon, verbum pythonicum, mysterium salamandrae…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Conventus sylvorum, antra gnomorum, daemonia coeli gad…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "sound": "\"Almousin, gibor, jehosua, evam, zariatnatmik, veni, veni, veni…\"",
+    "volume": 20
+  }
+]
