@@ -124,7 +124,8 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
-        if( ctr.can_contain_directly( *it ).success() ) {
+        ret_val<void> ret = ctr.can_contain_directly( *it );
+        if( ret.success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.put_in( *it, pk_type );
         } else if( ctr.is_corpse() ) {
@@ -133,11 +134,11 @@ static void put_into_container(
         } else {
             switch( on_overflow ) {
                 case Item_spawn_data::overflow_behaviour::none:
-                    debugmsg( "item %s does not fit in container %s when spawning item group %s.  "
+                    debugmsg( "item %s could not be put in container %s when spawning item group %s: %s.  "
                               "This can be resolved either by changing the container or contents "
                               "to ensure that they fit, or by specifying an overflow behaviour via "
                               "\"on_overflow\" on the item group.",
-                              it->typeId().str(), container_type->str(), context );
+                              it->typeId().str(), container_type->str(), context, ret.str() );
                     break;
                 case Item_spawn_data::overflow_behaviour::spill:
                     excess.push_back( *it );
