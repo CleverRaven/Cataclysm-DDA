@@ -1426,7 +1426,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "8 h 30 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [

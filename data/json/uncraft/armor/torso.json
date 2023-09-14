@@ -158,6 +158,15 @@
     "components": [ [ [ "sheet_faux_fur_patchwork", 10 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
+    "result": "sleeveless_duster_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_faux_fur_patchwork", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
     "result": "under_armor",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
