@@ -901,30 +901,10 @@
     "effect": {
       "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" },
       "cases": [
-        {
-          "case": 0, "//": "Pale reflection",
-          "effect": [
-            { "run_eocs": "EOC_pale_reflection_drain" }
-          ] 
-        },
-        {
-          "case": 10, "//": "Twisted reflection",
-          "effect": [
-            { "run_eocs": "EOC_twisted_reflection_drain" }
-          ]
-        },
-        {
-          "case": 30, "//": "Dark reflection",
-          "effect": [
-            { "run_eocs": "EOC_dark_reflection_drain" }
-          ] 
-        },
-        {
-          "case": 50, "//": "Better half",
-          "effect": [
-            { "run_eocs": "EOC_better_half_drain" }
-          ]
-        }
+        { "case": 0, "//": "Pale reflection", "effect": [ { "run_eocs": "EOC_pale_reflection_drain" } ] },
+        { "case": 10, "//": "Twisted reflection", "effect": [ { "run_eocs": "EOC_twisted_reflection_drain" } ] },
+        { "case": 30, "//": "Dark reflection", "effect": [ { "run_eocs": "EOC_dark_reflection_drain" } ] },
+        { "case": 50, "//": "Better half", "effect": [ { "run_eocs": "EOC_better_half_drain" } ] }
       ]
     }
   },
@@ -958,7 +938,7 @@
         "duration": { "math": [ "portal_dungeon_reflect_strength" ] }
       }
     ]
-  },  
+  },
   {
     "type": "ter_furn_transform",
     "id": "clear_portal_walls",

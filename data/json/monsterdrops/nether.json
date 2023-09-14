@@ -19,18 +19,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "twisted_reflection_drops",
-    "entries": [
-      { "item": "blood_imitation", "count": [ 1, 1 ] }
-    ]
+    "entries": [ { "item": "blood_imitation", "count": [ 1, 1 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "dark_reflection_drops",
-    "entries": [
-      { "item": "blood_imitation", "count": [ 1, 1 ] },
-      { "item": "innards_imitation", "count": [ 1, 1 ] }
-    ]
+    "entries": [ { "item": "blood_imitation", "count": [ 1, 1 ] }, { "item": "innards_imitation", "count": [ 1, 1 ] } ]
   },
   {
     "type": "item_group",

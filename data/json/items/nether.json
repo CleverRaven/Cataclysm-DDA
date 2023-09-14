@@ -56,16 +56,16 @@
     "symbol": "-",
     "color": "red",
     "flags": [ "SPAWN_ACTIVE" ],
-    "material": [ "hblood" ], 
+    "material": [ "hblood" ],
     "looks_like": "blood",
     "vitamins": [  ],
     "countdown_interval": "10 seconds",
     "countdown_action": {
-      "type": "sound", 
-      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",          
+      "type": "sound",
+      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",
       "sound_message": "the strange blood sizzling and suddenly vanishing with a pop, as if it was never there.",
-      "sound_id": "misc",      
-      "sound_volume": 2         
+      "sound_id": "misc",
+      "sound_volume": 2
     }
   },
   {
@@ -81,14 +81,14 @@
     "color": "red",
     "comestible_type": "INVALID",
     "flags": [ "SPAWN_ACTIVE" ],
-    "material": [ "hflesh" ], 
+    "material": [ "hflesh" ],
     "countdown_interval": "15 minutes",
     "countdown_action": {
       "type": "sound",
-      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player." ,     
-      "sound_message": "the mysterious lump of flesh convulsing rapidly and then dissapearing with a loud snap, leaving no trace.", 
-      "sound_id": "misc",      
-      "sound_volume": 2         
+      "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",
+      "sound_message": "the mysterious lump of flesh convulsing rapidly and then dissapearing with a loud snap, leaving no trace.",
+      "sound_id": "misc",
+      "sound_volume": 2
     }
   },
   {
@@ -104,14 +104,14 @@
     "color": "red",
     "looks_like": "corpse_generic_human",
     "flags": [ "SPAWN_ACTIVE" ],
-    "material": [ "hflesh" ], 
+    "material": [ "hflesh" ],
     "countdown_interval": "1 hour",
     "countdown_action": {
       "type": "sound",
       "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",
-      "sound_message": "the mysterious corpse fracturing and folding in impossible ways before dissapearing into nothingness with a reverberating crack.", 
-      "sound_id": "misc",      
-      "sound_volume": 2         
+      "sound_message": "the mysterious corpse fracturing and folding in impossible ways before dissapearing into nothingness with a reverberating crack.",
+      "sound_id": "misc",
+      "sound_volume": 2
     }
   }
 ]
