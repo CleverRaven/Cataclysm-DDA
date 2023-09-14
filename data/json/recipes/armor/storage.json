@@ -159,7 +159,6 @@
     "difficulty": 5,
     "time": "6 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 3 ] ],
     "using": [
       [ "sewing_standard", 100 ],
