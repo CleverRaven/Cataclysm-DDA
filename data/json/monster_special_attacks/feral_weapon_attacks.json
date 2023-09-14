@@ -142,5 +142,37 @@
     "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_rapier",
+    "cooldown": 1,
+    "move_cost": 107,
+    "accuracy": 6,
+    "//": "Feral melee skill + weapon's to hit, so 4+2=6",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "pierce", "amount": 29 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a rapier!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a rapier!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_crossbow_melee",
+    "cooldown": 1,
+    "move_cost": 165,
+    "accuracy": 1,
+    "//": "Feral melee skill + weapon's to hit, so 2-1=1",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 13 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a crossbow!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a crossbow!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]
