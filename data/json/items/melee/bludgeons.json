@@ -1597,6 +1597,7 @@
     "id": "shillelagh_weighted",
     "type": "GENERIC",
     "symbol": "/",
+    "looks_like": "shillelagh",
     "color": "brown",
     "name": { "str": "loaded stick" },
     "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.  The knob has been hollowed and filled with molten heavy metal to pack more of a punch.",
