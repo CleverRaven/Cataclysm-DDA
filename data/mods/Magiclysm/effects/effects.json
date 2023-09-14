@@ -149,6 +149,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_obfuscating_aura",
+    "name": [ "Obfuscating Aura" ],
+    "desc": [ "Light is distorting around you and making it easier for you to avoid attacks." ],
+    "apply_message": "The edges of your vision ripple slightly.",
+    "remove_message": "The aura of light distortion around you vanishes.",
+    "enchantments": [
+      {
+        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_val('spell_level', 'spell: obfuscated_body') / 7) + 1)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_acidburn",
     "name": [ "Acidic burn" ],
     "desc": [ "Burned with acid" ],
