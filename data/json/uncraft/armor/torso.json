@@ -6,5 +6,50 @@
     "time": "5 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "thread", 10 ] ] ]
+  },
+  {
+    "result": "coat_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "15 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_cotton_patchwork", 5 ] ],
+      [ [ "sheet_faux_fur_patchwork", 5 ] ],
+      [ [ "zipper_long_plastic", 3 ] ],
+      [ [ "faux_fur", 3 ] ]
+    ]
+  },
+  {
+    "result": "xs_coat_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "14 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_cotton_patchwork", 4 ] ],
+      [ [ "sheet_faux_fur_patchwork", 4 ] ],
+      [ [ "zipper_long_plastic", 2 ] ],
+      [ [ "faux_fur", 2 ] ]
+    ]
+  },
+  {
+    "result": "xl_coat_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "20 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_cotton_patchwork", 5 ] ],
+      [ [ "sheet_faux_fur_patchwork", 5 ] ],
+      [ [ "zipper_long_plastic", 4 ] ],
+      [ [ "faux_fur", 4 ] ]
+    ]
   }
 ]
