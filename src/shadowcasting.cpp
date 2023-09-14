@@ -433,8 +433,7 @@ void cast_vertical_zlight_segment(
                     // that tile is actually invisible to us.
                     bool floor_block = false;
                     if( current.z < offset.z ) {
-                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ||
-                            get_map().ledge_coverage( get_player_character(), current ) > 100 ) {
+                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
