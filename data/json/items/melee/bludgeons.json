@@ -1249,7 +1249,7 @@
     "price": 7500,
     "price_postapoc": 400,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 24 }
+    "melee_damage": { "bash": 20 }
   },
   {
     "type": "GENERIC",
@@ -1269,7 +1269,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 7500,
     "price_postapoc": 400,
-    "melee_damage": { "bash": 35 }
+    "melee_damage": { "bash": 28 }
   },
   {
     "type": "GENERIC",
@@ -1289,7 +1289,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 7500,
     "price_postapoc": 400,
-    "melee_damage": { "bash": 30 }
+    "melee_damage": { "bash": 21 }
   },
   {
     "type": "GENERIC",

@@ -17,7 +17,7 @@
     "volume": "370 ml",
     "price": "38 USD",
     "price_postapoc": 10,
-    "melee_damage": { "bash": 12 },
+    "melee_damage": { "bash": 10 },
     "//": "Based on https://en.stainlesseurope.com/en_US/p/Stainless-steel-acid-resistant-seamless-tube-DN20-OD-28-mm-x-1%2C5-mm-1.4571-316Ti-60cm/13983"
   },
   {
