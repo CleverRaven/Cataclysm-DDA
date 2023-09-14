@@ -6276,6 +6276,10 @@ void game::peek( const tripoint &p )
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
 
+    // Update map and visibility caches
+    m.build_map_cache( p.z );
+    m.update_visibility_cache( p.z );
+
     look_around_result result;
     const look_around_params looka_params = { true, center, center, false, false, true };
     if( is_standup_peek ) {   // Non moving peek from crouch is a standup peek
