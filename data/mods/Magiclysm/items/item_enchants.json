@@ -107,7 +107,7 @@
       },
       { "value": "PERCEPTION", "add": { "math": [ "(-3 + (u_val('spell_level', 'spell: druid_feralform') / 7 ))" ] } }
     ],
-    "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE", "CANINE_EARS", "NIGHTVISION2", "PERSISTENCE_HUNTER" ]
+    "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE", "CANINE_EARS", "PERSISTENCE_HUNTER", "SNARL", "CARNIVORE", "SMELLY2", "DEFORMED2" ]
   },
   {
     "type": "enchantment",
@@ -124,6 +124,17 @@
       },
       { "value": "PERCEPTION", "add": { "math": [ "(0 + (u_val('spell_level', 'spell: druid_feralform') / 7 ))" ] } }
     ],
-    "mutations": [ "FUR", "CLAWS_RAT", "ADRENALINE", "FANGS", "CANINE_EARS", "NIGHTVISION2", "PERSISTENCE_HUNTER" ]
+    "mutations": [
+      "FUR",
+      "CLAWS_RAT",
+      "ADRENALINE",
+      "FANGS",
+      "CANINE_EARS",
+      "PERSISTENCE_HUNTER",
+      "SNARL",
+      "CARNIVORE",
+      "SMELLY2",
+      "DEFORMED3"
+    ]
   }
 ]
