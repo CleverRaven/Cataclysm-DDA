@@ -59,7 +59,7 @@ disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
     _var = var;
     _bp_cur_max.clear();
-    _graph_id = "";
+    _graph_id.clear();
 }
 
 bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string &graph_id ) const
@@ -1514,7 +1514,7 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
 nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
         const bodygraph_var var )
 {
-    if( !u.has_part( bid ) ) {
+    if( !u.has_part( bid, body_part_filter::equivalent ) ) {
         return c_black; // character is missing this part
     }
 

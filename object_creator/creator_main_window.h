@@ -2,6 +2,7 @@
 #define CATA_OBJECT_CREATOR_CREATOR_MAIN_WINDOW_H
 
 #include "enum_traits.h"
+#include "mod_selection_window.h"
 
 class QApplication;
 
@@ -12,6 +13,7 @@ class main_window
     public:
         int execute( QApplication &app );
     private:
+        mod_selection_window* mod_selection;
 };
 
 enum class jsobj_type {

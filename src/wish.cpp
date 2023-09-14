@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "bionics.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
@@ -42,7 +43,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
 
 static const efftype_id effect_pet( "pet" );
 
@@ -340,6 +343,129 @@ void debug_menu::wishmutate( Character *you )
             wmenu.filterlist();
         }
     } while( wmenu.ret >= 0 );
+}
+
+void debug_menu::wishbionics( Character *you )
+{
+    std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
+        return itm.can_use( "install_bionic" );
+    } );
+    std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {
+        return localized_compare( a->nname( 1 ), b->nname( 1 ) );
+    } );
+
+    while( true ) {
+        units::energy power_level = you->get_power_level();
+        units::energy power_max = you->get_max_power_level();
+        size_t num_installed = you->get_bionics().size();
+
+        bool can_uninstall = num_installed > 0;
+        bool can_uninstall_all = can_uninstall || power_max > 0_J;
+
+        uilist smenu;
+        smenu.text += string_format(
+                          _( "Current power level: %s\nMax power: %s\nBionics installed: %d" ),
+                          units::display( power_level ),
+                          units::display( power_max ),
+                          num_installed
+                      );
+        smenu.addentry( 0, true, 'i', _( "Install from CBM…" ) );
+        smenu.addentry( 1, can_uninstall, 'u', _( "Uninstall…" ) );
+        smenu.addentry( 2, can_uninstall_all, 'U', _( "Uninstall all" ) );
+        smenu.addentry( 3, true, 'c', _( "Edit power capacity (kJ)" ) );
+        smenu.addentry( 4, true, 'C', _( "Edit power capacity (J)" ) );
+        smenu.addentry( 5, true, 'p', _( "Edit power level (kJ)" ) );
+        smenu.addentry( 6, true, 'P', _( "Edit power level (J)" ) );
+        smenu.query();
+        switch( smenu.ret ) {
+            case 0: {
+                uilist scbms;
+                for( size_t i = 0; i < cbm_items.size(); i++ ) {
+                    bool enabled = !you->has_bionic( cbm_items[i]->bionic->id );
+                    scbms.addentry( i, enabled, MENU_AUTOASSIGN, "%s", cbm_items[i]->nname( 1 ) );
+                }
+                scbms.query();
+                if( scbms.ret >= 0 ) {
+                    const itype &cbm = *cbm_items[scbms.ret];
+                    const bionic_id &bio = cbm.bionic->id;
+                    constexpr int difficulty = 0;
+                    constexpr int success = 1;
+                    constexpr int level = 99;
+
+                    bionic_uid upbio_uid = 0;
+                    if( std::optional<bionic *> upbio = you->find_bionic_by_type( bio->upgraded_bionic ) ) {
+                        upbio_uid = ( *upbio )->get_uid();
+                    }
+
+                    you->perform_install( bio, upbio_uid, difficulty, success, level, "NOT_MED",
+                                          bio->canceled_mutations,
+                                          you->pos() );
+                }
+                break;
+            }
+            case 1: {
+                const bionic_collection &installed_bionics = *you->my_bionics;
+                std::vector<std::string> bionic_names;
+                std::vector<const bionic *> bionics;
+                for( const bionic &bio : installed_bionics ) {
+                    if( item::type_is_defined( bio.info().itype() ) ) {
+                        bionic_names.emplace_back( bio.info().name.translated() );
+                        bionics.push_back( &bio );
+                    }
+                }
+                int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
+                if( bionic_index < 0 ) {
+                    return;
+                }
+
+                you->remove_bionic( *bionics[bionic_index] );
+                break;
+            }
+            case 2: {
+                you->clear_bionics();
+                you->set_power_level( units::from_kilojoule( 0 ) );
+                you->set_max_power_level( units::from_kilojoule( 0 ) );
+                break;
+            }
+            case 3: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                               units::display( power_max ) ) ) {
+                    you->set_max_power_level( units::from_kilojoule( new_value ) );
+                    you->set_power_level( you->get_power_level() );
+                }
+                break;
+            }
+            case 4: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                               units::display( power_max ) ) ) {
+                    you->set_max_power_level( units::from_joule( new_value ) );
+                    you->set_power_level( you->get_power_level() );
+                }
+                break;
+            }
+            case 5: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                               units::display( power_level ) ) ) {
+                    you->set_power_level( units::from_kilojoule( new_value ) );
+                }
+                break;
+            }
+            case 6: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                               units::display( power_level ) ) ) {
+                    you->set_power_level( units::from_joule( new_value ) );
+                }
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+    }
 }
 
 void debug_menu::wisheffect( Character &p )
@@ -683,6 +809,7 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 class wish_item_callback: public uilist_callback
 {
     public:
+        int examine_pos;
         bool incontainer;
         bool spawn_everything;
         bool renew_snippet;
@@ -705,7 +832,7 @@ class wish_item_callback: public uilist_callback
             if( menu->selected < 0 ) {
                 return;
             }
-
+            examine_pos = 0;
             chosen_snippet_id = { -1, "" };
             renew_snippet = true;
             const itype &selected_itype = *standard_itype_ids[menu->selected];
@@ -790,6 +917,12 @@ class wish_item_callback: public uilist_callback
                 }
                 return true;
             }
+            if( action == "SCROLL_DESC_UP" ) {
+                examine_pos = std::max( examine_pos - 1, 0 );
+            }
+            if( action == "SCROLL_DESC_DOWN" ) {
+                examine_pos += 1;
+            }
             if( cur_key == KEY_LEFT || cur_key == KEY_RIGHT ) {
                 // For Renew snippet_id.
                 renew_snippet = true;
@@ -799,6 +932,7 @@ class wish_item_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
+            const int description_height = menu->w_height - 6;
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );
@@ -839,8 +973,18 @@ class wish_item_callback: public uilist_callback
                 mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 
-                fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1, c_light_gray,
-                                tmp.info( true ) );
+                std::vector<std::string> desc = foldstring( tmp.info( true ), menu->pad_right - 1 );
+                const bool do_scroll = desc.size() > static_cast<unsigned>( description_height );
+                examine_pos = std::min( examine_pos, static_cast<int>( desc.size() - description_height ) );
+                const int first_line = do_scroll ? examine_pos : 0;
+                const int last_line = do_scroll ? ( first_line + description_height ) : desc.size();
+                draw_scrollbar( menu->window, first_line, description_height, desc.size(), point( menu->w_width - 1,
+                                starty ),
+                                c_white, true );
+                for( int i = first_line; i < last_line; i++ ) {
+                    fold_and_print( menu->window, point( startx, starty + i - first_line ), menu->pad_right - 1,
+                                    c_light_gray, desc[i] );
+                }
             }
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
@@ -903,7 +1047,9 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "CONTAINER", translation() },
         { "FLAG", translation() },
         { "EVERYTHING", translation() },
-        { "SNIPPET", translation() }
+        { "SNIPPET", translation() },
+        { "SCROLL_DESC_UP", translation() },
+        { "SCROLL_DESC_DOWN", translation() },
     };
     wmenu.w_x_setup = 0;
     wmenu.w_width_setup = []() -> int {
@@ -974,13 +1120,8 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                             }
                         }
                     } else {
-                        for( int i = 0; i < amount; i++ ) {
-                            if( you->can_stash( granted ) ) {
-                                you->i_add( granted );
-                            } else {
-                                get_map().add_item_or_charges( you->pos(), granted );
-                            }
-                        }
+                        int stashable_copy_num = amount;
+                        you->i_add( granted, stashable_copy_num, true, nullptr, nullptr, true, false );
                     }
                     you->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {

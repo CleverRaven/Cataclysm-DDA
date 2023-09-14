@@ -357,7 +357,7 @@
     "//": "this was using 20 bones (2.3kg), so it was lowered.  Bone broth uses 1:2-1:4 bone:water per weight.",
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "bone_edible", 2, "LIST" ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "bone_edible", 2, "LIST" ] ], [ [ "vinegar", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -629,7 +629,12 @@
     "//": "this was using 120 bones (13.8kg), so it was lowered.  Bone broth uses 1:2-1:4 bone:water per weight.",
     "using": [ [ "canning_high_heat", 6, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water_clean", 12 ] ], [ [ "bone_edible", 12, "LIST" ] ] ]
+    "components": [
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "water_clean", 12 ] ],
+      [ [ "bone_edible", 12, "LIST" ] ],
+      [ [ "vinegar", 12 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2053,7 +2058,8 @@
     "components": [ [ [ "water_clean", 1 ] ], [ [ "beans_cooked", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "byproducts": [ [ "water_clean", 1 ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -2453,7 +2459,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 3 ] ] ],
+    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 3 ] ], [ [ "vinegar", 2 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2473,7 +2479,7 @@
     "container": "can_food",
     "charges": 1,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
+    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 2 ] ], [ [ "vinegar", 2 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2493,7 +2499,7 @@
     "container": "can_food_big",
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "bone_edible", 12, "LIST" ] ], [ [ "water_clean", 16 ] ] ],
+    "components": [ [ [ "bone_edible", 12, "LIST" ] ], [ [ "water_clean", 16 ] ], [ [ "vinegar", 12 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },

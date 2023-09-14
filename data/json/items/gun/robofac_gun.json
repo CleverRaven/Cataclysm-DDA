@@ -2,7 +2,7 @@
   {
     "id": "robofac_gun",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Hub 01 HWP" },
     "description": "The Hub 01 Hybrid Weapons Platform, or just the HWP.  With its combination of black-finished steel, blue polymer furniture, and a number of proprietary bolts and fasteners to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has \"MULTI CALIBER\" inlaid in the steel, near a quick release used both to exchange the installed barrel and to change the magazine well's adapter.",
@@ -56,7 +56,7 @@
   {
     "id": "xedra_gun",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "prototype gun" },
     "description": "A weapons platform you don't recognize.  With its combination of black-finished steel, brown polymer furniture, and a number of proprietary bolts and fasteners to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has \"XE\" inlaid in the steel.",

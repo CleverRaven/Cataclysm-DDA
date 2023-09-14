@@ -328,7 +328,7 @@
       { "group": "potions_rare", "prob": 5 },
       { "group": "alchemy_items", "prob": 30 },
       { "group": "magical_reagents", "prob": 20 },
-      [ "crystallized_mana", 55 ],
+      { "item": "crystallized_mana", "prob": 55, "charges-min": 1, "charges-max": 10 },
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
@@ -875,7 +875,7 @@
       { "group": "magic_CBM", "prob": 2 },
       { "item": "lair_map", "prob": 20 },
       { "item": "retreat_map", "prob": 30 },
-      [ "crystallized_mana", 50 ],
+      { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 },
       { "item": "magic_knife_bag", "prob": 25 }
     ]
@@ -988,7 +988,9 @@
           { "item": "wizard_utility", "prob": 20 },
           { "item": "spell_scroll_magic_missile", "prob": 70 },
           { "item": "spell_scroll_phase_door", "prob": 50 },
-          { "item": "spell_scroll_shadow_field", "prob": 40 }
+          { "item": "spell_scroll_shadow_field", "prob": 40 },
+          { "item": "spell_scroll_magus_slowfall", "prob": 50 },
+          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1029,9 +1031,11 @@
       {
         "distribution": [
           { "item": "spell_scroll_smite", "prob": 50 },
+          { "item": "spell_scroll_animist_sense_outsiders", "prob": 30 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
-          { "item": "spell_scroll_summon_wisps", "prob": 50 }
+          { "item": "spell_scroll_summon_wisps", "prob": 50 },
+          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1074,7 +1078,12 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "spell_scroll_create_lighter", "prob": 50 }, { "item": "spell_scroll_chilling_touch", "prob": 50 } ],
+        "distribution": [
+          { "item": "spell_scroll_create_lighter", "prob": 50 },
+          { "item": "spell_scroll_chilling_touch", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
+          { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 }
+        ],
         "prob": 45
       },
       {
@@ -1161,7 +1170,10 @@
         "distribution": [
           { "item": "spell_scroll_stonefist", "prob": 50 },
           { "item": "spell_scroll_eshaper_piercing_bolt", "prob": 50 },
-          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 }
+          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1200,7 +1212,8 @@
           { "item": "spell_scroll_light_healing", "prob": 50 },
           { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
-          { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 }
+          { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
+          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 }
         ],
         "prob": 45
       },
@@ -1210,7 +1223,8 @@
           { "item": "spell_scroll_pain_split", "prob": 50 },
           { "item": "spell_scroll_bio_grotesque", "prob": 50 },
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
-          { "item": "spell_scroll_bio_fleshpouch", "prob": 50 }
+          { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
+          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 }
         ],
         "prob": 35
       },
@@ -1218,6 +1232,7 @@
         "distribution": [
           { "item": "wizard_advanced", "prob": 10 },
           { "item": "biomancer_spellbook", "prob": 10 },
+          { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
           { "item": "spell_scroll_bio_bonespear", "prob": 50 }
         ],
@@ -1237,7 +1252,8 @@
           { "item": "summon_scroll_smudged", "prob": 2 },
           { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 },
-          { "item": "spell_scroll_seed_of_growth", "prob": 15 }
+          { "item": "spell_scroll_seed_of_growth", "prob": 15 },
+          { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1246,6 +1262,7 @@
           { "item": "druid_spellbook", "prob": 20 },
           { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
+          { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 }
         ],
@@ -1257,7 +1274,8 @@
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
-          { "item": "spell_scroll_druid_bandage", "prob": 100 }
+          { "item": "spell_scroll_druid_bandage", "prob": 100 },
+          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 100 }
         ],
         "prob": 10
       }
@@ -1334,7 +1352,7 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
         "prob": 40
       },
-      [ "crystallized_mana", 50 ],
+      { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
       [ "copper_circlet", 10 ],
       [ "cauldron_orichalcum", 1 ],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
@@ -1425,7 +1443,7 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
-      [ "tongs", 90 ],
+      [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ],
       [ "small_mana_crystal", 180 ]
@@ -1509,6 +1527,33 @@
       { "item": "dragon_black_scale", "prob": 10, "count": [ 12, 36 ] },
       { "item": "glow_dust", "prob": 10, "count": [ 4, 6 ] },
       { "item": "stirge_proboscis", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "lab_torso_research_thaumaturge",
+    "items": [
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "tshirt", 80 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "dress", 70 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "turtleneck", 25 ],
+      [ "turtleneck_shirt", 25 ],
+      [ "hoodie", 65 ],
+      [ "jumpsuit", 20 ],
+      [ "badge_doctor", 10 ],
+      [ "hazmat_suit", 5 ],
+      [ "cleansuit", 10 ],
+      { "item": "coat_lab_plus_one", "prob": 20 },
+      { "item": "coat_lab_plus_two", "prob": 5 }
     ]
   }
 ]

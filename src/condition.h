@@ -15,23 +15,26 @@
 class JsonObject;
 namespace dialogue_data
 {
-// when updating this, please also update `dynamic_line_string_keys` in
-// `lang/extract_json_string.py` so the lines are properly extracted for translation
+// When updating this, please also update `dynamic_line_string_keys` in
+// `lang/string_extractor/parsers/talk_topic.py` so the lines are properly
+// extracted for translation
 const std::unordered_set<std::string> simple_string_conds = { {
         "u_male", "u_female", "npc_male", "npc_female",
-        "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
-        "has_no_available_mission", "has_available_mission", "has_many_available_missions",
+        "has_no_assigned_mission", "has_assigned_mission",
+        "has_many_assigned_missions", "has_no_available_mission",
+        "has_available_mission", "has_many_available_missions",
         "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
         "npc_train_skills", "npc_train_styles", "npc_train_spells",
-        "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
-        "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon", "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",
-        "u_driving", "npc_driving",
-        "has_pickup_list", "is_by_radio", "has_reason"
+        "at_safe_space", "is_day", "npc_has_activity",
+        "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
+        "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon",
+        "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",
+        "u_driving", "npc_driving", "has_pickup_list", "is_by_radio", "has_reason"
     }
 };
 const std::unordered_set<std::string> complex_conds = { {
-        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
+        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait", "u_has_visible_trait", "npc_has_visible_trait",
         "u_has_flag", "npc_has_flag", "u_has_species", "npc_has_species", "u_bodytype", "npc_bodytype", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
@@ -57,6 +60,8 @@ const std::unordered_set<std::string> complex_conds = { {
 
 str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                            const std::string &default_val = "" );
+translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+        bool required = true, const translation &default_val = {} );
 dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
                            double default_val = 0.0 );
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
@@ -102,6 +107,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_visible_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_species( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -204,6 +210,7 @@ struct conditional_t {
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
+        static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue & )> get_get_dbl( const std::string &value,

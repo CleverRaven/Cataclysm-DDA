@@ -42,6 +42,7 @@
     "//": "Above ground",
     "weight": 100,
     "object": {
+      "fill_ter": "t_region_groundcover_barren",
       "rows": [
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -68,7 +69,8 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
-      "palettes": [ "bunker_ext" ]
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [ { "chunks": [ "null", "lmoe_solar" ], "x": 11, "y": 10 } ]
     }
   },
   {

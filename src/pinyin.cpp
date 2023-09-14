@@ -77,7 +77,6 @@ bool pinyin_match( const std::u32string_view str, const std::u32string_view qry 
         all_combinations_tested = ( combination_index >= total_combination );
     }
 
-
     return false;
 }
 } // namespace pinyin

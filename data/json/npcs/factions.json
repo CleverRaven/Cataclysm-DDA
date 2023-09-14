@@ -944,5 +944,89 @@
       { "power_min": 150, "id": "epilogue_faction_exodii_150" }
     ],
     "description": "A tribe of scavengers and survivors that have been through this before, and sacrificed what they must to make it through."
+  },
+  {
+    "type": "faction",
+    "id": "the_great_library",
+    "name": "The Great Library",
+    "likes_u": 30,
+    "respects_u": 30,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 25000000,
+    "currency": "FlatCoin",
+    "price_rules": [
+      { "item": "money_strap_FMCNote", "fixed_adj": 0 },
+      { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
+      { "group": "games_board_all", "premium": 2.5 },
+      { "group": "manuals", "premium": 2 },
+      { "group": "textbooks", "premium": 2 },
+      { "group": "literature", "premium": 2 },
+      { "group": "exotic_books", "premium": 10 }
+    ],
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_the_great_library_0" },
+      { "power_min": 150, "id": "epilogue_faction_the_great_library_150" }
+    ],
+    "description": "A group of academics and other survivors that stand together to preserve and spread knowledge of the world."
   }
 ]

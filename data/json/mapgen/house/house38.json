@@ -32,7 +32,7 @@
         "........................"
       ],
       "palettes": [
-        "standard_domestic_palette",
+        "domestic_general_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
         "standard_domestic_landscaping_palette"
@@ -54,11 +54,11 @@
       "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [
         { "item": "hose", "x": 19, "y": 20, "chance": 35 },
-        { "item": "lawnmower", "x": 23, "y": 8, "chance": 35 },
+        { "item": "lawnmower", "x": 20, "y": 10, "chance": 35 },
         { "item": "television", "x": 14, "y": 16 },
         { "item": "stereo", "x": 14, "y": 18, "chance": 35 }
       ],
-      "place_vehicles": [ { "vehicle": "car", "x": 19, "y": 5, "chance": 35, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 6, "chance": 35, "rotation": 270 } ]
     }
   },
   {

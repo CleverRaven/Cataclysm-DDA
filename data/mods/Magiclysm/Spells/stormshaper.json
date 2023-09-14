@@ -877,6 +877,7 @@
     "shape": "blast",
     "min_damage": 10,
     "max_damage": 35,
+    "min_range": 1,
     "damage_type": "electric",
     "flags": [ "LOUD", "RANDOM_DURATION", "RANDOM_AOE", "RANDOM_DAMAGE" ],
     "min_duration": 50,

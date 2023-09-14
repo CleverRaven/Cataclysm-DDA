@@ -1,7 +1,7 @@
 [
   {
     "type": "palette",
-    "id": "standard_domestic_palette_abandoned",
+    "id": "standard_domestic_abandoned_palette",
     "//": "Intended as a palette for non-nested abandoned houses.  Removes most furniture and item spawns, breaks doors and windows, applies bash damage to glass and furniture.",
     "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {

@@ -829,7 +829,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     }
 
     // Legacy compatibility. Changed during 0.F.
-    miss_id.parameters = "";
+    miss_id.parameters.clear();
     npc_list = companion_list( p, miss_id );
 
     if( !npc_list.empty() ) {

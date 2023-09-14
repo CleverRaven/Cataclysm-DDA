@@ -81,7 +81,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_WELCOME_PLAYSTYLE",
-    "dynamic_line": "Normal perks are considered lifestyle perks and are small bonuses to help your character progress.  Playstyle perks on the other hand can vary wildly in power, in some cases aren't well balanced, and will define your characters playstyle.  Do you want to enable playstyle perks and if so, how many perk points should they cost?",
+    "dynamic_line": "Normal perks are considered lifestyle perks and are small bonuses to help your character progress.  Playstyle perks on the other hand can vary wildly in power, in some cases aren't well balanced, and will define your character's playstyle.  Do you want to enable playstyle perks and if so, how many perk points should they cost?",
     "responses": [
       {
         "text": "Default (4 perk points)",

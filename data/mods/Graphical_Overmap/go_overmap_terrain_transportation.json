@@ -1,18 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
-    "copy-from": "hiway_ns",
-    "sym": "\u00BD"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "hiway_ew",
-    "sym": "\u00BE"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "road_nesw_manhole",
     "copy-from": "road_nesw_manhole",
     "sym": "\u00D8",

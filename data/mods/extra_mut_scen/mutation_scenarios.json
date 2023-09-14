@@ -261,7 +261,8 @@
       "WINGS_STUB",
       "XS",
       "XXXL"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",

@@ -1,7 +1,7 @@
 [
   {
     "id": "emp_gun",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "XM34 EMP projector" },
@@ -105,7 +105,7 @@
   },
   {
     "id": "laser_rifle",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "A7 laser rifle" },

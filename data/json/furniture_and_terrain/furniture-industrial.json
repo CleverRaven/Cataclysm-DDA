@@ -139,7 +139,7 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
@@ -560,9 +560,9 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "uranium", "charges": [ 10, 50 ] },
+        { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
-        { "item": "plutonium", "charges": [ 0, 20 ] },
+        { "item": "plutonium", "count": [ 0, 20 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }

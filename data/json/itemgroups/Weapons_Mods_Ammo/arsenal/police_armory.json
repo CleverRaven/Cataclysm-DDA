@@ -66,8 +66,8 @@
       { "group": "police_armory_full_usp9mag_9mmfmj", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_9mm" },
       { "group": "police_armory_boxes_9mmfmj" },
-      { "group": "police_armory_boxes_9mmP", "prob": 50 },
-      { "group": "police_armory_boxes_9mmP2", "prob": 25 }
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
     ]
   },
   {
@@ -84,8 +84,8 @@
       { "group": "police_armory_full_glockmag_9mmfmj", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_9mm" },
       { "group": "police_armory_boxes_9mmfmj" },
-      { "group": "police_armory_boxes_9mmP", "prob": 50 },
-      { "group": "police_armory_boxes_9mmP2", "prob": 25 }
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
     ]
   },
   {
@@ -102,8 +102,8 @@
       { "group": "police_armory_full_m9mag_9mmfmj", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_9mm" },
       { "group": "police_armory_boxes_9mmfmj" },
-      { "group": "police_armory_boxes_9mmP", "prob": 50 },
-      { "group": "police_armory_boxes_9mmP2", "prob": 25 }
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
     ]
   },
   {
@@ -198,7 +198,7 @@
       { "group": "police_armory_box_some_9mm" },
       { "group": "police_armory_box_some_9mm", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 35, 50 ] },
-      { "group": "police_armory_box_full_9mm", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_9mm", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -209,7 +209,7 @@
       { "group": "police_armory_box_some_9mmfmj" },
       { "group": "police_armory_box_some_9mmfmj", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 35, 50 ] },
-      { "group": "police_armory_box_full_9mmfmj", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_9mmfmj", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -220,7 +220,7 @@
       { "group": "police_armory_box_some_9mmP" },
       { "group": "police_armory_box_some_9mmP", "prob": 50 },
       { "item": "ammunition_box_308", "count": [ 20, 30 ] },
-      { "group": "police_armory_box_full_9mmP", "count": [ 0, 3 ] }
+      { "group": "police_armory_box_full_9mmP", "count": [ 0, 2 ] }
     ]
   },
   {
@@ -231,7 +231,7 @@
       { "group": "police_armory_box_some_9mmP2" },
       { "group": "police_armory_box_some_9mmP2", "prob": 50 },
       { "item": "ammunition_box_308", "count": [ 5, 20 ] },
-      { "group": "police_armory_box_full_9mmP2", "count": [ 0, 2 ] }
+      { "group": "police_armory_box_full_9mmP2", "count": [ 0, 1 ] }
     ]
   },
   {
@@ -345,7 +345,7 @@
       { "group": "police_armory_box_some_57mm" },
       { "group": "police_armory_box_some_57mm", "prob": 60 },
       { "item": "ammunition_box_308", "count": [ 15, 25 ] },
-      { "group": "police_armory_box_full_57mm", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_57mm", "count": [ 0, 8 ] }
     ]
   },
   {
@@ -449,14 +449,14 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "glock40mag",
-    "entries": [ { "item": "40sw", "charges": [ 12, 12 ] } ]
+    "entries": [ { "item": "40sw", "charges": [ 15, 15 ] } ]
   },
   {
     "id": "police_armory_full_glock40mag_40fmj",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "glock40mag",
-    "entries": [ { "item": "40fmj", "charges": [ 12, 12 ] } ]
+    "entries": [ { "item": "40fmj", "charges": [ 15, 15 ] } ]
   },
   {
     "id": "police_armory_boxes_40sw",
@@ -466,7 +466,7 @@
       { "group": "police_armory_box_some_40sw" },
       { "group": "police_armory_box_some_40sw", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_40sw", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_40sw", "count": [ 0, 6 ] }
     ]
   },
   {
@@ -477,7 +477,7 @@
       { "group": "police_armory_box_some_40fmj" },
       { "group": "police_armory_box_some_40fmj", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_40fmj", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_40fmj", "count": [ 0, 6 ] }
     ]
   },
   {
@@ -522,7 +522,7 @@
       { "group": "police_armory_full_usp45mag_45_jhp", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_45_acp" },
       { "group": "police_armory_boxes_45_jhp" },
-      { "group": "police_armory_boxes_45_super", "prob": 50 }
+      { "group": "police_armory_boxes_45_super", "prob": 30 }
     ]
   },
   {
@@ -547,7 +547,7 @@
       { "group": "police_armory_box_some_45_jhp" },
       { "group": "police_armory_box_some_45_jhp", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_45_jhp", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_45_jhp", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -558,7 +558,7 @@
       { "group": "police_armory_box_some_45_acp" },
       { "group": "police_armory_box_some_45_acp", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_45_acp", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_45_acp", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -569,7 +569,7 @@
       { "group": "police_armory_box_some_45_super" },
       { "group": "police_armory_box_some_45_super", "prob": 60 },
       { "item": "ammunition_box_308", "count": [ 3, 15 ] },
-      { "group": "police_armory_box_full_45_super", "count": [ 0, 7 ] }
+      { "group": "police_armory_box_full_45_super", "count": [ 0, 2 ] }
     ]
   },
   {
@@ -654,7 +654,7 @@
       { "group": "police_armory_box_some_223" },
       { "group": "police_armory_box_some_223", "prob": 50 },
       { "item": "ammunition_box_308", "count": [ 50, 75 ] },
-      { "group": "police_armory_box_full_223", "count": [ 0, 15 ] }
+      { "group": "police_armory_box_full_223", "count": [ 0, 10 ] }
     ]
   },
   {

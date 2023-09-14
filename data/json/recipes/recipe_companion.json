@@ -25,9 +25,9 @@
     "time": "30 m",
     "autolearn": false,
     "never_learn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "forging_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_file", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -41,9 +41,9 @@
     "time": "52 m",
     "autolearn": false,
     "never_learn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "forging_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_file", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -58,7 +58,7 @@
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 5 ], [ "oxy_torch", 1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 5 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
   },
   {
@@ -74,7 +74,7 @@
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -90,7 +90,7 @@
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
   {
@@ -106,7 +106,7 @@
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
   {

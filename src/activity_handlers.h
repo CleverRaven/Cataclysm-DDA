@@ -67,6 +67,7 @@ enum class do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
+    NEEDS_BOOK_TO_LEARN,    // There is book to learn
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
@@ -79,6 +80,7 @@ enum class do_activity_reason : int {
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
     NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
+    NEEDS_CRAFT,             // There is at least one item to craft.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
 };
@@ -177,9 +179,11 @@ void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
+void multiple_craft_do_turn( player_activity *act, Character *you );
 void multiple_dis_do_turn( player_activity *act, Character *you );
 void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
+void multiple_read_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );

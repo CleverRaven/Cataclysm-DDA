@@ -81,5 +81,33 @@
     "skills_required": [ "spellcraft", 4 ],
     "nested_category_data": [ "suit_xlblack_dragon_hide", "helmet_xlblack_dragon_hide", "gloves_xlblack_dragon_hide", "boots_xlblack_dragon_hide" ],
     "difficulty": 6
+  },
+  {
+    "id": "nested_potion_fruits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "name": "potion fruits",
+    "description": "Recipes related to enchanting fruits with pure mana.",
+    "skill_used": "spellcraft",
+    "nested_category_data": [
+      "potion_fruit_apple",
+      "potion_fruit_peach",
+      "potion_fruit_pear",
+      "potion_fruit_blackberries",
+      "potion_fruit_raspberries",
+      "potion_fruit_strawberries",
+      "potion_fruit_elderberries",
+      "potion_fruit_blueberries",
+      "potion_fruit_cranberries",
+      "potion_fruit_huckleberries",
+      "potion_fruit_wintergreen",
+      "potion_fruit_cherry",
+      "potion_fruit_apricot",
+      "potion_fruit_mayapple",
+      "potion_fruit_grapes"
+    ],
+    "difficulty": 4
   }
 ]

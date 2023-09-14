@@ -292,6 +292,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_long_shot",
+    "name": { "str": "Long shot" },
+    "points": 0,
+    "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_crafty_hands",
     "name": { "str": "Crafty hands" },
     "points": 0,
@@ -341,6 +350,15 @@
     "description": "People always used to tell you that you should eat more.  It seems you needed their reminders because you can see your bones at this point.  You have skeletal armor.",
     "category": [ "perk" ],
     "integrated_armor": [ "skeleton_plate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_chainsaw",
+    "name": { "str": "The Great Communicator" },
+    "points": 0,
+    "description": "You've always had something to say about ripping apart things with chainsaws.  You can swing powered blades faster.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",

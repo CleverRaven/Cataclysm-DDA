@@ -25,6 +25,13 @@
     "components": [ [ [ "chem_black_powder", 2 ] ] ]
   },
   {
+    "result": "matchhead_tiny_pistol_jhp",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "reloaded_tiny_pistol_jhp",
+    "components": [ [ [ "red_phosphorous", 2 ] ] ]
+  },
+  {
     "result": "reloaded_tiny_pistol_ball",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -39,6 +46,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "reloaded_tiny_pistol_ball",
     "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "matchhead_tiny_pistol_ball",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "reloaded_tiny_pistol_ball",
+    "components": [ [ [ "red_phosphorous", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_pistol_jhp",
@@ -66,6 +80,13 @@
     "components": [ [ [ "chem_black_powder", 4 ] ] ]
   },
   {
+    "result": "matchhead_pistol_jhp",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "reloaded_pistol_jhp",
+    "components": [ [ [ "red_phosphorous", 4 ] ] ]
+  },
+  {
     "result": "reloaded_pistol_ball",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -83,6 +104,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "reloaded_pistol_ball",
     "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ] ]
+  },
+  {
+    "result": "matchhead_pistol_ball",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "reloaded_pistol_ball",
+    "components": [ [ [ "red_phosphorous", 4 ] ], [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ] ]
   },
   {
     "result": "reloaded_pistol_magnum_jhp",

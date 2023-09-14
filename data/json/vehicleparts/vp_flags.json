@@ -274,6 +274,10 @@
     "type": "json_flag"
   },
   {
+    "id": "BATTERY",
+    "type": "json_flag"
+  },
+  {
     "id": "BATTERY_MOUNT",
     "type": "json_flag"
   },

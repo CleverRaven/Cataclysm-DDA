@@ -146,7 +146,6 @@ void run_test_case( Character &u )
         REQUIRE( here.ter( tri_window ) == ter_id( build.post_terrain ) );
     }
 
-
     SECTION( "1-step construction activity with prereq with only pre_special" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );

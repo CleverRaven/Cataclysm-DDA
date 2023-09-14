@@ -123,7 +123,7 @@
     "type": "recipe",
     "result": "chem_caco3",
     "id_suffix": "from_washing_soda",
-    "byproduct_group": [ { "item": "salt", "container-item": "null", "charges": 33 } ],
+    "byproduct_group": [ { "item": "salt", "container-item": "null", "count": 33 } ],
     "charges": 37,
     "activity_level": "NO_EXERCISE",
     "category": "CC_CHEM",

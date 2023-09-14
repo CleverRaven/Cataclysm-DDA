@@ -73,28 +73,36 @@
     "copy-from": "legacy_classic_sidebar",
     "type": "widget",
     "id": "legacy_classic_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_compact_sidebar",
     "type": "widget",
     "id": "legacy_compact_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "id": "legacy_labels_narrow_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_labels_sidebar",
     "type": "widget",
     "id": "legacy_labels_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",

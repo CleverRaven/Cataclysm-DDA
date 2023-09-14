@@ -23,6 +23,33 @@
                 "TILES=1", 
                 "SOUND=1"
             ]
+        },
+        {
+            "name" : "Windows - X64 - Tiles/Sound - Release",
+            "makeArgs": [
+                "-j4",
+                "CROSS=/opt/mxe/usr/bin/x86_64-w64-mingw32.static-",
+                "TILES=1",
+                "SOUND=1",
+                "RELEASE=1",
+                "LOCALIZE=1",
+                "PREFIX=output",
+                "PCH=0",
+                "bindist",
+            ]
+        },
+        {
+            "name" : "Windows - X64 - Tiles/Sound - Debug",
+            "makeArgs": [
+                "-j4",
+                "CROSS=/opt/mxe/usr/bin/x86_64-w64-mingw32.static-",
+                "TILES=1",
+                "SOUND=1",
+                "LOCALIZE=1",
+                "PREFIX=output",
+                "PCH=0",
+                "bindist",
+            ]
         }
     ],
     "cmake.configureOnOpen": false,

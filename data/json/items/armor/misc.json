@@ -256,5 +256,61 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
+  },
+  {
+    "id": "tefillin_hand_l",
+    "type": "ARMOR",
+    "name": { "str": "tefillin (left arm)", "str_pl": "sets of tefillin (left arm)" },
+    "description": "A set of leather straps attached to a wooden box, to fulfil the commandment written in Deuteronomy that states \"And you shall set these words of Mine upon your heart and upon your soul, and bind them for a sign upon your hand and they shall be for ornaments between your eyes.\"  This one is for the left arm.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 6400,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 0,
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "ALLOWS_NATURAL_ATTACKS" ],
+    "material_thickness": 1.0,
+    "environmental_protection": 0,
+    "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "hand_l", "arm_l" ] } ]
+  },
+  {
+    "id": "tefillin_hand_r",
+    "type": "ARMOR",
+    "name": { "str": "tefillin (right arm)", "str_pl": "sets of tefillin (right arm)" },
+    "description": "A set of leather straps attached to a wooden box, to fulfil the commandment written in Deuteronomy that states \"And you shall set these words of Mine upon your heart and upon your soul, and bind them for a sign upon your hand and they shall be for ornaments between your eyes.\"  This one is for the right arm.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 6400,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 0,
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "ALLOWS_NATURAL_ATTACKS" ],
+    "material_thickness": 1.0,
+    "environmental_protection": 0,
+    "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "hand_l", "arm_l" ] } ]
+  },
+  {
+    "id": "tefillin_head",
+    "type": "ARMOR",
+    "name": { "str": "tefillin (head)", "str_pl": "sets of tefillin (head)" },
+    "description": "A set of leather straps attached to a wooden box, to fulfil the commandment written in Deuteronomy that states \"And you shall set these words of Mine upon your heart and upon your soul, and bind them for a sign upon your hand and they shall be for ornaments between your eyes.\"  This one is for the forehead.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 6400,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 0,
+    "material_thickness": 1.0,
+    "environmental_protection": 0,
+    "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "head" ] } ]
   }
 ]

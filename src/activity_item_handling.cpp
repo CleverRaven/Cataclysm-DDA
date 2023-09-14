@@ -80,11 +80,13 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
@@ -115,6 +117,9 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
+
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
@@ -1216,6 +1221,19 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
+    if( act == ACT_MULTIPLE_READ ) {
+        const item_filter filter = [ &you ]( const item & i ) {
+            // Check well lit after
+            read_condition_result condition = you.check_read_condition( i );
+            return condition == read_condition_result::SUCCESS ||
+                   condition == read_condition_result::TOO_DARK;
+        };
+        if( !you.items_with( filter ).empty() ) {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
+        }
+        // TODO: find books from zone?
+        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
+    }
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
         for( item &i : here.i_at( src_loc ) ) {
@@ -1334,10 +1352,32 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         // 1. before we even assign the fetch activity and;
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
+    } else if( act == ACT_MULTIPLE_CRAFT ) {
+        // only npc is supported
+        npc *p = you.as_npc();
+        if( p ) {
+            item_location to_craft = p->get_item_to_craft();
+            if( to_craft && to_craft->is_craft() ) {
+                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+                const recipe &r = to_craft->get_making();
+                std::vector<std::vector<item_comp>> item_comp_vector =
+                                                     to_craft->get_continue_reqs().get_components();
+                std::vector<std::vector<quality_requirement>> quality_comp_vector =
+                            r.simple_requirements().get_qualities();
+                std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
+                requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
+                if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
+                } else {
+                    return activity_reason_info( do_activity_reason::NEEDS_CRAFT, false, req );
+                }
+            }
+        }
+        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
-        const inventory inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -2500,6 +2540,15 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
+    } else if( act_id == ACT_MULTIPLE_READ ) {
+        // anywhere well lit
+        for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
+            src_set.insert( here.getglobal( elem ) );
+        }
+    } else if( act_id == ACT_MULTIPLE_CRAFT ) {
+        // Craft only with what is on the spot
+        // TODO: add zone type like zone_type_CRAFT?
+        src_set.insert( here.getglobal( localpos ) );
     } else if( act_id != ACT_FETCH_REQUIRED ) {
         zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms{}, mgr, act_id, _fac_id( you ) );
         src_set = mgr.get_near( zone_type, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
@@ -2653,6 +2702,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
                reason == do_activity_reason::NEEDS_VEH_REPAIR ||
                reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
                reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ||
+               reason == do_activity_reason::NEEDS_CRAFT ||
                reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
@@ -2714,7 +2764,9 @@ static requirement_check_result generic_multi_activity_check_requirement(
                    reason == do_activity_reason::NEEDS_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-                   reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+                   reason == do_activity_reason::NEEDS_FISHING ||
+                   reason == do_activity_reason::NEEDS_CRAFT ||
+                   reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
             std::vector<std::vector<item_comp>> requirement_comp_vector;
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
@@ -2738,6 +2790,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
 
             } else if( reason == do_activity_reason::NEEDS_FISHING ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING_ROD, 1, 1 )} );
+            } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
+                requirement_comp_vector = act_info.req.get_components();
+                quality_comp_vector = act_info.req.get_qualities();
+                tool_comp_vector = act_info.req.get_tools();
             } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
                 quality_comp_vector = act_info.req.get_qualities();
                 tool_comp_vector = act_info.req.get_tools();
@@ -2774,6 +2830,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
+                if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
+                    you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
+                    // this may be faild fetch already. give up task for a while to avoid infinite loop.
+                    you.activity = player_activity();
+                    you.backlog.clear();
+                    check_npc_revert( you );
+                    return requirement_check_result::SKIP_LOCATION;
+                }
                 you.backlog.emplace_front( act_id );
                 you.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = you.backlog.front();
@@ -2873,6 +2937,20 @@ static bool generic_multi_activity_do(
             you.backlog.emplace_front( act_id );
             return false;
         }
+    } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
+        const item_filter filter = [ &you ]( const item & i ) {
+            read_condition_result condition = you.check_read_condition( i );
+            return condition == read_condition_result::SUCCESS;
+        };
+        std::vector<item *> books = you.items_with( filter );
+        if( !books.empty() && books[0] ) {
+            const time_duration time_taken = you.time_to_read( *books[0], you );
+            item_location book = item_location( you, books[0] );
+            item_location ereader;
+            you.backlog.emplace_front( act_id );
+            you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
+            return false;
+        }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
         if( here.partial_con_at( src_loc ) ) {
             you.backlog.emplace_front( act_id );
@@ -2937,6 +3015,20 @@ static bool generic_multi_activity_do(
         }
 
         you.activity_vehicle_part_index = -1;
+    } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
+        // only npc is supported
+        npc *p = you.as_npc();
+        if( p ) {
+            item_location to_craft = p->get_item_to_craft();
+            if( to_craft && to_craft->is_craft() &&
+                you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
+                player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
+                you.assign_activity( act );
+                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.backlog.front().auto_resume = true;
+                return false;
+            }
+        }
     } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         map_stack items = here.i_at( src_loc );
         for( item &elem : items ) {
@@ -2991,6 +3083,13 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // may cause infinite loop if something goes wrong
     // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
+        // remind what you failed to fetch
+        if( !check_only && !you.backlog.empty() ) {
+            player_activity &act_prev = you.backlog.front();
+            if( !act_prev.str_values.empty() && you.as_npc() ) {
+                you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
+            }
+        }
         return true;
     }
     for( const tripoint_abs_ms &src : src_sorted ) {
@@ -3024,7 +3123,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             return true;
         }
         std::vector<tripoint_bub_ms> route_workbench;
-        if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+        if( activity_to_restore == ACT_MULTIPLE_CRAFT || activity_to_restore == ACT_MULTIPLE_DIS ) {
             // returns empty vector if we can't reach best tile
             // or we are already on the best tile
             route_workbench = route_best_workbench( you, src_loc );
@@ -3033,7 +3132,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         if( square_dist( you.pos_bub(), src_loc ) > 1 || !route_workbench.empty() ) {
             std::vector<tripoint_bub_ms> route;
             // find best workbench if possible
-            if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+            if( !route_workbench.empty() ) {
                 route = route_workbench;
             } else {
                 route = route_adjacent( you, src_loc );
@@ -3177,6 +3276,85 @@ static std::optional<tripoint_bub_ms> find_refuel_spot_trap(
     return {};
 }
 
+// Visits an item and all its contents.
+static VisitResponse visit_item_contents( item_location &loc,
+        const std::function<VisitResponse( item_location & )> &func )
+{
+    switch( func( loc ) ) {
+        case VisitResponse::ABORT:
+            return VisitResponse::ABORT;
+
+        case VisitResponse::NEXT:
+            for( item_pocket *pocket : loc->get_all_contained_pockets() ) {
+                for( item &i : pocket->edit_contents() ) {
+                    item_location child_loc( loc, &i );
+                    if( visit_item_contents( child_loc, func ) == VisitResponse::ABORT ) {
+                        return VisitResponse::ABORT;
+                    }
+                }
+            }
+        /* intentional fallthrough */
+
+        case VisitResponse::SKIP:
+            return VisitResponse::NEXT;
+    }
+
+    /* never reached; suppress the warning */
+    return VisitResponse::ABORT;
+}
+
+static int get_comestible_order( Character &you, const item_location &loc,
+                                 const time_duration &time )
+{
+    if( loc->rotten() ) {
+        if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
+            return 1;
+        } else {
+            return 5;
+        }
+    } else if( time == 0_turns ) {
+        return 4;
+    } else if( loc.has_parent() &&
+               loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
+        return 3;
+    } else {
+        return 2;
+    }
+}
+
+static time_duration get_comestible_time_left( const item_location &loc )
+{
+    time_duration time_left = 0_turns;
+    const time_duration shelf_life = loc->is_comestible() ? loc->get_comestible()->spoils :
+                                     calendar::INDEFINITELY_LONG_DURATION;
+    if( shelf_life > 0_turns ) {
+        const item &it = *loc;
+        const double relative_rot = it.get_relative_rot();
+        time_left = shelf_life - shelf_life * relative_rot;
+
+        // Correct for an estimate that exceeds shelf life -- this happens especially with
+        // fresh items.
+        if( time_left > shelf_life ) {
+            time_left = shelf_life;
+        }
+    }
+
+    return time_left;
+}
+
+static bool comestible_sort_compare( Character &you, const item_location &lhs,
+                                     const item_location &rhs )
+{
+    time_duration time_a = get_comestible_time_left( lhs );
+    time_duration time_b = get_comestible_time_left( rhs );
+    int order_a = get_comestible_order( you, lhs, time_a );
+    int order_b = get_comestible_order( you, rhs, time_b );
+
+    return order_a < order_b
+           || ( order_a == order_b && time_a < time_b )
+           || ( order_a == order_b && time_a == time_b );
+}
+
 int get_auto_consume_moves( Character &you, const bool food )
 {
     if( you.is_npc() ) {
@@ -3198,86 +3376,91 @@ int get_auto_consume_moves( Character &you, const bool food )
     if( dest_set.empty() ) {
         return 0;
     }
+    item_location best_comestible;
     for( const tripoint_abs_ms &loc : dest_set ) {
         if( loc.z() != you.pos().z ) {
             continue;
         }
 
+        const auto visit = [&]( item_location & it ) {
+            if( !you.can_consume_as_is( *it ) ) {
+                return VisitResponse::NEXT;
+            }
+            if( it->has_flag( json_flag_NO_AUTO_CONSUME ) ) {
+                // ignored due to NO_AUTO_CONSUME flag
+                return VisitResponse::NEXT;
+            }
+            if( it->is_null() || it->is_craft() || !it->is_food() ||
+                you.fun_for( *it ).first < -5 ) {
+                // not good eatings.
+                return VisitResponse::NEXT;
+            }
+            if( food && you.compute_effective_nutrients( *it ).kcal() < 50 ) {
+                // not filling enough
+                return VisitResponse::NEXT;
+            }
+            if( !you.will_eat( *it, false ).success() ) {
+                // wont like it, cannibal meat etc
+                return VisitResponse::NEXT;
+            }
+            if( !it->is_owned_by( you, true ) ) {
+                // it aint ours.
+                return VisitResponse::NEXT;
+            }
+            if( !food && it->get_comestible()->quench < 15 ) {
+                // not quenching enough
+                return VisitResponse::NEXT;
+            }
+            if( !food && it->is_watertight_container() && it->made_of( phase_id::SOLID ) ) {
+                // it's frozen
+                return VisitResponse::NEXT;
+            }
+            const use_function *usef = it->type->get_use( "BLECH_BECAUSE_UNCLEAN" );
+            if( usef ) {
+                // it's unclean
+                return VisitResponse::NEXT;
+            }
+            if( it->get_comestible()->addictions.count( addiction_alcohol ) &&
+                !you.has_addiction( addiction_alcohol ) ) {
+                return VisitResponse::NEXT;
+            }
+
+            if( !best_comestible || comestible_sort_compare( you, it, best_comestible ) ) {
+                best_comestible = it;
+            }
+
+            return VisitResponse::NEXT;
+        };
+
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
-        std::vector<item *> items_here;
         if( vp ) {
             if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
                 for( item &it : vp_cargo->items() ) {
-                    items_here.push_back( &it );
+                    item_location i_loc( vehicle_cursor( vp->vehicle(), vp->part_index() ), &it );
+                    visit_item_contents( i_loc, visit );
                 }
             }
         } else {
             for( item &it : here.i_at( here.getlocal( loc ) ) ) {
-                items_here.push_back( &it );
+                item_location i_loc( map_cursor( here.getlocal( loc ) ), &it );
+                visit_item_contents( i_loc, visit );
             }
         }
-        for( item *it : items_here ) {
-            item &comest = you.get_consumable_from( *it );
-            if( comest.has_flag( json_flag_NO_AUTO_CONSUME ) ) {
-                // ignored due to NO_AUTO_CONSUME flag
-                continue;
-            }
-            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
-                you.fun_for( comest ).first < -5 ) {
-                // not good eatings.
-                continue;
-            }
-            if( !you.can_consume_as_is( comest ) ) {
-                continue;
-            }
-            if( food && you.compute_effective_nutrients( comest ).kcal() < 50 ) {
-                // not filling enough
-                continue;
-            }
-            if( !you.will_eat( comest, false ).success() ) {
-                // wont like it, cannibal meat etc
-                continue;
-            }
-            if( !it->is_owned_by( you, true ) ) {
-                // it aint ours.
-                continue;
-            }
-            if( !food && comest.get_comestible()->quench < 15 ) {
-                // not quenching enough
-                continue;
-            }
-            if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
-                // it's frozen
-                continue;
-            }
-            const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
-            if( usef ) {
-                // it's unclean
-                continue;
-            }
-            if( comest.get_comestible()->addictions.count( addiction_alcohol ) &&
-                !you.has_addiction( addiction_alcohol ) ) {
-                continue;
-            }
+    }
 
-            int consume_moves = -Pickup::cost_to_move_item( you, *it ) * std::max( rl_dist( you.pos(),
-                                here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( you.get_consume_time( comest ) );
-            item_location item_loc;
-            if( vp ) {
-                item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
-            } else {
-                item_loc = item_location( map_cursor( here.getlocal( loc ) ), &comest );
-            }
+    if( best_comestible ) {
+        int consume_moves = -Pickup::cost_to_move_item( you,
+                            *best_comestible ) * std::max( rl_dist( you.pos(),
+                                    here.getlocal( best_comestible.position() ) ), 1 );
+        consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
-            you.consume( item_loc );
-            // eat() may have removed the item, so check its still there.
-            if( item_loc.get_item() && item_loc->is_container() ) {
-                item_loc->on_contents_changed();
-            }
-
-            return consume_moves;
+        you.consume( best_comestible );
+        // eat() may have removed the item, so check its still there.
+        if( best_comestible.get_item() && best_comestible->is_container() ) {
+            best_comestible->on_contents_changed();
         }
+
+        return consume_moves;
     }
     return 0;
 }

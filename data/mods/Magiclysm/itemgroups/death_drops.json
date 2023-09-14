@@ -27,5 +27,30 @@
     "id": "default_zombie_items_pockets",
     "copy-from": "default_zombie_items_pockets",
     "extend": { "entries": [ { "item": "denarius", "prob": 7 } ] }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items carried by a XEDRA research thaumaturge prior to zombification.  Magical trinkets, reagents, etc.",
+    "id": "mon_zombie_research_thaumaturge_death_drops",
+    "entries": [
+      { "group": "lab_shoes", "damage": [ 1, 4 ] },
+      { "group": "lab_torso_research_thaumaturge", "damage": [ 1, 4 ] },
+      { "group": "lab_pants", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      {
+        "collection": [
+          { "group": "potions_common", "prob": 50 },
+          { "group": "potions_uncommon", "prob": 20 },
+          { "group": "enchanted_rings_common", "prob": 20 },
+          { "group": "enchanted_wands_lesser", "prob": 20 },
+          { "group": "magical_reagents", "prob": 80, "count-min": 1, "count-max": 5 },
+          { "group": "textbooks", "prob": 25 },
+          { "group": "lab_files_generic", "prob": 15 },
+          { "item": "crystallized_mana", "prob": 35, "charges": [ 1, 5 ] }
+        ]
+      },
+      { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
+    ]
   }
 ]

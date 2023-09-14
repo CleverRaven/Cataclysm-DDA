@@ -162,7 +162,8 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
@@ -183,6 +184,7 @@
         "type": "transform"
       }
     ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
   },
   {
@@ -228,8 +230,9 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "tick_action": [ "MP3_ON" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
@@ -394,7 +397,7 @@
     "type": "TOOL",
     "name": { "str": "bionic maintenance toolkit" },
     "description": "A set of very small tools and encrypted digital keys normally used to repair bionic modules in clinical settings.  They will allow you to disassemble simple bionics, but anything more complex would require even more specialized tools.",
-    "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SCREW_FINE", 1 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
     "id": "afs_complete_bionic_toolkit",
@@ -402,7 +405,7 @@
     "type": "TOOL",
     "name": { "str": "complete bionic toolkit" },
     "description": "A set of very small robotic tools and encrypted digital keys originally designed to disassemble and test the quality of industrially produced bionics.  A highly skilled and patient engineer could use them to manually assemble new cybernetics.",
-    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
     "id": "afs_bionic_power_mod",
@@ -460,6 +463,7 @@
     "power_draw": "1 W",
     "revert_to": "control_laptop",
     "use_action": { "target": "control_laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "tick_action": [ "EPIC_MUSIC" ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
   },
   {
@@ -518,7 +522,8 @@
           "values": [ { "value": "PERCEPTION", "add": 1 } ]
         }
       ]
-    }
+    },
+    "tick_action": [ "EPIC_MUSIC" ]
   },
   {
     "id": "nano_forge",

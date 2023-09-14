@@ -675,10 +675,10 @@
       [ "jackhammer", 2 ],
       [ "jam_fruit", 4 ],
       [ "jar_3l_glass_sealed", 2 ],
-      { "item": "fish_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 2, "group": "fish_pickled_jar_glass_sealed_2" },
       [ "jar_glass_sealed", 2 ],
-      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "veggy_pickled", "prob": 4, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 2, "group": "meat_pickled_jar_glass_sealed_2" },
+      { "prob": 4, "group": "veggy_pickled_jar_glass_sealed_2" },
       [ "jerrycan", 3 ],
       [ "jerrycan_big", 2 ],
       [ "joint", 10 ],
@@ -904,20 +904,14 @@
       [ "power_supply", 1 ],
       [ "press", 1 ],
       [ "processor", 1 ],
-      {
-        "item": "protein_powder",
-        "prob": 1,
-        "container-item": "bottle_plastic_small",
-        "charges-min": 1,
-        "charges-max": 9
-      },
+      { "prob": 1, "group": "protein_powder_bottle_plastic_small_1_9" },
       [ "protein_shake", 1 ],
       [ "prozac", 3 ],
       [ "puck", 1 ],
       [ "pudding", 2 ],
       [ "puller", 1 ],
       [ "punch_dagger", 2 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 5 },
+      { "group": "pur_tablets_bottle_plastic_small_5" },
       [ "purple_drink", 3 ],
       [ "purse", 4 ],
       [ "quikclot", 5 ],
@@ -1136,5 +1130,13 @@
       [ "yoghurt", 2 ],
       [ "zucchini", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": 5 } ]
   }
 ]

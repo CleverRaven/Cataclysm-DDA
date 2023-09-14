@@ -13,12 +13,30 @@
     <_CDDA_BACKTRACE Condition="'$(BACKTRACE)'!=''">true</_CDDA_BACKTRACE>
     <_CDDA_RELEASE_BUILD>false</_CDDA_RELEASE_BUILD>
     <_CDDA_RELEASE_BUILD Condition="'$(CDDA_RELEASE_BUILD)'!=''">true</_CDDA_RELEASE_BUILD>
+    <CDDA_LLVM_LIB_PATH Condition="'$(CDDA_LLVM_LIB_PATH)'==''">$(LLVMInstallDir)</CDDA_LLVM_LIB_PATH>
+    <CDDA_LLD_LINK_PATH Condition="'$(CDDA_LLD_LINK_PATH)'==''">$(LLVMInstallDir)</CDDA_LLD_LINK_PATH>
+    <_CDDA_ENABLE_THIN_ARCHIVES>false</_CDDA_ENABLE_THIN_ARCHIVES>
+    <_CDDA_ENABLE_THIN_ARCHIVES Condition="'$(CDDA_ENABLE_THIN_ARCHIVES)'!=''">true</_CDDA_ENABLE_THIN_ARCHIVES>
+    <_CDDA_USE_LLD_LINK>false</_CDDA_USE_LLD_LINK>
+    <_CDDA_USE_LLD_LINK Condition="'$(CDDA_USE_LLD_LINK)'!='' Or $(_CDDA_ENABLE_THIN_ARCHIVES)">true</_CDDA_USE_LLD_LINK>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
   </PropertyGroup>
   <PropertyGroup Condition="$(_CDDA_USE_CCACHE)">
     <ClToolPath>$(CDDA_CCACHE_PATH)</ClToolPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(_CDDA_ENABLE_THIN_ARCHIVES)">
+    <LibToolPath>$(CDDA_LLVM_LIB_PATH)\bin</LibToolPath>
+    <LibToolExe>llvm-lib.exe</LibToolExe>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(_CDDA_USE_LLD_LINK)">
+    <LinkToolPath>$(CDDA_LLD_LINK_PATH)\bin</LinkToolPath>
+    <LinkToolExe>lld-link.exe</LinkToolExe>
+    <!-- vcpkg passes dependecy libs via a glob pattern which lld-link doesn't accept. We have to manually enumerate the deps now. -->
+    <VcpkgAutoLink>false</VcpkgAutoLink>
+    <VcpkgLibSuffix></VcpkgLibSuffix>
+    <VcpkgLibSuffix Condition="$(Configuration.StartsWith(Debug))">d</VcpkgLibSuffix>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -50,20 +68,75 @@
       <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <Lib Condition="$(_CDDA_ENABLE_THIN_ARCHIVES)">
+      <AdditionalOptions>/llvmlibthin $(AdditionalOptions)</AdditionalOptions>
+    </Lib>
     <Link>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <LinkStatus>true</LinkStatus>
-      <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
+      <LinkIncremental>true</LinkIncremental>
+      <LinkStatus />
+      <LinkTimeCodeGeneration />
       <AdditionalDependencies>dbghelp.lib;winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <!-- VS2022 DebugFastLink segfaults https://developercommunity.visualstudio.com/t/Visual-Studio-2022-version-1742-crashe/10243923 -->
-    <Link Condition="$(PlatformToolsetVersion) == 143">
+    <!-- Fixed in VS2022 17.7 == 14.37 -->
+    <Link Condition="$(PlatformToolsetVersion) == 143 And $(VCToolsVersion) &lt;= 14.37">
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <Link Condition="$(_CDDA_RELEASE_BUILD)">
+      <LinkIncremental>false</LinkIncremental>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <StripPrivateSymbols>$(OutDir)$(TargetName).stripped.pdb</StripPrivateSymbols>
+    </Link>
+    <Link Condition="$(_CDDA_USE_LLD_LINK)">
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith(Debug))">
+        $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\debug\lib;%(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith(Release))">
+        $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\lib;%(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+        brotlicommon-static.lib;
+        brotlidec-static.lib;
+        brotlienc-static.lib;
+        bz2$(VcpkgLibSuffix).lib;
+        FLAC.lib;
+        FLAC++.lib;
+        freetype$(VcpkgLibSuffix).lib;
+        jpeg.lib;
+        libpng16$(VcpkgLibSuffix).lib;
+        modplug.lib;
+        mpg123.lib;
+        ogg.lib;
+        out123.lib;
+        SDL2_image-static$(VcpkgLibSuffix).lib;
+        SDL2_mixer-static$(VcpkgLibSuffix).lib;
+        SDL2_ttf.lib;
+        SDL2-static$(VcpkgLibSuffix).lib;
+        syn123.lib;
+        turbojpeg.lib;
+        vorbis.lib;
+        vorbisenc.lib;
+        vorbisfile.lib;
+        zlib$(VcpkgLibSuffix).lib;
+        <!-- win32 deps of the vcpkg deps -->
+        Advapi32.lib;
+        Cfgmgr32.lib;
+        Gdi32.lib;
+        Imm32.lib;
+        Ole32.lib;
+        OleAut32.lib;
+        Setupapi.lib;
+        Shell32.lib;
+        Shlwapi.lib;
+        User32.lib;
+        Version.lib;
+        Winmm.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <LinkIncremental />
+      <LinkStatus />
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>

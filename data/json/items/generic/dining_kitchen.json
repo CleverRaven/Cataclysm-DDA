@@ -625,7 +625,14 @@
     "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "knife_butter",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weight": "82 g",
+    "volume": "138 ml",
+    "longest_side": "19 cm",
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "steel", "portion": 3 } ],
+    "price": "12 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B00004OCIP"
   },
   {
     "type": "GENERIC",
@@ -741,7 +748,13 @@
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
     "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "weight": "238 g",
+    "volume": "224 ml",
+    "longest_side": "17 cm",
+    "price": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
     "type": "GENERIC",
@@ -1013,8 +1026,8 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
+    "extend": { "qualities": [ [ "HAMMER", 1 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 12 },
     "//": "Based on https://www.amazon.com/dp/B00006JSUA BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
@@ -1041,8 +1054,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1068,8 +1080,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1142,7 +1153,7 @@
     "weight": "728 g",
     "volume": "1575 ml",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "delete": { "qualities": [ "COOK" ] },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -1158,7 +1169,7 @@
     "volume": "3100 ml",
     "melee_damage": { "bash": 5 },
     "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [ "COOK" ] }
   },
   {
     "id": "colander_steel",
@@ -1332,8 +1343,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {

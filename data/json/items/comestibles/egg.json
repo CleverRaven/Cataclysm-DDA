@@ -15,7 +15,6 @@
     "price_postapoc": 50,
     "material": [ "egg" ],
     "volume": "50 ml",
-    "stack_size": 1,
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
@@ -155,11 +154,10 @@
     "quench": 3,
     "calories": 87,
     "description": "An egg laid by one of reptile species found in New England.",
-    "price": 250,
-    "price_postapoc": 50,
+    "price": "62 cent",
+    "price_postapoc": "12 cent",
     "material": [ "egg" ],
-    "volume": "250 ml",
-    "stack_size": 4,
+    "volume": "62 ml",
     "fun": -12,
     "flags": [ "RAW" ]
   },
@@ -172,7 +170,6 @@
     "color": "white",
     "symbol": "o",
     "material": [ "egg" ],
-    "stack_size": 1,
     "volume": "250 ml",
     "weight": "275 g",
     "calories": 240,
@@ -489,11 +486,10 @@
     "quench": 4,
     "calories": 34,
     "description": "Common roe from an unknown fish.",
-    "price": 50,
-    "price_postapoc": 100,
+    "price": "12 cent",
+    "price_postapoc": "25 cent",
     "material": [ "egg" ],
-    "volume": "100 ml",
-    "stack_size": 4,
+    "volume": "25 ml",
     "fun": 1,
     "vitamins": [ [ "vitC", 1 ] ],
     "flags": [ "RAW" ]
@@ -785,13 +781,12 @@
     "quench": -2,
     "calories": 80,
     "description": "Whole fresh eggs, dehydrated into an easy to store powder.",
-    "price": 1120,
-    "price_postapoc": 750,
+    "price": "70 cent",
+    "price_postapoc": "46 cent",
     "material": [ "powder", "egg" ],
     "primary_material": "powder",
-    "volume": "250 ml",
+    "volume": "15 ml",
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
-    "charges": 16,
     "fun": -4,
     "freezing_point": -274
   },
@@ -829,7 +824,6 @@
     "price_postapoc": 100,
     "material": [ "egg" ],
     "volume": "125 ml",
-    "charges": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 3,
     "rot_spawn": "GROUP_NULL",
@@ -1003,6 +997,8 @@
     "description": "Roe in the process of becoming fully cured with salt, capable of becoming homemade caviar.  The flavor is slowly developing at this stage, and is currently significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
     "weight": "96 g",
     "volume": "500ml",
+    "charges": 1,
+    "stack_size": 4,
     "calories": 68,
     "price": 500,
     "price_postapoc": 250,
@@ -1025,22 +1021,12 @@
     "name": { "str_sp": "post apocalyptic 'caviar'" },
     "description": "Fish eggs that have been cured in a salty brine.  Can be vacuum sealed to preserve freshness.  Technically caviar only came from a specific type of Sturgeon roe but the FDA allows all cured fish to be referred to as caviar.",
     "weight": "48 g",
-    "volume": "250ml",
+    "volume": "62 ml",
     "calories": 68,
-    "price": 500,
-    "price_postapoc": 250,
+    "price": "125 cent",
+    "price_postapoc": "62 cent",
     "fun": 5,
     "flags": [  ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_frog",
-    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "copy-from": "egg_chicken",
-    "weight": "20 g",
-    "volume": "650 ml",
-    "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
-    "rot_spawn": "GROUP_EGG_FROG"
   },
   {
     "type": "COMESTIBLE",
@@ -1103,14 +1089,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_toad",
-    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
-    "copy-from": "egg_frog",
-    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
-    "rot_spawn": "GROUP_EGG_TOAD"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_water_beetle",
     "name": "water beetle egg",
     "description": "The egg of a water beetle, usually found near aquatic grass.",
@@ -1169,5 +1147,115 @@
     "material": [ "egg", "veggy" ],
     "fun": 5,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "abstract": "egg_proxy_frog",
+    "copy-from": "egg_fish",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "color": "brown",
+    "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
+    "price": 25,
+    "price_postapoc": 50,
+    "fun": -16,
+    "vitamins": [ [ "iron", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_leo_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "This is a dense cluster of dark frog's eggs, not dissimilar in appearance to caviar.",
+    "rot_spawn": "GROUP_EGG_LEO_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pattern_frog",
+    "copy-from": "egg_leo_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_PATTERN_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bullfrog_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A thin film of frog eggs floats together atop the water in a roughly circular mass.",
+    "rot_spawn": "GROUP_EGG_BULLFROG_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_strange_frog",
+    "copy-from": "egg_bullfrog_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_STRANGE_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fowler_toad",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "These eggs float in long strands, drifting in the still water.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_FOWLER_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_foul_toad",
+    "copy-from": "egg_fowler_toad",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_FOUL_TOAD",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_freedom_toad",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A spiral strand of frog eggs adorns a patch of underwater vegetation.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_FREEDOM_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_odd_toad",
+    "copy-from": "egg_freedom_toad",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_ODD_TOAD",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_peeper_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A loose grouping of surprisingly few frog's eggs, anchored to submerged vegetation.",
+    "rot_spawn": "GROUP_EGG_PEEPER_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_vocal_frog",
+    "copy-from": "egg_peeper_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_VOCAL_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gray_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A small patch of frog's eggs rests on the water's surface.",
+    "rot_spawn": "GROUP_EGG_GRAY_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_shift_frog",
+    "copy-from": "egg_gray_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_SHIFT_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   }
 ]

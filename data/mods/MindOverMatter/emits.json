@@ -1,5 +1,33 @@
 [
   {
+    "id": "emit_pyrokinetic_summon_heat_1",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_1",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokinetic_summon_heat_2",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_2",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokinetic_summon_heat_3",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_3",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokinetic_summon_heat_4",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_4",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
     "id": "emit_pyrokin_cloak",
     "type": "emit",
     "field": "fd_pyrokinetic_warmth",

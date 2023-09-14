@@ -7,7 +7,7 @@
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

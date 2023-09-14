@@ -97,12 +97,12 @@
       {
         "text": "This is a trait flags test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_flag": "CANNIBAL" }
+        "condition": { "u_has_flag": "PSYCHOPATH" }
       },
       {
         "text": "This is a npc trait flags test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_flag": "CANNIBAL" }
+        "condition": { "npc_has_flag": "SAPIOVORE" }
       }
     ]
   },
@@ -1622,6 +1622,30 @@
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       { "text": "Mod TESTING DATA is loaded.", "topic": "TALK_DONE", "condition": { "mod_is_loaded": "test_data" } },
       { "text": "Mod Innawood is loaded.", "topic": "TALK_DONE", "condition": { "mod_is_loaded": "innawood" } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_TOPIC_ITEM_MUTATOR",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ],
+    "repeat_responses": [
+      {
+        "for_item": "bottle_glass",
+        "response": { "text": "This is a repeated item bottle_glass test response", "topic": "TALK_TEST_TOPIC_ITEM_MUTATOR_2" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_TOPIC_ITEM_MUTATOR_2",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "text": "This is a basic test response.",
+        "topic": "TALK_DONE",
+        "effect": { "set_string_var": { "mutator": "topic_item" }, "target_var": { "global_val": "key1" } }
+      }
     ]
   },
   {

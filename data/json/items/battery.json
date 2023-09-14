@@ -19,7 +19,7 @@
   {
     "id": "light_minus_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "A light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
     "ascii_picture": "ultra_light_battery",
@@ -39,7 +39,7 @@
   {
     "id": "light_minus_atomic_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "ultra-light plutonium fuel battery", "str_pl": "ultra-light plutonium fuel batteries" },
     "description": "A battery that uses a thin plutonium-244 rod to stabilize an exotic nanocompound, designed for small size over everything else.",
     "ascii_picture": "ultra_light_battery_plut",
@@ -60,7 +60,7 @@
   {
     "id": "light_minus_disposable_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "ultra-light disposable battery", "str_pl": "ultra-light disposable batteries" },
     "description": "A light battery cell designed for small size over everything else.  It retains its universal compatibility, though.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "ascii_picture": "ultra_light_battery",
@@ -81,7 +81,7 @@
   {
     "id": "light_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "light battery", "str_pl": "light batteries" },
     "description": "A light battery cell, universally compatible with all kinds of small devices.",
     "ascii_picture": "light_battery",
@@ -101,7 +101,7 @@
   {
     "id": "light_plus_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "light battery (high-capacity)", "str_pl": "light batteries (high-capacity)" },
     "description": "A high-capacity light battery cell, universally compatible with all kinds of small devices.",
     "ascii_picture": "light_battery",
@@ -121,7 +121,7 @@
   {
     "id": "light_atomic_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "light plutonium fuel battery", "str_pl": "light plutonium fuel batteries" },
     "description": "A battery that uses a thin plutonium-244 rod to stabilize an exotic nanocompound.  It is universally compatible with all kinds of small devices.  Although it stores a huge amount of power, it cannot be recharged.",
     "ascii_picture": "light_battery_plut",
@@ -142,7 +142,7 @@
   {
     "id": "light_disposable_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "light disposable battery", "str_pl": "light disposable batteries" },
     "description": "A light battery cell, universally compatible with all kinds of small devices.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "ascii_picture": "light_battery",
@@ -163,7 +163,7 @@
   {
     "id": "light_dry_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "light dry battery", "str_pl": "light dry batteries" },
     "description": "A light battery cell, universally compatible with all kinds of small devices.  The battery's chemistry doesn't provide high energy capacity, and it cannot be recharged.",
     "ascii_picture": "light_battery",
@@ -183,7 +183,7 @@
   {
     "id": "medium_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "medium battery", "str_pl": "medium batteries" },
     "description": "A medium battery cell, universally compatible with all kinds of appliances and power tools.",
     "ascii_picture": "medium_battery",
@@ -203,7 +203,7 @@
   {
     "id": "medium_plus_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "medium battery (high-capacity)", "str_pl": "medium batteries (high-capacity)" },
     "description": "A high-capacity medium battery cell, universally compatible with all kinds of appliances and power tools.",
     "ascii_picture": "medium_battery",
@@ -223,7 +223,7 @@
   {
     "id": "medium_atomic_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "medium plutonium fuel battery", "str_pl": "medium plutonium fuel batteries" },
     "description": "A battery that uses a thin plutonium-244 rod to stabilize an exotic nanocompound.  It is universally compatible with all kinds of appliances and power tools.  Although it stores a huge amount of power, it cannot be recharged.",
     "ascii_picture": "medium_battery_plut",
@@ -244,7 +244,7 @@
   {
     "id": "medium_disposable_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "medium disposable battery", "str_pl": "medium disposable batteries" },
     "description": "A medium battery cell, universally compatible with all kinds of appliances and power tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "ascii_picture": "medium_battery",
@@ -265,7 +265,7 @@
   {
     "id": "medium_dry_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "medium dry battery", "str_pl": "medium dry batteries" },
     "description": "A medium battery cell, universally compatible with all kinds of appliances and power tools.  The battery's chemistry doesn't provide high energy capacity, and it cannot be recharged.",
     "ascii_picture": "medium_battery",
@@ -285,7 +285,7 @@
   {
     "id": "heavy_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "heavy battery", "str_pl": "heavy batteries" },
     "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",
     "ascii_picture": "heavy_battery",
@@ -305,7 +305,7 @@
   {
     "id": "heavy_plus_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "heavy battery (high-capacity)", "str_pl": "heavy batteries (high-capacity)" },
     "description": "A high-capacity heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",
     "ascii_picture": "heavy_battery",
@@ -325,7 +325,7 @@
   {
     "id": "heavy_atomic_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "heavy plutonium fuel battery", "str_pl": "heavy plutonium fuel batteries" },
     "description": "A battery that uses a thin plutonium-244 rod to stabilize an exotic nanocompound.  It is universally compatible with all kinds of industrial-grade equipment and large tools.  Although it stores a huge amount of power, it cannot be recharged.",
     "ascii_picture": "heavy_battery_plut",
@@ -346,7 +346,7 @@
   {
     "id": "huge_atomic_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "military plutonium fuel cell" },
     "description": "A battery that uses a huge plutonium-244 rod to stabilize an exotic nanocompound.  It was used in military mech-suits, was highly experimental, and had no civilian applications.  Although it stores a stupendous amount of power, it cannot be recharged.",
     "weight": "64000 g",
@@ -366,7 +366,7 @@
   {
     "id": "heavy_disposable_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "heavy disposable battery", "str_pl": "heavy disposable batteries" },
     "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "ascii_picture": "heavy_battery",
@@ -387,7 +387,7 @@
   {
     "id": "heavy_dry_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "heavy dry battery", "str_pl": "heavy dry batteries" },
     "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.  The battery's chemistry doesn't provide high energy capacity, and it cannot be recharged.",
     "ascii_picture": "heavy_battery",

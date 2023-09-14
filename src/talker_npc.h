@@ -41,17 +41,6 @@ class talker_npc : public talker_cloner<talker_npc, talker_character>
         bool check_hostile_response( int anger ) const override;
         int parse_mod( const std::string &attribute, int factor ) const override;
         int trial_chance_mod( const std::string &trial_type ) const override;
-
-        // stats, skills, traits, bionics, magic, and proficiencies
-        std::vector<skill_id> skills_offered_to( const talker &student ) const override;
-        std::string skill_training_text( const talker &, const skill_id & ) const override;
-        std::vector<proficiency_id> proficiencies_offered_to( const talker &student ) const override;
-        std::string proficiency_training_text( const talker &student,
-                                               const proficiency_id &proficiency ) const override;
-        std::vector<matype_id> styles_offered_to( const talker &student ) const override;
-        std::string style_training_text( const talker &, const matype_id & ) const override;
-        std::vector<spell_id> spells_offered_to( talker &student ) override;
-        std::string spell_training_text( talker &, const spell_id & ) override;
         void store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
                                     const spell_id &c_spell, const proficiency_id &c_proficiency ) override;
 

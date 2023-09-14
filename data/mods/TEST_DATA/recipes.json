@@ -252,5 +252,32 @@
     "time": "10 d",
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 2, "skill_penalty": 0 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "//": "Non-variant version",
+    "result": "test_waist_apron_long",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
+  },
+  {
+    "//": "Variant version",
+    "result": "test_waist_apron_long",
+    "type": "recipe",
+    "variant": "pink_apron_cotton",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   }
 ]

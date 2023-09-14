@@ -76,7 +76,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 30, "charge_rate": "800 W" },
+    "use_action": { "type": "link_up", "cable_length": 30, "charge_rate": "800 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -121,7 +121,7 @@
     "id": "brick_kiln",
     "type": "TOOL",
     "name": { "str": "brick kiln" },
-    "description": "A portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
+    "description": "A portable coal-or-charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
     "volume": "30 L",
     "price": 25000,
@@ -130,8 +130,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
-    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
+    "ammo": [ "charcoal", "coal" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 13 }
   },
@@ -168,7 +168,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "300 W" },
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -195,7 +195,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" },
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -215,7 +215,7 @@
     "volume": "300 ml",
     "longest_side": "5 cm",
     "price": 7000,
-    "price_postapoc": 100,
+    "price_postapoc": 15,
     "to_hit": 1,
     "material": [ "steel", "wood" ],
     "symbol": ";",
@@ -276,16 +276,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": [
-      "HOTPLATE",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 15,
-        "charge_rate": "1500 W"
-      }
-    ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -366,7 +357,7 @@
     "volume": "1500 ml",
     "longest_side": "61 cm",
     "price": 7000,
-    "price_postapoc": 100,
+    "price_postapoc": 15,
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "/",
@@ -391,16 +382,7 @@
     "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7920 } } ],
     "charges_per_use": 3960,
-    "use_action": [
-      "JACKHAMMER",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 33,
-        "charge_rate": "2200 W"
-      }
-    ],
+    "use_action": [ "JACKHAMMER", { "type": "link_up", "cable_length": 33, "charge_rate": "2200 W" } ],
     "flags": [ "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 14, "stab": 6 }
   },
@@ -462,6 +444,51 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "BATONS" ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "hammer_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze hammer" },
+    "description": "A simple crude bronze hammer.  It is not as sophisticated or useful as its steel alternative but it does get the job of hammering in nails well enough.",
+    "copy-from": "hammer",
+    "ascii_picture": "hammer",
+    "weight": "500 g",
+    "price": "1 USD",
+    "price_postapoc": 50,
+    "material": [ "bronze", "wood" ],
+    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "use_action": [  ],
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "nail_puller_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze nail puller" },
+    "description": "A crude nail puller made of bronze.  Not really as good as its steel alternative but it gets job of pulling out nails good enough.",
+    "symbol": "N",
+    "weight": "650 g",
+    "volume": "340 ml",
+    "longest_side": "25 cm",
+    "price": "1 USD",
+    "price_postapoc": 50,
+    "material": [ "bronze" ],
+    "qualities": [ [ "PRYING_NAIL", 1 ], [ "HAMMER", 1 ], [ "PRY", 1 ] ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "saw_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze wood saw" },
+    "description": "A simple wood saw made of bronze.  Not as great as its steel equivalent, but it's good enough.",
+    "symbol": "W",
+    "weight": "450 g",
+    "volume": "1 L",
+    "longest_side": "50 cm",
+    "price": "1 USD",
+    "price_postapoc": 50,
+    "material": [ "bronze" ],
+    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "hand_drill",
@@ -585,7 +612,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1500 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -639,13 +666,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 3,
-        "charge_rate": "70 W"
-      }
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -925,7 +946,7 @@
     "charged_qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 5, "charge_rate": "1600 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 5, "charge_rate": "1600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -972,7 +993,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "800 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1130,13 +1151,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 3,
-        "charge_rate": "70 W"
-      }
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1173,13 +1188,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 3,
-        "charge_rate": "70 W"
-      }
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1201,7 +1210,7 @@
     "longest_side": "46 cm",
     "volume": "460 ml",
     "price": "23 USD",
-    "price_postapoc": 2000,
+    "price_postapoc": 300,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "L",
@@ -1276,6 +1285,7 @@
           "fancy_bronze",
           "silver",
           "gold",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -1292,13 +1302,7 @@
         "cost_scaling": 0.1,
         "move_cost": 500
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 7,
-        "charge_rate": "3000 W"
-      }
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1355,6 +1359,7 @@
           "gold",
           "platinum",
           "superalloy",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -1369,13 +1374,7 @@
         "cost_scaling": 0.1,
         "move_cost": 1000
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 7,
-        "charge_rate": "1500 W"
-      }
+      { "type": "link_up", "cable_length": 7, "charge_rate": "1500 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1430,6 +1429,7 @@
           "fancy_bronze",
           "silver",
           "gold",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -1448,13 +1448,7 @@
         "cost_scaling": 0.1,
         "move_cost": 500
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 7,
-        "charge_rate": "3000 W"
-      }
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1636,7 +1630,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1500 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

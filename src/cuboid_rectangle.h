@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_CUBOID_RECTANGLE_H
 #define CATA_SRC_CUBOID_RECTANGLE_H
 

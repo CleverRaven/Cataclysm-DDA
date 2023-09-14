@@ -84,7 +84,7 @@
     "entries": [
       { "item": "ax", "prob": 70 },
       { "item": "saw", "prob": 10 },
-      { "item": "can_beans", "prob": 10 },
+      { "prob": 10, "group": "can_beans_can_medium_2" },
       { "item": "chainsaw_off", "prob": 10 }
     ]
   }

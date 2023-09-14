@@ -269,7 +269,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     SECTION( "an unskilled shooter with a common smg" ) {
         arm_shooter( shooter, "mp40semi" );
         test_shooting_scenario( shooter, 4, 5, 18 );
-        test_fast_shooting( shooter, 80, 0.15 );
+        test_fast_shooting( shooter, 80, 0.04 );
     }
     SECTION( "an unskilled shooter with a common rifle" ) {
         arm_shooter( shooter, "ar15" );

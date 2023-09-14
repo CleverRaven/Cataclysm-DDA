@@ -1,0 +1,306 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Helena_2",
+      "TALK_GODCO_Helena_Story",
+      "TALK_GODCO_Helena_Uncle",
+      "TALK_GODCO_Helena_Mood",
+      "TALK_GODCO_Helena_Community"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Helena_Story" },
+      { "text": "How are things around here?", "topic": "TALK_GODCO_Helena_Mood" },
+      { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Helena_Community" },
+      {
+        "text": "Can I help you with anything?",
+        "condition": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      {
+        "text": "I want to join the community.",
+        "topic": "TALK_GODCO_Helena_Join",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_1",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "Get away from here, sinner, we don't want your kind here.",
+      "no": {
+        "npc_has_var": "u_met_godco_helena",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
+        "no": "Stranger, what brings you to our holy home?"
+      }
+    },
+    "responses": [
+      {
+        "text": "Who are you?",
+        "effect": { "npc_add_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Helena_Firstmeet"
+      },
+      {
+        "text": "Good to see you again.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Helena_2"
+      },
+      {
+        "text": "I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Fine then.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Firstmeet",
+    "dynamic_line": "I'm Helena, the caretaker of this flock.  Who might you be, wanderer?",
+    "responses": [
+      { "text": "I'm just passing through.", "topic": "TALK_GODCO_Helena_Wanderer" },
+      {
+        "text": "I'm not doing much wandering, I'm staying here.",
+        "topic": "TALK_GODCO_Gemma_Firstmeet",
+        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "I'm just passing through.  I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Wanderer",
+    "dynamic_line": "Just like all the sinners, roaming through Hell.",
+    "responses": [
+      { "text": "It certainly seems like it.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "See ya later, crazy lady.", "opinion": { "value": -1, "anger": 1 }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Joinee",
+    "dynamic_line": "I'm glad you could make it here.  May the Lord have mercy on you.",
+    "responses": [
+      { "text": "Thank you, I hope he shares that sentiment.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Thank you.  I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_2",
+    "dynamic_line": "What do you need?",
+    "responses": [
+      { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "Corrie and I have finished that solar cart.",
+        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "topic": "TALK_GODCO_Helena_Negotiate"
+      },
+      {
+        "text": "Olwen's finished the radio transmitter she was working on.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_mission": "MISSION_GODCO_HELENA_VISIT_MERCHANTS" } },
+            { "u_has_var": "godco_has_radio", "type": "general", "context": "mission", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Helena_Contact_FreeMerch"
+      },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Story",
+    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgement of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
+    "responses": [
+      { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Helena_Uncle" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Uncle",
+    "dynamic_line": "He had many visions, and he had many secrets.  I don't know all of them, but there was one he was highly vocal about, regarding <the_cataclysm>, that according to him \"The spawn of Satan shall descend upon the Earth, and all will be consumed in death and destruction\".  He never said much else about it, and always had a mortified face whenever someone brought it up.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Mood",
+    "dynamic_line": "Thanks to my uncle's forethought, we've been blessed by God.  We have plenty of food for ourselves, safety from the hordes of Hell, and the continued protection of the Lord our God.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Community",
+    "dynamic_line": "They denied us, they labeled us as a doomsday cult, threw sticks and stones at us, and yet, we were standing resiliently.  Why?  Because we knew God was on our side.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Join",
+    "dynamic_line": "We are all under God's protection here.  Our community, like all moral civilizations, has a set of rules.  Obey the Decalogue, have respect for your neighbors and we'll get along just fine.  Go see Gemma or Julian for a bed, if one's available.  We do have limited space on our Ark, though.",
+    "responses": [
+      { "text": "Okay, I'll see about that later.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "What is the Decalouge?", "topic": "TALK_GODCO_Helena_Decalouge" },
+      { "text": "Okay, I'll see about that.  Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Decalouge",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "responses": [ { "text": "…", "topic": "TALK_GODCO_Helena_Decalouge2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Decalouge2",
+    "dynamic_line": "&Helena flips through her Bible before stopping.  \"They read: 'I am the Lord your God, who brought you out of Egypt, out of the land of slavery.  You shall have no other gods before me.  You shall not make for yourself a carved image, or any likeness of anything that is in heaven above, or that is in the earth beneath, or that is in the water under the earth.  You shall not take the name of the Lord your God in vain.  Remember the Sabbath day, and keep it holy.  Honor your father and your mother.  You shall not murder.  You shall not commit adultery.  You shall not steal.  You shall not bear false witness against your neighbor.  You shall not covet your neighbors house.\"  They're written in Exodus 20:1-17, for future reference.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_GODCO_Helena_2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Negotiate",
+    "dynamic_line": "I like what you and Corrie's put together.  I did promise payment for a proof-of-concept, what'll it be?",
+    "responses": [
+      {
+        "text": "I'll have some icons.",
+        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "topic": "TALK_GODCO_Helena_machineIcon"
+      },
+      {
+        "text": "I want Corrie to have some extra rations.",
+        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "topic": "TALK_GODCO_Helena_machineFood"
+      },
+      { "text": "Let's negotiate some other time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_machineIcon",
+    "dynamic_line": "Here's your money.  Don't spend it all in one place.",
+    "responses": [
+      {
+        "text": "Thank you.",
+        "effect": [
+          { "u_lose_var": "godco_corrie_machine", "type": "mission", "context": "completed" },
+          { "u_add_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "icon" },
+          { "u_add_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" },
+          { "u_spawn_item": "icon", "count": 25 }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_machineFood",
+    "dynamic_line": "A generous soul, are we?  That's not what I was expecting, but I'll see to it.",
+    "responses": [
+      {
+        "text": "Thank you.",
+        "effect": [
+          { "u_lose_var": "godco_corrie_machine", "type": "mission", "context": "completed" },
+          { "u_add_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "ration" },
+          { "u_add_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Contact_FreeMerch",
+    "dynamic_line": "Yes, I was just informed of that.  I also heard that she found a large group of people living out in an old evacuation center, who consider themselves merchants.  That would be a good place to resume our spread of the Truth, perhaps we could find others who were faithful before <the_cataclysm>.",
+    "responses": [
+      {
+        "text": "I presume you want me to pay a visit?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Helena_Accept_Contact_FreeMerch"
+      },
+      {
+        "text": "Oh, I've met them before!",
+        "condition": {
+          "or": [
+            { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "found_refugee_center", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Helena_Accept_Contact_FreeMerch"
+      },
+      { "text": "Let's change the subject.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Good luck with that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Accept_Contact_FreeMerch",
+    "dynamic_line": "Yes, you seem like a good fit for the job.  I'll pay you a small sum for getting some information about them.",
+    "responses": [
+      {
+        "text": "Alright, I'll go and see what's up.",
+        "effect": { "add_mission": "MISSION_GODCO_HELENA_VISIT_MERCHANTS" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let's change the subject.", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "Good luck with that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Helena_Tell_FreeMerch",
+    "dynamic_line": "Really?  I'd pay a small sum for information about them.",
+    "responses": [
+      {
+        "text": "Well, they're…",
+        "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

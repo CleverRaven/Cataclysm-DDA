@@ -37,6 +37,7 @@
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "rng.h"
@@ -1780,15 +1781,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( flies() ) {
                 moves -= 100;
                 force = true;
-                add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
-                                        here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
-                                        here.tername( p ) );
+                if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
+                    add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
+                                            here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
+                                            here.tername( p ) );
+                }
             } else if( climbs() ) {
                 moves -= 150;
                 force = true;
-                add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
-                                        here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
-                                        here.tername( p ) );
+                if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
+                    add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
+                                            here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
+                                            here.tername( p ) );
+                }
             }
         }
     }
@@ -1827,27 +1832,29 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             has_flag( mon_flag_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
         ) && here.is_divable( destination );
 
-    //Birds and other flying creatures flying over the deep water terrain
-    if( was_water && flies() ) {
-        if( one_in( 4 ) ) {
-            add_msg_if_player_sees( *this, m_warning, _( "A %1$s flies over the %2$s!" ),
-                                    name(), here.tername( pos() ) );
+    if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
+        //Birds and other flying creatures flying over the deep water terrain
+        if( was_water && flies() ) {
+            if( one_in( 4 ) ) {
+                add_msg_if_player_sees( *this, m_warning, _( "A %1$s flies over the %2$s!" ),
+                                        name(), here.tername( pos() ) );
+            }
+        } else if( was_water && !will_be_water ) {
+            // Use more dramatic messages for swimming monsters
+            add_msg_if_player_sees( *this, m_warning,
+                                    //~ Message when a monster emerges from water
+                                    //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
+                                    pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ),
+                                    name(), swims() ||
+                                    has_flag( mon_flag_AQUATIC ) ? _( "leaps" ) : _( "emerges" ), here.tername( pos() ) );
+        } else if( !was_water && will_be_water ) {
+            add_msg_if_player_sees( *this, m_warning, pgettext( "monster movement",
+                                    //~ Message when a monster enters water
+                                    //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
+                                    "A %1$s %2$s into the %3$s!" ),
+                                    name(), swims() ||
+                                    has_flag( mon_flag_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
         }
-    } else if( was_water && !will_be_water ) {
-        // Use more dramatic messages for swimming monsters
-        add_msg_if_player_sees( *this, m_warning,
-                                //~ Message when a monster emerges from water
-                                //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
-                                pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ),
-                                name(), swims() ||
-                                has_flag( mon_flag_AQUATIC ) ? _( "leaps" ) : _( "emerges" ), here.tername( pos() ) );
-    } else if( !was_water && will_be_water ) {
-        add_msg_if_player_sees( *this, m_warning, pgettext( "monster movement",
-                                //~ Message when a monster enters water
-                                //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
-                                "A %1$s %2$s into the %3$s!" ),
-                                name(), swims() ||
-                                has_flag( mon_flag_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
     }
 
     optional_vpart_position vp_orig = here.veh_at( pos() );

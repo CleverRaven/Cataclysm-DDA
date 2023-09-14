@@ -32,7 +32,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -45,7 +46,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "items slipped under the top of a duffelbag not well secured",
@@ -58,7 +60,8 @@
         "moves": 80,
         "extra_encumbrance": 5,
         "description": "Tucked under the carry handles.",
-        "ripoff": 1
+        "ripoff": 1,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -100,7 +103,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -113,7 +117,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "items slipped under the top of a duffelbag not well secured",
@@ -126,7 +131,8 @@
         "moves": 80,
         "extra_encumbrance": 5,
         "description": "Tucked under the carry handles.",
-        "ripoff": 1
+        "ripoff": 1,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -187,7 +193,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -201,7 +208,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 60 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -215,7 +223,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 60 },
+        "transparent": true
       }
     ],
     "warmth": 6,
@@ -257,7 +266,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 60 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -271,7 +281,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 60 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -285,7 +296,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 60 }
+        "activity_noise": { "volume": 8, "chance": 60 },
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -298,7 +310,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -311,7 +324,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "warmth": 8,
@@ -405,7 +419,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -418,7 +433,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "pocket_type": "CONTAINER",

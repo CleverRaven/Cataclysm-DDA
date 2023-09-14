@@ -20,11 +20,10 @@
 
 #include <QtWidgets/qapplication.h>
 #include <QtCore/QSettings>
-#ifdef QT_STATICPLUGIN
-#include <QtCore/QtPlugin>
+
 #ifdef _WIN32
+#include <QtCore/QtPlugin>
 Q_IMPORT_PLUGIN( QWindowsIntegrationPlugin );
-#endif
 #endif
 
 struct MOD_INFORMATION;

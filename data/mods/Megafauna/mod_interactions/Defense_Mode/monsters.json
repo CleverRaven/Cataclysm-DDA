@@ -1,0 +1,57 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "MEGAFAUNA_DM",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "megafauna_dm",
+    "base_faction": "animal"
+  },
+  {
+    "id": "mon_direwolf_dm",
+    "copy-from": "mon_direwolf",
+    "type": "MONSTER",
+    "default_faction": "megafauna_dm",
+    "species": [ "MEGAFAUNA_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_sabcat_dm",
+    "copy-from": "mon_sabcat",
+    "type": "MONSTER",
+    "default_faction": "megafauna_dm",
+    "species": [ "MEGAFAUNA_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_cave_lion_dm",
+    "copy-from": "mon_cave_lion",
+    "type": "MONSTER",
+    "default_faction": "megafauna_dm",
+    "species": [ "MEGAFAUNA_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_titanis_walleri_dm",
+    "copy-from": "mon_titanis_walleri",
+    "type": "MONSTER",
+    "default_faction": "megafauna_dm",
+    "species": [ "MEGAFAUNA_DM" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]

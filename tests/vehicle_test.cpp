@@ -430,7 +430,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     cord.link = cata::make_value<item::link_data>();
     cord.link->t_state = link_state::vehicle_port;
     cord.link->t_abs_pos = here.getglobal( src_pos );
-    cord.active = true;
+    cord.set_link_traits();
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );
     const optional_vpart_position source_vp = here.veh_at( src_pos );
@@ -452,12 +452,14 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
     source_veh->install_part( vcoords, std::move( source_part ) );
+    source_veh->precalc_mounts( 1, source_veh->pivot_rotation[1], source_veh->pivot_anchor[1] );
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
     target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
+    target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 }
 
 TEST_CASE( "power_cable_stretch_disconnect" )
@@ -490,6 +492,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
         REQUIRE( app2.part_count() == 2 );
 
         REQUIRE( app1.part( 1 ).get_base().type->maximum_charges() == 3 );
+        REQUIRE( app1.part( 1 ).get_base().max_link_length() == 3 );
 
         const int max_dist = app1.part( 1 ).get_base().type->maximum_charges();
 
@@ -530,6 +533,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
         REQUIRE( app2.part_count() == 2 );
 
         REQUIRE( app1.part( 1 ).get_base().type->maximum_charges() == 10 );
+        REQUIRE( app1.part( 1 ).get_base().max_link_length() == 10 );
 
         const int max_dist = app1.part( 1 ).get_base().type->maximum_charges();
 

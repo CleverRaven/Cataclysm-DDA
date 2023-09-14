@@ -43,7 +43,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -57,7 +58,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 6,
@@ -150,7 +152,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -164,7 +167,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -177,7 +181,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -190,7 +195,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
@@ -274,7 +280,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -288,7 +295,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -301,7 +309,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -314,7 +323,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "has the ability to loosen the pack, causing a lot of encumbrance but allowing for storage of very large items between the pack and the frame",
@@ -475,7 +485,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -489,7 +500,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -503,7 +515,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -602,7 +615,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -615,7 +629,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -682,7 +697,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -696,7 +712,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 5,
@@ -800,7 +817,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "water bottle pocket",
@@ -826,7 +844,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 5,
@@ -999,7 +1018,8 @@
         "moves": 80,
         "extra_encumbrance": 5,
         "description": "Tucked under the carry handles.",
-        "ripoff": 1
+        "ripoff": 1,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -1050,7 +1070,8 @@
         "moves": 80,
         "extra_encumbrance": 5,
         "description": "Tucked under the carry handles.",
-        "ripoff": 1
+        "ripoff": 1,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -1601,7 +1622,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 5,
@@ -1728,7 +1750,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -1742,7 +1765,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -1755,7 +1779,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -1816,7 +1841,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -1830,7 +1856,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -1843,7 +1870,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -1904,7 +1932,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -1918,7 +1947,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -1931,7 +1961,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 12,
@@ -2171,7 +2202,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -2185,7 +2217,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -2199,7 +2232,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -2213,7 +2247,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 8,
@@ -2485,7 +2520,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -2498,7 +2534,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "warmth": 8,
@@ -2952,7 +2989,8 @@
         "moves": 1000,
         "ripoff": 5,
         "activity_noise": { "volume": 9, "chance": 15 },
-        "extra_encumbrance": 20
+        "extra_encumbrance": 20,
+        "transparent": true
       }
     ],
     "material_thickness": 2,

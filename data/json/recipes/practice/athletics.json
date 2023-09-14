@@ -24,6 +24,7 @@
     "skill_used": "swimming",
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [ { "proficiency": "prof_athlete_basic", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "autolearn": [ [ "swimming", 2 ] ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ "pseudo_exercise_machine", "pseudo_punching_bag", "pseudo_ergometer_mechanical", "pseudo_treadmill_mechanical" ] ]
@@ -43,5 +44,46 @@
     "proficiencies": [ { "proficiency": "prof_parkour", "time_multiplier": 2, "skill_penalty": 2 } ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ "parkour_practice" ] ]
+  },
+  {
+    "id": "prac_athletic_form",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ATHLETICS",
+    "name": "athlete's form (expert)",
+    "description": "Improve your athletic form using workout equipment.",
+    "skill_used": "swimming",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
+    "proficiencies": [
+      { "proficiency": "prof_athlete_basic", "required": true },
+      { "proficiency": "prof_athlete_expert", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "autolearn": [ [ "swimming", 3 ] ],
+    "flags": [ "BLIND_EASY" ],
+    "book_learn": [ [ "mag_swimming", 2 ], [ "manual_swimming", 2 ] ],
+    "tools": [ [ "pseudo_exercise_machine", "pseudo_punching_bag", "pseudo_ergometer_mechanical", "pseudo_treadmill_mechanical" ] ]
+  },
+  {
+    "id": "prac_master_athletic_form",
+    "type": "practice",
+    "activity_level": "ACTIVE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ATHLETICS",
+    "name": "athlete's form (master)",
+    "description": "Refine your athletic form with a high-intensity workout.",
+    "skill_used": "swimming",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_athlete_basic", "required": true },
+      { "proficiency": "prof_athlete_expert", "required": true },
+      { "proficiency": "prof_athlete_master", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "autolearn": [ [ "swimming", 4 ] ],
+    "flags": [ "BLIND_EASY" ],
+    "book_learn": [ [ "manual_swimming", 3 ] ],
+    "tools": [ [ "pseudo_exercise_machine", "pseudo_ergometer_mechanical" ] ]
   }
 ]

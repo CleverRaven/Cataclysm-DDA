@@ -237,7 +237,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
         "encumbrance": [ 3, 4 ],
@@ -275,7 +275,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
         "encumbrance": [ 3, 4 ],
@@ -419,6 +419,7 @@
       }
     ],
     "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -531,7 +532,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
         "encumbrance": [ 5, 7 ],
@@ -579,7 +580,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
         "encumbrance": [ 8, 10 ],
@@ -627,7 +628,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
         "encumbrance": [ 5, 7 ],
@@ -675,7 +676,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
         "encumbrance": [ 8, 10 ],
@@ -767,7 +768,7 @@
     "name": { "str": "XS holster" },
     "description": "A leather strap worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE", "PALS_MEDIUM" ]
+    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
   },
   {
     "id": "XS_nylon_holster",
@@ -777,6 +778,6 @@
     "name": { "str": "XS nylon holster" },
     "description": "A nylon sheath worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE", "PALS_MEDIUM" ]
+    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
   }
 ]

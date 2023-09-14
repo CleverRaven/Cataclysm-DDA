@@ -23,7 +23,7 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmw_2" } ],
-    "blueprint_provides": [ { "id": "fbmw_2_smithy_1" } ],
+    "blueprint_provides": [ { "id": "fbmw_2_smithy_1" }, { "id": "blacksmith" }, { "id": "fbmw_2_blacksmith_recipes_0" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_smithy_1" } ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",

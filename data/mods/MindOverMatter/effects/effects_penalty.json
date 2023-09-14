@@ -1,0 +1,303 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_disease_psionic_drain",
+    "name": [
+      "Drained",
+      "Drained",
+      "Drained",
+      "Enervated",
+      "Enervated",
+      "Enervated",
+      "Debilitated",
+      "Debilitated",
+      "Enfeebled",
+      "Enfeebled",
+      "Hollowed Out",
+      "Hollowed Out"
+    ],
+    "desc": [
+      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
+      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
+      "You're a little short of breath and your muscles ache.  Your use of psionic powers has taken its toll.",
+      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
+      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
+      "You feel an unnatural tiredness that penetrates to your core.  All that psionic channeling is gravely affecting you.",
+      "You're having a hard time standing and keeping your eyes open.  Your powers have taken the greater part of your energy.",
+      "You're having a hard time standing and keeping your eyes open.  Your powers have taken the greater part of your energy.",
+      "You can barely stand and your stomach gnaws with hunger.  Use of your powers has nearly drained you dry.",
+      "You can barely stand and your stomach gnaws with hunger.  Use of your powers has nearly drained you dry.",
+      "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away.",
+      "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away."
+    ],
+    "apply_message": [
+      [ "You feel a little tired.  All that psionic channeling is starting to wear you down.", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "Your breath catches in your lungs.  Use of your powers is really tiring you out.", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "Even standing is an effort.  You've really worn yourself out with all this psionic channeling.", "bad" ],
+      [ "", "bad" ],
+      [
+        "Your muscles ache and your eyes are starting to close on your own.  Constant channeling is draining you dry.",
+        "bad"
+      ],
+      [ "", "bad" ],
+      [
+        "It hurts to move.  It hurts to breathe.  It hurts to think.  You need rest and to stop using your powers.  Now.",
+        "bad"
+      ],
+      [ "", "bad" ]
+    ],
+    "decay_messages": [
+      [ "", "good" ],
+      [ "", "good" ],
+      [
+        "All that's left is a bit of weariness and some slight soreness.  You've almost totally recovered from the aftereffects of drain.",
+        "good"
+      ],
+      [ "", "good" ],
+      [ "", "good" ],
+      [
+        "It's slow but you're recovering.  Some more rest and you'll be ready to use your powers freely again.",
+        "good"
+      ],
+      [ "", "good" ],
+      [ "Your muscles ache less and you feel more energetic.  You must be getting your strength back.", "good" ],
+      [ "", "good" ],
+      [ "", "good" ],
+      [ "", "good" ],
+      [ "", "good" ]
+    ],
+    "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
+    "max_intensity": 12,
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "stamina_amount": [ -500 ],
+      "stamina_min": [ -5 ],
+      "stamina_chance": [ 30 ],
+      "stamina_tick": [ 30 ],
+      "health_amount": [ -1 ],
+      "health_chance": [ 200 ],
+      "health_tick": [ 2000 ],
+      "hunger_min": [ 1 ],
+      "hunger_chance": [ 100 ],
+      "hunger_tick": [ 400 ],
+      "fatigue_min": [ 1 ],
+      "fatigue_chance": [ 200 ],
+      "fatigue_tick": [ 500 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -0.8 ],
+      "dex_mod": [ -0.8 ],
+      "per_mod": [ -0.6 ],
+      "int_mod": [ -0.3 ],
+      "stamina_amount": [ -300 ],
+      "stamina_min": [ -1 ],
+      "stamina_tick": [ -1 ],
+      "health_chance": [ -15 ],
+      "health_tick": [ -165 ],
+      "hunger_min": [ 0.6 ],
+      "hunger_chance": [ -4 ],
+      "hunger_tick": [ -30 ],
+      "fatigue_min": [ 0.5 ],
+      "fatigue_chance": [ -15 ],
+      "fatigue_tick": [ -15 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 1.0, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.025 },
+      { "limb_score": "manip", "modifier": 0.95, "resist_modifier": 1.0, "scaling": -0.04, "resist_scaling": -0.02 },
+      {
+        "limb_score": "balance",
+        "modifier": 0.95,
+        "resist_modifier": 1.0,
+        "scaling": -0.03,
+        "resist_scaling": -0.015
+      },
+      {
+        "limb_score": "breathing",
+        "modifier": 0.95,
+        "resist_modifier": 1.0,
+        "scaling": -0.035,
+        "resist_scaling": -0.017
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psionic_awakened",
+    "name": [ "Awakened" ],
+    "desc": [ "Your exposure to the portal storm has awakened latent psionic powers in you." ],
+    "rating": "neutral",
+    "max_duration": "24 hours"
+  },
+  {
+    "type": "effect_type",
+    "id": "psionic_overload",
+    "name": [
+      "Headache",
+      "Headache",
+      "Headache",
+      "Bad Headache",
+      "Bad Headache",
+      "Splitting Headache",
+      "Splitting Headache",
+      "Excuciating Headache",
+      "Excuciating Headache",
+      "Pure Agony"
+    ],
+    "desc": [
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head throbs and it's hard to see straight.",
+      "Your head throbs and it's hard to see straight.",
+      "You can barely think through the pain in your head.",
+      "You can barely think through the pain in your head.",
+      "Your skull feels like it's going to explode.",
+      "Your skull feels like it's going to explode.",
+      "The agony is the only thing in the world that matters."
+    ],
+    "rating": "bad",
+    "int_add_val": 1,
+    "max_intensity": 10,
+    "max_duration": "24 hours",
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "int_mod": [ -2 ],
+      "pain_chance": [ 10 ],
+      "pain_min": [ 2 ],
+      "pain_max": [ 3 ],
+      "pain_max_val": [ 50 ],
+      "vomit_chance": [ 25 ],
+      "hurt_chance": [ -10 ],
+      "hurt_amount": [ 0 ],
+      "hurt_tick": [ 200 ]
+    },
+    "scaling_mods": {
+      "per_mod": [ -1.2 ],
+      "int_mod": [ -0.6 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_max_val": [ 30 ],
+      "vomit_chance": [ -2 ],
+      "hurt_chance": [ 8 ],
+      "hurt_amount": [ 2, 1 ],
+      "hurt_tick": [ -15 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_overload",
+    "name": [ "Weakened" ],
+    "desc": [ "Your muscles and coordination are impaired." ],
+    "apply_message": "Your muscles tremble with weakness!",
+    "remove_message": "New strength fills you!",
+    "rating": "bad",
+    "max_intensity": 10,
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ] },
+    "scaling_mods": { "str_mod": [ -1.2 ], "dex_mod": [ -1.2 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      { "limb_score": "grip", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
+      { "limb_score": "block", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blind_clair_overload",
+    "//": "This effect and the one below exist so a clairsentient can't cure their powers going haywire using their own powers.",
+    "name": [ "Blind" ],
+    "desc": [ "Darkness obscures your vision." ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
+    "apply_message": "You're blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "BLIND", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "deaf_clair_overload",
+    "name": [ "Deaf" ],
+    "desc": [ "You can't hear anything." ],
+    "apply_message": "All sound is blotted out!",
+    "remove_message": "You can hear again!",
+    "rating": "bad",
+    "max_intensity": 3,
+    "int_dur_factor": "100 s",
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 } ],
+    "flags": [ "DEAF", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokin_overload",
+    "name": [ "Feverish" ],
+    "desc": [ "You feel much too warm." ],
+    "apply_message": "",
+    "remove_message": "The air feels much cooler now.",
+    "rating": "bad",
+    "base_mods": { "per_mod": [ -2 ], "health_min": [ -1 ], "health_chance": [ 25 ] },
+    "enchantments": [ "enchant_pyrokin_fever" ],
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.7 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_portal_storm_teleport",
+    "name": [ "Dimensionally Unstable" ],
+    "desc": [ "You feel like you're barely part of the world." ],
+    "//": "Duplicate so teleporters can get teleported during portal storms.",
+    "apply_message": "",
+    "remove_message": "With a jolt, you feel more solid again.",
+    "rating": "bad",
+    "enchantments": [ "enchant_riftwalker_teleport" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekin_overload",
+    "name": [ "Oppressive Weight" ],
+    "desc": [ "Everything feels so much heavier." ],
+    "apply_message": "The air itself seems to press down on you!",
+    "remove_message": "The oppressive weight vanishes",
+    "rating": "bad",
+    "max_intensity": 10,
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 }, { "value": "MOVE_COST", "multiply": 1.5 } ] } ],
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.7 }, { "limb_score": "reaction", "modifier": 0.7 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_overload",
+    "name": [ "Muscle Weakness" ],
+    "desc": [ "Your muscles and coordination are impaired." ],
+    "apply_message": "You feel awful!",
+    "remove_message": "You don't feel as bad anymore!",
+    "rating": "bad",
+    "max_intensity": 10,
+    "base_mods": { "fatigue_tick": [ 300 ], "fatigue_min": [ 1 ], "health_min": [ -1 ], "health_tick": [ 400 ] },
+    "scaling_mods": { "fatigue_min": [ 1 ], "health_min": [ -1 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 }, { "limb_score": "manip", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_asthma_disease_absorbed",
+    "name": [ "Difficulty Breathing" ],
+    "desc": [ "You're having a very hard time taking in enough air." ],
+    "apply_message": "",
+    "remove_message": "You can finally breathe freely.",
+    "rating": "bad",
+    "base_mods": { "stamina_amount": [ -1000 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  }
+]

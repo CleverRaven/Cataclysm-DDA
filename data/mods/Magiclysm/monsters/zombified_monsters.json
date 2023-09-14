@@ -210,7 +210,7 @@
     "id": "mon_feral_human_magician",
     "type": "MONSTER",
     "name": { "str": "feral wizard" },
-    "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occaisional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
+    "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occasional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",

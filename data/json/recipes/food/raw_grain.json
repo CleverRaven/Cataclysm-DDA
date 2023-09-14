@@ -158,7 +158,8 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [ [ [ "threshed_barley", 1 ] ] ]
+    "components": [ [ [ "threshed_barley", 1 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -173,7 +174,8 @@
     "autolearn": true,
     "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [ [ [ "threshed_barley", 1 ] ] ]
+    "components": [ [ [ "threshed_barley", 1 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -216,7 +218,8 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [ [ [ "threshed_lentils", 1 ] ] ]
+    "components": [ [ [ "threshed_lentils", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -231,7 +234,8 @@
     "autolearn": true,
     "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [ [ [ "threshed_lentils", 1 ] ] ]
+    "components": [ [ [ "threshed_lentils", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -303,7 +307,8 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [ [ [ "threshed_buckwheat", 1 ] ] ]
+    "components": [ [ [ "threshed_buckwheat", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -318,7 +323,8 @@
     "autolearn": true,
     "qualities": [ { "id": "BLOW_AIR", "level": 1 } ],
     "byproducts": [ [ "chaff", 1 ] ],
-    "components": [ [ [ "threshed_buckwheat", 1 ] ] ]
+    "components": [ [ [ "threshed_buckwheat", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",

@@ -6,6 +6,7 @@
 #include <set>
 #include <vector>
 
+#include "point.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -39,6 +40,15 @@ struct container_spawn_test_data {
     void deserialize( const JsonObject &jo );
 };
 
+struct npc_boarding_test_data {
+    vproto_id veh_prototype;
+    tripoint player_pos;
+    tripoint npc_pos;
+    tripoint npc_target;
+
+    void deserialize( const JsonObject &jo );
+};
+
 class test_data
 {
     public:
@@ -48,6 +58,7 @@ class test_data
         static std::map<vproto_id, efficiency_data> eff_data;
         static std::map<itype_id, double> expected_dps;
         static std::map<spawn_type, std::vector<container_spawn_test_data>> container_spawn_data;
+        static std::map<std::string, npc_boarding_test_data> npc_boarding_data;
 
         static void load( const JsonObject &jo );
 };

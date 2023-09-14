@@ -89,7 +89,7 @@
       "You are really feeling for the last animal you killed.  Reminds you of that scene in the movie where they kill the pet, really sad stuff.  Though you are feeling ready to learn to fight right now."
     ],
     "apply_message": "You are ready for a fight.",
-    "decay_messages": [ [ "You're animal instincts dissipate.", "bad" ] ],
+    "decay_messages": [ [ "Your animal instincts dissipate.", "bad" ] ],
     "rating": "good",
     "max_intensity": 1,
     "int_dur_factor": "30 s",

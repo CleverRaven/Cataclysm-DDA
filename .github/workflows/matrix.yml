@@ -97,7 +97,7 @@ jobs:
             # ~30MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
-            ccache_key: linux-llvm-10
+            ccache_key: linux-llvm-10-break1
 
           - compiler: clang++
             os: macos-12
@@ -111,7 +111,7 @@ jobs:
             title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
             # cache size ??? to be observed
             ccache_limit: 4G
-            ccache_key: macos-llvm-14-universal
+            ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
             os: ubuntu-latest

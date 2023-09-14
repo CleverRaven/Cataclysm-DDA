@@ -103,7 +103,7 @@
       { "group": "soup_packet" },
       { "item": "dogfood_dry" },
       { "item": "lighter", "charges": 100 },
-      { "item": "aspirin" },
+      { "group": "aspirin_bottle_plastic_pill_painkiller_20" },
       { "item": "bandages", "count": [ 1, 3 ] },
       { "item": "pot" },
       { "item": "FMCNote", "count": 10 },
@@ -179,8 +179,8 @@
           "u_has_var": "John_Bailey_Convo",
           "context": "RC_John_Bailey_2",
           "value": "seen",
-          "yes": "Like I said,\" John shrugs.  \"I'm just checking\u00A0",
-          "no": "Same as you, I imagine,\" John shrugs.  \"Checking\u00A0"
+          "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
+          "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
         },
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]

@@ -59,7 +59,7 @@
         "D": "t_nether_water_dp",
         "d": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 1 ] ],
         "s": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 4 ] ],
-        "S": [ [ "t_nether_water_sh", 1 ], [ "t_region_groundcover", 1 ] ],
+        "S": [ [ "t_nether_water_sh", 1 ], [ "t_null", 1 ] ],
         " ": "t_null"
       }
     }

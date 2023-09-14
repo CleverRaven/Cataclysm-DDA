@@ -11,9 +11,8 @@
     "healthy": 3,
     "quench": -5,
     "description": "A crumbly white biscuit half the size of your thumb, packed with vitamins and calories.  Provides a whole meal's nutrition in portable form, but it's a little hard to keep down, thanks to the rancid taste and chalky texture.",
-    "price": 10000,
-    "volume": "5 ml",
-    "charges": 5,
+    "price": "20 USD",
+    "volume": "1 ml",
     "looks_like": "vitamins",
     "fun": -8,
     "freezing_point": -9999,
@@ -84,11 +83,11 @@
     "color": "white",
     "calories": 700,
     "healthy": 3,
-    "charges": 2,
     "description": "Smoothly blended edibles, neatly shaped into cubes for maximum enjoyment.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 1 ] ],
+    "volume": "111 ml"
   },
   {
     "id": "afs_food_to_go",
@@ -100,10 +99,10 @@
     "color": "magenta",
     "calories": 500,
     "healthy": 3,
-    "charges": 2,
     "description": "Foodplace™ easy-storage Food-to-go™ the choice Food™ for the contemporary Foodman™.",
     "fun": 2,
-    "freezing_point": -9999
+    "freezing_point": -9999,
+    "volume": "111 ml"
   },
   {
     "id": "afs_loop_fruit",
@@ -129,11 +128,11 @@
     "material": [ "veggy" ],
     "calories": 150,
     "healthy": 3,
-    "charges": 3,
     "description": "Smooth crackers colored grayish-green.  Used to be perfectly edible seaweed, or so the wrapper claims.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "volume": "74 ml"
   },
   {
     "id": "afs_beefsim",
@@ -147,9 +146,9 @@
     "healthy": 3,
     "description": "Soy or pureed rat?  Better not to know.\n(But its probably both.)",
     "fun": 0,
-    "charges": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "volume": "111 ml"
   },
   {
     "id": "afs_soup_27",
@@ -176,11 +175,11 @@
     "color": "white",
     "calories": 500,
     "healthy": 3,
-    "charges": 4,
     "description": "Sealed emergency rations invariably found within an escape pod's inventory.  This particular pack should provide around a day's worth of nutrition.  Required by regulation but rarely ever used, the design of these \"meals\" prioritizes a long shelf life and a very low bulk-cost.  Which lends them their disgusting taste of greased sawdust.",
     "fun": -2,
     "freezing_point": -9999,
-    "vitamins": [ [ "vitC", 2 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "bad_food", 1 ] ],
+    "volume": "55 ml"
   },
   {
     "id": "afs_caffex",
@@ -201,8 +200,7 @@
     "id": "afs_ruined_food",
     "copy-from": "ruined_chunks",
     "name": { "str_sp": "organic sludge" },
-    "charges": 5,
-    "volume": "500 ml",
+    "volume": "100 ml",
     "weight": "50 g",
     "description": "Time and the elements have reverted this heavily processed meal to its original form.  Eating it isn't even worth thinking about.",
     "material": [ "flesh", "veggy" ]

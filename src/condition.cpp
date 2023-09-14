@@ -39,6 +39,7 @@
 #include "math_parser_shim.h"
 #include "mission.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -243,6 +244,30 @@ str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool 
     return ret_val;
 }
 
+translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+        bool required, const translation &default_val )
+{
+    translation_or_var ret_val;
+    translation str_val;
+    if( jv.read( str_val ) ) {
+        ret_val.str_val = str_val;
+    } else if( jv.test_object() ) {
+        const JsonObject &jo = jv.get_object();
+        if( jo.has_member( "mutator" ) ) {
+            // if we have a mutator then process that here.
+            ret_val.function = conditional_t::get_get_translation( jo );
+        } else {
+            ret_val.var_val = read_var_info( jo );
+            ret_val.default_val = default_val;
+        }
+    } else if( required ) {
+        jv.throw_error( "No valid value for " + member );
+    } else {
+        ret_val.str_val = default_val;
+    }
+    return ret_val;
+}
+
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d )
 {
     tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
@@ -434,6 +459,22 @@ void conditional_t::set_has_trait( const JsonObject &jo, const std::string &memb
     str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
     condition = [trait_to_check, is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+    };
+}
+
+void conditional_t::set_has_visible_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [trait_to_check, is_npc]( dialogue const & d ) {
+        const talker *observer = d.actor( !is_npc );
+        const talker *observed = d.actor( is_npc );
+        int visibility_cap = observer->get_character()->get_mutation_visibility_cap(
+                                 observed->get_character() );
+        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
+        bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
+        return observed_has && is_visible;
     };
 }
 
@@ -742,19 +783,20 @@ void conditional_t::set_at_om_location( const JsonObject &jo, const std::string 
     condition = [location, is_npc]( dialogue const & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
         const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
-        const std::string &omt_str = omt_ter.id().c_str();
+        const std::string &omt_str = omt_ter.id().str();
+        std::string location_value = location.evaluate( d );
 
-        if( location.evaluate( d ) == "FACTION_CAMP_ANY" ) {
+        if( location_value == "FACTION_CAMP_ANY" ) {
             std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
             if( bcp ) {
                 return true;
             }
             // TODO: legacy check to be removed once primitive field camp OMTs have been purged
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
-        } else if( location.evaluate( d ) == "FACTION_CAMP_START" ) {
+        } else if( location_value == "FACTION_CAMP_START" ) {
             return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
         } else {
-            return oter_no_dir( omt_ter ) == location.evaluate( d );
+            return oter_no_dir( omt_ter ) == location_value;
         }
     };
 }
@@ -769,9 +811,10 @@ void conditional_t::set_near_om_location( const JsonObject &jo, const std::strin
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
-            const std::string &omt_str = omt_ter.id().c_str();
+            const std::string &omt_str = omt_ter.id().str();
+            std::string location_value = location.evaluate( d );
 
-            if( location.evaluate( d ) == "FACTION_CAMP_ANY" ) {
+            if( location_value == "FACTION_CAMP_ANY" ) {
                 std::optional<basecamp *> bcp = overmap_buffer.find_camp( curr_pos.xy() );
                 if( bcp ) {
                     return true;
@@ -780,11 +823,11 @@ void conditional_t::set_near_om_location( const JsonObject &jo, const std::strin
                 if( omt_str.find( "faction_base_camp" ) != std::string::npos ) {
                     return true;
                 }
-            } else if( location.evaluate( d ) == "FACTION_CAMP_START" &&
+            } else if( location_value  == "FACTION_CAMP_START" &&
                        !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
                 return true;
             } else {
-                if( oter_no_dir( omt_ter ) == location.evaluate( d ) ) {
+                if( oter_no_dir( omt_ter ) == location_value ) {
                     return true;
                 }
             }
@@ -1269,12 +1312,12 @@ void conditional_t::set_one_in_chance( const JsonObject &jo, const std::string &
 
 void conditional_t::set_query( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
+    translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
     bool default_val = jo.get_bool( "default" );
     condition = [message, default_val, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
         if( actor->get_character() && actor->get_character()->is_avatar() ) {
-            std::string translated_message = _( message.evaluate( d ) );
+            std::string translated_message = message.evaluate( d );
             return query_yn( translated_message );
         } else {
             return default_val;
@@ -1480,17 +1523,19 @@ void conditional_t::set_math( const JsonObject &jo, const std::string_view membe
     };
 }
 
-std::function<std::string( const dialogue & )> conditional_t::get_get_string( const JsonObject &jo )
+template<class T>
+static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
+        std::function<T( const std::string & )> ret_func )
 {
     if( jo.get_string( "mutator" ) == "mon_faction" ) {
         str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
-        return [mtypeid]( const dialogue & d ) {
-            return ( static_cast<mtype_id>( mtypeid.evaluate( d ) ) )->default_faction.str();
+        return [mtypeid, ret_func]( const dialogue & d ) {
+            return ret_func( ( static_cast<mtype_id>( mtypeid.evaluate( d ) ) )->default_faction.str() );
         };
     } else if( jo.get_string( "mutator" ) == "game_option" ) {
         str_or_var option = get_str_or_var( jo.get_member( "option" ), "option" );
-        return [option]( const dialogue & d ) {
-            return get_option<std::string>( option.evaluate( d ) );
+        return [option, ret_func]( const dialogue & d ) {
+            return ret_func( get_option<std::string>( option.evaluate( d ) ) );
         };
     } else if( jo.get_string( "mutator" ) == "valid_technique" ) {
         std::vector<str_or_var> blacklist;
@@ -1504,40 +1549,93 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         bool dodge_counter = jo.get_bool( "dodge_counter", false );
         bool block_counter = jo.get_bool( "block_counter", false );
 
-        return [blacklist, crit, dodge_counter, block_counter]( const dialogue & d ) {
+        return [blacklist, crit, dodge_counter, block_counter, ret_func]( const dialogue & d ) {
             std::vector<matec_id> bl;
             bl.reserve( blacklist.size() );
             for( const str_or_var &sv : blacklist ) {
                 bl.emplace_back( sv.evaluate( d ) );
             }
-            return d.actor( false )->get_random_technique( *d.actor( true )->get_creature(), crit,
-                    dodge_counter, block_counter, bl ).str();
+            return ret_func( d.actor( false )->get_random_technique( *d.actor( true )->get_creature(),
+                             crit, dodge_counter, block_counter, bl ).str() );
         };
-    } else if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
+    } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
+        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
+        return [target, ret_func]( const dialogue & d ) {
+            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
+            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
+            return ret_func( target_pos.to_string() );
+        };
+    } else if( jo.get_string( "mutator" ) == "topic_item" ) {
+        return [ret_func]( const dialogue & d ) {
+            return ret_func( d.cur_item.str() );
+        };
+    }
+
+    return nullptr;
+}
+
+template<class T>
+static std::function<T( const dialogue & )> get_get_translation_( const JsonObject &jo,
+        std::function<T( const translation & )> ret_func )
+{
+    if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
-        return [ma]( const dialogue & d ) {
-            return matec_id( ma.evaluate( d ) )->description.translated();
+        return [ma, ret_func]( const dialogue & d ) {
+            return ret_func( matec_id( ma.evaluate( d ) )->description );
         };
     } else if( jo.get_string( "mutator" ) == "ma_technique_name" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
-        return [ma]( const dialogue & d ) {
-            return matec_id( ma.evaluate( d ) )->name.translated();
-        };
-    } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
-        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
-        return [target]( const dialogue & d ) {
-            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
-            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
-            return target_pos.to_string();
+        return [ma, ret_func]( const dialogue & d ) {
+            return ret_func( matec_id( ma.evaluate( d ) )->name );
         };
     }
 
-    jo.throw_error( "unrecognized string mutator in " + jo.str() );
-    return []( const dialogue & ) {
-        return "INVALID";
-    };
+    return nullptr;
+}
+
+std::function<translation( const dialogue & )> conditional_t::get_get_translation(
+    const JsonObject &jo )
+{
+    auto ret_func = get_get_str_<translation>( jo, []( const std::string & s ) {
+        return no_translation( s );
+    } );
+
+    if( !ret_func ) {
+        ret_func = get_get_translation_<translation>( jo, []( const translation & t ) {
+            return t;
+        } );
+        if( !ret_func ) {
+            jo.throw_error( "unrecognized string mutator in " + jo.str() );
+            return []( const dialogue & ) {
+                return translation();
+            };
+        }
+    }
+
+    return ret_func;
+}
+
+std::function<std::string( const dialogue & )> conditional_t::get_get_string( const JsonObject &jo )
+{
+    auto ret_func = get_get_str_<std::string>( jo, []( const std::string & s ) {
+        return s;
+    } );
+
+    if( !ret_func ) {
+        ret_func = get_get_translation_<std::string>( jo, []( const translation & t ) {
+            return t.translated();
+        } );
+        if( !ret_func ) {
+            jo.throw_error( "unrecognized string mutator in " + jo.str() );
+            return []( const dialogue & ) {
+                return "INVALID";
+            };
+        }
+    }
+
+    return ret_func;
 }
 
 template<class J>
@@ -1604,7 +1702,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             }
         }
         return [eoc_id, given_unit]( dialogue const & ) {
-            std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> copy_queue =
+            queued_eocs copy_queue =
                 g->queued_global_effect_on_conditions;
             time_point turn;
             bool found = false;
@@ -2089,6 +2187,14 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             const spell_id this_spell_id( spell_name );
             return [is_npc, this_spell_id]( dialogue & d ) {
                 return d.actor( is_npc )->get_spell_exp( this_spell_id );
+            };
+        } else if( checked_value == "spell_count" ) {
+            trait_id school = trait_id::NULL_ID();
+            if( jo.has_member( "school" ) ) {
+                school = trait_id( jo.get_string( "school" ) );
+            }
+            return [is_npc, school]( dialogue & d ) {
+                return d.actor( is_npc )->get_spell_count( school );
             };
         } else if( checked_value == "proficiency" ) {
             const std::string proficiency_name = jo.get_string( "proficiency_id" );
@@ -2807,7 +2913,7 @@ void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
         if( action == oper::assign ) {
             objects.throw_error(
                 R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else {
+        } else if( action != oper::ret ) {
             objects.throw_error( "Only comparison operators can be used in conditional statements" );
         }
     } else if( type_ == type_t::ret && action > oper::ret ) {
@@ -3133,6 +3239,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
         set_has_trait( jo, "npc_has_trait", true );
+    } else if( jo.has_member( "u_has_visible_trait" ) ) {
+        set_has_visible_trait( jo, "u_has_visible_trait" );
+    } else if( jo.has_member( "npc_has_visible_trait" ) ) {
+        set_has_visible_trait( jo, "npc_has_visible_trait", true );
     } else if( jo.has_member( "u_has_martial_art" ) ) {
         set_has_martial_art( jo, "u_has_martial_art" );
     } else if( jo.has_member( "npc_has_martial_art" ) ) {

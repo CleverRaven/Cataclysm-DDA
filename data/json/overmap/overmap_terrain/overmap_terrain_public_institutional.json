@@ -26,6 +26,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "synagogue" ],
+    "copy-from": "generic_city_building",
+    "name": "synagogue",
+    "sym": "S",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "synagogue_roof", "synagogue_upper_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "synagogue roof",
+    "sym": "S",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "cathedral_1_NW",
       "cathedral_1_NE",

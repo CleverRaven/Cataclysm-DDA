@@ -91,7 +91,7 @@
     "name": "archery (intermediate)",
     "description": "Practice the best ways of firing fletched arrows into a target.  Requires a decent quality bow.",
     "skill_used": "archery",
-    "time": "30 m",
+    "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "proficiencies": [ { "proficiency": "prof_bow_basic", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "autolearn": [ [ "archery", 3 ] ],
@@ -126,7 +126,7 @@
     "name": "crossbows (intermediate)",
     "description": "Practice the best ways of firing fletched bolts into a target.  Requires a decent quality crossbow.",
     "skill_used": "rifle",
-    "time": "30 m",
+    "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "autolearn": [ [ "rifle", 3 ] ],
     "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
@@ -135,23 +135,59 @@
     "byproduct_group": [ { "item": "bolt_wood", "charges": [ 0, 4 ] } ]
   },
   {
-    "id": "prac_expert_archers_form",
+    "id": "prac_archery_form",
     "type": "practice",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "expert archer's form",
-    "description": "Practice drawing, holding, and releasing a heavy bow.",
+    "description": "Improve your archery form by quickly and smoothly drawing a bowstring.",
     "skill_used": "archery",
     "time": "1 h",
-    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
     "proficiencies": [
       { "proficiency": "prof_bow_basic", "required": true },
       { "proficiency": "prof_bow_expert", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "autolearn": [ [ "archery", 3 ] ],
     "flags": [ "BLIND_EASY" ],
-    "book_learn": [ [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
+    "book_learn": [ [ "mag_archery", 2 ], [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
+    "tools": [
+      [
+        "shortbow",
+        "compbow",
+        "compbow_high",
+        "compbow_low",
+        "compositebow",
+        "reflexbow",
+        "recurbow",
+        "takedown_recurbow",
+        "longbow",
+        "woodgreatbow",
+        "compgreatbow",
+        "reflexrecurvebow"
+      ]
+    ]
+  },
+  {
+    "id": "prac_master_archery_form",
+    "type": "practice",
+    "activity_level": "ACTIVE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "master archer's form",
+    "description": "Refine your archery form by drawing and holding a heavy bow.",
+    "skill_used": "archery",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_bow_basic", "required": true },
+      { "proficiency": "prof_bow_expert", "required": true },
+      { "proficiency": "prof_bow_master", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "autolearn": [ [ "archery", 4 ] ],
+    "flags": [ "BLIND_EASY" ],
+    "book_learn": [ [ "book_archery", 3 ], [ "manual_archery", 3 ] ],
     "tools": [
       [
         "compbow",

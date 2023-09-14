@@ -971,6 +971,11 @@
   },
   {
     "type": "construction_group",
+    "id": "construct_open_air",
+    "name": "Dig out pit completely and remove anything remaining"
+  },
+  {
+    "type": "construction_group",
     "id": "dig_a_water_channel",
     "name": "Dig a Water Channel"
   },
@@ -1056,6 +1061,11 @@
   },
   {
     "type": "construction_group",
+    "id": "jackhammer_resin_cage",
+    "name": "Jackhammer Resin Cage"
+  },
+  {
+    "type": "construction_group",
     "id": "lay_down_decorative_ground_cable",
     "name": "Lay down decorative ground cable"
   },
@@ -1098,6 +1108,11 @@
     "type": "construction_group",
     "id": "mine_downstair",
     "name": "Mine Downstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "mine_resin_cage",
+    "name": "Mine Resin Cage"
   },
   {
     "type": "construction_group",

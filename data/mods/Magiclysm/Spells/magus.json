@@ -472,5 +472,100 @@
     "base_energy_cost": 400,
     "energy_source": "MANA",
     "difficulty": 8
+  },
+  {
+    "id": "magus_slowfall",
+    "type": "SPELL",
+    "name": "Slowfall",
+    "description": "Reduce the velocity of your falls by a great amount, or to zero if at high mastery.",
+    "valid_targets": [ "self" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_magus_slowfall",
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": 10,
+    "min_duration": 6000,
+    "max_duration": 30000,
+    "duration_increment": 2400,
+    "energy_source": "MANA",
+    "base_energy_cost": 150,
+    "base_casting_time": 150
+  },
+  {
+    "id": "magus_spiderclimb",
+    "type": "SPELL",
+    "name": "Spider Climb",
+    "description": "Ascend even the most sheer wall with ease as you cling to surfaces using the power of magic.",
+    "valid_targets": [ "self" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_magus_spiderclimb",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 15,
+    "min_duration": 30000,
+    "max_duration": 120000,
+    "duration_increment": 6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "base_casting_time": 250
+  },
+  {
+    "id": "magus_teleport_mark",
+    "type": "SPELL",
+    "name": "Magus's Mark",
+    "description": "Mark a particular patch of ground to allow you to return to it later.",
+    "valid_targets": [ "self" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_MARK",
+    "components": "spell_components_magus_mark",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 10,
+    "energy_source": "MANA",
+    "base_energy_cost": 2000,
+    "base_casting_time": 90000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_MARK",
+    "effect": [
+      { "u_location_variable": { "u_val": "magus_teleport_mark" }, "min_radius": 0, "max_radius": 0 },
+      {
+        "u_message": "As you make the gestures and recite the incantation, a brief glow fills your surroundings.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "id": "magus_word_of_recall",
+    "type": "SPELL",
+    "name": "Word of Recall",
+    "description": "Immediately return to the place you marked with Magus's Mark, no matter how far away it is.",
+    "valid_targets": [ "self" ],
+    "spell_class": "MAGUS",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_RECALL",
+    "components": "spell_components_word_of_recall",
+    "shape": "blast",
+    "difficulty": 8,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "base_casting_time": 100
+  },
+  {
+    "id": "EOC_MAGUS_RECALL",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_message": "You shout out the word of recall and suddenly you are somewhere else.", "type": "good" },
+      { "u_teleport": { "u_val": "magus_teleport_mark" } }
+    ]
   }
 ]

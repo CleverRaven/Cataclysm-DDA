@@ -17,31 +17,28 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     avatar &player_character = get_avatar();
     map &here = get_map();
     // An arbitrary active item that ticks every turn.
-    item active_item( "firecracker_act", calendar::turn_zero, 5 );
-    active_item.activate();
-    const int active_item_ticks = active_item.charges;
-    item storage( "backpack", calendar::turn_zero );
+    item active_item( "chainsaw_on" );
+    active_item.active = true;
+
+    item storage( "debug_backpack", calendar::turn_zero );
     std::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
     REQUIRE( wear_success );
 
     item_location inventory_item = player_character.try_add( active_item );
     REQUIRE( inventory_item != item_location::nowhere );
-    REQUIRE( inventory_item->charges == active_item_ticks );
 
     bool wield_success = player_character.wield( active_item );
     REQUIRE( wield_success );
-    REQUIRE( player_character.get_wielded_item()->charges == active_item_ticks );
 
     here.add_item( player_character.pos(), active_item );
-    REQUIRE( here.i_at( player_character.pos() ).only_item().charges == active_item_ticks );
-    // TODO: spawn a vehicle and stash a firecracker in there too.
+    // TODO: spawn a vehicle and stash a chainsaw in there too.
 
     // Call item processing entry points.
     here.process_items();
     player_character.process_items();
 
-    const int expected_ticks = active_item_ticks - 1;
-    CHECK( inventory_item->charges == expected_ticks );
-    CHECK( player_character.get_wielded_item()->charges == expected_ticks );
-    CHECK( here.i_at( player_character.pos() ).only_item().charges == expected_ticks );
+    // Each chainsaw was processed and turned off from lack of fuel
+    CHECK( inventory_item->typeId().str() == "chainsaw_off" );
+    CHECK( player_character.get_wielded_item()->typeId().str() == "chainsaw_off" );
+    CHECK( here.i_at( player_character.pos() ).only_item().typeId().str() == "chainsaw_off" );
 }
