@@ -12,7 +12,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "15 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
@@ -27,7 +27,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "14 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
@@ -42,7 +42,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "20 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
@@ -54,10 +54,10 @@
   },
   {
     "result": "duster_faux_fur",
-    "type": "recipe",
+    "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "30 m",
     "components": [
       [ [ "sheet_cotton_patchwork", 5 ] ],
@@ -68,10 +68,10 @@
   },
   {
     "result": "xs_duster_faux_fur",
-    "type": "recipe",
+    "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "30 m",
     "components": [
       [ [ "sheet_cotton_patchwork", 4 ] ],
@@ -82,10 +82,10 @@
   },
   {
     "result": "xl_duster_faux_fur",
-    "type": "recipe",
+    "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "30 m",
     "components": [
       [ [ "sheet_cotton_patchwork", 6 ] ],
@@ -93,5 +93,86 @@
       [ [ "zipper_long_plastic", 1 ] ],
       [ [ "faux_fur", 2 ] ]
     ]
+  },
+  {
+    "result": "leotard",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "15 m",
+    "components": [ [ [ "sheet_lycra", 6 ] ] ]
+  },
+  {
+    "result": "sleeveless_trenchcoat_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "45 m",
+    "components": [ [ [ "sheet_faux_fur_patchwork", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "sports_bra",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "4 m",
+    "components": [ [ [ "sheet_lycra_patchwork", 2 ] ] ]
+  },
+  {
+    "result": "xssports_bra",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "4 m",
+    "components": [ [ [ "sheet_lycra_patchwork", 1 ] ] ]
+  },
+  {
+    "result": "xlsports_bra",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "4 m",
+    "components": [ [ [ "sheet_lycra_patchwork", 2 ] ] ]
+  },
+  {
+    "result": "thermal_shirt",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "2 m",
+    "components": [ [ [ "sheet_lycra_patchwork", 6 ] ] ]
+  },
+  {
+    "result": "trenchcoat_faux_fur",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_faux_fur_patchwork", 10 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "under_armor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "components": [ [ [ "sheet_lycra_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "unitard",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "components": [ [ [ "sheet_lycra_patchwork", 9 ] ] ]
   }
 ]

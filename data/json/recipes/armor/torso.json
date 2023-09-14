@@ -1101,8 +1101,6 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "2 h 45 m",
-    "autolearn": true,
-    "reversible": true,
     "using": [ [ "sewing_standard", 13 ], [ "fabric_lycra", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "byproducts": [ [ "scrap_lycra", 6 ] ]
@@ -1654,7 +1652,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "7 h 45 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "fabric_fauxfur", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1792,7 +1789,6 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "byproducts": [ [ "scrap_lycra", 3 ] ]
@@ -1815,7 +1811,6 @@
     "difficulty": 3,
     "time": "1 h 40 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "byproducts": [ [ "scrap_lycra", 2 ] ]
@@ -1935,7 +1930,6 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "byproducts": [ [ "scrap_lycra", 6 ] ]
@@ -1983,7 +1977,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "8 h 20 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "tailoring_faux_fur_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2100,7 +2093,6 @@
     "difficulty": 3,
     "time": "55 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "byproducts": [ [ "scrap_lycra", 3 ] ]
@@ -2128,7 +2120,6 @@
     "difficulty": 2,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "byproducts": [ [ "scrap_lycra", 7 ] ]
