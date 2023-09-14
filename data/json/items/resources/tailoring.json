@@ -85,7 +85,7 @@
     "id": "scrap_lycra",
     "copy-from": "scrap_cotton",
     "type": "GENERIC",
-    "name": { "str_sp": "lycra scraps" },
+    "name": { "str_sp": "Lycra scraps" },
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "volume": "4 ml",
