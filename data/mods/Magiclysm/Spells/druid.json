@@ -468,7 +468,7 @@
     "description": "This spell unleashes your inner beast, growing claws & fangs to rend your foes limb from limb.  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "aura_feral",
+    "effect_str": "aura_feral_plus",
     "shape": "blast",
     "flags": [ "SOMATIC" ],
     "components": "spell_components_feralform",

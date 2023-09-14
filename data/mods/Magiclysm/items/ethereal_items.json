@@ -635,21 +635,22 @@
     "color": "white",
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "STRENGTH", "add": 3 },
-            { "value": "DEXTERITY", "add": 3 },
-            { "value": "INTELLIGENCE", "add": -3 },
-            { "value": "PERCEPTION", "add": -3 }
-          ],
-          "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE" ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral" } ] }
+  },
+  {
+    "id": "aura_feral_plus",
+    "type": "ARMOR",
+    "name": "enhanced feral aura",
+    "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
+    "description": "The manifestation of your rage.  It won't disappear until you calm down.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral_plus" } ] }
   },
   {
     "id": "flamesword",
