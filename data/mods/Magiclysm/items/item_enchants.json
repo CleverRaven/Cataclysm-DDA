@@ -93,6 +93,47 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_aura_caustic",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "name": { "str": "Caustic Aura" },
+    "description": "A thin shell of acid hangs in the air around you.",
+    "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
+    "values": [
+      {
+        "value": "ARMOR_ACID",
+        "add": {
+          "math": [
+            "(-2 - (0.5 * u_val('spell_level', 'spell: biomancer_caustic_aura')) - (0.5 * u_val('spell_level', 'spell: biomancer_caustic_aura_plus')))"
+          ]
+        }
+      },
+      {
+        "value": "ITEM_DAMAGE_ACID",
+        "add": {
+          "math": [
+            "(1 + (0.25 * u_val('spell_level', 'spell: biomancer_caustic_aura')) + (0.25 * u_val('spell_level', 'spell: biomancer_caustic_aura_plus')))"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_subzero_talons",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "name": { "str": "Subzero Talons" },
+    "description": "Icy talons to freeze your enemies.",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_COLD",
+        "add": { "math": [ "(3 + (0.5 * u_val('spell_level', 'spell: summon_subzero_talons')))" ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
     "id": "ench_aura_feral",
     "name": { "str": "Feral Aura" },
     "description": "Unleashing the rage within.",

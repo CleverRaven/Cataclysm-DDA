@@ -769,16 +769,7 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
-          "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
   },
   {
     "id": "aura_werewolf",
@@ -883,9 +874,7 @@
     "weapon_category": [ "CLAWS" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [
       {
         "encumbrance": 5,
