@@ -1013,7 +1013,10 @@
       "biomechanic",
       "ice_energy",
       "ice_age_eff",
-      "effect_biomancer_remove_instability"
+      "effect_biomancer_remove_instability",
+      "effect_terra_armor",
+      "gravity_mage_melee",
+      "eff_storm_elemental_electric_melee"
     ]
   }
 ]
