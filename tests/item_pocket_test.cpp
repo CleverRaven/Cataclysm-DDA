@@ -53,6 +53,7 @@ static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_socks( "test_socks" );
+static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
 
@@ -1017,7 +1018,7 @@ TEST_CASE( "sealed_containers", "[pocket][seal]" )
     }
 
     GIVEN( "non-sealable jug" ) {
-        item jug( "test_jug_plastic" );
+        item jug( itype_test_jug_plastic );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
         std::vector<item_pocket *>jug_pockets = jug.get_all_contained_pockets();
@@ -1649,7 +1650,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
         item filler( "test_rag" );
 
         // wear the backpack item.
@@ -1699,7 +1700,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -2244,7 +2245,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     map &m = get_map();
     Character &u = get_player_character();
     item water( "water" );
-    item cont_jug( "test_jug_plastic" );
+    item cont_jug( itype_test_jug_plastic );
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet
