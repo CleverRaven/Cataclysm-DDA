@@ -319,7 +319,6 @@
     "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
     "types": [ "MANA_ADD" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
-    "changes_to": [ "MANA_ADD_MANATOUCHED" ],
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
     "mana_modifier": 2000
