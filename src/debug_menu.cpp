@@ -3596,7 +3596,7 @@ void debug()
         case debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: {
             Character &u = get_avatar();
             for( bionic_data bionic : bionic_data::get_all() ) {
-                u.add_bionic( bionic.id );
+                u.add_bionic( bionic.id, 0, true );
             }
             break;
         }
