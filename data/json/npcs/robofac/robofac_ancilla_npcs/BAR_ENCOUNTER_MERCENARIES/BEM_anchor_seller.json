@@ -19,7 +19,7 @@
         "topic": "BEM_ANCHOR_SELLER_2"
       },
       {
-        "text": "Well, whats that thing for anyways?",
+        "text": "Well, what's that thing for anyways?",
         "condition": {
           "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
         },
