@@ -102,6 +102,9 @@ enum class debug_menu_index : int {
     EXPORT_FOLLOWER,
     EXPORT_SELF,
     QUICK_SETUP,
+    TOGGLE_SETUP_MUTATION,
+    NORMALIZE_BODY_STAT,
+    SIX_MILLION_DOLLAR_SURVIVOR,
     last
 };
 
