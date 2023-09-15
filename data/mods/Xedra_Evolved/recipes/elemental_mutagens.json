@@ -71,7 +71,7 @@
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
-    "book_learn": [ [ "flamekin_tablet", 0 ] ],
+    "book_learn": [ [ "flametouched_parchment", 0 ] ],
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
@@ -200,12 +200,11 @@
       [ "dollkin_tablet", 0 ],
       [ "plantkin_parchment", 0 ],
       [ "waterkin_tablet", 0 ],
-      [ "flamekin_tablet", 0 ],
+      [ "flametouched_parchment", 0 ],
       [ "earthkin_tablet", 0 ]
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
-    "using": [ [ "scrap_dreamdross", 6 ] ],
-    "components": [ [ [ "water", 1 ] ], [ [ "material_soil", 1 ] ] ],
+    "components": [ [ [ "water", 1 ] ], [ [ "material_soil", 1 ] ], [ [ "scrap_dreamdross", 6 ] ] ],
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "flags": [ "SECRET" ]
   }
