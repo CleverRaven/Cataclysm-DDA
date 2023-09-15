@@ -128,7 +128,7 @@
     "gas_absorption_factor": 15,
     "percent_spread": 30,
     "priority": 8,
-    "half_life": "6 minutes",
+    "half_life": "1 minutes",
     "phase": "gas"
   }
 ]

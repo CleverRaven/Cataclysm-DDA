@@ -203,7 +203,9 @@
     "harvest": "zombie_humanoid",
     "grab_strength": 50,
     "special_attacks": [
-      { "id": "grab" },
+      { "id": "ranged_pull", "range": 3 },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 },
       {
         "id": "scratch",
@@ -219,10 +221,10 @@
       },
       {
         "type": "leap",
-        "cooldown": 12,
+        "cooldown": 15,
         "max_range": 4,
         "min_consider_range": 2,
-        "max_consider_range": 4,
+        "max_consider_range": 6,
         "message": "%1$s drops to all fours for a burst of speed!"
       },
       {
