@@ -935,7 +935,10 @@
     "desc": [ "You are hiding your presence from your enemies." ],
     "apply_message": "",
     "remove_message": "You are again visible and vulnerable.",
-    "decay_messages": [ [ "Your veil of obscurity is nearly gone.", "bad" ], [ "You notice nearby enemies glancing in your direction.", "bad" ] ],
+    "decay_messages": [
+      [ "Your veil of obscurity is nearly gone.", "bad" ],
+      [ "You notice nearby enemies glancing in your direction.", "bad" ]
+    ],
     "rating": "good",
     "max_duration": "100 seconds",
     "max_intensity": 14,
