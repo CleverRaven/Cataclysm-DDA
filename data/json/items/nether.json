@@ -82,7 +82,7 @@
     "comestible_type": "INVALID",
     "flags": [ "SPAWN_ACTIVE" ],
     "material": [ "hflesh" ],
-    "countdown_interval": "15 minutes",
+    "countdown_interval": "5 minutes",
     "countdown_action": {
       "type": "sound",
       "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",
@@ -105,7 +105,7 @@
     "looks_like": "corpse_generic_human",
     "flags": [ "SPAWN_ACTIVE" ],
     "material": [ "hflesh" ],
-    "countdown_interval": "1 hour",
+    "countdown_interval": "15 minutes",
     "countdown_action": {
       "type": "sound",
       "//": "This message is preceded in the game by 'You hear...', as it was the only way I found to transmit a message from a dropped item to the player.",

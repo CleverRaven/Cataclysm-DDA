@@ -1550,9 +1550,10 @@
     "id": "mon_guilt",
     "type": "MONSTER",
     "name": { "str": "guilt" },
-    "description": "An animate blotch of conflicting shapes, when you look at or think of this, memories of your wrongdoings rise to the surface.",
+    "description": "A vague sillhouette of conflicting shapes that appears to swell as it gets closer to you. From within its impossible form you can hear familiar voices screaming vitriolic accusations, making you remember sins that you have never commited.",
     "copy-from": "mon_shifting_mass",
     "special_attacks": [
+      [ "PARROT", 10 ],
       {
         "type": "spell",
         "spell_data": { "id": "guilt_attack", "min_level": 1 },
@@ -1560,7 +1561,7 @@
         "monster_message": "The guilt makes no physical movement and yet you feel the force of its assault.  Everything feels heavier."
       }
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away, yet your sins remain unforgiven." },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {

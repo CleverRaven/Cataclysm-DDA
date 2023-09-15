@@ -592,6 +592,7 @@
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 20 },
+      { "group": "cotton_ball_bag_full", "prob": 5 },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_10" },
       { "item": "adrenaline_injector", "prob": 4 },

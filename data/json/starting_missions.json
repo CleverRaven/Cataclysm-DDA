@@ -252,6 +252,35 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_FIND_RIFLE",
+    "type": "mission_definition",
+    "name": { "str": "Find a new rifle" },
+    "description": "When you were escaping an evacuation point that was overrun, you had to leave your rifle behind.  Shame on you, what's a hunter without their hunting rifle?  You have to find one immediately.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "remmington_700" },
+        { "u_has_item": "modular_ar15" },
+        { "u_has_item": "remington700_270" },
+        { "u_has_item": "savage_111f" }
+      ]
+    },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_DOG_LOVER",
     "type": "mission_definition",
     "name": { "str": "Protect your canine friends" },

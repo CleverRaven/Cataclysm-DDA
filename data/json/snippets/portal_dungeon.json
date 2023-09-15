@@ -18,8 +18,28 @@
       "You feel tired of everything.",
       "Sorrow wells up from deep within your heart.",
       "Suddenly the world feels a little duller.",
-      "Your every movement feels like a chore.",
+      "Your every move feels like a chore.",
       "Fleeting voices become the judges of your actions."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "guilty_message",
+    "//": "Placeholder until I can insert snippets into 'monster_message' in special attacks",
+    "text": [
+      "Placeholder1",
+      "Placeholder2",
+      "Placeholder3"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "sloth_message",
+    "//": "Placeholder until I can insert snippets into 'monster_message' in special attacks",
+    "text": [
+      "Placeholder1",
+      "Placeholder2",
+      "Placeholder3"
     ]
   }
 ]

@@ -796,6 +796,7 @@
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
             { "math": [ "u_val('fatigue')", "+=", "portal_dungeon_reflect_strength * 1.5" ] },
+            { "math": [ "u_val('fatigue')", "=", "min( u_val('fatigue') , 1200 )" ] },
             { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
@@ -977,6 +978,15 @@
   },
   {
     "type": "SPELL",
+    "id": "spell_conjure_memories",
+    "name": { "str": "Life Flashing" },
+    "description": "Brings back memories.",
+    "copy-from": "base_portal",
+    "max_range": 3,
+    "effect_str": "EOC_conjure_memories"
+  },
+  {
+    "type": "SPELL",
     "id": "sloth_attack",
     "name": { "str": "Sloth Attack" },
     "description": "Slows you.",
@@ -987,18 +997,10 @@
     "type": "effect_on_condition",
     "id": "EOC_sloth_attack",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
+      { "math": [ "portal_dungeon_slow_strength",  "--" ] },
+      { "math": [ "portal_dungeon_slow_strength", "=", "min(portal_dungeon_slow_strength , -75)" ] },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
-  },
-  {
-    "type": "SPELL",
-    "id": "spell_conjure_memories",
-    "name": { "str": "Life Flashing" },
-    "description": "Brings back memories.",
-    "copy-from": "base_portal",
-    "max_range": 3,
-    "effect_str": "EOC_conjure_memories"
   },
   {
     "type": "SPELL",
@@ -1012,7 +1014,8 @@
     "type": "effect_on_condition",
     "id": "EOC_guilt_attack",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_carry_strength" }, "--" ], "min": -75 },
+      { "math": [ "portal_dungeon_carry_strength",  "--" ] },
+      { "math": [ "portal_dungeon_carry_strength", "=", "min(portal_dungeon_carry_strength , -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
   }

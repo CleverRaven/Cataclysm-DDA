@@ -2679,6 +2679,120 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"HOW COULD YOU?!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"DON'T YOU DARE TO COME BACK!!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"WILL YOU EVER BE SATISFIED??\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "a cacophony of wailing and cries of rage.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"Why did you do this to me?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"WHAT DID WE DO TO DESERVE THIS?!?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "faint sobbing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"You ruined everything!!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "numerous voices shouting over each other.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "an inhuman screech slowly morphing into a childish voice.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"You deserve worse than death...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"Unforgivable...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"How do you even sleep at night?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"I hope that what they paid you with was worth it...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"You filthy traitor!!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "a chorus of voices yelling in unison.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "a faint, resonant hum.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"You doomed us all!!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_guilt" ],
+    "sound": "\"Go deeper...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"STOP RESISTING!!!\"",
     "volume": 25
