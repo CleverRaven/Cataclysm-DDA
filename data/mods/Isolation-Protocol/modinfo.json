@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Isolation_Protocol",
+    "name": "Isolation Protocol",
+    "authors": [ "Candlebury" ],
+    "maintainers": [ "Candlebury" ],
+    "description": "Fight and restore order to a lab before the .",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  }
+]
