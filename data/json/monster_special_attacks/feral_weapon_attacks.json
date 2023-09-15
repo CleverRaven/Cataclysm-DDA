@@ -206,5 +206,21 @@
     "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_wrench_large",
+    "cooldown": 1,
+    "move_cost": 100,
+    "accuracy": 4,
+    "//": "Feral melee skill + weapon's to hit, so 4+0=4",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a wrench!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a wrench!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]
