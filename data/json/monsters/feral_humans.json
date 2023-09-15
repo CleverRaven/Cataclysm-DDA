@@ -178,8 +178,22 @@
     "name": "feral mechanic",
     "description": "This wild human-like creature was probably a mechanic before the Cataclysm.  You can see it by his worker uniform, or by his blood-covered hammer in hand, or by his all-hating view.",
     "copy-from": "mon_feral_human_pipe",
-    "melee_dice": 2,
-    "melee_dice_sides": 8,
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral human throws a rock!"
+      },
+      { "id": "feral_weapon_hammer" }
+    ],
     "death_drops": "feral_humans_death_drops_tool"
   },
   {

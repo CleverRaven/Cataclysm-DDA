@@ -255,5 +255,21 @@
     "no_dmg_msg_npc": "%1$s thrusts a spear at <npcname>'s %2$s, but glances off armor!",
     "miss_msg_u": "%s thrusts a spear at you, but you evade!",
     "miss_msg_npc": "%s thrusts a spear at <npcname>, but they evade!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_hammer",
+    "cooldown": 1,
+    "move_cost": 79,
+    "accuracy": 2,
+    "//": "Feral melee skill + weapon's to hit, so 3-1=2",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 9 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a hammer!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a hammer!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]
