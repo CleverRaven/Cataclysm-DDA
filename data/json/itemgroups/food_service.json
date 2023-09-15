@@ -30,18 +30,6 @@
     "entries": [ { "item": "suit", "prob": 70 }, { "item": "waistcoat", "prob": 70 }, { "item": "dress_shirt", "prob": 70 } ]
   },
   {
-    "id": "chair_pants",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "pants", "prob": 70 } ]
-  },
-  {
-    "id": "chair_feet",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "dress_shoes", "prob": 70 } ]
-  },
-  {
     "id": "chair_extra",
     "type": "item_group",
     "subtype": "distribution",

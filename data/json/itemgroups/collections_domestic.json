@@ -257,6 +257,7 @@
       [ "novel_mystery", 40 ],
       [ "glasses_bifocal", 20 ],
       { "group": "cotton_ball_bag_used", "prob": 20 },
+      { "group": "cotton_ball_bag_full", "prob": 3 },
       [ "contacts", 20 ],
       { "item": "pride_flag", "prob": 5 },
       { "item": "national_flag", "prob": 1 },

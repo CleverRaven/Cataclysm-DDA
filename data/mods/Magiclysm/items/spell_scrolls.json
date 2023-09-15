@@ -1617,5 +1617,68 @@
     "name": { "str": "Scroll of Summon Tanglevine", "str_pl": "Scrolls of Summon Tanglevine" },
     "description": "Conjure a lashing bunch of animated vines that will grab and hold your enemies.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_summon_tanglevine" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_thornskin",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Thornskin", "str_pl": "Scrolls of Thornskin" },
+    "description": "Transform your skin into bark covered in sharp thorns.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_thorn_skin" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_summon_brambles",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Stranglethorns", "str_pl": "Scrolls of Stranglethorns" },
+    "description": "Conjure a bunch of thick brambles out of the ground to either form a wall or slow your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_summon_brambles" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_cloak_of_fog",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Cloak of Fog", "str_pl": "Scrolls of Cloak of Fog" },
+    "description": "Summon up a large cloud of mist that will conceal your movements from your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_fog" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_heart_of_hurricane",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Heart of the Hurricane", "str_pl": "Scrolls of Heart of the Hurricane" },
+    "description": "Compress raging storm winds into a shell around you to protect you.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_heart_of_hurricane" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_cloak_of_frog",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scribbled Scroll" },
+    "description": "Someone has scribbled on this scroll in…colored pencil?  You're pretty sure whatever it does now isn't the spell's original function.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_frog" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_lashing_tentacles",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Lashing Tentacles", "str_pl": "Scrolls of Lashing Tentacles" },
+    "description": "Grow a pair of barbed tentacles from your shoulders that will attack enemies in melee range.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_lashing_tentacles" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_cure_disease_minor",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Cure Disease, Minor", "str_pl": "Scrolls of Cure Disease, Minor" },
+    "description": "Snap your fingers and get rid of that nasty cold or flu.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
   }
 ]
