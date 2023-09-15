@@ -1351,7 +1351,8 @@
           { "item": "wizard_utility", "prob": 10 },
           { "item": "spell_scroll_protection_aura", "prob": 50 },
           { "item": "spell_scroll_dark_sight", "prob": 30 },
-          { "item": "spell_scroll_megablast", "prob": 30 }
+          { "item": "spell_scroll_megablast", "prob": 30 },
+          { "item": "spell_scroll_classless_dispel_magic", "prob": 30 }
         ],
         "prob": 40
       },
@@ -1360,7 +1361,8 @@
           { "item": "golemcore", "prob": 3 },
           { "item": "light_manipulation_spellbook", "prob": 5 },
           { "item": "translocate_spellbook", "prob": 2 },
-          { "item": "spell_scroll_obfuscated_body", "prob": 50 }
+          { "item": "spell_scroll_obfuscated_body", "prob": 50 },
+          { "item": "spell_scroll_classless_disjunction", "prob": 20 }
         ],
         "prob": 10
       },
