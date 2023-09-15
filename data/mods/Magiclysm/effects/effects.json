@@ -195,7 +195,7 @@
     "desc": [ "You are greatly protected from acid damage." ],
     "apply_message": "Your body tingles.",
     "remove_message": "The tingling fades.",
-    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1011,7 +1011,12 @@
       "effect_magus_spiderclimb",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
-      "effect_classless_watch"
+      "effect_classless_watch",
+      "effect_obfuscating_aura",
+      "effect_shape_of_dust",
+      "effect_acid_res_aura",
+      "effect_acid_res_aura_greater",
+      "effect_thorns_electric"
     ]
   },
   {
@@ -1063,6 +1068,11 @@
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_classless_watch",
+      "effect_obfuscating_aura",
+      "effect_shape_of_dust",
+      "effect_acid_res_aura",
+      "effect_acid_res_aura_greater",
+      "effect_thorns_electric",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
