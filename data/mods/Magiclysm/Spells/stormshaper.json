@@ -414,7 +414,7 @@
     "name": "Enhanced Repelling Arc",
     "description": "Manifests an aura of crackling electricity around you to strike attackers with baleful lightning.  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
+    "effect": "attack",
     "effect_str": "effect_thorns_electric",
     "shape": "blast",
     "flags": [ "SOMATIC", "NO_LEGS" ],
@@ -480,6 +480,25 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000
+  },
+  {
+    "id": "stormshaper_stormglove_zap",
+    "type": "SPELL",
+    "name": "Stormglove Zap",
+    "description": "This casts when you hit people with the stormglove.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "electric",
+    "min_damage": 1,
+    "max_damage": {
+      "math": [ "(5 + (1 * u_val('spell_level', 'spell: stormfist')) + (1 * u_val('spell_level', 'spell: stormfist_plus')))" ]
+    },
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "sound_type": "combat",
+    "sound_description": "arcing electricity!",
+    "min_range": 1,
+    "max_range": 1
   },
   {
     "id": "create_electric_lighter",

@@ -93,6 +93,15 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_stormglove",
+    "has": "WIELD",
+    "condition": { "not": "u_has_weapon" },
+    "name": { "str": "Stormglove" },
+    "description": "A coating of lighting on your hand and lower arm.",
+    "hit_you_effect": [ { "id": "stormshaper_stormglove_zap" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "ench_aura_caustic",
     "has": "WORN",
     "condition": "ALWAYS",

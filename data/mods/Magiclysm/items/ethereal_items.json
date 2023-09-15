@@ -184,9 +184,8 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS"
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material_thickness": 0.3,
     "armor": [
       {
