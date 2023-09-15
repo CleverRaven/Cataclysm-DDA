@@ -46,6 +46,27 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "alloy_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "alloying reference manual" },
+    "description": "A textbook with information about alloying various types of metals.",
+    "weight": "1500 g",
+    "volume": "1250 ml",
+    "price": 4500,
+    "price_postapoc": 250,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 7,
+    "proficiencies": [ { "proficiency": "prof_metalworking", "time_factor": 0.7, "fail_factor": 0.5 } ],
+    "intelligence": 8,
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "theater_props",
     "type": "BOOK",
     "category": "manuals",

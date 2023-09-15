@@ -128,7 +128,7 @@
     "type": "COMESTIBLE",
     "id": "cranberries",
     "name": { "str": "handful of cranberries", "str_pl": "handfuls of cranberries" },
-    "weight": "100 g",
+    "weight": "106 g",
     "color": "red",
     "spoils_in": 640,
     "comestible_type": "FOOD",
@@ -139,9 +139,9 @@
     "price": "17 cent",
     "price_postapoc": "33 cent",
     "material": [ "fruit" ],
-    "volume": "83 ml",
+    "volume": "250 ml",
     "fun": -5,
-    "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
+    "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
   },
@@ -162,7 +162,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
-    "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
+    "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 35 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
@@ -708,7 +708,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
-    "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
+    "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 33 ], [ "calcium", 3 ], [ "iron", 5 ] ]
   },

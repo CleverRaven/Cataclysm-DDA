@@ -116,6 +116,13 @@ static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
+static const proficiency_id proficiency_prof_athlete_basic( "prof_athlete_basic" );
+static const proficiency_id proficiency_prof_athlete_expert( "prof_athlete_expert" );
+static const proficiency_id proficiency_prof_athlete_master( "prof_athlete_master" );
+static const proficiency_id proficiency_prof_boat_pilot( "prof_boat_pilot" );
+static const proficiency_id proficiency_prof_driver( "prof_driver" );
+
+static const skill_id skill_swimming( "swimming" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -1077,8 +1084,11 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
             pwr = 15_W * factor;
         } else if( vpi.fuel_type == fuel_type_muscle ) {
             if( const Character *muscle_user = get_passenger( vp_index ) ) {
+                // Calculate virtual strength bonus from cycling proficiency
+                const float athlete_form_bonus = muscle_user->get_proficiency_bonus( "athlete",
+                                                 proficiency_bonus_type::strength );
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8;
+                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
                 pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
@@ -4241,13 +4251,13 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
         rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     // take off 15 % due to the imaginary tail rotor power.
-    double engine_power_in_hp = 1.34102 * units::to_milliwatt( total_power( fuelled, safe ) );
+    double engine_power_in_hp = 0.00134102 * units::to_watt( total_power( fuelled, safe ) );
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
                            -0.3107 ) ) * engine_power_in_hp;
     add_msg_debug( debugmode::DF_VEHICLE,
                    "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
-                   name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
+                   name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, lift_thrust * 4.45 );
     // convert to newtons.
     return lift_thrust * 4.45;
 }
@@ -4332,6 +4342,40 @@ bool vehicle::is_watercraft() const
 bool vehicle::is_in_water( bool deep_water ) const
 {
     return deep_water ? in_deep_water : in_water;
+}
+
+bool vehicle::can_control_in_air( const Character &pc ) const
+{
+    for( const int index : control_req_parts ) {
+        for( const proficiency_id prof : parts[index].info().control_air.proficiencies ) {
+            if( !pc.has_proficiency( prof ) ) {
+                return false;
+            }
+        }
+        for( const std::pair<string_id<Skill>, int> &skill : parts[index].info().control_air.skills ) {
+            if( pc.get_skill_level( skill.first ) < skill.second ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool vehicle::can_control_on_land( const Character &pc ) const
+{
+    for( const int index : control_req_parts ) {
+        for( const proficiency_id prof : parts[index].info().control_land.proficiencies ) {
+            if( !pc.has_proficiency( prof ) ) {
+                return false;
+            }
+        }
+        for( const std::pair<string_id<Skill>, int> &skill : parts[index].info().control_land.skills ) {
+            if( pc.get_skill_level( skill.first ) < skill.second ) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 double vehicle::coeff_water_drag() const
@@ -4710,11 +4754,17 @@ void vehicle::consume_fuel( int load, bool idling )
             fuel_remainder[ ft ] = -to_consume;
         }
     }
-    // Only process muscle power things when moving.
+    // Only process muscle power and training things when moving.
     if( idling ) {
         return;
     }
     Character &player_character = get_player_character();
+
+    // if engine is under load, player is actively piloting a vehicle, so train appropriate vehicle proficiency
+    if( load > 0 ) {
+        practice_pilot_proficiencies( player_character, in_deep_water );
+    }
+
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
         player_character.has_effect( effect_winded ) ) {
         cruise_velocity = 0;
@@ -4761,6 +4811,46 @@ void vehicle::consume_fuel( int load, bool idling )
         add_msg_debug( debugmode::DF_VEHICLE, "Load: %d", load );
         add_msg_debug( debugmode::DF_VEHICLE, "Mod: %d", mod );
         add_msg_debug( debugmode::DF_VEHICLE, "Burn: %d", -( base_burn + mod ) );
+
+        // player is actively powering a muscle engine, so train cycling proficiency
+        practice_athletic_proficiency( player_character );
+    }
+}
+
+void practice_pilot_proficiencies( Character &p, bool &boating )
+{
+    if( !p.has_proficiency( proficiency_prof_driver ) && !boating ) {
+        p.practice_proficiency( proficiency_prof_driver, 1_seconds );
+    }
+    if( !p.has_proficiency( proficiency_prof_boat_pilot ) && boating ) {
+        p.practice_proficiency( proficiency_prof_boat_pilot, 1_seconds );
+    }
+}
+
+void practice_athletic_proficiency( Character &p )
+{
+    // Perform athletics practice
+    p.practice( skill_swimming, 1 );
+
+    // We are already a master athlete, practice has no effect
+    if( p.has_proficiency( proficiency_prof_athlete_master ) ) {
+        return;
+    }
+
+    // We have no athletic experience
+    if( !p.has_proficiency( proficiency_prof_athlete_basic ) ) {
+        p.practice_proficiency( proficiency_prof_athlete_basic, 1_seconds );
+        return;
+    }
+    // We know athletics, but aren't an expert yet
+    else if( !p.has_proficiency( proficiency_prof_athlete_expert ) ) {
+        p.practice_proficiency( proficiency_prof_athlete_expert, 1_seconds );
+        return;
+    }
+    // We're an expert, so lets practice to become a master athlete
+    else {
+        p.practice_proficiency( proficiency_prof_athlete_master, 1_seconds );
+        return;
     }
 }
 
@@ -5971,6 +6061,7 @@ void vehicle::refresh( const bool remove_fakes )
     planters.clear();
     accessories.clear();
     cable_ports.clear();
+    control_req_parts.clear();
 
     alternator_load = 0;
     extra_drag = 0_W;
@@ -6128,6 +6219,9 @@ void vehicle::refresh( const bool remove_fakes )
         }
         if( vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_APPLIANCE ) ) {
             cable_ports.push_back( p );
+        }
+        if( vpi.has_control_req() ) {
+            control_req_parts.push_back( p );
         }
     }
 

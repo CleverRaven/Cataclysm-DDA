@@ -27,9 +27,12 @@ aeroctinus
 aerofoil
 aeterna
 aetheric
+aetherically
 affordability
 affordably
 afterbirth
+aftereffect
+aftereffects 
 afterglow
 afterimage
 afterlife
@@ -77,6 +80,7 @@ allosaurid
 allosaurus
 allosaurusid
 allotrope
+alloying
 allucination
 alnico
 alquerque
@@ -1490,6 +1494,8 @@ intermixed
 interwar
 intimidatingly
 intolerances
+intone
+intones
 intoxications
 intoxicative
 inulin
@@ -2154,10 +2160,10 @@ pasteurize
 pathfinding
 patios
 pauldrons
-pebbled
 peacoat
 peanutbutter
 pearlescent
+pebbled
 peccari
 peccary
 pecial
@@ -2979,7 +2985,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-th
+thaumaturge 
 thaumaturgical
 thawb
 themm
@@ -3125,8 +3131,8 @@ underbarrel
 underbody
 undercovering
 underfongen
-underhill
 undergrown
+underhill
 underlayer
 underlayers
 undersides
@@ -3294,8 +3300,8 @@ wasnt
 wastebread
 watchband
 waterfowl
-waterproofed
 waterkin
+waterproofed
 waterskin
 waterskins
 waterskis

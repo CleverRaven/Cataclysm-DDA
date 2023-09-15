@@ -339,7 +339,7 @@
     "type": "effect_type",
     "name": [ "Shocker" ],
     "desc": [ "Your body emit enough energy to power some small city." ],
-    "apply_message": "Shocking clouds fly everywhere!.",
+    "apply_message": "Shocking clouds fly everywhere!",
     "remove_message": "Electric clouds are gone.",
     "rating": "good",
     "show_intensity": false,

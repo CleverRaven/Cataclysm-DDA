@@ -417,6 +417,7 @@
     "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "787 ml",
+    "longest_side": "17 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1152,6 +1153,7 @@
     "color": "light_gray",
     "weight": "728 g",
     "volume": "1575 ml",
+    "longest_side": "21 cm",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ "COOK" ] },
     "melee_damage": { "bash": 5 }
@@ -1180,6 +1182,7 @@
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
@@ -1191,6 +1194,7 @@
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },

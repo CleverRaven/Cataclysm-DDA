@@ -172,6 +172,7 @@
     "speaker_effect": {
       "effect": [
         { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": -1 },
+        { "u_add_faction_trust": 1 },
         { "u_spawn_item": "RobofacCoin", "count": 2 }
       ]
     }

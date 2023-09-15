@@ -755,6 +755,24 @@ struct islot_gun : common_ranged_data {
 
     int ammo_to_fire = 1;
 
+    /**
+    * The amount by which the item's overheat value is reduced every turn. Used in
+    * overheat-based guns.
+    */
+    double cooling_value = 100.0;
+
+    /**
+    *  Used only in overheat-based guns. No melting LMG barrels yet.
+    */
+    double heat_per_shot = 0.0;
+
+    /**
+    * Used in overheat-based guns.
+    * Heat value at which critical overheat faults might occur.
+    * A value beneath 0.0 means that the gun cannot overheat.
+    */
+    double overheat_threshold = -1.0;
+
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 
     /**

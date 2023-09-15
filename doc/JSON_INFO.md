@@ -2579,12 +2579,34 @@ it is present to help catch errors.
 
 ### Skills
 
-```C++
-"id" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "submachine guns",  // In-game name displayed
-"description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
-"tags" : ["gun_type"]  // Special flags (default: none)
+```json
+{
+  "type": "skill",
+  "id": "smg",
+  "name": { "str": "submachine guns" },
+  "description": "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
+  "tags": [ "combat_skill" ],
+  "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
+  "display_category": "display_ranged",
+  "sort_rank": 11000,
+  "teachable": true,
+  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
+}
 ```
+
+| Field                      | Purpose |
+| ---                        | ---     |
+| `name`                     | Name of the skill as displayed in the the character info screen. |
+| `description`              | Description of the skill as displayed in the the character info screen. |
+| `tags`                     | Identifies special cases. Currently valid tags are: "combat_skill" and "contextual_skill". |
+| `time_to_attack`           | Object used to calculate the movecost for firing a gun. |
+| `display_category`         | Category in the character info screen where this skill is displayed. |
+| `sort_rank`                | Order in which the skill is shown. |
+| `teachable`                | Whether it's possible to teach this skill between characters. (Default = true) |
+| `companion_skill_practice` | Determines the priority of this skill within a mision skill category when an NPC gains experience from a companion mission. |
+| `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
+| `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
+| `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
 
 ### Speed Description
 
@@ -2751,7 +2773,8 @@ See [MUTATIONS.md](MUTATIONS.md)
       "spawn_items": [ "beartrap" ]
     },
     "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
-    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!" // This message will be printed when NPC or monster steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!", // This message will be printed when NPC or monster steps on a trap
+    "sound_threshold": 5 // Optional. Minimum volume of sound that will trigger this trap. Defaults to 0 (Will not trigger from sound).
 ```
 
 ### Vehicle Groups
@@ -2824,6 +2847,15 @@ Vehicle components when installed on a vehicle.
   },
   "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
   "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+},
+"control_requirements": {     // (Optional) Control requirements of the vehicle this part is installed.
+  "air": {                    // Requirements of flying in air.
+    "proficiencies": [ "prof_helicopter_pilot" ], // "proficiencies" is a list of proficiency names.
+  },
+  "land": {                    // Requirements of running on ground.
+    "skills": [ [ "driving", 1 ] ], // "skills" is a list of lists, with each list being a skill
+                              // name and skill level.
+  }
 },
 "pseudo_tools" : [            // Crafting tools provided by this part
   { "id": "hotplate", "hotkey": "h" },
@@ -3214,16 +3246,45 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 
 ### Ammo Effects
 
-```C++
-    "id": "TACTICAL_LASER_EXPLOSION",   // Defines this as some generic item
-    "type": "ammo_effect",              // Defines this as an ammo_effect 
-    "trigger_chance": 5,                // Option one in X chances for the rest of json defined ammo_effect properties to trigger at the hit location. Defaults to 1
-    "explosion": {  }                   // (Optional) Creates an explosion at the hit location. See "explosion" for details.
-    "aoe": {  },                        // (Optional) Spawn a square of specified fields on the hit location.
-    "trail": {  }                       // (Optional) Spawn a line of fields on the projectiles path.  Not affected by trigger_chance.
-    "foamcrete_build": true             // (Optional) Creates foamcrete fields and walls on the hit location.
-    "do_flashbang": true                // (Optional) Creates a hardcoded Flashbang explosion.
-    "do_emp_blast": true                // (Optional) Creates a one tile radious EMP explosion at the hit location.
+ammo_effects define what effect the projectile, that you shoot, would have. List of existing ammo effects, **including hardcoded one**, can be found at `data/json/ammo_effects.json`
+
+```c++
+{
+  "id": "AE_NULL",           // id of an effect
+  "type": "ammo_effect",     // define it is an ammo effect
+  "aoe": {                   // this field would be spawned at the tile projectile hit
+    "field_type": "fd_fog",  // field, that would be spawned around the center of projectile; default "fd_null"
+    "intensity_min": 1,      // min intensity of the field; default 0
+    "intensity_max": 3,      // max intensity of the field; default 0
+    "radius": 5,             // radius of a field to spawn; default 1
+    "radius_z": 1,           // radius across z-level; default 0
+    "chance": 100,           // probability to spawn 1 unit of field, from 0 to 100; default 100
+    "size": 0,               // seems to be the threshold, where autoturret stops shooting the weapon to prevent friendly fire;; default 0
+    "check_passable": false, // if false, projectile is able to penetrate impassable terrains, if penetration is defined (like walls and windows); if true, projectile can't penetrate even the sheet of glass; default false
+    "check_sees": false,     // if false, field can be spawned behind the opaque wall (for example, behind the concrete wall); if true, it can't; default false
+    "check_sees_radius": 0   // if "check_sees" is true, and this value is smaller than "radius", this value is used as radius instead. The purpose nor reasoning is unknown, probably some legacy of mininuke, so just don't use it; default 0
+  },
+  "trail": {                 // this field would be spawned across whole projectile path
+    "field_type": "fd_fog",  // field, that would be spawned; defautl "fd_null"
+    "intensity_min": 1,      // min intensity of the field; default 0
+    "intensity_max": 3,      // max intensity of the field; default 0
+    "chance": 100            // probability to spawn 1 unit of field, from 0 to 100; default 100
+  },
+  "explosion": {             // explosion, that will happen at the tile that projectile hit
+    "power": 0,              // mandatory; power of the explosion, in grams of tnt; pipebomb is about 300, grenade (without shrapnel) is 240
+    "distance_factor": 0.8,  // how fast the explosion decay, closer to 1 mean lesser "power" loss per tile, 0.8 means 20% of power loss per tile; default 0.75, value should be bigger than 0, but lesser than 1
+    "fire": false,           // explosion create a fire, related to it's power, distance and distance_factor
+    "shrapnel": {            // explosion create a shrapnel, that deal the damage, calculated by gurney equasion
+      "casing_mass": 0,      // total mass of casing, casing/power ratio determines fragment velocity.
+      "fragment_mass": 0.0,  // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+      "recovery": 0,         // Percentage chance to drop an item at landing point.
+      "drop": "null"         // Which item to drop at landing point
+    }
+  },
+  "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
+  "do_emp_blast": false      // Creates a hardcoded flashbang explosion; default false
+  "foamcrete_build": false   // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
+}
 ```
 
 ### Magazine
@@ -3979,6 +4040,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
+    "variant_type": "condom_plain", // (Optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight.
     "active": true,       // Whether the item is active once transformed.
     "ammo_scale": 0,    // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo.
     "msg": "You turn the lamp on.", // Message to display when activated.

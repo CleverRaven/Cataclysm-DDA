@@ -843,7 +843,7 @@ void Character::load( const JsonObject &data )
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
     worn.on_takeoff( *this );
-    worn.clear();
+    clear_worn();
     // deprecate after 0.G
     if( data.has_array( "worn" ) ) {
         std::list<item> items;
@@ -3222,7 +3222,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true, false );
+        contents.combine( read_contents, false, true, false, true );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );

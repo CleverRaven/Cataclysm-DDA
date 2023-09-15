@@ -6799,6 +6799,22 @@
   },
   {
     "type": "construction",
+    "id": "constr_open_air",
+    "skill": "survival",
+    "group": "construct_open_air",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "20m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_open_air",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
     "id": "constr_pit_underground",
     "group": "dig_a_pit",
     "category": "DIG",
@@ -7804,11 +7820,11 @@
     "time": "60 m",
     "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH_FINE", "level": 1 } ] ],
     "components": [
+      [ [ "heavy_punching_bag_sack", 1 ] ],
       [ [ "nuts_bolts", 4 ] ],
       [ [ "chain", 4 ] ],
       [ [ "blanket", 6 ] ],
       [ [ "material_sand", 4000 ] ],
-      [ [ "bag_plastic", 4 ] ],
       [ [ "duct_tape", 20 ] ]
     ],
     "pre_flags": [ "INDOORS" ],

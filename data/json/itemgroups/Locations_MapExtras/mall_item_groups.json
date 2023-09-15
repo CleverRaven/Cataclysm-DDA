@@ -61,7 +61,7 @@
       { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
       [ "fertilizer_liquid", 50 ],
       [ "dahlia_root", 30 ],
-      [ "fertilizer_commercial", 25 ]
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 25 }
     ]
   },
   {

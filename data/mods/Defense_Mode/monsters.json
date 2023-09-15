@@ -2,6 +2,7 @@
   {
     "id": "mon_zombie_nemesis",
     "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "vision_day": 99,
     "vision_night": 99,

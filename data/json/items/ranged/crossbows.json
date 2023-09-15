@@ -288,7 +288,7 @@
     "range": 0,
     "dispersion": 285,
     "loudness": 0,
-    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ],
+    "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_SMALL" ],
     "melee_damage": { "bash": 1 }
   },
   {

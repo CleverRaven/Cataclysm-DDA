@@ -73,5 +73,16 @@
     "time_to_learn": "12 h",
     "default_time_multiplier": 2,
     "default_skill_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_botanical_enchantment",
+    "category": "prof_alchemy",
+    "name": { "str": "Mystic Horticulture" },
+    "description": "The art of instilling mystical energy into fruit.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "10 h"
   }
 ]

@@ -1394,7 +1394,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
       [ [ "pipe", 2 ] ],
-      [ [ "wire_mesh", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "metal_tank_little", 1 ], [ "jerrycan_big", 1 ], [ "jerrycan", 1 ] ]
     ]
   },

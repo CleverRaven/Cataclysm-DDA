@@ -153,7 +153,8 @@
       { "item": "book_icef", "prob": 8 },
       { "item": "book_pneumatics", "prob": 8 },
       { "item": "carpentry_book", "prob": 5 },
-      { "item": "theater_props", "prob": 2 }
+      { "item": "theater_props", "prob": 2 },
+      { "item": "alloy_book", "prob": 12 }
     ]
   },
   {
@@ -412,8 +413,7 @@
       { "item": "vacuum_sealing", "prob": 5 },
       { "item": "arduino_experiments", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "book_pneumatics", "prob": 3 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "book_pneumatics", "prob": 3 }
     ]
   },
   {
@@ -432,7 +432,8 @@
       { "item": "reference_fabrication1", "prob": 6 },
       { "item": "reference_firstaid1", "prob": 2 },
       { "item": "reference_firstaid2", "prob": 1 },
-      { "item": "textbook_toxicology", "prob": 2 }
+      { "item": "textbook_toxicology", "prob": 2 },
+      { "item": "alloy_book", "prob": 5 }
     ]
   },
   {
@@ -495,7 +496,6 @@
       { "item": "book_lockpick", "prob": 2 },
       { "item": "basic_chemistry", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 },
       { "item": "textbook_arthropod", "prob": 5 },
       { "item": "textbook_botany", "prob": 5 },
       { "item": "theater_props", "prob": 2 }
@@ -544,7 +544,8 @@
       { "group": "manuals", "prob": 1 },
       { "item": "textbook_arthropod", "prob": 5 },
       { "item": "book_pneumatics", "prob": 8 },
-      { "item": "textbook_botany", "prob": 5 }
+      { "item": "textbook_botany", "prob": 5 },
+      { "item": "alloy_book", "prob": 8 }
     ]
   },
   {
@@ -595,6 +596,7 @@
       { "item": "textbook_gaswarfare", "prob": 15 },
       { "item": "text_gunsmith", "prob": 10 },
       { "item": "glassblowing_book", "prob": 12 },
+      { "item": "alloy_book", "prob": 12 },
       { "item": "plastics_book", "prob": 12 },
       { "item": "cookbook_human", "prob": 10 },
       { "item": "collector_book", "prob": 10 },
@@ -737,12 +739,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "record_weather", "prob": 100 } ]
-  },
-  {
-    "id": "isherwood_mission_reward_herbal",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "isherwood_herbal_remedies", "prob": 100 } ]
   },
   {
     "id": "tailorbooks",

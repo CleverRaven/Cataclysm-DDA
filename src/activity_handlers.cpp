@@ -1889,19 +1889,20 @@ static bool magic_train( player_activity *act, Character *you )
     }
     const spell_id &sp_id = spell_id( act->name );
     if( sp_id.is_valid() ) {
-        const bool knows = get_player_character().magic->knows_spell( sp_id );
+        const bool knows = you->magic->knows_spell( sp_id );
         if( knows ) {
             spell &studying = you->magic->get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *you ) * expert_multiplier );
             studying.gain_exp( *you, xp );
-            you->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
-                                    sp_id->name );
+            you->add_msg_player_or_npc( m_good, _( "You learn a little about the spell: %s" ),
+                                        _( "<npcname> learns a little about the spell: %s" ), sp_id->name );
         } else {
             you->magic->learn_spell( act->name, *you );
             // you can decline to learn this spell , as it may lock you out of other magic.
             if( you->magic->knows_spell( sp_id ) ) {
-                add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
+                you->add_msg_player_or_npc( m_good, _( "You learn %s." ),
+                                            _( "<npcname> learns %s." ), sp_id->name.translated() );
             } else {
                 act->set_to_null();
             }
@@ -2688,27 +2689,46 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 
     recipe_id id( act->name );
     std::string itname;
-    if( act->index == 0 ) {
-        // act->name is itype_id
-        itype_id it( act->name );
-        itname = it->nname( 1U );
-    } else {
-        // act->name is recipe_id
-        itname = id->result_name();
-    }
-    if( id.is_null() || !id.is_valid() ) {
-        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
-        return;
-    }
-
     const inventory &inven = you->crafting_inventory();
     const std::vector<npc *> &helpers = you->get_crafting_helpers();
-    if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+    if( act->index != 0 ) {
+        // act->name is recipe_id
+        itname = id->result_name();
+        if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+            add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
+            return;
+        }
+        you->craft( std::nullopt, id );
+        return;
+    }
+    // act->name is itype_id
+    itype_id item( act->name );
+    itname = item->nname( 1U );
+
+    bool is_byproduct = false;  // product or byproduct
+    bool can_craft = false;
+    // Does a recipe for the item exist?
+    for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
+        const recipe &r = ( *it ).second;
+        if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
+            is_byproduct = true;
+            // If if exists, do I know it?
+            if( you->get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                can_craft = true;
+                break;
+            }
+        }
+    }
+    if( !is_byproduct ) {
+        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
+        return;
+    } else if( !can_craft ) {
         add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
         return;
     }
 
-    you->craft( std::nullopt, id );
+    std::string filterstring = string_format( "r:%s", itname );
+    you->craft( std::nullopt, recipe_id(), filterstring );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )

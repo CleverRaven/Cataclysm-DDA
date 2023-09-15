@@ -1181,7 +1181,7 @@
     "id": "MARTIAL_ARTS2",
     "name": { "str": "Self-Defense Classes" },
     "points": 2,
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Kickboxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "player_display": false,
     "initial_ma_styles": [
       "style_krav_maga",
@@ -1190,6 +1190,7 @@
       "style_capoeira",
       "style_zui_quan",
       "style_wingchun",
+      "style_kickboxing",
       "style_boxing"
     ],
     "valid": false
@@ -8320,6 +8321,17 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_KICKBOXER",
+    "name": { "str": "Kickboxer" },
+    "points": 0,
+    "description": "You have some training in the art of kickboxing.  It's just boxing with kicks, right?",
+    "valid": false,
+    "initial_ma_styles": [ "style_kickboxing" ],
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "PROF_AUTODOC",
     "name": { "str": "Autodoc Specialist" },
     "points": 0,
@@ -9082,7 +9094,7 @@
     "id": "RESISTWARM",
     "name": { "str": "Heat Tolerance" },
     "points": 1,
-    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
+    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you it will take more heat and exposure for you to suffer from sunstroke, this will not make dealing with its consequences any easier.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
     "types": [ "ACCLIMATIZATION" ],

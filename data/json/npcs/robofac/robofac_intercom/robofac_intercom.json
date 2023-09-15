@@ -512,7 +512,8 @@
             { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
           ]
         },
-        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
       },
       { "text": "Wait, what?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
       { "text": "You do realize that the front door is just open?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
@@ -524,7 +525,11 @@
         "text": "I'm just looking for valuables.  Maybe we can trade?",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE"
       },
-      { "text": "Look, there must be something we can work out.", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" },
+      {
+        "text": "Look, there must be something we can work out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
+      },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
   },

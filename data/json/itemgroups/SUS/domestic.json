@@ -306,6 +306,7 @@
       { "item": "bottle_opener", "prob": 75 },
       { "item": "pockknife", "prob": 75 },
       { "item": "cordless_drill", "prob": 70 },
+      { "item": "corded_powerdrill", "prob": 20 },
       { "item": "scissors", "prob": 65 },
       { "item": "pliers", "prob": 65 },
       { "item": "permanent_marker", "prob": 70, "charges-min": 50 },
@@ -431,7 +432,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
-      { "item": "colander_steel", "prob": 40 },
+      { "item": "colander_steel", "prob": 80 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
       { "item": "steel_pan", "prob": 80 },
@@ -745,6 +746,7 @@
       { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
+      { "group": "cotton_ball_bag_full", "prob": 5 },
       { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       { "item": "ammonia_hydroxide", "prob": 20, "charges-min": 1 },
@@ -801,6 +803,7 @@
       { "item": "menstrual_cup", "prob": 2 },
       { "item": "disinfectant", "prob": 40, "charges-min": 1 },
       { "group": "alcohol_wipes_box_used", "prob": 60 },
+      { "group": "alcohol_wipes_box_full", "prob": 20 },
       {
         "distribution": [
           {

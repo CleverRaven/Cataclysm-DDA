@@ -317,6 +317,28 @@
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
+    "id": "corded_powerdrill",
+    "type": "TOOL",
+    "name": { "str": "power drill" },
+    "description": "A black power drill with a selection of bits.  Uses a power cord, so it will have to be plugged into a power grid or vehicle to function.",
+    "weight": "2721 g",
+    "volume": "750 ml",
+    "longest_side": "22 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ [ "DRILL", 3 ] ],
+    "charges_per_use": 5,
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "2200 W" } ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 3, "cut": 1 }
+  },
+  {
     "id": "cordless_impact_wrench",
     "type": "TOOL",
     "name": { "str": "cordless impact wrench", "str_pl": "cordless impact wrenches" },

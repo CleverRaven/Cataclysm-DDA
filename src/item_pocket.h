@@ -197,14 +197,13 @@ class item_pocket
         /**
          * Can the pocket contain the specified item?
          * @param it The item being put in
+         * @param ignore_contents If true, only check for compatible phase, size, and weight, skipping the more CPU-intensive checks against other contents. Optional, default false.
          * @param copies_remaining An optional integer reference that will be set to the number of item copies that won't fit
          */
-        ret_val<contain_code> can_contain( const item &it, int &copies_remaining ) const;
-        ret_val<contain_code> can_contain( const item &it ) const;
-        /**
-        * @brief A version of can_contain that skips the weight and volume check.
-        */
-        ret_val<contain_code> can_contain_skip_space_checks( const item &it ) const;
+        ret_val<contain_code> can_contain( const item &it, bool ignore_contents = false ) const;
+        ret_val<contain_code> can_contain( const item &it, int &copies_remaining,
+                                           bool ignore_contents = false ) const;
+
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -310,6 +309,7 @@ class item_pocket
         void clear_items();
         bool has_item( const item &it ) const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
         void remove_items_if( const std::function<bool( item & )> &filter );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
@@ -330,13 +330,13 @@ class item_pocket
 
         // tries to put an item in the pocket. returns false if failure
         ret_val<contain_code> insert_item( const item &it, bool into_bottom = false,
-                                           bool restack_charges = true );
+                                           bool restack_charges = true, bool ignore_contents = false );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
-        void add( const item &it, int copies, item **ret );
+        void add( const item &it, int copies, std::vector<item *> &added );
         bool can_unload_liquid() const;
 
         int fill_with( const item &contained, Character &guy, int amount = 0,
@@ -426,7 +426,7 @@ class item_pocket
         std::set<sub_bodypart_id> no_rigid;
 
         ret_val<contain_code> _can_contain( const item &it, int &copies_remaining,
-                                            bool check_for_enough_space ) const;
+                                            bool ignore_contents ) const;
 };
 
 /**

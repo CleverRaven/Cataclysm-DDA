@@ -35,7 +35,6 @@
     "blueprint_name": "wooden barricades",
     "blueprint_provides": [
       { "id": "fbmc_lightindustry_00_barricades" },
-      { "id": "bed", "amount": 2 },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "fbmc_lightindustry_00_barricades" }
@@ -55,7 +54,6 @@
     "blueprint_name": "resin barricades",
     "blueprint_provides": [
       { "id": "fbmc_lightindustry_00_barricades" },
-      { "id": "bed", "amount": 2 },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "fbmc_lightindustry_00_barricades" }
@@ -116,7 +114,7 @@
     "construction_blueprint": "fbmc_lightindustry_00_radio",
     "blueprint_name": "radio tower",
     "blueprint_provides": [ { "id": "fbmc_lightindustry_00_radio" }, { "id": "radio" }, { "id": "recruiting" } ],
-    "blueprint_requires": [ { "id": "fbmc_lightindustry_00_barricades" }, { "id": "bed", "amount": 6 } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_00_barricades" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_00_radio" } ]
   },
   {

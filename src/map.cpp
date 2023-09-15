@@ -109,6 +109,11 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+#if defined(TILES)
+#include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include "sdltiles.h"
+#endif
+
 static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
@@ -6565,6 +6570,9 @@ void map::update_submaps_with_active_items()
 void map::update_visibility_cache( const int zlev )
 {
     Character &player_character = get_player_character();
+    if( player_character.pos().z - zlev < fov_3d_z_range && zlev > -OVERMAP_DEPTH ) {
+        update_visibility_cache( zlev - 1 );
+    }
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = static_cast<int>( g->light_level( zlev ) );
     visibility_variables_cache.vision_threshold = player_character.get_vision_threshold(
@@ -6605,6 +6613,11 @@ void map::update_visibility_cache( const int zlev )
             }
         }
     }
+
+#if defined(TILES)
+    // clear previously cached visibility variables from cata_tiles
+    tilecontext->clear_draw_caches();
+#endif
 }
 
 const visibility_variables &map::get_visibility_variables_cache() const
@@ -6805,6 +6818,9 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
     const tripoint view_center = params.center();
     const int k = p.x + getmaxx( w ) / 2 - view_center.x;
     const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+    if( k < 0 || k >= getmaxx( w ) || j < 0 || j >= getmaxy( w ) ) {
+        return;
+    }
     wmove( w, point( k, j ) );
 
     const const_maptile tile = maptile_at( p );

@@ -138,6 +138,8 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const fault_id fault_overheat_safety( "fault_overheat_safety" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -158,6 +160,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
+static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -611,7 +614,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     return result;
 }
 
-item &item::convert( const itype_id &new_type )
+item &item::convert( const itype_id &new_type, Character *carrier )
 {
     // Carry over relative rot similar to crafting
     const double rel_rot = get_relative_rot();
@@ -632,6 +635,9 @@ item &item::convert( const itype_id &new_type )
     if( temp.type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
+    }
+    if( carrier ) {
+        carrier->on_item_acquire( *this );
     }
 
     return *this;
@@ -1451,6 +1457,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         return false;
     }
     if( techniques != rhs.techniques ) {
+        return false;
+    }
+    if( overheat_symbol() != rhs.overheat_symbol() ) {
         return false;
     }
     // Guns with enough fouling to change the indicator symbol don't stack
@@ -6111,13 +6120,20 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        bool has_gun = player_character.has_item_with( [this]( const item & i ) {
-            return i.is_gun() && i.ammo_types().count( ammo_type() );
+        bool has_gun = player_character.cache_has_item_with( "is_gun", &item::is_gun,
+        [this]( const item & i ) {
+            return i.ammo_types().count( ammo_type() );
         } );
-        bool has_mag = player_character.has_item_with( [this]( const item & i ) {
-            return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( ammo_type() ) ) ||
-                   ( i.is_magazine() && i.ammo_types().count( ammo_type() ) );
+        bool has_mag = player_character.cache_has_item_with( "is_gun", &item::is_gun,
+        [this]( const item & i ) {
+            return i.magazine_integral() && i.ammo_types().count( ammo_type() );
         } );
+        has_mag = has_mag ? true :
+                  player_character.cache_has_item_with( "is_magazine", &item::is_magazine,
+        [this]( const item & i ) {
+            return i.ammo_types().count( ammo_type() );
+        } );
+
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {
@@ -6126,8 +6142,9 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
         // ltred if you have one but not the other
-        bool has_gun = player_character.has_item_with( [this]( const item & it ) {
-            return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
+        bool has_gun = player_character.cache_has_item_with( "is_gun", &item::is_gun,
+        [this]( const item & it ) {
+            return it.magazine_compatible().count( typeId() ) > 0;
         } );
         bool has_ammo = !player_character.find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
@@ -6335,7 +6352,6 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.invalidate_weight_carried_cache();
     p.on_item_acquire( *this );
 }
 
@@ -6397,6 +6413,32 @@ std::string item::dirt_symbol() const
     }
 }
 
+std::string item::overheat_symbol() const
+{
+
+    if( !is_gun() || type->gun->overheat_threshold <= 0.0 ) {
+        return "";
+    }
+    if( faults.count( fault_overheat_safety ) ) {
+        return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
+    }
+    switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
+                                           0 ) / ( type->gun->overheat_threshold ) * 5.0 ) ) ) {
+        case 1:
+            return "";
+        case 2:
+            return string_format( _( "<color_yellow>\u2583HEAT </color>" ) );
+        case 3:
+            return string_format( _( "<color_light_red>\u2585HEAT </color>" ) );
+        case 4:
+            return string_format( _( "<color_red>\u2587HEAT! </color>" ) ); // NOLINT(cata-text-style)
+        case 5:
+            return string_format( _( "<color_pink>\u2588HEAT!! </color>" ) ); // NOLINT(cata-text-style)
+        default:
+            return "";
+    }
+}
+
 std::string item::degradation_symbol() const
 {
     const int inc = max_damage() / 5;
@@ -6438,6 +6480,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     damtext += dirt_symbol();
+    damtext += overheat_symbol();
 
     if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
@@ -8427,6 +8470,11 @@ bool item::is_money() const
     return ammo_types().count( ammo_money );
 }
 
+bool item::is_cash_card() const
+{
+    return typeId() == itype_cash_card;
+}
+
 bool item::is_software() const
 {
     if( const std::optional<itype_id> &cont = type->default_container ) {
@@ -9178,6 +9226,11 @@ const itype_variant_data &item::itype_variant() const
 void item::set_itype_variant( const std::string &variant )
 {
     if( variant.empty() || type->variants.empty() ) {
+        return;
+    }
+
+    if( variant == "<any>" ) {
+        select_itype_variant();
         return;
     }
 
@@ -10415,7 +10468,7 @@ int item::gun_range( const Character *p ) const
         return 0;
     }
 
-    // Reduce bow range until player has twice minimm required strength
+    // Reduce bow range until player has twice minimum required strength
     if( has_flag( flag_STR_DRAW ) ) {
         ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
     }
@@ -10653,6 +10706,9 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
         qty -= contents.ammo_consume( qty, pos );
+        if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
+            carrier->invalidate_weight_carried_cache();
+        }
     }
 
     // Dirty fix: activating a container of meds leads here, and used to use up all of the charges.
@@ -10671,7 +10727,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool ) {
+    if( carrier != nullptr && type->tool &&
+        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
         units::energy wanted_energy = units::from_kilojoule( qty );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -11973,7 +12030,6 @@ int item::fill_with( const item &contained, const int amount,
                   contained_item.typeId().str(), contained_item.charges, typeId().str() );
     }
     on_contents_changed();
-    get_avatar().invalidate_weight_carried_cache();
     return num_contained;
 }
 
@@ -12323,7 +12379,7 @@ int item::processing_speed() const
 
     if( active || ethereal || wetness || link ||
         has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
-        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -12847,11 +12903,11 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
         }
         if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
+            convert( itype_cig_butt, carrier );
         } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+            convert( itype_cigar_butt, carrier );
         } else { // joint
-            convert( itype_joint_roach );
+            convert( itype_joint_roach, carrier );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
@@ -12973,15 +13029,15 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     // cig dies out
     if( has_flag( flag_LITCIG ) ) {
         if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
+            convert( itype_cig_butt, carrier );
         } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+            convert( itype_cigar_butt, carrier );
         } else { // joint
-            convert( itype_joint_roach );
+            convert( itype_joint_roach, carrier );
         }
     } else { // transform (lit) items
         if( type->revert_to ) {
-            convert( *type->revert_to );
+            convert( *type->revert_to, carrier );
         } else {
             type->invoke( carrier, *this, pos, "transform" );
         }
@@ -12992,9 +13048,14 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
+bool item::can_link_up() const
+{
+    return !!link || type->can_use( "link_up" );
+}
+
 void item::set_link_traits( const bool assign_t_state )
 {
-    if( !link || !type->can_use( "link_up" ) ) {
+    if( !can_link_up() ) {
         return;
     }
 
@@ -13006,7 +13067,7 @@ void item::set_link_traits( const bool assign_t_state )
     link->s_bub_pos = tripoint_min;
 
     for( const item *cable : cables() ) {
-        if( !cable->type->can_use( "link_up" ) ) {
+        if( !cable->can_link_up() ) {
             continue;
         }
         const link_up_actor *actor = static_cast<const link_up_actor *>
@@ -13076,10 +13137,10 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         }
     }
     const item_filter used_ups = [&]( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS ) && itm.get_var( "cable" ) == "plugged_in";
+        return itm.get_var( "cable" ) == "plugged_in";
     };
     if( link->s_state == link_state::ups ) {
-        if( carrier == nullptr || !carrier->has_item_with( used_ups ) ) {
+        if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
             add_msg_if_player_sees( pos, m_bad,
                                     string_format( is_cable_item ? _( "The %s has come loose from the UPS." ) :
                                                    _( "The %s's cable has come loose from the UPS." ), type_name() ) );
@@ -13395,7 +13456,8 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
         active = false;
         return false;
     }
-    bool has_connected_cable = carrier->has_item_with( [&required_state]( const item & it ) {
+    bool has_connected_cable = carrier->cache_has_item_with( "can_link_up", &item::can_link_up,
+    [&required_state]( const item & it ) {
         return it.link && it.link->has_state( required_state );
     } );
     if( !has_connected_cable ) {
@@ -13405,11 +13467,11 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
     return false;
 }
 
-bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
+bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
         if( type->revert_to ) {
-            convert( *type->revert_to );
+            convert( *type->revert_to, carrier );
         }
         unset_flag( flag_WET );
         active = false;
@@ -13474,6 +13536,32 @@ bool item::process_blackpowder_fouling( Character *carrier )
         set_var( "rust_timer", 0 );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to corrosive powder fouling." ), tname() );
+        }
+    }
+    return false;
+}
+
+bool item::process_gun_cooling( Character *carrier )
+{
+    double heat = get_var( "gun_heat", 0 );
+    double threshold = type->gun->overheat_threshold;
+    heat -= type->gun->cooling_value;
+    set_var( "gun_heat", std::max( 0.0, heat ) );
+    if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
+        faults.erase( fault_overheat_safety );
+        if( carrier ) {
+            carrier->add_msg_if_player( m_good, _( "Your %s beeps as its cooling cycle concludes." ), tname() );
+        }
+    }
+    if( carrier ) {
+        if( heat > threshold ) {
+            carrier->add_msg_if_player( m_bad,
+                                        _( "You can feel the struggling systems of your %s beneath the blare of the overheat alarm." ),
+                                        tname() );
+        } else if( heat > threshold * 0.8 ) {
+            carrier->add_msg_if_player( m_bad, _( "Your %s frantically sounds an overheat alarm." ), tname() );
+        } else if( heat > threshold * 0.6 ) {
+            carrier->add_msg_if_player( m_warning, _( "Your %s sounds a heat warning chime!" ), tname() );
         }
     }
     return false;
@@ -13563,7 +13651,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
-                convert( *type->revert_to );
+                convert( *type->revert_to, carrier );
 
                 active = needs_processing();
             } else {
@@ -13640,6 +13728,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         // guns are never active so we only need to tick this on inactive items. For performance reasons.
         if( has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
             return process_blackpowder_fouling( carrier );
+        }
+        if( get_var( "gun_heat", 0 ) > 0 ) {
+            return process_gun_cooling( carrier );
         }
     }
 
@@ -13935,7 +14026,7 @@ std::string item::type_name( unsigned int quantity ) const
     // Apply conditional names, in order.
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for searching for a item ID among all components.
-        std::function<bool( item_components )> component_id_equals =
+        std::function<bool( const item_components & )> component_id_equals =
         [&]( const item_components & components ) {
             for( const item_components::type_vector_pair &tvp : components ) {
                 for( const item &component : tvp.second ) {
@@ -13947,7 +14038,7 @@ std::string item::type_name( unsigned int quantity ) const
             return false;
         };
         // Lambda for recursively searching for a item ID substring among all components.
-        std::function<bool ( item_components )> component_id_contains =
+        std::function<bool ( const item_components & )> component_id_contains =
         [&]( const item_components & components ) {
             for( const item_components::type_vector_pair &tvp : components ) {
                 for( const item &component : tvp.second ) {
@@ -14123,8 +14214,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     // set variable storing information of character dropping item
     dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
 
-    player_character.flag_encumbrance();
-    player_character.invalidate_weight_carried_cache();
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
 
@@ -14537,6 +14626,11 @@ const item &item::only_item() const
 }
 
 item *item::get_item_with( const std::function<bool( const item & )> &filter )
+{
+    return contents.get_item_with( filter );
+}
+
+const item *item::get_item_with( const std::function<bool( const item & )> &filter ) const
 {
     return contents.get_item_with( filter );
 }

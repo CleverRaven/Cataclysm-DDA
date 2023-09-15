@@ -652,7 +652,7 @@ static void rack_check( const rack_preset &preset )
         } else {
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
-                     "racking actor failed: failed racking Foldable wheelchair on Car, "
+                     "racking actor failed: failed racking Foldable wheelchair on Station Wagon, "
                      "racks: [81, 80, and 78]." );
         }
 

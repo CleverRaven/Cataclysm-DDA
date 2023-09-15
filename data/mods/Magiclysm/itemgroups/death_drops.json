@@ -27,5 +27,195 @@
     "id": "default_zombie_items_pockets",
     "copy-from": "default_zombie_items_pockets",
     "extend": { "entries": [ { "item": "denarius", "prob": 7 } ] }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items carried by a XEDRA research thaumaturge prior to zombification.  Magical trinkets, reagents, etc.",
+    "id": "mon_zombie_research_thaumaturge_death_drops",
+    "entries": [
+      { "group": "lab_shoes", "damage": [ 1, 4 ] },
+      { "group": "lab_torso_research_thaumaturge", "damage": [ 1, 4 ] },
+      { "group": "lab_pants", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      {
+        "collection": [
+          { "group": "potions_common", "prob": 50 },
+          { "group": "potions_uncommon", "prob": 20 },
+          { "group": "enchanted_rings_common", "prob": 20 },
+          { "group": "enchanted_wands_lesser", "prob": 20 },
+          { "group": "magical_reagents", "prob": 80, "count-min": 1, "count-max": 5 },
+          { "group": "textbooks", "prob": 25 },
+          { "group": "lab_files_generic", "prob": 15 },
+          { "item": "crystallized_mana", "prob": 35, "charges": [ 1, 5 ] }
+        ]
+      },
+      { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_goblin_death_drops",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "wallets", "prob": 70 },
+      { "item": "denarius", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_ravenfolk_death_drops",
+    "entries": [
+      { "group": "default_ravenfolk_clothes", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "wallets", "prob": 50 },
+      { "item": "denarius", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_lizardfolk_death_drops",
+    "//": "Being cold-blooded and having scales, lizardfolk don't wear many clothes.",
+    "entries": [
+      { "group": "small_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items", "count": [ 1, 3 ], "prob": 50 },
+      { "item": "denarius", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "default zombie clothes, purged of items ravenfolk wouldn't wear like shoes or gloves.",
+    "id": "default_ravenfolk_clothes",
+    "entries": [
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      { "group": "christmas_accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 25, "event": "christmas" },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 99, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 1, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "item": "leather_belt", "prob": 85, "damage": [ 1, 4 ] },
+                          { "group": "christmas_belts", "prob": 25, "damage": [ 1, 4 ], "event": "christmas" }
+                        ],
+                        "prob": 30
+                      }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "thawb", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "cassock", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 1, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 70
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [
+                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
+                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" }
+                        ]
+                      }
+                    ],
+                    "prob": 30
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "helmet_bike", "damage": [ 1, 4 ], "prob": 50 },
+          { "group": "clothing_biker", "damage": [ 1, 4 ], "prob": 50 }
+        ],
+        "prob": 3
+      }
+    ]
+  },
+  {
+    "id": "mossling_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mossling_fur", "prob": 50, "count": [ 1, 10 ] },
+      { "item": "stick", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "leaves", "prob": 95, "count": [ 8, 16 ] }
+    ]
+  },
+  {
+    "id": "dryad_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "dryad_bark", "prob": 50, "count": [ 1, 6 ] },
+      { "item": "splinter", "prob": 85, "count": [ 20, 40 ] },
+      { "item": "stick", "prob": 90, "count": [ 2, 4 ] },
+      { "item": "leaves", "prob": 100, "count": [ 10, 30 ] }
+    ]
+  },
+  {
+    "id": "brackenwight_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bracken_eye", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "stick", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "leaves", "prob": 100, "count": [ 2, 4 ] },
+      { "item": "withered", "prob": 75, "count": [ 10, 40 ] },
+      { "item": "veggy", "prob": 75, "count": [ 10, 40 ] }
+    ]
+  },
+  {
+    "id": "gnome_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "gnome_eye", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "rock", "prob": 85, "count": [ 10, 30 ] },
+      { "item": "pebble", "prob": 85, "count": [ 40, 90 ] },
+      { "item": "rock_flaking", "prob": 85, "count": [ 3, 6 ] }
+    ]
   }
 ]

@@ -9,6 +9,7 @@
       [ "techno_basic", 30 ],
       [ "enchantment_basic", 30 ],
       [ "book_mythological", 10 ],
+      [ "history_botanical_enchantment", 15 ],
       [ "cooking_poison", 15 ],
       [ "metal_legends", 5 ]
     ]

@@ -85,7 +85,23 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "wire_mesh", 1 ] ] ]
+  },
+  {
+    "result": "sieve_steel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "wire_mesh", 1 ] ] ]
+  },
+  {
+    "result": "splatter_guard",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "wire_mesh", 1 ] ] ]
   },
   {
     "result": "copper_locket",

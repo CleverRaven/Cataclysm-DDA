@@ -227,7 +227,7 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
         REQUIRE( dummy.has_trait( trait_MYOPIC ) );
 
         WHEN( "without glasses" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
             THEN( "impaired sight, with 12 tiles of range" ) {
@@ -291,7 +291,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
         dummy.toggle_trait( trait_URSINE_EYE );
         REQUIRE( dummy.has_trait( trait_URSINE_EYE ) );
 
-        dummy.worn.clear();
+        dummy.clear_worn();
         REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
         WHEN( "under a new moon" ) {

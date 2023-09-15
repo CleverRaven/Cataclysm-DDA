@@ -911,6 +911,14 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "10 cm",
         "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 120,
+        "description": "Hidden pocket."
       }
     ],
     "warmth": 10,
@@ -945,6 +953,16 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 15,
         "encumbrance": 2
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "moves": 120,
+        "description": "Hidden pocket."
       }
     ],
     "warmth": 2,

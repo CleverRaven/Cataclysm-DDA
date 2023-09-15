@@ -1099,7 +1099,7 @@
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE_PG7VL", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -1120,7 +1120,7 @@
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE_PG7VR", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -1141,7 +1141,7 @@
     "range": 60,
     "dispersion": 50,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE_TBG7V", "TRAIL", "NEVER_MISFIRES", "NAPALM_TBG7V" ]
+    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -1162,6 +1162,6 @@
     "range": 60,
     "dispersion": 50,
     "recoil": 350,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_OG7V" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   }
 ]

@@ -26,8 +26,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle.",
         "ripoff": 2
@@ -241,8 +241,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -253,8 +253,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -729,6 +729,7 @@
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
     "volume": "15750 ml",
+    "longest_side": "46 cm",
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -2,
@@ -826,8 +827,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -1494,7 +1495,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
+        "max_item_length": "16 cm",
         "moves": 100,
         "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
       }
@@ -1534,7 +1535,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
+        "max_item_length": "16 cm",
         "moves": 200
       }
     ],
@@ -2503,8 +2504,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2

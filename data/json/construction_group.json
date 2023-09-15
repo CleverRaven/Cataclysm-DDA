@@ -971,6 +971,11 @@
   },
   {
     "type": "construction_group",
+    "id": "construct_open_air",
+    "name": "Dig out pit completely and remove anything remaining"
+  },
+  {
+    "type": "construction_group",
     "id": "dig_a_water_channel",
     "name": "Dig a Water Channel"
   },

@@ -13,13 +13,13 @@
     "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
     "id": "POISRESIST",
     "copy-from": "POISRESIST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -31,7 +31,7 @@
     "type": "mutation",
     "id": "BADTEMPER",
     "copy-from": "BADTEMPER",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -43,7 +43,7 @@
     "type": "mutation",
     "id": "CHEMIMBALANCE",
     "copy-from": "CHEMIMBALANCE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -56,19 +56,19 @@
     "id": "HOARDER",
     "copy-from": "HOARDER",
     "valid": true,
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK", "SPECIES_DWARF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "MOODSWINGS",
     "copy-from": "MOODSWINGS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "LIZ_EYE",
     "copy-from": "LIZ_EYE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -80,37 +80,40 @@
     "type": "mutation",
     "id": "FASTHEALER",
     "copy-from": "FASTHEALER",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "REGEN_LIZ",
     "copy-from": "REGEN_LIZ",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
+    }
   },
   {
     "type": "mutation",
     "id": "MEMBRANE",
     "copy-from": "MEMBRANE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "SKIN_PEELING",
     "copy-from": "SKIN_PEELING",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "SPARSE_SCALES",
     "copy-from": "SPARSE_SCALES",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "SCALES",
     "copy-from": "SCALES",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -201,13 +204,13 @@
     "type": "mutation",
     "id": "PAINREC1",
     "copy-from": "PAINREC1",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "PAINREC2",
     "copy-from": "PAINREC2",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -370,7 +373,7 @@
     "type": "mutation",
     "id": "INT_UP",
     "copy-from": "INT_UP",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -394,13 +397,13 @@
     "type": "mutation",
     "id": "SLIT_NOSTRILS",
     "copy-from": "SLIT_NOSTRILS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "HEADBUMPS",
     "copy-from": "HEADBUMPS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -434,13 +437,13 @@
     "type": "mutation",
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_RAVENFOLK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -469,20 +472,20 @@
     "type": "mutation",
     "id": "WEAKSTOMACH",
     "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "NAUSEA",
     "copy-from": "NAUSEA",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "OVERLY_ACID_GUT" ]
   },
   {
     "type": "mutation",
     "id": "VOMITOUS",
     "copy-from": "VOMITOUS",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "DRAGON_BREATH_BLACK" ]
   },
   {
@@ -512,7 +515,7 @@
     "type": "mutation",
     "id": "THIRST",
     "copy-from": "THIRST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -570,7 +573,7 @@
     "type": "mutation",
     "id": "HISS",
     "copy-from": "HISS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -753,19 +756,25 @@
     "type": "mutation",
     "id": "DENSE_BONES",
     "copy-from": "DENSE_BONES",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
     "id": "PRED1",
     "copy-from": "PRED1",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
+    }
   },
   {
     "type": "mutation",
     "id": "PRED2",
     "copy-from": "PRED2",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
+    }
   },
   {
     "type": "mutation",
