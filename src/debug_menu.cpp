@@ -2664,6 +2664,24 @@ static cata_path prepare_export_dir_and_find_unused_name( const std::string &cha
     return ret;
 }
 
+static void normalize_body()
+{
+    Character &u = get_avatar();
+    u.clear_effects();
+    u.clear_morale();
+    u.clear_vitamins();
+    u.set_all_parts_hp_to_max();
+    u.set_fatigue( 0 );
+    u.set_focus( 100 );
+    u.set_hunger( 0 );
+    u.set_pain( 0 );
+    u.set_rad( 0 );
+    u.set_sleep_deprivation( 0 );
+    u.set_stamina( u.get_stamina_max() );
+    u.set_stored_kcal( u.get_healthy_kcal() );
+    u.set_thirst( 0 );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -3536,33 +3554,16 @@ void debug()
 
         case debug_menu_index::QUICK_SETUP: {
             Character &u = get_avatar();
-            u.clear_bionics();
-            u.clear_effects();
-            u.clear_morale();
-            u.clear_mutations();
-            u.clear_vitamins();
-            u.set_all_parts_hp_to_max();
-            u.set_fatigue( 0 );
-            u.set_focus( 100 );
-            u.set_hunger( 0 );
+            normalize_body();
             // Specifically only adds mutations instead of toggling them.
             u.set_mutations( setup_traits );
-            u.set_pain( 0 );
-            // Drop all items
             u.remove_weapon();
-            for( const item_location loc : u.top_items_loc() ) {
-                u.drop( loc, u.pos() );
-            }
+            u.clear_worn();
             item backpack( "debug_backpack" );
             u.wear_item( backpack );
-            u.set_rad( 0 );
             for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
                 u.set_skill_level( pair.first, 10 );
             }
-            u.set_sleep_deprivation( 0 );
-            u.set_stamina( u.get_stamina_max() );
-            u.set_stored_kcal( u.get_healthy_kcal() );
-            u.set_thirst( 0 );
             break;
         }
 
@@ -3575,29 +3576,17 @@ void debug()
         }
 
         case debug_menu_index::NORMALIZE_BODY_STAT: {
-            Character &u = get_avatar();
-            // Maybe separate this out into a function so it isn't duplicated from quick setup?
-            u.clear_effects();
-            u.clear_morale();
-            u.clear_vitamins();
-            u.set_all_parts_hp_to_max();
-            u.set_fatigue( 0 );
-            u.set_focus( 100 );
-            u.set_hunger( 0 );
-            u.set_pain( 0 );
-            u.set_rad( 0 );
-            u.set_sleep_deprivation( 0 );
-            u.set_stamina( u.get_stamina_max() );
-            u.set_stored_kcal( u.get_healthy_kcal() );
-            u.set_thirst( 0 );
+            normalize_body();
             break;
         }
 
         case debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: {
             Character &u = get_avatar();
-            for( bionic_data bionic : bionic_data::get_all() ) {
+            for( const bionic_data &bionic : bionic_data::get_all() ) {
                 u.add_bionic( bionic.id, 0, true );
             }
+            // Prevent synthetic lungs/etc from instantly suffocating you. This is bad for testing!
+            u.set_power_level( 2500_kJ );
             break;
         }
 
