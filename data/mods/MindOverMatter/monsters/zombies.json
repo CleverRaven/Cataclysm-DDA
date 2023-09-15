@@ -229,7 +229,7 @@
         "id": "zombie_void_nether_banish_monster",
         "type": "spell",
         "spell_data": { "id": "nether_banish_monster_greater" },
-        "cooldown": 20,
+        "cooldown": 15,
         "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
       }
     ],
