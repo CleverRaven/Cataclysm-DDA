@@ -63,7 +63,7 @@
     "flags": [ "HOSTILE_SUMMON", "LOUD", "NO_PROJECTILE", "SPAWN_GROUP" ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "GROUP_NETHER_FATIGUE_FIELD",
+    "effect_str": "GROUP_NETHERMANCER_SUMMON",
     "min_damage": 1,
     "max_damage": 1,
     "min_aoe": 3,
