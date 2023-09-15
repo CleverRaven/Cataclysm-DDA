@@ -5031,8 +5031,8 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
-    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( 1, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( 2, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 3, true, 'p', _( "Peek down." ) );
     if( you.has_flag( json_flag_WALL_CLING ) ) {
         cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
@@ -5044,6 +5044,10 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case 1: {
+            g->climb_down( examp );
+            break;
+        }
+        case 2: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5069,10 +5073,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 you.set_activity_level( LIGHT_EXERCISE );
                 g->place_player( dest );
             }
-            break;
-        }
-        case 2: {
-            g->climb_down( examp );
             break;
         }
         case 3: {
