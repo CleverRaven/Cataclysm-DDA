@@ -545,6 +545,13 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    // Rebuild vision caches if driver is player
+    if( who.is_avatar() ) {
+        map &here = get_map();
+        here.build_map_cache( who.pos().z );
+        here.update_visibility_cache( who.pos().z );
+    }
+
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
         if( who.moves <= 0 ) {
             // out of moves? the driver's not doing anything this turn
