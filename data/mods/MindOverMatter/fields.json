@@ -109,7 +109,7 @@
     "type": "field_type",
     "intensity_levels": [
       {
-        "name": "dull air",
+        "name": "droning hum",
         "effects": [
           {
             "effect_id": "effect_psi_null",
