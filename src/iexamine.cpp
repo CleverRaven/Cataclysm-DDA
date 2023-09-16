@@ -5028,26 +5028,30 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
 void iexamine::ledge( Character &you, const tripoint &examp )
 {
+    enum ledge_actions {
+        ledge_peek_down,
+        ledge_climb_down,
+        ledge_cling_down,
+        ledge_jump_across,
+        ledge_fall_down,
+    };
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
-    cmenu.addentry( 1, true, 'c', _( "Climb down." ) );
-    cmenu.addentry( 2, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 3, true, 'p', _( "Peek down." ) );
+    cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
     if( you.has_flag( json_flag_WALL_CLING ) ) {
-        cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
+        cmenu.addentry( ledge_cling_down, true, 'C', _( "Crawl down." ) );
     }
+    cmenu.addentry( ledge_climb_down, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( ledge_jump_across, true, 'j', _( "Jump across." ) );
+    cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
 
     cmenu.query();
 
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
-        case 1: {
-            g->climb_down( examp );
-            break;
-        }
-        case 2: {
+        case ledge_jump_across: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5075,7 +5079,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }
-        case 3: {
+        case ledge_climb_down: {
+            g->climb_down( examp );
+            break;
+        }
+        case ledge_peek_down: {
             // Peek
             tripoint where = examp;
             tripoint below = examp;
@@ -5096,7 +5104,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
         }
-        case 4: {
+        case ledge_cling_down: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5116,6 +5124,20 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 }
             }
             break;
+        }
+        case ledge_fall_down: {
+            if( query_yn( _( "Climbing might be safer. Really fall from the ledge?" ) ) ) {
+                you.moves -= 100;
+                // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+                if( !you.move_effects( false ) ) {
+                    return;
+                }
+                // Step into open air, then fall...
+                you.setpos( examp );
+                you.gravity_check();
+                break;
+            }
+            /* Otherwise, intentional fallthrough (no pun intended). */
         }
         default:
             popup( _( "You decided to step back from the ledge." ) );
