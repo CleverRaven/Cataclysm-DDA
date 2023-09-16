@@ -77,10 +77,10 @@ static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 const std::vector<zone_type_id> ignorable_zone_types = {
     zone_type_AUTO_EAT,
@@ -89,7 +89,7 @@ const std::vector<zone_type_id> ignorable_zone_types = {
     zone_type_SOURCE_FIREWOOD,
 };
 
-const std::unordered_map< std::string, zone_type_id> legacy_zone_types = {
+static const std::unordered_map< std::string, zone_type_id> legacy_zone_types = {
     {"zone_disassemble", zone_type_DISASSEMBLE},
     {"zone_strip", zone_type_STRIP_CORPSES},
     {"zone_unload_all", zone_type_UNLOAD_ALL}
