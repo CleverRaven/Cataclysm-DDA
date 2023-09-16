@@ -1535,8 +1535,8 @@ void zone_data::deserialize( const JsonObject &data )
     // handle legacy zone types
     zone_type_id temp_type;
     data.read( "type", temp_type );
-    const auto find_result = legacy_zone_types.find(temp_type.str());
-    if (find_result != legacy_zone_types.end()) {
+    const auto find_result = legacy_zone_types.find( temp_type.str() );
+    if( find_result != legacy_zone_types.end() ) {
         type =  find_result->second;
     } else {
         type = temp_type;
