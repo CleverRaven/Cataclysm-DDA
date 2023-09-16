@@ -801,7 +801,6 @@
     "death_drops": "mon_feral_sailor_death_drops",
     "special_attacks": [ { "id": "feral_weapon_wrench_large" } ],
     "zombify_into": "mon_zombie_sailor",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ],
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 2 }
   },
   {
@@ -809,7 +808,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
     "description": "Spattered from head to toe in large swaths of dried viscera, the deep blue of this person’s tattered naval uniform has been stained the color of rust.  Having seemingly had enough presence of mind to consider arming itself, this former crewman carries a crash axe in its shaking hands.  The veins on the back of their neck are visibly bulging, their eyes bloodshot, and a mass of crisscrossing blackened veins stand out against the pale skin of their face as they regard the area around them for perceived threats.",
-    "melee_dice_sides": 6,
+    "special_attacks": [ { "id": "feral_weapon_crash_axe" } ],
     "death_drops": "mon_feral_sailor_axe_death_drops"
   },
   {
@@ -817,7 +816,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
     "description": "Clutching a stout mop in their quivering hands, this crewman was presumably assigned to basic deck sweeping in their final moments, before the Cataclysm struck and stripped them of their humanity.  Dressed in basic naval fatigues, you’d be forgiven for believing them to be another survivor.  However, their bloodshot eyes, blackened veins, and spastic twitching tell a far different story.",
-    "melee_dice": 2,
+    "special_attacks": [ { "id": "feral_weapon_mop_folded" } ],
     "death_drops": "mon_feral_sailor_mop_death_drops"
   },
   {
@@ -825,7 +824,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
     "description": "Still dressed in a grease spattered uniform, this crewman appears to have once been a naval engineer.  With tangled hair, oil stained working attire, and a lug wrench clenched in their fist, you assume that they were either assigned to shipside maintenance or responsible for servicing onboard aircraft.  Now all that’s left of the crewman that this person once was is a madly twitching, psychopathic monster.",
-    "melee_dice_sides": 3,
+    "special_attacks": [ { "id": "feral_weapon_lug_wrench" } ],
     "death_drops": "mon_feral_sailor_lug_wrench_death_drops"
   },
   {
