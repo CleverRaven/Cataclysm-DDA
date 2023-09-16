@@ -1651,8 +1651,8 @@ void zone_manager::load_world_zones( std::string const &suffix )
         for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();
             if( !has_type( zone_type ) ) {
-                it = tmp.erase(it);
-                debugmsg("Invalid zone type: %s", zone_type.c_str());
+                it = tmp.erase( it );
+                debugmsg( "Invalid zone type: %s", zone_type.c_str() );
             } else if( it->get_faction() == faction_your_followers ) {
                 it = tmp.erase( it );
             } else {
