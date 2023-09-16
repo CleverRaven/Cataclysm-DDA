@@ -997,7 +997,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sloth_attack",
     "effect": [
-      { "math": [ "portal_dungeon_slow_strength",  "--" ] },
+      { "math": [ "portal_dungeon_slow_strength", "--" ] },
       { "math": [ "portal_dungeon_slow_strength", "=", "min(portal_dungeon_slow_strength , -75)" ] },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
@@ -1014,7 +1014,7 @@
     "type": "effect_on_condition",
     "id": "EOC_guilt_attack",
     "effect": [
-      { "math": [ "portal_dungeon_carry_strength",  "--" ] },
+      { "math": [ "portal_dungeon_carry_strength", "--" ] },
       { "math": [ "portal_dungeon_carry_strength", "=", "min(portal_dungeon_carry_strength , -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]

@@ -26,20 +26,12 @@
     "type": "snippet",
     "category": "guilty_message",
     "//": "Placeholder until I can insert snippets into 'monster_message' in special attacks",
-    "text": [
-      "Placeholder1",
-      "Placeholder2",
-      "Placeholder3"
-    ]
+    "text": [ "Placeholder1", "Placeholder2", "Placeholder3" ]
   },
   {
     "type": "snippet",
     "category": "sloth_message",
     "//": "Placeholder until I can insert snippets into 'monster_message' in special attacks",
-    "text": [
-      "Placeholder1",
-      "Placeholder2",
-      "Placeholder3"
-    ]
+    "text": [ "Placeholder1", "Placeholder2", "Placeholder3" ]
   }
 ]
