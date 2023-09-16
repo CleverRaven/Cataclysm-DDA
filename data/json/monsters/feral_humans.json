@@ -563,20 +563,24 @@
     "name": { "str": "crazed survivalist" },
     "description": "Grasping a sharp bladed weapon, this feral prepper has an athletic physique, a sign that they trained extensively before turning feral.  In addition to remembering how to use a flashlight, their survival instincts seem to kick in when critically harmed, causing them to act in self-preservation unlike most of their fellows.",
     "copy-from": "mon_feral_human_pipe",
-    "hp": 100,
+    "hp": 90,
+    "//": "Due to the description I assumed a str 10 character instead of the standard str 8 as for the others",
     "speed": 110,
     "aggression": 75,
     "morale": 12,
     "melee_skill": 6,
     "dodge": 3,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
     "vision_day": 50,
-    "vision_night": 4,
     "luminance": 500,
     "death_drops": "mon_feral_survivalist_death_drops",
+    "special_attacks": [ { "id": "feral_weapon_makeshift_machete" } ],
     "zombify_into": "mon_zombie_survivor",
     "delete": { "anger_triggers": [ "HURT" ] },
-    "extend": { "flags": [ "CLIMBS" ], "anger_triggers": [ "PLAYER_CLOSE", "STALK" ] },
+    "extend": {
+      "flags": [ "CLIMBS" ],
+      "anger_triggers": [ "PLAYER_CLOSE", "STALK" ],
+      "weakpoint_sets": [ "wps_humanoid_light_armor" ]
+    },
     "fear_triggers": [ "HURT" ],
     "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4, "electric": 3 }
   },
@@ -968,8 +972,22 @@
     "name": "feral archaeologist",
     "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
     "copy-from": "mon_feral_human_pipe",
-    "delete": { "special_attacks": [ { "id": "feral_weapon_pipe" } ] },
-    "extend": { "special_attacks": [ { "id": "feral_weapon_shovel" } ] },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral human throws a rock!"
+      },
+      { "id": "feral_weapon_shovel" }
+    ],
     "looks_like": "mon_feral_human_tool",
     "death_drops": "feral_archaelogist_death_drops"
   }
