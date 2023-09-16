@@ -6058,8 +6058,25 @@ void json_talk_topic::load( const JsonObject &jo )
             }
         }
     }
-    for( JsonObject response : jo.get_array( "responses" ) ) {
-        responses.emplace_back( response );
+    bool insert_above_bottom = false;
+    if( jo.has_bool( "insert_above_bottom" ) ) {
+        insert_above_bottom = jo.get_bool( "insert_above_bottom" );
+    }
+    if ( !insert_above_bottom || responses.empty() ) {
+        for( JsonObject response : jo.get_array( "responses" ) ) {
+            responses.emplace_back( response );
+        }
+    } else {
+        int dec_count = 0;
+        if ( responses.size() >= 1 && responses[ responses.size() - 1].get_actual_response().success.next_topic.id == "TALK_DONE" ) {
+            dec_count = 1;
+        }
+        if ( responses.size() >= 2 && responses[ responses.size() - 2].get_actual_response().success.next_topic.id == "TALK_NONE" ) {
+            dec_count = 2;
+        }
+        for( JsonObject response : jo.get_array( "responses" ) ) {
+            responses.emplace( responses.end() - dec_count, response );
+        }
     }
     if( jo.has_object( "repeat_responses" ) ) {
         repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
