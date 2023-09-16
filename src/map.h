@@ -2277,6 +2277,8 @@ class map
 
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
+
+        std::map<tripoint, std::pair<lit_level, std::array<bool, 5>>> ll_invis_cache;
 };
 
 map &get_map();

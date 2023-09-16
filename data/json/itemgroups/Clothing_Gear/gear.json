@@ -90,6 +90,7 @@
       { "group": "used_1st_aid", "prob": 10 },
       { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
       { "group": "cotton_ball_bag_used", "prob": 2 },
+      { "group": "cotton_ball_bag_full", "prob": 1 },
       [ "crowbar", 15 ],
       [ "entry_suit", 10 ],
       [ "hammer_sledge", 5 ],
