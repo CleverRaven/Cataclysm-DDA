@@ -56,6 +56,7 @@ static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
@@ -78,14 +79,13 @@ static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 const std::vector<zone_type_id> ignorable_zone_types = {
     zone_type_AUTO_EAT,
     zone_type_AUTO_DRINK,
+    zone_type_DISASSEMBLE,
     zone_type_SOURCE_FIREWOOD,
-    zone_type_zone_disassemble
 };
 
 zone_manager::zone_manager()
@@ -94,19 +94,27 @@ zone_manager::zone_manager()
         types.emplace( zone.id, zone );
     }
 
-    types.emplace( zone_type_SOURCE_FIREWOOD,
-                   zone_type( to_translation( "Source: Firewood" ),
-                              to_translation( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
-                                      "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
+    types.emplace( zone_type_AUTO_DRINK,
+                   zone_type( to_translation( "Auto Drink" ),
+                              to_translation( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
+    types.emplace( zone_type_AUTO_EAT,
+                   zone_type( to_translation( "Auto Eat" ),
+                              to_translation( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
+    types.emplace( zone_type_CAMP_FOOD,
+                   zone_type( to_translation( "Basecamp: Food" ),
+                              to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+    types.emplace( zone_type_CAMP_STORAGE,
+                   zone_type( to_translation( "Basecamp: Storage" ),
+                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by its workers." ) ) );
+    types.emplace( zone_type_CHOP_TREES,
+                   zone_type( to_translation( "Chop Trees" ),
+                              to_translation( "Designate an area to chop down trees." ) ) );
     types.emplace( zone_type_CONSTRUCTION_BLUEPRINT,
                    zone_type( to_translation( "Construction: Blueprint" ),
                               to_translation( "Designate a blueprint zone for construction." ) ) );
     types.emplace( zone_type_FARM_PLOT,
                    zone_type( to_translation( "Farm: Plot" ),
                               to_translation( "Designate a farm plot for tilling and planting." ) ) );
-    types.emplace( zone_type_CHOP_TREES,
-                   zone_type( to_translation( "Chop Trees" ),
-                              to_translation( "Designate an area to chop down trees." ) ) );
     types.emplace( zone_type_FISHING_SPOT,
                    zone_type( to_translation( "Fishing Spot" ),
                               to_translation( "Designate an area to fish from." ) ) );
@@ -116,27 +124,19 @@ zone_manager::zone_manager()
     types.emplace( zone_type_MOPPING,
                    zone_type( to_translation( "Mop Tile" ),
                               to_translation( "Designate an area to mop clean." ) ) );
+    types.emplace( zone_type_SOURCE_FIREWOOD,
+                   zone_type( to_translation( "Source: Firewood" ),
+                              to_translation( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
+                                      "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
     types.emplace( zone_type_VEHICLE_DECONSTRUCT,
                    zone_type( to_translation( "Vehicle Deconstruct Zone" ),
                               to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );
-    types.emplace( zone_type_VEHICLE_REPAIR,
-                   zone_type( to_translation( "Vehicle Repair Zone" ),
-                              to_translation( "Any vehicles in this area are marked for repair work." ) ) );
     types.emplace( zone_type_VEHICLE_PATROL,
                    zone_type( to_translation( "Vehicle Patrol Zone" ),
                               to_translation( "Vehicles with an autopilot will patrol in this zone." ) ) );
-    types.emplace( zone_type_CAMP_STORAGE,
-                   zone_type( to_translation( "Basecamp: Storage" ),
-                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by its workers." ) ) );
-    types.emplace( zone_type_CAMP_FOOD,
-                   zone_type( to_translation( "Basecamp: Food" ),
-                              to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
-    types.emplace( zone_type_AUTO_EAT,
-                   zone_type( to_translation( "Auto Eat" ),
-                              to_translation( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
-    types.emplace( zone_type_AUTO_DRINK,
-                   zone_type( to_translation( "Auto Drink" ),
-                              to_translation( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
+    types.emplace( zone_type_VEHICLE_REPAIR,
+                   zone_type( to_translation( "Vehicle Repair Zone" ),
+                              to_translation( "Any vehicles in this area are marked for repair work." ) ) );
 
 }
 
@@ -210,7 +210,7 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<blueprint_options>();
     } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return make_shared_fast<loot_options>();
-    } else if( type == zone_type_zone_unload_all ) {
+    } else if( type == zone_type_UNLOAD_ALL ) {
         return make_shared_fast<unload_options>();
     } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
                           type ) != ignorable_zone_types.end() ) {
@@ -228,7 +228,7 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
-    } else if( type == zone_type_zone_unload_all ) {
+    } else if( type == zone_type_UNLOAD_ALL ) {
         return dynamic_cast<const unload_options *>( &options ) != nullptr;
     } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
                           type ) != ignorable_zone_types.end() ) {
@@ -1130,8 +1130,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
     if( it.typeId() == itype_disassembly ) {
-        if( has_near( zone_type_zone_disassemble, where, range, fac ) ) {
-            return zone_type_zone_disassemble;
+        if( has_near( zone_type_DISASSEMBLE, where, range, fac ) ) {
+            return zone_type_DISASSEMBLE;
         }
     }
 
