@@ -153,7 +153,8 @@
       { "item": "book_icef", "prob": 8 },
       { "item": "book_pneumatics", "prob": 8 },
       { "item": "carpentry_book", "prob": 5 },
-      { "item": "theater_props", "prob": 2 }
+      { "item": "theater_props", "prob": 2 },
+      { "item": "alloy_book", "prob": 12 }
     ]
   },
   {
@@ -431,7 +432,8 @@
       { "item": "reference_fabrication1", "prob": 6 },
       { "item": "reference_firstaid1", "prob": 2 },
       { "item": "reference_firstaid2", "prob": 1 },
-      { "item": "textbook_toxicology", "prob": 2 }
+      { "item": "textbook_toxicology", "prob": 2 },
+      { "item": "alloy_book", "prob": 5 }
     ]
   },
   {
@@ -542,7 +544,8 @@
       { "group": "manuals", "prob": 1 },
       { "item": "textbook_arthropod", "prob": 5 },
       { "item": "book_pneumatics", "prob": 8 },
-      { "item": "textbook_botany", "prob": 5 }
+      { "item": "textbook_botany", "prob": 5 },
+      { "item": "alloy_book", "prob": 8 }
     ]
   },
   {
@@ -736,12 +739,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "record_weather", "prob": 100 } ]
-  },
-  {
-    "id": "isherwood_mission_reward_herbal",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "isherwood_herbal_remedies", "prob": 100 } ]
   },
   {
     "id": "tailorbooks",

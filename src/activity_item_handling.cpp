@@ -207,10 +207,10 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               const vpart_reference &vpr )
 {
-    c.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
+    c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
     const tripoint where = veh.global_part_pos3( vp );
@@ -329,7 +329,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint_bub_ms &where )
 {
-    you.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -1143,9 +1142,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
 
-        if( you.has_item_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_MOP );
-        } ) ) {
+        if( you.cache_has_item_with( json_flag_MOP ) ) {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
         } else {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );
@@ -1326,17 +1323,14 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
-                    std::vector<item *> seed_inv = you.items_with( []( const item & itm ) {
-                        return itm.is_seed();
-                    } );
-                    for( const item *elem : seed_inv ) {
-                        if( elem->typeId() == itype_id( seed ) ) {
-                            return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
-                        }
+                    if( you.cache_has_item_with( "is_seed", &item::is_seed, [&seed]( const item & it ) {
+                    return it.typeId() == itype_id( seed );
+                    } ) ) {
+                        return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
                     }
                     // didn't find the seed, but maybe there are overlapping farm zones
                     // and another of the zones is for a seed that we have
-                    // so loop again, and return false once all zones done.
+                    // so loop again, and return false once all zones are done.
                 }
 
             } else {
@@ -2051,10 +2045,30 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 return;
             }
 
-            // skip tiles in IGNORE zone and tiles on fire
-            // (to prevent taking out wood off the lit brazier)
+            std::vector<zone_data const *> zones;
+            bool ignore_contents = false;
+
+            // check ignorable zones for ignore_contents enabled
+            for( const auto &zone_type : ignorable_zone_types ) {
+                // add zones using mgr.get_zones_at
+                for( zone_data const *zone : mgr.get_zones_at( src, zone_type, _fac_id( you ) ) ) {
+                    ignorable_options const &options = dynamic_cast<const ignorable_options &>( zone->get_options() );
+                    if( options.get_ignore_contents() ) {
+                        ignore_contents = true;
+                        break;
+                    }
+                }
+                if( ignore_contents ) {
+                    break;
+                }
+            }
+
+
+            // skip tiles in IGNORE zone or with ignore option,
+            // tiles on fire (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, _fac_id( you ) ) ||
+                ignore_contents ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
                 !here.can_put_items_ter_furn( src_loc ) ) {
                 continue;
@@ -2140,6 +2154,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
         bool unload_mods = false;
         bool unload_molle = false;
+        bool unload_sparse_only = false;
+        int unload_sparse_threshold = 20;
         bool unload_always = false;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
@@ -2150,6 +2166,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
+            unload_sparse_only |= options.unload_sparse_only();
+            unload_sparse_threshold |= options.unload_sparse_threshold();
             unload_always |= options.unload_always();
         }
 
@@ -2185,6 +2203,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
 
+            //insert ignore firewood source here
+
             const std::unordered_set<tripoint_abs_ms> dest_set =
                 mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem, _fac_id( you ) );
 
@@ -2199,9 +2219,21 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 if( dest_set.empty() || unload_always ) {
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {
+                        std::unordered_map<itype_id, int> item_counts;
+                        if( unload_sparse_only ) {
+                            for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                                if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                    item_counts[contained->typeId()]++;
+                                }
+                            }
+                        }
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                if( unload_sparse_only &&
+                                    item_counts[contained->typeId()] > unload_sparse_threshold ) {
+                                    continue;
+                                }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, vpr_src );
                                 it->first->remove_item( *contained );
                             }
@@ -2913,12 +2945,11 @@ static bool generic_multi_activity_do(
         for( const zone_data &zone : zones ) {
             const itype_id seed =
                 dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
-            std::vector<item *> seed_inv = you.items_with( [seed]( const item & itm ) {
-                return itm.typeId() == itype_id( seed );
-            } );
-            // we don't have the required seed, even though we should at this point.
-            // move onto the next tile, and if need be that will prompt a fetch seeds activity.
+            std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", itype_id( seed ), {},
+                                           &item::is_seed );
             if( seed_inv.empty() ) {
+                // we don't have the required seed, even though we should at this point.
+                // move onto the next tile, and if need be that will prompt a fetch seeds activity.
                 continue;
             }
             // TODO: fix point types

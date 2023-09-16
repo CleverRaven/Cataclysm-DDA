@@ -313,7 +313,7 @@
       {
         "id": "flier_78",
         "text": {
-          "str": "This scrap of paper appears to be an advertisement for a Music Venue dated a few days before the evacuation order. It's printed on bright neon green paper, with pictures of people dancing manically. It's main headliner features a locally famous DJ.",
+          "str": "This scrap of paper appears to be an advertisement for a music venue dated a few days before the evacuation order. It's printed on bright neon green paper, with pictures of people dancing manically. It's main headliner features a locally famous DJ.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },

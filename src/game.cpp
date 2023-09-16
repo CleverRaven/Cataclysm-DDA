@@ -1808,19 +1808,38 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const recipe &craft_recipe = it.is_craft() ? it.get_making() :
-                                 recipe_dictionary::get_craft( it.typeId() );
-    if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
-        return hint_rating::cant;
-    }
     const inventory &inven = you.crafting_inventory();
     const std::vector<npc *> helpers = you.get_crafting_helpers();
-    if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
-        return hint_rating::good;
-    } else if( craft_recipe.ident().is_valid() ) {
-        return hint_rating::iffy;
+    if( it.is_craft() ) {
+        const recipe &craft_recipe = it.get_making();
+        if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
+            return hint_rating::cant;
+        } else if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+            return hint_rating::good;
+        }
+    } else {
+        itype_id item = it.typeId();
+        bool is_byproduct = false;  // product or byproduct
+        bool can_craft = false;
+        // Does a recipe for the item exist?
+        for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
+            const recipe &r = ( *it ).second;
+            if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
+                is_byproduct = true;
+                // If if exists, do I know it?
+                if( you.get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                    can_craft = true;
+                    break;
+                }
+            }
+        }
+        if( !is_byproduct ) {
+            return hint_rating::cant;
+        } else if( can_craft ) {
+            return hint_rating::good;
+        }
     }
-    return hint_rating::cant;
+    return hint_rating::iffy;
 }
 
 static hint_rating rate_action_eat( const avatar &you, const item &it )
@@ -2398,14 +2417,7 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
     return ret.first;
 }
 
-static input_context default_mode_input_context = create_default_mode_input_context();
-
-input_context &get_default_mode_input_context()
-{
-    return default_mode_input_context;
-}
-
-input_context create_default_mode_input_context()
+input_context get_default_mode_input_context()
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
@@ -3867,11 +3879,6 @@ void game::draw( ui_adaptor &ui )
     if( test_mode ) {
         return;
     }
-
-    //temporary fix for updating visibility for minimap
-    ter_view_p.z = ( u.pos() + u.view_offset ).z;
-    m.build_map_cache( ter_view_p.z );
-    m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
     void_blink_curses();
@@ -7730,6 +7737,11 @@ look_around_result game::look_around(
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
+            // Update map and visibility caches at target z-level
+            // Map cache is also built at player z-level to fix player not visible from higher z-levels
+            m.build_map_cache( u.posz() );
+            m.build_map_cache( center.z );
+            m.update_visibility_cache( center.z );
         } else if( action == "TRAVEL_TO" ) {
             const std::optional<std::vector<tripoint_bub_ms>> try_route = safe_route_to( u, lp,
             0,  []( const std::string & msg ) {
@@ -11428,7 +11440,7 @@ void game::water_affect_items( Character &ch ) const
                    && !loc.protected_from_liquids() ) {
             wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet ).active = true;
+            loc->convert( itype_towel_wet, &ch ).active = true;
         }
     }
 

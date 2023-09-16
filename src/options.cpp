@@ -3475,10 +3475,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         };
         for( int i = 0; i < static_cast<int>( page_items.size() ); i++ ) {
             if( is_visible( i ) ) {
-                visible_items.push_back( i );
                 if( i == iCurrentLine ) {
                     curr_line_visible = static_cast<int>( visible_items.size() );
                 }
+                visible_items.push_back( i );
             }
         }
 
@@ -3826,6 +3826,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader: {
                     bool &state = groups_state[curr_item.data];
                     state = !state;
+                    recalc_startpos = true;
                     break;
                 }
                 case ItemType::BlankLine: {

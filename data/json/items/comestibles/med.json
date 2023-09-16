@@ -24,7 +24,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "prescription stimulant" },
-    "description": "Medical-grade amphetamine salts mixed with Dextroamphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
+    "description": "Medical-grade amphetamine salts mixed with dextroamphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": "72 cent",

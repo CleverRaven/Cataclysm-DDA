@@ -58,13 +58,6 @@
     ]
   },
   {
-    "id": "lodge_archery_ammo",
-    "type": "item_group",
-    "//": "archery ammo",
-    "subtype": "collection",
-    "entries": [ { "item": "arrow_metal", "prob": 20 }, { "item": "arrow_cf", "prob": 10 } ]
-  },
-  {
     "id": "cannibal_food",
     "type": "item_group",
     "subtype": "collection",

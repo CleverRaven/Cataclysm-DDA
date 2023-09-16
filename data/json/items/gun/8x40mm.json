@@ -6,7 +6,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "RM103A automagnum" },
     "//": "Rivtech don't come cheap.",
-    "description": "Considered overkill by many, the Rivtech RM103A remains one of the most powerful sidearms ever developed.  Accepts stick magazines.",
+    "description": "Designed for style rather than practicality, the Rivtech RM103A is an impressive-looking pistol with less-than-impressive results.  Too short to properly utilize Rivtech's proprietary 8mm caseless ammunition, this status symbol is still a capable sidearm.  Accepts stick magazines.",
     "weight": "1450 g",
     "volume": "750 ml",
     "longest_side": "295 mm",

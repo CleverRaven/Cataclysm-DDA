@@ -76,5 +76,16 @@
     "difficulty": 1,
     "min_damage": 3,
     "max_damage": 8
+  },
+  {
+    "id": "ANCHORCROWN_NOSPELL",
+    "type": "mutation",
+    "name": { "str": "Psionic negation" },
+    "description": "The anchor crown you're wearing is shutting down your psionic powers.",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": true,
+    "flags": [ "NO_SPELLCASTING" ]
   }
 ]

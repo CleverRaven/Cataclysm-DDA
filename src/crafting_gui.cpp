@@ -742,7 +742,8 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     const std::string recipe_output_string = _( "Recipe Outputs" );
     const std::string recipe_result_string = _( "Recipe Result" );
     const std::string container_string = _( "Container" );
-    const std::string in_container_string = _( "In container" );
+    // Every learnable recipe in a container is sealed.
+    const std::string in_container_string = _( "In sealed container" );
     const std::string container_info_string = _( "Container Information" );
 
     //Set up summary at top so people know they can look further to learn about byproducts and such
@@ -1124,7 +1125,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
 }
 
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe,
-                                      Character &crafter )
+                                      Character &crafter, std::string filterstring )
 {
     recipe_result_info_cache result_info( crafter );
     recipe_info_cache r_info_cache;
@@ -1245,7 +1246,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
     const inventory &crafting_inv = crafter.crafting_inventory();
     const std::vector<npc *> helpers = crafter.get_crafting_helpers();
-    std::string filterstring;
 
     const recipe_subset &available_recipes = crafter.get_available_recipes( crafting_inv,
             &helpers );
