@@ -415,5 +415,22 @@
     "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_feral_militia_gun",
+    "cooldown": 1,
+    "move_cost": 107,
+    "accuracy": 5,
+    "//1": "Feral melee skill + weapon's to hit, so 6-1=5",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
+    "//2": "Stats based on AR-15/M4 Carbine (they are identical in melee), since that's what mad militia drops. The fake weapon they actually fire has bullshit stats",
+    "hit_dmg_u": "%1$s hits your %2$s with a rifle!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a rifle!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]
