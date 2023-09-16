@@ -856,7 +856,7 @@ bool item_location::has_parent() const
     return false;
 }
 
-bool item_location::parents_can_contain_recursive( item *it ) const
+ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
 {
     item_pocket *parent_pocket;
     units::mass it_weight = it->weight();
@@ -883,10 +883,12 @@ bool item_location::parents_can_contain_recursive( item *it ) const
         it_volume = it_volume * current_pocket_data->volume_multiplier;
         it_length = it_length * std::cbrt( current_pocket_data->volume_multiplier );
 
-        if( it_weight > parent_pocket->remaining_weight() ||
-            it_volume > parent_pocket->remaining_volume() ||
-            it_length > parent_pocket->get_pocket_data()->max_item_length ) {
-            return false;
+        if( it_weight > parent_pocket->remaining_weight() ) {
+            return ret_val<void>::make_failure( _( "item is too heavy for one of the pockets" ) );
+        } else if( it_volume > parent_pocket->remaining_volume() ) {
+            return ret_val<void>::make_failure( _( "item is too big for one of the pockets" ) );
+        } else if( it_length > parent_pocket->get_pocket_data()->max_item_length ) {
+            return ret_val<void>::make_failure( _( "item is too long for one of the pockets" ) );
         }
 
         //Move up one level of containers
@@ -894,13 +896,13 @@ bool item_location::parents_can_contain_recursive( item *it ) const
         current_pocket_data = current_pocket->get_pocket_data();
         current_location = current_location.parent_item();
     }
-    return true;
+    return ret_val<void>::make_success();
 }
 
-int item_location::max_charges_by_parent_recursive( const item &it ) const
+ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) const
 {
     if( !has_parent() ) {
-        return item::INFINITE_CHARGES;
+        return ret_val<int>::make_success( item::INFINITE_CHARGES );
     }
 
     float weight_multiplier = 1.0f;
@@ -944,9 +946,16 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
         current_location = current_location.parent_item();
     }
 
-    int charges = std::min( it.charges_per_weight( max_weight, true ),
-                            it.charges_per_volume( max_volume, true ) );
-    return charges;
+    int charges_weight = it.charges_per_weight( max_weight, true );
+    if( charges_weight == 0 ) {
+        return ret_val<int>::make_failure( 0, _( "item is too heavy for one of the pockets" ) );
+    }
+    int charges_volume = it.charges_per_volume( max_volume, true );
+    if( charges_volume == 0 ) {
+        return ret_val<int>::make_failure( 0, _( "item is too big for one of the pockets" ) );
+    }
+
+    return ret_val<int>::make_success( std::min( charges_weight, charges_volume ) );
 }
 
 bool item_location::eventually_contains( item_location loc ) const
