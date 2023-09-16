@@ -4567,7 +4567,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                            _( "* This tool has been modified to use a <info>universal "
                               "power supply</info> and is <neutral>not compatible"
                               "</neutral> with <info>standard batteries</info>." ) );
-    } else if( has_flag( wflag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
+    } else if( has_flag( flag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
                parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool has a <info>rechargeable power cell</info> "
