@@ -239,7 +239,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 into_vehicle_count += charges_added;
             }
             items_did_not_fit_count += it.count();
-            add_msg( _( "Unable to fit %s in the %2$s's %3$s" ), it.tname(), veh.name, part_name );
+            add_msg( _( "Unable to fit %s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
             // if cannot retain in inventory due to being too large/heavy drop onto ground via the drop_on_map after returning
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                 c.i_add( it );
@@ -255,7 +255,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
         switch( reason ) {
             case item_drop_reason::deliberate:
-                if ( items_did_not_fit_count == 0 ) {
+                if( items_did_not_fit_count == 0 ) {
                     c.add_msg_player_or_npc(
                         n_gettext( "You put your %1$s in the %2$s's %3$s.",
                                    "You put your %1$s in the %2$s's %3$s.", dropcount ),
@@ -263,7 +263,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                                    "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
                         it_name, veh.name, part_name
                     );
-                } else if( into_vehicle_count > 0 ){
+                } else if( into_vehicle_count > 0 ) {
                     c.add_msg_player_or_npc(
                         n_gettext( "You put some of your %1$s in the %2$s's %3$s.",
                                    "You put some of your %1$s in the %2$s's %3$s.", dropcount ),
