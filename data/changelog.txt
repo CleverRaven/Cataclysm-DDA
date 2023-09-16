@@ -47,10 +47,8 @@ Functionality to drop items off ledges/cliffs onto creatures below
 NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
 Add overheat mechanics to energy guns.
-Add spash screen to Object Creator
 Add EOC condition: weapon category
 Sound-triggered traps
-Option to ignore zone contents in usage oriented zones
 
 
 ## Content:
@@ -88,8 +86,6 @@ Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
-Add cordless drills to "power tools" itemgroup and create corded power drills
-Adds pineapple ingredient for Supreme Pizza
 
 
 ## Interface:
@@ -112,7 +108,6 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
-Character creation: small screen UI fixes
 
 
 ## Mods:
@@ -154,19 +149,12 @@ Add the Mind Over Matter mod to the CDDA repository
 [Magiclysm] Add more than a dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
 [Magiclysm] Add two more playable fantasy species for Magiclysm
-Remove default skills from fantasy species choices
-Add overheating to LV-429
 [DinoMod] use EAT_CARRION
-Add seven druid, earthshaper, and technomancer spells
-Xedra Evolved Border Patrol Office Improvements
 JSON-ize faction camp hunting returns
-Add nature spirits to Magiclysm, part 1
 [DinoMod] document lore
 Aftershock: Rebalance energy weapons to use overheat mechanics
 Add warning message before dragon breath
 Add fantasy species ferals
-[DinoMod] dino camp hunting
-Fixing up a single issue within BombasticPerks OLD_GUN perk.
 
 
 ## Balance:
@@ -199,8 +187,6 @@ Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
 Most NPCs altruism (personality) scores are average (normal distribution) instead of pure random
-Restore the craft amount for arrows to 10
-Rebalance the price of 7.62x39mm and the gunsmith ammo conversion ratio
 
 
 ## Bugfixes:
@@ -270,14 +256,6 @@ Make sure overconfident officers reliably drop their guns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
 Randomly generated characters are now aged appropriately to their profession
-Mind Over Matter typo fix
-Don't apply the default backgrounds for non custom starts
-Fix spirit faction relations
-Prevent segfault when scrolling options
-Re-scroll list of options when toggling header
-This resolves incorrect RAW flags in raw_fruit.json
-Fix signal handler: call to exit() in Object Creator
-Fix Cattail Jelly Mission Turn-in
 
 
 ## Performance:
@@ -288,8 +266,6 @@ Fix Nested List lag in crafting menu
 Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
-Cache results of item search functions
-Optimize loading of pockets with many items inside
 
 
 ## Infrastructure:
