@@ -163,7 +163,7 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
-static const zone_type_id zone_type_STRIP_CORPSE( "STRIP_CORPSE" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -1302,7 +1302,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
     flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
-             g->check_near_zone( zone_type_STRIP_CORPSE, player_character.pos() ) ? UnloadLoot : 0;
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;

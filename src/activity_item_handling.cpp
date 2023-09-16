@@ -141,7 +141,7 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
-static const zone_type_id zone_type_STRIP_CORPSE( "STRIP_CORPSE" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -2213,7 +2213,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             bool moved_something = false;
 
             if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, _fac_id( you ) ) ||
-                ( mgr.has_near( zone_type_STRIP_CORPSE, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
+                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() || unload_always ) {
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {

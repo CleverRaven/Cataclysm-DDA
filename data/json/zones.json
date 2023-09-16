@@ -6,7 +6,7 @@
     "description": "Items in this zone are marked for disassembly"
   },
   {
-    "id": "STRIP_CORPSE",
+    "id": "STRIP_CORPSES",
     "type": "LOOT_ZONE",
     "name": "Loot: Strip Corpses",
     "can_be_personal": true,

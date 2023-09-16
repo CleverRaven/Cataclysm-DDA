@@ -76,6 +76,7 @@ static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
@@ -86,6 +87,12 @@ const std::vector<zone_type_id> ignorable_zone_types = {
     zone_type_AUTO_DRINK,
     zone_type_DISASSEMBLE,
     zone_type_SOURCE_FIREWOOD,
+};
+
+const std::unordered_map< std::string, zone_type_id> legacy_zone_types = {
+        {"zone_disassemble", zone_type_DISASSEMBLE},
+        {"zone_strip", zone_type_STRIP_CORPSES},
+        {"zone_unload_all", zone_type_UNLOAD_ALL}
 };
 
 zone_manager::zone_manager()
@@ -1492,6 +1499,7 @@ void zone_manager::deserialize( const JsonValue &jv )
             num_personal_zones++;
         }
         const zone_type_id zone_type = it->get_type();
+
         if( !has_type( zone_type ) ) {
             it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
@@ -1524,7 +1532,15 @@ void zone_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "name", name );
-    data.read( "type", type );
+    // handle legacy zone types
+    zone_type_id temp_type;
+    data.read( "type", temp_type );
+    const auto find_result = legacy_zone_types.find(temp_type.str());
+    if (find_result != legacy_zone_types.end()) {
+        type =  find_result->second;
+    } else {
+        type = temp_type;
+    }
     if( data.has_member( "faction" ) ) {
         data.read( "faction", faction );
     } else {
@@ -1635,8 +1651,8 @@ void zone_manager::load_world_zones( std::string const &suffix )
         for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();
             if( !has_type( zone_type ) ) {
-                it = tmp.erase( it );
-                debugmsg( "Invalid zone type: %s", zone_type.c_str() );
+                it = tmp.erase(it);
+                debugmsg("Invalid zone type: %s", zone_type.c_str());
             } else if( it->get_faction() == faction_your_followers ) {
                 it = tmp.erase( it );
             } else {
