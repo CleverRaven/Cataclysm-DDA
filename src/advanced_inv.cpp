@@ -1915,46 +1915,6 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-bool advanced_inventory::move_content( item &src_container, item &dest_container )
-{
-    if( !src_container.is_container() ) {
-        popup( _( "Source must be a container." ) );
-        return false;
-    }
-    if( src_container.is_container_empty() ) {
-        popup( _( "Source container is empty." ) );
-        return false;
-    }
-
-    item &src_contents = src_container.legacy_front();
-
-    if( !src_contents.made_of( phase_id::LIQUID ) ) {
-        popup( _( "You can unload only liquids into the target container." ) );
-        return false;
-    }
-
-    std::string err;
-    // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = std::min( src_contents.charges,
-                                 dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err ) );
-    if( !err.empty() ) {
-        popup( err );
-        return false;
-    }
-    dest_container.fill_with( src_contents, amount );
-    src_contents.charges -= amount;
-    src_container.contained_where( src_contents )->on_contents_changed();
-    src_container.on_contents_changed();
-    get_avatar().flag_encumbrance();
-
-    uistate.adv_inv_container_content_type = dest_container.legacy_front().typeId();
-    if( src_contents.charges <= 0 ) {
-        src_container.clear_items();
-    }
-
-    return true;
-}
-
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                                         const std::string &action, int &amount )
 {
