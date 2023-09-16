@@ -90,9 +90,9 @@ const std::vector<zone_type_id> ignorable_zone_types = {
 };
 
 const std::unordered_map< std::string, zone_type_id> legacy_zone_types = {
-        {"zone_disassemble", zone_type_DISASSEMBLE},
-        {"zone_strip", zone_type_STRIP_CORPSES},
-        {"zone_unload_all", zone_type_UNLOAD_ALL}
+    {"zone_disassemble", zone_type_DISASSEMBLE},
+    {"zone_strip", zone_type_STRIP_CORPSES},
+    {"zone_unload_all", zone_type_UNLOAD_ALL}
 };
 
 zone_manager::zone_manager()
