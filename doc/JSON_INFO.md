@@ -2262,7 +2262,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "dark_craftable": true,                                             // If true, you can construct it with lack of light
 "byproducts": [ { "item": "material_soil", "count": [ 2, 5 ] } } ], // Items, that would be left after construction
 "strict": false,                                                    // If true, the build activity for this construction will only look for prerequisites in the same group
-"on_display": false                                                 // This recipe is never 
+"on_display": false                                                 // This is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 ```
 
 | pre_special            | Description
