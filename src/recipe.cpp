@@ -1307,12 +1307,10 @@ bool recipe::npc_can_craft( std::string &reason ) const
         reason = _( "Ordering no solid item to NPC is not implemented yet." );
         return false;
     }
-    if( !get_byproducts().empty() ) {
-        for( const std::pair<const itype_id, int> &bp : get_byproducts() ) {
-            if( bp.first->phase != phase_id::SOLID ) {
-                reason = _( "Ordering no solid item to NPC is not implemented yet." );
-                return false;
-            }
+    for( const auto& [bp, _] : get_byproducts() ) {
+        if( bp->phase != phase_id::SOLID ) {
+            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+            return false;
         }
     }
     return true;

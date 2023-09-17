@@ -182,15 +182,14 @@ struct availability {
             has_all_skills = r->skill_used.is_null() ||
                              crafter.get_skill_level( r->skill_used ) >= r->get_difficulty( crafter );
             has_proficiencies = r->character_has_required_proficiencies( crafter );
-            if( r->is_nested() ) {
+            std::string reason;
+            if( crafter.is_npc() && !r->npc_can_craft( reason ) ) {
+                can_craft = false;
+            } else if( r->is_nested() ) {
                 can_craft = check_can_craft_nested( _crafter, *r );
             } else {
                 can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                             req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
-            }
-            std::string reason;
-            if( crafter.is_npc() && !r->npc_can_craft( reason ) ) {
-                can_craft = false;
             }
             would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
                                craft_flags::start_only );
@@ -201,8 +200,8 @@ struct availability {
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                                    simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
-            for( const std::pair<const skill_id, int> &e : r->required_skills ) {
-                if( crafter.get_skill_level( e.first ) < e.second ) {
+            for( const auto& [skill, skill_lvl] : r->required_skills ) {
+                if( crafter.get_skill_level( skill ) < skill_lvl ) {
                     has_all_skills = false;
                     break;
                 }
@@ -1438,11 +1437,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                                                    recp, avail, crafter, qry_comps, batch_size, fold_width, color );
 
             const int total_lines = info.size();
-            if( recipe_info_scroll < 0 ) {
-                recipe_info_scroll = 0;
-            } else if( recipe_info_scroll + dataLines > total_lines ) {
-                recipe_info_scroll = std::max( 0, total_lines - dataLines );
-            }
+            recipe_info_scroll = clamp( recipe_info_scroll, 0, total_lines - dataLines );
             for( int i = recipe_info_scroll;
                  i < std::min( recipe_info_scroll + dataLines, total_lines );
                  ++i ) {
