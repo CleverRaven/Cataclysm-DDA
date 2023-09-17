@@ -5050,7 +5050,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     }
     cmenu.addentry( ledge_climb_down, true, 'c', _( "Climb down." ) );
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
-        ( jump_target_valid ? _( "Jump across." ) : _( "Jump across.  (Needs a short gap)" ) ) );
+                    ( jump_target_valid ? _( "Jump across." ) : _( "Jump across.  (Needs a short gap)" ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
 
     cmenu.query();
