@@ -436,18 +436,18 @@ static std::vector<std::string> recipe_info(
     if( disp_prof_msg && time_maluses < max_time_malus && skill_maluses < max_skill_malus ) {
         oss << string_format( _( "<color_green>This recipe will be %.2fx faster than normal, "
                                  "and your effective skill will be %.2f levels higher than normal, because of "
-                                 "the proficiencies you have.</color>\n" ),
+                                 "the proficiencies the crafter has.</color>\n" ),
                               max_time_malus / time_maluses, max_skill_malus - skill_maluses );
     } else if( disp_prof_msg && time_maluses < max_time_malus ) {
         oss << string_format( _( "<color_green>This recipe will be %.2fx faster than normal, "
-                                 "because of the proficiencies you have.</color>\n" ), max_time_malus / time_maluses );
+                                 "because of the proficiencies the crafter has.</color>\n" ), max_time_malus / time_maluses );
     } else if( disp_prof_msg && skill_maluses < max_skill_malus ) {
         oss << string_format(
                 _( "<color_green>Your effective skill will be %.2f levels higher than normal, "
-                   "because of the proficiencies you have.</color>\n" ), max_skill_malus - skill_maluses );
+                   "because of the proficiencies the crafter has.</color>\n" ), max_skill_malus - skill_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
-        oss << _( "<color_red>Cannot be crafted because you lack"
+        oss << _( "<color_red>Cannot be crafted because the crafter lacs"
                   " the required proficiencies.</color>\n" );
     }
 
@@ -523,7 +523,7 @@ static std::string practice_recipe_description( const recipe &recp,
         const int player_skill_level = crafter.get_all_skills().get_skill_level( recp.skill_used );
         if( player_skill_level < recp.practice_data->min_difficulty ) {
             std::string txt = string_format(
-                                  _( "You do not possess the minimum <color_cyan>%s</color> skill level required to practice this." ),
+                                  _( "The crafter does not possess the minimum <color_cyan>%s</color> skill level required to practice this." ),
                                   recp.skill_used->name() );
             txt = string_format( "<color_red>%s</color>", txt );
             oss << txt << "\n";
@@ -1761,7 +1761,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         } else if( action == "CONFIRM" ) {
             if( available.empty() || ( !available[line].can_craft && !current[line]->is_nested() ) ) {
                 query_popup()
-                .message( "%s", _( "You can't do that!" ) )
+                .message( "%s", _( "Crafter can't craft that!" ) )
                 .option( "QUIT" )
                 .query();
             } else if( current[line]->is_nested() ) {
