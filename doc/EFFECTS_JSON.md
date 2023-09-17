@@ -570,7 +570,7 @@ Valid arguments:
 
 "dodge_mod"         - Effective dodge chance
 "hit_mod"           - Effective melee skill
-"bash_mod"            - Additional bash bonus/penalty
+"bash_mod"          - Additional bash bonus/penalty
 
 ```
 Each argument can also take either one or two values.

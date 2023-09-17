@@ -3779,15 +3779,6 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 ]
 ```
 
-
-
-
-##### activity_noise
-
-Define how much noise and how much often the noise is produced when you move, and the pocket is 
-
-"activity_noise": { "volume": 8, "chance": 60 },
-
 ### Melee
 
 ```C++
