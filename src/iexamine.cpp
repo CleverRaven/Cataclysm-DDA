@@ -5036,6 +5036,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         ledge_fall_down,
     };
 
+    map &here = get_map();
+    tripoint jump_target( you.posx() + 2 * sgn( examp.x - you.posx() ),
+        you.posy() + 2 * sgn( examp.y - you.posy() ),
+        you.posz() );
+    bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
@@ -5043,12 +5049,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         cmenu.addentry( ledge_cling_down, true, 'C', _( "Crawl down." ) );
     }
     cmenu.addentry( ledge_climb_down, true, 'c', _( "Climb down." ) );
-    cmenu.addentry( ledge_jump_across, true, 'j', _( "Jump across." ) );
+    cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
+        ( jump_target_valid ? _( "Jump across." ) : _( "Jump across.  (Needs a short gap)" ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
 
     cmenu.query();
 
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case ledge_jump_across: {
@@ -5058,24 +5064,21 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 return;
             }
 
-            tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
-                           you.posy() + 2 * sgn( examp.y - you.posy() ),
-                           you.posz() );
             if( you.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
-            } else if( !here.valid_move( examp, dest, false, true ) ) {
+            } else if( !here.valid_move( examp, jump_target, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
-            } else if( creatures.creature_at( dest ) ) {
+            } else if( creatures.creature_at( jump_target ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
-                         creatures.creature_at( dest )->disp_name() );
-            } else if( here.ter( dest ).obj().trap == tr_ledge ) {
+                         creatures.creature_at( jump_target )->disp_name() );
+            } else if( !jump_target_valid ) {
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                you.set_activity_level( LIGHT_EXERCISE );
-                g->place_player( dest );
+                you.set_activity_level( BRISK_EXERCISE );
+                g->place_player( jump_target );
             }
             break;
         }
