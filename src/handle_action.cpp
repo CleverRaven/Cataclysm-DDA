@@ -2414,6 +2414,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
+        case ACTION_INSERT_ITEM:
+            insert_item();
+            break;
+
         case ACTION_UNLOAD_CONTAINER:
             // You CAN drop things to your own tile while in the shell.
             unload_container();
