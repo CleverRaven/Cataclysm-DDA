@@ -5137,7 +5137,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 you.gravity_check();
                 break;
             }
-            /* Otherwise, intentional fallthrough (no pun intended). */
+            /* fallthrough */
         }
         default:
             popup( _( "You decided to step back from the ledge." ) );
