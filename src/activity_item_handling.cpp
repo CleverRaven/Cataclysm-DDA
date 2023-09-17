@@ -244,7 +244,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                 c.i_add( it );
-            } else if ( c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
+            } else if ( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
             } else {
                 here.add_item_or_charges( where, it );
