@@ -1143,9 +1143,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 {
     recipe_result_info_cache result_info( crafter );
     recipe_info_cache r_info_cache;
-    int recipe_info_scroll = 0;
-    int item_info_scroll = 0;
-    int item_info_scroll_popup = 0;
+    int line_recipe_info = 0;
+    int line_item_info = 0;
+    int line_item_info_popup = 0;
     const int headHeight = 3;
     const int subHeadHeight = 2;
 
@@ -1428,20 +1428,17 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                                                    recp, avail, crafter, qry_comps, batch_size, fold_width, color );
 
             const int total_lines = info.size();
-            recipe_info_scroll = clamp( recipe_info_scroll, 0, total_lines - dataLines );
-            for( int i = recipe_info_scroll;
-                 i < std::min( recipe_info_scroll + dataLines, total_lines );
-                 ++i ) {
+            line_recipe_info = clamp( line_recipe_info, 0, total_lines - dataLines );
+            for( int i = line_recipe_info; i < std::min( line_recipe_info + dataLines, total_lines ); ++i ) {
                 nc_color dummy = color;
-                print_colored_text( w_data, point( xpos, i - recipe_info_scroll ),
-                                    dummy, color, info[i] );
+                print_colored_text( w_data, point( xpos, i - line_recipe_info ), dummy, color, info[i] );
             }
 
             if( total_lines > dataLines ) {
                 scrollbar()
                 .offset_x( xpos + fold_width + 1 )
                 .content_size( total_lines )
-                .viewport_pos( recipe_info_scroll )
+                .viewport_pos( line_recipe_info )
                 .viewport_size( dataLines )
                 .apply( w_data );
             }
@@ -1474,7 +1471,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else {
-                item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll,
+                item_info_data data = result_info.get_result_data( cur_recipe, batch_size, line_item_info,
                                       w_iteminfo );
                 data.without_getch = true;
                 data.without_border = true;
@@ -1686,13 +1683,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                 }
             }
         } else if( action == "SCROLL_RECIPE_INFO_UP" ) {
-            recipe_info_scroll -= dataLines;
+            line_recipe_info -= dataLines;
         } else if( action == "SCROLL_UP" && mouse_in_recipe ) {
-            --recipe_info_scroll;
+            --line_recipe_info;
         } else if( action == "SCROLL_RECIPE_INFO_DOWN" ) {
-            recipe_info_scroll += dataLines;
+            line_recipe_info += dataLines;
         } else if( action == "SCROLL_DOWN" && mouse_in_recipe ) {
-            ++recipe_info_scroll;
+            ++line_recipe_info;
         } else if( action == "LEFT" || ( action == "SCROLL_UP" && mouse_in_window( coord, w_subhead ) ) ) {
             if( batch || !filterstring.empty() ) {
                 continue;
@@ -1704,13 +1701,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
         } else if( action == "SCROLL_ITEM_INFO_UP" ) {
-            item_info_scroll -= scroll_item_info_lines;
+            line_item_info -= scroll_item_info_lines;
         } else if( action == "SCROLL_UP" && mouse_in_window( coord, w_iteminfo ) ) {
-            --item_info_scroll;
+            --line_item_info;
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
-            item_info_scroll += scroll_item_info_lines;
+            line_item_info += scroll_item_info_lines;
         } else if( action == "SCROLL_DOWN" && mouse_in_window( coord, w_iteminfo ) ) {
-            ++item_info_scroll;
+            ++line_item_info;
         } else if( action == "PREV_TAB" || ( action == "SCROLL_UP" &&
                                              mouse_in_window( coord, w_head_tabs ) ) ) {
             tab.prev();
@@ -1780,7 +1777,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
 
-            item_info_data data = result_info.get_result_data( current[line], 1, item_info_scroll_popup,
+            item_info_data data = result_info.get_result_data( current[line], 1, line_item_info_popup,
                                   w_iteminfo );
             data.handle_scrolling = true;
             draw_item_info( []() -> catacurses::window {
