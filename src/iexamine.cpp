@@ -5038,8 +5038,8 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
     map &here = get_map();
     tripoint jump_target( you.posx() + 2 * sgn( examp.x - you.posx() ),
-        you.posy() + 2 * sgn( examp.y - you.posy() ),
-        you.posz() );
+                          you.posy() + 2 * sgn( examp.y - you.posy() ),
+                          you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
 
     uilist cmenu;
