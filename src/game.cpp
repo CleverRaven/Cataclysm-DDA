@@ -3880,6 +3880,10 @@ void game::draw( ui_adaptor &ui )
         return;
     }
 
+    ter_view_p.z = ( u.pos() + u.view_offset ).z;
+    m.build_map_cache( ter_view_p.z );
+    m.update_visibility_cache( ter_view_p.z );
+
     werase( w_terrain );
     void_blink_curses();
     draw_ter();
@@ -6276,10 +6280,6 @@ void game::peek( const tripoint &p )
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
 
-    // Update map and visibility caches
-    m.build_map_cache( p.z );
-    m.update_visibility_cache( p.z );
-
     look_around_result result;
     const look_around_params looka_params = { true, center, center, false, false, true };
     if( is_standup_peek ) {   // Non moving peek from crouch is a standup peek
@@ -7741,11 +7741,6 @@ look_around_result game::look_around(
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            // Update map and visibility caches at target z-level
-            // Map cache is also built at player z-level to fix player not visible from higher z-levels
-            m.build_map_cache( u.posz() );
-            m.build_map_cache( center.z );
-            m.update_visibility_cache( center.z );
         } else if( action == "TRAVEL_TO" ) {
             const std::optional<std::vector<tripoint_bub_ms>> try_route = safe_route_to( u, lp,
             0,  []( const std::string & msg ) {
@@ -10537,10 +10532,6 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
-
-        // Update map and visibility caches
-        m.build_map_cache( u.posz() );
-        m.update_visibility_cache( u.posz() );
 
         // Add trail animation when sprinting
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {

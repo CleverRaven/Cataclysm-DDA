@@ -260,7 +260,6 @@ input_context game::get_player_input( std::string &action )
         ctxt = get_default_mode_input_context();
     }
 
-    m.build_map_cache( u.posz() );
     m.update_visibility_cache( u.posz() );
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
