@@ -1031,8 +1031,10 @@ static float get_aided_proficiency_level( const Character &crafter, const profic
 
 static float proficiency_time_malus( const Character &crafter, const recipe_proficiency &prof )
 {
-    if( !crafter.has_proficiency( prof.id ) &&
-        !helpers_have_proficiencies( crafter, prof.id ) && prof.time_multiplier > 1.0f ) {
+    if( !crafter.has_proficiency( prof.id )
+        && !helpers_have_proficiencies( crafter, prof.id )
+        && prof.time_multiplier > 1.0f
+      ) {
         double malus = prof.time_multiplier - 1.0;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
@@ -1064,8 +1066,10 @@ float recipe::max_proficiency_time_maluses( const Character & ) const
 
 static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
-    if( !crafter.has_proficiency( prof.id ) &&
-        !helpers_have_proficiencies( crafter, prof.id ) && prof.skill_penalty > 0.f ) {
+    if( !crafter.has_proficiency( prof.id )
+        && !helpers_have_proficiencies( crafter, prof.id )
+        && prof.skill_penalty > 0.f
+      ) {
         double malus =  prof.skill_penalty;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );

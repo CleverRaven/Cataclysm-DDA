@@ -117,8 +117,9 @@ void load_recipe_category( const JsonObject &jsobj )
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    if( !is_hidden &&
-        std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end() ) {
+    if( !is_hidden
+        && std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end()
+      ) {
         craft_cat_list.push_back( category );
     }
 
@@ -713,8 +714,11 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
         /* If the recipe has not changed, return the cached version in info.
            Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
            has changed, the info needs to be regenerated */
-        if( rec == last_recipe && rec != nullptr && TERMX == last_terminal_width &&
-            batch_size == cached_batch_size ) {
+        if( rec == last_recipe
+            && rec != nullptr
+            && TERMX == last_terminal_width
+            && batch_size == cached_batch_size
+          ) {
             item_info_data data( "", "", info, {}, scroll_pos );
             return data;
         }
@@ -843,7 +847,8 @@ static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &in
         info_cache.qry_comps != qry_comps ||
         info_cache.batch_size != batch_size ||
         info_cache.fold_width != fold_width ||
-        lang_version != detail::get_current_language_version() ) {
+        lang_version != detail::get_current_language_version()
+      ) {
         info_cache.recp = &recp;
         info_cache.qry_comps = qry_comps;
         info_cache.batch_size = batch_size;
@@ -1021,8 +1026,9 @@ static void recursively_expance_recipes( std::vector<const recipe *> &current,
     std::vector<const recipe *> tmp;
     for( const recipe_id &nested : current[i]->nested_category_data ) {
 
-        if( available_recipes.contains( &nested.obj() ) &&
-            hidden_recipes.find( nested ) == hidden_recipes.end() ) {
+        if( available_recipes.contains( &nested.obj() )
+            && hidden_recipes.find( nested ) == hidden_recipes.end()
+          ) {
             // only do this if we can actually craft the recipe
             tmp.push_back( &nested.obj() );
             indent.insert( indent.begin() + i + 1, indent[i] + 2 );
@@ -1071,8 +1077,9 @@ static void expand_recipes( std::vector<const recipe *> &current,
 {
     //TODO Make this more effecient
     for( size_t i = 0; i < current.size(); ++i ) {
-        if( current[i]->is_nested() &&
-            uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
+        if( current[i]->is_nested()
+            && uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end()
+          ) {
             // add all the recipes from the nests
             recursively_expance_recipes( current, indent, availability_cache, i, crafter,
                                          unread_recipes_first, highlight_unread_recipes, available_recipes, hidden_recipes );
@@ -1431,8 +1438,11 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
             }
 
             if( total_lines > dataLines ) {
-                scrollbar().offset_x( xpos + fold_width + 1 ).content_size( total_lines )
-                .viewport_pos( recipe_info_scroll ).viewport_size( dataLines )
+                scrollbar()
+                .offset_x( xpos + fold_width + 1 )
+                .content_size( total_lines )
+                .viewport_pos( recipe_info_scroll )
+                .viewport_size( dataLines )
                 .apply( w_data );
             }
         }
@@ -1442,7 +1452,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         .offset_y( 0 )
         .content_size( recmax )
         .viewport_pos( istart )
-        .viewport_size( dataLines ).apply( w_data );
+        .viewport_size( dataLines )
+        .apply( w_data );
 
         wnoutrefresh( w_data );
 
@@ -1480,8 +1491,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
             // When we switch tabs, redraw the header
             recalc = false;
             const recipe *prev_rcp = nullptr;
-            if( keepline && line >= 0
-                && static_cast<size_t>( line ) < current.size() ) {
+            if( keepline && line >= 0 && static_cast<size_t>( line ) < current.size() ) {
                 prev_rcp = current[line];
             }
 

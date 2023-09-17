@@ -602,7 +602,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
-        && inv_pos == crafting_cache.position ) {
+        && inv_pos == crafting_cache.position
+      ) {
         return *crafting_cache.crafting_inventory;
     }
     crafting_cache.crafting_inventory->clear();
@@ -2972,9 +2973,12 @@ std::vector<Character *> Character::get_crafting_helpers() const
 {
     return g->get_characters_if( [this]( const Character & guy ) {
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        return getID() != guy.getID() && guy.is_npc() && !guy.in_sleep_state() && guy.is_obeying( *this ) &&
-               rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
-               get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        return getID() != guy.getID()
+               && guy.is_npc()
+               && !guy.in_sleep_state()
+               && guy.is_obeying( *this )
+               && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
+               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
 }
 
