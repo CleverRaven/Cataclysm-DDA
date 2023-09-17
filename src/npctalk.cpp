@@ -6062,16 +6062,18 @@ void json_talk_topic::load( const JsonObject &jo )
     if( jo.has_bool( "insert_above_bottom" ) ) {
         insert_above_bottom = jo.get_bool( "insert_above_bottom" );
     }
-    if ( !insert_above_bottom || responses.empty() ) {
+    if( !insert_above_bottom || responses.empty() ) {
         for( JsonObject response : jo.get_array( "responses" ) ) {
             responses.emplace_back( response );
         }
     } else {
         int dec_count = 0;
-        if ( responses.size() >= 1 && responses[ responses.size() - 1].get_actual_response().success.next_topic.id == "TALK_DONE" ) {
+        if( responses.size() >= 1 &&
+            responses[ responses.size() - 1].get_actual_response().success.next_topic.id == "TALK_DONE" ) {
             dec_count = 1;
         }
-        if ( responses.size() >= 2 && responses[ responses.size() - 2].get_actual_response().success.next_topic.id == "TALK_NONE" ) {
+        if( responses.size() >= 2 &&
+            responses[ responses.size() - 2].get_actual_response().success.next_topic.id == "TALK_NONE" ) {
             dec_count = 2;
         }
         for( JsonObject response : jo.get_array( "responses" ) ) {
