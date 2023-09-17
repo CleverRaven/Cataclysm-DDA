@@ -667,4 +667,19 @@ inc_clamp( T val, I inc, T size )
 template<typename V, typename S>
 bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size, bool wrap );
 
+/**
+ * Return indexes [start, end) that should be displayed from list long `num_entries`,
+ * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
+ *
+ * @param focused: if false, behave as if cursor_pos = 0,
+ * useful when other menu is displayed and this should show the beggining
+ *
+ * Example:
+ * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
+ * return {1, 4}
+ */
+std::pair<int, int> subindex_around_cursor( int num_entries, int available_space, int cursor_pos,
+        bool focused = true );
+
 #endif // CATA_SRC_UI_H

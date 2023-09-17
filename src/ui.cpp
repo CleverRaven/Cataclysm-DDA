@@ -1389,3 +1389,14 @@ bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size
     }
     return true;
 }
+
+std::pair<int, int> subindex_around_cursor( int num_entries, int available_space, int cursor_pos,
+        bool focused )
+{
+    if( !focused || num_entries <= available_space ) {
+        return { 0, std::min( available_space, num_entries ) };
+    }
+    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
+                                num_entries - available_space );
+    return {slice_start, slice_start + available_space };
+}

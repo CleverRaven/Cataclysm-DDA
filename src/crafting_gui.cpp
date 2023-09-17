@@ -1361,25 +1361,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         const int max_recipe_name_width = 27;
-        int recmin = 0;
-        int recmax = current.size();
-        int istart = 0;
-        int iend = 0;
-        if( recmax > dataLines ) {
-            if( line <= recmin + dataHalfLines ) {
-                istart = recmin;
-                iend = recmin + dataLines;
-            } else if( line >= recmax - dataHalfLines ) {
-                istart = recmax - dataLines;
-                iend = recmax;
-            } else {
-                istart = line - dataHalfLines;
-                iend = line - dataHalfLines + dataLines;
-            }
-        } else {
-            istart = 0;
-            iend = std::min<int>( current.size(), dataHeight + 1 );
-        }
+        const int recmax = current.size();
+        // pair<int, int>
+        const auto& [istart, iend] = subindex_around_cursor( recmax, dataLines, line );
         list_map.clear();
         for( int i = istart; i < iend; ++i ) {
             if( i >= static_cast<int>( indent.size() ) || indent[i] < 0 ) {
