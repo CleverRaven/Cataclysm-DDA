@@ -5126,7 +5126,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case ledge_fall_down: {
-            if( query_yn( _( "Climbing might be safer. Really fall from the ledge?" ) ) ) {
+            if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
                 you.moves -= 100;
                 // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
                 if( !you.move_effects( false ) ) {
