@@ -213,6 +213,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
+    const tripoint where = veh.global_part_pos3( vp );
     map &here = get_map();
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
@@ -240,9 +241,13 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             }
             items_did_not_fit_count += it.count();
             add_msg( _( "Unable to fit %s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
-            // if cannot retain in inventory due to being too large/heavy drop onto ground via the drop_on_map after returning
+            // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                 c.i_add( it );
+            } else if ( c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
+                c.wield( it );
+            } else {
+                here.add_item_or_charges( where, it );
             }
         }
         it.handle_pickup_ownership( c );
