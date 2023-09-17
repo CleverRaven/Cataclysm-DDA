@@ -356,7 +356,7 @@ void Character::craft( const std::optional<tripoint> &loc, const recipe_id &goto
                        const std::string &filterstring )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, *this, filterstring );
+    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, this, filterstring );
     if( rec ) {
         std::string reason;
         if( is_npc() && !rec->npc_can_craft( reason ) ) {
@@ -381,7 +381,7 @@ void Character::recraft( const std::optional<tripoint> &loc )
 void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, *this );
+    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, this );
     if( rec ) {
         if( crafting_allowed( *this, *rec ) ) {
             make_all_craft( rec->ident(), batch_size, loc );
