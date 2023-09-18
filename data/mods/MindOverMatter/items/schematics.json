@@ -45,7 +45,7 @@
     "id": "schematics_anchoring_crown",
     "type": "BOOK",
     "name": { "str_sp": "anchoring crown schematics" },
-    "description": "This is a series of technical design documents for using matrix crystals to shield the wearer from excess Netherum energies.",
+    "description": "This is a series of technical design documents for using matrix crystals to shield the wearer from excess Netherum energies with the drawback of also shutting down any psionic ability they have while worn.",
     "copy-from": "schematics_generic",
     "skill": "fabrication",
     "required_level": 3,

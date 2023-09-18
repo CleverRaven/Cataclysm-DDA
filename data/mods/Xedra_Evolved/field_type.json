@@ -48,5 +48,78 @@
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true
+  },
+  {
+    "id": "fd_acidic_mist",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "greenish mist",
+        "sym": "~",
+        "dangerous": true,
+        "transparent": false,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "acidic_mist",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": true,
+            "message": "The mist hisses as it touches you!",
+            "message_npc": "The mist hisses around <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": " green tinged fog",
+        "translucency": 3,
+        "effects": [
+          {
+            "effect_id": "acidic_mist",
+            "intensity": 2,
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": true,
+            "message": "The mist hisses and pops as it touches you!",
+            "message_npc": "The mist hisses and pops around <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "dense dark green fog",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "acidic_mist",
+            "intensity": 3,
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": true,
+            "message": "The mist sizzles and pits your gear as it touches you!",
+            "message_npc": "The mist sizzles and pits <npcname>'s gear!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 30,
+    "has_acid": true,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "immunity_data": { "flags": [ "ACID_IMMUNE" ] },
+    "priority": 8,
+    "half_life": "7 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
   }
 ]

@@ -1,0 +1,51 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE",
+    "effect": { "u_message": "These are all the ways you can alter these elements now." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE",
+    "effect": { "u_message": "You learn how to alter an element." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALTWATER_TO_FRESHWATER",
+    "condition": { "u_has_trait": "SALTWATER_TO_FRESHWATER" },
+    "effect": [
+      {
+        "u_roll_remainder": [ "salt_water_from_water", "water_from_salt_water" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOUL_WATER",
+    "condition": { "u_has_trait": "FOUL_WATER" },
+    "effect": [
+      {
+        "u_roll_remainder": [ "water_from_water_clean", "water_clean_from_water" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIQUID_TO_WATER",
+    "condition": { "u_has_trait": "LIQUID_TO_WATER" },
+    "effect": [
+      {
+        "u_roll_remainder": [ "water_from_liquid" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+      }
+    ]
+  }
+]
