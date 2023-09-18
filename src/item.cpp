@@ -6352,7 +6352,6 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.invalidate_weight_carried_cache();
     p.on_item_acquire( *this );
 }
 
@@ -9230,6 +9229,11 @@ void item::set_itype_variant( const std::string &variant )
         return;
     }
 
+    if( variant == "<any>" ) {
+        select_itype_variant();
+        return;
+    }
+
     for( const itype_variant_data &option : type->variants ) {
         if( option.id == variant ) {
             _itype_variant = &option;
@@ -10702,6 +10706,9 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
         qty -= contents.ammo_consume( qty, pos );
+        if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
+            carrier->invalidate_weight_carried_cache();
+        }
     }
 
     // Dirty fix: activating a container of meds leads here, and used to use up all of the charges.
@@ -10720,7 +10727,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool ) {
+    if( carrier != nullptr && type->tool &&
+        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
         units::energy wanted_energy = units::from_kilojoule( qty );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -12022,7 +12030,6 @@ int item::fill_with( const item &contained, const int amount,
                   contained_item.typeId().str(), contained_item.charges, typeId().str() );
     }
     on_contents_changed();
-    get_avatar().invalidate_weight_carried_cache();
     return num_contained;
 }
 
@@ -14207,8 +14214,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     // set variable storing information of character dropping item
     dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
 
-    player_character.flag_encumbrance();
-    player_character.invalidate_weight_carried_cache();
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
 

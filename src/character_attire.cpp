@@ -2431,6 +2431,7 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
+    guy.invalidate_weight_carried_cache();
     if( ignore_pkt_settings ) {
         // Crawl all pockets regardless of priority
         // Crawl First : wielded item

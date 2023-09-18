@@ -374,10 +374,7 @@ void Item_factory::finalize_pre( itype &obj )
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
             static const std::set<std::string> special_cookoff_tags = {{
-                    "NAPALM", "NAPALM_BIG",
-                    "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
-                    "TOXICGAS", "SMOKE", "SMOKE_BIG",
-                    "FRAG", "FLASHBANG"
+                    "SPECIAL_COOKOFF"
                 }
             };
             obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),

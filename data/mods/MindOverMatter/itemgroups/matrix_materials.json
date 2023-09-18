@@ -132,6 +132,12 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "matrix_shard_group",
+    "items": [ { "item": "matrix_shard", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "matrix_crystal_vitakin_dust_group",
     "items": [
       { "item": "matrix_crystal_vitakin_dust", "prob": 3, "container-item": "test_tube" },

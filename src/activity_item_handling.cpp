@@ -129,6 +129,7 @@ static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
@@ -140,11 +141,10 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 namespace
 {
@@ -207,10 +207,10 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               const vpart_reference &vpr )
 {
-    c.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
+    c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
     const tripoint where = veh.global_part_pos3( vp );
@@ -329,7 +329,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint_bub_ms &where )
 {
-    you.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -2155,9 +2154,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
         bool unload_mods = false;
         bool unload_molle = false;
+        bool unload_sparse_only = false;
+        int unload_sparse_threshold = 20;
         bool unload_always = false;
 
-        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 _fac_id( you ) );
 
         // get most open rules out of all stacked zones
@@ -2165,6 +2166,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
+            unload_sparse_only |= options.unload_sparse_only();
+            unload_sparse_threshold |= options.unload_sparse_threshold();
             unload_always |= options.unload_always();
         }
 
@@ -2200,8 +2203,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
 
-            //insert ignore firewood source here
-
             const std::unordered_set<tripoint_abs_ms> dest_set =
                 mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem, _fac_id( you ) );
 
@@ -2211,14 +2212,26 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             bool move_and_reset = false;
             bool moved_something = false;
 
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, _fac_id( you ) ) ||
+                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() || unload_always ) {
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {
+                        std::unordered_map<itype_id, int> item_counts;
+                        if( unload_sparse_only ) {
+                            for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                                if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                    item_counts[contained->typeId()]++;
+                                }
+                            }
+                        }
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                if( unload_sparse_only &&
+                                    item_counts[contained->typeId()] > unload_sparse_threshold ) {
+                                    continue;
+                                }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, vpr_src );
                                 it->first->remove_item( *contained );
                             }
@@ -2482,7 +2495,7 @@ static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone
         ret = zone_type_MOPPING;
     }
     if( act_id == ACT_MULTIPLE_DIS ) {
-        ret = zone_type_zone_disassemble;
+        ret = zone_type_DISASSEMBLE;
     }
     if( src_loc != tripoint_bub_ms() && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getglobal( src_loc ), false, fac_id );
