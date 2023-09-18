@@ -4216,7 +4216,9 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( can_not_be_disarmed() ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
+        if( id != tr_ledge ) {
+            add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
+        }
         return;
     }
 
@@ -5030,54 +5032,65 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
 void iexamine::ledge( Character &you, const tripoint &examp )
 {
+    enum ledge_actions {
+        ledge_peek_down,
+        ledge_climb_down,
+        ledge_cling_down,
+        ledge_jump_across,
+        ledge_fall_down,
+    };
+
+    map &here = get_map();
+    tripoint jump_target( you.posx() + 2 * sgn( examp.x - you.posx() ),
+                          you.posy() + 2 * sgn( examp.y - you.posy() ),
+                          you.posz() );
+    bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
-    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
-    cmenu.addentry( 3, true, 'p', _( "Peek down." ) );
+    cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
     if( you.has_flag( json_flag_WALL_CLING ) ) {
-        cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
+        cmenu.addentry( ledge_cling_down, true, 'C', _( "Crawl down." ) );
     }
+    cmenu.addentry( ledge_climb_down, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
+                    ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
+    cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
 
     cmenu.query();
 
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
-        case 1: {
+        case ledge_jump_across: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
                 return;
             }
 
-            tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
-                           you.posy() + 2 * sgn( examp.y - you.posy() ),
-                           you.posz() );
             if( you.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
-            } else if( !here.valid_move( examp, dest, false, true ) ) {
+            } else if( !here.valid_move( examp, jump_target, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
-            } else if( creatures.creature_at( dest ) ) {
+            } else if( creatures.creature_at( jump_target ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
-                         creatures.creature_at( dest )->disp_name() );
-            } else if( here.ter( dest ).obj().trap == tr_ledge ) {
+                         creatures.creature_at( jump_target )->disp_name() );
+            } else if( !jump_target_valid ) {
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                you.set_activity_level( LIGHT_EXERCISE );
-                g->place_player( dest );
+                you.set_activity_level( BRISK_EXERCISE );
+                g->place_player( jump_target );
             }
             break;
         }
-        case 2: {
+        case ledge_climb_down: {
             g->climb_down( examp );
             break;
         }
-        case 3: {
+        case ledge_peek_down: {
             // Peek
             tripoint where = examp;
             tripoint below = examp;
@@ -5098,7 +5111,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
         }
-        case 4: {
+        case ledge_cling_down: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5116,6 +5129,22 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     g->water_affect_items( you );
                     you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
                 }
+            }
+            break;
+        }
+        case ledge_fall_down: {
+            if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
+                you.moves -= 100;
+                // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+                if( !you.move_effects( false ) ) {
+                    return;
+                }
+                // Step into open air, then fall...
+                you.setpos( examp );
+                you.gravity_check();
+            } else {
+                // Just to highlight the trepidation
+                popup( _( "You decided to step back from the ledge." ) );
             }
             break;
         }
