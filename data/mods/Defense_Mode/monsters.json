@@ -357,7 +357,7 @@
     "vision_night": 50,
     "melee_training_cap": 0,
     "//1": "Try to stay this far away from the player with your regular moves, very important",
-    "tracking_distance": 5,
+    "tracking_distance": 6,
     "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
     "special_attacks": [
       [ "UPGRADE", 10 ],
@@ -377,12 +377,6 @@
         "no_dmg_msg_u": "The shadows recede, leaving you with nowhere to hide!",
         "no_dmg_msg_npc": "The shadows recede from <npcname>, and now they stand out like a floodlight!",
         "cooldown": 10
-      },
-      {
-        "type": "spell",
-        "spell_data": { "id": "phase_skulker_teleport", "hit_self": true },
-        "cooldown": 5,
-        "monster_message": "The shadow shifts and melts inwards before disappearing!"
       },
       {
         "type": "spell",
