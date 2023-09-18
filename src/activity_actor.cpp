@@ -233,8 +233,8 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -6580,13 +6580,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_zone_unload_all, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p.raw() );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_zone_strip, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p.raw() );
         }
@@ -6733,7 +6733,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         bool unload_sparse_only = false;
         int unload_sparse_threshold = 20;
 
-        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 fac_id );
 
         // get most open rules out of all stacked zones
@@ -6769,8 +6769,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, fac_id ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
+                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
                     std::unordered_map<itype_id, int> item_counts;

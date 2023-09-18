@@ -1228,9 +1228,17 @@ class game
         /**
         Checks if player is able to successfully climb to/from some terrain and not slip down
         @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
         @return whether player has slipped down
         */
-        bool slip_down( bool check_for_traps = false );
+        bool slip_down( bool check_for_traps = false, bool show_chance_messages = true );
+
+        /**
+        Calculates the chance that slip_down will return true.
+        @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
+        @return Probability, as a percentage, that player will slip down while climbing some terrain.
+        */
+        int slip_down_chance( bool show_messages = true );
 
         /**
         * Climb down from a ledge using grappling hooks or spider webs if appropriate.

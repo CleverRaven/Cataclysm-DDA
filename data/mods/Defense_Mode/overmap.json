@@ -131,5 +131,14 @@
     "sym": "W",
     "color": "light_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dm_survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]
