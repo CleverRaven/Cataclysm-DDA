@@ -1441,7 +1441,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // exit so that the activity can be carried out
         exit = true;
 
-    } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
+    } else if( srcarea == AIM_INVENTORY ||
+               ( srcarea == AIM_WORN && sitem->items.front() != player_character.get_wielded_item() ) ) {
         // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
         int idx = srcarea == AIM_INVENTORY ? sitem->idx : Character::worn_position_to_index(
                       sitem->idx ) + 1;
