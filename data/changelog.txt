@@ -149,12 +149,10 @@ Add the Mind Over Matter mod to the CDDA repository
 [Magiclysm] Add more than a dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
 [Magiclysm] Add two more playable fantasy species for Magiclysm
-[DinoMod] use EAT_CARRION
 JSON-ize faction camp hunting returns
 [DinoMod] document lore
-Aftershock: Rebalance energy weapons to use overheat mechanics
-Add warning message before dragon breath
-Add fantasy species ferals
+[Aftershock] Rebalance energy weapons to use overheat mechanics
+[Magiclysm] Add fantasy species ferals
 
 
 ## Balance:
@@ -186,7 +184,6 @@ Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
-Most NPCs altruism (personality) scores are average (normal distribution) instead of pure random
 
 
 ## Bugfixes:
