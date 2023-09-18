@@ -432,8 +432,8 @@
     "description": "Ends the game in a win condition.",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
-    "min_range": 15,
-    "max_range": 15,
+    "min_range": 100,
+    "max_range": 100,
     "effect": "effect_on_condition",
     "effect_str": "DEFENSE_MODE_QUEUE_WIN_SCREEN"
   }
