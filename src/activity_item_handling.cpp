@@ -247,6 +247,8 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
             } else {
+                const std::string ter_name = here.name( where );
+                add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
                 here.add_item_or_charges( where, it );
             }
         }
