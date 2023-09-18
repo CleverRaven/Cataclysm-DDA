@@ -452,60 +452,71 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
             }
         }
 
-        WHEN( "is is one-quarter damaged" ) {
+        WHEN( "it is minimally damaged" ) {
+            shirt.set_damage( 1 );
+            REQUIRE( shirt.damage() == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
+
+            THEN( "it appears damaged" ) {
+                CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "bruised corpse of a human (fresh)" );
+            }
+        }
+
+        WHEN( "it is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level() == 1 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             corpse.set_damage( dam25 );
             REQUIRE( corpse.damage() == dam25 );
-            REQUIRE( corpse.damage_level() == 1 );
+            REQUIRE( corpse.damage_level() == 2 );
 
             THEN( "it appears slightly damaged" ) {
                 CHECK( shirt.tname() == "ripped long-sleeved shirt (poor fit)" );
-                CHECK( corpse.tname() == "bruised corpse of a human (fresh)" );
+                CHECK( corpse.tname() == "damaged corpse of a human (fresh)" );
             }
         }
 
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level() == 2 );
+            REQUIRE( shirt.damage_level() == 3 );
 
             corpse.set_damage( dam25 * 2 );
             REQUIRE( corpse.damage() == dam25 * 2 );
-            REQUIRE( corpse.damage_level() == 2 );
+            REQUIRE( corpse.damage_level() == 3 );
 
 
             THEN( "it appears moderately damaged" ) {
                 CHECK( shirt.tname() == "torn long-sleeved shirt (poor fit)" );
-                CHECK( corpse.tname() == "damaged corpse of a human (fresh)" );
+                CHECK( corpse.tname() == "mangled corpse of a human (fresh)" );
             }
         }
 
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level() == 3 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             corpse.set_damage( dam25 * 3 );
             REQUIRE( corpse.damage() == dam25 * 3 );
-            REQUIRE( corpse.damage_level() == 3 );
+            REQUIRE( corpse.damage_level() == 4 );
 
             THEN( "it appears heavily damaged" ) {
                 CHECK( shirt.tname() == "shredded long-sleeved shirt (poor fit)" );
-                CHECK( corpse.tname() == "mangled corpse of a human (fresh)" );
+                CHECK( corpse.tname() == "pulped corpse of a human (fresh)" );
             }
         }
 
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level() == 4 );
+            REQUIRE( shirt.damage_level() == 5 );
 
             corpse.set_damage( dam25 * 4 );
             REQUIRE( corpse.damage() == dam25 * 4 );
-            REQUIRE( corpse.damage_level() == 4 );
+            REQUIRE( corpse.damage_level() == 5 );
 
             THEN( "it appears almost destroyed" ) {
                 CHECK( shirt.tname() == "tattered long-sleeved shirt (poor fit)" );
@@ -526,14 +537,24 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
             REQUIRE( shirt.damage_level() == 0 );
 
             THEN( "it appears undamaged" ) {
+                CHECK( shirt.tname() == "<color_c_green>++</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is minimally damaged" ) {
+            shirt.set_damage( 1 );
+            REQUIRE( shirt.damage() == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
+
+            THEN( "it appears damaged" ) {
                 CHECK( shirt.tname() == "<color_c_light_green>||</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
-        WHEN( "is is one-quarter damaged" ) {
+        WHEN( "it is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level() == 1 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             THEN( "it appears slightly damaged" ) {
                 CHECK( shirt.tname() == "<color_c_yellow>|\\</color>\u00A0ripped long-sleeved shirt (poor fit)" );
@@ -543,7 +564,7 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level() == 2 );
+            REQUIRE( shirt.damage_level() == 3 );
 
             THEN( "it appears moderately damaged" ) {
                 CHECK( shirt.tname() == "<color_c_light_red>|.</color>\u00A0torn long-sleeved shirt (poor fit)" );
@@ -553,7 +574,7 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level() == 3 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             THEN( "it appears heavily damaged" ) {
                 CHECK( shirt.tname() ==
@@ -564,7 +585,7 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level() == 4 );
+            REQUIRE( shirt.damage_level() == 5 );
 
             THEN( "it appears almost destroyed" ) {
                 CHECK( shirt.tname() ==

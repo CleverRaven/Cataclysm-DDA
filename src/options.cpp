@@ -2105,7 +2105,7 @@ void options_manager::add_options_interface()
         "favorites" );
 
         add( "ITEM_HEALTH", "interface", to_translation( "Show item health" ),
-            // NOLINTNEXTLINE(cata-text-style): one space after "etc."
+             // NOLINTNEXTLINE(cata-text-style): one space after "etc."
         to_translation( "Show item health bars, descriptions like reinforced, scratched etc. or both." ), {
             { "bars", to_translation( "Bars" ) },
             { "descriptions", to_translation( "Descriptions" ) },
