@@ -857,8 +857,8 @@ else
 endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
-OBJECT_CREATOR_SOURCES := $(wildcard $(SRC_DIR)/object_creator/*.cpp)
-OBJECT_CREATOR_HEADERS := $(wildcard $(SRC_DIR)/object_creator/*.h)
+OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
+OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
