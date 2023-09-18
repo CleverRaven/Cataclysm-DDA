@@ -450,7 +450,7 @@
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WIN_SCREEN",
     "global": true,
-    "recurrence": "10 minutes",
+    "recurrence": 100,
     "condition": { "math": [ "final_wave_defeated", "==", "1" ] },
     "effect": [ { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_WIN" } } ]
   },
