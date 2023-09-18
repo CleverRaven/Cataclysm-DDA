@@ -493,7 +493,8 @@
     "description": "The draining part of Anabolic Rejuvenation.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
-    "shape": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "shape": "blast",
     "flags": [ "SILENT" ]
   }
 ]

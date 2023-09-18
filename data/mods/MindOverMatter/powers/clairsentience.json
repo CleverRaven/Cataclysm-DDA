@@ -571,7 +571,7 @@
     "id": "clair_omniscience",
     "type": "SPELL",
     "name": "[Ψ]Omniscence",
-    "description": "Extend your senses to a supernal degree, perceiving everything within the nearby area.  Every creature, every object, every blade of grass, everything.  <color_red>EVERYTHING</color>./n/nThis power is even more draining than normal.",
+    "description": "Extend your senses to a supernal degree, perceiving everything within the nearby area.  Every creature, every object, every blade of grass, everything.  <color_red>EVERYTHING</color>.\n\nThis power is <color_yellow>even more draining than normal</color>.",
     "message": "You can see forever.",
     "teachable": false,
     "valid_targets": [ "self" ],

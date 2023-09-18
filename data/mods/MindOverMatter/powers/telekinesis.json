@@ -455,7 +455,7 @@
     "id": "telekinetic_levitation",
     "type": "SPELL",
     "name": "[Ψ]Levitation",
-    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely./n/nThis power is even more draining than normal.",
+    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power is <color_yellow>even more draining than normal</color>.",
     "message": "You begin floating a hand's breadth above the ground.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -468,7 +468,9 @@
     "shape": "blast",
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_duration": 100,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 75) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 200) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },

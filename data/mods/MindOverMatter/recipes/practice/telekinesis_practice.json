@@ -545,7 +545,7 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEKIN_BLAST",
+        "id": "EOC_PRACTICE_LEVITATION",
         "condition": {
           "and": [
             { "math": [ "u_val('spell_level', 'spell: telekinetic_levitation')", ">=", "1" ] },
@@ -563,7 +563,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_TELEKIN_BLAST_FALSE",
+              "id": "EOC_PRACTICE_LEVITATION_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: telekinetic_levitation')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
