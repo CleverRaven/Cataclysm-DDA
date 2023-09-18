@@ -258,10 +258,6 @@ void player_activity::do_turn( Character &you )
                 }
             }
         }
-        // Also update map and visibility caches every 2 minutes
-        map &here = get_map();
-        here.build_map_cache( you.pos().z );
-        here.update_visibility_cache( you.pos().z );
     }
     const float activity_mult = you.exertion_adjusted_move_multiplier( exertion_level() );
     if( type->based_on() == based_on_type::TIME ) {

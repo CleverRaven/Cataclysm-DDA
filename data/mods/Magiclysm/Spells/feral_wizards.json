@@ -167,5 +167,35 @@
     "min_range": 5,
     "max_range": 15,
     "range_increment": 1.0
+  },
+  {
+    "id": "dispel_magic_monster",
+    "type": "SPELL",
+    "name": "Dispel Magic Monster",
+    "description": "Dispel magic for monsters so they'll only dispel their enemies",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "effect_str": "effect_dispel_magic",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 200,
+    "min_range": 3,
+    "max_range": 20,
+    "range_increment": 1.2
+  },
+  {
+    "id": "disjunction_monster",
+    "type": "SPELL",
+    "name": "Disjunction Monster",
+    "description": "Disjunction for monsters so they'll only dispel their enemies",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "effect_str": "effect_disjunction",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 200,
+    "min_range": 3,
+    "max_range": 20,
+    "range_increment": 1.2
   }
 ]
