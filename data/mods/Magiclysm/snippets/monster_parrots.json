@@ -8,42 +8,42 @@
   },
   {
     "type": "speech",
-    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "//~": "The mi-go is parroting a Latin incantation here that should not be translated.",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Per Adonai Elohim, Adonai Jehova, Adonai Sabaoth…\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "//~": "The mi-go is parroting a Latin incantation here that should not be translated.",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Metraton on agla mathon, verbum pythonicum, mysterium salamandrae…\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "//~": "The mi-go is parroting a Latin incantation here that should not be translated.",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Conventus sylvorum, antra gnomorum, daemonia coeli gad…\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "//~": "The mi-go is reciting a Latin incantation here that should not be translated.",
+    "//~": "The mi-go is parroting a Latin incantation here that should not be translated.",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Almousin, gibor, jehosua, evam, zariatnatmik, veni, veni, veni…\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "//~": "The mi-go is reciting an incantation here that should not be translated.",
+    "//~": "The mi-go is parroting an incantation here that should not be translated.",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Y'ai 'nh'ngah h'ee-l'geb f'ai throdog uaaah!\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "//~": "The mi-go is reciting an incantation here that should not be translated.",
+    "//~": "The mi-go is parroting an incantation here that should not be translated.",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
     "sound": "\"Ogthrod ai'f geb'l-ee'h 'ngah'ng ai'y zhro!\"",
     "volume": 20
