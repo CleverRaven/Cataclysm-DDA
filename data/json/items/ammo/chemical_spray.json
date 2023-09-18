@@ -17,7 +17,7 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "TOXICGAS", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "TOXICGAS", "NEVER_MISFIRES", "JET", "SPECIAL_COOKOFF" ]
   },
   {
     "id": "gas_fungicidal",

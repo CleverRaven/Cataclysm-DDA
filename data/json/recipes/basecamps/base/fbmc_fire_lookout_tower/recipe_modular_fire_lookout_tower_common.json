@@ -40,7 +40,11 @@
     "construction_blueprint": "fbmc_fire_lookout_tower_root_cellar",
     "blueprint_name": "root cellar",
     "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_root_cellar" }, { "id": "pantry" }, { "id": "trapping" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_fire_lookout_tower_0" } ],
+    "blueprint_requires": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_1" }
+    ],
     "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_root_cellar" } ]
   },
   {
@@ -54,7 +58,11 @@
     "construction_blueprint": "fbmc_fire_lookout_tower_water_well",
     "blueprint_name": "water well",
     "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_water_well" }, { "id": "scouting" }, { "id": "patrolling" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_fire_lookout_tower_0" } ],
+    "blueprint_requires": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_1" }
+    ],
     "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_water_well" } ]
   },
   {
@@ -68,7 +76,11 @@
     "construction_blueprint": "fbmc_fire_lookout_tower_radio",
     "blueprint_name": "radio tower",
     "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_radio" }, { "id": "radio" }, { "id": "recruiting" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 8 }, { "id": "fbmc_fire_lookout_tower_0" } ],
+    "blueprint_requires": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_1" }
+    ],
     "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_radio" } ]
   }
 ]

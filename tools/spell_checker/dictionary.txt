@@ -27,9 +27,12 @@ aeroctinus
 aerofoil
 aeterna
 aetheric
+aetherically
 affordability
 affordably
 afterbirth
+aftereffect
+aftereffects 
 afterglow
 afterimage
 afterlife
@@ -1491,6 +1494,8 @@ intermixed
 interwar
 intimidatingly
 intolerances
+intone
+intones
 intoxications
 intoxicative
 inulin
@@ -2980,7 +2985,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-th
+thaumaturge 
 thaumaturgical
 thawb
 themm

@@ -11,7 +11,6 @@
     "time": "1 h",
     "construction_blueprint": "fbmc_outpost_cross_0",
     "blueprint_provides": [
-      { "id": "bed", "amount": 12 },
       { "id": "tool_storage" },
       { "id": "gathering" },
       { "id": "firewood" },
@@ -36,7 +35,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_outpost_cross_bed_0",
     "blueprint_name": "bunk bed",
-    "blueprint_provides": [ { "id": "fbmc_outpost_cross_bed_0" }, { "id": "bed", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmc_outpost_cross_bed_0" } ],
     "blueprint_requires": [ { "id": "fbmc_outpost_cross_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_outpost_cross_bed_0" } ]
   },
@@ -50,7 +49,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_outpost_cross_bed_1",
     "blueprint_name": "another bunk bed",
-    "blueprint_provides": [ { "id": "fbmc_outpost_cross_bed_1" }, { "id": "bed", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmc_outpost_cross_bed_1" } ],
     "blueprint_requires": [ { "id": "fbmc_outpost_cross_bed_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_outpost_cross_bed_1" } ]
   },

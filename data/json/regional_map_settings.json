@@ -828,7 +828,7 @@
           "mx_casings": 30
         }
       },
-      "river": { "chance": 3, "extras": { "mx_reed": 100 } },
+      "river": { "chance": 1, "extras": { "mx_null": 66, "mx_riverside_boat": 1, "mx_reed": 33 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
       "sewer": { "chance": 80, "extras": { "mx_null": 100 } },
       "agricultural": {
@@ -1279,7 +1279,8 @@
         "public_works": 200,
         "office_tower": 150,
         "office_tower_2": 150,
-        "office_tower_large": 500,
+        "office_skyscraper": 300,
+        "office_tower_large": 300,
         "office_tower_hiddenlab": 50,
         "mall": 100,
         "home_improvement_superstore_new": 150,

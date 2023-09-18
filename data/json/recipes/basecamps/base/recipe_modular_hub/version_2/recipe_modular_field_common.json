@@ -12,7 +12,6 @@
     "time": "1 h",
     "construction_blueprint": "fbmh_2",
     "blueprint_provides": [
-      { "id": "bed", "amount": 16 },
       { "id": "gathering" },
       { "id": "fbmh_2_crafting_recipes_1" },
       { "id": "fbmh_2" },
@@ -99,7 +98,7 @@
         "fbmh_2_bed_palette": "Bed"
       }
     },
-    "blueprint_requires": [ { "id": "fbmh_2_room_1_2" } ],
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmh_2_bed_NE_2" } ],
     "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_2" } ]
   },

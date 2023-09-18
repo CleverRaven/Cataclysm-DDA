@@ -50,7 +50,10 @@
   {
     "type": "snippet",
     "category": "addict_diazepam_strong_asleep",
-    "text": [ "You dream about lying in an ocean of benzo boxes.  To your dismay, every single box is empty…" ]
+    "text": [
+      "You dream about lying in an ocean of benzo boxes.  To your dismay, every single box is empty…",
+      "That calm that soaks into your bones from the outside in that benzos bring.  You wake and there is none of that calm to find."
+    ]
   },
   {
     "type": "snippet",
@@ -65,7 +68,7 @@
   {
     "type": "snippet",
     "category": "addict_coke_asleep",
-    "text": [ "You feel like you need a bump." ]
+    "text": [ "You feel like you need a bump.", "You should have a party with some cocaine, it's not like you have work tomorrow." ]
   },
   {
     "type": "snippet",
@@ -80,14 +83,15 @@
   {
     "type": "snippet",
     "category": "addict_nicotine_strong_awake",
-    "text": [ "You need some nicotine." ]
+    "text": [ "You need some nicotine.", "You lick your lips as you think about lighting a cigarette." ]
   },
   {
     "type": "snippet",
     "category": "addict_nicotine_mild_asleep",
     "text": [
       "You could use some nicotine.",
-      "You dream of a long conversation with a dead relative, a cigarette in their hand and smoke wafts through your brain."
+      "You dream of a long conversation with a dead relative, a cigarette in their hand and smoke wafts through your brain.",
+      "In your dream you were standing around a campfire with a bunch of your now dead friends, a cigarette between your lips.  The tobacco smell mixing in with the wood smoke in the chill fall air."
     ]
   },
   {
@@ -96,7 +100,9 @@
     "text": [
       "You need some nicotine.",
       "You dream of sex with an old flame, but the realest part of the dream is the post coital cigarette.",
-      "You wake with the imagined taste of smoke in your mouth, how long has it been since that was true?"
+      "You wake with the imagined taste of smoke in your mouth; how long has it been since that was true?",
+      "Standing on the edge of a building with a cigarette in your hand, a horde of zombies milling below.  You take one last long drag and flick the butt out over the zombies then step off the ledge.  Waking with a start you can almost taste the smoke and tar in your mouth.",
+      "In your dream you brutally disanimate several zombies and then tear through their clothing looking for any unsmoked cigarettes"
     ]
   },
   {
@@ -105,7 +111,8 @@
     "text": [
       "Your hands start shaking… you need some painkillers.",
       "If you don't find some opiates soon you might start engaging in reckless behavior, you think to yourself.",
-      "You daydream of crushing pills and snorting them through a rolled up dollar bill.  The drip in the back of your throat presaging a fun time."
+      "You daydream of crushing pills and snorting them through a rolled up dollar bill.  The drip in the back of your throat presaging a fun time.",
+      "If I can just find some oxies, everything will be fine."
     ]
   },
   {
@@ -122,13 +129,19 @@
     "category": "addict_opiate_strong_awake",
     "text": [
       "You feel anxious.  You need your painkillers!",
-      "You need to find an unlooted pharmacy today before the lack of opiates kills you."
+      "You need to find an unlooted pharmacy today before the lack of opiates kills you.",
+      "The best thing about the apocalypse is that you've become your own prescriber.",
+      "The doctor is in and the doctor says it's time for some morphine, stat!"
     ]
   },
   {
     "type": "snippet",
     "category": "addict_opiate_strong_asleep",
-    "text": [ "You feel anxious.  You need your painkillers!" ]
+    "text": [
+      "You feel anxious.  You need your painkillers!",
+      "The same old dream: a bottle of oxycodone, a zipper bag, a hammer, a flat surface and a dollar bill.",
+      "♪Got a bag of pills I've been dealin'♪"
+    ]
   },
   {
     "type": "snippet",

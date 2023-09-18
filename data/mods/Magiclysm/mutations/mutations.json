@@ -43,7 +43,7 @@
     "type": "mutation",
     "id": "CHEMIMBALANCE",
     "copy-from": "CHEMIMBALANCE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -56,13 +56,13 @@
     "id": "HOARDER",
     "copy-from": "HOARDER",
     "valid": true,
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK", "SPECIES_DWARF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK", "SPECIES_DWARF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "MOODSWINGS",
     "copy-from": "MOODSWINGS",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -204,13 +204,13 @@
     "type": "mutation",
     "id": "PAINREC1",
     "copy-from": "PAINREC1",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "PAINREC2",
     "copy-from": "PAINREC2",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -373,7 +373,7 @@
     "type": "mutation",
     "id": "INT_UP",
     "copy-from": "INT_UP",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -403,7 +403,7 @@
     "type": "mutation",
     "id": "HEADBUMPS",
     "copy-from": "HEADBUMPS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -443,7 +443,7 @@
     "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_RAVENFOLK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -472,20 +472,20 @@
     "type": "mutation",
     "id": "WEAKSTOMACH",
     "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "NAUSEA",
     "copy-from": "NAUSEA",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "OVERLY_ACID_GUT" ]
   },
   {
     "type": "mutation",
     "id": "VOMITOUS",
     "copy-from": "VOMITOUS",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "DRAGON_BREATH_BLACK" ]
   },
   {
@@ -515,7 +515,7 @@
     "type": "mutation",
     "id": "THIRST",
     "copy-from": "THIRST",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",

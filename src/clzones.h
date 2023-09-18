@@ -37,6 +37,8 @@ const std::string type_fac_hash_str = "__FAC__";
 //Generic activity: maximum search distance for zones, constructions, etc.
 constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
 
+extern const std::vector<zone_type_id> ignorable_zone_types;
+
 class zone_type
 {
     private:
@@ -206,6 +208,37 @@ class blueprint_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class ignorable_options : public zone_options
+{
+    private:
+        bool ignore_contents;
+
+        enum query_ignorable_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_ignorable_result query_ignorable();
+
+    public:
+        bool get_ignore_contents() const {
+            return ignore_contents;
+        }
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+
+};
+
 class loot_options : public zone_options, public mark_option
 {
     private:
@@ -251,6 +284,8 @@ class unload_options : public zone_options, public mark_option
         std::string mark;
         bool mods;
         bool molle;
+        bool sparse_only;
+        int sparse_threshold = 20;
         bool always_unload;
 
         enum query_unload_result {
@@ -272,6 +307,14 @@ class unload_options : public zone_options, public mark_option
 
         bool unload_molle() const {
             return molle;
+        }
+
+        bool unload_sparse_only() const {
+            return sparse_only;
+        }
+
+        int unload_sparse_threshold() const {
+            return sparse_threshold;
         }
 
         bool unload_always() const {

@@ -1,0 +1,14 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_alien_biology",
+    "category": "prof_weakpoint",
+    "name": { "str": "Principles of Alien Biology" },
+    "description": "Very basic familiarity with various types of alien creatures.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  }
+]

@@ -1036,6 +1036,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     for( const auto &it : con.requirements->get_tools() ) {
         player_character.consume_tools( it );
     }
+    player_character.invalidate_crafting_inventory();
+    player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
     player_character.activity.placement = here.getglobal( pnt );
 }

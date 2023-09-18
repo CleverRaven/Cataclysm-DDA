@@ -126,7 +126,13 @@
         "move_cost": 0,
         "grab_data": { "drag_grab_break_distance": 999, "drag_movecost_mod": 0.001 }
       },
-      { "id": "drag_followup", "move_cost": 0, "cooldown": 0, "grab_data": { "drag_grab_break_distance": 999 } }
+      {
+        "id": "drag_followup",
+        "move_cost": 0,
+        "cooldown": 0,
+        "grab_data": { "drag_grab_break_distance": 999 },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      }
     ]
   },
   {

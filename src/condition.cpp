@@ -2188,6 +2188,14 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc, this_spell_id]( dialogue & d ) {
                 return d.actor( is_npc )->get_spell_exp( this_spell_id );
             };
+        } else if( checked_value == "spell_count" ) {
+            trait_id school = trait_id::NULL_ID();
+            if( jo.has_member( "school" ) ) {
+                school = trait_id( jo.get_string( "school" ) );
+            }
+            return [is_npc, school]( dialogue & d ) {
+                return d.actor( is_npc )->get_spell_count( school );
+            };
         } else if( checked_value == "proficiency" ) {
             const std::string proficiency_name = jo.get_string( "proficiency_id" );
             const proficiency_id the_proficiency_id( proficiency_name );
@@ -3106,6 +3114,16 @@ void conditional_t::set_has_wielded_with_flag( const JsonObject &jo, const std::
     };
 }
 
+void conditional_t::set_has_wielded_with_weapon_category( const JsonObject &jo,
+        const std::string &member,
+        bool is_npc )
+{
+    str_or_var w_cat = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [w_cat, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->wielded_with_weapon_category( weapon_category_id( w_cat.evaluate( d ) ) );
+    };
+}
+
 void conditional_t::set_can_see( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
@@ -3411,6 +3429,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_wielded_with_flag( jo, "u_has_wielded_with_flag" );
     } else if( jo.has_member( "npc_has_wielded_with_flag" ) ) {
         set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
+    } else if( jo.has_member( "u_has_wielded_with_weapon_category" ) ) {
+        set_has_wielded_with_weapon_category( jo, "u_has_wielded_with_weapon_category" );
+    } else if( jo.has_member( "npc_has_wielded_with_weapon_category" ) ) {
+        set_has_wielded_with_weapon_category( jo, "npc_has_wielded_with_weapon_category", is_npc );
     } else if( jo.has_member( "u_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "u_is_on_terrain" );
     } else if( jo.has_member( "npc_is_on_terrain" ) ) {

@@ -82,6 +82,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
         int get_highest_spell_level() const override;
+        int get_spell_count( const trait_id & ) const override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
         time_duration proficiency_practiced_time( const proficiency_id & ) const override;
 
@@ -144,6 +145,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
 
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
+        bool wielded_with_weapon_category( const weapon_category_id &w_cat ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 

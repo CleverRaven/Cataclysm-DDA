@@ -168,8 +168,8 @@
       "SLOWHEALER3",
       "NOHEAL"
     ],
-    "can_only_heal_with": [ "cerulean_poultice" ],
-    "description": "You are literally made of earth and stone.",
+    "can_heal_with": [ "cerulean_poultice" ],
+    "description": "You are born of the deep waters.",
     "anger_relations": [ [ "UNDINE", -20 ], [ "SALAMANDER", 20 ] ],
     "allowed_category": [ "UNDINE" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
@@ -258,5 +258,69 @@
     "anger_relations": [ [ "SYLPH", -20 ], [ "IERDE", 20 ] ],
     "allowed_category": [ "SYLPH" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLOUD_OF_STEAM",
+    "name": { "str": "Cloud of Steam" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
+    "category": [ "SYLPH", "UNDINE" ],
+    "spells_learned": [ [ "cloud_of_steam", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CREATE_LIGHT",
+    "name": { "str": "Create Light" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "category": [ "SYLPH", "SALAMANDER" ],
+    "spells_learned": [ [ "create_light", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELEMENTAL_MANA1",
+    "name": "Born of the Elements",
+    "points": 1,
+    "description": "Your connection to this world is deep and rewards you with additional mana.",
+    "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
+    "changes_to": [ "ELEMENTAL_MANA2" ],
+    "types": [ "MANA_ADD" ],
+    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
+    "starting_trait": true,
+    "flags": [ "NON_THRESH" ],
+    "mana_modifier": 500
+  },
+  {
+    "type": "mutation",
+    "id": "ELEMENTAL_MANA2",
+    "name": "Change with the Seasons",
+    "points": 3,
+    "description": "You are able to store more mana in your body than usual.",
+    "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
+    "changes_to": [ "ELEMENTAL_MANA3" ],
+    "types": [ "MANA_ADD" ],
+    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
+    "starting_trait": true,
+    "prereqs": [ "ELEMENTAL_MANA1" ],
+    "flags": [ "NON_THRESH" ],
+    "mana_modifier": 1000
+  },
+  {
+    "type": "mutation",
+    "id": "ELEMENTAL_MANA3",
+    "name": "Walking Ley Line",
+    "points": 8,
+    "description": "You are able to store a lot more mana in your body than usual.",
+    "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
+    "types": [ "MANA_ADD" ],
+    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
+    "prereqs": [ "ELEMENTAL_MANA2" ],
+    "flags": [ "NON_THRESH" ],
+    "mana_modifier": 2000
   }
 ]

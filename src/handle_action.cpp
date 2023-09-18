@@ -156,17 +156,17 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
@@ -260,6 +260,7 @@ input_context game::get_player_input( std::string &action )
         ctxt = get_default_mode_input_context();
     }
 
+    m.build_map_cache( u.posz() );
     m.update_visibility_cache( u.posz() );
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
@@ -1283,7 +1284,7 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     zone_manager &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
+    const bool has_fertilizer = player_character.cache_has_item_with( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
     mgr.reset_disabled();
@@ -1300,8 +1301,8 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
-    flags |= g->check_near_zone( zone_type_zone_unload_all, player_character.pos() ) ||
-             g->check_near_zone( zone_type_zone_strip, player_character.pos() ) ? UnloadLoot : 0;
+    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
@@ -1320,7 +1321,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
                                  player_character.pos() ) ? MultiButchery : 0;
     flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
-    flags |= g->check_near_zone( zone_type_zone_disassemble,
+    flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
     if( flags == 0 ) {

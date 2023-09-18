@@ -257,19 +257,19 @@
     "type": "mutation",
     "id": "BADBACK",
     "copy-from": "BADBACK",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "LIGHT_BONES",
     "copy-from": "LIGHT_BONES",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -282,14 +282,14 @@
     "id": "FASTREADER",
     "copy-from": "FASTREADER",
     "valid": true,
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "GOODMEMORY",
     "copy-from": "GOODMEMORY",
     "valid": true,
-    "extend": { "category": [ "MANATOUCHED", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",

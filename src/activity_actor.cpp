@@ -233,8 +233,8 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -2086,6 +2086,9 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // Check that we can pick it up.
         if( target->made_of_from_type( phase_id::SOLID ) ) {
+            // Spill out any invalid contents first
+            target.overflow();
+
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
@@ -3031,7 +3034,7 @@ void safecracking_activity_actor::do_turn( player_activity &act, Character &who 
 {
     bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
     // short-circuit to avoid the more expensive iteration over items
-    can_crack = can_crack || who.has_item_with_flag( flag_SAFECRACK );
+    can_crack = can_crack || who.cache_has_item_with( flag_SAFECRACK );
 
     if( !can_crack ) {
         // We lost our cracking tool somehow, bail out.
@@ -3783,7 +3786,6 @@ void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint_bub_ms pos = placement + who.pos_bub();
-    who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who ),
                               pos, force_ground );
@@ -6578,13 +6580,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_zone_unload_all, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p.raw() );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_zone_strip, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p.raw() );
         }
@@ -6728,8 +6730,10 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
         bool unload_mods = false;
         bool unload_molle = false;
+        bool unload_sparse_only = false;
+        int unload_sparse_threshold = 20;
 
-        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 fac_id );
 
         // get most open rules out of all stacked zones
@@ -6737,6 +6741,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
+            unload_sparse_only |= options.unload_sparse_only();
+            unload_sparse_threshold |= options.unload_sparse_threshold();
         }
 
         //Skip items that have already been processed
@@ -6763,13 +6769,25 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, fac_id ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
+                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
+                    std::unordered_map<itype_id, int> item_counts;
+                    if( unload_sparse_only ) {
+                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                item_counts[contained->typeId()]++;
+                            }
+                        }
+                    }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if( unload_sparse_only &&
+                                item_counts[contained->typeId()] > unload_sparse_threshold ) {
+                                continue;
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }

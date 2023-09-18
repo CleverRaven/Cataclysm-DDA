@@ -278,7 +278,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
         // if there is a retreat zone in range, go there
-        if( !retreat_target ) {
+        if( !retreat_target && is_player_ally() ) {
             //if not, consider regrouping on the player if they're getting far away.
             Character &player_character = get_player_character();
             int dist = rl_dist( pos(), player_character.pos() );
@@ -3922,9 +3922,7 @@ bool npc::consume_food()
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
 
-    const auto inv_food = items_with( []( const item & itm ) {
-        return itm.is_food();
-    } );
+    const std::vector<item *> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
         if( !is_player_ally() ) {
@@ -4109,8 +4107,8 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 ) {
-                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
-                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
+                if( player_character.cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
+                    cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
                     add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
                                             "'I've arrived, boss!'" ), disp_name() );
                 }

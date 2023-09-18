@@ -21,7 +21,8 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "MAGUS" ],
-    "spells_learned": [ [ "create_rune_animist", 0 ] ]
+    "spells_learned": [ [ "create_rune_animist", 0 ] ],
+    "moncams": [ [ "mon_watcher_spirit", 30 ] ]
   },
   {
     "type": "mutation",

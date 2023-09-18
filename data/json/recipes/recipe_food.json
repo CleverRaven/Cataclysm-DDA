@@ -1229,8 +1229,8 @@
     "difficulty": 3,
     "book_learn": [ [ "cookbook_sushi", 3 ], [ "cookbook_eatyrway", 4 ] ],
     "time": "45 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ], [ [ "water_boiling_heat", 14, "LIST" ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 14, "LIST" ] ] ],
     "//": "water alone is 4u boiling, then there is 1.25L of soymilk - assuming roughly half water by weight, another 10u heat",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "batch_time_factors": [ 50, 2 ],
@@ -2878,8 +2878,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "15 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
@@ -2896,8 +2895,8 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "9 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
@@ -2913,8 +2912,8 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "13 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "cotton_patchwork", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 25, 2 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
@@ -3000,8 +2999,7 @@
     "difficulty": 1,
     "time": "15 m",
     "book_learn": [ [ "manual_sealing", 1 ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "STRAIN", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
@@ -3068,8 +3066,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "irradiated_orange", 2 ], [ "orange", 2 ] ] ]
   },
   {
@@ -3083,8 +3080,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "cranberries", 3 ], [ "irradiated_cranberries", 3 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -3098,8 +3094,7 @@
     "difficulty": 2,
     "time": "7 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ]
   },
   {
@@ -3492,9 +3487,10 @@
       { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 },
       { "id": "BOIL", "level": 2 },
-      { "id": "CONTAIN", "level": 1 }
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "surface_heat", 12, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "//": "most of the work here is the straining, not the cooking. basing on https://www.liveeatlearn.com/5-minute-microwave-ricotta/ to get 300kJ in a microwave",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
@@ -4022,8 +4018,8 @@
     "charges": 4,
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
-    "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 60, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 60, "LIST" ] ] ],
     "components": [ [ [ "maple_sap", 10 ] ] ]
   },
   {
@@ -5884,7 +5880,9 @@
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
-        [ "dry_corn", 2 ]
+        [ "dry_corn", 2 ],
+        [ "can_pineapple", 2 ],
+        [ "pineapple_chunks", 2 ]
       ],
       [ [ "cheese_standard", 2, "LIST" ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
@@ -7812,8 +7810,7 @@
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -7828,8 +7825,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sweet_fruit", 2, "LIST" ] ] ]
   },
   {
@@ -8820,8 +8816,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "honeycomb", 1 ] ] ]
   },
   {
@@ -8837,8 +8832,8 @@
     "time": "20 m",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_glassed", 5 ] ] ]
   },
   {
@@ -10125,8 +10120,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "mycus_fruit", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
