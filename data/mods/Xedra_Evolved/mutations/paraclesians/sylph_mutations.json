@@ -164,72 +164,6 @@
   },
   {
     "type": "mutation",
-    "id": "UNDINE_SKIN_1",
-    "name": { "str": "undine skin" },
-    "points": 0,
-    "visibility": 2,
-    "ugliness": 0,
-    "description": "Your skin has turned the color of the Mediterranean Sea.  Your skin is now a brilliant turquoise color.  This has no gameplay effects.",
-    "types": [ "skin_tone" ],
-    "leads_to": [ "UNDINE_SKIN_2" ],
-    "category": [ "UNDINE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "UNDINE_SKIN_2",
-    "name": { "str": "liquid skin" },
-    "points": 2,
-    "visibility": 10,
-    "ugliness": 3,
-    "description": "Your skin has become vaguely gelatinous.  Provides some extra bash defense and immunity to wet effects.",
-    "types": [ "SKIN" ],
-    "category": [ "UNDINE" ],
-    "prereqs": [ "UNDINE_SKIN_1" ],
-    "changes_to": [ "UNDINE_SKIN_3" ],
-    "wet_protection": [
-      { "part": "head", "good": 7 },
-      { "part": "leg_l", "good": 21 },
-      { "part": "leg_r", "good": 21 },
-      { "part": "foot_l", "good": 6 },
-      { "part": "foot_r", "good": 6 },
-      { "part": "arm_l", "good": 19 },
-      { "part": "arm_r", "good": 19 },
-      { "part": "hand_l", "good": 5 },
-      { "part": "hand_r", "good": 5 },
-      { "part": "torso", "good": 40 }
-    ],
-    "integrated_armor": [ "integrated_gelatinous_skin" ]
-  },
-  {
-    "type": "mutation",
-    "id": "UNDINE_SKIN_3",
-    "name": { "str": "wave skin" },
-    "points": 3,
-    "visibility": 10,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "Your skin is completely replaced by magickal water.  You have become immune to acid effects.",
-    "types": [ "SKIN" ],
-    "flags": [ "ACID_IMMUNE" ],
-    "prereqs": [ "UNDINE_SKIN_2" ],
-    "threshreq": [ "THRESH_UNDINE" ],
-    "category": [ "UNDINE" ],
-    "wet_protection": [
-      { "part": "head", "good": 7 },
-      { "part": "leg_l", "good": 21 },
-      { "part": "leg_r", "good": 21 },
-      { "part": "foot_l", "good": 6 },
-      { "part": "foot_r", "good": 6 },
-      { "part": "arm_l", "good": 19 },
-      { "part": "arm_r", "good": 19 },
-      { "part": "hand_l", "good": 5 },
-      { "part": "hand_r", "good": 5 },
-      { "part": "torso", "good": 40 }
-    ],
-    "integrated_armor": [ "integrated_wave_skin" ]
-  },
-  {
-    "type": "mutation",
     "id": "HOMULLUS_SKIN_1",
     "name": { "str": "mannequin skin" },
     "points": 0,
@@ -359,5 +293,138 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_storm_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BREATHE_WO_AIR",
+    "name": { "str": "Breathe Without Air" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to temporarily breathe without oxygen.  This will prevent damage from a lack of oxygen for a short window.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "breathe_wo_air", 1 ] ],
+    "//": "Needs an activated ability that affects the hidden oxygen stat."
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_EYES",
+    "name": { "str": "Sylph Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph's eyes begin reflecting their mood with lightning and storms when angry and clear skies when happy.  Glare no longer impacts them.",
+    "category": [ "SYLPH" ],
+    "integrated_armor": [ "integrated_sylph_eyes" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAP_OF_THUNDER",
+    "name": { "str": "Clap of Thunder" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create a loud clap of thunder noise at a distance.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "clap_of_thunder", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "OMINOUS_WIND",
+    "name": { "str": "Ominous Wind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to summon and ominous wind that damages sapient creatures morale.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "ominous_wind", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLOWFALL",
+    "name": { "str": "Slow Fall" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph ceases to fall at speeds that would damage themselves, no matter how high the fall is.",
+    "category": [ "SYLPH" ],
+    "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD",
+    "name": { "str": "Resist Cold" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "changes_to": "SLYPH_RESIST_COLD2",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": 10 } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD2",
+    "name": { "str": "Born of a Gale" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PUSHING_WIND",
+    "name": { "str": "Pushing Wind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph learns how to use the wind to push their opponents.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "pushing_wind", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTRICAL_EMISSIONS",
+    "name": { "str": "Electrical Emissions" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Sylphs often develop electrical emissions that can culminate in lightning bolts.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "zap_electrical_emission", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTRICAL_FIELD",
+    "name": { "str": "Electrical Field" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to summon electrical fields.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "electrical_field", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "air_sprite",
+    "name": { "str": "Summon Air Sprite" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "summon_air_sprite", 1 ] ]
   }
 ]
