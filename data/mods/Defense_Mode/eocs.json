@@ -52,6 +52,7 @@
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_CONTROL",
     "recurrence": "1 day",
+    "global": true,
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "wave_number" }, "+=", { "const": 1 } ] },
       { "math": [ "wave_cash_number", "++" ] },

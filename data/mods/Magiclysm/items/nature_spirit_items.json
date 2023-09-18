@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "bracken_eye",
     "name": { "str": "brackenwight eye" },
-    "description": "A fist-sized lump of plant matter taken from a brackenwight.  It still glows a very faint green",
+    "description": "A fist-sized lump of plant matter taken from a brackenwight.  It still glows a very faint green.",
     "weight": "133 g",
     "volume": "250 ml",
     "symbol": "*",
