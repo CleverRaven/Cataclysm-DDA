@@ -5365,7 +5365,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 
 ### Flags
 
-Flags, that can be used in different entiries, can also be made in json, allowing it to be used in pocket restrictions and EoC checks, or having a json flag and information in json, while being backed in code
+Flags, that can be used in different entries, can also be made in json, allowing it to be used in pocket restrictions and EoC checks, or having a json flag and information in json, while being backed in code
 
 ```c++
 
