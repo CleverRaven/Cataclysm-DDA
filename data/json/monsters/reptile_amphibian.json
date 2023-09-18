@@ -952,7 +952,7 @@
   {
     "id": "mon_pattern_giganfrog",
     "type": "MONSTER",
-    "name": { "str": "stuntongue" },
+    "name": { "str": "taser tongue" },
     "description": "This bluish, trash can-sized frog sports a series of faintly glowing spots among its chaotic skin patterns.  The glow seems to be most concentrated around its unusually bulky neck and mouth.",
     "copy-from": "mon_proxy_giganfrog",
     "volume": "120 L",
