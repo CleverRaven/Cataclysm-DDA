@@ -1422,6 +1422,11 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
+    if( to_vehicle && sitem->items.front()->is_bucket_nonempty() &&
+        !query_yn( _( "!!The %s would spill if stored there. Remove its contents first?" ),
+            sitem->items.front()->tname() ) ) {
+        return false;
+    }
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
         popup_getkey( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
