@@ -1680,5 +1680,23 @@
     "name": { "str": "Scroll of Cure Disease, Minor", "str_pl": "Scrolls of Cure Disease, Minor" },
     "description": "Snap your fingers and get rid of that nasty cold or flu.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_dispel_magic",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Dispel Magic", "str_pl": "Scrolls of Dispel Magic" },
+    "description": "Enemy wizards got you down?  Just remove all their magic and punch them in the face.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_disjunction",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Disjunction", "str_pl": "Scrolls of Disjunction" },
+    "description": "Remove all magic from your target, even rare or powerful spells.  Who's the archmage now?",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
   }
 ]

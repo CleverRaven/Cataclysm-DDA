@@ -72,9 +72,17 @@
     "result": "5l_tin",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
-    "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_tin", 94 ] ] ]
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_tin", 5 ] ] ]
+  },
+  {
+    "result": "1l_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_tin", 138 ] ] ]
   },
   {
     "result": "exodii_ingot_lead",
@@ -650,5 +658,29 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
+  },
+  {
+    "result": "tin_plate",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_tin", 5 ] ] ]
+  },
+  {
+    "result": "tin_cup",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_tin", 4 ] ] ]
+  },
+  {
+    "result": "bowl_pewter",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_tin", 5 ] ] ]
   }
 ]

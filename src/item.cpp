@@ -10727,7 +10727,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool ) {
+    if( carrier != nullptr && type->tool &&
+        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
         units::energy wanted_energy = units::from_kilojoule( qty );
 
         if( has_flag( flag_USE_UPS ) ) {
