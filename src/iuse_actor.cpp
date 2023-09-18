@@ -133,6 +133,8 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
+
 static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
@@ -4116,7 +4118,7 @@ ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it,
             return ret_val<void>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( flag_FILTHY ) ) {
             return ret_val<void>::make_failure( _( "You can't install a filthy CBM!" ) );
-        } else if( it.has_flag( flag_NO_STERILE ) ) {
+        } else if( it.has_flag( flag_NO_STERILE ) && !p.has_flag( json_flag_INFECTION_IMMUNE ) ) {
             return ret_val<void>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
             return ret_val<void>::make_failure(

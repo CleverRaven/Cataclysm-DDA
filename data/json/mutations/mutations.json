@@ -3782,7 +3782,7 @@
     "id": "INFIMMUNE",
     "name": { "str": "Infection Immune" },
     "points": 3,
-    "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
+    "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.  You will also be able to install non-sterile CBMs.",
     "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
     "prereqs2": [ "INFRESIST" ],
     "category": [ "MEDICAL" ],
