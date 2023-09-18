@@ -7,7 +7,7 @@
     "move_cost": 90,
     "accuracy": 3,
     "//": "Feral melee skill + weapon's to hit, so 3+0=3",
-    "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
     "hit_dmg_u": "%1$s hits your %2$s with a pipe!",
     "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a pipe!",
     "miss_msg_u": "%1$s tries to hit you, but you dodge!",
