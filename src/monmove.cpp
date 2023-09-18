@@ -1185,7 +1185,8 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(), candidate.z + rampPos ), destination );
+            const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(),
+                                   candidate.z + rampPos ), destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
