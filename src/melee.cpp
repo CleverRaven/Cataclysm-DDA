@@ -1241,7 +1241,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
 
     // FIXME: Hardcoded damage type effects (bash)
     if( dt == damage_bash ) {
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed && weap.is_null() ) {
+        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
             // Pure unarmed doubles the bonuses from unarmed skill
             skill *= 2;
         }
