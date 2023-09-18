@@ -47,9 +47,7 @@ Functionality to drop items off ledges/cliffs onto creatures below
 NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
 Add overheat mechanics to energy guns.
-Unload sparse items only zone option
 Item transformation can now pick variant items to transform into
-Add the artifacts category to some artifacts
 
 
 ## Content:
@@ -87,11 +85,6 @@ Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
-Add tool magazine category to weld tanks
-new Alloy Reference Manual contains recipes for steel grades + spawns more often
-Add two new professions and branch the priest into two
-Expand and refine Defense Mode.
-Fixed a lot of random typos, standardized end punctuation of messages for martial techniques to fit the standard of monster attacks
 
 
 ## Interface:
@@ -114,9 +107,7 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
-[Object Creator] Redo spell window layout
 8 new UI colour themes
-Compare recipe result with inventory item
 
 
 ## Mods:
@@ -155,17 +146,10 @@ Add the Mind Over Matter mod to the CDDA repository
 [XE] Paraclesians: Elemental Races
 [Railroads] New mod
 [MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
-[Magiclysm] Add more than a dozen spells to magiclysm
+[Magiclysm] Add more than two dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
 [Magiclysm] Add two more playable fantasy species for Magiclysm
-Make goblins myopic in light
-Undine healing fix
-More wizard furniture for Magiclysm
-Everburning Torch rebalancing
-Add yet even more spells to Magiclysm
-[MoM] Wearing the anchoring crown suppresses your spellcasting as intended
 Add dispel magic spells
-Xedra Evolved: Sylph and Undine abilities
 
 
 ## Balance:
@@ -267,16 +251,10 @@ Make sure overconfident officers reliably drop their guns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
 Randomly generated characters are now aged appropriately to their profession
-Fix Magiclysm merge errors
-Minor fix for talking to Uyen Tran
-AIM: Prevent segfault when inserting items into container in corpse
 AIM: Display correct truncation of container names
 Fix visible tiles revealing invisible tiles below
-view recipe: fix nested and or more results
 Fix furniture & vehicle map memory refresh
 Fix overflow when using cash card charges
-Prevent segfault when listening to radio msgs
-Add checks to spell property widgets to prevent crash
 
 
 ## Performance:
