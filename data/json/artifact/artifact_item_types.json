@@ -2,6 +2,7 @@
   {
     "id": "art_sphere",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "smooth sphere" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -13,6 +14,7 @@
   {
     "id": "art_rod",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "slim rod" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "|",
@@ -25,6 +27,7 @@
   {
     "id": "art_teardrop",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "teardrop-shaped stone" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -35,6 +38,7 @@
   {
     "id": "art_lamp",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "hollow, transparent cube" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "[",
@@ -45,6 +49,7 @@
   {
     "id": "art_snake",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "winding, flexible rod" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "S",
@@ -57,6 +62,7 @@
   {
     "id": "art_disc",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "smooth disc" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -68,6 +74,7 @@
   {
     "id": "art_beads",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "string of beads", "str_pl": "strings of beads" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -78,6 +85,7 @@
   {
     "id": "art_napkin",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "very thin sheet" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "[",
@@ -88,6 +96,7 @@
   {
     "id": "art_urchin",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "spiked sphere" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -99,6 +108,7 @@
   {
     "id": "art_jelly",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "malleable blob" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
@@ -109,6 +119,7 @@
   {
     "id": "art_spiral",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "spiraling rod" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "@",
@@ -121,6 +132,7 @@
   {
     "id": "art_pin",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "small pin" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "|",
@@ -133,6 +145,7 @@
   {
     "id": "art_tube",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "hollow tube" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "|",
@@ -144,6 +157,7 @@
   {
     "id": "art_pyramid",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "regular tetrahedron" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "A",
@@ -155,6 +169,7 @@
   {
     "id": "art_crystal",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "translucent crystal" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "A",
@@ -166,6 +181,7 @@
   {
     "id": "art_knot",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "twisted, knotted cord" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "b",
@@ -176,6 +192,7 @@
   {
     "id": "art_crescent",
     "type": "GENERIC",
+    "category": "artifacts",
     "name": { "str": "crescent-shaped stone" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "C",

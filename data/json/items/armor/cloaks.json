@@ -1608,6 +1608,25 @@
     "color": "blue"
   },
   {
+    "id": "cape_catholic",
+    "type": "ARMOR",
+    "name": { "str": "Ferraiolo" },
+    "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
+    "weight": "1500 g",
+    "volume": "6 L",
+    "price": 50000,
+    "price_postapoc": 300,
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "looks_like": "cloak",
+    "color": "red",
+    "warmth": 15,
+    "material_thickness": 0.5,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "leg_r", "leg_l", "arm_r", "arm_l" ] } ]
+  },
+  {
     "id": "grass_cloak",
     "type": "ARMOR",
     "name": { "str": "grass cloak" },

@@ -834,7 +834,7 @@
     "apply_message": "",
     "remove_message": "The barrier of force around you falls apart.",
     "decay_messages": [
-      [ "The barrier around you is nearly gone", "bad" ],
+      [ "The barrier around you is nearly gone.", "bad" ],
       [ "You can feel the barrier around you losing its integrity.", "bad" ]
     ],
     "rating": "good",
@@ -935,7 +935,10 @@
     "desc": [ "You are hiding your presence from your enemies." ],
     "apply_message": "",
     "remove_message": "You are again visible and vulnerable.",
-    "decay_messages": [ [ "You obscurity is nearly gone.", "bad" ], [ "You notice nearby enemies glancing in your direction.", "bad" ] ],
+    "decay_messages": [
+      [ "Your veil of obscurity is nearly gone.", "bad" ],
+      [ "You notice nearby enemies glancing in your direction.", "bad" ]
+    ],
     "rating": "good",
     "max_duration": "100 seconds",
     "max_intensity": 14,

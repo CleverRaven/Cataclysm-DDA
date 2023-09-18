@@ -395,7 +395,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     base_energy_cost_box.setMinimum( 0 );
     QObject::connect( &base_energy_cost_box, &QSpinBox::textChanged,
     [&]() {
-        void base_energy_cost_box_textchanged();
+        base_energy_cost_box_textchanged();
     } );
 
     energy_increment_box.setToolTip( QString(
@@ -1012,7 +1012,7 @@ void creator::spell_window::final_casting_time_box_textchanged()
 void creator::spell_window::base_energy_cost_box_textchanged()
 {
     editable_spell.base_energy_cost.min.dbl_val = base_energy_cost_box.value();
-    if(editable_spell.energy_increment.min.dbl_val.has_value()) {
+    if( editable_spell.energy_increment.min.dbl_val.has_value() ) {
         if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f ) {
             final_energy_cost_box.setValue( std::max( final_energy_cost_box.value(),
                                             static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
@@ -1051,9 +1051,11 @@ void creator::spell_window::min_damage_box_textchanged()
     editable_spell.min_damage.min.dbl_val = min_damage_box.value();
     if(editable_spell.damage_increment.min.dbl_val.has_value()) {
         if( editable_spell.damage_increment.min.dbl_val.value() > 0.0f ) {
-            max_damage_box.setValue( std::max( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
+            max_damage_box.setValue( std::max( max_damage_box.value(), 
+                                        static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
         } else if( editable_spell.damage_increment.min.dbl_val.value() < 0.0f ) {
-            max_damage_box.setValue( std::min( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
+            max_damage_box.setValue( std::min( max_damage_box.value(), 
+                                        static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
         } else {
             max_damage_box.setValue( editable_spell.min_damage.min.dbl_val.value() );
         }
@@ -1062,10 +1064,16 @@ void creator::spell_window::min_damage_box_textchanged()
     write_json();
 }
 
+/*
+* This enforces rules applied to the energy cost increment values
+* If the energy cost increment is positive, the max energy cost should be greater than the min energy cost
+* If the energy cost increment is negative, the max energy cost should be less than the min energy cost
+* If the energy cost increment is 0, the max energy cost should be equal to the min energy cost
+*/
 void creator::spell_window::final_energy_cost_box_textchanged()
 {
     editable_spell.final_energy_cost.min.dbl_val = final_energy_cost_box.value();
-    if(editable_spell.energy_increment.min.dbl_val.has_value()) {
+    if( editable_spell.energy_increment.min.dbl_val.has_value() ) {
         if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
             base_energy_cost_box.setValue( std::min( base_energy_cost_box.value(),
                                         static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
@@ -1206,10 +1214,19 @@ void creator::spell_window::populate_fields()
 
 
             base_energy_cost_box.setValue( sp_t.base_energy_cost.min.dbl_val.value() );
+            energy_increment_box.setValue( sp_t.energy_increment.min.dbl_val.value() );
             final_energy_cost_box.setValue( sp_t.final_energy_cost.min.dbl_val.value() );
-            min_range_box.setValue( sp_t.min_range.min.dbl_val.value() );
+            if(sp_t.min_range.min.is_constant()) {
+                min_range_box.setValue( sp_t.min_range.min.dbl_val.value() );
+            } else {
+                min_range_box.setValue( 0 );
+            }
             range_increment_box.setValue( sp_t.range_increment.min.dbl_val.value() );
-            max_range_box.setValue( sp_t.max_range.min.dbl_val.value() );
+            if(sp_t.max_range.min.is_constant()) {
+                max_range_box.setValue( sp_t.max_range.min.dbl_val.value() );
+            } else {
+                max_range_box.setValue( 0 );
+            }
             
             if(sp_t.min_damage.min.is_constant()) {
                 min_damage_box.setValue( sp_t.min_damage.min.dbl_val.value() );
@@ -1222,13 +1239,17 @@ void creator::spell_window::populate_fields()
             } else {
                 max_damage_box.setValue( 0 );
             }
-            if(sp_t.min_aoe.min.dbl_val.has_value()) {
+            if(sp_t.min_aoe.min.is_constant()) {
                 min_aoe_box.setValue( sp_t.min_aoe.min.dbl_val.value() );
             } else {
                 min_aoe_box.setValue( 0 );
             }
             aoe_increment_box.setValue( sp_t.aoe_increment.min.dbl_val.value() );
-            max_aoe_box.setValue( sp_t.max_aoe.min.dbl_val.value() );
+            if(sp_t.max_aoe.min.is_constant()) {
+                max_aoe_box.setValue( sp_t.max_aoe.min.dbl_val.value() );
+            } else {
+                max_aoe_box.setValue( 0 );
+            }
             min_dot_box.setValue( sp_t.min_dot.min.dbl_val.value() );
             dot_increment_box.setValue( sp_t.dot_increment.min.dbl_val.value() );
             max_dot_box.setValue( sp_t.max_dot.min.dbl_val.value() );
