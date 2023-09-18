@@ -328,7 +328,7 @@
     "//2": "This is essentially the lutenient from the base game, but reworked to be a full assault monster and to stick around.  It's also the final boss of the game mode, so it should be quite challenging by design.",
     "type": "MONSTER",
     "name": { "str_sp": "shadow of reality" },
-    "description": "Something is there!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  In pitchest black, it is there.  The maw of the void, the all consumer, the most powerful.  Now you will know why you fear the night, the day, and the unknown.",
+    "description": "Something is there!  Against all reason, this shadow lurks at the corners of your vision.  You close your eyes, but still, it is there.  No matter how far you run, it is there.  Behind heavy fortifications, it is there.  The maw of the void, the all consumer, the most powerful.  Now you will know why you fear the night, the day, and the unknown.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],

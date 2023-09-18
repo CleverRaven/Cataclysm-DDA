@@ -335,7 +335,7 @@
         "max_radius": 40
       },
       {
-        "u_message": "You hear the wild howls of crazed individuals and unintelligable, carnal gibberish and slavering cries.  Something is coming, and it doesn't have your best interest in mind.",
+        "u_message": "You hear the wild howls of crazed individuals and unintelligible, carnal gibberish and slavering cries.  Something is coming, and it doesn't have your best interest in mind.",
         "type": "bad",
         "popup": true
       }
@@ -407,7 +407,7 @@
         "max_radius": 40
       },
       {
-        "u_message": "You hear crazed, half-pronounced orders screamed from afar.  The tamping of boots and off-beat shouts of two-three-four sound like the signs of an appeaoching army, but all the footfall is out of tune.",
+        "u_message": "You hear crazed, half-pronounced orders screamed from afar.  The tamping of boots and off-beat shouts of two-three-four sound like the signs of an approaching army, but all the footfall is out of tune.",
         "type": "bad",
         "popup": true
       }
