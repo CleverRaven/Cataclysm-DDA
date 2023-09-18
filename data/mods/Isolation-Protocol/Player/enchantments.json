@@ -1,0 +1,8 @@
+[
+  {
+    "type": "enchantment",
+    "id": "iso_ranged_adjust",
+    "condition": "ALWAYS",
+    "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.75 } ]
+  }
+]

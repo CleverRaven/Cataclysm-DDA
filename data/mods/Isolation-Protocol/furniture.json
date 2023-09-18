@@ -1,0 +1,33 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_iso",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ISO_ELEVATOR",
+          "effect": [
+            {
+              "u_location_variable": { "global_val": "new_map" },
+              "target_params": { "om_terrain": "iso_elevator", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+              "x_adjust": 13,
+              "y_adjust": 9
+            },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "global_val": "new_map" }, "force": true },
+            { "u_add_var": "ISO_CURRENT_LEVEL_DANGER", "type": "counter", "context": "ISO", "value": "0" }
+          ]
+        }
+      ]
+    }
+  }
+]
