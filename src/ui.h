@@ -582,7 +582,6 @@ inc_clamp_wrap( T val, I inc, T size )
     return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
 }
 
-
 /**
  * Helper for typical UI list navigation without wrap-around
  * Add delta to val, then clamp to the range [min,max]

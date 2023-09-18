@@ -106,8 +106,13 @@
       { "monster": "mon_zombie_dog", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
-      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 1,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
@@ -139,8 +144,13 @@
       { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
-      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 1,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },

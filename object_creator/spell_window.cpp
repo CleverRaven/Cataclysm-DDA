@@ -25,6 +25,42 @@ static spell_type default_spell_type()
     ret.spell_class = trait_id( "NONE" );
     ret.effect_name = "area_pull";
     ret.spell_area = spell_shape::blast;
+    ret.min_damage.min.dbl_val = 0;
+    ret.max_damage.min.dbl_val = 0;
+    ret.damage_increment.min.dbl_val = 0.0f;
+    ret.min_accuracy.min.dbl_val = 20;
+    ret.accuracy_increment.min.dbl_val = 0.0f;
+    ret.max_accuracy.min.dbl_val = 20;
+    ret.min_range.min.dbl_val = 0;
+    ret.max_range.min.dbl_val = 0;
+    ret.range_increment.min.dbl_val = 0.0f;
+    ret.min_aoe.min.dbl_val = 0;
+    ret.max_aoe.min.dbl_val = 0;
+    ret.aoe_increment.min.dbl_val = 0.0f;
+    ret.min_dot.min.dbl_val = 0;
+    ret.max_dot.min.dbl_val = 0;
+    ret.dot_increment.min.dbl_val = 0.0f;
+    ret.min_duration.min.dbl_val = 0;
+    ret.max_duration.min.dbl_val = 0;
+    ret.duration_increment.min.dbl_val = 0.0f;
+    ret.min_pierce.min.dbl_val = 0;
+    ret.max_pierce.min.dbl_val = 0;
+    ret.pierce_increment.min.dbl_val = 0.0f;
+    ret.base_energy_cost.min.dbl_val = 0;
+    ret.final_energy_cost.min.dbl_val = 0;
+    ret.base_energy_cost.min.dbl_val = 0;
+    ret.energy_increment.min.dbl_val = 0.0f;
+    ret.difficulty.min.dbl_val = 0;
+    ret.max_level.min.dbl_val = 0;
+    ret.base_casting_time.min.dbl_val = 0;
+    ret.final_casting_time.min.dbl_val = 0;
+    ret.base_casting_time.min.dbl_val = 0;
+    ret.casting_time_increment.min.dbl_val = 0.0f;
+    ret.field_chance.min.dbl_val = 1;
+    ret.max_field_intensity.min.dbl_val = 0;
+    ret.min_field_intensity.min.dbl_val = 0;
+    ret.field_intensity_increment.min.dbl_val = 0.0f;
+    ret.field_intensity_variance.min.dbl_val = 0.0f;
     return ret;
 }
 
@@ -481,18 +517,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     base_energy_cost_box.show();
     QObject::connect( &base_energy_cost_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.base_energy_cost.min.dbl_val = base_energy_cost_box.value();
-        if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f ) {
-            final_energy_cost_box.setValue( std::max( final_energy_cost_box.value(),
-                                            static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
-        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
-            final_energy_cost_box.setValue( std::min( final_energy_cost_box.value(),
-                                            static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
-        } else {
-            final_energy_cost_box.setValue( editable_spell.base_energy_cost.min.dbl_val.value() );
-        }
-        editable_spell.final_energy_cost.min.dbl_val = final_energy_cost_box.value();
-        write_json();
+        void base_energy_cost_box_textchanged();
     } );
 
     min_damage_box.setParent( this );
@@ -504,16 +529,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     min_damage_box.show();
     QObject::connect( &min_damage_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.min_damage.min.dbl_val = min_damage_box.value();
-        if( editable_spell.damage_increment.min.dbl_val.value() > 0.0f ) {
-            max_damage_box.setValue( std::max( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
-        } else if( editable_spell.damage_increment.min.dbl_val.value() < 0.0f ) {
-            max_damage_box.setValue( std::min( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
-        } else {
-            max_damage_box.setValue( editable_spell.min_damage.min.dbl_val.value() );
-        }
-        editable_spell.max_damage.min.dbl_val = max_damage_box.value();
-        write_json();
+        min_damage_box_textchanged();
     } );
 
     min_range_box.setParent( this );
@@ -586,18 +602,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     base_casting_time_box.show();
     QObject::connect( &base_casting_time_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.base_casting_time.min.dbl_val = base_casting_time_box.value();
-        if( editable_spell.casting_time_increment.min.dbl_val.value() > 0.0f ) {
-            final_casting_time_box.setValue( std::max( final_casting_time_box.value(),
-                                             static_cast<int>( editable_spell.base_casting_time.min.dbl_val.value() ) ) );
-        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
-            final_casting_time_box.setValue( std::min( final_casting_time_box.value(),
-                                             static_cast<int>( editable_spell.base_casting_time.min.dbl_val.value() ) ) );
-        } else {
-            final_casting_time_box.setValue( editable_spell.base_casting_time.min.dbl_val.value() );
-        }
-        editable_spell.final_casting_time.min.dbl_val = final_casting_time_box.value();
-        write_json();
+        base_casting_time_box_textchanged();
     } );
 
 
@@ -1043,18 +1048,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     final_energy_cost_box.show();
     QObject::connect( &final_energy_cost_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.final_energy_cost.min.dbl_val = final_energy_cost_box.value();
-        if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
-            base_energy_cost_box.setValue( std::min( base_energy_cost_box.value(),
-                                           static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
-        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
-            base_energy_cost_box.setValue( std::max( base_energy_cost_box.value(),
-                                           static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
-        } else {
-            base_energy_cost_box.setValue( editable_spell.final_energy_cost.min.dbl_val.value() );
-        }
-        editable_spell.base_energy_cost.min.dbl_val = base_energy_cost_box.value();
-        write_json();
+        final_energy_cost_box_textchanged();
     } );
 
     max_damage_box.setParent( this );
@@ -1143,22 +1137,8 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     final_casting_time_box.show();
     QObject::connect( &final_casting_time_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.final_casting_time.min.dbl_val = final_casting_time_box.value();
-        if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
-            base_casting_time_box.setValue( std::min( base_casting_time_box.value(),
-                                            static_cast<int>( editable_spell.final_casting_time.min.dbl_val.value() ) ) );
-        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
-            base_casting_time_box.setValue( std::max( base_casting_time_box.value(),
-                                            static_cast<int>( editable_spell.final_casting_time.min.dbl_val.value() ) ) );
-        } else {
-            base_casting_time_box.setValue( editable_spell.final_casting_time.min.dbl_val.value() );
-        }
-        editable_spell.base_casting_time.min.dbl_val = base_casting_time_box.value();
-        write_json();
+        final_casting_time_box_textchanged();
     } );
-
-
-
 
     max_duration_box.setParent( this );
     max_duration_box.resize( default_text_box_size );
@@ -1266,6 +1246,101 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     max_col = std::max( max_col, col );
     this->resize( QSize( ( max_col + 1 ) * default_text_box_width,
                          ( max_row ) * default_text_box_height ) );
+}
+
+//When the final_casting_time_box text changes, update the base casting time box
+//First check if the energy increment has a value
+//if the energy increment is positive, the base casting time should be the minimum of the two
+//if the energy increment is negative, the base casting time should be the maximum of the two
+void creator::spell_window::final_casting_time_box_textchanged()
+{
+    editable_spell.final_casting_time.min.dbl_val = final_casting_time_box.value();
+    //check if the casting time increment has a value
+    if(editable_spell.casting_time_increment.min.dbl_val.has_value()) {
+        if( editable_spell.casting_time_increment.min.dbl_val.value() > 0.0f) {
+            base_casting_time_box.setValue( std::min( base_casting_time_box.value(),
+                                            static_cast<int>( editable_spell.final_casting_time.min.dbl_val.value() ) ) );
+        } else if( editable_spell.casting_time_increment.min.dbl_val.value() < 0.0f ) {
+            base_casting_time_box.setValue( std::max( base_casting_time_box.value(),
+                                            static_cast<int>( editable_spell.final_casting_time.min.dbl_val.value() ) ) );
+        } else {
+            base_casting_time_box.setValue( editable_spell.final_casting_time.min.dbl_val.value() );
+        }
+    }
+    editable_spell.base_casting_time.min.dbl_val = base_casting_time_box.value();
+    write_json();
+}
+
+
+void creator::spell_window::base_energy_cost_box_textchanged()
+{
+    editable_spell.base_energy_cost.min.dbl_val = base_energy_cost_box.value();
+    if(editable_spell.energy_increment.min.dbl_val.has_value()) {
+        if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f ) {
+            final_energy_cost_box.setValue( std::max( final_energy_cost_box.value(),
+                                            static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
+        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
+            final_energy_cost_box.setValue( std::min( final_energy_cost_box.value(),
+                                            static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
+        } else {
+            final_energy_cost_box.setValue( editable_spell.base_energy_cost.min.dbl_val.value() );
+        }
+    }
+    editable_spell.final_energy_cost.min.dbl_val = final_energy_cost_box.value();
+    write_json();
+}
+
+void creator::spell_window::base_casting_time_box_textchanged()
+{
+    editable_spell.base_casting_time.min.dbl_val = base_casting_time_box.value();
+    if(editable_spell.casting_time_increment.min.dbl_val.has_value()) {
+        if( editable_spell.casting_time_increment.min.dbl_val.value() > 0.0f ) {
+            final_casting_time_box.setValue( std::max( final_casting_time_box.value(),
+                                             static_cast<int>( editable_spell.base_casting_time.min.dbl_val.value() ) ) );
+        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
+            final_casting_time_box.setValue( std::min( final_casting_time_box.value(),
+                                             static_cast<int>( editable_spell.base_casting_time.min.dbl_val.value() ) ) );
+        } else {
+            final_casting_time_box.setValue( editable_spell.base_casting_time.min.dbl_val.value() );
+        }
+        editable_spell.final_casting_time.min.dbl_val = final_casting_time_box.value();
+    }
+    write_json();
+}
+
+
+void creator::spell_window::min_damage_box_textchanged()
+{
+    editable_spell.min_damage.min.dbl_val = min_damage_box.value();
+    if(editable_spell.damage_increment.min.dbl_val.has_value()) {
+        if( editable_spell.damage_increment.min.dbl_val.value() > 0.0f ) {
+            max_damage_box.setValue( std::max( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
+        } else if( editable_spell.damage_increment.min.dbl_val.value() < 0.0f ) {
+            max_damage_box.setValue( std::min( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
+        } else {
+            max_damage_box.setValue( editable_spell.min_damage.min.dbl_val.value() );
+        }
+    }
+    editable_spell.max_damage.min.dbl_val = max_damage_box.value();
+    write_json();
+}
+
+void creator::spell_window::final_energy_cost_box_textchanged()
+{
+    editable_spell.final_energy_cost.min.dbl_val = final_energy_cost_box.value();
+    if(editable_spell.energy_increment.min.dbl_val.has_value()) {
+        if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
+            base_energy_cost_box.setValue( std::min( base_energy_cost_box.value(),
+                                        static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
+        } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
+            base_energy_cost_box.setValue( std::max( base_energy_cost_box.value(),
+                                        static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
+        } else {
+            base_energy_cost_box.setValue( editable_spell.final_energy_cost.min.dbl_val.value() );
+        }
+    }
+    editable_spell.base_energy_cost.min.dbl_val = base_energy_cost_box.value();
+    write_json();
 }
 
 static std::string check_errors( const spell_type &sp )
@@ -1401,15 +1476,27 @@ void creator::spell_window::populate_fields()
             min_damage_box.setValue( sp_t.min_damage.min.dbl_val.value() );
             damage_increment_box.setValue( sp_t.damage_increment.min.dbl_val.value() );
             max_damage_box.setValue( sp_t.max_damage.min.dbl_val.value() );
-            min_aoe_box.setValue( sp_t.min_aoe.min.dbl_val.value() );
+            if(sp_t.min_aoe.min.dbl_val.has_value()) {
+                min_aoe_box.setValue( sp_t.min_aoe.min.dbl_val.value() );
+            } else {
+                min_aoe_box.setValue( 0 );
+            }
             aoe_increment_box.setValue( sp_t.aoe_increment.min.dbl_val.value() );
             max_aoe_box.setValue( sp_t.max_aoe.min.dbl_val.value() );
             min_dot_box.setValue( sp_t.min_dot.min.dbl_val.value() );
             dot_increment_box.setValue( sp_t.dot_increment.min.dbl_val.value() );
             max_dot_box.setValue( sp_t.max_dot.min.dbl_val.value() );
-            min_duration_box.setValue( sp_t.min_duration.min.dbl_val.value() );
+            if(sp_t.min_duration.min.dbl_val.has_value()) {
+                min_duration_box.setValue( sp_t.min_duration.min.dbl_val.value() );
+            } else {
+                min_duration_box.setValue( 0 );
+            }
             duration_increment_box.setValue( sp_t.duration_increment.min.dbl_val.value() );
-            max_duration_box.setValue( sp_t.max_duration.min.dbl_val.value() );
+            if( sp_t.max_duration.min.dbl_val.has_value() ) {
+                max_duration_box.setValue( sp_t.max_duration.min.dbl_val.value() );
+            } else {
+                max_duration_box.setValue( 0 );
+            }
             base_casting_time_box.setValue( sp_t.base_casting_time.min.dbl_val.value() );
             casting_time_increment_box.setValue( sp_t.casting_time_increment.min.dbl_val.value() );
             final_casting_time_box.setValue( sp_t.final_casting_time.min.dbl_val.value() );

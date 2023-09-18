@@ -438,7 +438,7 @@ class liquid_inventory_selector_preset : public inventory_selector_preset
                     return string_format( "%s %s", format_volume( loc.get_item()->max_containable_volume() ),
                                           volume_units_abbr() );
                 }
-                return std::string( "" );
+                return std::string();
             }, _( "Storage (L)" ) );
         }
 

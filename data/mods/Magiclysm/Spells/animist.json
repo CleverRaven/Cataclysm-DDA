@@ -842,5 +842,25 @@
     "max_damage": -10,
     "damage_increment": -0.4,
     "max_level": 25
+  },
+  {
+    "id": "animist_sense_outsiders",
+    "type": "SPELL",
+    "name": "Sense Outsiders",
+    "description": "You can sense the presence of nearby beings from the Nether.",
+    "valid_targets": [ "self" ],
+    "spell_class": "ANIMIST",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_sense_outsiders",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "difficulty": 5,
+    "max_level": 15,
+    "base_energy_cost": 500,
+    "min_duration": 90000,
+    "max_duration": 900000,
+    "duration_increment": 60000,
+    "base_casting_time": 1500
   }
 ]

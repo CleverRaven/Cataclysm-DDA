@@ -1628,7 +1628,6 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
 {
     npc_opinion npc_values = op_of_u;
 
-
     const item_location weapon = you.get_wielded_item();
     // FEAR
     if( !you.is_armed() ) {
@@ -1866,53 +1865,6 @@ int npc::assigned_missions_value()
         ret += m->get_value();
     }
     return ret;
-}
-
-std::vector<skill_id> npc::skills_offered_to( const Character &you ) const
-{
-    std::vector<skill_id> ret;
-    for( const auto &pair : *_skills ) {
-        const skill_id &id = pair.first;
-        if( you.get_knowledge_level( id ) < pair.second.level() ) {
-            ret.push_back( id );
-        }
-    }
-    return ret;
-}
-
-std::vector<proficiency_id> npc::proficiencies_offered_to( const Character &guy ) const
-{
-    std::vector<proficiency_id> ret;
-    for( const proficiency_id &known : known_proficiencies() ) {
-        if( !guy.has_proficiency( known ) ) {
-            ret.push_back( known );
-        }
-    }
-    return ret;
-}
-
-std::vector<matype_id> npc::styles_offered_to( const Character &you ) const
-{
-    return you.martial_arts_data->get_unknown_styles( *martial_arts_data );
-}
-
-std::vector<spell_id> npc::spells_offered_to( Character &you )
-{
-    std::vector<spell_id> teachable;
-    for( const spell_id &sp : magic->spells() ) {
-        const spell &teacher_spell = magic->get_spell( sp );
-        if( you.magic->can_learn_spell( you, sp ) ) {
-            if( you.magic->knows_spell( sp ) ) {
-                const spell &student_spell = you.magic->get_spell( sp );
-                if( student_spell.is_max_level( you ) ||
-                    student_spell.get_level() >= teacher_spell.get_level() ) {
-                    continue;
-                }
-            }
-            teachable.emplace_back( sp );
-        }
-    }
-    return teachable;
 }
 
 void npc::decide_needs()

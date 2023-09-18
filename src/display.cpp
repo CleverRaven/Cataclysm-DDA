@@ -59,7 +59,7 @@ disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
     _var = var;
     _bp_cur_max.clear();
-    _graph_id = "";
+    _graph_id.clear();
 }
 
 bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string &graph_id ) const

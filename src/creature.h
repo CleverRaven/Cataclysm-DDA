@@ -559,7 +559,6 @@ class Creature : public viewer
             return false;
         }
 
-
         // check if the creature is immune to the effect / field based on the immunity data
         virtual bool check_immunity_data( const field_immunity_data & ) const {
             return false;

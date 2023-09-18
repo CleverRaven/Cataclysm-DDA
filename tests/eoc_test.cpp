@@ -9,7 +9,6 @@
 #include "player_helpers.h"
 #include "point.h"
 
-
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
 static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
@@ -72,7 +71,6 @@ effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
-
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -87,7 +85,6 @@ static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
 
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
-
 
 namespace
 {
@@ -350,7 +347,6 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
     CHECK( d.get_value( "npctalk_var_simple" ).empty() );
 }
 
-
 TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -358,7 +354,6 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
-
 
     globvars.clear_global_values();
 
@@ -734,10 +729,8 @@ TEST_CASE( "EOC_spell_exp", "[eoc]" )
 
     CHECK( effect_on_condition_EOC_math_spell_xp->activate( d ) );
 
-
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "1000" );
 }
-
 
 TEST_CASE( "EOC_recipe_test", "[eoc]" )
 {
@@ -753,7 +746,6 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_recipe_test_1->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
     CHECK( get_avatar().knows_recipe( r ) );
-
 
     CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );

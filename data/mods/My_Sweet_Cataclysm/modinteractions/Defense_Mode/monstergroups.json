@@ -1,0 +1,20 @@
+[
+  {
+    "name": "GROUP_SWEET_HORDE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_marshmallow_guy_dm" },
+      { "monster": "mon_marshmallow_buff_dm" },
+      { "monster": "mon_marshmallow_guy_armored_dm" },
+      { "monster": "mon_marshmallow_buff_armored_dm" },
+      { "monster": "mon_gummy_dm" },
+      { "monster": "mon_gummy_gator_dm" },
+      { "monster": "mon_cracker_dm" },
+      { "monster": "mon_cookie_dm" },
+      { "monster": "mon_cookie_hydra_dm" },
+      { "monster": "mon_spider_gum_dm" },
+      { "monster": "mon_gum_spider_wolf_dm" },
+      { "monster": "mon_licorice_snake_dm" }
+    ]
+  }
+]

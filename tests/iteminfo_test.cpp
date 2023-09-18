@@ -2800,7 +2800,6 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
 
-
     }
 }
 

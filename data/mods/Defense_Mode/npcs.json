@@ -74,69 +74,33 @@
     "faction": "your_followers"
   },
   {
-    "type": "talk_topic",
-    "id": "TALK_DM_MERCHANT",
-    "dynamic_line": "Nice to see you again.  Would you like to buy something, hire someone, or somethin' else?",
-    "responses": [
-      {
-        "text": "I'll buy something.",
-        "topic": "TALK_DM_MERCHANT_2",
-        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
-      },
-      { "text": "What'll it cost me to get some help around here?", "topic": "TALK_DM_MERCHANT_HIRE_COST" },
-      {
-        "text": "I'd like to hire some help.",
-        "topic": "TALK_DM_MERCHANT_2",
-        "effect": [
-          { "u_buy_item": "mercenary_contract", "cost": 50000, "true_eocs": "defense_mode_hire_merc_true" },
-          { "run_eocs": "defense_mode_money_add_npc" }
-        ]
-      },
-      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
-    ]
+    "type": "npc",
+    "id": "random_survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_NPC_DEFENSE_WANDERER",
+    "faction": "no_faction"
   },
   {
-    "type": "talk_topic",
-    "id": "TALK_DM_MERCHANT_HIRE_COST",
-    "dynamic_line": "It's usually $500.  You can pay me up front in either goods or money, then we'll talk.",
-    "responses": [
-      {
-        "text": "I'll buy something.",
-        "topic": "TALK_DM_MERCHANT_2",
-        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
-      },
-      {
-        "text": "I'd like to hire some help.",
-        "topic": "TALK_DM_MERCHANT_2",
-        "effect": [
-          { "u_buy_item": "mercenary_contract", "cost": 50000, "true_eocs": "defense_mode_hire_merc_true" },
-          { "run_eocs": "defense_mode_money_add_npc" }
-        ]
-      },
-      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
-    ]
+    "type": "npc",
+    "id": "random_survivor_nefarious",
+    "class": "NC_SCAVENGER",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_MUG",
+    "faction": "no_faction"
   },
   {
-    "type": "talk_topic",
-    "id": "TALK_DM_MERCHANT_2",
-    "dynamic_line": "Anything else I can do for you?",
-    "responses": [
-      {
-        "text": "I'll buy something.",
-        "topic": "TALK_DM_MERCHANT_2",
-        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
-      },
-      { "text": "What'll it cost me to get some help around here?", "topic": "TALK_DM_MERCHANT_HIRE_COST" },
-      {
-        "text": "I'd like to hire some help.",
-        "topic": "TALK_DM_MERCHANT_2",
-        "effect": [
-          { "u_buy_item": "mercenary_contract", "cost": 50000, "true_eocs": "defense_mode_hire_merc_true" },
-          { "run_eocs": "defense_mode_money_add_npc" }
-        ]
-      },
-      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
-    ]
+    "type": "npc",
+    "id": "defense_mode_raider",
+    "//": "Despite being similar to most other bandits, these are made to attack head-on.",
+    "name_suffix": "raider",
+    "class": "NC_SCAVENGER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
   },
   {
     "type": "npc",
@@ -147,7 +111,10 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_DM_MERCHANT",
-    "faction": "no_faction"
+    "faction": "free_merchants",
+    "per": -20,
+    "dex": -20,
+    "personality": { "aggression": -100, "bravery": -100, "collector": 0, "altruism": 0 }
   },
   {
     "type": "npc_class",
@@ -156,12 +123,24 @@
     "job_description": "I'm the one who sells you things.",
     "common": false,
     "bonus_str": 10000,
-    "bonus_dex": { "dice": [ 10, 10 ] },
-    "bonus_int": { "one_in": 2 },
-    "bonus_per": { "sum": [ { "constant": 100 }, { "dice": [ 10, 10 ] } ] },
     "worn_override": "NC_DM_MERCHANT_worn",
     "carry_override": "NC_DM_MERCHANT_carry",
-    "traits": [ [ "DEBUG_NODMG", 100 ] ]
+    "shopkeeper_price_rules": [
+      { "group": "NC_DM_MERCHANT_stock", "markup": 2.5 },
+      { "group": "zombie_humanoid", "fixed_adj": -2.5 },
+      { "group": "human", "fixed_adj": -2.5 },
+      { "group": "arachnid", "fixed_adj": -2.5 },
+      { "group": "triffid_paralytic", "fixed_adj": -2.5 },
+      { "group": "default_zombie_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_cop_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_fireman_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_hazmat_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_swat_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_resort_dancer_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_resort_bouncer_death_drops", "fixed_adj": -0.5 },
+      { "group": "mon_zombie_resort_staff_death_drops", "fixed_adj": -0.5 }
+    ],
+    "traits": [ [ "DEBUG_FLIMSY", 100 ], [ "DEBUG_FLIMSY2", 100 ], [ "DEBUG_NOSCENT", 100 ], [ "DEBUG_SILENT", 100 ] ]
   },
   {
     "type": "item_group",
@@ -175,8 +154,6 @@
       { "group": "npc_shoes_male", "prob": 100 },
       { "item": "debug_backpack", "prob": 100 },
       { "item": "debug_backpack", "prob": 100 },
-      { "item": "debug_backpack", "prob": 100 },
-      { "item": "debug_backpack", "prob": 100 },
       { "item": "debug_backpack", "prob": 100 }
     ]
   },
@@ -188,10 +165,7 @@
       { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
       { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
       { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
-      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
-      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
-      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
-      { "group": "NC_DM_MERCHANT_stock", "prob": 100 }
+      { "item": "FMCNote", "count": [ 700, 1000 ], "prob": 100 }
     ]
   },
   {
@@ -199,26 +173,45 @@
     "id": "NC_DM_MERCHANT_stock",
     "subtype": "collection",
     "entries": [
+      { "group": "trader_farmingstuff", "prob": 70 },
+      { "group": "everyday_gear", "prob": 70 },
+      { "group": "child_items", "prob": 70 },
+      { "group": "traveler", "prob": 70 },
+      { "group": "swat_gear", "prob": 70 },
+      { "group": "gear_survival", "prob": 70 },
+      { "group": "civilian_body_armor", "prob": 70 },
+      { "group": "drugs_pharmacy", "prob": 70 },
+      { "group": "preserved_food", "prob": 70 },
+      { "group": "pet_food", "prob": 70 },
+      { "group": "condiments", "prob": 70 },
+      { "group": "trader_guns&ammo", "prob": 70, "charges": 30 },
+      { "group": "hardware", "prob": 70 },
+      { "group": "defense_caravan_melee", "prob": 70 },
+      { "group": "defense_caravan_ranged", "prob": 70, "charges": 30 },
+      { "group": "defense_caravan_ammunition", "prob": 70 },
+      { "group": "defense_caravan_components", "prob": 70 },
+      { "group": "defense_caravan_clothes", "prob": 70 },
+      { "group": "defense_caravan_tools", "prob": 70 },
+      { "group": "hardware_bulk", "prob": 70 },
+      { "group": "lumberyard", "prob": 70 },
+      { "group": "supplies_hardware", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "trader_farmingstuff",
+    "subtype": "collection",
+    "entries": [
       { "group": "farming_seeds", "prob": 100 },
-      { "group": "farming_tools", "prob": 100 },
-      { "group": "everyday_gear", "prob": 100 },
-      { "group": "child_items", "prob": 100 },
-      { "group": "traveler", "prob": 100 },
-      { "group": "swat_gear", "prob": 100 },
-      { "group": "gear_survival", "prob": 100 },
-      { "group": "civilian_body_armor", "prob": 100 },
-      { "group": "drugs_pharmacy", "prob": 100 },
-      { "group": "preserved_food", "prob": 100 },
-      { "group": "pet_food", "prob": 100 },
-      { "group": "condiments", "prob": 100 },
-      { "group": "trader_guns&ammo", "prob": 100 },
-      { "group": "hardware", "prob": 100 },
-      { "group": "defense_caravan_melee", "prob": 100 },
-      { "group": "defense_caravan_components", "prob": 100 },
-      { "group": "defense_caravan_clothes", "prob": 100 },
-      { "group": "hardware_bulk", "prob": 100 },
-      { "group": "lumberyard", "prob": 100 },
-      { "group": "supplies_hardware", "prob": 100 }
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_tools", "prob": 90 }
     ]
   },
   {
@@ -230,6 +223,11 @@
       { "group": "guns_pistol_rare", "prob": 50 },
       { "group": "guns_pistol_obscure", "prob": 30 },
       { "group": "guns_pistol_improvised", "prob": 95 },
+      { "group": "guns_shotgun_common", "prob": 75 },
+      { "group": "guns_shotgun_rare", "prob": 50 },
+      { "group": "guns_shotgun_obscure", "prob": 30 },
+      { "group": "guns_shotgun_milspec", "prob": 95 },
+      { "group": "guns_shotgun_improvised", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 90 },
       { "group": "guns_smg_common", "prob": 70 },
       { "group": "guns_smg_rare", "prob": 50 },
@@ -239,11 +237,34 @@
       { "group": "ammo_pistol_common", "prob": 75 },
       { "group": "ammo_pistol_rare", "prob": 50 },
       { "group": "ammo_pistol_obscure", "prob": 30 },
+      { "group": "ammo_shotgun_common", "prob": 75 },
+      { "group": "ammo_shotgun_rare", "prob": 50 },
+      { "group": "ammo_shotgun_obscure", "prob": 30 },
+      { "group": "ammo_shotgun_milspec", "prob": 95 },
+      { "group": "ammo_shotgun_reloaded", "prob": 90 },
       { "group": "ammo_smg_common", "prob": 70 },
       { "group": "ammo_smg_rare", "prob": 50 },
       { "group": "ammo_smg_obscure", "prob": 10 },
       { "group": "ammo_rifle_common", "prob": 65 },
       { "group": "ammo_rifle_rare", "prob": 40 }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_FLIMSY",
+    "name": { "str": "Debug No HP" },
+    "points": -6,
+    "description": "You will die in one hit, more or less.  Sneezing too hard will kill you.",
+    "debug": true,
+    "hp_modifier": -0.999
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_FLIMSY2",
+    "name": { "str": "Debug No HP II" },
+    "points": -6,
+    "description": "You will die in one hit, more or less.  Sneezing too hard will kill you.",
+    "debug": true,
+    "hp_modifier": -0.99
   }
 ]

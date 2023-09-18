@@ -1876,7 +1876,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_traits = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_traits = true;
             }
         }
@@ -2327,7 +2327,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_profs = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_profs = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -2651,7 +2651,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_hobbies = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_hobbies = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -3178,6 +3178,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "CHANGE_START_OF_CATACLYSM" );
@@ -3227,7 +3228,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                     scen_msg_temp = n_gettext( "Scenario costs %2$d point",
                                                "Scenario costs %2$d points", pointsForScen );
                 }
-
 
                 int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
                 mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
@@ -3343,7 +3343,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_scens = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_scens = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -3354,7 +3354,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date" ) );
+                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -3362,7 +3362,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date" ) );
+                                        "Select game start date", calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "RESET_CALENDAR" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -3740,8 +3740,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     while( i != hobby_skills.end() ) {
                         if( i->first == elem->ident() ) {
                             int skill_exp_bonus = leftover_exp + calculate_cumulative_experience( i->second );
-                            leftover_exp = 0;
-
                             // Calculate Level up to find final level and remaining exp
                             while( skill_exp_bonus >= exp_to_level ) {
                                 level++;
@@ -4205,11 +4203,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date" ) );
+                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date" ) );
+                                        "Select game start date", calendar_ui::granularity::hour ) );
         } else if( action == "RESET_CALENDAR" ) {
             get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {

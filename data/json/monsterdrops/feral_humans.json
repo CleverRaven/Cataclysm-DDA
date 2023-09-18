@@ -217,13 +217,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_armored_death_drops_mace",
-    "entries": [ { "item": "mace", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
+    "entries": [ { "item": "mace_fake", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_armored_death_drops_battleaxe",
-    "entries": [ { "item": "battleaxe", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
+    "entries": [ { "item": "battleaxe_fake", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_armored_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -465,30 +465,7 @@
       {
         "distribution": [
           { "item": "armor_plarmor", "prob": 25, "damage": [ 1, 4 ] },
-          { "item": "armor_blarmor", "prob": 25, "damage": [ 1, 4 ] },
-          {
-            "distribution": [
-              { "item": "chainmail_suit", "prob": 10, "damage": [ 1, 4 ] },
-              {
-                "collection": [
-                  { "item": "chainmail_hauberk", "prob": 80, "damage": [ 1, 4 ] },
-                  { "item": "chainmail_hood", "prob": 60, "damage": [ 1, 4 ] }
-                ],
-                "prob": 30
-              },
-              {
-                "collection": [
-                  { "item": "gambeson", "prob": 80, "damage": [ 1, 4 ] },
-                  { "item": "chainmail_vest", "prob": 70, "damage": [ 1, 4 ] },
-                  { "item": "chainmail_hood", "prob": 60, "damage": [ 1, 4 ] },
-                  { "item": "chainmail_arms", "prob": 60, "damage": [ 1, 4 ] },
-                  { "item": "chainmail_legs", "prob": 60, "damage": [ 1, 4 ] }
-                ],
-                "prob": 60
-              }
-            ],
-            "prob": 50
-          }
+          { "item": "armor_blarmor", "prob": 25, "damage": [ 1, 4 ] }
         ],
         "prob": 50
       },
@@ -533,18 +510,11 @@
       {
         "distribution": [
           { "item": "boots_plate", "prob": 50, "damage": [ 1, 4 ] },
-          { "item": "chainmail_feet", "prob": 30, "damage": [ 1, 4 ] },
           { "item": "boots_larmor", "prob": 20, "damage": [ 1, 4 ] }
         ],
         "prob": 80
       },
-      {
-        "distribution": [
-          { "item": "gloves_plate", "prob": 60, "damage": [ 1, 4 ] },
-          { "item": "chainmail_hands", "prob": 40, "damage": [ 1, 4 ] }
-        ],
-        "prob": 60
-      }
+      { "distribution": [ { "item": "gloves_plate", "prob": 60, "damage": [ 1, 4 ] } ], "prob": 60 }
     ]
   },
   {
@@ -722,16 +692,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_swimmer_death_drops_kickboard",
-    "entries": [
-      { "item": "swimming_kickboard", "prob": 100, "damage": [ 2, 4 ] },
-      { "group": "mon_zombie_swimmer_death_drops", "prob": 100 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "feral_diver_death_drops_knife",
-    "entries": [ { "item": "diveknife", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_diver_clothing_drops", "prob": 100 } ]
+    "entries": [ { "item": "stick", "prob": 100, "damage": [ 2, 4 ] }, { "group": "mon_zombie_swimmer_death_drops", "prob": 100 } ]
   },
   {
     "type": "item_group",

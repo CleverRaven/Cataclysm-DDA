@@ -1839,7 +1839,7 @@ void multiline_list::add_entry( const multiline_list_entry &entry )
 {
     entries.emplace_back( entry );
     if( !has_prefix || entry.prefix.empty() ) {
-        entries.back().prefix = "";
+        entries.back().prefix.clear();
         has_prefix = false;
     }
 }

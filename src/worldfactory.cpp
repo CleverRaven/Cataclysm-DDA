@@ -1365,7 +1365,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
         }
 
-
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {

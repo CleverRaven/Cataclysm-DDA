@@ -488,7 +488,6 @@ class monster : public Creature
 
         bool is_nether() const override;    // true if the monster is from the nether
 
-
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
 

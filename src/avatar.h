@@ -231,7 +231,6 @@ class avatar : public Character
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
-
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */

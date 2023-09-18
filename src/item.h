@@ -1236,8 +1236,6 @@ class item : public visitable
         */
         bool damage_type_can_damage_items( const damage_type_id &dmg_type ) const;
 
-
-
         /**
          * Resistance against different damage types (@ref damage_type).
          * Larger values means more resistance are thereby better, but there is no absolute value to
@@ -2339,7 +2337,6 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power.
          */
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
-
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.

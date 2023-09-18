@@ -1063,7 +1063,6 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-
         map &m;
         avatar &u;
         scent_map &scent;

@@ -12,7 +12,6 @@
 
 class time_duration;
 
-
 talker_monster::talker_monster( monster *new_me )
 {
     me_mon = new_me;

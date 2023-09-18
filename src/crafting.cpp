@@ -1455,7 +1455,6 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
         spawn_items( *this, newits, loc, relative_rot, should_heat, allow_wield );
     }
 
-
     // messages, learning of recipe
     if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
         // TODO: reconsider recipe memorization

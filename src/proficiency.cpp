@@ -108,6 +108,7 @@ void proficiency::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
     optional( jo, was_loaded, "ignore_focus", _ignore_focus );
+    optional( jo, was_loaded, "teachable", _teachable, true );
 
     optional( jo, was_loaded, "bonuses", _bonuses );
 
@@ -148,6 +149,11 @@ bool proficiency::can_learn() const
 bool proficiency::ignore_focus() const
 {
     return _ignore_focus;
+}
+
+bool proficiency::is_teachable() const
+{
+    return _teachable;
 }
 
 proficiency_id proficiency::prof_id() const

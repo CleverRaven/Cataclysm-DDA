@@ -1994,7 +1994,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .on_submit( [] { handbrake(); } );
         }
 
-        if( controls_here && engines.size() > 1 ) {
+        const bool has_engine_or_fuel_controls = ( engines.size() > 1 ) ||
+        std::any_of( engines.begin(), engines.end(), [&]( int engine_idx ) {
+            return parts[engine_idx].info().engine_info->fuel_opts.size() > 1;
+        } );
+
+        if( controls_here && has_engine_or_fuel_controls ) {
             menu.add( _( "Control individual engines" ) )
             .hotkey( "CONTROL_ENGINES" )
             .on_submit( [this] { control_engines(); } );

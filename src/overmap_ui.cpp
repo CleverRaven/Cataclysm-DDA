@@ -1803,7 +1803,6 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CENTER_ON_DESTINATION" );
     ictxt.register_action( "GO_TO_DESTINATION" );
 
-
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
     ictxt.register_action( "CREATE_NOTE" );

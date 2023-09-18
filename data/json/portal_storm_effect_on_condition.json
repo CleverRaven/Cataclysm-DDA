@@ -930,6 +930,7 @@
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "math": [ "portal_dungeon_level", "=", "1" ] },
+      { "math": [ "visited_a_portal_dungeon", "=", "1" ] },
       { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },

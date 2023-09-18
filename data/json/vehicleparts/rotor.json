@@ -7,7 +7,8 @@
     "color": "light_blue",
     "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_REPAIR", "SMASH_REMOVE" ],
     "description": "A set of aerofoil helicopter rotors, when spun at high speed, they generate thrust via lift.",
-    "variants": [ { "symbols": "X", "symbols_broken": "O" } ]
+    "variants": [ { "symbols": "X", "symbols_broken": "O" } ],
+    "control_requirements": { "air": { "proficiencies": [ "prof_helicopter_pilot" ] } }
   },
   {
     "id": "heavy_duty_military_rotor",

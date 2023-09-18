@@ -756,7 +756,6 @@ template<typename BarIterator>
 std::string get_labeled_bar( double val, int width, const std::string &label,
                              BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
 
-
 /**
  * @return String containing the bar. Example: "Label [************]".
  * @param val Value to display. Can be unclipped.
@@ -1245,7 +1244,7 @@ class tab_list
 
         std::string cur() const {
             if( _list->empty() ) {
-                return std::string( "" );
+                return std::string();
             }
             return ( *_list )[_index];
         }

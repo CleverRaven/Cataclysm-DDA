@@ -3113,7 +3113,6 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 }
 //arc furnace end
 
-
 void iexamine::stook_empty( Character &, const tripoint &examp )
 {
     map &here = get_map();
@@ -3475,7 +3474,6 @@ static void fvat_set_full( const tripoint &pos )
         here.furn_set( pos, f_fvat_full );
     }
 }
-
 
 void iexamine::fvat_empty( Character &you, const tripoint &examp )
 {
@@ -4576,7 +4574,6 @@ void iexamine::sign( Character &you, const tripoint &examp )
         } else {
             you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
         }
-
 
         // Allow chance to modify message.
         std::vector<tool_comp> tools;

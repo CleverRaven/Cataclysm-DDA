@@ -1574,7 +1574,7 @@ std::string widget::graph( int value ) const
     // Re-arrange characters to a vertical bar graph
     if( _arrange == "rows" ) {
         std::wstring temp = ret;
-        ret = std::wstring();
+        ret.clear();
         for( int i = temp.size() - 1; i >= 0; i-- ) {
             ret += temp[i];
             if( i > 0 ) {

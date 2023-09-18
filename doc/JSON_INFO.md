@@ -1095,6 +1095,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
 | `required_bionic`       | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed
+| `give_mut_on_removal`         | (_optional_) A list of mutations/traits that are added when this bionic is uninstalled (for example a "blind" mutation if you removed bionic eyes after installation).
 
 ```JSON
 {
@@ -1140,6 +1141,20 @@ mod = min( max, ( limb_score / denominator ) - subtract );
     "react_cost": "10 kJ",
     "time": "1 s",
     "required_bionic": "bio_weight"
+  },
+  {
+    "type": "bionic",
+    "id": "afs_bio_skullgun",
+    "name": { "str": "Skullgun" },
+    "description": "Concealed in your head is a single shot 10mm pistol.  Activate the bionic to fire and reload the skullgun.",
+    "occupied_bodyparts": [ [ "head", 5 ] ],
+    "encumbrance": [ [ "head", 5 ] ],
+    "fake_weapon": "bio_skullgun_gun",
+    "flags": [ "BIONIC_GUN" ],
+    "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ],
+    "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA", "SKULLGUN_STUPID" ],
+    "give_mut_on_removal": [ "SKULLGUN_STUPID" ],
+    "activated_close_ui": true
   }
 ```
 
@@ -2564,12 +2579,34 @@ it is present to help catch errors.
 
 ### Skills
 
-```C++
-"id" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "submachine guns",  // In-game name displayed
-"description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
-"tags" : ["gun_type"]  // Special flags (default: none)
+```json
+{
+  "type": "skill",
+  "id": "smg",
+  "name": { "str": "submachine guns" },
+  "description": "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
+  "tags": [ "combat_skill" ],
+  "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
+  "display_category": "display_ranged",
+  "sort_rank": 11000,
+  "teachable": true,
+  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
+}
 ```
+
+| Field                      | Purpose |
+| ---                        | ---     |
+| `name`                     | Name of the skill as displayed in the the character info screen. |
+| `description`              | Description of the skill as displayed in the the character info screen. |
+| `tags`                     | Identifies special cases. Currently valid tags are: "combat_skill" and "contextual_skill". |
+| `time_to_attack`           | Object used to calculate the movecost for firing a gun. |
+| `display_category`         | Category in the character info screen where this skill is displayed. |
+| `sort_rank`                | Order in which the skill is shown. |
+| `teachable`                | Whether it's possible to teach this skill between characters. (Default = true) |
+| `companion_skill_practice` | Determines the priority of this skill within a mision skill category when an NPC gains experience from a companion mission. |
+| `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
+| `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
+| `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
 
 ### Speed Description
 
@@ -2809,6 +2846,15 @@ Vehicle components when installed on a vehicle.
   },
   "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
   "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+},
+"control_requirements": {     // (Optional) Control requirements of the vehicle this part is installed.
+  "air": {                    // Requirements of flying in air.
+    "proficiencies": [ "prof_helicopter_pilot" ], // "proficiencies" is a list of proficiency names.
+  },
+  "land": {                    // Requirements of running on ground.
+    "skills": [ [ "driving", 1 ] ], // "skills" is a list of lists, with each list being a skill
+                              // name and skill level.
+  }
 },
 "pseudo_tools" : [            // Crafting tools provided by this part
   { "id": "hotplate", "hotkey": "h" },

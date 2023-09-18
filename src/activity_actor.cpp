@@ -167,6 +167,8 @@ static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
+
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
@@ -299,6 +301,10 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             act.moves_left = 0;
             return;
         }
+    }
+
+    if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
+        you.recoil = 0;
     }
 
     g->temp_exit_fullscreen();
@@ -2773,8 +2779,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves = 0;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        ret = player_character.will_eat( *consume_location, true );
+        ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2784,8 +2789,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
         }
     } else if( !consume_item.is_null() ) {
-        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        ret = player_character.will_eat( consume_item, true );
+        ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();

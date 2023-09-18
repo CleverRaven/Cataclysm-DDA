@@ -168,22 +168,12 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
-time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
-{
-    return calc_skill_training_time_char( p, get_player_character(), skill );
-}
-
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill )
 {
     return 1_hours + 30_minutes * student.get_skill_level( skill ) -
            1_minutes * teacher.get_skill_level( skill );
-}
-
-int calc_skill_training_cost( const npc &p, const skill_id &skill )
-{
-    return calc_skill_training_cost_char( p, get_player_character(), skill );
 }
 
 int calc_skill_training_cost_char( const Character &teacher, const Character &student,
@@ -194,12 +184,6 @@ int calc_skill_training_cost_char( const Character &teacher, const Character &st
     }
     int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
-}
-
-time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
-{
-    const Character &c = get_player_character();
-    return calc_proficiency_training_time( c, c, proficiency );
 }
 
 time_duration calc_proficiency_training_time( const Character &, const Character &student,
@@ -214,17 +198,7 @@ int calc_proficiency_training_cost( const Character &teacher, const Character &s
     if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-    return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
-}
-
-int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
-{
-    return calc_proficiency_training_cost( p, get_player_character(), proficiency );
-}
-
-time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
-{
-    return calc_ma_style_training_time( p, get_player_character(), id );
+    return to_seconds<int>( calc_proficiency_training_time( teacher, student, proficiency ) );
 }
 
 // TODO: all styles cost the same and take the same time to train,
@@ -234,11 +208,6 @@ time_duration calc_ma_style_training_time( const Character &, const Character &,
         const matype_id & )
 {
     return 30_minutes;
-}
-
-int calc_ma_style_training_cost( const npc &p, const matype_id &id )
-{
-    return calc_ma_style_training_cost( p, get_player_character(), id );
 }
 
 int calc_ma_style_training_cost( const Character &teacher, const Character &student,
@@ -267,12 +236,13 @@ time_duration calc_spell_training_time( const Character &, const Character &stud
     }
 }
 
-int npc::calc_spell_training_cost( const bool knows, int difficulty, int level ) const
+static int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
 {
-    if( is_player_ally() ) {
-        return 0;
+    int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
+    if( !knows ) {
+        ret = ret * 2;
     }
-    return ::calc_spell_training_cost_gen( knows, difficulty, level );
+    return ret;
 }
 
 int calc_spell_training_cost( const Character &teacher, const Character &student,
@@ -287,13 +257,13 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                                          temp_spell.get_level() );
 }
 
-int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
+int Character::calc_spell_training_cost( const bool knows, int difficulty, int level ) const
 {
-    int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
-    if( !knows ) {
-        ret = ret * 2;
+    const npc *n = as_npc();
+    if( !n || n->is_player_ally() ) {
+        return 0;
     }
-    return ret;
+    return calc_spell_training_cost_gen( knows, difficulty, level );
 }
 
 // Rescale values from "mission scale" to "opinion scale"
@@ -458,28 +428,42 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
     return picked;
 }
 
-static skill_id skill_select_menu( const Character &c, const std::string &prompt )
+static std::string training_select_menu( const Character &c, const std::string &prompt )
 {
     int i = 0;
     uilist nmenu;
     nmenu.text = prompt;
+    std::vector<std::string> trainlist;
     for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
-        bool enabled = s.second.level() > 0;
-        std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
+        bool enabled = s.first->is_teachable() && s.second.level() > 0;
+        std::string entry = string_format( "%s: %s (%d)", _( "Skill" ), s.first.str(), s.second.level() );
         nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );
+        trainlist.emplace_back( s.first.c_str() );
+        i++;
+    }
+    for( const proficiency_id &p : c.known_proficiencies() ) {
+        std::string entry = string_format( "%s: %s", _( "Proficiency" ), p->name() );
+        nmenu.addentry( i, p->is_teachable(), MENU_AUTOASSIGN, entry );
+        trainlist.emplace_back( p.c_str() );
+        i++;
+    }
+    for( const matype_id &m : c.known_styles( true ) ) {
+        std::string entry = string_format( "%s: %s", _( "Style" ), m->name.translated() );
+        nmenu.addentry( i, m->teachable, MENU_AUTOASSIGN, entry );
+        trainlist.emplace_back( m.c_str() );
+        i++;
+    }
+    for( const spell_id &s : c.magic->spells() ) {
+        std::string entry = string_format( "%s: %s", _( "Spell" ), s->name.translated() );
+        nmenu.addentry( i, s->teachable, MENU_AUTOASSIGN, entry );
+        trainlist.emplace_back( s.c_str() );
         i++;
     }
     nmenu.query();
-    if( nmenu.ret > -1 ) {
-        i = 0;
-        for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
-            if( i == nmenu.ret ) {
-                return s.first;
-            }
-            i++;
-        }
+    if( nmenu.ret > -1 && nmenu.ret < static_cast<int>( trainlist.size() ) ) {
+        return trainlist[nmenu.ret];
     }
-    return skill_id();
+    return "";
 }
 
 static void npc_batch_override_toggle(
@@ -853,18 +837,45 @@ void game::chat()
             break;
         }
         case NPC_CHAT_START_SEMINAR: {
-            // TODO: Also allow group training of martial arts/spells/proficiencies
-            const skill_id &sk = skill_select_menu( player_character,
-                                                    _( "Which skill would you like to teach?" ) );
-            if( !sk.is_valid() ) {
+            const std::string &t = training_select_menu( player_character,
+                                   _( "What would you like to teach?" ) );
+            if( t.empty() ) {
                 return;
             }
+            int id_type = -1;
             std::vector<Character *> clist( followers.begin(), followers.end() );
-            std::vector<int> selected = npcs_select_menu( clist,
-            _( "Who should participate in the training seminar?" ), [&]( const Character * n ) {
-                return !n ||
-                       n->get_knowledge_level( sk ) >= static_cast<int>( player_character.get_skill_level( sk ) );
-            } );
+            const std::string query_str = _( "Who should participate in the training seminar?" );
+            std::vector<int> selected;
+            skill_id sk( t );
+            if( sk.is_valid() ) {
+                selected = npcs_select_menu( clist, query_str, [&]( const Character * n ) {
+                    return !n ||
+                           n->get_knowledge_level( sk ) >= static_cast<int>( player_character.get_skill_level( sk ) );
+                } );
+                id_type = 0;
+            }
+            matype_id ma( t );
+            if( ma.is_valid() ) {
+                selected = npcs_select_menu( clist, query_str, [&]( const Character * n ) {
+                    return !n || n->has_martialart( ma );
+                } );
+                id_type = 1;
+            }
+            proficiency_id pr( t );
+            if( pr.is_valid() ) {
+                selected = npcs_select_menu( clist, query_str, [&]( const Character * n ) {
+                    return !n || n->has_proficiency( pr );
+                } );
+                id_type = 2;
+            }
+            spell_id sp( t );
+            if( sp.is_valid() ) {
+                selected = npcs_select_menu( clist, query_str, [&]( const Character * n ) {
+                    return !n || ( n->magic->knows_spell( sp ) &&
+                                   n->magic->get_spell( sp ).get_level() >= player_character.magic->get_spell( sp ).get_level() );
+                } );
+                id_type = 3;
+            }
             if( selected.empty() ) {
                 return;
             }
@@ -875,10 +886,10 @@ void game::chat()
                 }
             }
             talk_function::teach_domain d;
-            d.skill = sk;
-            d.style = matype_id();
-            d.prof = proficiency_id();
-            d.spell = spell_id();
+            d.skill = id_type == 0 ? sk : skill_id();
+            d.style = id_type == 1 ? ma : matype_id();
+            d.prof = id_type == 2 ? pr : proficiency_id();
+            d.spell = id_type == 3 ? sp : spell_id();
             talk_function::start_training_gen( player_character, to_train, d );
             break;
         }
@@ -1363,13 +1374,17 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
             return _( "Shall we resume?" );
         } else if( actor( true )->skills_offered_to( *actor( false ) ).empty() &&
                    actor( true )->styles_offered_to( *actor( false ) ).empty() &&
-                   actor( true )->spells_offered_to( *actor( false ) ).empty() ) {
+                   actor( true )->spells_offered_to( *actor( false ) ).empty() &&
+                   actor( true )->proficiencies_offered_to( *actor( false ) ).empty() ) {
             return _( "Sorry, but it doesn't seem I have anything to teach you." );
         } else {
             return _( "Here's what I can teach you…" );
         }
     } else if( topic == "TALK_TRAIN_NPC" ) {
-        if( actor( false )->skills_offered_to( *actor( true ) ).empty() ) {
+        if( actor( false )->skills_offered_to( *actor( true ) ).empty() &&
+            actor( false )->styles_offered_to( *actor( true ) ).empty() &&
+            actor( false )->spells_offered_to( *actor( true ) ).empty() &&
+            actor( false )->proficiencies_offered_to( *actor( true ) ).empty() ) {
             return _( "Sorry, there's nothing I can learn from you." );
         } else {
             return _( "Sure, I'm all ears." );
@@ -1555,30 +1570,76 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( the_topic.id == "TALK_TRAIN_NPC" ) {
-        const std::vector<skill_id> &trainable = actor( false )->skills_offered_to( *actor( true ) );
-        if( trainable.empty() ) {
+        const std::vector<matype_id> &styles = actor( false )->styles_offered_to( *actor( true ) );
+        const std::vector<skill_id> &skills = actor( false )->skills_offered_to( *actor( true ) );
+        const std::vector<spell_id> &spells = actor( false )->spells_offered_to( *actor( true ) );
+        const std::vector<proficiency_id> &profs =
+            actor( false )->proficiencies_offered_to( *actor( true ) );
+        if( skills.empty() && styles.empty() && spells.empty() && profs.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        for( const skill_id &s : trainable ) {
-            const std::string &text = actor( true )->skill_training_text( *actor( true ), s );
-            if( !text.empty() && !s->obsolete() ) {
-                add_response( text, "TALK_TRAIN_NPC_START", s );
+        for( const spell_id &sp : spells ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Spell" ), actor( false )->spell_training_text( *actor( true ), sp ) );
+            if( !text.empty() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", sp );
+            }
+        }
+        for( const matype_id &ma : styles ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Style" ), actor( false )->style_training_text( *actor( true ), ma ) );
+            if( !text.empty() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", ma.obj() );
+            }
+        }
+        for( const skill_id &sk : skills ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Skill" ), actor( false )->skill_training_text( *actor( true ), sk ) );
+            if( !text.empty() && !sk->obsolete() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", sk );
+            }
+        }
+        for( const proficiency_id &pr : profs ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Proficiency" ),
+                               actor( false )->proficiency_training_text( *actor( true ), pr ) );
+            if( !text.empty() ) {
+                add_response( text, "TALK_TRAIN_NPC_START", pr );
             }
         }
         add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN_SEMINAR" ) {
-        const std::vector<skill_id> &slist = actor( true )->skills_teacheable();
-        if( slist.empty() ) {
+        const std::vector<skill_id> &sklist = actor( true )->skills_teacheable();
+        const std::vector<proficiency_id> &prlist = actor( true )->proficiencies_teacheable();
+        const std::vector<matype_id> &malist = actor( true )->styles_teacheable();
+        const std::vector<spell_id> &splist = actor( true )->spells_teacheable();
+        if( sklist.empty() && prlist.empty() && malist.empty() && splist.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        for( const skill_id &sk : slist ) {
+        for( const skill_id &sk : sklist ) {
             if( sk->obsolete() ) {
                 continue;
             }
-            const std::string &text = actor( true )->skill_seminar_text( sk );
+            const std::string &text =
+                string_format( "%s: %s", _( "Skill" ), actor( true )->skill_seminar_text( sk ) );
             add_response( text, "TALK_TRAIN_SEMINAR_START", sk );
+        }
+        for( const proficiency_id &pr : prlist ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Proficiency" ), actor( true )->proficiency_seminar_text( pr ) );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", pr );
+        }
+        for( const matype_id &ma : malist ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Style" ), actor( true )->style_seminar_text( ma ) );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", ma.obj() );
+        }
+        for( const spell_id &sp : splist ) {
+            const std::string &text =
+                string_format( "%s: %s", _( "Spell" ), actor( true )->spell_seminar_text( sp ) );
+            add_response( text, "TALK_TRAIN_SEMINAR_START", sp );
         }
         add_response_none( _( "Eh, never mind." ) );
     } else if( the_topic.id == "TALK_TRAIN" ) {
@@ -1591,10 +1652,16 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             if( !skillt.is_valid() ) {
                 const matype_id styleid = matype_id( backlog.name );
                 if( !styleid.is_valid() ) {
-                    const spell_id &sp_id = spell_id( backlog.name );
-                    if( actor( true )->knows_spell( sp_id ) ) {
+                    const proficiency_id profid = proficiency_id( backlog.name );
+                    if( !profid.is_valid() ) {
+                        const spell_id &sp_id = spell_id( backlog.name );
+                        if( actor( true )->knows_spell( sp_id ) ) {
+                            add_response( string_format( _( "Yes, let's resume training %s" ),
+                                                         sp_id->name ), "TALK_TRAIN_START", sp_id );
+                        }
+                    } else {
                         add_response( string_format( _( "Yes, let's resume training %s" ),
-                                                     sp_id->name ), "TALK_TRAIN_START", sp_id );
+                                                     profid->name() ), "TALK_TRAIN_START", profid );
                     }
                 } else {
                     const martialart &style = styleid.obj();
@@ -1616,25 +1683,32 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
         for( const spell_id &sp : teachable ) {
-            const std::string &text = actor( true )->spell_training_text( *actor( false ), sp );
+            const std::string &text =
+                string_format( "%s: %s", _( "Spell" ), actor( true )->spell_training_text( *actor( false ), sp ) );
             if( !text.empty() ) {
                 add_response( text, "TALK_TRAIN_START", sp );
             }
         }
         for( const matype_id &style_id : styles ) {
-            const std::string &text = actor( true )->style_training_text( *actor( false ), style_id );
+            const std::string &text =
+                string_format( "%s: %s", _( "Style" ),
+                               actor( true )->style_training_text( *actor( false ), style_id ) );
             if( !text.empty() ) {
                 add_response( text, "TALK_TRAIN_START", style_id.obj() );
             }
         }
         for( const skill_id &trained : trainable ) {
-            const std::string &text = actor( true )->skill_training_text( *actor( false ), trained );
+            const std::string &text =
+                string_format( "%s: %s", _( "Skill" ),
+                               actor( true )->skill_training_text( *actor( false ), trained ) );
             if( !text.empty() && !trained->obsolete() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
         }
         for( const proficiency_id &trained : proficiencies ) {
-            const std::string &text = actor( true )->proficiency_training_text( *actor( false ), trained );
+            const std::string &text =
+                string_format( "%s: %s", _( "Proficiency" ),
+                               actor( true )->proficiency_training_text( *actor( false ), trained ) );
             if( !text.empty() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
@@ -2527,7 +2601,6 @@ void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::str
         d.actor( is_npc )->activate_mutation( trait_id( new_trait.evaluate( d ) ) );
     };
 }
-
 
 void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
@@ -3835,7 +3908,6 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
     };
 }
 
-
 void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, const std::string &member )
 {
     str_or_var achieve = get_str_or_var( jo.get_member( member ), member, true );
@@ -4182,7 +4254,6 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
     str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
 
     dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
-
 
     function = [eoc, condition, iteration_count]( dialogue & d ) {
         auto itt = d.get_conditionals().find( condition.evaluate( d ) );

@@ -274,7 +274,6 @@ class enchant_cache : public enchantment
         // details of each enchantment that includes them (name and description)
         std::vector<std::pair<std::string, std::string>> details; // NOLINT(cata-serialize)
 
-
     private:
         std::map<enchant_vals::mod, double> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value

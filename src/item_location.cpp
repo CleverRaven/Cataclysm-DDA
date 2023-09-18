@@ -1040,10 +1040,12 @@ void item_location::make_active()
         }
         case type::vehicle: {
             dynamic_cast<impl::item_on_vehicle *>( ptr.get() )->make_active( *this );
+            break;
         }
         case type::invalid:
         case type::character: {
             // NOOP: characters don't cache active items
+            break;
         }
     }
 }

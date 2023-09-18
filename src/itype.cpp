@@ -185,7 +185,6 @@ int itype::tick( Character *p, item &it, const tripoint &pos ) const
         charges_to_use += method.second.call( p, it, pos ).value_or( 0 );
     }
 
-
     return charges_to_use;
 }
 

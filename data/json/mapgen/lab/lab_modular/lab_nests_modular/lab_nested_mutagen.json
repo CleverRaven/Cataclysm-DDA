@@ -1173,10 +1173,7 @@
         "^^^^^^^^^^^^^^^^"
       ],
       "terrain": { "*": "t_water_pool", "^": "t_grate", "|": "t_concrete_wall", "X": "t_laminated_glass" },
-      "place_monster": [
-        { "monster": "mon_zhark", "x": [ 1, 14 ], "y": [ 1, 14 ], "chance": 100, "pack_size": [ 1, 3 ] },
-        { "monster": "mon_feral_diver_knife", "x": [ 1, 14 ], "y": [ 1, 14 ], "chance": 10 }
-      ]
+      "place_monster": [ { "monster": "mon_zhark", "x": [ 1, 14 ], "y": [ 1, 14 ], "chance": 100, "pack_size": [ 1, 3 ] } ]
     }
   },
   {

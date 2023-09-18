@@ -295,10 +295,13 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "effect_vitakinetic_health_down",
+    "damage_type": "psi_enervation_damage",
     "shape": "blast",
     "difficulty": 1,
     "max_level": 20,
     "min_range": 1,
+    "min_damage": 1,
+    "max_damage": 1,
     "min_duration": 1080000,
     "base_casting_time": 50
   },
@@ -311,10 +314,13 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "effect_vitakinetic_healing_down",
+    "damage_type": "psi_enervation_damage",
     "shape": "blast",
     "difficulty": 1,
     "max_level": 20,
     "min_range": 1,
+    "min_damage": 1,
+    "max_damage": 1,
     "min_duration": 1620000,
     "base_casting_time": 50
   }

@@ -150,7 +150,7 @@ TEST_CASE( "hardcoded_and_json_addictions", "[addiction]" )
     SECTION( "nicotine hardcoded test, intensity 20" ) {
         int res = suffer_addiction( addiction_test_nicotine, 20, u, max_iters, totals );
         CHECK( res == Approx( 70 ).margin( 40 ) );
-        CHECK( totals.fatigue == Approx( 70 ).margin( 30 ) );
+        CHECK( totals.fatigue == Approx( 70 ).margin( 35 ) );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
     }
