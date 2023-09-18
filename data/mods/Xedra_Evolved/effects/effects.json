@@ -47,7 +47,7 @@
     "id": "vamp_blood_weave",
     "removes_effects": [ "infected", "bite", "bleed"],
     "rating": "good",
-    "apply_message": "Your wound closes up and covers over instantly.",
+    "apply_message": "Your wound closes up and covers over instantly."
   },
   {
     "type": "effect_type",
