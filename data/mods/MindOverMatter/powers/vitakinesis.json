@@ -441,5 +441,36 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "base_casting_time": 500
+  },
+  {
+    "id": "vita_super_heal",
+    "type": "SPELL",
+    "name": "[Ψ]Anabolic Rejuvenation",
+    "description": "You draw on your body's reserves to speed your healing a hundredfold.",
+    "message": "You feel a sudden sensation of fatigue and your wounds itch.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_super_heal",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 300) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 600) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 250,
+    "final_casting_time": 75,
+    "casting_time_increment": -8
   }
 ]
