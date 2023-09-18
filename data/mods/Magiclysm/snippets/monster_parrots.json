@@ -2,6 +2,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_fleshwarper", "mon_mi_go_nethermancer" ],
+    "//": "This and below represent the mi-go parroting incantations they've heard from captured human (and elven, dwarven, etc) wizards, not them casting spells using them.",
     "sound": "\"Abra-cadabra!\"",
     "volume": 20
   },
