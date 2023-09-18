@@ -1225,20 +1225,54 @@ class game
         // called on map shifting
         void shift_destination_preview( const point &delta );
 
+        /** Passed to climbing-related functions (slip_down) to
+        *   indicate the climbing action being attempted.
+        */
+        enum class climb_maneuver {
+            down,          // climb up one Z-level
+            up,            // climb down one Z-level
+            over_obstacle, // climb over an obstacle (horizontal move)
+        };
+
+        /** Passed to climbing-related functions (slip_down) to
+        *   indicate what kind of object, terrain or ability is
+        *   being used to aid in climbing.
+        */
+        enum class climb_affordance {
+            ledge,
+            climbable_misc, // CLIMBABLE-flagged objects. eg: fences, downspouts, etc
+            vehicle,
+            rope, // eg, grappling hook
+            ladder,
+            climbable_simple, // CLIMB_SIMPPLE-flagged objects. eg:
+            ability_wall_cling,
+            ability_web_rappel,
+            ability_vines,
+        };
+
         /**
         Checks if player is able to successfully climb to/from some terrain and not slip down
-        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param affordance The object, terrain or ability being used to climb.  Affects chance.
         @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
         @return whether player has slipped down
         */
-        bool slip_down( bool check_for_traps = false, bool show_chance_messages = true );
+        bool slip_down(
+            climb_maneuver maneuver,
+            climb_affordance affordance,
+            bool show_chance_messages = true );
 
         /**
         Calculates the chance that slip_down will return true.
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param affordance The object, terrain or ability being used to climb.  Affects chance.
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
-        int slip_down_chance( bool show_messages = true );
+        int slip_down_chance(
+            climb_maneuver maneuver,
+            climb_affordance affordance = climb_affordance::ledge,
+            bool show_chance_messages = true );
 
         /**
         * Climb down from a ledge using grappling hooks or spider webs if appropriate.

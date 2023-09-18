@@ -1517,7 +1517,8 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         move_cost = 100;
     } else {
         move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
-        if( g->slip_down() ) {
+        if( g->slip_down( game::climb_maneuver::over_obstacle,
+                          game::climb_affordance::climbable_misc ) ) {
             you.moves -= move_cost;
             return;
         }
