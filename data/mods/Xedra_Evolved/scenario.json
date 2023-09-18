@@ -28,6 +28,7 @@
       "paraclesian_arvore",
       "paraclesian_homullus"
     ],
+    "traits": [ "ELEMENTAL_MANA1", "ELEMENTAL_MANA2" ],
     "reveal_locale": false
   }
 ]

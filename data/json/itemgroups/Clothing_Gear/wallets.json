@@ -7,7 +7,8 @@
       { "group": "wallet_duct_tape_full", "prob": 1 },
       { "group": "wallet_leather_full", "prob": 25 },
       { "group": "wallet_large_full", "prob": 9 },
-      { "group": "wallet_stylish_full", "prob": 25 }
+      { "group": "wallet_stylish_full", "prob": 25 },
+      { "group": "wallets_industrial", "prob": 5 }
     ]
   },
   {

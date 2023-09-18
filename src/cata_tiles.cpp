@@ -1856,7 +1856,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
             const point colrow = player_to_tile( { mem_x, mem_y } );
-            if( top_any_tile_range.contains( colrow ) ) {
+            if( is_isometric() && top_any_tile_range.contains( colrow ) ) {
                 continue;
             }
             const tripoint p( mem_x, mem_y, center.z );
@@ -1877,6 +1877,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             //bypass cache check in case we learn something new about the terrain's connections
             draw_terrain( p, lighting, height_3d, invisible, true );
             if( here.memory_cache_dec_is_dirty( p ) ) {
+                you.memorize_clear_decoration( here.getglobal( p ), "" );
                 draw_furniture( p, lighting, height_3d, invisible, true );
                 draw_trap( p, lighting, height_3d, invisible, true );
                 draw_part_con( p, lighting, height_3d, invisible, true );

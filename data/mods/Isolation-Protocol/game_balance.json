@@ -1,0 +1,23 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_PROFESSION_ID",
+    "info": "The profession selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "iso_deliveryboy"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_SCENARIO_ID",
+    "info": "The scenario selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "fractal_facility"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_RECOVERY_MULT",
+    "info": "What percentage of calorie intake and expenditure is reduced during each reduction tick.",
+    "stype": "float",
+    "value": 2
+  }
+]
