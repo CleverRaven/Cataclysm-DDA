@@ -5038,8 +5038,8 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
     map &here = get_map();
     tripoint jump_target( you.posx() + 2 * sgn( examp.x - you.posx() ),
-        you.posy() + 2 * sgn( examp.y - you.posy() ),
-        you.posz() );
+                          you.posy() + 2 * sgn( examp.y - you.posy() ),
+                          you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
 
     uilist cmenu;
@@ -5050,7 +5050,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     }
     cmenu.addentry( ledge_climb_down, true, 'c', _( "Climb down." ) );
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
-        ( jump_target_valid ? _( "Jump across." ) : _( "Jump across.  (Needs a short gap)" ) ) );
+                    ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
 
     cmenu.query();
@@ -5138,9 +5138,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 // Step into open air, then fall...
                 you.setpos( examp );
                 you.gravity_check();
-                break;
+            } else {
+                // Just to highlight the trepidation
+                popup( _( "You decided to step back from the ledge." ) );
             }
-            /* fallthrough */
+            break;
         }
         default:
             popup( _( "You decided to step back from the ledge." ) );
