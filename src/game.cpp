@@ -13115,6 +13115,10 @@ int game::slip_down_chance( climb_maneuver maneuver, climb_affordance affordance
         }
     }
 
+    // Maneuver does not currently affect slip chance but may in the future.
+    ( void )( maneuver );
+
+    // Affordances (other than ledge) may reduce slip chance, even below zero.
     switch( affordance ) {
         case climb_affordance::ledge: {
             if( show_messages ) {
