@@ -13,6 +13,6 @@
         }
       }
     ],
-    "false_effect": [ { "u_message": "With no nearby allies, there is no one to network with", "type": "bad" } ]
+    "false_effect": [ { "u_message": "With no nearby allies, there is no one to network with.", "type": "bad" } ]
   }
 ]
