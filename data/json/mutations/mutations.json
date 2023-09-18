@@ -387,7 +387,7 @@
     "id": "BIOLUM3",
     "name": { "str": "Bioluminescent Flare" },
     "points": 6,
-    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up its surroundings until it dissipates.",
     "encumbrance_covered": [ [ "head", 5 ] ],
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
