@@ -2,11 +2,11 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
-    "scenarios": [ "evacuee" ]
+    "scenarios": [ "defense_mode_fortified" ]
   },
   {
     "type": "scenario",
-    "id": "evacuee",
+    "id": "defense_mode_fortified",
     "name": "Fortified",
     "points": 0,
     "description": "You do not know who you are, nor do you know why you're here.  All you know is that you must fight and defend yourself from the horde.",
