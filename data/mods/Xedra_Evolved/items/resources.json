@@ -31,6 +31,15 @@
     "to_hit": -2
   },
   {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "water" },
+    "copy-from": "water",
+    "calories": 0,
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+  },
+  {
     "id": "scrap_dreamdross",
     "type": "AMMO",
     "category": "spare_parts",
