@@ -45,7 +45,7 @@
     "difficulty": 3,
     "time": "35 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_lycra_patchwork", 18 ] ], [ [ "button_plastic", 1 ] ], [ [ "waterproofing_plastic_sheets", 9 ] ] ]
+    "components": [ [ [ "sheet_lycra_patchwork", 18 ] ], [ [ "button_plastic", 1 ] ], [ [ "plastic_sheet_small", 9 ] ] ]
   },
   {
     "result": "dry_bag_large",
@@ -55,6 +55,6 @@
     "difficulty": 3,
     "time": "35 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_lycra_patchwork", 9 ] ], [ [ "button_plastic", 1 ] ], [ [ "waterproofing_plastic_sheets", 38 ] ] ]
+    "components": [ [ [ "sheet_lycra_patchwork", 9 ] ], [ [ "button_plastic", 1 ] ], [ [ "plastic_sheet_small", 38 ] ] ]
   }
 ]
