@@ -3646,12 +3646,14 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
 
         if( query_yn( _( "Finish brewing?" ) ) ) {
             const std::map<itype_id, int> results = brew_i.brewing_results();
+            const int count = brew_i.count();
+            const time_point birthday = brew_i.birthday();
 
             here.i_clear( examp );
             for( const std::pair<const itype_id, int> &result : results ) {
-                int amount = result.second * brew_i.count();
+                int amount = result.second * count;
                 // TODO: Different age based on settings
-                item booze( result.first, brew_i.birthday() );
+                item booze( result.first, birthday );
                 if( result.first->phase == phase_id::LIQUID ) {
                     booze.charges = amount;
                     here.add_item( examp, booze );

@@ -174,5 +174,26 @@
     "color": "brown",
     "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
     "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+  },
+  {
+    "id": "elemental_mana_draught",
+    "name": { "str": "elemental mana draught" },
+    "description": "Converting",
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 0 },
+    "type": "COMESTIBLE",
+    "weight": "265 g",
+    "quench": 1,
+    "calories": 0,
+    "volume": "250ml",
+    "charges": 1,
+    "fun": -1,
+    "symbol": "~",
+    "container": "flask_glass",
+    "color": "light_blue",
+    "comestible_type": "DRINK",
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "phase": "liquid",
+    "price": 2500,
+    "freezing_point": 4
   }
 ]
