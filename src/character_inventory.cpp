@@ -249,6 +249,11 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
         std::vector<item *>newits;
         pocket.second->add( it, max_copies, newits );
 
+        if( newits.empty() ) {
+            // Failed to insert into best pocket - break out to prevent infinite loop.
+            break;
+        }
+
         // Give invlet to the first item created.
         if( !first_item_added ) {
             first_item_added = item_location( pocket.first, newits.front() );
