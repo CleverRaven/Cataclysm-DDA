@@ -52,8 +52,8 @@ Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
 static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
-static const itype_id itype_test_socks( "test_socks" );
 static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
+static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
 
