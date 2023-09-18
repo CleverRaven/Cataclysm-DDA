@@ -94,7 +94,7 @@
     "has_generic_rewards": false,
     "start": {
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
-      "assign_mission_target": { "om_terrain": "s_restaurant", "min_distance": 5, "z": 0 }
+      "assign_mission_target": { "om_terrain": "s_restaurant", "om_special": "restraunt", "min_distance": 5, "z": 0 }
     },
     "end": {
       "effect": [

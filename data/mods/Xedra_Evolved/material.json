@@ -61,6 +61,13 @@
   },
   {
     "type": "material",
+    "id": "mana",
+    "name": "Mana",
+    "copy-from": "pseudo_fuel",
+    "fuel_data": { "energy": "500000 kJ", "perpetual": true }
+  },
+  {
+    "type": "material",
     "id": "moon_tears",
     "name": "Moon Tears",
     "//": "Common matrial used by Fae artisans instead of iron.",
