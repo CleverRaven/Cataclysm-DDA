@@ -1423,7 +1423,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     recalc = true;
     cata_assert( amount_to_move > 0 );
     if( to_vehicle && sitem->items.front()->is_bucket_nonempty() &&
-        !query_yn( _( "!!The %s would spill if stored there. Remove its contents first?" ),
+        !query_yn( _( "The %s would spill if stored there.  Remove its contents first?" ),
                    sitem->items.front()->tname() ) ) {
         return false;
     }

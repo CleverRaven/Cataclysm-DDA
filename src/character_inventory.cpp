@@ -555,7 +555,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
         if( is_avatar() && item_pair.first->is_bucket_nonempty() &&
-            !query_yn( _( "The %s would spill if stored there. Remove its contents first?" ),
+            !query_yn( _( "The %s would spill if stored there.  Remove its contents first?" ),
                        item_pair.first->tname() ) ) {
             continue;
         }
