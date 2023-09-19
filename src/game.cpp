@@ -13344,9 +13344,6 @@ void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
     std::string disp_name_just_below = m.disp_name( just_below );
     cmenu.addentry( climb_affordance_menu_encode( affordance, false ),
                     true, 'c', option_text.c_str(), disp_name_just_below );
-
-    bool deploy_affordance = false;
-    int descent_height = 1;
 }
 
 bool game::climb_down_menu_pick( const tripoint &examp, int retval )
