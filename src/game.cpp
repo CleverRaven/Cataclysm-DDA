@@ -13435,7 +13435,7 @@ void game::climb_down_using(
         damage_estimate *= std::pow( fall_mod, 30.f / damage_estimate );
     }
 
-    // Rough messaging about safety.  "seems safe" can leave a 1-2% chance.
+    // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
     bool seems_perfectly_safe = slip_chance < -5 && descent_height == height;
     if( seems_perfectly_safe ) {
         query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
@@ -13466,7 +13466,7 @@ void game::climb_down_using(
         } else if( damage_estimate >= 5 ) {
             hint_fall_damage = _( "Falling <color_red>would hurt</color>." );
         } else {
-            hint_fall_damage = _( "Falling <color_light_blue>wouldn't hurt much<color>." );
+            hint_fall_damage = _( "Falling <color_green>wouldn't hurt much<color>." );
         }
         query += "\n";
         query += hint_fall_damage;
@@ -13503,11 +13503,13 @@ void game::climb_down_using(
         }
     }
 
+    bool easy_climb_back_up = false;
     std::string hint_climb_back;
     if( estimated_climb_cost <= 0 ) {
         hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
     } else if( estimated_climb_cost < 200 ) {
         hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
+        easy_climb_back_up = true;
     } else {
         hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
     }
@@ -13563,9 +13565,11 @@ void game::climb_down_using(
     add_msg_debug( debugmode::DF_GAME, "Slip chance %d / est damage %d", slip_chance, damage_estimate );
     add_msg_debug( debugmode::DF_GAME, "Descending %d / total height %d", descent_height, height );
 
-    // Show the risk prompt.
-    if( !query_yn( query.c_str() ) ) {
-        return;
+    if( !seems_perfectly_safe || !easy_climb_back_up ) {
+        // Show the risk prompt.
+        if( !query_yn( query.c_str() ) ) {
+            return;
+        }
     }
 
     you.set_activity_level( ACTIVE_EXERCISE );
