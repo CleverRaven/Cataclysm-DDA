@@ -233,15 +233,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "nre_zero_reading_printout",
-    "copy-from": "small_printout_portal_storm_data",
-    "name": { "str": "NRE zero reading" },
-    "description": "A long near uniform sequence of evenly spaced zeroes plotted in thermal paper.  The monotony is rarely broken by small numbered series.",
-    "weight": "10 g",
-    "volume": "50 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
