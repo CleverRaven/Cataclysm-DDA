@@ -889,6 +889,8 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
                 continue;
             }
             if( it == wielded ) {
+                // Only allow moving wielded item if it's the only valid item left.
+                try_unwield = true;
                 continue;
             } else if( forbid_buckets && it->is_bucket_nonempty() ) {
                 // Don't allow putting nonempty buckets into pockets.
@@ -921,8 +923,20 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
 
     if( item_list.empty() && fav_list.empty() &&
         unsorted_item_list.empty() && unsorted_fav_list.empty() ) {
-        popup_getkey( _( "None of the items can be moved there." ) );
-        return false;
+        if( !try_unwield ) {
+            popup_getkey( _( "None of the items can be moved there." ) );
+            return false;
+        }
+        if( !query_yn( _( "Unwield the %s?" ), wielded->tname() ) ) {
+            return false;
+        }
+        if( wielded->is_favorite ) {
+            fav_list.emplace_back( wielded, wielded->count() );
+        } else {
+            item_list.emplace_back( wielded, wielded->count() );
+        }
+        // Since there's only the wielded item, there's no need to sort.
+        return true;
     }
 
     if( sort_priority == advanced_inv_sortby::SORTBY_NONE ) {
