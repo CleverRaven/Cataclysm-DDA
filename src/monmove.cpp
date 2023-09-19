@@ -294,6 +294,9 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( p.xy(), p.z + 1 ) ) ) {
+            return true;
+        }
         if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) {
             // can't go through the floor
             // you would fall anyway if there was no floor, so no need to check for that here
@@ -1077,11 +1080,14 @@ void monster::move()
             }
 
             bool via_ramp = false;
+            int rampPos = 0;
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
+                rampPos -= 1;
                 candidate.z += 1;
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
+                rampPos += 1;
                 candidate.z -= 1;
             }
             const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
@@ -1179,7 +1185,8 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( candidate, destination );
+            const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(),
+                                   candidate.z + rampPos ), destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
