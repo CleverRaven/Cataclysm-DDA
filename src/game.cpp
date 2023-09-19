@@ -13183,48 +13183,63 @@ bool game::slip_down( climb_maneuver maneuver, climb_affordance affordance,
     return false;
 }
 
-void game::climb_down( const tripoint &examp )
-{
+game::fall_scan_t game::fall_scan( const tripoint &examp ) {
+    fall_scan_t result = {};
+
     map &here = get_map();
-    Character &you = get_player_character();
-
-    // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-    if( !you.move_effects( false ) ) {
-        you.moves -= 100;
-        return;
-    }
-
-    if( !here.valid_move( you.pos(), examp, false, true ) ) {
-        // Covered with something
-        return;
-    }
+    creature_tracker &creatures = get_creature_tracker();
 
     // Get coordinates just below and at ground level.
     // Also detect if furniture would block our tools/abilities.
     tripoint bottom = examp;
     tripoint just_below = examp;
     just_below.z--;
-
-    bool has_furn_just_below = here.has_furn( just_below ),
-         has_furn_anywhere_below = has_furn_just_below;
+    
+    int hit_furn = false;
+    int hit_crea = false;
 
     for( tripoint lower = just_below; here.valid_move( bottom, lower, false, true ); ) {
-        has_furn_anywhere_below |= here.has_furn( lower );
+        if( !hit_furn ) {
+            if( here.has_furn( lower ) ) {
+                hit_furn = true;
+            } else {
+                ++result.height_until_furniture;
+            }
+        }
+        if( !hit_crea ) {
+            if( creatures.creature_at( lower, false ) ) {
+                hit_crea = true;
+            } else {
+                ++result.height_until_furniture;
+            }
+        }
+        ++result.height;
         bottom.z--;
         lower.z--;
     }
 
-    const int height = examp.z - bottom.z;
+    return result;
+}
+
+void game::climb_down( const tripoint &examp )
+{
+    map &here = get_map();
+    Character &you = get_player_character();
+
+    if( !here.valid_move( you.pos(), examp, false, true ) ) {
+        // Can't move horizontally to the ledge
+        return;
+    }
+
+    // Scan the height of the drop and what's in the way.
+    fall_scan_t fall = fall_scan( examp );
+
+    const int height = fall.height;
     add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
     if( height == 0 ) {
         you.add_msg_if_player( _( "You can't climb down there." ) );
         return;
     }
-
-    int estimated_climb_cost = you.climbing_cost( bottom, examp );
-    const float fall_mod = you.fall_damage_mod();
-    add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", estimated_climb_cost );
-    add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
 
     // This menu is only shown if multiple options would be available.
     uilist cmenu;
@@ -13239,26 +13254,26 @@ void game::climb_down( const tripoint &examp )
     // First check if the player wants to place something to climb down.
     if( you.has_flag( json_flag_WEB_RAPPEL ) ) {
         std::string option_text;
-        if( has_furn_anywhere_below ) {
+        if( fall.furn_below() ) {
             option_text = _( "Can't spin your webs (something is in the way)." );
         } else if( height > 1 ) {
             option_text = string_format( _( "Spin your webs to descend %n stories." ), height );
         } else {
             option_text = _( "Spin your webs to descend." );
         }
-        cmenu.addentry( climb_option_webs, !has_furn_anywhere_below, 'w', option_text );
+        cmenu.addentry( climb_option_webs, !fall.furn_below(), 'w', option_text );
     }
     if( you.has_amount( itype_grapnel, 1 ) ) {
         std::string option_text;
-        if( has_furn_just_below ) {
+        if( fall.furn_just_below() ) {
             option_text = _( "Can't attach your grappling hook (something is in the way)." );
         } else {
             option_text = _( "Attach your grappling hook to climb down." );
         }
-        cmenu.addentry( climb_option_grapnel, !has_furn_just_below, 'g', option_text );
+        cmenu.addentry( climb_option_grapnel, !fall.furn_just_below(), 'g', option_text );
     }
     if( you.has_trait( trait_VINES2 ) || you.has_trait( trait_VINES3 ) ) {
-        if( !has_furn_just_below ) {
+        if( !fall.furn_just_below() ) {
             std::string option_text;
             if( u.has_trait( trait_VINES3 ) ) {
                 option_text = _( "Detach a vine so you can climb back up." );
@@ -13273,7 +13288,10 @@ void game::climb_down( const tripoint &examp )
     }
 
     // If the player is not using a tool, inspect the space just below.
-    //    Pick the safest available environmental object to climb down.
+    tripoint just_below = examp;
+    --just_below.z;
+
+    // Pick the safest environmental object or ability to climb down.
     std::string option_text;
     climb_affordance affordance = climb_affordance::ledge;
     if( you.has_flag( json_flag_WALL_CLING ) ) {
@@ -13327,7 +13345,6 @@ void game::climb_down( const tripoint &examp )
             }
             case climb_option_webs: {
                 affordance = climb_affordance::ability_web_rappel;
-                descent_height = height;
                 break;
             }
             default: {
@@ -13336,6 +13353,53 @@ void game::climb_down( const tripoint &examp )
             }
         }
     }
+
+    climb_down_using( examp, affordance, deploy_affordance );
+}
+
+void game::climb_down_using(
+    const tripoint &examp,
+    climb_affordance affordance,
+    bool deploy_affordance )
+{
+    map &here = get_map();
+    Character &you = get_player_character();
+
+    // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+    if( !you.move_effects( false ) ) {
+        you.moves -= 100;
+        return;
+    }
+
+    if( !here.valid_move( you.pos(), examp, false, true ) ) {
+        // Can't move horizontally to the ledge
+        return;
+    }
+
+    // Scan the height of the drop and what's in the way.
+    fall_scan_t fall = fall_scan( examp );
+    int height = fall.height;
+
+    tripoint bottom = examp;
+    bottom.z -= height;
+
+    int descent_height = 1;
+
+    switch( affordance ) {
+        case climb_affordance::ability_web_rappel: {
+            descent_height = height;
+            break;
+        }
+        default: {
+            descent_height = 1;
+            break;
+        }
+    }
+
+    int estimated_climb_cost = you.climbing_cost( bottom, examp );
+    const float fall_mod = you.fall_damage_mod();
+    add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", estimated_climb_cost );
+    add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
 
     std::string query;
 

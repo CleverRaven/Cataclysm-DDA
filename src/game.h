@@ -1275,9 +1275,41 @@ class game
             bool show_chance_messages = true );
 
         /**
-        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        * Scans downwards from a tile to assess what lies between it and solid ground.
+        */
+        struct fall_scan_t {
+            public:
+                int height; // Z-levels to "ground" based on here.valid_move
+                int height_until_creature; // Z-levels before we would contact a creature
+                int height_until_furniture; // Z-levels before we would contact furniture
+
+                bool furn_just_below() const {
+                    return height_until_furniture == 1;
+                }
+                bool furn_below() const {
+                    return height_until_furniture != height;
+                }
+                bool crea_just_below() const {
+                    return height_until_creature == 1;
+                }
+                bool crea_below() const {
+                    return height_until_creature != height;
+                }
+        };
+        fall_scan_t fall_scan( const tripoint &examp );
+
+        /**
+        * Climb down from a ledge.
+        * Player is prompted to deploy grappling hook, webs or detach vines if applicable.
+        * Otherwise the safest available affordance (see above) is detected and used.
+        * The player is shown a confirmation query with an assessment of falling risk and damage.
         */
         void climb_down( const tripoint &examp );
+
+        void climb_down_using(
+            const tripoint &examp,
+            climb_affordance affordance,
+            bool deploy_affordance = false);
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
