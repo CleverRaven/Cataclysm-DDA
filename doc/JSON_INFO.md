@@ -5794,7 +5794,7 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 
 For recipes, deleting the recipe is enough.
 
-Similarly, monsters do not require obsoletion as monsters in saves with invalid IDs will silently transform into a breather.
+Similarly, monsters do not require obsoletion as saved monsters with invalid IDs will silently transform into a breather.
 
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
 
