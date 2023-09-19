@@ -180,7 +180,6 @@ static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
-static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );

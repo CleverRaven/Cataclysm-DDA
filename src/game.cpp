@@ -13004,25 +13004,25 @@ void game::shift_destination_preview( const point &delta )
     }
 }
 
-int game::slip_down_chance( climb_maneuver maneuver, climb_affordance affordance,
-                            bool show_messages )
+int game::slip_down_chance( climb_maneuver, climb_affordance affordance,
+                            bool show_chance_messages )
 {
     int slip = 100;
 
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
     if( parkour && badknees ) {
-        if( show_messages ) {
+        if( show_chance_messages ) {
             add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
         }
     } else if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
-        if( show_messages ) {
+        if( show_chance_messages ) {
             add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
         }
     } else if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
-        if( show_messages ) {
+        if( show_chance_messages ) {
             add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
         }
     }
@@ -13053,7 +13053,7 @@ int game::slip_down_chance( climb_maneuver maneuver, climb_affordance affordance
             wet_penalty += u.get_part( bp )->get_wetness_percentage() / 2;
         }
     }
-    if( show_messages ) {
+    if( show_chance_messages ) {
         if( wet_feet && wet_hands ) {
             add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
         } else if( wet_feet ) {
@@ -13091,7 +13091,7 @@ int game::slip_down_chance( climb_maneuver maneuver, climb_affordance affordance
     if( stamina_ratio < 0.8 ) {
         slip /= std::max( stamina_ratio, .1f );
 
-        if( show_messages ) {
+        if( show_chance_messages ) {
             if( stamina_ratio > 0.6 ) {
                 add_msg( m_info, _( "You are winded, which makes climbing harder." ) );
             } else if( stamina_ratio > 0.4 ) {
@@ -13106,7 +13106,7 @@ int game::slip_down_chance( climb_maneuver maneuver, climb_affordance affordance
     add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, slip chance %d%%",
                    stamina_ratio, slip );
 
-    if( show_messages ) {
+    if( show_chance_messages ) {
         if( weight_ratio >= 1 ) {
             add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
         } else if( weight_ratio > .75 ) {
@@ -13118,13 +13118,10 @@ int game::slip_down_chance( climb_maneuver maneuver, climb_affordance affordance
         }
     }
 
-    // Maneuver does not currently affect slip chance but may in the future.
-    ( void )( maneuver );
-
     // Affordances (other than ledge) may reduce slip chance, even below zero.
     switch( affordance ) {
         case climb_affordance::ledge: {
-            if( show_messages ) {
+            if( show_chance_messages ) {
                 add_msg( m_info, _( "There's nothing here to help you climb." ) );
             }
             break;
@@ -13439,7 +13436,7 @@ void game::climb_down_using(
     }
 
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance.
-    bool seems_perfectly_safe = ( slip_chance < -5 && descent_height == height );
+    bool seems_perfectly_safe = slip_chance < -5 && descent_height == height;
     if( seems_perfectly_safe ) {
         query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
     } else if( slip_chance < 3 ) {
