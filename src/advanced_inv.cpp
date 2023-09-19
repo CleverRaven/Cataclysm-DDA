@@ -867,6 +867,7 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
     std::vector<move_all_entry> unsorted_fav_list;
     item_location wielded = player_character.get_wielded_item();
     bool try_unwield = false;
+    item_location stashed_bucket;
     for( const advanced_inv_listitem &listit : spane.items ) {
         if( listit.items.front() == dpane.container ) {
             continue;
@@ -888,12 +889,13 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
                 // Only allow moving corpses if they're empty.
                 continue;
             }
-            if( it == wielded ) {
+            if( forbid_buckets && it->is_bucket_nonempty() ) {
+                // Don't allow putting nonempty buckets into pockets.
+                stashed_bucket = it;
+                continue;
+            } else if( it == wielded ) {
                 // Only allow moving wielded item if it's the only valid item left.
                 try_unwield = true;
-                continue;
-            } else if( forbid_buckets && it->is_bucket_nonempty() ) {
-                // Don't allow putting nonempty buckets into pockets.
                 continue;
             }
 
@@ -923,20 +925,35 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
 
     if( item_list.empty() && fav_list.empty() &&
         unsorted_item_list.empty() && unsorted_fav_list.empty() ) {
-        if( !try_unwield ) {
-            popup_getkey( _( "None of the items can be moved there." ) );
-            return false;
+
+        if( stashed_bucket ) {
+            if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
+                           stashed_bucket->tname() ) ) {
+                return false;
+            }
+            for( item *it : stashed_bucket->get_contents().all_items_top() ) {
+                item_list.emplace_back( item_location( stashed_bucket, it ), it->count() );
+            }
+            if( stashed_bucket->is_favorite ) {
+                fav_list.emplace_back( stashed_bucket, stashed_bucket->count() );
+            } else {
+                item_list.emplace_back( stashed_bucket, stashed_bucket->count() );
+            }
+            return true;
+
+        } else if( try_unwield ) {
+            if( !query_yn( _( "Unwield the %s?" ), wielded->tname() ) ) {
+                return false;
+            }
+            if( wielded->is_favorite ) {
+                fav_list.emplace_back( wielded, wielded->count() );
+            } else {
+                item_list.emplace_back( wielded, wielded->count() );
+            }
+            return true;
         }
-        if( !query_yn( _( "Unwield the %s?" ), wielded->tname() ) ) {
-            return false;
-        }
-        if( wielded->is_favorite ) {
-            fav_list.emplace_back( wielded, wielded->count() );
-        } else {
-            item_list.emplace_back( wielded, wielded->count() );
-        }
-        // Since there's only the wielded item, there's no need to sort.
-        return true;
+        popup_getkey( _( "None of the items can be moved there." ) );
+        return false;
     }
 
     if( sort_priority == advanced_inv_sortby::SORTBY_NONE ) {
@@ -947,10 +964,10 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
     auto sort = [&dpane]( const move_all_entry & lhs, const move_all_entry & rhs ) {
         if( lhs.first.first == rhs.first.first ) {
             return dpane.get_area() == AIM_INVENTORY ?
-                    lhs.first.second > rhs.first.second : lhs.first.second < rhs.first.second;
+                   lhs.first.second > rhs.first.second : lhs.first.second < rhs.first.second;
         }
         return dpane.get_area() == AIM_INVENTORY ?
-                lhs.first.first > rhs.first.first : lhs.first.first < rhs.first.first;
+               lhs.first.first > rhs.first.first : lhs.first.first < rhs.first.first;
     };
     std::sort( std::begin( unsorted_item_list ), std::end( unsorted_item_list ), sort );
     std::sort( std::begin( unsorted_fav_list ), std::end( unsorted_fav_list ), sort );
