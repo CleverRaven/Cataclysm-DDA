@@ -121,20 +121,6 @@
     "entries": [ { "item": "9mmfmj", "charges": [ 15, 15 ] } ]
   },
   {
-    "id": "police_armory_full_usp9mag_9mmP",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "usp9mag",
-    "entries": [ { "item": "9mmP", "charges": [ 15, 15 ] } ]
-  },
-  {
-    "id": "police_armory_full_usp9mag_9mmP2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "usp9mag",
-    "entries": [ { "item": "9mmP2", "charges": [ 15, 15 ] } ]
-  },
-  {
     "id": "police_armory_full_glockmag_9mm",
     "type": "item_group",
     "subtype": "collection",
@@ -149,20 +135,6 @@
     "entries": [ { "item": "9mmfmj", "charges": [ 15, 15 ] } ]
   },
   {
-    "id": "police_armory_full_glockmag_9mmP",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "glockmag",
-    "entries": [ { "item": "9mmP", "charges": [ 15, 15 ] } ]
-  },
-  {
-    "id": "police_armory_full_glockmag_9mmP2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "glockmag",
-    "entries": [ { "item": "9mmP2", "charges": [ 15, 15 ] } ]
-  },
-  {
     "id": "police_armory_full_m9mag_9mm",
     "type": "item_group",
     "subtype": "collection",
@@ -175,20 +147,6 @@
     "subtype": "collection",
     "container-item": "m9mag",
     "entries": [ { "item": "9mmfmj", "charges": [ 15, 15 ] } ]
-  },
-  {
-    "id": "police_armory_full_m9mag_9mmP",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "m9mag",
-    "entries": [ { "item": "9mmP", "charges": [ 15, 15 ] } ]
-  },
-  {
-    "id": "police_armory_full_m9mag_9mmP2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "m9mag",
-    "entries": [ { "item": "9mmP2", "charges": [ 15, 15 ] } ]
   },
   {
     "id": "police_armory_boxes_9mm",
