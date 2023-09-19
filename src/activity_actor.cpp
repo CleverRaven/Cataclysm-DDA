@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iterator>
 #include <list>
 #include <map>
 #include <new>
@@ -4134,13 +4135,36 @@ std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( Json
     return actor.clone();
 }
 
-static int item_move_cost( Character &who, item_location &item )
+static int item_move_cost( Character &who, item_location &item, bool bulk_cost )
 {
-    // Cost to take an item from a container or map
-    const int obtain_cost = item.obtain_cost( who );
-    // Cost to move an item to a container, vehicle or the ground
-    const int move_cost = Pickup::cost_to_move_item( who, *item );
-    return obtain_cost + move_cost;
+    if( !bulk_cost ) {
+        // Cost to take an item from a container or map
+        const int obtain_cost = item.obtain_cost( who );
+        // Cost to move an item to a container, vehicle or the ground
+        const int move_cost = Pickup::cost_to_move_item( who, *item );
+        return obtain_cost + move_cost;
+    } else {
+        // Pure cost to handling item excluding overhead.
+        return std::max( who.item_handling_cost( *item, true, 0, -1, true ), 1 );
+    }
+}
+
+static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
+{
+    if( lhs.where() == rhs.where() && lhs->stacks_with( *rhs ) ) {
+        switch( lhs.where() ) {
+            case item_location::type::container:
+                return lhs.parent_item() == rhs.parent_item();
+                break;
+            case item_location::type::map:
+            case item_location::type::vehicle:
+                return lhs.position() == rhs.position();
+                break;
+            default:
+                break;
+        }
+    }
+    return false;
 }
 
 void insert_item_activity_actor::start( player_activity &act, Character &who )
@@ -4152,7 +4176,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 
     all_pockets_rigid = holster->all_pockets_rigid();
 
-    const int total_moves = item_move_cost( who, items.front().first );
+    const int total_moves = item_move_cost( who, items.front().first, false );
     act.moves_left = total_moves;
     act.moves_total = total_moves;
 }
@@ -4160,9 +4184,15 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 void insert_item_activity_actor::finish( player_activity &act, Character &who )
 {
     bool success = false;
+    bool bulk_load = false;
     drop_location &holstered_item = items.front();
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
+        // Check if next is bulk load before moving item.
+        auto itr = std::next( items.begin() );
+        if( itr != items.end() && itr->first ) {
+            bulk_load = is_bulk_load( holstered_item.first, itr->first );
+        }
         if( !it.count_by_charges() ) {
             if( holster->can_contain_directly( it ).success() &&
                 holster.parents_can_contain_recursive( &it ) ) {
@@ -4226,7 +4256,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Restart the activity
-    const int total_moves = item_move_cost( who, items.front().first );
+    const int total_moves = item_move_cost( who, items.front().first, bulk_load );
     act.moves_left = total_moves;
     act.moves_total = total_moves;
 }
