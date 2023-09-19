@@ -132,6 +132,10 @@ class advanced_inventory_pane
          */
         units::volume free_volume( const advanced_inv_area &square ) const;
         /**
+         * @return free weight capacity of the pane's container or area
+         */
+        units::mass free_weight_capacity() const;
+        /**
          * Set the filter string, disables filtering when the filter string is empty.
          */
         void set_filter( const std::string &new_filter );

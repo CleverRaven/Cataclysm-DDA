@@ -448,6 +448,22 @@ units::volume advanced_inventory_pane::free_volume( const advanced_inv_area &squ
     }
 }
 
+units::mass advanced_inventory_pane::free_weight_capacity() const
+{
+    // should be a specific location instead
+    cata_assert( area != AIM_ALL );
+    if( area == AIM_CONTAINER ) {
+        if( !container ) {
+            return 0_gram;
+        }
+        return container->get_remaining_weight_capacity();
+    } else if( area == AIM_INVENTORY || area == AIM_WORN ) {
+        return get_player_character().free_weight_capacity();
+    } else {
+        return units::mass_max;
+    }
+}
+
 void advanced_inventory_pane::set_filter( const std::string &new_filter )
 {
     if( filter == new_filter ) {
