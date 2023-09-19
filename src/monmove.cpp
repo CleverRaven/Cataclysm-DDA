@@ -299,7 +299,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return true;
         }
         if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, above ) ) {
+            ( !flies() || !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, above ) ) ) {
             // can't go through the floor
             // Check floors for flying monsters movement
             return false;
