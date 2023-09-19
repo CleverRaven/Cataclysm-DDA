@@ -787,7 +787,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
                             "contents-item", "contents-group", "container-item", "ammo-item", 
                             "entry-wrapper", "sealed", "variant" } );
     }
-    add_property->setMaximumWidth( 120 );
+    add_property->setMaximumWidth( 145 );
     connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
                                     [=](){ add_property_changed(); }) ;
 
