@@ -13183,7 +13183,8 @@ bool game::slip_down( climb_maneuver maneuver, climb_affordance affordance,
     return false;
 }
 
-game::fall_scan_t game::fall_scan( const tripoint &examp ) {
+game::fall_scan_t game::fall_scan( const tripoint &examp )
+{
     fall_scan_t result = {};
 
     map &here = get_map();
@@ -13194,7 +13195,7 @@ game::fall_scan_t game::fall_scan( const tripoint &examp ) {
     tripoint bottom = examp;
     tripoint just_below = examp;
     just_below.z--;
-    
+
     int hit_furn = false;
     int hit_crea = false;
 

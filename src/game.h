@@ -1309,7 +1309,7 @@ class game
         void climb_down_using(
             const tripoint &examp,
             climb_affordance affordance,
-            bool deploy_affordance = false);
+            bool deploy_affordance = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
