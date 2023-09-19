@@ -60,7 +60,7 @@
     "casting_time_increment": -5,
     "base_energy_cost": 240,
     "final_energy_cost": 60,
-    "energy_increment": 8,
+    "energy_increment": -8,
     "field_id": "fd_electricity",
     "min_field_intensity": 1,
     "max_field_intensity": 1,

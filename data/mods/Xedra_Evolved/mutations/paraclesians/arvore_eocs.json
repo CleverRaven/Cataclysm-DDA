@@ -1,0 +1,23 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_COMMUNE_OAKS",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_message": "The trees whisper their secrets to you.  [Check mutations to activate]", "type": "good" },
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_COMMUNE_OAKS",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
+  }
+]

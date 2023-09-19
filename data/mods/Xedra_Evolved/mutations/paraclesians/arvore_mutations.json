@@ -59,6 +59,8 @@
     "name": { "str": "Greenstride" },
     "purifiable": false,
     "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
     "description": "The trees recognize you as one of their own and allow you to pass easily beneath their boughs.  The grass moves under your feet to speed your passage, and shrubs bend out of the way.  When walking on grass, trees, or other natural foliage, your movement speed is increased.",
     "category": [ "ARVORE" ],
     "enchantments": [
@@ -90,7 +92,7 @@
     "type": "mutation",
     "id": "ARVORE_NURTURING_THE_GREEN",
     "name": { "str": "Nurturing the Green" },
-    "points": 1,
+    "points": 2,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore may greatly speed plant growth.  With enough practice, you will even be able to bring forth mighty trees from the dry earth.",
@@ -112,7 +114,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUN_NUTRIENTS",
-    "name": { "str": "Solar Energy" },
+    "name": { "str": "Solar Rejuvenation" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -125,7 +127,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUN_NUTRIENTS_ON",
-    "name": { "str": "Solar Energy (active)" },
+    "name": { "str": "Solar Rejuvenation (active)" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -153,8 +155,183 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Plans lose their leaves in winter, but that does not kill them.  They simply sleep until the spring comes.  The cold bothers you less now.",
+    "changes_to": [ "IGNORE_WINTER_CHILL" ],
+    "description": "Plants lose their leaves in winter, but that does not kill them, they simply sleep until the spring comes.  The cold bothers you less now.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_resist_chill" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IGNORE_WINTER_CHILL",
+    "name": { "str": "Ignore Winter's Chill" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_IGNORE_CHILL", "SLYPH_RESIST_COLD2" ],
+    "description": "You have left any trace of the mundane world behind, and the cold bothers you now not at all.",
+    "category": [ "ARVORE", "SYLPH" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "enchantments": [ "ignore_winter_chill" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_ROOTS_SPELL",
+    "name": { "str": "Command the Roots" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ "arvore_roots_spell" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_STEALTH",
+    "name": { "str": "Shadow of the Trees" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The forest recognizes your kinship and will hide you beneath its boughs.",
+    "category": [ "ARVORE" ],
+    "//": "Ideally there'd be some way to detect what sort of terrain was nearby and you'd need a critical mass of foliage, but the below will work for now.",
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_at_om_location": "forest" },
+                  { "u_at_om_location": "forest_thick" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_FOREST_STEALTH_ON", "msg_transform": "", "active": false, "moves": 1 },
+    "//": "No messages so you aren't constantly spammed while you're walking around the overmap."
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_STEALTH_ON",
+    "name": { "str": "Shadow of the Trees (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The forest is hiding you from your enemies.",
+    "category": [ "ARVORE" ],
+    "stealth_modifier": 60,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "not": "u_is_outside" },
+              {
+                "and": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_is_on_terrain": "t_grass_long" } },
+                  { "not": { "u_at_om_location": "forest" } },
+                  { "not": { "u_at_om_location": "forest_thick" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_FOREST_STEALTH", "msg_transform": "", "active": false, "moves": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_EYES",
+    "name": { "str": "Arvore Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "leads_to": [ "ARVORE_FOREST_DETECT" ],
+    "description": "Upon gaining this ability the Arvore's eyes begin reflecting the seasons: a bright yellow-green in spring; verdant green in summer; red, yellow, or orange in autumn, and dark brown in winter.  Glare no longer impacts them.",
+    "category": [ "ARVORE" ],
+    "integrated_armor": [ "integrated_arvore_eyes" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_DETECT",
+    "name": { "str": "The Forests' Warning" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_EYES" ],
+    "leads_to": [ "ARVORE_FOREST_MAPPING" ],
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
+    "category": [ "ARVORE" ],
+    "enchantments": [ "arvore_forest_detect_enemies" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_forest_detect_enemies",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" },
+            { "u_at_om_location": "forest_water" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_MAPPING",
+    "name": { "str": "Commune with the Ancient Oaks" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Arvore gains the ability to speak to the trees and, using their wisdom, map the surrounding area.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ "arvore_forest_mapping_spell" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_VERDANT_HAIR",
+    "name": { "str": "Verdant Hair" },
+    "points": 2,
+    "visibility": 6,
+    "ugliness": -3,
+    "leads_to": [ "ARVORE_FLORAL_SCENT" ],
+    "description": "Your hair now has flowers and small vines and leaves growing in it.  It's pleasant to look at but has no further game effect.",
+    "category": [ "ARVORE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FLORAL_SCENT",
+    "name": { "str": "Floral Scent" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": -2,
+    "types": [ "SCENT" ],
+    "prereqs": [ "ARVORE_VERDANT_HAIR" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
+    "description": "The flowers in your hair produce a pleasant smell, obvious without being overpowering.  You no longer smell anything like a human and other beings will react to you appropriately.",
+    "category": [ "ARVORE" ],
+    "scent_type": "sc_flower"
   }
 ]

@@ -321,6 +321,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "leads_to": "IGNORE_WINTER_CHILL",
     "enchantments": [
       {
         "condition": "ALWAYS",

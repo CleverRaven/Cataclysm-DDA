@@ -30,7 +30,7 @@
           [ "t_tree_sassafras", 3 ]
         ],
         "valid_terrain": [ "t_tree_young" ],
-        "message": "The young tree creaks as its limbs begin growing, first slowly and then with increasing speed.  Roots churn through the soil and leaves stretch toward the sun, and in moments you stand before a tree that could have stood for a human lifetime."
+        "message": "The young tree creaks as its limbs begin growing, first slowly and then with increasing speed.  Roots churn through the soil and leaves stretch toward the sun, and in moments, before you is a tree that could have stood for a human lifetime."
       },
       {
         "result": "t_grass_long",
@@ -40,14 +40,14 @@
       {
         "result": "t_grass_tall",
         "valid_terrain": [ "t_grass_long" ],
-        "message": "The tall grass grows and grows until a child easily hide themselves within it."
+        "message": "The tall grass grows and grows until a child could easily hide themselves within it."
       }
     ],
     "furniture": [
       {
         "result": "f_plant_harvest",
         "valid_furniture": [ "f_plant_mature", "f_plant_seedling" ],
-        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers spreading toward the sun.  Before you even lower your hands, it's ripe and ready for the harvest."
+        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's ripe and ready for the harvest."
       }
     ]
   }

@@ -3,7 +3,14 @@
     "type": "enchantment",
     "id": "arvore_resist_chill",
     "condition": "ALWAYS",
-    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ]
+    "//": "No cold armor here--trees are very vulnerable to ice breaking their limbs",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 40 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_ignore_chill",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
   },
   {
     "id": "arvore_summon_wood_spirit",
@@ -46,6 +53,65 @@
     "final_casting_time": 1500,
     "casting_time_increment": -225,
     "base_energy_cost": 1000,
-    "min_range": 1
+    "min_range": 1,
+    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth"
+  },
+  {
+    "id": "arvore_roots_spell",
+    "type": "SPELL",
+    "name": "Hungry Thirsty Roots",
+    "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.",
+    "//": "Experience with the druid spell Vegetative Grasp shows that at high levels it's a horde-killer with a single cast, so this is a greatly toned-down version with less predictability.",
+    "description": "Your command over plants allows you to call forth roots from the earth to clutch and grasp at your enemies.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 3,
+    "effect": "attack",
+    "effect_str": "effect_hungry_roots",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_aoe": 0,
+    "max_aoe": 3,
+    "aoe_increment": 0.25,
+    "min_range": 2,
+    "max_range": 70,
+    "range_increment": 0.65,
+    "min_dot": 0,
+    "max_dot": 5,
+    "dot_increment": 0.1,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: arvore_roots_spell') * 50) + 300) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: arvore_roots_spell') * 100) + 1000) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_casting_time": 150,
+    "final_casting_time": 50,
+    "casting_time_increment": -4,
+    "base_energy_cost": 225
+  },
+  {
+    "id": "arvore_forest_mapping_spell",
+    "type": "SPELL",
+    "name": "commune with the Ancient Oaks",
+    "description": "This spell allows you to speak to the trees and discern the layout of the forest.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GAIN_COMMUNE_OAKS",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "difficulty": 6,
+    "max_level": 15,
+    "base_casting_time": 6000,
+    "final_casting_time": 1000,
+    "casting_time_increment": -350,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40,
+    "min_duration": 6000,
+    "max_duration": 6000
   }
 ]
