@@ -98,6 +98,9 @@ namespace creator
         simple_property_widget* contentsItem_frame;
         simple_property_widget* contentsGroup_frame;
         simple_property_widget* containerItem_frame;
+        simple_property_widget* ammoItem_frame;
+        simple_property_widget* entryWrapper_frame;
+        simple_property_widget* sealed_frame;
         simple_property_widget* damage_frame;
         simple_property_widget* charges_frame;
         simple_property_widget* count_frame;
