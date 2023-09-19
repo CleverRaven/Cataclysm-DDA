@@ -127,7 +127,7 @@
     "effect_str": "effect_vitakin_hurt",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "damage_type": "psi_enervation_damage",
+    "damage_type": "pure",
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_dot": 1,
@@ -278,7 +278,7 @@
     "base_casting_time": 350,
     "final_casting_time": 125,
     "casting_time_increment": -14,
-    "learn_spells": { "vita_blood_purge": 5, "vita_banish_illness": 10 }
+    "learn_spells": { "vita_blood_purge": 5, "vita_banish_illness": 10, "vita_super_heal": 20 }
   },
   {
     "id": "vita_stop_infection_01",
@@ -356,7 +356,7 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "base_casting_time": 360000,
-    "learn_spells": { "vita_sleeping_trance": 4, "vita_banish_illness": 6, "vita_blood_purge": 8 }
+    "learn_spells": { "vita_sleeping_trance": 4, "vita_banish_illness": 6, "vita_blood_purge": 8, "vita_super_heal": 15 }
   },
   {
     "id": "vita_purge_rads",
@@ -440,6 +440,59 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
-    "base_casting_time": 500
+    "base_casting_time": 500,
+    "learn_spells": { "vita_super_heal": 5 }
+  },
+  {
+    "id": "vita_super_heal",
+    "type": "SPELL",
+    "name": "[Ψ]Anabolic Rejuvenation",
+    "description": "You draw on your body's reserves to speed your healing a hundredfold.",
+    "message": "You feel a sudden sensation of fatigue and your wounds itch.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_super_heal",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 3000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_super_heal') * 6000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 1000
+  },
+  {
+    "id": "vita_super_heal_healing",
+    "type": "SPELL",
+    "name": "Anabolic Rejuvenation Heal",
+    "description": "The healing part of Anabolic Rejuvenation.",
+    "valid_targets": [ "self" ],
+    "min_damage": -1,
+    "max_damage": -1,
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT" ]
+  },
+  {
+    "id": "vita_super_heal_drain",
+    "type": "SPELL",
+    "name": "Anabolic Rejuvenation draining",
+    "description": "The draining part of Anabolic Rejuvenation.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "shape": "blast",
+    "flags": [ "SILENT" ]
   }
 ]

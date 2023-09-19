@@ -1,0 +1,18 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_NETWORK_ALLY_CHECK",
+    "condition": { "npc_allies": 1 },
+    "//": "Ideally this would check for allies within a certain radius nearby, something like u_npcs_nearby, but that doesn't seem to be possible.",
+    "effect": [
+      {
+        "u_cast_spell": {
+          "id": "telepathic_network_real",
+          "hit_self": true,
+          "message": "You now have an instinctive awareness of your allies, and they of you."
+        }
+      }
+    ],
+    "false_effect": [ { "u_message": "With no nearby allies, there is no one to network with.", "type": "bad" } ]
+  }
+]

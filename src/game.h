@@ -889,6 +889,7 @@ class game
         // Pick up items from all nearby tiles
         void pickup_all();
 
+        void insert_item(); // Insert items to container  'v'
         void unload_container(); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 

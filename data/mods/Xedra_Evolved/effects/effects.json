@@ -44,6 +44,13 @@
   },
   {
     "type": "effect_type",
+    "id": "vamp_blood_weave",
+    "removes_effects": [ "infected", "bite", "bleed" ],
+    "rating": "good",
+    "apply_message": "Your wound closes up and covers over instantly."
+  },
+  {
+    "type": "effect_type",
     "id": "xtr_str_aspirin",
     "max_duration": "4 m",
     "base_mods": {

@@ -153,6 +153,18 @@
   },
   {
     "type": "mutation",
+    "id": "COMMUNE_NIGHT",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Learn from the Children of the Night" },
+    "description": "You call out to the creatures that inhabit the night.  Wolves, bats, rats and more.  They tell you about what terrain surrounds you.",
+    "active": true,
+    "activated_eocs": [ "EOC_COMMUNE_NIGHT_MAP" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE2",
     "name": { "str": "Walking the shadowed path of blood." },
     "points": 0,
