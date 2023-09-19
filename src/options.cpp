@@ -2104,11 +2104,14 @@ void options_manager::add_options_interface()
         },
         "favorites" );
 
-        add( "ITEM_HEALTH_BAR", page_id, to_translation( "Show item health bars" ),
+        add( "ITEM_HEALTH", "interface", to_translation( "Show item health" ),
              // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-             to_translation( "If true, show item health bars instead of scratched, ripped etc. text." ),
-             true
-           );
+        to_translation( "Show item health bars, descriptions like reinforced, scratched etc. or both." ), {
+            { "bars", to_translation( "Bars" ) },
+            { "descriptions", to_translation( "Descriptions" ) },
+            { "both", to_translation( "Both" ) }
+        },
+        "bars" );
 
         add( "ITEM_SYMBOLS", page_id, to_translation( "Show item symbols" ),
              to_translation( "If true, show item symbols in inventory and pick up menu." ),

@@ -51,7 +51,9 @@
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
-      { "item": "angle_grinder", "prob": 30, "charges": [ 0, 500 ] }
+      { "item": "angle_grinder", "prob": 30, "charges": [ 0, 500 ] },
+      { "item": "grinder_cutoff_disc", "prob": 15 },
+      { "item": "grinder_metal_grinding_disc", "prob": 15 }
     ]
   },
   {
@@ -365,6 +367,7 @@
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "grinder_cutoff_disc", "prob": 2 },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ], "charges": [ 1000, 3000 ] },
       { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ], "charges": [ 5000, 15000 ] },
@@ -849,6 +852,8 @@
       { "item": "corded_powerdrill", "prob": 30 },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "grinder_cutoff_disc", "prob": 10 },
+      { "item": "grinder_metal_grinding_disc", "prob": 10 },
       { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
       { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] }
     ]
