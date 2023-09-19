@@ -856,14 +856,15 @@ void advanced_inventory::redraw_pane( side p )
     }
 }
 
-std::string advanced_inventory::fill_lists_with_pane_items( side &p, Character &player_character,
+std::string fill_lists_with_pane_items( Character &player_character,
+        advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
         std::vector<drop_or_stash_item_info> &item_list,
         std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets = false )
 {
     std::string skipped_items_message;
     int buckets = 0;
-    for( const advanced_inv_listitem &listit : panes[p].items ) {
-        if( listit.items.front() == panes[-p + 1].container ) {
+    for( const advanced_inv_listitem &listit : spane.items ) {
+        if( listit.items.front() == dpane.container ) {
             continue;
         }
         for( const item_location &it : listit.items ) {
@@ -1001,7 +1002,7 @@ bool advanced_inventory::move_all_items()
     bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
                           dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
 
-    std::string skipped_items_message = fill_lists_with_pane_items( src, player_character,
+    std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, dpane,
                                         pane_items, pane_favs, filter_buckets );
 
     // Move all the favorite items only if there are no other items
