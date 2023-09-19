@@ -52,7 +52,7 @@
         "color": "light_gray",
         "condition": {
           "and": [
-            { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=00g", "0" ] },
+            { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "0" ] },
             { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "10" ] },
             {
               "not": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] }
