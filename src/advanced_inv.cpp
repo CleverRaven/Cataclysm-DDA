@@ -69,6 +69,8 @@
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 
+using move_all_entry = std::pair<std::pair<int, int>, drop_or_stash_item_info>;
+
 namespace io
 {
 
@@ -707,7 +709,7 @@ void advanced_inventory::recalc_pane( side p )
     avatar &player_character = get_avatar();
     if( pane.container ) {
         const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
-        
+
         // If container is no longer adjacent or on the player's z-level, nullify it.
         if( std::abs( offset.x() ) > 1 || std::abs( offset.y() ) > 1 ||
             player_character.pos_bub().z() != pane.container.pos_bub().z() ) {
@@ -856,47 +858,96 @@ void advanced_inventory::redraw_pane( side p )
     }
 }
 
-std::string fill_lists_with_pane_items( Character &player_character,
-        advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
-        std::vector<drop_or_stash_item_info> &item_list,
-        std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets = false )
+bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortby sort_priority,
+                                 advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
+                                 std::vector<drop_or_stash_item_info> &item_list,
+                                 std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets )
 {
-    std::string skipped_items_message;
-    int buckets = 0;
+    std::vector<move_all_entry> unsorted_item_list;
+    std::vector<move_all_entry> unsorted_fav_list;
+    item_location wielded = player_character.get_wielded_item();
+    bool try_unwield = false;
     for( const advanced_inv_listitem &listit : spane.items ) {
         if( listit.items.front() == dpane.container ) {
             continue;
         }
         for( const item_location &it : listit.items ) {
-            if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
-                it->made_of_from_type( phase_id::GAS ) ) {
-                continue;
-            }
-            if( it == player_character.get_wielded_item() ) {
-                continue;
-            }
-            if( filter_buckets && it->is_bucket_nonempty() ) {
-                if( buckets == 0 ) {
-                    buckets = 1;
-                    skipped_items_message = string_format( _( " The %s would've spilled if moved there." ),
-                                                           it->tname() );
-                } else if( buckets == 1 ) {
-                    buckets = 2;
-                    skipped_items_message = _( " Some items would've spilled if moved there." );
+            if( dpane.get_area() == AIM_INVENTORY ) {
+                if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
+                    it->made_of_from_type( phase_id::GAS ) ) {
+                    continue;
                 }
+                if( !player_character.can_stash_partial( *it ) ) {
+                    continue;
+                }
+            } else if( dpane.container &&
+                       !dpane.container->can_contain_directly( *it ).success() ) {
                 continue;
             }
             if( it->is_corpse() && !it->empty_container() ) {
+                // Only allow moving corpses if they're empty.
                 continue;
             }
-            if( it->is_favorite ) {
-                fav_list.emplace_back( it, it->count() );
+            if( it == wielded ) {
+                continue;
+            } else if( forbid_buckets && it->is_bucket_nonempty() ) {
+                // Don't allow putting nonempty buckets into pockets.
+                continue;
+            }
+
+            if( sort_priority == advanced_inv_sortby::SORTBY_NONE ) {
+                if( it->is_favorite ) {
+                    fav_list.emplace_back( it, it->count() );
+                } else {
+                    item_list.emplace_back( it, it->count() );
+                }
             } else {
-                item_list.emplace_back( it, it->count() );
+                int weight_int = it->weight().value() > INT_MAX ? INT_MAX :
+                                 static_cast<int>( it->weight().value() );
+
+                std::pair<int, int> sort_values = sort_priority == advanced_inv_sortby::SORTBY_VOLUME ?
+                                                  std::make_pair( it->volume().value(), weight_int ) :
+                                                  std::make_pair( weight_int, it->volume().value() );
+                if( it->is_favorite ) {
+                    unsorted_fav_list.emplace_back( std::make_pair( sort_values,
+                                                    drop_or_stash_item_info( it, it->count() ) ) );
+                } else {
+                    unsorted_item_list.emplace_back( std::make_pair( sort_values,
+                                                     drop_or_stash_item_info( it, it->count() ) ) );
+                }
             }
         }
     }
-    return skipped_items_message;
+
+    if( item_list.empty() && fav_list.empty() &&
+        unsorted_item_list.empty() && unsorted_fav_list.empty() ) {
+        popup_getkey( _( "None of the items can be moved there." ) );
+        return false;
+    }
+
+    if( sort_priority == advanced_inv_sortby::SORTBY_NONE ) {
+        return true;
+    }
+
+    // pickup_activity_actor processes from the back, so reverse the order if moving to inventory.
+    auto sort = [&dpane]( const move_all_entry & lhs, const move_all_entry & rhs ) {
+        if( lhs.first.first == rhs.first.first ) {
+            return dpane.get_area() == AIM_INVENTORY ?
+                    lhs.first.second > rhs.first.second : lhs.first.second < rhs.first.second;
+        }
+        return dpane.get_area() == AIM_INVENTORY ?
+                lhs.first.first > rhs.first.first : lhs.first.first < rhs.first.first;
+    };
+    std::sort( std::begin( unsorted_item_list ), std::end( unsorted_item_list ), sort );
+    std::sort( std::begin( unsorted_fav_list ), std::end( unsorted_fav_list ), sort );
+
+    for( move_all_entry entry : unsorted_item_list ) {
+        item_list.push_back( entry.second );
+    }
+    for( move_all_entry entry : unsorted_fav_list ) {
+        item_list.push_back( entry.second );
+    }
+    return true;
 }
 
 bool advanced_inventory::move_all_items()
@@ -984,28 +1035,52 @@ bool advanced_inventory::move_all_items()
     }
 
     // Check first if the destination area still has enough room for moving all.
-    const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
-    const units::volume dest_volume_free = dpane.free_volume( darea );
-    
-    if( !is_processing() && src_volume > dest_volume_free &&
-        !query_yn( _( "There isn't enough room.  Attempt to move as much as you can?" ) ) ) {
-        return false;
+    advanced_inv_sortby sort_priority = advanced_inv_sortby::SORTBY_NONE;
+    std::string limitation;
+    if( !is_processing() ) {
+        units::volume over_volume = 0_ml;
+        units::mass over_weight = 0_gram;
+
+        const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+        const units::volume dest_volume_free = dpane.free_volume( darea );
+        over_volume = src_volume - dest_volume_free;
+
+        if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_CONTAINER ) {
+            const units::mass &src_weight = spane.in_vehicle() ? sarea.weight_veh : sarea.weight;
+            const units::mass dest_weight_free = dpane.free_weight_capacity();
+            over_weight = src_weight - dest_weight_free;
+        }
+
+        if( over_volume > 0_ml && over_weight > 0_gram ) {
+            limitation = _( "room or weight capacity" );
+            // Prioritize whichever one is closest to the limit
+            sort_priority = units::to_milliliter<int>( over_volume ) < units::to_gram<int>( over_weight ) ?
+                            SORTBY_VOLUME : SORTBY_WEIGHT;
+        } else if( over_volume > 0_ml ) {
+            limitation = pgettext( "As in \"not enough room in the backpack\"", "room" );
+            sort_priority = SORTBY_VOLUME;
+        } else if( over_weight > 0_gram ) {
+            limitation = _( "weight capacity" );
+            sort_priority = SORTBY_WEIGHT;
+        }
     }
 
     std::vector<drop_or_stash_item_info> pane_items;
     // Keep a list of favorites separated, only drop non-fav first if they exist.
     std::vector<drop_or_stash_item_info> pane_favs;
-    bool filter_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
+    bool forbid_buckets = dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ||
                           dpane.get_area() == AIM_CONTAINER || dpane.in_vehicle();
 
-    std::string skipped_items_message = fill_lists_with_pane_items( player_character, spane, dpane,
-                                        pane_items, pane_favs, filter_buckets );
+    if( !fill_lists_with_pane_items( player_character, sort_priority, spane, dpane,
+                                     pane_items, pane_favs, forbid_buckets ) ) {
+        return false;
+    }
 
     // Move all the favorite items only if there are no other items
     if( pane_items.empty() ) {
         // Check if the list is still empty for when all that's in the aim_worn list is a wielded weapon.
         if( pane_favs.empty() ) {
-            popup( string_format( _( "No eligible items found to be moved.%s" ), skipped_items_message ) );
+            popup( _( "None of the items can be moved there." ) );
             return false;
         }
         // Ask to move favorites if the player is holding them
@@ -1017,8 +1092,10 @@ bool advanced_inventory::move_all_items()
         pane_items = pane_favs;
     }
 
-    if( !skipped_items_message.empty() ) {
-        add_msg( m_info, skipped_items_message );
+    if( !limitation.empty() &&
+        !query_yn( _( "There isn't enough %s.  Attempt to move as much as you can?" ),
+                   limitation ) ) {
+        return false;
     }
 
     if( dpane.get_area() == AIM_CONTAINER ) {
