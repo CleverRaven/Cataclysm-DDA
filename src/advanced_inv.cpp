@@ -985,12 +985,8 @@ bool advanced_inventory::move_all_items()
 
     // Check first if the destination area still has enough room for moving all.
     const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
-    units::volume dest_volume_free;
-    if( dpane.container ) {
-        dest_volume_free = dpane.container->get_remaining_capacity();
-    } else {
-        dest_volume_free = darea.free_volume( dpane.in_vehicle() );
-    }
+    const units::volume dest_volume_free = dpane.free_volume( darea );
+    
     if( !is_processing() && src_volume > dest_volume_free &&
         !query_yn( _( "There isn't enough room.  Attempt to move as much as you can?" ) ) ) {
         return false;
@@ -1937,7 +1933,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const item &it = *sitem.items.front();
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
-    const units::volume free_volume = p.free_volume( panes[dest].in_vehicle() );
+    const units::volume free_volume = panes[dest].free_volume( p );
     // default to move all, unless if being equipped
     const int input_amount = by_charges ? it.charges : action == "MOVE_SINGLE_ITEM" ? 1 : sitem.stacks;
     // there has to be something to begin with

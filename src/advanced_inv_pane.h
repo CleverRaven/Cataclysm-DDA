@@ -128,6 +128,10 @@ class advanced_inventory_pane
          */
         advanced_inv_listitem *get_cur_item_ptr();
         /**
+         * @return free volume capacity of the pane's container or area
+         */
+        units::volume free_volume( const advanced_inv_area &square ) const;
+        /**
          * Set the filter string, disables filtering when the filter string is empty.
          */
         void set_filter( const std::string &new_filter );
