@@ -1239,7 +1239,7 @@ class game
         *   being used to aid in climbing.
         */
         enum class climb_affordance {
-            ledge,
+            ledge = 1,
             climbable_misc, // CLIMBABLE-flagged objects. eg: fences, downspouts, etc
             vehicle,
             rope, // eg, grappling hook
@@ -1248,6 +1248,7 @@ class game
             ability_wall_cling,
             ability_web_rappel,
             ability_vines,
+            _count,
         };
 
         /**
@@ -1306,6 +1307,8 @@ class game
         */
         void climb_down( const tripoint &examp );
 
+        void climb_down_menu_gen( const tripoint &examp, uilist &cmenu );
+        bool climb_down_menu_pick( const tripoint &examp, int retval );
         void climb_down_using(
             const tripoint &examp,
             climb_affordance affordance,

@@ -13222,8 +13222,35 @@ game::fall_scan_t game::fall_scan( const tripoint &examp )
     return result;
 }
 
-void game::climb_down( const tripoint &examp )
+static int climb_affordance_menu_encode( game::climb_affordance affordance,
+        bool deploy_affordance )
 {
+    return ( deploy_affordance ? 0x2000 : 0x1000 ) + int( affordance );
+}
+static bool climb_affordance_menu_decode( int retval,
+        game::climb_affordance &affordance, bool &deploy_affordance )
+{
+    switch( retval >> 12 ) {
+        case 1: {
+            deploy_affordance = false;
+            break;
+        }
+        case 2: {
+            deploy_affordance = true;
+            break;
+        }
+        default: {
+            return false;
+        }
+    }
+    affordance = game::climb_affordance( retval & 0xFFF );
+    return true;
+}
+
+void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
+{
+    // NOTE this menu may be merged with the iexamine::ledge menu, manage keys carefully!
+
     map &here = get_map();
     Character &you = get_player_character();
 
@@ -13242,16 +13269,6 @@ void game::climb_down( const tripoint &examp )
         return;
     }
 
-    // This menu is only shown if multiple options would be available.
-    uilist cmenu;
-    cmenu.text = _( "How would you prefer to climb down?" );
-    enum {
-        climb_option_webs = 1,
-        climb_option_grapnel = 2,
-        climb_option_vine_detach = 3,
-        climb_option_default = 4,
-    };
-
     // First check if the player wants to place something to climb down.
     if( you.has_flag( json_flag_WEB_RAPPEL ) ) {
         std::string option_text;
@@ -13262,7 +13279,8 @@ void game::climb_down( const tripoint &examp )
         } else {
             option_text = _( "Spin your webs to descend." );
         }
-        cmenu.addentry( climb_option_webs, !fall.furn_below(), 'w', option_text );
+        cmenu.addentry( climb_affordance_menu_encode( climb_affordance::ability_web_rappel, true ),
+                        !fall.furn_below(), 'w', option_text );
     }
     if( you.has_amount( itype_grapnel, 1 ) ) {
         std::string option_text;
@@ -13271,7 +13289,8 @@ void game::climb_down( const tripoint &examp )
         } else {
             option_text = _( "Attach your grappling hook to climb down." );
         }
-        cmenu.addentry( climb_option_grapnel, !fall.furn_just_below(), 'g', option_text );
+        cmenu.addentry( climb_affordance_menu_encode( climb_affordance::rope, true ),
+                        !fall.furn_just_below(), 'g', option_text );
     }
     if( you.has_trait( trait_VINES2 ) || you.has_trait( trait_VINES3 ) ) {
         if( !fall.furn_just_below() ) {
@@ -13281,10 +13300,11 @@ void game::climb_down( const tripoint &examp )
             } else {
                 option_text = _( "Detach a vine so you can climb back up.  (This will hurt you.)" );
             }
-            cmenu.addentry( climb_option_vine_detach, true, 'd', option_text );
+            cmenu.addentry( climb_affordance_menu_encode( climb_affordance::ability_vines, true ),
+                            true, 'v', option_text );
         } else {
-            cmenu.addentry( climb_option_vine_detach, false, 'd',
-                            _( "Can't detach a vine (something is in the way)." ) );
+            cmenu.addentry( climb_affordance_menu_encode( climb_affordance::ability_vines, true ),
+                            false, 'v', _( "Can't detach a vine (something is in the way)." ) );
         }
     }
 
@@ -13322,40 +13342,40 @@ void game::climb_down( const tripoint &examp )
         affordance = climb_affordance::ledge;
     }
     std::string disp_name_just_below = m.disp_name( just_below );
-    cmenu.addentry( climb_option_default, true, 'c', option_text.c_str(), disp_name_just_below );
+    cmenu.addentry( climb_affordance_menu_encode( affordance, false ),
+                    true, 'c', option_text.c_str(), disp_name_just_below );
 
     bool deploy_affordance = false;
     int descent_height = 1;
+}
 
-    if( cmenu.entries.size() > 1 ) {
-        cmenu.query();
-        switch( cmenu.ret ) {
-            case climb_option_default: {
-                break;
-            }
-            case climb_option_grapnel: {
-                // TODO grappling hooks are described as 30 feet.  Maybe they should descend 2 levels?
-                affordance = climb_affordance::rope;
-                deploy_affordance = true;
-                break;
-            }
-            case climb_option_vine_detach: {
-                affordance = climb_affordance::ability_vines;
-                deploy_affordance = true;
-                break;
-            }
-            case climb_option_webs: {
-                affordance = climb_affordance::ability_web_rappel;
-                break;
-            }
-            default: {
-                // Escaping this menu cancels the climb.
-                return;
-            }
-        }
+bool game::climb_down_menu_pick( const tripoint &examp, int retval )
+{
+    climb_affordance affordance = climb_affordance::ledge;
+    bool deploy_affordance = false;
+
+    if( climb_affordance_menu_decode( retval, affordance, deploy_affordance ) ) {
+        climb_down_using( examp, affordance, deploy_affordance );
+        return true;
+    } else {
+        return false;
     }
+}
 
-    climb_down_using( examp, affordance, deploy_affordance );
+void game::climb_down( const tripoint &examp )
+{
+    uilist cmenu;
+    cmenu.text = _( "How would you prefer to climb down?" );
+
+    climb_down_menu_gen( examp, cmenu );
+
+    // If there would only be one choice, skip the menu.
+    if( cmenu.entries.size() == 1 ) {
+        climb_down_menu_pick( examp, cmenu.entries[0].retval );
+    } else {
+        cmenu.query();
+        climb_down_menu_pick( examp, cmenu.ret );
+    }
 }
 
 void game::climb_down_using(
