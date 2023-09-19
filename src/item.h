@@ -1381,10 +1381,13 @@ class item : public visitable
         std::string damage_indicator() const;
 
         /**
-         * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
-         * returns a symbol with color tag already applied. Otherwise, returns an adjective.
+         * Provides a prefix for the durability state of the item.
+         * With ITEM_HEALTH set to:
+         *     "bars": returns a symbol with color tag already applied.
+         *     "descriptions": returns an adjective.
+         *     "both": returns a symbol as well as an adjective.
          * if include_intact is true, this provides a string for the corner case of a player
-         * with ITEM_HEALTH_BAR disabled, but we need still a string for some reason.
+         *     with ITEM_HEALTH set to "descriptions", but we need still a string for some reason.
          */
         std::string durability_indicator( bool include_intact = false ) const;
 
