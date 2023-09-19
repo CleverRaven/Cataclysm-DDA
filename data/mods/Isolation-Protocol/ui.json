@@ -47,7 +47,7 @@
         "condition": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] }
       },
       {
-        "id": "near_death",
+        "id": "ok",
         "text": "Deteriorating",
         "color": "light_gray",
         "condition": {
@@ -61,7 +61,7 @@
         }
       },
       {
-        "id": "near_death",
+        "id": "wrong",
         "text": "Distorted",
         "color": "dark_gray",
         "condition": {
@@ -69,7 +69,7 @@
         }
       },
       {
-        "id": "starving",
+        "id": "bad",
         "text": "Unstable",
         "color": "magenta",
         "condition": {
@@ -77,7 +77,7 @@
         }
       },
       {
-        "id": "hungry",
+        "id": "vbad",
         "text": "Unraveling",
         "color": "pink",
         "condition": { "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] } ] }
