@@ -11,6 +11,46 @@
   },
   {
     "type": "effect_type",
+    "id": "buoyant",
+    "name": [ "Buoyant" ],
+    "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],
+    "apply_message": "You feel more buoyant!",
+    "remove_message": "You feel less buoyant.",
+    "rating": "good",
+    "max_duration": "8 h",
+    "limb_score_mods": [ { "limb_score": "swim", "modifier": 2 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "acidic_mist",
+    "name": [ "Acidic mist" ],
+    "desc": [ "The mist is burning you!" ],
+    "apply_message": "The mist is burning you!",
+    "rating": "bad",
+    "max_duration": "30 s",
+    "max_intensity": 5,
+    "int_dur_factor": "5 s",
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 1 ],
+      "hurt_chance_bot": [ 10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_chance_bot": [ 10 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 1 ], "pain_chance": [ 1 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "vamp_blood_weave",
+    "removes_effects": [ "infected", "bite", "bleed" ],
+    "rating": "good",
+    "apply_message": "Your wound closes up and covers over instantly."
+  },
+  {
+    "type": "effect_type",
     "id": "xtr_str_aspirin",
     "max_duration": "4 m",
     "base_mods": {

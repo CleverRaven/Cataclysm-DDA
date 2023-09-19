@@ -1,0 +1,14 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "unloaded_wave_rider_engine",
+    "name": "elemental wave rider engine",
+    "symbol": "v",
+    "description": "An elementally manifested combustion engine.  Despite operating entirely off of mana rather than normal fuel, it otherwise functions exactly as a conventional internal combustion engine.",
+    "volume": "2 L",
+    "weight": "10 kg",
+    "color": "yellow",
+    "material": [ "steel" ],
+    "price": 800000
+  }
+]

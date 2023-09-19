@@ -73,6 +73,22 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "mi-go",
+    "copy-from": "mi-go",
+    "base_faction": "nether",
+    "friendly": [ "mi-go_summon" ],
+    "neutral": [ "fish", "yrax", "small_animal", "slime", "passive_machine" ],
+    "by_mood": [ "nether" ],
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mi-go_summon",
+    "base_faction": "nether",
+    "friendly": [ "mi-go" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "fungus",
     "copy-from": "fungus",
     "neutral": [ "bot", "fish", "passive_machine", "yrax" ],

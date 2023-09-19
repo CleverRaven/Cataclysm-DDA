@@ -1,0 +1,56 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "default_oter": [
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north",
+      "nether_glass_impassable_north"
+    ],
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "BLOB", "BEE", "ANT", "FUNGAL", "SLIME", "TRIFFID", "MI-GO", "LAB", "CLASSIC" ],
+      "clear_whitelist": false,
+      "whitelist": [ "ISO_MAP" ]
+    },
+    "river_scale": 0,
+    "overmap_lake_settings": {
+      "noise_threshold_lake": 10.0,
+      "lake_size_min": 20,
+      "lake_depth": -5,
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [
+        { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
+        { "om_terrain": "island_forest_thick", "om_terrain_match_type": "TYPE", "alias": "forest_thick" },
+        { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
+        { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
+      ]
+    },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 150.0,
+      "noise_threshold_forest_thick": 150.0,
+      "noise_threshold_swamp_adjacent_water": 0.3,
+      "noise_threshold_swamp_isolated": 0.6,
+      "river_floodplain_buffer_distance_min": 3,
+      "river_floodplain_buffer_distance_max": 15
+    }
+  }
+]
