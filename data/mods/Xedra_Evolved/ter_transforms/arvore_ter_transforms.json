@@ -1,0 +1,54 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_plant_growth",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory", 32 ],
+          [ "t_tree_walnut", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut", 8 ],
+          [ "t_tree_hazelnut", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple", 2 ],
+          [ "t_tree_cherry", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear", 2 ],
+          [ "t_tree_plum", 2 ],
+          [ "t_tree_elderberry", 2 ],
+          [ "t_tree_mulberry", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_terrain": [ "t_tree_young" ],
+        "message": "The young tree creaks as its limbs begin growing, first slowly and then with increasing speed.  Roots churn through the soil and leaves stretch toward the sun, and in moments you stand before a tree that could have stood for a human lifetime."
+      },
+      {
+        "result": "t_grass_long",
+        "valid_terrain": [ "t_grass" ],
+        "message": "Fresh green grass grows longer and longer until it stands as tall as your knees."
+      },
+      {
+        "result": "t_grass_tall",
+        "valid_terrain": [ "t_grass_long" ],
+        "message": "The tall grass grows and grows until a child easily hide themselves within it."
+      }
+    ],
+    "furniture": [
+      {
+        "result": "f_plant_harvest",
+        "valid_furniture": [ "f_plant_mature", "f_plant_seedling" ],
+        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers spreading toward the sun.  Before you even lower your hands, it's ripe and ready for the harvest."
+      }
+    ]
+  }
+]

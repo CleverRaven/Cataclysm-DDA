@@ -1,0 +1,51 @@
+[
+  {
+    "type": "enchantment",
+    "id": "arvore_resist_chill",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ]
+  },
+  {
+    "id": "arvore_summon_wood_spirit",
+    "type": "SPELL",
+    "name": "Call the Children of the Boughs",
+    "description": "A lesser wood spirit is summoned to support you.",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": 35,
+    "difficulty": 3,
+    "effect": "summon",
+    "effect_str": "GROUP_GENIUS_ARVORE",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 8,
+    "damage_increment": 0.5,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP" ],
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  },
+  {
+    "id": "arvore_nurture_the_green",
+    "type": "SPELL",
+    "name": "Nurturing the Green",
+    "description": "You can greatly speed plant growth.  Grass can grow from seed in moments, crops can be brought to ripeness, and even young trees will reach their full bloom.",
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": 20,
+    "energy_source": "MANA",
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_plant_growth",
+    "base_casting_time": 6000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -225,
+    "base_energy_cost": 1000,
+    "min_range": 1
+  }
+]
