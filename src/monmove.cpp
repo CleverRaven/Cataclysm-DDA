@@ -294,12 +294,14 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( p.xy(), p.z + 1 ) ) ) {
+        const tripoint above( p.xy(), p.z + 1 );
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
             return true;
         }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, above ) ) {
             // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
+            // Check floors for flying monsters movement
             return false;
         }
     }
