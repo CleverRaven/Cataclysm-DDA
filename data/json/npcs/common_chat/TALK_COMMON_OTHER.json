@@ -469,7 +469,13 @@
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -3, "fear": 1, "value": -3, "anger": 5 } }
       },
-      { "text": "Eh, never mind.", "switch": true, "default": true, "condition": { "npc_has_effect": "asked_for_item" }, "topic": "TALK_NONE" },
+      {
+        "text": "Eh, never mind.",
+        "switch": true,
+        "default": true,
+        "condition": { "npc_has_effect": "asked_for_item" },
+        "topic": "TALK_NONE"
+      },
       { "text": "Never mind, I'll do without.  Bye.", "topic": "TALK_DONE" }
     ]
   },
