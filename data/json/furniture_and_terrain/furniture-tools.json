@@ -1615,14 +1615,14 @@
   {
     "type": "furniture",
     "id": "f_rope_up",
-    "name": "rope leading up",
+    "name": "grappling hook",
     "looks_like": "t_rope_up",
-    "description": "A dangling end of a rope, the other end is tied securely to something above you.  You could use it to climb up.",
+    "description": "A dangling piece of rope, hooked securely to something above you.  You could climb up or take it down.",
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z", "ALLOW_ON_OPEN_AIR" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
     "bash": {
