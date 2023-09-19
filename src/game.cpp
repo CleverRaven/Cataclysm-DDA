@@ -2482,6 +2482,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
     ctxt.register_action( "reload_wielded" );
+    ctxt.register_action( "insert" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -9077,6 +9078,20 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     u.view_offset = stored_view_offset;
 
     return game::vmenu_ret::QUIT;
+}
+
+void game::insert_item()
+{
+    item_location item_loc = inv_map_splice( [&]( const item_location & it ) {
+        return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
+    }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    game_menus::inv::insert_items( u, item_loc );
 }
 
 void game::unload_container()
