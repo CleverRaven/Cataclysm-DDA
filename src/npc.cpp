@@ -2178,7 +2178,7 @@ void npc::shop_restock()
 std::string npc::get_interval( const npc &guy ) const
 {
     time_duration const restock_remaining =
-        calendar::turn - restock;
+        restock - calendar::turn;
     std::string restock_rem = to_string( restock_remaining );
     return restock_rem;
 }
