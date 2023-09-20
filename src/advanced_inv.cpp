@@ -1465,7 +1465,7 @@ void advanced_inventory::start_activity(
             && panes[dest].container.where() != item_location::type::map
             && !player_character.is_wielding( *panes[dest].container ) ) {
 
-            popup_getkey( _( "The %s would spill if opened up; it must be on the ground or wielded." ),
+            popup_getkey( _( "The %s would spill; it must be on the ground or wielded." ),
                           panes[dest].container->type_name() );
             return;
         }
