@@ -226,7 +226,8 @@
   {
     "id": "motorcycle_rail",
     "type": "vehicle",
-    "name": "Rail Motorcycle",
+    "name": "Debug Rail Motorcycle",
+    "//": "debug vehicle to test one-axis railroads",
     "blueprint": [ "o#>o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle", "motorcycle_kickstand" ] },
