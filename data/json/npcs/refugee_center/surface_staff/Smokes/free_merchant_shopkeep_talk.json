@@ -47,7 +47,7 @@
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
-	  { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
+      { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
       { "text": "That's all for now.  Take care.", "topic": "TALK_DONE" }
     ]
   },
