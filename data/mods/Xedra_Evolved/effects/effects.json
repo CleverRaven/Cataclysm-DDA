@@ -738,13 +738,14 @@
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
+    "base_mods": {"dodge_mod": [ 1 ] },
     "enchantments": [
       {
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 7) * (scaling_factor(u_val('perception') ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10) * (scaling_factor(u_val('perception') ) )" ]
             }
           }
         ]
@@ -759,6 +760,7 @@
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
+    "base_mods": {"dodge_mod": [ 2 ] },
     "enchantments": [
       {
         "values": [
@@ -766,7 +768,7 @@
             "value": "BONUS_DODGE",
             "add": {
               "math": [
-                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 7) * (scaling_factor(u_val('perception') ) )"
+                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10) * (scaling_factor(u_val('perception') ) )"
               ]
             }
           }
@@ -783,6 +785,7 @@
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
+    "base_mods": {"dodge_mod": [ 3 ] },
     "enchantments": [
       {
         "values": [
@@ -790,7 +793,7 @@
             "value": "BONUS_DODGE",
             "add": {
               "math": [
-                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 7) * (scaling_factor(u_val('perception') ) )"
+                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10) * (scaling_factor(u_val('perception') ) )"
               ]
             }
           }
