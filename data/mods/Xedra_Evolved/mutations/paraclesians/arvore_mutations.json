@@ -275,6 +275,7 @@
     "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
     "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
     "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
     "triggers": [
       [
         {
@@ -321,6 +322,7 @@
     "ugliness": 0,
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
     "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
     "enchantment": [ "ench_arvore_sun_foods_on" ],
     "triggers": [
       [
@@ -477,6 +479,46 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_BLOOD",
+    "name": { "str": "Vegetal Blood" },
+    "//": "Visibility here because the Arvore's skin flushes a different color when the blood isn't red.",
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 0,
+    "description": "The Arvore's blood is now composed of sap and vegetable matter.  This does not benefit or harm them in any ways, but humans will be discomfited by it.",
+    "category": [ "ARVORE" ],
+    "flags": [ "PLANTBLOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_BLOOD_2",
+    "name": { "str": "Sap Seals the Wound" },
+    "points": 7,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air.  They are immune to losing any significant amount of blood and will not bleed.",
+    "prereqs": [ "ARVORE_BLOOD" ],
+    "changes_to": "ARVORE_BLOOD_3",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "//": "Ideally this would greatly slow the rate of blood loss, not eliminate it.",
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+    {
+    "type": "mutation",
+    "id": "ARVORE_BLOOD_3",
+    "name": { "str": "Sap Maintains the Heartwood" },
+    "points": 10,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and has potent defensive properties.  They will not bleed and are immune to parasites and infection.",
+    "prereqs": [ "ARVORE_BLOOD_2" ],
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_FOREST_DETECT",
     "name": { "str": "The Forests' Warning" },
     "points": 2,
@@ -625,5 +667,117 @@
       "active": false,
       "moves": 0
     }
-  }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_HEAL_LIMB_REGEN",
+    "name": { "str": "Leaves Return When Winter Ends" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "MEND_ALL" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  "u_is_outside",
+                  { "u_is_on_terrain": "t_barkfloor" },
+                  { "u_is_on_terrain": "t_bramble_door_c" },
+                  { "u_is_on_terrain": "t_bramble_door_o" },
+                  { "u_is_on_terrain": "t_root_floor" }
+                ]
+              },
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_dirt" },
+                  { "u_is_on_terrain": "t_dirtmound" },
+                  { "u_is_on_terrain": "t_clay" },
+                  { "u_is_on_terrain": "t_sand" },
+                  { "u_is_on_terrain": "t_sandmound" },
+                  { "u_is_on_terrain": "t_grave" },
+                  { "u_is_on_terrain": "t_forestfloor" },
+                  { "u_is_on_terrain": "t_grass" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_is_on_terrain": "t_grass_tall" },
+                  { "u_is_on_terrain": "t_grass_dead" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_mud" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_moss" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_HEAL_LIMB_REGEN_ON",
+    "name": { "str": "Leaves Return When Winter Ends (active)" },
+    "//": "Once limb loss is possible, this mutation should allow the Arvore to regrow lost limbs.",
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "MEND_ALL" ],
+    "mending_modifier": 20.0,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              {
+                "and": [
+                  { "not": "u_is_outside" },
+                  { "not": { "u_is_on_terrain": "t_barkfloor" } },
+                  { "not": { "u_is_on_terrain": "t_bramble_door_c" } },
+                  { "not": { "u_is_on_terrain": "t_bramble_door_o" } },
+                  { "not": { "u_is_on_terrain": "t_root_floor" } }
+                ]
+              },
+              {
+                "and ": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_is_on_terrain": "t_dirt" } },
+                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
+                  { "not": { "u_is_on_terrain": "t_clay" } },
+                  { "not": { "u_is_on_terrain": "t_sand" } },
+                  { "not": { "u_is_on_terrain": "t_sandmound" } },
+                  { "not": { "u_is_on_terrain": "t_grave" } },
+                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
+                  { "not": { "u_is_on_terrain": "t_grass" } },
+                  { "not": { "u_is_on_terrain": "t_grass_long" } },
+                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
+                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_mud" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_moss" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+  },
 ]
