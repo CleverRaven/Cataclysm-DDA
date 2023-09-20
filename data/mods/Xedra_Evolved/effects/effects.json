@@ -732,7 +732,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_paraclesian_dodge_bonus",
+    "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
     "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
     "apply_message": "",
@@ -753,7 +753,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_paraclesian_dodge_bonus_enh",
+    "id": "effect_paraclesian_dodge_bonus_2",
     "name": [ "Enhanced Dodging" ],
     "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
     "apply_message": "",
@@ -766,7 +766,7 @@
             "value": "BONUS_DODGE",
             "add": {
               "math": [
-                "(3 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus_enh') / 8) * (scaling_factor(u_val('perception') ) )"
+                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 7) * (scaling_factor(u_val('perception') ) )"
               ]
             }
           }
@@ -774,6 +774,30 @@
       }
     ],
     "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_3",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 7) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
   },
   {
     "type": "mutation",
