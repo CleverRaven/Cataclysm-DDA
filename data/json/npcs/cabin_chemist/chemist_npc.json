@@ -56,6 +56,7 @@
     "responses": [
       { "text": "Who are you?", "topic": "TALK_NPC_CABIN_CHEMIST_STORY" },
       { "text": "What is this place?", "topic": "TALK_NPC_CABIN_CHEMIST_HOME" },
+      { "text": "Brewed anything new lately?", "topic": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL" },
       { "text": "Care to trade?", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO", "effect": "start_trade" },
       {
         "text": "I'd like to buy in bulk.",
