@@ -960,8 +960,8 @@ bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortb
         return true;
     }
 
-    // pickup_activity_actor processes from the back, so reverse the order if moving to inventory.
     auto sort = [&dpane]( const move_all_entry & lhs, const move_all_entry & rhs ) {
+        // pickup_activity_actor processes from the back, so reverse the order if moving to inventory.
         if( lhs.first.first == rhs.first.first ) {
             return dpane.get_area() == AIM_INVENTORY ?
                    lhs.first.second > rhs.first.second : lhs.first.second < rhs.first.second;
@@ -1425,7 +1425,7 @@ void advanced_inventory::start_activity(
             }
             if( to_vehicle && sitem->items.front()->is_bucket_nonempty() ) {
                 if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
-                    sitem->items.front()->tname() ) ) {
+                               sitem->items.front()->tname() ) ) {
                     return;
                 }
                 for( item *it : sitem->items.front()->get_contents().all_items_top() ) {
@@ -1482,7 +1482,7 @@ void advanced_inventory::start_activity(
             }
             if( sitem->items.front()->is_bucket_nonempty() ) {
                 if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
-                    sitem->items.front()->tname() ) ) {
+                               sitem->items.front()->tname() ) ) {
                     return;
                 }
                 for( item *it : sitem->items.front()->get_contents().all_items_top() ) {
