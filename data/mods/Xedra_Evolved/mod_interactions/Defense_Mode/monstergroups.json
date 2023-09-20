@@ -1,0 +1,19 @@
+[
+ {
+    "type": "monstergroup",
+    "name": "GROUP_DEFENSE_MODE_EXODII",
+    "//": "A small Exodii hunter/killer unit or party, respecialized for Defense Mode.",
+    "monsters": [
+      { "monster": "mon_dm_exodii_worker", "weight": 100 },
+      { "monster": "mon_dm_exodii_worker", "weight": 50, "cost_multiplier": 20, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DEFENSE_MODE_XEDRA",
+    "monsters": [
+      { "monster": "mon_dm_exodii_worker", "weight": 100 },
+      { "monster": "mon_dm_exodii_worker", "weight": 50, "cost_multiplier": 20, "pack_size": [ 1, 3 ] }
+    ]
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPAWN_EXODII",
+    "condition": { "math": [ "exodii_allowed", "==", "1" ] },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_DEFENSE_MODE_EXODII",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_DEFENSE_MODE_EXODII",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_DEFENSE_MODE_EXODII",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      }
+    ],
+    "false_effect": { "run_eocs": "DEFENSE_MODE_WAVE_SPAWN_FALLBACK" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPAWN_XEDRA",
+    "condition": { "math": [ "xedra_allowed", "==", "1" ] },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_DEFENSE_MODE_XEDRA",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_DEFENSE_MODE_XEDRA",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_DEFENSE_MODE_XEDRA",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      }
+    ],
+    "false_effect": { "run_eocs": "DEFENSE_MODE_WAVE_SPAWN_FALLBACK" }
+  }
+]
