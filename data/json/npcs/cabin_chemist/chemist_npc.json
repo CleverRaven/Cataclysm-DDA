@@ -72,6 +72,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL",
+    "dynamic_line": "Unfortunately, I'm still gathering resources and cooking new stuff. Maybe ask again after <interval>.",
+    "responses": [ { "text": "Alright. thanks nonetheless.", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
     "dynamic_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Even brought some of my equipment, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
