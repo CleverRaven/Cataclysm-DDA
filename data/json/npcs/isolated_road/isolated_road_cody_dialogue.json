@@ -220,7 +220,10 @@
         "topic": "TALK_BLACKSMITH_SERVICES",
         "effect": "start_trade"
       },
-      { "text": "Interesting. When would be the next batch of merchandise ready?", "topic": "TALK_BLACKSMITH_RESTOCK" },
+      {
+        "text": "Interesting. When would be the next batch of merchandise ready?",
+        "topic": "TALK_BLACKSMITH_RESTOCK"
+      },
       {
         "text": "I heard you might want some metal…",
         "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
