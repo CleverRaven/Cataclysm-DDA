@@ -134,6 +134,17 @@
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_summon_wood_spirit", 1 ] ]
   },
+    {
+    "type": "mutation",
+    "id": "ARVORE_TERRAIN_BASH_SPELL",
+    "name": { "str": "Roots Crack the Foundation" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, the Arvore gains the ability to summon semitangible roots that will shatter walls and furniture.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_roots_crack_the_foundation", 1 ] ]
+  },
   {
     "type": "mutation",
     "id": "WIND_BLOWS_WILLOW_BENDS",
