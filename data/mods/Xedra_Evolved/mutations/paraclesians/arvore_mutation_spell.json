@@ -13,6 +13,26 @@
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_arvore_thorns_mut",
+    "condition": "ALWAYS",
+    "hit_me_effect": [ { "id": "spell_arvore_thorns_mut_counter", "hit_self": false, "once_in": 3 } ],
+  },
+  {
+    "id": "spell_arvore_thorns_mut_counter",
+    "type": "SPELL",
+    "name": { "str": "Arvore Thorns Damage" },
+    "description": "Sometimes, when an enemy punches your thorns, they hurt themselves.",
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 8,
+    "min_range": 1,
+    "damage_type": "stab",
+    "flags": [ "RANDOM_DAMAGE" ]
+  },
+  {
     "id": "arvore_commune_with_nature",
     "type": "SPELL",
     "name": "Commune with Nature",
