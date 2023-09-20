@@ -429,11 +429,47 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_THORN_SKIN",
+    "name": { "str": "Hidden Thorns" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Every rose has its thorn and so do you.  With a moment's concentration, you can exude thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
+    "category": [ "ARVORE" ],
+    "active": true,
+    "transform": {
+      "target": "ARVORE_THORN_SKIN_ON",
+      "msg_transform": "Woody thorns push through your skin!",
+      "active": true,
+      "moves": 50
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_THORN_SKIN_ON",
+    "name": { "str": "Unveiled Thorns (active)" },
+    "points": 7,
+    "visibility": 8,
+    "ugliness": 6,
+    "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
+    "category": [ "ARVORE" ],
+    "active": true,
+    "integrated_armor": "integrated_arvore_thorns",
+    "enchantments": [ "ench_arvore_thorns_mut" ], 
+    "transform": {
+      "target": "ARVORE_THORN_SKIN",
+      "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
+      "active": false,
+      "moves": 50
+    }
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_MIND_CONTROL_POLLEN",
     "name": { "str": "Enchanting Aroma" },
     "points": 4,
     "visibility": 0,
-    "ugliness": 0,
+    "ugliness": -2,
     "types": [ "SCENT" ],
     "prereqs": [ "ARVORE_FLORAL_SCENT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
@@ -451,7 +487,7 @@
   },
   {
     "type": "mutation",
-    "id": "ARVORE_MIND_CONTROL_POLLEN",
+    "id": "ARVORE_MIND_CONTROL_POLLEN_ON",
     "name": { "str": "Enchanting Aroma (active)" },
     "points": 4,
     "visibility": 0,
