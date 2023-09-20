@@ -262,8 +262,6 @@ input_context game::get_player_input( std::string &action )
 
     m.update_visibility_cache( u.posz() );
     const visibility_variables &cache = m.get_visibility_variables_cache();
-    const level_cache &map_cache = m.get_cache_ref( u.posz() );
-    const auto &visibility_cache = map_cache.visibility_cache;
 
     user_turn current_turn;
 
@@ -343,7 +341,7 @@ input_context game::get_player_input( std::string &action )
 
                     const tripoint mapp( map, u.posz() );
 
-                    const lit_level lighting = visibility_cache[mapp.x][mapp.y];
+                    const lit_level lighting = m.apparent_light_at( mapp, cache );
 
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {

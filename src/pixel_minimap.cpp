@@ -304,7 +304,6 @@ void pixel_minimap::flush_cache_updates()
 void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 {
     const map &here = get_map();
-    const level_cache &access_cache = here.access_cache( sm_pos.z );
     const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
 
     // TODO: fix point types
@@ -316,7 +315,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
             const tripoint p = ms_pos + tripoint{ x, y, 0 };
-            const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
+            const lit_level lighting = here.apparent_light_at( p, here.get_visibility_variables_cache() );
 
             SDL_Color color;
 
@@ -506,19 +505,18 @@ void pixel_minimap::render_critters( const tripoint &center )
         mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
     }
 
-    const level_cache &access_cache = get_map().access_cache( center.z );
-
     const point start( center.x - total_tiles_count.x / 2, center.y - total_tiles_count.y / 2 );
     const point beacon_size = {
         std::max<int>( projector->get_tile_size().x *settings.beacon_size / 2, 2 ),
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
     };
 
+    const map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
             const tripoint p = start + tripoint( x, y, center.z );
-            const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
+            const lit_level lighting = here.apparent_light_at( p, here.get_visibility_variables_cache() );
 
             if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
                 continue;

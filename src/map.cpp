@@ -1926,7 +1926,7 @@ uint8_t map::get_known_connections( const tripoint &p,
         const bool neighbour_overridden = neighbour_override != override.end();
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
-                                 get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
+                                 get_visibility( apparent_light_at( neighbour, get_visibility_variables_cache() ),
                                          get_visibility_variables_cache() ) == visibility_type::CLEAR ||
                                  // or if an actual center tile is transparent or next to a memorized tile
                                  ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
@@ -2010,7 +2010,7 @@ uint8_t map::get_known_connections_f( const tripoint &p,
         const bool neighbour_overridden = neighbour_override != override.end();
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
-                                 get_visibility( ch.visibility_cache[pt.x][pt.y],
+                                 get_visibility( apparent_light_at( pt, get_visibility_variables_cache() ),
                                          get_visibility_variables_cache() ) ==
                                  visibility_type::CLEAR ||
                                  // or if an actual center tile is transparent or
@@ -6659,8 +6659,6 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     update_visibility_cache( center.z );
     const visibility_variables &cache = get_visibility_variables_cache();
 
-    const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
-
     int wnd_h = getmaxy( w );
     int wnd_w = getmaxx( w );
     const tripoint offs = center - tripoint( wnd_w / 2, wnd_h / 2, 0 );
@@ -6724,7 +6722,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                 continue;
             }
 
-            const lit_level lighting = visibility_cache[p.x][p.y];
+            const lit_level lighting = apparent_light_at( p, cache );
             const visibility_type vis = get_visibility( lighting, cache );
 
             if( draw_vision_effect( vis ) ) {
@@ -6759,7 +6757,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                 continue;
             }
 
-            const lit_level lighting = visibility_cache[p.x][p.y];
+            const lit_level lighting = apparent_light_at( p, cache );
             const visibility_type vis = get_visibility( lighting, cache );
 
             if( vis != visibility_type::CLEAR ) {
