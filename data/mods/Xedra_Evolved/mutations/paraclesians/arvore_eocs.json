@@ -300,7 +300,7 @@
       "run_eocs": [
         {
           "id": "EOC_SUN_FOODS_ON_HUNGER_2",
-          "condition": { "and": [ { "math": [ "u_val('stored_kcal')", "<=", "109999" ] }, [ "u_val('stored_kcal')", ">=", "75000" ] },
+          "condition": { "and": [ { "math": [ "u_val('stored_kcal')", "<=", "109999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ] },
           "effect": [
             { "math": [ "u_val('stored_kcal')", "+=", "5" ] },
           ],
