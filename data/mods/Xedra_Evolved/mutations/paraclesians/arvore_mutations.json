@@ -450,7 +450,7 @@
     "name": { "str": "Unveiled Thorns (active)" },
     "points": 7,
     "visibility": 8,
-    "ugliness": 6,
+    "ugliness": 4,
     "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
     "active": true,
