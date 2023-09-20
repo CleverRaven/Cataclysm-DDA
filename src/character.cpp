@@ -10999,6 +10999,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
+        item *prev_contained = nullptr;
 
         for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
@@ -11007,7 +11008,12 @@ bool Character::unload( item_location &loc, bool bypass_activity )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
-                moves += this->item_handling_cost( *contained );
+                if( prev_contained && prev_contained->stacks_with( *contained ) ) {
+                    moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                } else {
+                    moves += this->item_handling_cost( *contained );
+                }
+                prev_contained = contained;
             }
 
         }
