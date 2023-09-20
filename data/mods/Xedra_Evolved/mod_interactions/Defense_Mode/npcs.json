@@ -67,8 +67,6 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "zebra_weapon_override",
-    "entries": [
-      { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20 }
-    ]
+    "entries": [ { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20 } ]
   }
 ]
