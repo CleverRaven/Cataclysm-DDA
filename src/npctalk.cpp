@@ -6059,8 +6059,8 @@ void json_talk_topic::load( const JsonObject &jo )
         }
     }
     bool insert_above_bottom = false;
-    if( jo.has_bool( "insert_above_bottom" ) ) {
-        insert_above_bottom = jo.get_bool( "insert_above_bottom" );
+    if( jo.has_bool( "insert_before_standard_exits" ) ) {
+        insert_above_bottom = jo.get_bool( "insert_before_standard_exits" );
     }
     if( !insert_above_bottom || responses.empty() ) {
         for( JsonObject response : jo.get_array( "responses" ) ) {
@@ -6068,8 +6068,8 @@ void json_talk_topic::load( const JsonObject &jo )
         }
     } else {
         int dec_count = 0;
-        if( responses.size() >= 1 &&
-            responses[ responses.size() - 1].get_actual_response().success.next_topic.id == "TALK_DONE" ) {
+        if( !responses.empty() &&
+            responses.back().get_actual_response().success.next_topic.id == "TALK_DONE" ) {
             dec_count = 1;
         }
         if( responses.size() >= 2 &&
@@ -6287,3 +6287,4 @@ const json_talk_topic *get_talk_topic( const std::string &id )
     }
     return &it->second;
 }
+
