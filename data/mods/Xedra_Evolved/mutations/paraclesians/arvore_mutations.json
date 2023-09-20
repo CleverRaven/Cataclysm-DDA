@@ -134,7 +134,7 @@
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_summon_wood_spirit", 1 ] ]
   },
-    {
+  {
     "type": "mutation",
     "id": "ARVORE_TERRAIN_BASH_SPELL",
     "name": { "str": "Roots Crack the Foundation" },
