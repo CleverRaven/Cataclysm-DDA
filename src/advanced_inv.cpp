@@ -1423,6 +1423,16 @@ void advanced_inventory::start_activity(
                 quantities.push_back( 0 );
                 --amount_to_move;
             }
+            if( to_vehicle && sitem->items.front()->is_bucket_nonempty() ) {
+                if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
+                    sitem->items.front()->tname() ) ) {
+                    return;
+                }
+                for( item *it : sitem->items.front()->get_contents().all_items_top() ) {
+                    target_items.emplace_back( item_location( sitem->items.front(), it ) );
+                    quantities.emplace_back( it->count() );
+                }
+            }
         }
 
         if( destarea == AIM_WORN ) {
@@ -1459,10 +1469,7 @@ void advanced_inventory::start_activity(
                           panes[dest].container->type_name() );
             return;
         }
-        if( sitem->items.front()->is_bucket_nonempty() ) {
-            popup_getkey( _( "The %s would spill if moved there." ), sitem->items.front()->type_name() );
-            return;
-        }
+
         // Create drop locations out of target items and quantities
         drop_locations target_inserts;
         if( by_charges ) {
@@ -1472,6 +1479,15 @@ void advanced_inventory::start_activity(
                  it != sitem->items.end(); ++it ) {
                 target_inserts.emplace_back( std::make_pair( *it, 0 ) );
                 --amount_to_move;
+            }
+            if( sitem->items.front()->is_bucket_nonempty() ) {
+                if( !query_yn( _( "The %s would spill if stored there.  Store its contents first?" ),
+                    sitem->items.front()->tname() ) ) {
+                    return;
+                }
+                for( item *it : sitem->items.front()->get_contents().all_items_top() ) {
+                    target_inserts.emplace_back( item_location( sitem->items.front(), it ), it->count() );
+                }
             }
         }
 
@@ -1532,11 +1548,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
-    if( to_vehicle && sitem->items.front()->is_bucket_nonempty() &&
-        !query_yn( _( "The %s would spill if stored there.  Remove its contents first?" ),
-                   sitem->items.front()->tname() ) ) {
-        return false;
-    }
+
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
         popup_getkey( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
