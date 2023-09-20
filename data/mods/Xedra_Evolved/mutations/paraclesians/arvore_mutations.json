@@ -261,7 +261,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-     "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
     "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
     "category": [ "ARVORE" ],
     "triggers": [
