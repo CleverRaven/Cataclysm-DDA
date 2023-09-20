@@ -98,7 +98,7 @@
     "description": "You draw on your own connection to nature and infuse some of its power into one of your allies, healing them for a small amount and increasing their overall health.",
     "valid_targets": [ "ally" ],
     "skill": "deduction",
-    "effect": "atttack",
+    "effect": "attack",
     "effect_str": "arvore_verdant_infusion",
     "shape": "blast",
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_LEGS", "NO_HANDS" ],
@@ -119,6 +119,34 @@
     "min_duration": 30000,
     "max_duration": 1080000,
     "duration_increment": 16500
+  },
+  {
+    "id": "arvore_roots_crack_the_foundation",
+    "type": "SPELL",
+    "name": "Roots Crack the Foundation",
+    "description": "You draw on your own connection to nature and infuse some of its power into one of your allies, healing them for a small amount and increasing their overall health.",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "effect": "bash",
+    "shape": "cone",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "IGNORE_WALLS", "RANDOM_DAMAGE", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 7,
+    "min_damage": {
+      "math": [ "(u_val('spell_level', 'spell: arvore_verdant_infusion') * 2.5) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "(u_val('spell_level', 'spell: arvore_verdant_infusion') * 7.5) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "min_range": 2,
+    "max_range": 8,
+    "min_aoe": 30
+    "max_aoe": 50,
+    "aoe_increment": 0.7,
+    "range_increment": 0.4,
+    "base_casting_time": 150,
+    "energy_source": "MANA",
+    "base_energy_cost": 450
   },
   {
     "id": "arvore_summon_wood_spirit",
