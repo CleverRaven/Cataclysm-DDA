@@ -129,7 +129,7 @@
     ],
     "responses": [
       { "text": "Alright, I'll take a look.", "effec": "start_trade", "Topic": "TALK_GODCO_Kostas_1" },
-      { "text": "Alright, thanks for iinforming me. Bye!", "topic": "TALK_DONE" }
+      { "text": "Alright, thanks for informing me. Bye!", "topic": "TALK_DONE" }
     ]
   },
   {
