@@ -9978,7 +9978,7 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                          this == parent_it.get_item() ) ) {
         // does the set of all sets contain itself?
         // or does this already contain it?
-        return ret_val<void>::make_failure();
+        return ret_val<void>::make_failure( "can't put a container into itself" );
     }
     if( nested && !this->is_container() ) {
         return ret_val<void>::make_failure();
@@ -10026,27 +10026,27 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
            contents.can_contain( it, copies_remaining, ignore_pkt_settings, remaining_parent_volume );
 }
 
-bool item::can_contain( const itype &tp ) const
+ret_val<void> item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ) ).success();
+    return can_contain( item( &tp ) );
 }
 
-bool item::can_contain_partial( const item &it ) const
+ret_val<void> item::can_contain_partial( const item &it ) const
 {
     item i_copy = it;
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy ).success();
+    return can_contain( i_copy );
 }
 
-bool item::can_contain_partial_directly( const item &it ) const
+ret_val<void> item::can_contain_partial_directly( const item &it ) const
 {
     item i_copy = it;
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false ).success();
+    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false );
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
@@ -11787,7 +11787,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 
     int remaining_capacity = 0;
 
-    if( can_contain_partial( liquid ) ) {
+    if( can_contain_partial( liquid ).success() ) {
         if( !contents.can_contain_liquid( allow_bucket ) ) {
             return error( string_format( _( "That %s must be on the ground or held to hold contents!" ),
                                          tname() ) );
