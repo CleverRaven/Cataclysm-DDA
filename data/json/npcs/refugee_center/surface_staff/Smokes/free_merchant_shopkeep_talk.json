@@ -43,7 +43,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
     "type": "talk_topic",
-    "dynamic_line": [ "Come back in <interval>. I may have something you're interested in. " ],
+    "dynamic_line": [ "Come back in <interval>.  I may have something you're interested in." ],
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
