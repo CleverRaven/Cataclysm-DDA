@@ -729,51 +729,60 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     return { obstructed, abs_obstructed, apparent_light };
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
+lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache,
+                                  const bool &recalc ) const
 {
-    Character &player_character = get_player_character();
-    const int dist = rl_dist( player_character.pos(), p );
+    auto &visibility_cache = get_cache( p.z ).visibility_cache;
+    if( visibility_cache.count( p ) == 0 || recalc ) {
+    	// Tile not found in cache, so calculate and store it
 
-    // Clairvoyance overrides everything.
-    if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
-        return lit_level::BRIGHT;
-    }
-    if( cache.clairvoyance_field && field_at( p ).find_field( *cache.clairvoyance_field ) ) {
-        return lit_level::BRIGHT;
-    }
-    const level_cache &map_cache = get_cache_ref( p.z );
-    const apparent_light_info a = apparent_light_helper( map_cache, p );
+        lit_level ll = lit_level::DARK;
+        Character &player_character = get_player_character();
+        const int dist = rl_dist( player_character.pos(), p );
 
-    // Unimpaired range is an override to strictly limit vision range based on various conditions,
-    // but the player can still see light sources
-    if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x][p.y] == 0.0 ) {
-        if( !a.abs_obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return lit_level::BRIGHT_ONLY;
-        }
-        return lit_level::BLANK;
-    }
+        // Clairvoyance overrides everything.
+        if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
+            ll = lit_level::BRIGHT;
+        } else if( cache.clairvoyance_field && field_at( p ).find_field( *cache.clairvoyance_field ) ) {
+            ll = lit_level::BRIGHT;
+        } else {
+            const level_cache &map_cache = get_cache_ref( p.z );
+            const apparent_light_info a = apparent_light_helper( map_cache, p );
 
-    if( a.obstructed ) {
-        if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-            if( a.apparent_light > cache.g_light_level ) {
-                // This represents too hazy to see detail,
-                // but enough light getting through to illuminate.
-                return lit_level::BRIGHT_ONLY;
+            // Unimpaired range is an override to strictly limit vision range based on various conditions,
+            // but the player can still see light sources
+            if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x][p.y] == 0.0 ) {
+                if( !a.abs_obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
+                    ll = lit_level::BRIGHT_ONLY;
+                } else {
+                    ll = lit_level::BLANK;
+                }
+            } else if( a.obstructed ) {
+                if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
+                    if( a.apparent_light > cache.g_light_level ) {
+                        // This represents too hazy to see detail,
+                        // but enough light getting through to illuminate.
+                        ll = lit_level::BRIGHT_ONLY;
+                    }
+                } else {
+                    ll = lit_level::BLANK;
+                }
+                // Then we just search for the light level in descending order.
+            } else if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
+                ll = lit_level::BRIGHT;
+            } else if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
+                ll = lit_level::LIT;
+            } else if( a.apparent_light >= cache.vision_threshold ) {
+                ll = lit_level::LOW;
+            } else {
+                ll = lit_level::BLANK;
             }
         }
-        return lit_level::BLANK;
-    }
-    // Then we just search for the light level in descending order.
-    if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
-        return lit_level::BRIGHT;
-    }
-    if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-        return lit_level::LIT;
-    }
-    if( a.apparent_light >= cache.vision_threshold ) {
-        return lit_level::LOW;
+        visibility_cache[p] = ll;
+        return ll;
     } else {
-        return lit_level::BLANK;
+        // Retrieve from cache if already exists
+        return visibility_cache[p];
     }
 }
 

@@ -6587,32 +6587,8 @@ void map::update_visibility_cache( const int zlev )
         visibility_variables_cache.clairvoyance_field = field_fd_clairvoyant;
     }
 
-    cata::mdarray<int, point_bub_sm> sm_squares_seen = {};
+    get_cache( zlev ).visibility_cache.clear();
 
-    auto &visibility_cache = get_cache( zlev ).visibility_cache;
-
-    tripoint p;
-    p.z = zlev;
-    int &x = p.x;
-    int &y = p.y;
-    for( x = 0; x < MAPSIZE_X; x++ ) {
-        for( y = 0; y < MAPSIZE_Y; y++ ) {
-            lit_level ll = apparent_light_at( p, visibility_variables_cache );
-            visibility_cache[x][y] = ll;
-            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == lit_level::BRIGHT || ll == lit_level::LIT );
-        }
-    }
-
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
-                const tripoint sm( gridx, gridy, 0 );
-                const tripoint_abs_sm abs_sm = map::abs_sub + sm;
-                const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_sm );
-                overmap_buffer.set_seen( abs_omt, true );
-            }
-        }
-    }
 
 #if defined(TILES)
     // clear previously cached visibility variables from cata_tiles

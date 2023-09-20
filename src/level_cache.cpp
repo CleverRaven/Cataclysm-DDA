@@ -18,7 +18,6 @@ level_cache::level_cache()
     std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
     clear_vehicle_cache();
 }
 

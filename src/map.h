@@ -393,7 +393,8 @@ class map
          * @param p The tile on this map to draw.
          * @param cache Currently cached visibility parameters
          */
-        lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
+        lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache,
+                                     const bool &recalc = false ) const;
         visibility_type get_visibility( lit_level ll,
                                         const visibility_variables &cache ) const;
 
