@@ -22,7 +22,8 @@
     "type": "enchantment",
     "id": "ench_arvore_sun_foods_on",
     "condition": "ALWAYS",
-    "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] }
+    "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] },
+    "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
   },
   {
     "id": "spell_arvore_thorns_mut_counter",
