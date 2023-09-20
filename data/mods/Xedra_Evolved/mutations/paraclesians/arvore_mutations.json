@@ -136,6 +136,28 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_TERRAIN_BASH_SPELL",
+    "name": { "str": "Roots Crack the Foundation" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, the Arvore gains the ability to summon semitangible roots that will shatter walls and furniture.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_roots_crack_the_foundation", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WIND_BLOWS_WILLOW_BENDS",
+    "name": { "str": "The Wind Blows, the Willow Bends" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, you gains the ability to enhance your dodge capabilities.",
+    "category": [ "ARVORE", "SYLPH" ],
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_PERENNIAL_REBIRTH",
     "name": { "str": "Perennial Rebirth" },
     "points": 3,
@@ -242,6 +264,102 @@
       ]
     ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_FOODS",
+    "name": { "str": "Solar Repast" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              "is_day",
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_dirt" },
+                  { "u_is_on_terrain": "t_dirtmound" },
+                  { "u_is_on_terrain": "t_clay" },
+                  { "u_is_on_terrain": "t_sand" },
+                  { "u_is_on_terrain": "t_sandmound" },
+                  { "u_is_on_terrain": "t_grave" },
+                  { "u_is_on_terrain": "t_forestfloor" },
+                  { "u_is_on_terrain": "t_grass" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_is_on_terrain": "t_grass_tall" },
+                  { "u_is_on_terrain": "t_grass_dead" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_mud" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_moss" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_FOODS_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_FOODS_ON",
+    "name": { "str": "Solar Repast (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "enchantment": [ "ench_arvore_sun_foods_on" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "not": "is_day" },
+              { "not": "u_is_outside" },
+              {
+                "and ": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_is_on_terrain": "t_dirt" } },
+                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
+                  { "not": { "u_is_on_terrain": "t_clay" } },
+                  { "not": { "u_is_on_terrain": "t_sand" } },
+                  { "not": { "u_is_on_terrain": "t_sandmound" } },
+                  { "not": { "u_is_on_terrain": "t_grave" } },
+                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
+                  { "not": { "u_is_on_terrain": "t_grass" } },
+                  { "not": { "u_is_on_terrain": "t_grass_long" } },
+                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
+                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_mud" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_moss" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_FOODS", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -361,6 +479,46 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_BLOOD",
+    "name": { "str": "Vegetal Blood" },
+    "//": "Visibility here because the Arvore's skin flushes a different color when the blood isn't red.",
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 0,
+    "description": "The Arvore's blood is now composed of sap and vegetable matter.  This does not benefit or harm them in any ways, but humans will be discomfited by it.",
+    "category": [ "ARVORE" ],
+    "flags": [ "PLANTBLOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_BLOOD_2",
+    "name": { "str": "Sap Seals the Wound" },
+    "points": 7,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air.  They are immune to losing any significant amount of blood and will not bleed.",
+    "prereqs": [ "ARVORE_BLOOD" ],
+    "changes_to": "ARVORE_BLOOD_3",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "//": "Ideally this would greatly slow the rate of blood loss, not eliminate it.",
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+    {
+    "type": "mutation",
+    "id": "ARVORE_BLOOD_3",
+    "name": { "str": "Sap Maintains the Heartwood" },
+    "points": 10,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and has potent defensive properties.  They will not bleed and are immune to parasites and infection.",
+    "prereqs": [ "ARVORE_BLOOD_2" ],
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_FOREST_DETECT",
     "name": { "str": "The Forests' Warning" },
     "points": 2,
@@ -429,15 +587,55 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_THORN_SKIN",
+    "name": { "str": "Hidden Thorns" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Every rose has its thorn and so do you.  With a moment's concentration, you can exude thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
+    "category": [ "ARVORE" ],
+    "active": true,
+    "transform": {
+      "target": "ARVORE_THORN_SKIN_ON",
+      "msg_transform": "Woody thorns push through your skin!",
+      "active": true,
+      "moves": 50
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_THORN_SKIN_ON",
+    "name": { "str": "Unveiled Thorns (active)" },
+    "points": 7,
+    "visibility": 8,
+    "ugliness": 4,
+    "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
+    "category": [ "ARVORE" ],
+    "active": true,
+    "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
+    "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
+    "allow_soft_gear": true,
+    "integrated_armor": "integrated_arvore_thorns",
+    "enchantments": [ "ench_arvore_thorns_mut" ],
+    "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
+    "transform": {
+      "target": "ARVORE_THORN_SKIN",
+      "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
+      "active": false,
+      "moves": 50
+    }
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_MIND_CONTROL_POLLEN",
     "name": { "str": "Enchanting Aroma" },
     "points": 4,
     "visibility": 0,
-    "ugliness": 0,
+    "ugliness": -2,
     "types": [ "SCENT" ],
     "prereqs": [ "ARVORE_FLORAL_SCENT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  At will, you can enhance this scent to an overpowering level, beguiling humans and making them more suggestable at the cost of greatly increasing the range at which others can smell you.",
+    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  At will, you can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
@@ -451,12 +649,12 @@
   },
   {
     "type": "mutation",
-    "id": "ARVORE_MIND_CONTROL_POLLEN",
+    "id": "ARVORE_MIND_CONTROL_POLLEN_ON",
     "name": { "str": "Enchanting Aroma (active)" },
     "points": 4,
     "visibility": 0,
     "ugliness": -10,
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately. You are enhancing this scent to an overpowering level, beguiling humans and making them more suggestable at the cost of greatly increasing the range at which others can smell you.",
+    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately. You are enhancing this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
@@ -469,5 +667,117 @@
       "active": false,
       "moves": 0
     }
-  }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_HEAL_LIMB_REGEN",
+    "name": { "str": "Leaves Return When Winter Ends" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "MEND_ALL" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              {
+                "or": [
+                  "u_is_outside",
+                  { "u_is_on_terrain": "t_barkfloor" },
+                  { "u_is_on_terrain": "t_bramble_door_c" },
+                  { "u_is_on_terrain": "t_bramble_door_o" },
+                  { "u_is_on_terrain": "t_root_floor" }
+                ]
+              },
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_dirt" },
+                  { "u_is_on_terrain": "t_dirtmound" },
+                  { "u_is_on_terrain": "t_clay" },
+                  { "u_is_on_terrain": "t_sand" },
+                  { "u_is_on_terrain": "t_sandmound" },
+                  { "u_is_on_terrain": "t_grave" },
+                  { "u_is_on_terrain": "t_forestfloor" },
+                  { "u_is_on_terrain": "t_grass" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_is_on_terrain": "t_grass_tall" },
+                  { "u_is_on_terrain": "t_grass_dead" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_mud" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_moss" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_HEAL_LIMB_REGEN_ON",
+    "name": { "str": "Leaves Return When Winter Ends (active)" },
+    "//": "Once limb loss is possible, this mutation should allow the Arvore to regrow lost limbs.",
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "MEND_ALL" ],
+    "mending_modifier": 20.0,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              {
+                "and": [
+                  { "not": "u_is_outside" },
+                  { "not": { "u_is_on_terrain": "t_barkfloor" } },
+                  { "not": { "u_is_on_terrain": "t_bramble_door_c" } },
+                  { "not": { "u_is_on_terrain": "t_bramble_door_o" } },
+                  { "not": { "u_is_on_terrain": "t_root_floor" } }
+                ]
+              },
+              {
+                "and ": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_is_on_terrain": "t_dirt" } },
+                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
+                  { "not": { "u_is_on_terrain": "t_clay" } },
+                  { "not": { "u_is_on_terrain": "t_sand" } },
+                  { "not": { "u_is_on_terrain": "t_sandmound" } },
+                  { "not": { "u_is_on_terrain": "t_grave" } },
+                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
+                  { "not": { "u_is_on_terrain": "t_grass" } },
+                  { "not": { "u_is_on_terrain": "t_grass_long" } },
+                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
+                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_mud" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_moss" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+  },
 ]

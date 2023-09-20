@@ -13,6 +13,33 @@
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_arvore_thorns_mut",
+    "condition": "ALWAYS",
+    "hit_me_effect": [ { "id": "spell_arvore_thorns_mut_counter", "hit_self": false, "once_in": 3 } ],
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_sun_foods_on",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] },
+    "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
+  },
+  {
+    "id": "spell_arvore_thorns_mut_counter",
+    "type": "SPELL",
+    "name": { "str": "Arvore Thorns Damage" },
+    "description": "Sometimes, when an enemy punches your thorns, they hurt themselves.",
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 8,
+    "min_range": 1,
+    "damage_type": "stab",
+    "flags": [ "RANDOM_DAMAGE" ]
+  },
+  {
     "id": "arvore_commune_with_nature",
     "type": "SPELL",
     "name": "Commune with Nature",
@@ -22,7 +49,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_COMMUNE_WITH_NATURE",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 4,
     "base_casting_time": 12000,
@@ -71,7 +98,7 @@
     "description": "You draw on your own connection to nature and infuse some of its power into one of your allies, healing them for a small amount and increasing their overall health.",
     "valid_targets": [ "ally" ],
     "skill": "deduction",
-    "effect": "atttack",
+    "effect": "attack",
     "effect_str": "arvore_verdant_infusion",
     "shape": "blast",
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_LEGS", "NO_HANDS" ],
@@ -94,10 +121,39 @@
     "duration_increment": 16500
   },
   {
+    "id": "arvore_roots_crack_the_foundation",
+    "type": "SPELL",
+    "name": "Roots Crack the Foundation",
+    "description": "You draw on your own connection to nature and infuse some of its power into one of your allies, healing them for a small amount and increasing their overall health.",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "effect": "bash",
+    "shape": "cone",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "IGNORE_WALLS", "RANDOM_DAMAGE", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 7,
+    "min_damage": {
+      "math": [ "(u_val('spell_level', 'spell: arvore_verdant_infusion') * 2.5) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "(u_val('spell_level', 'spell: arvore_verdant_infusion') * 7.5) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "min_range": 2,
+    "max_range": 8,
+    "min_aoe": 30
+    "max_aoe": 50,
+    "aoe_increment": 0.7,
+    "range_increment": 0.4,
+    "base_casting_time": 150,
+    "energy_source": "MANA",
+    "base_energy_cost": 450
+  },
+  {
     "id": "arvore_summon_wood_spirit",
     "type": "SPELL",
     "name": "Call the Children of the Boughs",
     "description": "A lesser wood spirit is summoned to support you.",
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
     "skill": "deduction",
     "max_level": 35,
@@ -111,7 +167,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP" ],
+  
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -140,6 +196,31 @@
     "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth"
   },
   {
+    "id": "paraclesian_spell_dodge_bonus",
+    "type": "SPELL",
+    "name": "The Wind Blows, the Willow Bends",
+    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
+    "shape": "blast",
+    "difficulty": 5,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 600,
+    "final_energy_cost": 400,
+    "energy_increment": -12,
+    "base_casting_time": 150
+  },
+  {
     "id": "arvore_growing_wood_walls",
     "type": "SPELL",
     "name": "The Forest Offers Shelter",
@@ -148,7 +229,6 @@
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "max_level": 20,
-    "energy_source": "MANA",
     "shape": "blast",
     "difficulty": 6,
     "effect": "effect_on_condition",
@@ -156,6 +236,7 @@
     "base_casting_time": 30000,
     "final_casting_time": 12000,
     "casting_time_increment": -900,
+    "energy_source": "MANA",
     "base_energy_cost": 600,
     "final_energy_cost": 350,
     "energy_increment": -15,
@@ -274,7 +355,7 @@
     "name": "commune with the Ancient Oaks",
     "description": "This spell allows you to speak to the trees and discern the layout of the forest.",
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_GAIN_COMMUNE_OAKS",
@@ -306,5 +387,16 @@
     "base_casting_time": 2160000,
     "energy_source": "MANA",
     "base_energy_cost": 2000
+  },
+   {
+    "id": "arvore_sun_foods_on_spell",
+    "type": "SPELL",
+    "name": "Solar Repast Spell",
+    "description": "The spell that provides the effects when your Solar Repast is active.  It's a bug if you have it directly.",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SUN_FOODS_ON_KCAL",
+    "shape": "blast"
   }
 ]
