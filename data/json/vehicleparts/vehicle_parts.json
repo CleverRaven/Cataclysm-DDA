@@ -1341,12 +1341,12 @@
   },
   {
     "copy-from": "mountable_heater",
-    "id": "integrated_heater_small",
+    "id": "mountable_heater_small",
     "type": "vehicle_part",
     "name": { "str": "small vehicle-mounted heater" },
-    "item": "integrated_heater_small",
+    "item": "mountable_heater_small",
     "//": "going with half energy draw based on difference between small and large space heaters",
-    "epower": "-350 W",
+    "epower": "-350 W", 
     "folded_volume": "3750 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1360,7 +1360,7 @@
   },
   {
     "id": "integrated_heater_small",
-    "copy-from": "integrated_heater_small",
+    "copy-from": "mountable_heater_small",
     "type": "vehicle_part",
     "location": "none",
     "name": { "str": "small integrated heater" },
