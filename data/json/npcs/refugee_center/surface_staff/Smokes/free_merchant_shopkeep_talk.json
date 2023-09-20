@@ -52,13 +52,16 @@
     ]
   },
   {
-	"id": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock",
-	"type": "talk_topic",
-	"dynamic_line": [ "Next shipment should arrive in around <interval>.", "Stick around for <interval>, there will surely be something you'd like." ],
-	"responses": [
-	{ "text": "Actually, I wanted to ask...", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
-	{ "text": "Thanks, I will make sure to check back.  Farewell.", "topic": "TALK_DONE" }
-	]
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Next shipment should arrive in around <interval>.",
+      "Stick around for <interval>, there will surely be something you'd like."
+    ],
+    "responses": [
+      { "text": "Actually, I wanted to ask...", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "Thanks, I will make sure to check back.  Farewell.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
