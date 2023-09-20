@@ -2175,7 +2175,7 @@ void npc::shop_restock()
     distribute_items_to_npc_zones( ret, *this );
 }
 
-std::string npc::get_interval() const
+std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =
         restock - calendar::turn;

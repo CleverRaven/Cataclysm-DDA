@@ -1973,7 +1973,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( tag == "<interval>" ) {
             const npc *guy = dynamic_cast<const npc *>( &me );
-            phrase.replace( fa, l, guy->get_interval() );
+            phrase.replace( fa, l, guy->get_restock_interval() );
         } else if( tag.find( "<u_val:" ) != std::string::npos ) {
             //adding a user variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
