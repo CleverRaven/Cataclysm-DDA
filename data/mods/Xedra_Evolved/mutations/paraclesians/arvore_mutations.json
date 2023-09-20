@@ -470,10 +470,7 @@
     "allow_soft_gear": true,
     "integrated_armor": "integrated_arvore_thorns",
     "enchantments": [ "ench_arvore_thorns_mut" ],
-    "encumbrance_covered": [
-      [ "hand_l", 10 ],
-      [ "hand_r", 10 ]
-    ],
+    "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "transform": {
       "target": "ARVORE_THORN_SKIN",
       "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
