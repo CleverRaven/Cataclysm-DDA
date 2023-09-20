@@ -311,7 +311,7 @@
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
     "category": [ "ARVORE" ],
     "enchantment": [ "ench_arvore_sun_foods_on" ],
-     "triggers": [
+    "triggers": [
       [
         {
           "condition": {
