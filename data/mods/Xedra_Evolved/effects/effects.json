@@ -694,6 +694,43 @@
     "enchantments": [ { "emitter": "emit_blood_karma" } ]
   },
   {
+    "type": "effect_type",
+    "id": "natures_commune",
+    "name": [ "Commune with Nature" ],
+    "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
+    "apply_message": "You can feel the lifeblood of nature all around, welcoming you as kin.",
+    "remove_message": "Your communion with nature fades.",
+    "rating": "good",
+    "max_duration": "360 m",
+    "dur_add_perc": 5,
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 50 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 100 ], "health_tick": [ 60 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "arvore_verdant_infusion",
+    "name": [ "Verdant Infusion" ],
+    "desc": [ "You are filled with the vitality of nature." ],
+    "apply_message": "You can feel the power of nature flowing through you.",
+    "remove_message": "The power of nature fades from you.",
+    "rating": "good",
+    "max_duration": "12 h",
+    "base_mods": {
+      "str_mod": [ 1 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 30 ],
+      "h_mod_min": [ 1 ],
+      "h_mod_chance": [ 80 ],
+      "health_tick": [ 30 ],
+      "healing_rate": [ 2 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "arvore_perennial_rebirth_cooldown",
+    "name": [ "Reborn" ],
+    "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+  },
+  {
     "type": "mutation",
     "id": "karma_arms",
     "name": { "str": "Karma" },
