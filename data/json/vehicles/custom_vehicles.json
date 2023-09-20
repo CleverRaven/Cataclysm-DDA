@@ -18,7 +18,7 @@
           "reclining_seat#windshield_front",
           "seatbelt",
           "controls",
-          "mountable_heater_small",
+          "integrated_heater_small",
           "mountable_cooler"
         ]
       },
@@ -90,7 +90,7 @@
           "seat#windshield_front",
           "seatbelt",
           "controls",
-          "mountable_heater_small",
+          "integrated_heater_small",
           "mountable_cooler",
           "dashboard"
         ]

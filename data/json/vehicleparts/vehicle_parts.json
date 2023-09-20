@@ -1341,10 +1341,10 @@
   },
   {
     "copy-from": "mountable_heater",
-    "id": "mountable_heater_small",
+    "id": "integrated_heater_small",
     "type": "vehicle_part",
     "name": { "str": "small vehicle-mounted heater" },
-    "item": "mountable_heater_small",
+    "item": "integrated_heater_small",
     "//": "going with half energy draw based on difference between small and large space heaters",
     "epower": "-350 W",
     "folded_volume": "3750 ml",
@@ -1357,6 +1357,18 @@
     "emissions": [ "emit_hot_air2_stream" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
+  },
+  {
+    "id": "integrated_heater_small",
+    "copy-from": "integrated_heater_small",
+    "type": "vehicle_part",
+    "location": "none",
+    "name": { "str": "small integrated heater" },
+    "//": "can't be installed or unistalled, can only be bashed away",
+    "requirements": {
+      "install": {  },
+      "removal": {  }
+    }
   },
   {
     "id": "mountable_cooler",
@@ -1380,6 +1392,19 @@
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": "C", "symbols_broken": ":" } ]
+  },
+  
+  {
+    "id": "integrated_cooler",
+    "copy-from": "mountable_cooler",
+    "type": "vehicle_part",
+    "location": "none",
+    "name": { "str": "small integrated cooler" },
+    "//": "can't be installed or unistalled, can only be bashed away",
+    "requirements": {
+      "install": {  },
+      "removal": {  }
+    }
   },
   {
     "type": "vehicle_part",

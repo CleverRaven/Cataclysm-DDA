@@ -268,7 +268,7 @@
       {
         "x": 1,
         "y": 0,
-        "parts": [ "hdframe#cross", "seat", "controls", "mountable_heater_small", "dashboard", "roof", "seatbelt" ]
+        "parts": [ "hdframe#cross", "seat", "controls", "integrated_heater_small", "dashboard", "roof", "seatbelt" ]
       },
       { "x": 1, "y": 1, "parts": [ "hdframe#cross", "cam_control", "aisle#vertical", "dashboard", "roof" ] },
       { "x": 1, "y": 2, "parts": [ "hdframe#cross", "seat", "dashboard", "roof", "seatbelt" ] },

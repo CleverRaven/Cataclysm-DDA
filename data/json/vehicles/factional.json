@@ -14,7 +14,7 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "mountable_heater_small", "stereo" ]
+        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "integrated_heater_small", "stereo" ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },

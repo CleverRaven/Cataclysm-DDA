@@ -29,7 +29,7 @@
       {
         "x": 3,
         "y": -1,
-        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 3, "y": -2, "parts": [ "hdframe#vertical_left", "hdboard#vertical_left" ] },
       { "x": 3, "y": -2, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
@@ -135,7 +135,7 @@
       {
         "x": 3,
         "y": -1,
-        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 3, "y": -2, "parts": [ "hdframe#vertical_left", "hdboard#vertical_left" ] },
       { "x": 3, "y": -2, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
@@ -237,7 +237,7 @@
       {
         "x": 3,
         "y": -1,
-        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 3, "y": -2, "parts": [ "hdframe#vertical_left", "hdboard#vertical_left" ] },
       { "x": 3, "y": -2, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
@@ -325,7 +325,7 @@
       {
         "x": 3,
         "y": -1,
-        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ "hdframe#vertical_2", "hdroof", "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 3, "y": -2, "parts": [ "hdframe#vertical_left", "hdboard#vertical_left" ] },
       { "x": 3, "y": -2, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
@@ -401,7 +401,7 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ { "part": "tank", "fuel": "jp8" }, "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ { "part": "tank", "fuel": "jp8" }, "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 0, "y": 0, "parts": [ "horn_big", "seat", "seatbelt" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "hddoor#left" ] },
@@ -487,7 +487,7 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ { "part": "tank", "fuel": "jp8" }, "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ { "part": "tank", "fuel": "jp8" }, "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 0, "y": 0, "parts": [ "horn_big", "seat", "seatbelt" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "hddoor#left" ] },
@@ -572,7 +572,7 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ { "part": "tank", "fuel": "jp8" }, "controls", "mountable_heater_small", "dashboard" ]
+        "parts": [ { "part": "tank", "fuel": "jp8" }, "controls", "integrated_heater_small", "dashboard" ]
       },
       { "x": 0, "y": 0, "parts": [ "horn_big", "seat", "seatbelt" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "hddoor#left" ] },
@@ -657,7 +657,7 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "hdframe#cross", { "part": "tank", "fuel": "jp8" } ] },
-      { "x": 0, "y": 0, "parts": [ "hdroof", "seat", "seatbelt", "controls", "mountable_heater_small", "dashboard" ] },
+      { "x": 0, "y": 0, "parts": [ "hdroof", "seat", "seatbelt", "controls", "integrated_heater_small", "dashboard" ] },
       { "x": 0, "y": 0, "parts": [ "horn_big" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "hddoor#left" ] },
       { "x": 0, "y": 1, "parts": [ "hdframe#cross", { "part": "tank", "fuel": "jp8" } ] },
