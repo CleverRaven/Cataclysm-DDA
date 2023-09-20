@@ -738,7 +738,7 @@
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": {"dodge_mod": [ 1 ] },
+    "base_mods": { "dodge_mod": [ 1 ] },
     "enchantments": [
       {
         "values": [
