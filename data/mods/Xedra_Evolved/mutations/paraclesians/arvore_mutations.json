@@ -254,6 +254,100 @@
     ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
   },
+   {
+    "type": "mutation",
+    "id": "ARVORE_SUN_FOODS",
+    "name": { "str": "Solar Repast" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+     "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
+    "category": [ "ARVORE" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              "is_day",
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_dirt" },
+                  { "u_is_on_terrain": "t_dirtmound" },
+                  { "u_is_on_terrain": "t_clay" },
+                  { "u_is_on_terrain": "t_sand" },
+                  { "u_is_on_terrain": "t_sandmound" },
+                  { "u_is_on_terrain": "t_grave" },
+                  { "u_is_on_terrain": "t_forestfloor" },
+                  { "u_is_on_terrain": "t_grass" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_is_on_terrain": "t_grass_tall" },
+                  { "u_is_on_terrain": "t_grass_dead" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_mud" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_moss" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_FOODS_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_FOODS_ON",
+    "name": { "str": "Solar Repast (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "category": [ "ARVORE" ],
+    "enchantment": [ "ench_arvore_sun_foods_on" ],
+     "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "not": "is_day" },
+              { "not": "u_is_outside" },
+              {
+                "and ": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_is_on_terrain": "t_dirt" } },
+                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
+                  { "not": { "u_is_on_terrain": "t_clay" } },
+                  { "not": { "u_is_on_terrain": "t_sand" } },
+                  { "not": { "u_is_on_terrain": "t_sandmound" } },
+                  { "not": { "u_is_on_terrain": "t_grave" } },
+                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
+                  { "not": { "u_is_on_terrain": "t_grass" } },
+                  { "not": { "u_is_on_terrain": "t_grass_long" } },
+                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
+                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_mud" } },
+                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
+                  { "not": { "u_is_on_terrain": "t_moss" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_FOODS", "msg_transform": "", "active": false, "moves": 0 }
+  },
   {
     "type": "mutation",
     "id": "ARVORE_RESIST_CHILL",
