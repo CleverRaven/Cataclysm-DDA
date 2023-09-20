@@ -210,6 +210,31 @@
     ]
   },
   {
+    "id": "integrated_arvore_thorns",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "woody thorns" },
+    "description": "Your skin is covered in thick, woody thorns.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood" ],
+    "symbol": ",",
+    "color": "green",
+    "to_hit": 1,
+    "flags": [ "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_wood", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 4 }
+  },
+  {
     "id": "integrated_coal_skin",
     "type": "ARMOR",
     "category": "armor",
