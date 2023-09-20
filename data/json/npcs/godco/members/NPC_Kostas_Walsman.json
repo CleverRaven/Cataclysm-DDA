@@ -131,7 +131,7 @@
       { "text": "Alright, I'll take a look.", "effec": "start_trade", "Topic": "TALK_GODCO_Kostas_1" },
       { "text": "Alright, thanks for iinforming me. Bye!", "topic": "TALK_DONE" }
     ]
-  }
+  },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_2",
