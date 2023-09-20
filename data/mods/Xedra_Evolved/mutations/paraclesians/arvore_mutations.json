@@ -454,8 +454,15 @@
     "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
     "active": true,
+    "restricts_gear": [  "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ], 
+    "remove_rigid": [  "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ], 
+    "allow_soft_gear": true,          
     "integrated_armor": "integrated_arvore_thorns",
     "enchantments": [ "ench_arvore_thorns_mut" ],
+    "encumbrance_covered": [
+      [ "hand_l", 10 ],
+      [ "hand_r", 10 ]
+    ],
     "transform": {
       "target": "ARVORE_THORN_SKIN",
       "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
