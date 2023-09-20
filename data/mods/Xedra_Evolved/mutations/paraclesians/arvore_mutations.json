@@ -455,7 +455,7 @@
     "category": [ "ARVORE" ],
     "active": true,
     "integrated_armor": "integrated_arvore_thorns",
-    "enchantments": [ "ench_arvore_thorns_mut" ], 
+    "enchantments": [ "ench_arvore_thorns_mut" ],
     "transform": {
       "target": "ARVORE_THORN_SKIN",
       "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
