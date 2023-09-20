@@ -19,7 +19,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler"
+          "integrated_cooler"
         ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
@@ -91,7 +91,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "dashboard"
         ]
       },

@@ -97,7 +97,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "stereo"
         ]
       },
@@ -421,7 +421,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "stereo"
         ]
       },
@@ -484,7 +484,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "stereo"
         ]
       },
@@ -546,7 +546,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "stereo"
         ]
       },
@@ -615,7 +615,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "stereo"
         ]
       },
@@ -686,7 +686,7 @@
           "seatbelt",
           "controls",
           "integrated_heater_small",
-          "mountable_cooler",
+          "integrated_cooler",
           "stereo"
         ]
       },
@@ -754,7 +754,7 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "hdframe#cross", "seat", "seatbelt", "controls", "integrated_heater_small", "mountable_cooler" ]
+        "parts": [ "hdframe#cross", "seat", "seatbelt", "controls", "integrated_heater_small", "integrated_cooler" ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "light_blue", "horn_car", "hdroof" ] },
