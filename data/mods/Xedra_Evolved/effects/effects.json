@@ -765,7 +765,9 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "(3 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus_enh') / 8) * (scaling_factor(u_val('perception') ) )" ]
+              "math": [
+                "(3 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus_enh') / 8) * (scaling_factor(u_val('perception') ) )"
+              ]
             }
           }
         ]
