@@ -254,7 +254,7 @@
     ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
   },
-   {
+  {
     "type": "mutation",
     "id": "ARVORE_SUN_FOODS",
     "name": { "str": "Solar Repast" },
