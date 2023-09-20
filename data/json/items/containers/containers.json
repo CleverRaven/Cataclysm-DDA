@@ -3639,7 +3639,9 @@
         "watertight": true,
         "open_container": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "//": "sealed_data is here so the container can be sealed to avoid spilling",
+        "sealed_data": { "spoil_multiplier": 1.0 }
       }
     ]
   },

@@ -2708,8 +2708,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     bool is_byproduct = false;  // product or byproduct
     bool can_craft = false;
     // Does a recipe for the item exist?
-    for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
-        const recipe &r = ( *it ).second;
+    for( const auto& [_, r] : recipe_dict ) {
         if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
             is_byproduct = true;
             // If if exists, do I know it?
