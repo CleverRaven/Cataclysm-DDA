@@ -335,13 +335,13 @@
     ]
   },
   {
-	"id": "TALK_EXODII_MERCHANT_AskedRestock",
-	"type": "talk_topic",
-	"dynamic_line": [ "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?.  Sure as 'ell, come back in <interval>." ],
-	"response": [
-	{ "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-	{ "text": "Well, thanks.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
-	]
+    "id": "TALK_EXODII_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [ "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?.  Sure as 'ell, come back in <interval>." ],
+    "response": [
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, thanks.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk",
