@@ -156,7 +156,7 @@
     "id": "TALK_GUNSMITH_RESTOCK",
     "type": "talk_topic",
     "dynamic_line": "Next series of currency gotta be ready in around <interval>, fresh off the print!",
-    "responses": [ { "text": "I'll make sure to take a look. Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I'll make sure to take a look.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_GUNSMITH_SHOP_ABOUT",
