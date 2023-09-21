@@ -200,6 +200,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
+  "crafting_speed_multiplier": 0.5,           // Multiplies your total crafting speed. 0.5 is 50% of normal speed, 1.2 is 20% faster than normal speed.
   "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
   "healing_awake": 1.0,                       // Healing rate per turn while awake. Positives will increase healing while negatives will decrease healing.
   "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.

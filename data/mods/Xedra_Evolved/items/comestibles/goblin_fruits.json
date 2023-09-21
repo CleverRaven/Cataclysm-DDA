@@ -5,6 +5,7 @@
     "name": { "str": "Abstract Goblin Fruit" },
     "description": "Somehow you got a hold of the platonic goblin fruit, the one fruit to rule them all.  It's a bug if you have this, but the lords of the Bright Lands will surely pay a high price for it.",
     "weight": "182 g",
+    "volume": "232 ml",
     "color": "magenta",
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
@@ -14,16 +15,15 @@
     "price": 40,
     "price_postapoc": 100,
     "material": [ "fruit" ],
-    "volume": "232 ml",
     "fun": 1,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitC", 10 ], [ "vitA", 10 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_healing",
     "name": { "str": "sweet goblin fruit" },
-    "description": "This goblin fruit is reddish-orange with a waxy texture.  It smells sweet with a hint of petrichor.",
+    "description": "This round goblin fruit is reddish-orange with a waxy texture.  It smells sweet with a hint of petrichor.",
     "copy-from": "goblin_fruit_abstract",
     "color": "red_yellow",
     "weight": "210 g",
@@ -37,277 +37,284 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_HEALING",
-    "effect": [ { "u_add_effect": "effect_pfruit_heal", "duration": { "math": [ "150 + rand(350)" ] } } ]
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_heal", "duration": { "math": [ "150 + rand(350)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_peach",
-    "name": { "str": "potion fruit (peach)", "str_pl": "potion fruits (peach)" },
-    "description": "A peach infused with mana.  It will cure illness if you eat it.",
-    "copy-from": "peach",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "30 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_illness",
+    "name": { "str": "iridescent goblin fruit" },
+    "description": "This oblong goblin fruit shimmers slightly in a rainbow of colors.  It smells like a mix of peach and freshly-baked bread.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "white",
+    "weight": "155 g",
+    "volume": "174 ml",
+    "fun": 3,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the peach potion fruit.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_PEACH" ]
+      "description": "Eat the iridescent goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ILLNESS" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_PEACH",
-    "effect": [ { "u_add_effect": "effect_pfruit_cure", "duration": "1 seconds" } ]
+    "id": "EOC_GOBLIN_FRUIT_ILLNESS",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_cure", "duration": "1 seconds" } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_pear",
-    "name": { "str": "potion fruit (pear)", "str_pl": "potion fruits (pear)" },
-    "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
-    "copy-from": "pear",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "40 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_attack_speed",
+    "name": { "str": "silvery goblin fruit" },
+    "description": "This round goblin fruit looks like a metal sculpture but has the yielding texture of a peach.  It smells like the tang in the air before a storm.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "light_gray",
+    "weight": "218 g",
+    "volume": "278 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the pear potion fruit.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_PEAR" ]
+      "description": "Eat the silvery goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ATTACK_SPEED" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_PEAR",
-    "effect": [ { "u_add_effect": "effect_pfruit_attack_speed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_ATTACK_SPEED",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_speed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_blackberries",
-    "name": { "str": "handful of potion fruits (blackberries)", "str_pl": "handfuls of potion fruits (blackberries)" },
-    "description": "A handful of blackberries infused with mana.  It will harm those who attack you if you eat it.",
-    "copy-from": "blackberries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_thorns",
+    "name": { "str": "spicy goblin fruit" },
+    "description": "This long, thin goblin fruit is a subdued green color but has a smell that burns your nostrils.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "light_green",
+    "weight": "173 g",
+    "volume": "209 ml",
+    "fun": -2,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of blackberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_BLACKBERRY" ]
+      "description": "Eat the spicy goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_THORNS" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_BLACKBERRY",
-    "effect": [ { "u_add_effect": "effect_pfruit_thorns", "duration": { "math": [ "500 + rand(1500)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_THORNS",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_thorns", "duration": { "math": [ "500 + rand(1500)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_raspberries",
-    "name": { "str": "handful of potion fruits (raspberries)", "str_pl": "handfuls of potion fruits (raspberries)" },
-    "description": "A handful of raspberries infused with mana.  It will lessen your pain if you eat it.",
-    "copy-from": "raspberries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_pain",
+    "name": { "str": "savory goblin fruit" },
+    "description": "This round goblin fruit is a bluish color changing to red at the ends.  It smells like a freshly-roasted hunk of meat.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "blue",
+    "weight": "227 g",
+    "volume": "290 ml",
+    "fun": 2,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of raspberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_RASPBERRY" ]
+      "description": "Eat the savory goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PAIN" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_RASPBERRY",
-    "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
+    "id": "EOC_GOBLIN_FRUIT_PAIN",
+    "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_strawberries",
-    "name": { "str": "handful of potion fruits (strawberries)", "str_pl": "handfuls of potion fruits (strawberries)" },
-    "description": "A handful of strawberries infused with mana.  It will keep you warm even on an icy-cold day.",
-    "copy-from": "strawberries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_warmth",
+    "name": { "str": "rinded goblin fruit" },
+    "description": "This round goblin fruit has a thick red rind with a leaf still attached to the stem.  The leaf seems to move occasionally even when there is no wind.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "red",
+    "weight": "136 g",
+    "volume": "174 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of strawberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_STRAWBERRY" ]
+      "description": "Eat the rinded goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_WARMTH" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_STRAWBERRY",
-    "effect": [ { "u_add_effect": "effect_pfruit_keep_warm", "duration": { "math": [ "500 + rand(5000)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_WARMTH",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_keep_warm", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_elderberries",
-    "name": { "str": "handful of potion fruits (elderberries)", "str_pl": "handfuls of potion fruits (elderberries)" },
-    "description": "A handful of elderberries infused with mana.  It will keep you alert and awake.",
-    "copy-from": "elderberries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_awake",
+    "name": { "str": "minty goblin fruit" },
+    "description": "This dark purple goblin fruit has an overpowering minty smell.  The smell even escapes sealed containers.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "magenta",
+    "weight": "150 g",
+    "volume": "191 ml",
+    "fun": 0,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of elderberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_ELDERBERRY" ]
+      "description": "Eat the minty goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_AWAKE" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_ELDERBERRY",
+    "id": "EOC_GOBLIN_FRUIT_AWAKE",
     "effect": [ { "math": [ "u_val('fatigue')", "-=", "25" ] } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_blueberries",
-    "name": { "str": "handful of potion fruits (blueberries)", "str_pl": "handfuls of potion fruits (blueberries)" },
-    "description": "A handful of blueberries infused with mana.  One handful is more satisfying than a whole bottle of water.",
-    "copy-from": "blueberries",
-    "proportional": { "calories": 0.5 },
-    "quench": 100,
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] }
+    "id": "goblin_fruit_water",
+    "name": { "str": "square goblin fruit" },
+    "description": "This pale blue goblin fruit is a square, and the edges are fine enough to leave a line in your thumb when you press on them.  It smells incredibly sour.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "light_blue",
+    "weight": "182 g",
+    "volume": "232 ml",
+    "quench": 200,
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_cranberries",
-    "name": { "str": "handful of potion fruits (cranberries)", "str_pl": "handfuls of potion fruits (cranberries)" },
-    "description": "A handful of cranberries infused with mana.  It will remove impurities in your blood.",
-    "copy-from": "cranberries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_purge_blood",
+    "name": { "str": "smoky goblin fruit" },
+    "description": "This sharply-curved goblin fruit is an off-white color turning red toward the ends.  It smells like the alley outside a club.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "light_red",
+    "weight": "182 g",
+    "volume": "232 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of cranberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_CRANBERRY" ]
+      "description": "Eat the smoky goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PURGE_BLOOD" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_CRANBERRY",
-    "effect": [ { "u_add_effect": "effect_pfruit_purge", "duration": "1 seconds" } ]
+    "id": "EOC_GOBLIN_FRUIT_PURGE_BLOOD",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_purge_blood", "duration": "1 seconds" } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_huckleberries",
-    "name": { "str": "handful of potion fruits (huckleberries)", "str_pl": "handfuls of potion fruits (huckleberries)" },
-    "description": "A handful of huckleberries infused with mana.  It will make you much more flexible.",
-    "copy-from": "huckleberries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_dodge",
+    "name": { "str": "inky goblin fruit" },
+    "description": "This large goblin fruit is such a deep black color you can't actually tell exactly what shape it is.  It's roundish, but when you hold it, it seems more like you're holding a hole in the fabric of the world.  It smells like an apple.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "black",
+    "weight": "273 g",
+    "volume": "348 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of huckleberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_HUCKLEBERRY" ]
+      "description": "Eat the inky goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_DODGE" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_HUCKLEBERRY",
-    "effect": [ { "u_add_effect": "effect_pfruit_dodge", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_DODGE",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_dodge", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_wintergreen",
-    "name": { "str": "handful of potion fruits (wintergreen berries)", "str_pl": "handfuls of potion fruits (wintergreen berries)" },
-    "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
-    "copy-from": "wintergreen_berry",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_night_vision",
+    "name": { "str": "toroid goblin fruit" },
+    "description": "This yellow-green goblin fruit is shaped like a donut, with six reddish stems spaced equidistantly around its circumference.  You can't imagine what the plant that grew this one looks like.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "yellow",
+    "weight": "118 g",
+    "volume": "151 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of wintergreen berry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_WINTERGREEN" ]
+      "description": "Eat the toroid goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NIGHT_VISION" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_WINTERGREEN",
-    "effect": [ { "u_add_effect": "effect_pfruit_nightvision", "duration": { "math": [ "500 + rand(5000)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_NIGHT_VISION",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_nightvision", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_cherry",
-    "name": { "str": "handful of potion fruits (cherries)", "str_pl": "handfuls of potion fruits (cherries)" },
-    "description": "A handful of cherries infused with mana.  It will prevent you from bleeding.",
-    "copy-from": "cherries",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_no_bleed",
+    "name": { "str": "dolm goblin fruit" },
+    "//~": "Dolm is a fictional color from the 1920 book \"A Voyage to Arcturus\" that's a mix of infrared and blue.",
+    "description": "This teardrop-shaped goblin fruit hurts to look at.  Sometimes it's a dark blue, sometimes it's a feverish red, and sometimes it's a mix of the two that you would previously have sworn could not exist.  It smells faintly peppery with a hint of lemon.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "blue_red",
+    "weight": "191 g",
+    "volume": "244 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of cherry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_CHERRY" ]
+      "description": "Eat the dolm goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_BLEED" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_CHERRY",
-    "effect": [ { "u_add_effect": "effect_pfruit_nobleed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_NO_BLEED",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_nobleed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_apricot",
-    "name": { "str": "handful of potion fruits (apricots)", "str_pl": "handfuls of potion fruits (apricots)" },
-    "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
-    "copy-from": "apricot",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "20 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_perception",
+    "name": { "str": "spikey goblin fruit" },
+    "description": "This dark-colored goblin fruit is covered in spikes like a pineapple.  Unlike a pineapple, the spikes are yielding and seem part of the fruit, not a rind.  It smells of freshly-cut grass.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "dark_gray",
+    "weight": "182 g",
+    "volume": "232 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of apricot potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_APRICOT" ]
+      "description": "Eat the spikey goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PERCEPTION" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_APRICOT",
-    "effect": [ { "u_add_effect": "effect_pfruit_vision", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_PERCEPTION",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_perception", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_grapes",
-    "name": { "str": "handful of potion fruits (grapes)", "str_pl": "handfuls of potion fruits (grapes)" },
-    "description": "A handful of grapes infused with mana.  It will cure intoxication.",
-    "copy-from": "grapes",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "20 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_no_drunk",
+    "name": { "str": "sanguine goblin fruit" },
+    "description": "A dark red goblin fruit with a heavy iron smell.  It feels warm to the touch.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "dark_gray_red",
+    "weight": "146 g",
+    "volume": "186 ml",
+    "fun": -3,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the handful of grape potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_GRAPE" ]
+      "description": "Eat the sanguine goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_DRUNK" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_GRAPE",
-    "effect": [ { "u_add_effect": "effect_pfruit_no_drunk", "duration": "1 seconds" }, { "math": [ "u_pain()", "+=", "10" ] } ]
+    "id": "EOC_GOBLIN_FRUIT_NO_DRUNK",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_no_drunk", "duration": "1 seconds" }, { "math": [ "u_pain()", "+=", "10" ] } ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_mayapple",
-    "name": { "str": "potion fruit (mayapple)", "str_pl": "potion fruits (mayapple)" },
-    "description": "A mayapple infused with mana.  It will allow you to eat questionable food without harm.",
-    "copy-from": "mayapple",
-    "proportional": { "quench": 0.5, "calories": 0.5 },
-    "spoils_in": "20 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "id": "goblin_fruit_no_rotten_food",
+    "name": { "str": "translucent goblin fruit" },
+    "description": "This goblin fruit looks like a globe of water with seeds and a stem suspended within it.  Despite that, it feels like kiwi, with a slight fuzz and no moisture left on your fingers when you touch it.  It smells like roses.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "white",
+    "weight": "209 g",
+    "volume": "267 ml",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the mayapple potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
+      "description": "Eat the translucent goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_ROTTEN_FOOD" ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_POTION_FRUIT_MAYAPPLE",
-    "effect": [ { "u_add_effect": "effect_pfruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+    "id": "EOC_GOBLIN_FRUIT_NO_ROTTEN_FOOD",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   }
 ]

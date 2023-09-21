@@ -1,21 +1,21 @@
 [
   {
-    "id": "effect_pfruit_heal",
+    "id": "effect_goblin_fruit_heal",
     "type": "effect_type",
     "name": [ "Restore Flesh and Bone" ],
-    "desc": [ "Thanks to that apple, your wounds are slowly healing." ],
+    "desc": [ "Your wounds are slowly healing." ],
     "apply_message": "Your flesh and bones start to knit together before your eyes.",
-    "remove_message": "Your regeneration slows down.",
+    "remove_message": "Your regeneration slows down as the goblin fruit's magic fades.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
       {
-        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "pfruit_regeneration_spell" } ] } ] }
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "goblin_fruit_regeneration_spell" } ] } ] }
       }
     ]
   },
   {
-    "id": "effect_pfruit_cure",
+    "id": "effect_goblin_fruit_cure",
     "type": "effect_type",
     "name": [ "Ward off Miasma" ],
     "desc": [ "No illness is going to get you down now." ],
@@ -25,38 +25,38 @@
     "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
   },
   {
-    "id": "effect_pfruit_attack_speed",
+    "id": "effect_goblin_fruit_speed",
     "type": "effect_type",
     "name": [ "Quick Blows" ],
-    "desc": [ "Thanks to that pear, you can attack faster." ],
+    "desc": [ "You can attack faster." ],
     "apply_message": "You arms speed up.",
-    "remove_message": "Your muscle's twitch as the pear's magic fades.",
+    "remove_message": "Your muscles twitch as the goblin fruit's magic fades.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "add": -15 } ] } ]
   },
   {
-    "id": "effect_pfruit_thorns",
+    "id": "effect_goblin_fruit_thorns",
     "type": "effect_type",
-    "name": [ "Blackberry Thorns" ],
+    "name": [ "Thorns" ],
     "desc": [ "Anyone who attacks you will regret it." ],
     "apply_message": "Long thorns grow through your skin, clothes, and armor.",
     "remove_message": "The thorns vanish without a trace, leaving your gear unharmed.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ "enchant_pfruit_thorns" ]
+    "enchantments": [ "ench_goblin_fruit_thorns" ]
   },
   {
     "type": "enchantment",
-    "id": "enchant_pfruit_thorns",
+    "id": "ench_goblin_fruit_thorns",
     "condition": "ALWAYS",
     "has": "HELD",
-    "hit_me_effect": [ { "id": "pfruit_aura_thorns", "hit_self": false } ]
+    "hit_me_effect": [ { "id": "goblin_fruit_aura_thorns", "hit_self": false, "once_in": 4 } ]
   },
   {
-    "id": "pfruit_aura_thorns",
+    "id": "goblin_fruit_aura_thorns",
     "type": "SPELL",
-    "name": "Blackberry fruit aura thorns",
+    "name": "Goblin fruit aura thorns",
     "description": "Stab a monster that attacked you.",
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE" ],
@@ -69,10 +69,10 @@
     "max_range": 1
   },
   {
-    "id": "effect_pfruit_keep_warm",
+    "id": "effect_goblin_fruit_keep_warm",
     "type": "effect_type",
     "name": [ "Summer's Heat" ],
-    "desc": [ "The magic of those strawberries is keeping you warm." ],
+    "desc": [ "The magic of that goblin fruit is keeping you warm." ],
     "apply_message": "You feel a pleasant warmth.",
     "remove_message": "You shiver as a cool breeze hits your skin.",
     "rating": "good",
@@ -80,7 +80,7 @@
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
   },
   {
-    "id": "effect_pfruit_purge",
+    "id": "effect_goblin_fruit_purge_blood",
     "type": "effect_type",
     "name": [ "Ward off Toxins" ],
     "desc": [ "Your body will not be corrupted by these vile substances." ],
@@ -100,7 +100,7 @@
     ]
   },
   {
-    "id": "effect_pfruit_dodge",
+    "id": "effect_goblin_fruit_dodge",
     "type": "effect_type",
     "name": [ "Flexible" ],
     "desc": [ "Your range of motion is greatly increased." ],
@@ -113,13 +113,14 @@
       { "limb_score": "block", "modifier": 1.2 },
       { "limb_score": "crawl", "modifier": 1.5 }
     ],
+    "base_mods": { "dodge_mod": [ 1 ] },
     "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ],
     "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_pfruit_nightvision",
-    "name": [ "Wintergreen Vision" ],
+    "id": "effect_goblin_fruit_nightvision",
+    "name": [ "Darkvision" ],
     "desc": [ "You can see in the dark." ],
     "apply_message": "The night doesn't seem so dark anymore.",
     "remove_message": "The darkness of the night rushes in again.",
@@ -128,10 +129,10 @@
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
-    "id": "effect_pfruit_nobleed",
     "type": "effect_type",
+    "id": "effect_goblin_fruit_nobleed",
     "name": [ "Stopped Bleeding" ],
-    "desc": [ "Your blood is all being held within your body." ],
+    "desc": [ "Your blood is all being contained within your body." ],
     "apply_message": "Your wounds tingle.",
     "remove_message": "You feel a prickle as your wounds ache.",
     "rating": "good",
@@ -140,10 +141,10 @@
     "flags": [ "BLEED_IMMUNE" ]
   },
   {
-    "id": "effect_pfruit_vision",
     "type": "effect_type",
+    "id": "effect_goblin_fruit_perception",
     "name": [ "Good Vision" ],
-    "desc": [ "The magic of those apricots is helping you see better." ],
+    "desc": [ "The magic of that goblin fruit is helping you see better." ],
     "apply_message": "You can pick out even minute details.",
     "remove_message": "Distant objects loose their magical clarity.",
     "rating": "good",
@@ -153,19 +154,7 @@
     "flags": [ "GLARE_RESIST", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
-    "id": "effect_pfruit_eat_poison",
-    "type": "effect_type",
-    "name": [ "Poison-Eater" ],
-    "desc": [ "You can eat toxic or spoiled food without penalty.  You still should not eat zombie meat." ],
-    "apply_message": "Your sense of taste dulls.",
-    "remove_message": "Something in your mouth tastes foul.",
-    "rating": "good",
-    "show_intensity": false,
-    "flags": [ "IMMUNE_SPOIL" ],
-    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "1 s" ] } ]
-  },
-  {
-    "id": "effect_pfruit_no_drunk",
+    "id": "effect_goblin_fruit_no_drunk",
     "type": "effect_type",
     "name": [ "Remove intoxicants" ],
     "desc": [ "You are being rapidly sobered up." ],
@@ -174,5 +163,18 @@
     "rating": "mixed",
     "show_intensity": false,
     "removes_effects": [ "drunk", "meth", "high", "weed_high" ]
+  },
+  {
+    "id": "effect_goblin_fruit_eat_poison",
+    "type": "effect_type",
+    "name": [ "Poison-Eater" ],
+    "desc": [ "You can eat toxic or spoiled food without penalty.  You still should not eat zombie meat." ],
+    "apply_message": "Your sense of taste dulls.",
+    "remove_message": "Something in your mouth tastes foul.",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "IMMUNE_SPOIL", "PARAIMMUNE" ],
+    "blocks_effects": [ "foodpoison" ],
+    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "10 s" ] } ]
   }
 ]

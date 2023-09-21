@@ -226,7 +226,7 @@
       { "u_spawn_item": "corpse_painful" },
       { "queue_eocs": "EOC_PERENNIAL_REBIRTH_2", "time_in_future": "1 seconds" },
       {
-        "u_message": "As your body dies, your fae soul flies free and, drawn to the pull of the heart of the forest, rebirths itself from the bounty of nature."
+        "u_message": "As your body dies, your fae spirit flies free and, drawn to the pull of the heart of the forest, rebirths itself from the bounty of nature."
       }
     ]
   },
@@ -292,26 +292,24 @@
   },
   {
     "type": "effect_on_condition",
-    "type": "EOC_SUN_FOODS_ON_KCAL",
-    "//": "Numbers here assuming 8 hours of time in the sun.  480 minutes * 5 kcals per minute = 2400 kcals, up to 3840 kcals per 8 hours if you're low.",
+    "id": "EOC_SUN_FOODS_ON_KCAL",
+    "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
     "condition": { "math": [ "u_val('stored_kcal')", ">=", "110000" ] },
-    "effects": [],
+    "effects": [  ],
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_SUN_FOODS_ON_HUNGER_2",
-          "condition": { "and": [ { "math": [ "u_val('stored_kcal')", "<=", "109999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ] },
-          "effect": [
-            { "math": [ "u_val('stored_kcal')", "+=", "5" ] },
-          ],
+          "condition": {
+            "and": [ { "math": [ "u_val('stored_kcal')", "<=", "109999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ]
+          },
+          "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "7" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "EOC_SUN_FOODS_ON_HUNGER_3",
                 "condition": { "math": [ "u_val('stored_kcal')", "<=", "74999" ] },
-                "effect": [
-                  { "math": [ "u_val('stored_kcal')", "+=", "8" ] },
-                ]
+                "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "12" ] } ]
               }
             ]
           }

@@ -16,7 +16,7 @@
     "type": "enchantment",
     "id": "ench_arvore_thorns_mut",
     "condition": "ALWAYS",
-    "hit_me_effect": [ { "id": "spell_arvore_thorns_mut_counter", "hit_self": false, "once_in": 3 } ],
+    "hit_me_effect": [ { "id": "spell_arvore_thorns_mut_counter", "hit_self": false, "once_in": 3 } ]
   },
   {
     "type": "enchantment",
@@ -87,7 +87,7 @@
     "description": "The actual spell that calls forth a goblin fruit.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "GROUP_SPAWNED_GOBLIN_FRUIT",
+    "effect_str": "spell_spawned_goblin_fruit",
     "min_damage": 1,
     "max_damage": 1
   },
@@ -140,13 +140,13 @@
     },
     "min_range": 2,
     "max_range": 8,
-    "min_aoe": 30
+    "min_aoe": 30,
     "max_aoe": 50,
     "aoe_increment": 0.7,
     "range_increment": 0.4,
-    "base_casting_time": 150,
     "energy_source": "MANA",
-    "base_energy_cost": 450
+    "base_energy_cost": 450,
+    "base_casting_time": 150
   },
   {
     "id": "arvore_summon_wood_spirit",
@@ -167,7 +167,6 @@
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "base_casting_time": 3000,
-  
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -209,10 +208,14 @@
     "shape": "blast",
     "difficulty": 5,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
+      ]
     },
     "energy_source": "MANA",
     "base_energy_cost": 600,
@@ -388,7 +391,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 2000
   },
-   {
+  {
     "id": "arvore_sun_foods_on_spell",
     "type": "SPELL",
     "name": "Solar Repast Spell",

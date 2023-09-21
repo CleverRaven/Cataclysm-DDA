@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SKIN_2",
-    "name": { "str": "vegital cuticle" },
+    "name": { "str": "vegetal cuticle" },
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
@@ -63,6 +63,7 @@
     "ugliness": 0,
     "description": "The trees recognize you as one of their own and allow you to pass easily beneath their boughs.  The grass moves under your feet to speed your passage, and shrubs bend out of the way.  When walking on grass, trees, or other natural foliage, your movement speed is increased.",
     "category": [ "ARVORE" ],
+    "leads_to": [ "ARVORE_DEX_BONUS" ],
     "enchantments": [
       {
         "condition": {
@@ -141,6 +142,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "prereqs": [ "ARVORE_ROOTS_SPELL" ],
     "description": "Upon gaining this ability, the Arvore gains the ability to summon semitangible roots that will shatter walls and furniture.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_roots_crack_the_foundation", 1 ] ]
@@ -154,6 +156,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability, you gains the ability to enhance your dodge capabilities.",
     "category": [ "ARVORE", "SYLPH" ],
+    "leads_to": [ "ARVORE_DEX_BONUS" ],
     "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
   },
   {
@@ -189,6 +192,43 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_ROOTS_SPELL",
+    "name": { "str": "Command the Roots" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "leads_to": [ "ARVORE_TERRAIN_BASH_SPELL" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ "arvore_roots_spell" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_MAPPING",
+    "name": { "str": "Commune with the Ancient Oaks" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_FOREST_DETECT" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to speak to the trees and, using their wisdom, map the surrounding area.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ "arvore_forest_mapping_spell" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_DEX_BONUS",
+    "name": { "str": "Supple As a Reed" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 1,
+    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
+    "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
+    "category": [ "ARVORE" ],
+    "passive_mods": { "dex_mod": 4 }
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_SUN_NUTRIENTS",
     "name": { "str": "Solar Rejuvenation" },
     "points": 3,
@@ -208,6 +248,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients and will heal slightly faster.",
     "category": [ "ARVORE" ],
     "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
@@ -235,7 +276,7 @@
     "ugliness": 0,
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, and your mana regenerates much quicker.",
     "category": [ "ARVORE" ],
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_ON" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS_ON", "msg_transform": "", "active": false, "moves": 0 },
     "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
@@ -247,8 +288,10 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, and your mana is regenerating quicker.",
     "category": [ "ARVORE" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "vitamin_rates": [ [ "vitA", -1200, "vitC", -1200, "iron", -1200 ] ],
     "healing_awake": 0.25,
     "healing_multiplier": 1.5,
@@ -272,7 +315,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
     "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -320,6 +363,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -363,6 +407,43 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_WOOD_CLAWS",
+    "name": { "str": "Jagged Wooden Claws" },
+    "points": 2,
+    "active": true,
+    "description": "At will, you can transform your hands into jagged wooden claws.  They are potent weapons but make anything other than combat more difficult.",
+    "types": [ "CLAWS" ],
+    "prereqs": [ "ARVORE_SKIN_2" ],
+    "category": [ "ARVORE" ],
+    "transform": {
+      "target": "ARVORE_WOOD_CLAWS_active",
+      "msg_transform": "Your fingers itch as jagged wood rapidly covers them.",
+      "active": false,
+      "moves": 10
+    },
+    "cost": 0
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_WOOD_CLAWS_active",
+    "name": { "str": "Jagged Wooden Claws (active)" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 2,
+    "description": "Your hands are transformed into jagged wooden claws.  You can use them to attack, but performing mundane tasks will be harder.",
+    "types": [ "CLAWS" ],
+    "prereqs": [ "ARVORE_SKIN_2" ],
+    "category": [ "ARVORE" ],
+    "transform": { "target": "ARVORE_WOOD_CLAWS", "msg_transform": "The wood .", "active": false, "moves": 10 },
+    "cost": 0,
+    "copy-from": "ARVORE_WOOD_CLAWS",
+    "valid": false,
+    "active": true,
+    "integrated_armor": [ "integrated_claws" ],
+    "crafting_speed_multiplier": 0.75
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_RESIST_CHILL",
     "name": { "str": "Resist Winter's Chill" },
     "points": 2,
@@ -385,17 +466,6 @@
     "category": [ "ARVORE", "SYLPH" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "enchantments": [ "ignore_winter_chill" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_ROOTS_SPELL",
-    "name": { "str": "Command the Roots" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
-    "category": [ "ARVORE" ],
-    "spells_learned": [ "arvore_roots_spell" ]
   },
   {
     "type": "mutation",
@@ -439,6 +509,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "The forest is hiding you from your enemies.",
     "category": [ "ARVORE" ],
     "stealth_modifier": 60,
@@ -504,7 +575,7 @@
     "//": "Ideally this would greatly slow the rate of blood loss, not eliminate it.",
     "flags": [ "BLEED_IMMUNE" ]
   },
-    {
+  {
     "type": "mutation",
     "id": "ARVORE_BLOOD_3",
     "name": { "str": "Sap Maintains the Heartwood" },
@@ -525,6 +596,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_EYES" ],
+    "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_forest_detect_enemies" ]
@@ -548,17 +620,6 @@
       ]
     },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_FOREST_MAPPING",
-    "name": { "str": "Commune with the Ancient Oaks" },
-    "points": 5,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Arvore gains the ability to speak to the trees and, using their wisdom, map the surrounding area.",
-    "category": [ "ARVORE" ],
-    "spells_learned": [ "arvore_forest_mapping_spell" ]
   },
   {
     "type": "mutation",
@@ -612,6 +673,7 @@
     "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
     "active": true,
+    "valid": false,
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
@@ -660,6 +722,7 @@
     "scent_type": "sc_flower",
     "scent_intensity": 1200,
     "social_modifiers": { "persuade": 25, "lie": 10 },
+    "valid": false,
     "active": true,
     "transform": {
       "target": "ARVORE_MIND_CONTROL_POLLEN",
@@ -731,6 +794,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -779,5 +843,5 @@
       ]
     ],
     "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
-  },
+  }
 ]
