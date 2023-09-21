@@ -263,7 +263,7 @@
       { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
       { "math": [ "u_pain()", "=", "0" ] },
       { "math": [ "u_val('stored_kcal')", "=", "65000" ] },
-      { "math": [ "u_val('thirst')", "=", "0)" ] },
+      { "math": [ "u_val('thirst')", "=", "0" ] },
       { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
       { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
       { "math": [ "u_val('vitamin', 'name: human_blood_vitamin')", "=", "0" ] },
