@@ -485,8 +485,16 @@
     "dynamic_line": "Okay, here you go.",
     "responses": [
       { "text": "Thank you!", "topic": "TALK_NONE", "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 } },
-      { "text": "Thanks!  But can I have some more?", "topic": "TALK_SHARE_EQUIPMENT", "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 } },
-      { "text": "Thanks, see you later!", "topic": "TALK_DONE", "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 } }
+      {
+        "text": "Thanks!  But can I have some more?",
+        "topic": "TALK_SHARE_EQUIPMENT",
+        "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
+      },
+      {
+        "text": "Thanks, see you later!",
+        "topic": "TALK_DONE",
+        "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
+      }
     ]
   },
   {
