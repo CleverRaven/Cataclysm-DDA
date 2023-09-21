@@ -181,7 +181,7 @@
                   "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ],
                   "type": "mutation",
                   "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
-                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2"  ]
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
                 },
                 { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "15 days", "8 hours" ] }
               ],
