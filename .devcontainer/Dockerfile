@@ -26,7 +26,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends libsdl2-dev libsdl2-ttf-dev \
     libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential astyle ccache
 
-
+# [Optional] comment out this section unless you want to compile the Object Creator. Install some QT libraries
+RUN apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
 
 # [Optional] comment out this section unless you want to cross-compile from Linux to Windows
 # This section should align with doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux

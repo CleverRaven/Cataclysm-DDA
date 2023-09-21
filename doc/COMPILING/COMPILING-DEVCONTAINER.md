@@ -17,7 +17,13 @@ The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Catac
 3. Add Cleverraven as the remote upstream with git remote add upstream git@github.com:CleverRaven/Cataclysm-DDA.git
 4. Open the folder where you cloned your repository in Visual Studio Code via the UI or by navigating to the directory in a terminal and typing Code
 5. Visual Studio Code will show a pup-up in the bottom right with recommended extentions. Install those.
-6. If you don't plan to cross-compile, open the Dockerfile in the VSCode file browser and scroll down to find this section:
+6. If you don't plan to compile the object creator, open the Dockerfile in the VSCode file browser and scroll down to find this section:
+  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Find-Uncommented-Linux-QT5-Libs.png)
+
+  comment out that part so it looks like this:
+  ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Commented-Out-Qt5-Linux-Libs.png)
+
+If you don't plan to cross-compile the game, scroll down to find this section:
 
   ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Uncomment-Windows-Part-In-Dockerfile.png)
 
