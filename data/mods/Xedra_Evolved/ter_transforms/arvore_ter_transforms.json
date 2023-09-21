@@ -162,5 +162,29 @@
         "message": "The roots surge into motion, growing together thicker and more tangled until a bark-covered wall of solid wood is all that remains."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_summoned_brambles",
+    "furniture": [
+      {
+        "result": "f_magic_brambles",
+        "valid_furniture": [
+          "f_null",
+          "f_cattails",
+          "t_grass_tall",
+          "t_grass_long",
+          "f_burdock",
+          "f_lotus",
+          "f_japanese_knotweed",
+          "f_lilypad",
+          "f_bluebell",
+          "f_lily",
+          "f_salsify",
+          "f_wild_sarsaparilla"
+        ],
+        "message": "The ground churns as thick, tangled brambles burst forth and grow in moments."
+      }
+    ]
   }
 ]

@@ -321,7 +321,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "The Sylph gains a resistance to cold and cold based damage.",
-    "leads_to": "IGNORE_WINTER_CHILL",
+    "changes_to": "SLYPH_RESIST_COLD3",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -329,6 +329,24 @@
       }
     ],
     "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD3",
+    "name": { "str": "Dancing On Winter Winds" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SLYPH_RESIST_COLD2" ],
+    "description": "The sylph is nearly immune to mundane cold and heavily resistant to cold-based damage.",
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

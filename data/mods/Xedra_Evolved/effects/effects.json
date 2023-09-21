@@ -766,7 +766,7 @@
             "value": "BONUS_DODGE",
             "add": {
               "math": [
-                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10) * (scaling_factor(u_val('perception') ) )"
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
               ]
             }
           }
@@ -790,7 +790,7 @@
             "value": "BONUS_DODGE",
             "add": {
               "math": [
-                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10) * (scaling_factor(u_val('perception') ) )"
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
               ]
             }
           }
@@ -815,7 +815,7 @@
             "value": "BONUS_DODGE",
             "add": {
               "math": [
-                "(1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10) * (scaling_factor(u_val('perception') ) )"
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
               ]
             }
           }

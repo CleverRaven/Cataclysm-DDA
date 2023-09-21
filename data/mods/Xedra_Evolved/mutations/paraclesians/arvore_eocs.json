@@ -22,6 +22,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_BRIARS_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_ARVORE_BRIARS_SELECTOR_ARC", "EOC_ARVORE_BRIARS_SELECTOR_LINE", "EOC_NULL" ],
+        "names": [ "Thorny Arc", "Wall of Brambles", "Do nothing" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [ "Summon a spray of brambles to entrap an enemy.", "Summon a wall of thorns to fortify a location.", "Do nothing." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_BRIARS_SELECTOR_ARC",
+    "effect": [ { "u_cast_spell": { "id": "arvore_summon_briars_arc" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_BRIARS_SELECTOR_LINE",
+    "effect": [ { "u_cast_spell": { "id": "arvore_summon_briars_line" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_COMMUNE_WITH_NATURE",
     "condition": {
       "and": [
@@ -151,22 +173,22 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_WALLS",
-    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_wall", "targeted": true } } ]
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_wall" }, "targeted": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_FLOORS",
-    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_floor", "targeted": true } } ]
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_floor" }, "targeted": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_BRANCHES",
-    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_branch", "targeted": true } } ]
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_branch" }, "targeted": true } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_DOORS",
-    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_door", "targeted": true } } ]
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_door" }, "targeted": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -295,7 +317,7 @@
     "id": "EOC_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
     "condition": { "math": [ "u_val('stored_kcal')", ">=", "110000" ] },
-    "effects": [  ],
+    "effect": [  ],
     "false_effect": {
       "run_eocs": [
         {

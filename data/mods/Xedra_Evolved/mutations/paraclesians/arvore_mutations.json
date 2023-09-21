@@ -122,7 +122,18 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore gains the ability to draw on the peace and strength of nature while standing in a wild area.",
     "category": [ "ARVORE" ],
-    "spells_learned": [ [ "arvore_summon_wood_spirit", 1 ] ]
+    "spells_learned": [ [ "arvore_commune_with_nature", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUMMON_BRIARS",
+    "name": { "str": "Briarwall" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Arvore gains the ability to summon thick tangles of briars to form walls or entrap their enemies.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_summon_briars", 1 ] ]
   },
   {
     "type": "mutation",
@@ -200,32 +211,19 @@
     "leads_to": [ "ARVORE_TERRAIN_BASH_SPELL" ],
     "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
     "category": [ "ARVORE" ],
-    "spells_learned": [ "arvore_roots_spell" ]
+    "spells_learned": [ [ "arvore_roots_spell", 1 ] ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_FOREST_MAPPING",
     "name": { "str": "Commune with the Ancient Oaks" },
-    "points": 5,
+    "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_FOREST_DETECT" ],
     "description": "Upon gaining this ability the Arvore gains the ability to speak to the trees and, using their wisdom, map the surrounding area.",
     "category": [ "ARVORE" ],
-    "spells_learned": [ "arvore_forest_mapping_spell" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_DEX_BONUS",
-    "name": { "str": "Supple As a Reed" },
-    "points": 2,
-    "visibility": 3,
-    "ugliness": 1,
-    "prereqs": [ "GREENSTRIDE" ],
-    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
-    "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
-    "category": [ "ARVORE" ],
-    "passive_mods": { "dex_mod": 4 }
+    "spells_learned": [ [ "arvore_forest_mapping_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -278,7 +276,7 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "ARVORE_SUN_NUTRIENTS_ON", "msg_transform": "", "active": false, "moves": 0 },
+    "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA_ON", "msg_transform": "", "active": false, "moves": 0 },
     "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
   },
   {
@@ -306,7 +304,7 @@
         }
       ]
     ],
-    "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
+    "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -367,16 +365,15 @@
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "enchantment": [ "ench_arvore_sun_foods_on" ],
+    "enchantments": [ "ench_arvore_sun_foods_on" ],
     "triggers": [
       [
         {
           "condition": {
-            "or": [
-              { "not": "is_day" },
-              { "not": "u_is_outside" },
+            "and": [
+              { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
               {
-                "and ": [
+                "and": [
                   { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
                   { "not": { "u_is_on_terrain": "t_tree_young" } },
                   { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
@@ -434,12 +431,17 @@
     "types": [ "CLAWS" ],
     "prereqs": [ "ARVORE_SKIN_2" ],
     "category": [ "ARVORE" ],
-    "transform": { "target": "ARVORE_WOOD_CLAWS", "msg_transform": "The wood .", "active": false, "moves": 10 },
+    "transform": {
+      "target": "ARVORE_WOOD_CLAWS",
+      "msg_transform": "The wood covering your hands receeds, leaving no trace behind.",
+      "active": false,
+      "moves": 10
+    },
     "cost": 0,
     "copy-from": "ARVORE_WOOD_CLAWS",
     "valid": false,
     "active": true,
-    "integrated_armor": [ "integrated_claws" ],
+    "integrated_armor": [ "integrated_arvore_claws" ],
     "crafting_speed_multiplier": 0.75
   },
   {
@@ -449,23 +451,75 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "changes_to": [ "IGNORE_WINTER_CHILL" ],
+    "changes_to": [ "ARVORE_IGNORE_WINTER_CHILL" ],
     "description": "Plants lose their leaves in winter, but that does not kill them, they simply sleep until the spring comes.  The cold bothers you less now.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_resist_chill" ]
   },
   {
     "type": "mutation",
-    "id": "IGNORE_WINTER_CHILL",
+    "id": "ARVORE_IGNORE_WINTER_CHILL",
     "name": { "str": "Ignore Winter's Chill" },
     "points": 6,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_IGNORE_CHILL", "SLYPH_RESIST_COLD2" ],
-    "description": "You have left any trace of the mundane world behind, and the cold bothers you now not at all.",
-    "category": [ "ARVORE", "SYLPH" ],
+    "prereqs": [ "ARVORE_RESIST_CHILL" ],
+    "description": "Pine trees keep their leaves even in the coldest winter. The cold bothers you now not at all.",
+    "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "enchantments": [ "ignore_winter_chill" ]
+    "enchantments": [ "arvore_ignore_chill" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_DEX_BONUS",
+    "name": { "str": "Supple As a Reed" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 1,
+    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
+    "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
+    "category": [ "ARVORE" ],
+    "passive_mods": { "dex_mod": 4 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_STR_BONUS_1",
+    "name": { "str": "Might of the Seedling" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "ARVORE_STR_BONUS_2" ],
+    "description": "Like the seedling poking through the soil, you have great strength hidden within you.  +1 Strength.",
+    "category": [ "ARVORE" ],
+    "passive_mods": { "str_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_STR_BONUS_2",
+    "name": { "str": "Might of the Sapling" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_STR_BONUS_1" ],
+    "prereqs2": [ "ARVORE_SKIN_1" ],
+    "changes_to": [ "ARVORE_STR_BONUS_3" ],
+    "description": "Like the young tree reaching for the sun, your limbs are filled with power.  +3 Strength.",
+    "category": [ "ARVORE" ],
+    "passive_mods": { "str_mod": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_STR_BONUS_3",
+    "name": { "str": "Might of the Ancient Tree" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_STR_BONUS_2" ],
+    "prereqs2": [ "ARVORE_SKIN_2" ],
+    "description": "Like forest giants that have stood for a hundred years, you are unshakeable.  +5 Strength.",
+    "category": [ "ARVORE" ],
+    "passive_mods": { "str_mod": 5 }
   },
   {
     "type": "mutation",
@@ -599,27 +653,66 @@
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
     "category": [ "ARVORE" ],
-    "enchantments": [ "arvore_forest_detect_enemies" ]
-  },
-  {
-    "type": "enchantment",
-    "id": "arvore_forest_detect_enemies",
-    "condition": {
-      "and": [
-        "u_is_outside",
+    "triggers": [
+      [
         {
-          "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain": "t_tree_young" },
-            { "u_is_on_terrain": "t_bamboo_tall" },
-            { "u_at_om_location": "forest" },
-            { "u_at_om_location": "forest_thick" },
-            { "u_at_om_location": "forest_water" }
-          ]
+          "condition": {
+            "and": [
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_at_om_location": "forest" },
+                  { "u_at_om_location": "forest_thick" },
+                  { "u_at_om_location": "forest_water" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
         }
       ]
-    },
-    "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+    ],
+    "transform": { "target": "ARVORE_FOREST_DETECT_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_DETECT_ON",
+    "name": { "str": "The Forests' Warning (active)" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "prereqs": [ "ARVORE_EYES" ],
+    "leads_to": [ "ARVORE_FOREST_MAPPING" ],
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby.",
+    "category": [ "ARVORE" ],
+    "enchantments": [ "arvore_forest_detect_enemies" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "not": "u_is_outside" },
+              {
+                "and": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_at_om_location": "forest" } },
+                  { "not": { "u_at_om_location": "forest_thick" } },
+                  { "not": { "u_at_om_location": "forest_water" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_FOREST_DETECT", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -677,7 +770,7 @@
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
-    "integrated_armor": "integrated_arvore_thorns",
+    "integrated_armor": [ "integrated_arvore_thorns" ],
     "enchantments": [ "ench_arvore_thorns_mut" ],
     "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "transform": {
@@ -738,7 +831,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, your hunger will be sated and you absorb its energy as food.  You still need to drink water.",
+    "description": "When in wild areas, you can draw on the revitalizing power of the land to heal yourself.  When in natural areas, your limbs will heal much faster.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "MEND_ALL" ],
@@ -795,7 +888,7 @@
     "visibility": 0,
     "ugliness": 0,
     "valid": false,
-    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "description": "When in wild areas, you can draw on the revitalizing power of the land to heal yourself.  In this natural areas, your limbs are regenerating.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "MEND_ALL" ],
@@ -815,7 +908,7 @@
                 ]
               },
               {
-                "and ": [
+                "and": [
                   { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
                   { "not": { "u_is_on_terrain": "t_tree_young" } },
                   { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
