@@ -88,7 +88,7 @@
       "true_foodperson"
     ],
     "//": "Needs new eoc for infected with vampirism.  Adjust locations and professions as desired.",
-    "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "eoc": [ "scenario_once_bitten" ],
     "requirement": "achievement_survive_28_days",
     "flags": [ "CITY_START", "LONE_START" ]
   }
