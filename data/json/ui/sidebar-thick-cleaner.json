@@ -22,11 +22,7 @@
     "style": "layout",
     "label": "stacked",
     "arrange": "rows",
-    "widgets": [
-      "ll_limbs_layout",
-      "spacer",
-      "more_graphs_layout"
-    ]
+    "widgets": [ "ll_limbs_layout", "spacer", "more_graphs_layout" ]
   },
   {
     "id": "thick_rs_column_cleaner_2",
