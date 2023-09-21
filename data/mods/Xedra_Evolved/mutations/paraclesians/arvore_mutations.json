@@ -464,7 +464,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_RESIST_CHILL" ],
-    "description": "Pine trees keep their leaves even in the coldest winter. The cold bothers you now not at all.",
+    "description": "Pine trees keep their leaves even in the coldest winter.  The cold bothers you now not at all.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "enchantments": [ "arvore_ignore_chill" ]
@@ -809,7 +809,7 @@
     "points": 4,
     "visibility": 0,
     "ugliness": -10,
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately. You are enhancing this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
+    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  You are enhancing this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
