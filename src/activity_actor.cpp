@@ -233,8 +233,8 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -4157,60 +4157,96 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
     act.moves_total = total_moves;
 }
 
+static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
+                                 int *charges_added )
+{
+    item &it = *holstered_item.first;
+    ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
+
+    if( charges_added == nullptr ) {
+        if( it.is_bucket_nonempty() ) {
+            debugmsg( "ACT_INSERT_ITEM tried to stash a spillable container without spilling its contents first" );
+            return ret_val<void>::make_failure( _( "item would spill" ) );
+        }
+        ret = holster->can_contain_directly( it );
+        if( !ret.success() ) {
+            return ret;
+        }
+        ret = holster.parents_can_contain_recursive( &it );
+        if( !ret.success() ) {
+            return ret;
+        }
+
+        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true );
+    }
+
+    ret = holster->can_contain_partial_directly( it );
+    if( !ret.success() ) {
+        return ret;
+    }
+    ret_val<int> max_parent_charges = holster.max_charges_by_parent_recursive( it );
+    if( !max_parent_charges.success() ) {
+        return ret_val<void>::make_failure( max_parent_charges.str() );
+    }
+    int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
+    *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true );
+    if( *charges_added <= 0 ) {
+        return ret_val<void>::make_failure( _( "item can't be stored there" ) );
+    }
+
+    return ret;
+}
+
 void insert_item_activity_actor::finish( player_activity &act, Character &who )
 {
     bool success = false;
     drop_location &holstered_item = items.front();
     if( holstered_item.first ) {
+        success = true;
         item &it = *holstered_item.first;
+        ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
+
         if( !it.count_by_charges() ) {
-            if( holster->can_contain_directly( it ).success() &&
-                holster.parents_can_contain_recursive( &it ) ) {
+            ret = try_insert( holster, holstered_item, nullptr );
 
-                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
-                                           /*unseal_pockets=*/true ).success();
-                if( success ) {
-                    //~ %1$s: item to put in the container, %2$s: container to put item in
-                    who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    holstered_item.first.remove_item();
-                }
-
+            if( ret.success() ) {
+                //~ %1$s: item to put in the container, %2$s: container to put item in
+                who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
+                                                      holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
+                handler.add_unsealed( holster );
+                handler.unseal_pocket_containing( holstered_item.first );
+                holstered_item.first.remove_item();
             }
         } else {
-            int charges = std::min( holstered_item.second, holster.max_charges_by_parent_recursive( it ) );
+            int charges_added = 0;
+            ret = try_insert( holster, holstered_item, &charges_added );
 
-            if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
-                int result = holster->fill_with( it, charges,
-                                                 /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true,
-                                                 /*ignore_settings*/true,
-                                                 /*into_bottom*/true );
-                success = result > 0;
-
-                if( success ) {
-                    item copy( it );
-                    copy.charges = result;
-                    //~ %1$s: item to put in the container, %2$s: container to put item in
-                    who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          copy.display_name(), holster->type->nname( 1 ) ) );
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    it.charges -= result;
-                    if( it.charges == 0 ) {
-                        holstered_item.first.remove_item();
-                    }
+            if( ret.success() ) {
+                item copy( it );
+                copy.charges = charges_added;
+                //~ %1$s: item to put in the container, %2$s: container to put item in
+                who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
+                                                      copy.display_name(), holster->type->nname( 1 ) ) );
+                handler.add_unsealed( holster );
+                handler.unseal_pocket_containing( holstered_item.first );
+                it.charges -= charges_added;
+                if( it.charges == 0 ) {
+                    holstered_item.first.remove_item();
                 }
             }
         }
 
-        if( !success ) {
-            who.add_msg_if_player(
-                string_format(
-                    _( "Could not put %1$s into %2$s, aborting." ),
-                    it.tname(), holster->tname() ) );
+        if( !ret.success() ) {
+            success = false;
+            std::string error = !ret.str().empty() ?
+                                //~ %1$s: item we failed to put in the container, %2$s: container to put item in
+                                string_format( _( "Could not put %1$s into %2$s." ),
+                                               it.tname(), holster->tname() ) :
+                                //~ %1$s: item we failed to put in the container, %2$s: container to put item in, %3$s: reason it failed
+                                string_format( _( "Could not put %1$s into %2$s, %3$s." ),
+                                               it.tname(), holster->tname(), ret.str() );
+            who.add_msg_if_player( error );
         }
     } else {
         // item was lost, so just go to next item
@@ -6580,13 +6616,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_zone_unload_all, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p.raw() );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_zone_strip, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p.raw() );
         }
@@ -6733,7 +6769,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         bool unload_sparse_only = false;
         int unload_sparse_threshold = 20;
 
-        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 fac_id );
 
         // get most open rules out of all stacked zones
@@ -6769,8 +6805,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, fac_id ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
+                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
                     std::unordered_map<itype_id, int> item_counts;

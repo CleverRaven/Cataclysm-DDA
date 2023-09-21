@@ -129,6 +129,7 @@ static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
@@ -140,11 +141,10 @@ static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 namespace
 {
@@ -215,8 +215,9 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     vehicle &veh = vpr.vehicle();
     const tripoint where = veh.global_part_pos3( vp );
     map &here = get_map();
-    int fallen_count = 0;
+    int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
+    const std::string part_name = vp.info().name();
 
     // can't use constant reference here because of the spill_contents()
     for( item it : items ) {
@@ -238,13 +239,21 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 it.mod_charges( -charges_added );
                 into_vehicle_count += charges_added;
             }
-            here.add_item_or_charges( where, it );
-            fallen_count += it.count();
+            items_did_not_fit_count += it.count();
+            add_msg( _( "Unable to fit %s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
+            // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
+            if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                c.i_add( it );
+            } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
+                c.wield( it );
+            } else {
+                const std::string ter_name = here.name( where );
+                add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );
+                here.add_item_or_charges( where, it );
+            }
         }
         it.handle_pickup_ownership( c );
     }
-
-    const std::string part_name = vp.info().name();
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -253,13 +262,23 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
         switch( reason ) {
             case item_drop_reason::deliberate:
-                c.add_msg_player_or_npc(
-                    n_gettext( "You put your %1$s in the %2$s's %3$s.",
-                               "You put your %1$s in the %2$s's %3$s.", dropcount ),
-                    n_gettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
-                               "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
-                    it_name, veh.name, part_name
-                );
+                if( items_did_not_fit_count == 0 ) {
+                    c.add_msg_player_or_npc(
+                        n_gettext( "You put your %1$s in the %2$s's %3$s.",
+                                   "You put your %1$s in the %2$s's %3$s.", dropcount ),
+                        n_gettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
+                                   "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
+                        it_name, veh.name, part_name
+                    );
+                } else if( into_vehicle_count > 0 ) {
+                    c.add_msg_player_or_npc(
+                        n_gettext( "You put some of your %1$s in the %2$s's %3$s.",
+                                   "You put some of your %1$s in the %2$s's %3$s.", dropcount ),
+                        n_gettext( "<npcname> puts some of their %1$s in the %2$s's %3$s.",
+                                   "<npcname> puts some of their %1$s in the %2$s's %3$s.", dropcount ),
+                        it_name, veh.name, part_name
+                    );
+                }
                 break;
             case item_drop_reason::too_large:
                 c.add_msg_if_player(
@@ -303,25 +322,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                     veh.name, part_name
                 );
                 break;
-        }
-    }
-
-    if( fallen_count > 0 ) {
-        const std::string ter_name = here.name( where );
-        if( into_vehicle_count > 0 ) {
-            c.add_msg_if_player(
-                m_warning,
-                n_gettext( "The %s is full, so something fell to the %s.",
-                           "The %s is full, so some items fell to the %s.", fallen_count ),
-                part_name, ter_name
-            );
-        } else {
-            c.add_msg_if_player(
-                m_warning,
-                n_gettext( "The %s is full, so it fell to the %s.",
-                           "The %s is full, so they fell to the %s.", fallen_count ),
-                part_name, ter_name
-            );
         }
     }
 }
@@ -2158,7 +2158,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         int unload_sparse_threshold = 20;
         bool unload_always = false;
 
-        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
                 _fac_id( you ) );
 
         // get most open rules out of all stacked zones
@@ -2203,8 +2203,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
 
-            //insert ignore firewood source here
-
             const std::unordered_set<tripoint_abs_ms> dest_set =
                 mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem, _fac_id( you ) );
 
@@ -2214,8 +2212,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             bool move_and_reset = false;
             bool moved_something = false;
 
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, _fac_id( you ) ) ||
+                ( mgr.has_near( zone_type_STRIP_CORPSES, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() || unload_always ) {
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {
@@ -2497,7 +2495,7 @@ static zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone
         ret = zone_type_MOPPING;
     }
     if( act_id == ACT_MULTIPLE_DIS ) {
-        ret = zone_type_zone_disassemble;
+        ret = zone_type_DISASSEMBLE;
     }
     if( src_loc != tripoint_bub_ms() && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getglobal( src_loc ), false, fac_id );

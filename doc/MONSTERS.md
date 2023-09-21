@@ -48,7 +48,7 @@ Property                 | Description
 `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
 `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
 `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
-`aggro_character`        | (bool) If the monster will always attack characters when angry.
+`aggro_character`        | (bool) If true the monster will always attack characters when angry.
 `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 `dodge`                  | (integer) Monster's skill at dodging attacks

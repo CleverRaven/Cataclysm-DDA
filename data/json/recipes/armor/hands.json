@@ -237,7 +237,8 @@
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 1 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ], [ "recipe_fauxfur", 1 ] ],
     "using": [ [ "tailoring_faux_fur_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
+    "byproducts": [ [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "xs_gloves_faux_fur",
@@ -281,7 +282,8 @@
         [ "wetsuit_gloves", 1 ],
         [ "fire_gauntlets", 1 ]
       ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 5 ] ]
   },
   {
     "result": "xs_gloves_wsurvivor_nofur",
@@ -299,7 +301,8 @@
         [ "wetsuit_gloves", 1 ],
         [ "fire_gauntlets", 1 ]
       ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "xl_gloves_wsurvivor_nofur",
@@ -317,7 +320,8 @@
         [ "wetsuit_gloves", 1 ],
         [ "fire_gauntlets", 1 ]
       ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "gloves_h20survivor",

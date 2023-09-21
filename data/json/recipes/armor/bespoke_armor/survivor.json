@@ -22,7 +22,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_kevlar", 8 ], [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "xs_wsurvivor_jumpsuit_nofur",
@@ -166,7 +167,8 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ]
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "byproducts": [ [ "scrap_kevlar", 17 ], [ "scrap_lycra", 7 ] ]
   },
   {
     "result": "xs_lsurvivor_jumpsuit",
@@ -216,7 +218,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_kevlar", 22 ], [ "scrap_lycra", 5 ] ]
   },
   {
     "result": "xssurvivor_jumpsuit",
@@ -270,7 +273,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_kevlar", 15 ], [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "xs_wsurvivor_jumpsuit",

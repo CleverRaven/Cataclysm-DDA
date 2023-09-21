@@ -497,12 +497,6 @@
   },
   {
     "type": "item_group",
-    "id": "mags_other_rare",
-    "//": "Aftermarket or otherwise uncommon magazines excluding milspec that have no better category.",
-    "items": [ [ "8x40_25_mag", 10 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "mags_common",
     "//": "Common magazines for guns typically owned by citizens.",
     "items": [
@@ -567,24 +561,6 @@
       [ "tokarevmag", 10 ],
       [ "greasegun30mag", 5 ],
       [ "greasegun32mag", 2 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_obscure_gunstore",
-    "//": "Magazines for imported firearms.",
-    "items": [
-      [ "762x39_clip", 10 ],
-      [ "762R_clip", 10 ],
-      [ "clip9mm_10rd", 5 ],
-      [ "vz58mag30", 8 ],
-      [ "vz58mag10", 8 ],
-      [ "makarovmag", 10 ],
-      [ "mausermag_10rd", 3 ],
-      [ "mausermag_20rd", 2 ],
-      [ "p08mag_32rd", 1 ],
-      [ "p08mag_8rd", 10 ],
-      [ "tokarevmag", 10 ]
     ]
   },
   {

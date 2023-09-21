@@ -221,12 +221,22 @@
         "effect": "start_trade"
       },
       {
+        "text": "Interesting.  When would be the next batch of merchandise ready?",
+        "topic": "TALK_BLACKSMITH_RESTOCK"
+      },
+      {
         "text": "I heard you might want some metal…",
         "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
         "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH" }
       },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_RESTOCK",
+    "type": "talk_topic",
+    "dynamic_line": "With how the things are goin'? <interval>.",
+    "responses": [ { "text": "I'll leave you to your work then.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_BLACKSMITH_ABOUT",

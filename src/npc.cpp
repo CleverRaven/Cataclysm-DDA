@@ -2175,6 +2175,14 @@ void npc::shop_restock()
     distribute_items_to_npc_zones( ret, *this );
 }
 
+std::string npc::get_restock_interval() const
+{
+    time_duration const restock_remaining =
+        restock - calendar::turn;
+    std::string restock_rem = to_string( restock_remaining );
+    return restock_rem;
+}
+
 bool npc::is_shopkeeper() const
 {
     return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
