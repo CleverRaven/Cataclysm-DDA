@@ -316,5 +316,104 @@
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_NO_ROTTEN_FOOD",
     "effect": [ { "u_add_effect": "effect_goblin_fruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_feather_fall",
+    "name": { "str": "inconspicuous goblin fruit" },
+    "description": "This goblin fruit looks like a pear and feels like a pear and smells exactly like a pear.  You have no idea how it tastes because the instant you put your tongue to it, your entire mouth goes numb.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "green_yellow",
+    "weight": "146 g",
+    "volume": "187 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the inconspicuous goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_FEATHERFALL" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_FEATHERFALL",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_featherfall", "duration": { "math": [ "150 + rand(250)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_super_clairvoyance",
+    "name": { "str": "crumbly goblin fruit" },
+    "description": "This large, curved goblin fruit is a dark blue color and feels like it's already on the verge of rotting.  It takes very little pressure for your fingers to bruise the skin and the flesh inside flakes off when you touch it.  It smells like sun-ripened strawberries.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "h_black",
+    "weight": "263 g",
+    "volume": "300 ml",
+    "fun": -3,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the crumbly goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_FEATHERFALL" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SUPER_CLAIRVOYANCE",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_super_clairvoyance", "duration": "1 seconds" } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_water_breathing",
+    "name": { "str": "star-shaped goblin fruit" },
+    "description": "This greenish-white goblin fruit is shaped like a star in a much more literal way than a starfruit.  It's almost like if a starfish was an apple.  It smells like freshly-laundered clothing.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "green_white",
+    "weight": "210 g",
+    "volume": "240 ml",
+    "fun": -3,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the star-shaped goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_WATER_BREATHING" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_WATER_BREATHING",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_water_breathing", "duration": { "math": [ "500 + rand(5000)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_giant_growth",
+    "name": { "str": "shiny goblin fruit" },
+    "description": "This round blue goblin fruit glows bright enough to read by.  The light flickers light firelight, even when the fruit is simply placed on the table.  It smells like pine needles soaked in strong alcohol.",
+    "copy-from": "goblin_fruit_abstract",
+    "color": "yellow_cyan",
+    "weight": "199 g",
+    "volume": "228 ml",
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_10" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the shiny goblin fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GIANT_GROWTH" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_GIANT_GROWTH",
+    "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
+    "effect": [
+      { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
+      { "u_add_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
+      { "math": [ "u_val('stored_kcal')", "+=", "100000" ] },
+      { "queue_eocs": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE", "time_in_future": { "math": [ "3000 + rand(10000)" ] } }
+    ],
+    "false_effect": [ { "u_message": "You eat the goblin fruit but nothing happens.  Oh well." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE",
+    "effect": [
+      { "u_message": "Your body shrinks and warps as your size decreases!", "type": "mixed" },
+      { "u_lose_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
+      { "math": [ "u_val('stored_kcal')", "-=", "100000" ] }
+    ]
   }
 ]

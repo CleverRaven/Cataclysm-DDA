@@ -15,6 +15,18 @@
     ]
   },
   {
+    "id": "goblin_fruit_regeneration_spell",
+    "type": "SPELL",
+    "name": "Sweet Goblin Fruit Healing Effect",
+    "description": "Heals the target.",
+    "valid_targets": [ "self" ],
+    "min_damage": -1,
+    "max_damage": -1,
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT" ]
+  },
+  {
     "id": "effect_goblin_fruit_cure",
     "type": "effect_type",
     "name": [ "Ward off Miasma" ],
@@ -176,5 +188,49 @@
     "flags": [ "IMMUNE_SPOIL", "PARAIMMUNE" ],
     "blocks_effects": [ "foodpoison" ],
     "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "10 s" ] } ]
+  },
+  {
+    "id": "effect_goblin_fruit_no_drunk",
+    "type": "effect_type",
+    "name": [ "Remove intoxicants" ],
+    "desc": [ "You are being rapidly sobered up." ],
+    "apply_message": "Your head pounds, but you feel much more alert.",
+    "remove_message": ".",
+    "rating": "mixed",
+    "show_intensity": false,
+    "removes_effects": [ "drunk", "meth", "high", "weed_high" ]
+  },
+  {
+    "id": "effect_goblin_fruit_featherfall",
+    "type": "effect_type",
+    "name": [ "Feather Fall" ],
+    "desc": [ "You can fall any distance without damage." ],
+    "apply_message": "You feel as light as air.",
+    "remove_message": "Gravity reclaims its hold on you.",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "id": "effect_goblin_fruit_super_clairvoyance",
+    "type": "effect_type",
+    "name": [ "Omniscience" ],
+    "desc": [ "You can see forever." ],
+    "apply_message": "Your head pounds as you suddenly see in all directions simultaneously.",
+    "remove_message": "Your senses snap back into your body.",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "SUPER_CLAIRVOYANCE" ]
+  },
+  {
+    "id": "effect_goblin_fruit_water_breathing",
+    "type": "effect_type",
+    "name": [ "Return to the Sea" ],
+    "desc": [ "You can breathe underwater." ],
+    "apply_message": "You feel an urge to take a swim.",
+    "remove_message": "You need to take a breath of air, now!",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "WALK_UNDERWATER", "GILLS" ]
   }
 ]
