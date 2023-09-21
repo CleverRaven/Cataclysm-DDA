@@ -587,8 +587,6 @@ void talk_function::give_equipment_allowance( npc &p, int allowance )
 {
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
-    // Add asked_for_item effect whether or not NPC has items to give
-    p.add_effect( effect_asked_for_item, 3_hours );
     while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
         if( giving[index].price < p.op_of_u.owed + allowance ) {
@@ -615,6 +613,7 @@ void talk_function::give_equipment_allowance( npc &p, int allowance )
     if( allowance < 0 ) {
         p.op_of_u.owed += allowance;
     }
+    p.add_effect( effect_asked_for_item, 3_hours );
 }
 
 void talk_function::lesser_give_aid( npc &p )
