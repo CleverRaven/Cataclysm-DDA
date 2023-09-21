@@ -39,7 +39,8 @@
       "weary_rest_layout",
       "needs_layout_cleaner"
     ]
-  },  {
+  },
+  {
     "id": "more_graphs_layout",
     "type": "widget",
     "style": "layout",
