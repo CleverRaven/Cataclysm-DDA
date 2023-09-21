@@ -226,6 +226,18 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to grow a goblin fruit when in natural areas away from civilization.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_FOREST_MAPPING",
     "name": { "str": "Commune with the Ancient Oaks" },
     "points": 3,
@@ -351,7 +363,6 @@
                   { "u_is_on_terrain": "t_grass_long" },
                   { "u_is_on_terrain": "t_grass_tall" },
                   { "u_is_on_terrain": "t_grass_dead" },
-                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
                   { "u_is_on_terrain": "t_mud" },
                   { "u_is_on_terrain": "t_dirtfloor_no_roof" },
                   { "u_is_on_terrain": "t_moss" }

@@ -143,7 +143,7 @@
         { "not": { "u_near_om_location": "road", "range": 1 } }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_cultivate_goblin_fruit_real" } } ],
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
@@ -265,12 +265,12 @@
     "id": "EOC_PERENNIAL_REBIRTH_HEAL",
     "effect": [
       { "u_set_hp": 999, "only_increase": true },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "torso" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "head" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_l" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_r" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_r" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_l" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "torso" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "head" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "arm_l" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "arm_r" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "leg_r" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "leg_l" },
       { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
