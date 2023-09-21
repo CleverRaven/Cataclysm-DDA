@@ -232,7 +232,7 @@
         "type": "spell",
         "spell_data": { "id": "nether_banish_monster_greater" },
         "cooldown": 15,
-        "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
+        "monster_message": "%1$s looks at %3$s and the static on the edge of your vision creeps inward for a moment."
       }
     ],
     "death_drops": "default_zombie_death_drops",

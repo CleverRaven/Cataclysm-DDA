@@ -126,7 +126,7 @@
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
-    "percent_spread": 30,
+    "percent_spread": 5,
     "priority": 8,
     "half_life": "1 minutes",
     "phase": "gas"
