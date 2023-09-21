@@ -342,7 +342,7 @@
     "effect": [
       { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "u_message": "You shiver as the night closes in...", "type": "bad", "popup": true }
+      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true }
     ]
   },
   {
@@ -387,7 +387,7 @@
         "target_max_radius": 60
       },
       { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
-      { "u_message": "...but it grows more distant for now.", "type": "good" }
+      { "u_message": "…but it grows more distant for now.", "type": "good" }
     ]
   },
   {
