@@ -1545,9 +1545,9 @@
     "time": "4 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "//": "80 cm weld",
+    "//1": "338cm weld. 108cm from pipes making the base and handles, 20cm from welding four sheets for the blades on the inside of the drum, 200cm from welding six sheets around the motor.",
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ] ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 338 ] ],
     "proficiencies": [ { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 }, { "proficiency": "prof_welding" } ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
@@ -1563,7 +1563,8 @@
       [ [ "nuts_bolts", 8 ] ],
       [ [ "extension_cable", 1 ] ],
       [ [ "30gal_barrel", 1 ] ]
-    ]
+    ],
+    "//2": "The component list is by no means perfect - this craft still generates ~9kg of mass. I can't, however, improve it without adding nonexistant components to the recipe, so I think this is an acceptable state of things."
   },
   {
     "type": "recipe",
