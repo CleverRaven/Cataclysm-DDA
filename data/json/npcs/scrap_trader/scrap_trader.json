@@ -275,7 +275,14 @@
     "dynamic_line": [ "Anything else you need?" ],
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
+      { "text": "Find anything good?", "topic": "TALK_SCRAP_TRADER_ASK_INTERVAL" },
       { "text": "Can I have another look?", "topic": "TALK_SCRAP_TRADER_BULK_SELL_END", "effect": "start_trade" }
     ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "Nope, although I have a really good claim by the river.  Gonna go fetch them soon, be right back in <interval>.",
+    "responses": [ { "text": "Well, good luck.", "topic": "TALK_NPC_SCRAP_TRADER" } ]
   }
 ]

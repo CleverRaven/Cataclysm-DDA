@@ -45,38 +45,6 @@
   },
   {
     "type": "item_group",
-    "id": "player_crafted",
-    "//": "items that should only be crafted by the player. Excluded from all other item groups. this is just an FYI list, it's not used to spawn items in game.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "chemical_thrower", "prob": 0 },
-      { "item": "diamond_bayonet", "prob": 0 },
-      { "item": "diamond_bayonet", "prob": 0 },
-      { "item": "diamond_broadsword", "prob": 0 },
-      { "item": "diamond_katana", "prob": 0 },
-      { "item": "diamond_knife", "prob": 0 },
-      { "item": "diamond_kukri", "prob": 0 },
-      { "item": "diamond_machete", "prob": 0 },
-      { "item": "diamond_nodachi", "prob": 0 },
-      { "item": "diamond_rapier", "prob": 0 },
-      { "item": "diamond_sword_bayonet", "prob": 0 },
-      { "item": "diamond_wakizashi", "prob": 0 },
-      { "item": "diamond_punch_dagger", "prob": 0 },
-      { "item": "diamond_zweihander", "prob": 0 },
-      { "item": "fertilizer_bomb", "prob": 0 },
-      { "item": "iv_mutagen_alpha", "prob": 0 },
-      { "item": "iv_mutagen_chimera", "prob": 0 },
-      { "item": "iv_mutagen_elfa", "prob": 0 },
-      { "item": "iv_mutagen_medical", "prob": 0 },
-      { "item": "m2browning_sawn", "prob": 0 },
-      { "item": "mutagen_alpha", "prob": 0 },
-      { "item": "mutagen_chimera", "prob": 0 },
-      { "item": "mutagen_elfa", "prob": 0 },
-      { "item": "mutagen_medical", "prob": 0 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "ammo",
     "subtype": "distribution",
     "entries": [

@@ -56,6 +56,7 @@
     "responses": [
       { "text": "Who are you?", "topic": "TALK_NPC_CABIN_CHEMIST_STORY" },
       { "text": "What is this place?", "topic": "TALK_NPC_CABIN_CHEMIST_HOME" },
+      { "text": "Brewed anything new lately?", "topic": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL" },
       { "text": "Care to trade?", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO", "effect": "start_trade" },
       {
         "text": "I'd like to buy in bulk.",
@@ -69,6 +70,12 @@
       },
       { "text": "I gotta go.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL",
+    "dynamic_line": "Unfortunately, I'm still gathering resources and cooking new stuff.  Maybe ask again after <interval>.",
+    "responses": [ { "text": "Alright.  thanks nonetheless.", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO" } ]
   },
   {
     "type": "talk_topic",
