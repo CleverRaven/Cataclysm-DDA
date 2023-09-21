@@ -54,21 +54,21 @@ class item_pocket
             ERR_MOD,
             // trying to put a liquid into a non-watertight container
             ERR_LIQUID,
-            // trying to put a gas in a non-airtight container
+            // trying to put a gas into a non-airtight container
             ERR_GAS,
-            // trying to put an item that wouldn't fit if the container were empty
+            // trying to store an item that wouldn't fit even if the container were empty
             ERR_TOO_BIG,
-            // trying to put an item that wouldn't fit if the container were empty
+            // trying to store an item that would be too heavy even if the container were empty
             ERR_TOO_HEAVY,
-            // trying to put an item that wouldn't fit if the container were empty
+            // trying to store an item that's below the minimum size or length
             ERR_TOO_SMALL,
-            // pocket doesn't have sufficient space left
+            // pocket doesn't have sufficient volume capacity left
             ERR_NO_SPACE,
-            // pocket doesn't have sufficient weight left
+            // pocket doesn't have sufficient weight capacity left
             ERR_CANNOT_SUPPORT,
-            // requires a flag
+            // requires a flag the item doesn't have
             ERR_FLAG,
-            // requires item be a specific ammotype
+            // requires the item to be a specific ammotype
             ERR_AMMO
         };
 
