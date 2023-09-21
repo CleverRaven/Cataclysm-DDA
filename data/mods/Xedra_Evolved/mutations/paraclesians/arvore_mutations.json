@@ -185,6 +185,17 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_PERENNIAL_REBIRTH_CASTED",
+    "name": { "str": "Perennial Rebirth (bound)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have bound your soul to the forest, and death will merely be a momentary inconvenience.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_VERDANT_INFUSION",
     "name": { "str": "Verdant Infusion" },
     "points": 3,

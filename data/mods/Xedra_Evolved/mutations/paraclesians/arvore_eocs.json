@@ -232,7 +232,7 @@
     "id": "EOC_PERENNIAL_REBIRTH_INITIAL",
     "effect": [
       { "u_location_variable": { "u_val": "arvore_perennial_rebirth_teleport" }, "min_radius": 0, "max_radius": 0 },
-      { "u_add_trait": "PERENNIAL_REBIRTH" },
+      { "u_add_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
       { "u_message": "You bind your soul to the abundance of nature around you.", "type": "good" }
     ]
   },
@@ -240,26 +240,71 @@
     "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "u_has_trait": "PERENNIAL_REBIRTH" },
+    "condition": { "u_has_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
     "effect": [
-      { "u_add_effect": "incorporeal", "duration": 1 },
-      { "u_add_effect": "downed", "duration": 1 },
-      { "u_set_hp": 999, "only_increase": true },
-      { "u_spawn_item": "corpse_painful" },
-      { "queue_eocs": "EOC_PERENNIAL_REBIRTH_2", "time_in_future": "1 seconds" },
       {
-        "u_message": "As your body dies, your fae spirit flies free and, drawn to the pull of the heart of the forest, rebirths itself from the bounty of nature."
-      }
+        "u_message": "As your body dies, your fae spirit flies free and, drawn to the pull of the heart of the forest, rebirths itself from the bounty of nature.",
+        "popup": true
+      },
+      { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_START" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PERENNIAL_REBIRTH_2",
+    "id": "EOC_PERENNIAL_REBIRTH_START",
+    "effect": [
+      { "u_add_effect": "incorporeal", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1 },
+      { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
+      { "u_spawn_item": "corpse_painful" },
+      { "queue_eocs": "EOC_PERENNIAL_REBIRTH_FINALIZE", "time_in_future": "1 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_HEAL",
+    "effect": [
+      { "u_set_hp": 999, "only_increase": true },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "torso" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "head" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_l" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_r" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_r" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_l" },
+      { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
+      { "math": [ "u_val('thirst')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: instability')", "=", "0" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_val('rad')", "=", "0" ] },
+      { "u_lose_effect": "corroding" },
+      { "u_lose_effect": "onfire" },
+      { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "stunned" },
+      { "u_lose_effect": "venom_blind" },
+      { "u_lose_effect": "formication" },
+      { "u_lose_effect": "blisters" },
+      { "u_lose_effect": "frostbite" },
+      { "u_lose_effect": "frostbite_recovery" },
+      { "u_lose_effect": "wet" },
+      { "u_lose_effect": "slimed" },
+      { "u_lose_effect": "migo_atmosphere" },
+      { "u_lose_effect": "fetid_goop" },
+      { "u_lose_effect": "sap" },
+      { "u_lose_effect": "nausea" },
+      { "u_lose_effect": "bleed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_FINALIZE",
     "//": "duration below of arvore_perennial_rebirth_cooldown is 28 days",
-    "condition": { "u_has_trait": "PERENNIAL_REBIRTH" },
+    "condition": { "u_has_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
     "effect": [
       { "u_teleport": { "u_val": "arvore_perennial_rebirth_teleport" } },
-      { "u_lose_trait": "PERENNIAL_REBIRTH" },
+      { "u_lose_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
       { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
       { "math": [ "u_pain()", "=", "0" ] },
       { "math": [ "u_val('stored_kcal')", "=", "65000" ] },
@@ -316,20 +361,20 @@
     "type": "effect_on_condition",
     "id": "EOC_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
-    "condition": { "math": [ "u_val('stored_kcal')", ">=", "110000" ] },
+    "condition": { "math": [ "u_val('stored_kcal')", ">=", "118000" ] },
     "effect": [  ],
     "false_effect": {
       "run_eocs": [
         {
-          "id": "EOC_SUN_FOODS_ON_HUNGER_2",
+          "id": "EOC_SUN_FOODS_ON_KCAL_2",
           "condition": {
-            "and": [ { "math": [ "u_val('stored_kcal')", "<=", "109999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ]
+            "and": [ { "math": [ "u_val('stored_kcal')", "<=", "179999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ]
           },
           "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "7" ] } ],
           "false_effect": {
             "run_eocs": [
               {
-                "id": "EOC_SUN_FOODS_ON_HUNGER_3",
+                "id": "EOC_SUN_FOODS_ON_KCAL_3",
                 "condition": { "math": [ "u_val('stored_kcal')", "<=", "74999" ] },
                 "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "12" ] } ]
               }

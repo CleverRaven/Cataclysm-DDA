@@ -56,25 +56,6 @@
     "id": "ter_arvore_wood_wall",
     "terrain": [
       {
-        "result": [ "t_barkfloor" ],
-        "valid_terrain": [
-          "t_grass",
-          "t_grass_long",
-          "t_dirt",
-          "t_dirtfloor",
-          "t_dirtfloor_no_roof",
-          "t_dirtmoundfloor",
-          "t_dirtmound",
-          "t_grass_dead",
-          "t_grass_white",
-          "t_sand",
-          "t_clay",
-          "t_sandmound",
-          "t_forestfloor"
-        ],
-        "message": "The ground churns as bark-covered roots erupt from it and form into a solid bark-covered floor."
-      },
-      {
         "result": [ "t_triffid_bark_wall" ],
         "valid_terrain": [ "t_barkfloor" ],
         "message": "The bark surges upward as the roots below grow into a heavy, solid wall covered in bark."
@@ -95,6 +76,25 @@
     "type": "ter_furn_transform",
     "id": "ter_arvore_wood_floor",
     "terrain": [
+      {
+        "result": [ "t_barkfloor" ],
+        "valid_terrain": [
+          "t_grass",
+          "t_grass_long",
+          "t_dirt",
+          "t_dirtfloor",
+          "t_dirtfloor_no_roof",
+          "t_dirtmoundfloor",
+          "t_dirtmound",
+          "t_grass_dead",
+          "t_grass_white",
+          "t_sand",
+          "t_clay",
+          "t_sandmound",
+          "t_forestfloor"
+        ],
+        "message": "The ground churns as bark-covered roots erupt from it and form into a solid bark-covered floor."
+      },
       {
         "result": [ "t_barkfloor_no_roof" ],
         "valid_terrain": [ "t_barkfloor" ],

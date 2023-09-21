@@ -184,6 +184,7 @@
     "name": "Briarwall",
     "description": "Call up thick briars and thorns, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
     "valid_targets": [ "self" ],
+    "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_BRIARS_SELECTOR",
     "shape": "blast",
@@ -295,10 +296,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 600,
     "final_energy_cost": 350,
-    "energy_increment": -15,
-    "min_range": 1,
-    "max_range": 4,
-    "range_increment": 0.25
+    "energy_increment": -15
   },
   {
     "id": "arvore_growing_wood_walls_wall",
