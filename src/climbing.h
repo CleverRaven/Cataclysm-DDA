@@ -10,6 +10,8 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "point.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -18,7 +20,9 @@ class map;
 struct tripoint;
 
 /**
-* A "Climbing Aid" as defined here is
+* A "Climbing Aid" as defined here is any one trait, mutation, tool, furniture terrain, technique
+* or any other affordance that facilitates movement up, down or across the environment.
+* Availability of climbing aids is subject to various conditions; exactly one is used at a time.
 */
 
 class climbing_aid
@@ -54,7 +58,6 @@ class climbing_aid
             void deserialize( const JsonObject &jo );
         };
 
-    public:
         static void load_climbing_aid( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check_consistency();
@@ -85,30 +88,60 @@ class climbing_aid
         /**
         * Scans downwards from a tile to assess what lies between it and solid ground.
         */
-        struct fall_scan_t {
+        class fall_scan
+        {
             public:
+                fall_scan( const tripoint &examp );
+
+                tripoint examp; // Initial position of scan (usually a ledge / open air tile)
                 int height; // Z-levels to "ground" based on here.valid_move
                 int height_until_creature; // Z-levels below that are free of creatures
                 int height_until_furniture; // Z-levels below that are free of furniture
+                int height_until_vehicle; // Z-levels below that are free of furniture
 
-                int height_to_floor_or_furniture() const {
-                    return std::min( height, height_until_furniture + 1 );
+                // fall_scan_t is "truthy" if falling is possible at all.
+                explicit operator bool() const {
+                    return height != 0;
+                }
+
+                tripoint pos_top() const {
+                    return examp;
+                }
+                tripoint pos_bottom() const {
+                    tripoint ret = examp;
+                    ret.z -= height;
+                    return ret;
+                }
+                tripoint pos_just_below() const {
+                    tripoint ret = examp;
+                    ret.z -= 1;
+                    return ret;
+                }
+                tripoint pos_furniture_or_floor() const {
+                    tripoint ret = examp;
+                    ret.z -= std::min( height, height_until_furniture + 1 );
+                    return ret;
                 }
 
                 bool furn_just_below() const {
-                    return height_until_furniture == 0;
+                    return height > 0 && height_until_furniture == 0;
                 }
                 bool furn_below() const {
-                    return height_until_furniture != height;
+                    return height > 0 && height_until_furniture != height;
+                }
+                bool veh_just_below() const {
+                    return height > 0 && height_until_vehicle == 0;
+                }
+                bool veh_below() const {
+                    return height > 0 && height_until_vehicle != height;
                 }
                 bool crea_just_below() const {
-                    return height_until_creature == 0;
+                    return height > 0 && height_until_creature == 0;
                 }
                 bool crea_below() const {
-                    return height_until_creature != height;
+                    return height > 0 && height_until_creature != height;
                 }
         };
-        static fall_scan_t fall_scan( const tripoint &examp );
 
 
         // Identity of the climbing aid, and index in get_all() list.
@@ -132,14 +165,14 @@ class climbing_aid
             //    Usually set to zero or equal to max_height.
             int         easy_climb_back_up = 0;
 
-            std::string menu_text;
-            std::string menu_cant;
+            translation menu_text;
+            translation menu_cant;
             int         menu_hotkey = 0;
 
-            std::string confirm_text;
+            translation confirm_text;
 
-            std::string msg_before;
-            std::string msg_after;
+            translation msg_before;
+            translation msg_after;
 
             climb_cost  cost;
             furn_str_id deploy_furn;
@@ -156,5 +189,5 @@ class climbing_aid
         } down;
 
 };
-#endif // CATA_SRC_DISEASE_H
+#endif // CATA_SRC_CLIMBING_H
 

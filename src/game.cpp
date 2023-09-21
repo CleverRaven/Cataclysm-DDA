@@ -13188,19 +13188,16 @@ void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
     }
 
     // Scan the height of the drop and what's in the way.
-    climbing_aid::fall_scan_t fall = climbing_aid::fall_scan( examp );
+    const climbing_aid::fall_scan fall( examp );
 
-    const int height = fall.height;
-    add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
-    if( height == 0 ) {
+    add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", fall.height );
+    if( fall.height == 0 ) {
         you.add_msg_if_player( _( "You can't climb down there." ) );
         return;
     }
 
     // This is used to mention object names.  TODO make this more flexible.
-    tripoint target_pos = examp;
-    target_pos.z -= fall.height_to_floor_or_furniture();
-    std::string target_disp_name = m.disp_name( target_pos );
+    std::string target_disp_name = m.disp_name( fall.pos_furniture_or_floor() );
 
     climbing_aid::condition_list conditions = climbing_aid::detect_conditions( you, examp );
 
@@ -13215,7 +13212,8 @@ void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
         cond_desc += string_format( "\n\nClimbing aids available: %d", aids.size() );
         for( const climbing_aid *aid : climbing_aid::list_all( conditions ) ) {
             cond_desc += "\n#" + std::to_string( climb_affordance_menu_encode( aid->id ) )
-                         + " " + aid->id.str() + ": " + string_format( aid->down.menu_text, target_disp_name );
+                         + " " + aid->id.str() + ": "
+                         + string_format( aid->down.menu_text.translated(), target_disp_name );
         }
         cond_desc += string_format( "\n\n%d-level drop; %d until furniture; %d until creature.",
                                     fall.height, fall.height_until_furniture, fall.height_until_creature );
@@ -13237,9 +13235,10 @@ void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
             hotkey = 'c';
         }
 
-        // TODO LOCALIZE CLIMBING
+        std::string text_translated = enable_aid ?
+                                      aid->down.menu_text.translated() : aid->down.menu_cant.translated();
         cmenu.addentry( climb_affordance_menu_encode( aid->id ), enable_aid, hotkey,
-                        string_format( enable_aid ? aid->down.menu_text : aid->down.menu_cant, target_disp_name ) );
+                        string_format( text_translated, target_disp_name ) );
     }
 }
 
@@ -13293,13 +13292,9 @@ void game::climb_down_using(
     }
 
     // Scan the height of the drop and what's in the way.
-    climbing_aid::fall_scan_t fall = climbing_aid::fall_scan( examp );
-    int height = fall.height;
+    const climbing_aid::fall_scan fall( examp );
 
-    tripoint bottom = examp;
-    bottom.z -= height;
-
-    int estimated_climb_cost = you.climbing_cost( bottom, examp );
+    int estimated_climb_cost = you.climbing_cost( fall.pos_bottom(), examp );
     const float fall_mod = you.fall_damage_mod();
     add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", estimated_climb_cost );
     add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
@@ -13316,7 +13311,7 @@ void game::climb_down_using(
     int slip_chance = slip_down_chance( climb_maneuver::down, aid_id, true );
 
     // Roughly estimate damage if we should fall.
-    int damage_estimate = 10 * height;
+    int damage_estimate = 10 * fall.height;
     if( damage_estimate <= 30 ) {
         damage_estimate *= fall_mod;
     } else {
@@ -13324,7 +13319,7 @@ void game::climb_down_using(
     }
 
     // Rough messaging about safety.  "seems safe" can leave a 1-2% chance unlike "perfectly safe".
-    bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= height;
+    bool seems_perfectly_safe = slip_chance < -5 && aid.down.max_height >= fall.height;
     if( seems_perfectly_safe ) {
         query = _( "It <color_green>seems perfectly safe</color> to climb down like this." );
     } else if( slip_chance < 3 ) {
@@ -13360,9 +13355,9 @@ void game::climb_down_using(
         query += hint_fall_damage;
     }
 
-    if( height > aid.down.max_height ) {
+    if( fall.height > aid.down.max_height ) {
         // Warn the player that they will fall even after a successful climb
-        int remaining_height = height - aid.down.max_height;
+        int remaining_height = fall.height - aid.down.max_height;
         query += "\n";
         query += string_format( n_gettext(
                                     "Even if you climb down safely, you will fall <color_yellow>at least %d story</color>.",
@@ -13371,7 +13366,7 @@ void game::climb_down_using(
     }
 
     // Certain climbing aids make it easy to climb back up,, usually by making furniture.
-    if( aid.down.easy_climb_back_up >= height ) {
+    if( aid.down.easy_climb_back_up >= fall.height ) {
         estimated_climb_cost = 50;
     }
 
@@ -13390,9 +13385,8 @@ void game::climb_down_using(
     query += hint_climb_back;
 
     std::string query_prompt = _( "Climb down?" );
-    if( aid.down.confirm_text.length() ) {
-        // TODO LOCALIZE CLIMBING
-        query_prompt = aid.down.confirm_text;
+    if( !aid.down.confirm_text.empty() ) {
+        query_prompt = aid.down.confirm_text.translated();
     }
     query += "\n";
     query += query_prompt;
@@ -13402,14 +13396,12 @@ void game::climb_down_using(
                    int( deploy_affordance ) );
     add_msg_debug( debugmode::DF_GAME, "Slip chance %d / est damage %d", slip_chance, damage_estimate );
     add_msg_debug( debugmode::DF_GAME, "We can descend %d / total height %d", aid.down.max_height,
-                   height );
+                   fall.height );
 
     if( !seems_perfectly_safe || !easy_climb_back_up ) {
 
         // This is used to mention object names.  TODO make this more flexible.
-        tripoint target_pos = examp;
-        target_pos.z -= fall.height_to_floor_or_furniture();
-        std::string target_disp_name = m.disp_name( target_pos );
+        std::string target_disp_name = m.disp_name( fall.pos_furniture_or_floor() );
 
         // Show the risk prompt.
         if( !query_yn( query.c_str(), target_disp_name ) ) {
@@ -13424,14 +13416,13 @@ void game::climb_down_using(
     you.setpos( examp );
 
     // Pre-descent message.
-    if( aid.down.msg_before.length() ) {
-        // TODO LOCALIZE CLIMBING
-        you.add_msg_if_player( aid.down.msg_before );
+    if( !aid.down.msg_before.empty() ) {
+        you.add_msg_if_player( aid.down.msg_before.translated() );
     }
 
     // Descent: perform one slip check per level
     tripoint descent_pos = examp;
-    for( int i = 0; i < height && i < aid.down.max_height; ++i ) {
+    for( int i = 0; i < fall.height && i < aid.down.max_height; ++i ) {
         if( g->slip_down( climb_maneuver::down, aid_id, false ) ) {
             // The player has slipped and probably fallen.
             return;
@@ -13456,9 +13447,8 @@ void game::climb_down_using(
     }
 
     // Pre-descent message.
-    if( aid.down.msg_after.length() ) {
-        // TODO LOCALIZE CLIMBING
-        you.add_msg_if_player( aid.down.msg_after );
+    if( !aid.down.msg_after.empty() ) {
+        you.add_msg_if_player( aid.down.msg_after.translated() );
     }
 
     // You ride the ride, you pay the tithe.
