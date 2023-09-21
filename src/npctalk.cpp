@@ -1895,7 +1895,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 void parse_tags( std::string &phrase, const Character &u, const Character &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    parse_tags( phrase, *get_talker_for(u), *get_talker_for(me), d, item_type );
+    parse_tags( phrase, *get_talker_for( u ), *get_talker_for( me ), d, item_type );
 }
 
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
@@ -3744,8 +3744,9 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         } else {
             translated_message = _( message.evaluate( d ) );
         }
-        talker &alpha = d.has_alpha ? *d.actor( false ) : *get_talker_for( get_player_character() );
-        talker &beta = d.has_beta ? *d.actor( true ) : *get_talker_for( get_player_character() );
+        std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
+        talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
+        talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
         parse_tags( translated_message, alpha, beta, d );
         if( sound ) {
             bool display = false;
