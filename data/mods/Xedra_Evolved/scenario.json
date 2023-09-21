@@ -36,7 +36,7 @@
     "id": "once_bitten",
     "name": "Once Bitten",
     "points": 0,
-    "description": "Whether you were visiting Salem's Lot, boating on the Demeter, or just another lost boy or girl, you've been bitten by a stranger at twilight the night before.  As a new day breaks you might want to find someone to interview about how you are feeling.  Dark shadows feel more inviting than yesterday and you don't feel like you are long for the day shift.",
+    "description": "Whether you were visiting Salem's Lot, boating on the Demeter, vacationing to Transylvania, or just another lost boy or girl, you've been bitten by a stranger at twilight the night before.  As a new day breaks you might want to find someone to interview about how you are feeling.  Dark shadows feel more inviting than yesterday and you don't feel like you are long for the day shift.",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
