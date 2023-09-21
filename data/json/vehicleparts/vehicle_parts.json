@@ -1346,7 +1346,7 @@
     "name": { "str": "small vehicle-mounted heater" },
     "item": "mountable_heater_small",
     "//": "going with half energy draw based on difference between small and large space heaters",
-    "epower": "-350 W", 
+    "epower": "-350 W",
     "folded_volume": "3750 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1361,14 +1361,12 @@
   {
     "id": "integrated_heater_small",
     "copy-from": "mountable_heater_small",
+    "description": "Set of tubes, that move heat from the engine into the vehicle cabin, heating it up.",
     "type": "vehicle_part",
-    "location": "none",
+    "location": "",
     "name": { "str": "small integrated heater" },
     "//": "can't be installed or unistalled, can only be bashed away",
-    "requirements": {
-      "install": {  },
-      "removal": {  }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 99 ] ] }, "removal": { "skills": [ [ "mechanics", 99 ] ] } }
   },
   {
     "id": "mountable_cooler",
@@ -1393,17 +1391,18 @@
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": "C", "symbols_broken": ":" } ]
   },
-  
   {
     "id": "integrated_cooler",
     "copy-from": "mountable_cooler",
     "type": "vehicle_part",
-    "location": "none",
+    "location": "",
     "name": { "str": "small integrated cooler" },
-    "//": "can't be installed or unistalled, can only be bashed away",
+    "description": "Small set of mechanisms, that cool the vehicle out when turned on.",
+    "item": "integrated_cooler",
     "requirements": {
-      "install": {  },
-      "removal": {  }
+      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 s", "using": [ [ "adhesive", 1 ] ] }
     }
   },
   {
