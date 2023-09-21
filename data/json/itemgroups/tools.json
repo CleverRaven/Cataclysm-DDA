@@ -896,13 +896,6 @@
     ]
   },
   {
-    "id": "tools_fishing_makeshift",
-    "type": "item_group",
-    "subtype": "distribution",
-    "//": "Post-cataclysm makeshift fishing implements",
-    "items": [ [ "fishing_rod_basic", 100 ], [ "fish_trap_basket", 100 ], [ "fishing_hook_bone", 100 ] ]
-  },
-  {
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_15",
     "subtype": "collection",

@@ -126,32 +126,6 @@
   },
   {
     "type": "item_group",
-    "id": "mre_used_accessory_pack",
-    "container-item": "bag_plastic",
-    "subtype": "collection",
-    "entries": [
-      { "item": "gummy_vitamins" },
-      { "item": "matches", "charges": [ 0, 20 ] },
-      { "item": "napkin", "count": [ 0, 8 ] },
-      { "item": "gum", "count": [ 0, 2 ] },
-      { "group": "pur_tablets_beverage_bag_0_6" },
-      { "group": "sugar_beverage_bag_0_2" },
-      { "item": "spork" },
-      {
-        "distribution": [
-          { "item": "instant_coffee", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "herbal_tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_bag_chamomile", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_bag_dandelion", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_fruit_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" },
-          { "item": "tea_green_bag", "count": [ 0, 2 ], "container-item": "beverage_bag" }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "mre_used_contents",
     "subtype": "collection",
     "entries": [
