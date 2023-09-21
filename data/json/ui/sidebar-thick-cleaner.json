@@ -47,9 +47,9 @@
     "id": "more_graphs_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Extra bodygraphs",
+    "label": "Extra body graphs",
     "arrange": "columns",
-    "description": "Three <color_yellow>small bodygraphs</color> for status, encumbrance and temperature.",
+    "description": "Three <color_yellow>small body graphs</color> for status, encumbrance and temperature.",
     "widgets": [ "more_body_graph_status", "more_body_graph_temp", "more_body_graph_encumb" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
@@ -153,7 +153,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Body + More Graphs",
-    "description": "A large <color_yellow>health display</color> and health bars, as well as three <color_yellow>small bodygraphs</color> for status, encumbrance and temperature.",
+    "description": "A large <color_yellow>health display</color> and health bars, as well as three <color_yellow>small body graphs</color> for status, encumbrance and temperature.",
     "arrange": "minimum_columns",
     "widgets": [ "thick_body_graph", "thick_rs_column_more_graphs" ]
   },
@@ -162,6 +162,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "thick-cleaner",
+    "description": "An alternate thick sidebar. Restart required if using the extra body graphs.",
     "separator": ": ",
     "padding": 2,
     "width": 66,
