@@ -88,7 +88,7 @@ void climbing_aid::finalize()
 
     for( const climbing_aid &aid : get_all() ) {
         int category_index = int( aid.base_condition.cat );
-        if( category_index >= climbing_lookup.size() ) {
+        if( category_index >= int( climbing_lookup.size() ) ) {
             // should throw, really.
             continue;
         }
@@ -239,7 +239,8 @@ void for_each_aid_condition( const climbing_aid::condition_list &conditions, con
     for( auto &cond : conditions ) {
         if( int( cond.cat ) < int( climbing_lookup.size() ) ) {
             auto &cat = climbing_lookup[ int( cond.cat ) ];
-            for( auto i = cat.lower_bound( cond.flag ), e = cat.upper_bound( cond.flag ); i != e; ++i ) {
+            auto range = cat.equal_range( cond.flag );
+            for( auto i = range.first; i != range.second; ++i ) {
                 func( cond, *i->second );
             }
         }
@@ -251,7 +252,7 @@ climbing_aid::aid_list climbing_aid::list(
 {
     std::vector<const climbing_aid *> list;
 
-    const auto add_deployables = [&]( const condition & cond, const climbing_aid & aid ) {
+    const auto add_deployables = [&]( const condition &, const climbing_aid & aid ) {
         if( aid.down.deploys_furniture() ) {
             list.push_back( &aid );
         }
@@ -268,7 +269,7 @@ climbing_aid::aid_list climbing_aid::list_all(
 {
     std::vector<const climbing_aid *> list;
 
-    const auto add_climbing_aids = [&]( const condition & cond, const climbing_aid & aid ) {
+    const auto add_climbing_aids = [&]( const condition &, const climbing_aid & aid ) {
         list.push_back( &aid );
     };
     for_each_aid_condition( conditions, add_climbing_aids );
@@ -283,7 +284,7 @@ const climbing_aid &climbing_aid::get_safest(
 {
     const climbing_aid *choice = climbing_aid_default;
 
-    const auto choose_safest = [&]( const condition & cond, const climbing_aid & aid ) {
+    const auto choose_safest = [&]( const condition &, const climbing_aid & aid ) {
         if( !no_deploy || aid.down.deploy_furn.is_empty() ) {
             if( aid.slip_chance_mod < choice->slip_chance_mod ) {
                 choice = &aid;
