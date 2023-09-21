@@ -657,7 +657,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "hdframe#cross", { "part": "tank", "fuel": "jp8" } ] },
-      { "x": 0, "y": 0, "parts": [ "hdroof", "seat", "seatbelt", "controls", "integrated_heater_small", "dashboard" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "hdroof", "seat", "seatbelt", "controls", "integrated_heater_small", "dashboard" ]
+      },
       { "x": 0, "y": 0, "parts": [ "horn_big" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "hddoor#left" ] },
       { "x": 0, "y": 1, "parts": [ "hdframe#cross", { "part": "tank", "fuel": "jp8" } ] },
