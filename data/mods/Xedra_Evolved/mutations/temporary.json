@@ -16,6 +16,12 @@
     "weight_capacity_modifier": 1.1,
     "cardio_multiplier": 1.25,
     "social_modifiers": { "intimidate": 15 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
+    "enchantments": [ "ench_giant_growth_size_bonuses" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_giant_growth_size_bonuses",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_HP", "multiply": 0.4 } ]
   }
 ]
