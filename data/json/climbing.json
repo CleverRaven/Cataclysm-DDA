@@ -59,6 +59,36 @@
   },
   {
     "type": "climbing_aid",
+    "id": "item_stepladder",
+    "//": "We can generalize the grappling hook mechanism to portable ladders, so why not?",
+    "slip_chance_mod": -20,
+    "down": {
+      "menu_text": "Place your stepladder below and climb down.",
+      "confirm_text": "Climb down with your stepladder?",
+      "msg_after": "You climb down the ladder.",
+      "max_height": 1,
+      "deploy_furn": "f_stepladder",
+      "easy_climb_back_up": 1
+    },
+    "condition": { "type": "item", "flag": "stepladder", "uses": 1 }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "item_aluminum_stepladder",
+    "//": "We can generalize the grappling hook mechanism to portable ladders, so why not?",
+    "slip_chance_mod": -20,
+    "down": {
+      "menu_text": "Place your aluminum stepladder below and climb down.",
+      "confirm_text": "Climb down with your stepladder?",
+      "msg_after": "You climb down the ladder.",
+      "max_height": 1,
+      "deploy_furn": "f_aluminum_stepladder",
+      "easy_climb_back_up": 1
+    },
+    "condition": { "type": "item", "flag": "aluminum_stepladder", "uses": 1 }
+  },
+  {
+    "type": "climbing_aid",
     "id": "furn_ROPE",
     "//": "currently based on DIFFICULT_Z flag, but a ROPE flag would be appropriate in the future.",
     "slip_chance_mod": -12,
@@ -81,9 +111,10 @@
       "menu_hotkey": "g",
       "confirm_text": "Use your grappling hook to climb down?",
       "msg_before": "You tie the rope around your waist and begin to climb down.",
-      "deploy_furn": "f_rope_up",
       "//": "Grappling hook is 30 ft (ie, 2 levels) but we don't currently have proper furniture for that.",
-      "max_height": 1
+      "max_height": 1,
+      "deploy_furn": "f_rope_up",
+      "easy_climb_back_up": 1
     },
     "condition": { "type": "item", "flag": "grapnel", "uses": 1 }
   },
@@ -102,7 +133,7 @@
   },
   {
     "type": "climbing_aid",
-    "id": "player_WALL_CLING",
+    "id": "ability_WALL_CLING",
     "//": "Allows players to safely climb up/down or hold position against a wall.",
     "slip_chance_mod": -100,
     "down": {
@@ -116,7 +147,7 @@
   },
   {
     "type": "climbing_aid",
-    "id": "player_WEB_RAPPEL",
+    "id": "ability_WEB_RAPPEL",
     "//": "Extremely safe descent regardless of height by spinning webs.",
     "slip_chance_mod": -100,
     "down": {
@@ -125,70 +156,73 @@
       "menu_hotkey": "w",
       "confirm_text": "Use your webs to descend?",
       "msg_before": "You affix a long, sticky strand on the ledge and begin your descent.",
-      "deploy_furn": "f_web_up",
+      "max_height": 999,
       "cost": { "kcal": 87, "thirst": 10 },
-      "max_height": 999
+      "deploy_furn": "f_web_up",
+      "easy_climb_back_up": 999
     },
-    "condition": { "type": "mutation", "flag": "WEB_RAPPEL" }
+    "condition": { "type": "trait", "flag": "WEB_RAPPEL" }
   },
   {
     "type": "climbing_aid",
-    "id": "player_VINES2",
+    "id": "ability_VINES2",
     "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES2, keeping.",
     "slip_chance_mod": -100,
     "down": {
       "menu_text": "Climb down using your vines.",
-      "confirm_text": "Climb down using your vines?",
+      "confirm_text": "Use your vines to descend?",
       "msg_after": "You gingerly descend using your vines.",
       "max_height": 1
     },
-    "condition": { "type": "mutation", "flag": "VINES2" }
+    "condition": { "type": "trait", "flag": "VINES2" }
   },
   {
     "type": "climbing_aid",
-    "id": "player_VINES2_deploy",
+    "id": "ability_VINES2_deploy",
     "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES2, detaching.",
     "slip_chance_mod": -100,
     "down": {
       "menu_text": "Detach a vine so you can climb back up (<color_yellow>this will hurt</color>).",
       "menu_cant": "Can't detach a vine (something is in the way).",
       "menu_hotkey": "v",
-      "confirm_text": "Detach a vine to climb down?",
+      "confirm_text": "Detach a vine to descend?",
       "msg_after": "You descend on your vines, though leaving a part of you behind stings.",
-      "deploy_furn": "f_web_up",
+      "max_height": 1,
       "cost": { "pain": 5, "damage": 5, "kcal": 87, "thirst": 10 },
-      "max_height": 1
+      "deploy_furn": "f_web_up",
+      "easy_climb_back_up": 1
     },
-    "condition": { "type": "mutation", "flag": "VINES2" }
+    "condition": { "type": "trait", "flag": "VINES2" }
   },
   {
     "type": "climbing_aid",
-    "id": "player_VINES3",
+    "id": "ability_VINES3",
     "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES3, keeping.",
     "slip_chance_mod": -100,
     "down": {
       "menu_text": "Climb down using your vines.",
-      "confirm_text": "Climb down using your vines?",
+      "confirm_text": "Use your vines to descend?",
       "msg_after": "You effortlessly descend using your vines.",
       "max_height": 1
     },
-    "condition": { "type": "mutation", "flag": "VINES3" }
+    "condition": { "type": "trait", "flag": "VINES3" }
   },
   {
     "type": "climbing_aid",
-    "id": "player_VINES3_deploy",
+    "id": "ability_VINES3_deploy",
     "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES3, detaching.",
     "slip_chance_mod": -100,
     "down": {
       "menu_text": "Detach a vine so you can climb back up (this is harmless).",
       "menu_cant": "Can't detach a vine (something is in the way).",
       "menu_hotkey": "v",
-      "confirm_text": "Detach a vine to climb down?",
+      "confirm_text": "Detach a vine to descend?",
       "msg_after": "You effortlessly lower yourself and leave a vine rooted for future use.",
-      "deploy_furn": "f_web_up",
+      "max_height": 1,
       "cost": { "kcal": 87, "thirst": 10 },
-      "max_height": 1
+      "deploy_furn": "f_web_up",
+      "easy_climb_back_up": 1
     },
-    "condition": { "type": "mutation", "flag": "VINES3" }
+    "condition": { "type": "trait", "flag": "VINES3" }
   }
 ]

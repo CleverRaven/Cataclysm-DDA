@@ -1,14 +1,22 @@
 #include <cstdlib>
+#include <unordered_set>
 #include <utility>
 
 #include "climbing.h"
 
 #include "cata_assert.h"
+#include "character.h"
+#include "creature_tracker.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "game.h"
 #include "generic_factory.h"
+#include "int_id.h"
 #include "json.h"
+#include "map.h"
 #include "string_formatter.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 
 namespace
@@ -16,10 +24,49 @@ namespace
 generic_factory<climbing_aid> climbing_aid_factory( "climbing_aid" );
 } // namespace
 
-
 static climbing_aid::lookup climbing_lookup;
 
 static const climbing_aid *climbing_aid_default = nullptr;
+
+
+
+template<>
+const climbing_aid &string_id<climbing_aid>::obj() const
+{
+    return climbing_aid_factory.obj( *this );
+}
+template<>
+const climbing_aid &int_id<climbing_aid>::obj() const
+{
+    return climbing_aid_factory.obj( *this );
+}
+
+template<>
+int_id<climbing_aid> string_id<climbing_aid>::id() const
+{
+    return climbing_aid_factory.convert( *this, int_id<climbing_aid>( -1 ) );
+}
+template<>
+const string_id<climbing_aid> &int_id<climbing_aid>::id() const
+{
+    return climbing_aid_factory.convert( *this );
+}
+
+template<>
+bool int_id<climbing_aid>::is_valid() const
+{
+    return climbing_aid_factory.is_valid( *this );
+}
+template<>
+bool string_id<climbing_aid>::is_valid() const
+{
+    return climbing_aid_factory.is_valid( *this );
+}
+
+template<>
+int_id<climbing_aid>::int_id( const string_id<climbing_aid> &id ) : _id( id.id() )
+{
+}
 
 
 const std::vector<climbing_aid> &climbing_aid::get_all()
@@ -38,12 +85,14 @@ void climbing_aid::finalize()
     climbing_aid_default = nullptr;
     climbing_lookup.clear();
     climbing_lookup.resize( int( category::last ) );
+
     for( const climbing_aid &aid : get_all() ) {
-        int index = int( aid.base_condition.cat );
-        if( climbing_lookup.size() < index ) {
-            return;
+        int category_index = int( aid.base_condition.cat );
+        if( category_index >= climbing_lookup.size() ) {
+            // should throw, really.
+            continue;
         }
-        climbing_lookup[ index ].emplace( aid.base_condition.flag, &aid );
+        climbing_lookup[ category_index ].emplace( aid.base_condition.flag, &aid );
 
         if( aid.id.str() == "default" ) {
             climbing_aid_default = &aid;
@@ -105,13 +154,18 @@ std::string enum_to_string<climbing_aid::category>( climbing_aid::category data 
     case climbing_aid::category::veh: return "veh";
     case climbing_aid::category::item: return "item";
     case climbing_aid::category::character: return "character";
-    case climbing_aid::category::mutation: return "mutation";
+    case climbing_aid::category::trait: return "trait";
         // *INDENT-ON*
         case climbing_aid::category::last:
             break;
     }
     cata_fatal( "Invalid achievement_completion" );
 }
+}
+
+std::string climbing_aid::condition::category_string() const noexcept
+{
+    return io::enum_to_string( cat );
 }
 
 void climbing_aid::condition::deserialize( const JsonObject &jo )
@@ -138,6 +192,7 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
 {
     // max_height is optional; setting it to zero disables "down" motion
     optional( jo, true, "max_height", max_height );
+    optional( jo, true, "easy_climb_back_up", easy_climb_back_up );
 
     if( enabled() ) {
         // Mandatory for all aids that
@@ -182,7 +237,7 @@ template< typename Lambda >
 void for_each_aid_condition( const climbing_aid::condition_list &conditions, const Lambda &func )
 {
     for( auto &cond : conditions ) {
-        if( int( cond.cat ) < climbing_lookup.size() ) {
+        if( int( cond.cat ) < int( climbing_lookup.size() ) ) {
             auto &cat = climbing_lookup[ int( cond.cat ) ];
             for( auto i = cat.lower_bound( cond.flag ), e = cat.upper_bound( cond.flag ); i != e; ++i ) {
                 func( cond, *i->second );
@@ -243,4 +298,108 @@ const climbing_aid &climbing_aid::get_safest(
 const climbing_aid &climbing_aid::get_default()
 {
     return *climbing_aid_default;
+}
+
+template< typename Test >
+static void detect_conditions_sub( climbing_aid::condition_list &list,
+                                   climbing_aid::category category, const Test &test )
+{
+    std::string empty;
+    const std::string *flag_already_tested = &empty;
+    for( auto &[ flag, aid ] : climbing_lookup[ int( category ) ] ) {
+        // climbing_lookup is a multimap, don't test flags twice.
+        if( flag == *flag_already_tested ) {
+            continue;
+        }
+
+        climbing_aid::condition cond = { category, flag };
+        if( test( cond ) ) {
+            list.emplace_back( cond );
+        }
+
+        flag_already_tested = &flag;
+    }
+}
+
+climbing_aid::condition_list climbing_aid::detect_conditions( Character &you,
+        const tripoint &examp )
+{
+    condition_list list;
+
+    map &here = get_map();
+
+    fall_scan_t fall = fall_scan( examp );
+
+    tripoint p_bottom = examp, p_nearest_furn = examp, p_just_below = examp;
+    p_just_below.z -= 1;
+    p_bottom.z -= fall.height;
+    p_nearest_furn.z -= fall.height_to_floor_or_furniture();
+
+    auto detect_you_character_flag = [&]( condition & cond ) {
+        return you.has_flag( json_character_flag( cond.flag ) );
+    };
+    auto detect_you_trait = [&]( condition & cond ) {
+        return you.has_trait( trait_id( cond.flag ) );
+    };
+    auto detect_item = [&]( condition & cond ) {
+        cond.uses_item = you.amount_of( itype_id( cond.flag ) );
+        return cond.uses_item > 0;
+    };
+    auto detect_ter_furn_flag = [&]( condition & cond ) {
+        cond.range = fall.height_to_floor_or_furniture();
+        return here.has_flag( cond.flag, p_nearest_furn );
+    };
+    auto detect_vehicle = [&]( condition & cond ) {
+        // TODO implement flags and range?
+        cond.range = 1;
+        return fall.height >= 1 && here.veh_at( p_just_below );
+    };
+
+    detect_conditions_sub( list, category::character, detect_you_character_flag );
+    detect_conditions_sub( list, category::trait, detect_you_trait );
+    detect_conditions_sub( list, category::item, detect_item );
+    detect_conditions_sub( list, category::ter_furn, detect_ter_furn_flag );
+    detect_conditions_sub( list, category::veh, detect_vehicle );
+
+    return list;
+}
+
+climbing_aid::fall_scan_t climbing_aid::fall_scan( const tripoint &examp )
+{
+    fall_scan_t result = {};
+
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+
+    // Get coordinates just below and at ground level.
+    // Also detect if furniture would block our tools/abilities.
+    tripoint bottom = examp;
+    tripoint just_below = examp;
+    just_below.z--;
+
+    int hit_furn = false;
+    int hit_crea = false;
+
+    for( tripoint lower = just_below; here.valid_move( bottom, lower, false, true ); ) {
+        if( !hit_furn ) {
+            if( here.has_furn( lower ) ) {
+                hit_furn = true;
+            } else {
+                ++result.height_until_furniture;
+            }
+        }
+        if( !hit_crea ) {
+            ++result.height_until_creature;
+            if( creatures.creature_at( lower, false ) ) {
+                hit_crea = true;
+            } else {
+                ++result.height_until_creature;
+            }
+        }
+        ++result.height;
+        bottom.z--;
+        lower.z--;
+    }
+
+    return result;
 }

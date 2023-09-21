@@ -1234,70 +1234,29 @@ class game
             over_obstacle, // climb over an obstacle (horizontal move)
         };
 
-        /** Passed to climbing-related functions (slip_down) to
-        *   indicate what kind of object, terrain or ability is
-        *   being used to aid in climbing.
-        */
-        enum class climb_affordance {
-            ledge = 1,
-            climbable_misc, // CLIMBABLE-flagged objects. eg: fences, downspouts, etc
-            vehicle,
-            rope, // eg, grappling hook
-            ladder,
-            climbable_simple, // CLIMB_SIMPPLE-flagged objects. eg:
-            ability_wall_cling,
-            ability_web_rappel,
-            ability_vines,
-            _count,
-        };
-
         /**
         Checks if player is able to successfully climb to/from some terrain and not slip down
         @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
-        @param affordance The object, terrain or ability being used to climb.  Affects chance.
+        @param aid Identifies the object, terrain or ability being used to climb.  See climbing.h.
         @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
         @return whether player has slipped down
         */
         bool slip_down(
             climb_maneuver maneuver,
-            climb_affordance affordance,
+            climbing_aid_id aid = climbing_aid_id( "default" ),
             bool show_chance_messages = true );
 
         /**
         Calculates the chance that slip_down will return true.
         @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
-        @param affordance The object, terrain or ability being used to climb.  Affects chance.
+        @param affordance Identifies the object, terrain or ability being used to climb.  See climbing.h.
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
         int slip_down_chance(
             climb_maneuver maneuver,
-            climb_affordance affordance = climb_affordance::ledge,
+            climbing_aid_id aid = climbing_aid_id( "default" ),
             bool show_chance_messages = true );
-
-        /**
-        * Scans downwards from a tile to assess what lies between it and solid ground.
-        */
-        struct fall_scan_t {
-            public:
-                int height; // Z-levels to "ground" based on here.valid_move
-                int height_until_creature; // Z-levels before we would contact a creature
-                int height_until_furniture; // Z-levels before we would contact furniture
-
-                bool furn_just_below() const {
-                    return height_until_furniture == 1;
-                }
-                bool furn_below() const {
-                    return height_until_furniture != height;
-                }
-                bool crea_just_below() const {
-                    return height_until_creature == 1;
-                }
-                bool crea_below() const {
-                    return height_until_creature != height;
-                }
-        };
-        fall_scan_t fall_scan( const tripoint &examp );
 
         /**
         * Climb down from a ledge.
@@ -1311,7 +1270,7 @@ class game
         bool climb_down_menu_pick( const tripoint &examp, int retval );
         void climb_down_using(
             const tripoint &examp,
-            climb_affordance affordance,
+            climbing_aid_id aid,
             bool deploy_affordance = false );
 };
 

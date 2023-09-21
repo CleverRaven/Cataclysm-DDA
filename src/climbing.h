@@ -13,6 +13,9 @@
 #include "type_id.h"
 
 class JsonObject;
+class Character;
+class map;
+struct tripoint;
 
 /**
 * A "Climbing Aid" as defined here is
@@ -27,7 +30,7 @@ class climbing_aid
             veh,
             item,
             character,
-            mutation,
+            trait,
             last
         };
 
@@ -36,6 +39,8 @@ class climbing_aid
             std::string flag;
             int         uses_item = 0;
             int         range = 1;
+
+            std::string category_string() const noexcept;
 
             void deserialize( const JsonObject &jo );
         };
@@ -68,6 +73,8 @@ class climbing_aid
         bool was_loaded = false;
 
 
+        static condition_list detect_conditions( Character &you, const tripoint &examp );
+
         static aid_list list( const condition_list &cond );
         static aid_list list_all( const condition_list &cond );
 
@@ -75,7 +82,36 @@ class climbing_aid
         static const climbing_aid &get_safest( const condition_list &cond, bool no_deploy = true );
 
 
-        // Identity of the climbing aid.
+        /**
+        * Scans downwards from a tile to assess what lies between it and solid ground.
+        */
+        struct fall_scan_t {
+            public:
+                int height; // Z-levels to "ground" based on here.valid_move
+                int height_until_creature; // Z-levels below that are free of creatures
+                int height_until_furniture; // Z-levels below that are free of furniture
+
+                int height_to_floor_or_furniture() const {
+                    return std::min( height, height_until_furniture + 1 );
+                }
+
+                bool furn_just_below() const {
+                    return height_until_furniture == 0;
+                }
+                bool furn_below() const {
+                    return height_until_furniture != height;
+                }
+                bool crea_just_below() const {
+                    return height_until_creature == 0;
+                }
+                bool crea_below() const {
+                    return height_until_creature != height;
+                }
+        };
+        static fall_scan_t fall_scan( const tripoint &examp );
+
+
+        // Identity of the climbing aid, and index in get_all() list.
         climbing_aid_id id;
         std::vector<std::pair<climbing_aid_id, mod_id>> src;
 
@@ -91,6 +127,10 @@ class climbing_aid
 
             // Set max_height to 0 to disallow climbing down with this aid.
             int         max_height = 1;
+
+            // Set to number of Z-levels that will be trivial to climb back up.
+            //    Usually set to zero or equal to max_height.
+            int         easy_climb_back_up = 0;
 
             std::string menu_text;
             std::string menu_cant;
