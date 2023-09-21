@@ -905,6 +905,26 @@
     "removes_effects": [ "common_cold", "flu" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_flesh_rending",
+    "name": [ "Rending" ],
+    "desc": [ "Your flesh is twisting itself apart!" ],
+    "apply_message": "Your flesh writhes where you were hit!",
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "hurt_chance_bot": [ 5 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_anchor",
+    "name": [ "Teleport Anchor" ],
+    "desc": [ "You're not going anywhere." ],
+    "apply_message": "Your body tingles.",
+    "rating": "bad",
+    "flags": [ "DIMENSIONAL_ANCHOR" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],

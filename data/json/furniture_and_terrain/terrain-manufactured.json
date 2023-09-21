@@ -1469,27 +1469,6 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
   },
   {
-    "type": "furniture",
-    "id": "f_standing_pressure_tank",
-    "name": "standing propane tank",
-    "description": "A huge metal tank that can be used to safely store large amounts of propane.",
-    "symbol": "O",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
-    "examine_action": "gaspump",
-    "deconstruct": { "items": [ { "item": "large_propane_tank", "count": 3 } ] },
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 8, 32 ] } ]
-    }
-  },
-  {
     "type": "terrain",
     "id": "t_brick_oven_base",
     "name": "brick oven base",

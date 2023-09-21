@@ -121,7 +121,8 @@
     "time": "90 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 5 ], [ "tailoring_lycra_patchwork", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_cotton", 3 ], [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "xl_binder_top",
@@ -148,7 +149,8 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
-    "using": [ [ "sewing_standard", 10 ], [ "tailoring_lycra_patchwork", 1 ] ]
+    "using": [ [ "sewing_standard", 10 ], [ "tailoring_lycra_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "bikini_top_fur",
@@ -487,13 +489,13 @@
     "difficulty": 3,
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
-    "reversible": true,
     "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_faux_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 3 ], [ "scrap_faux_fur", 5 ] ]
   },
   {
     "result": "xs_coat_faux_fur",
@@ -737,7 +739,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "10 h",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 60 ], [ "fabric_standard_nostretch", 25 ], [ "fabric_fauxfur", 20 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -745,7 +746,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 3 ], [ "scrap_faux_fur", 7 ] ]
   },
   {
     "result": "xs_duster_faux_fur",
@@ -1099,10 +1101,9 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "2 h 45 m",
-    "autolearn": true,
-    "reversible": true,
     "using": [ [ "sewing_standard", 13 ], [ "fabric_lycra", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "long_undertop",
@@ -1425,7 +1426,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "8 h 30 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1433,7 +1433,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 1 ], [ "scrap_faux_fur", 6 ] ]
   },
   {
     "result": "sleeveless_duster_fur",
@@ -1462,7 +1463,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 4 ] ],
+    "byproducts": [ [ "faux_fur", 4 ], [ "scrap_faux_fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
@@ -1614,7 +1615,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 4 ] ],
+    "byproducts": [ [ "faux_fur", 4 ], [ "scrap_faux_fur", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
@@ -1650,7 +1651,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "7 h 45 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "fabric_fauxfur", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1658,7 +1658,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 1 ], [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "sleeveless_trenchcoat_leather",
@@ -1787,16 +1788,17 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "xssports_bra",
     "type": "recipe",
     "copy-from": "sports_bra",
     "time": "1 h 30 m",
-    "using": [ [ "tailoring_lycra_patchwork", 1 ] ]
+    "using": [ [ "tailoring_lycra_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "xlsports_bra",
@@ -1808,9 +1810,9 @@
     "difficulty": 3,
     "time": "1 h 40 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "sundress",
@@ -1927,9 +1929,9 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "trenchcoat",
@@ -1974,7 +1976,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "8 h 20 m",
-    "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "tailoring_faux_fur_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1982,7 +1983,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "faux_fur", 2 ], [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "trenchcoat_leather",
@@ -2090,9 +2092,9 @@
     "difficulty": 3,
     "time": "55 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "undershirt",
@@ -2117,9 +2119,9 @@
     "difficulty": 2,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "tailoring_lycra_patchwork", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 7 ] ]
   },
   {
     "result": "kevlar",

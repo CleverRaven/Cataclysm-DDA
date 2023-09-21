@@ -22,14 +22,6 @@
     "chance": 100
   },
   {
-    "id": "emit_cold_energy_weak",
-    "type": "emit",
-    "field": "fd_cold_energy",
-    "intensity": 1,
-    "qty": 15,
-    "chance": 100
-  },
-  {
     "id": "emit_cold_energy_strong",
     "type": "emit",
     "field": "fd_cold_energy",
