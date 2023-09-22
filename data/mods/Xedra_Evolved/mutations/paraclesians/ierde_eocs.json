@@ -34,6 +34,6 @@
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
-    "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You must be on living earth or stone to call forth a goblin fruit.", "type": "bad" } ]
   }
 ]
