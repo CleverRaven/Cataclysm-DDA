@@ -65,6 +65,7 @@
       { "u_add_effect": "incorporeal", "duration": 1 },
       { "u_add_effect": "downed", "duration": 1 },
       { "u_set_hp": 999, "only_increase": true },
+      { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
       { "u_spawn_item": "corpse_painful" },
       { "queue_eocs": "EOC_DUST_REBORN_2", "time_in_future": "1 seconds" },
       {
@@ -81,7 +82,6 @@
       { "u_teleport": { "u_val": "dust_reborn_teleport" } },
       { "u_lose_trait": "DUST_REBORN" },
       { "math": [ "u_pain()", "=", "0" ] },
-      { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 15000 } ] },
       { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "vitamin", "name": "bad_food" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "vitamin", "name": "blood" }, "=", { "const": 0 } ] },
