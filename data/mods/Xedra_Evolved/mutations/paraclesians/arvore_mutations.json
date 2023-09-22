@@ -137,6 +137,33 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_FOREST_TELEPORT",
+    "name": { "str": "Traverse the Wilds" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Arvore gains the ability to transport themselves from tree to nearby tree while within a forest.",
+    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs2": [ "ARVORE_FOREST_STEALTH" ],
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_walk_the_wilds", 1 ] ],
+    "//": "Ideally this would require the destination as well as the departure point to be in a forest (in which case, maybe it could be expanded to fields), but no way to do that for now."
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_CAUSE_DECAY",
+    "name": { "str": "The Fallen Trees Decay to Soil" },
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Arvore gains the ability to induce decay and dissolution in the surrounding area.",
+    "prereqs": [ "ARVORE_VERDANT_INFUSION" ],
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "spells_learned": [ [ "arvore_cause_decay", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_SPIRIT",
     "name": { "str": "Summon Wood Spirit" },
     "points": 3,
@@ -313,6 +340,7 @@
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, and your mana is regenerating quicker.",
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
+    "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
     "healing_awake": 0.25,
     "healing_multiplier": 1.5,
@@ -423,6 +451,19 @@
       ]
     ],
     "transform": { "target": "ARVORE_SUN_FOODS", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_PAIN_RESISTANCE",
+    "name": { "str": "The Fallen Branch Does Not Suffer" },
+    "points": 5,
+    "visibility": 1,
+    "types": [ "PAIN" ],
+    "description": "Filled with the energy of life, pain does not affect you as strongly.",
+    "prereqs": [ "ARVORE_SKIN_1" ],
+    "prereqs2": [ "ARVORE_NURTURING_THE_GREEN" ],
+    "category": [ "ARVORE" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -542,6 +583,19 @@
     "description": "Like forest giants that have stood for a hundred years, you are unshakeable.  +5 Strength.",
     "category": [ "ARVORE" ],
     "passive_mods": { "str_mod": 5 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_PER_BONUS",
+    "name": { "str": "Insight of the Grove" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When one tree in a grove is attacked by insects, soon all trees will produce the deterrent.  +3 Perception.",
+    "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
+    "prereqs2": [ "ARVORE_FOREST_DETECT" ],
+    "category": [ "ARVORE" ],
+    "passive_mods": { "per_mod": 3 }
   },
   {
     "type": "mutation",
@@ -958,5 +1012,48 @@
       ]
     ],
     "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_MANA_BONUS",
+    "name": { "str": "Solar Empowerment" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, your mana regenerates much quicker, and you gain a bonus to your maximum mana.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_SUN_MANA_BONUS_ON", "msg_transform": "", "active": false, "moves": 0 },
+    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_MANA_BONUS_ON",
+    "name": { "str": "Solar Empowerment (active)" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, and your maximum mana is increased.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
+    "healing_awake": 0.25,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 3.0,
+    "mana_regen_multiplier": 1.5,
+    "mana_multiplier": 1.5,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
+    "triggers": [
+      [
+        {
+          "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
   }
 ]

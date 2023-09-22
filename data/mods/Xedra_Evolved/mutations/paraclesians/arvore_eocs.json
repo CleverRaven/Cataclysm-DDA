@@ -126,6 +126,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
+    "condition": {
+      "or": [
+        { "u_at_om_location": "forest_thick" },
+        { "u_at_om_location": "forest" },
+        { "u_at_om_location": "forest_water" },
+        { "u_at_om_location": "arvore_genius_loci_NW" },
+        { "u_at_om_location": "arvore_genius_loci_NE" },
+        { "u_at_om_location": "arvore_genius_loci_SW" },
+        { "u_at_om_location": "arvore_genius_loci_SE" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "arvore_walk_the_wilds_real" }, "targeted": true } ],
+    "false_effect": { "u_message": "You need to be in a forest to traverse the wilds.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_GOBLIN_FRUIT",
     "condition": {
       "and": [

@@ -421,6 +421,7 @@
     "description": "Bind your soul to the heart of the forest, rebirthing yourself if you should die.  You may only perform this in thick forests or at an arvore altar, you may be reborn no more than once in a lunar month.",
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_FAIL" ],
     "valid_targets": [ "self" ],
+    "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_PERENNIAL_REBIRTH_INITIAL_CHECK",
     "shape": "blast",
@@ -440,5 +441,98 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SUN_FOODS_ON_KCAL",
     "shape": "blast"
+  },
+  {
+    "id": "arvore_cause_decay",
+    "type": "SPELL",
+    "name": "The Fallen Trees Decay to Soil",
+    "description": "Even the mightest tree returns to soil in the end.  The Arvore may channel this natural process into an area around themselves, infecting everyone within with the energies of rot.\n\n<color_yellow>This spell is indiscriminate</color> and <color_red>should not be used near allies</color>.",
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "RANDOM_DURATION", "CONCENTRATE", "VERBAL" ],
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "shape": "blast",
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 9,
+    "damage_type": "pure",
+    "min_aoe": {
+      "math": [ "( ( (u_val('spell_level', 'spell: arvore_cause_decay') * 0.8) + 3) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_aoe": {
+      "math": [ "( ( (u_val('spell_level', 'spell: arvore_cause_decay') * 0.8) + 3) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "min_dot": 1,
+    "max_dot": 5,
+    "dot_increment": 0.2,
+    "min_duration": {
+      "math": [ "( ( (u_val('spell_level', 'spell: arvore_cause_decay') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( (u_val('spell_level', 'spell: arvore_cause_decay') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 500,
+    "energy_increment": -20,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -2
+  },
+  {
+    "id": "arvore_traverse_the_wilds",
+    "type": "SPELL",
+    "name": "Traverse the Wilds",
+    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "SILENT", "TARGET_TELEPORT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "min_aoe": 4,
+    "max_aoe": 1,
+    "aoe_increment": -0.25,
+    "min_range": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "energy_increment": -5,
+    "final_energy_cost": 80,
+    "base_casting_time": 100,
+    "casting_time_increment": -1,
+    "final_casting_time": 80
+  },
+  {
+    "id": "arvore_walk_the_wilds_real",
+    "type": "SPELL",
+    "name": "Traverse the Wilds Real",
+    "description": "This is the actual spell that teleports you when you use Walk the Wilds.  It's a bug if you have it directly",
+    "valid_targets": [ "none" ],
+    "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "min_aoe": 4,
+    "max_aoe": 1,
+    "aoe_increment": -0.25,
+    "min_range": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    }
   }
 ]
