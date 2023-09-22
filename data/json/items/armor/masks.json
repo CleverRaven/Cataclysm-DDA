@@ -376,7 +376,7 @@
     "type": "ARMOR",
     "name": { "str": "face veil" },
     "description": "A simple piece of cotton that covers your face.",
-    "weight": "165 g",
+    "weight": "160 g",
     "volume": "100 ml",
     "price": 800,
     "price_postapoc": 10,
