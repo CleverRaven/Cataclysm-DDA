@@ -18,5 +18,15 @@
     "vision_night": 99,
     "aggression": 100,
     "morale": 100
+  },
+  {
+    "id": "mon_dm_exodii_quad_jotunn",
+    "copy-from": "mon_exodii_quad_jotunn",
+    "type": "MONSTER",
+    "aggro_character": true,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
   }
 ]
