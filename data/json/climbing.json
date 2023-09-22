@@ -195,7 +195,7 @@
       "msg_after": "You descend on your vines, though leaving a part of you behind stings.",
       "max_height": 1,
       "cost": { "pain": 5, "damage": 5, "kcal": 87, "thirst": 10 },
-      "deploy_furn": "f_web_up",
+      "deploy_furn": "f_vine_up",
       "easy_climb_back_up": 1
     },
     "condition": { "type": "trait", "flag": "VINES2" }
@@ -226,7 +226,7 @@
       "msg_after": "You effortlessly lower yourself and leave a vine rooted for future use.",
       "max_height": 1,
       "cost": { "kcal": 87, "thirst": 10 },
-      "deploy_furn": "f_web_up",
+      "deploy_furn": "f_vine_up",
       "easy_climb_back_up": 1
     },
     "condition": { "type": "trait", "flag": "VINES3" }
