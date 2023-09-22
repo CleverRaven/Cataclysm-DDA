@@ -21,7 +21,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test_nested",
-    "effect": [ { "npc_add_var": "test_fire", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "key1", "type": "general", "context": "run_inv_test", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
