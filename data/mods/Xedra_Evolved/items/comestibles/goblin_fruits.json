@@ -166,8 +166,8 @@
   {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_water",
-    "name": { "str": "square goblin fruit" },
-    "description": "This pale blue goblin fruit is a square, and the edges are fine enough to leave a line in your thumb when you press on them.  It smells incredibly sour.",
+    "name": { "str": "cubic goblin fruit" },
+    "description": "This pale blue goblin fruit is a cube, and the edges are fine enough to leave a line in your thumb when you press on them.  It smells incredibly sour.",
     "copy-from": "goblin_fruit_abstract",
     "color": "light_blue",
     "weight": "182 g",
