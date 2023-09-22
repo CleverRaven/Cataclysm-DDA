@@ -227,7 +227,7 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
             }
         }
         if( menu_hotkey_str.length() ) {
-            menu_hotkey = ( unsigned char )( menu_hotkey_str[ 0 ] );
+            menu_hotkey = std::uint8_t( menu_hotkey_str[ 0 ] );
         }
 
         // Messages show when actually climbing.
