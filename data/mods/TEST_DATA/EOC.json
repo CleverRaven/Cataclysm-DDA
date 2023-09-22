@@ -26,7 +26,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test2",
-    "effect": [ { "u_run_inv_eocs": [ "EOC_run_inv_test2_nested" ], "worn_only": true } ]
+    "effect": [ { "u_run_inv_eocs": [ "EOC_run_inv_test2_nested" ], "item_ids": [ "backpack" ], "worn_only": true } ]
   },
   {
     "type": "effect_on_condition",

@@ -689,6 +689,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     get_avatar().set_wielded_item( weapon );
     get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
     get_avatar().i_add( item( itype_test_knife_combat ) );
+    get_avatar().i_add( item( itype_backpack ) );
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
@@ -696,14 +697,18 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
         return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
     } );
 
-    REQUIRE( items_before.size() == 3 );
+    REQUIRE( items_before.size() == 4 );
 
+    // All items
     CHECK( effect_on_condition_EOC_run_inv_test1->activate( d ) );
 
     std::vector<item *> items_after = get_avatar().items_with( []( const item & it ) {
         return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "yes";
     } );
 
+    CHECK( items_after.size() == 4 );
+
+    // Worn backpack only
     CHECK( effect_on_condition_EOC_run_inv_test2->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
