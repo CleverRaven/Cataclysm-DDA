@@ -54,7 +54,7 @@
     "volume": "300 ml",
     "price": 20000,
     "price_postapoc": 50,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood", "cotton" ],
     "symbol": "{",
     "looks_like": "armguard_hard",
     "color": "red",
@@ -96,7 +96,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood", "cotton" ],
     "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 70, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
