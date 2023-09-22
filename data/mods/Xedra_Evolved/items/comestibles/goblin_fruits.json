@@ -383,7 +383,7 @@
     "type": "COMESTIBLE",
     "id": "goblin_fruit_giant_growth",
     "name": { "str": "shiny goblin fruit" },
-    "description": "This round blue goblin fruit glows bright enough to read by.  The light flickers light firelight, even when the fruit is simply placed on the table.  It smells like pine needles soaked in strong alcohol.",
+    "description": "This round blue goblin fruit glows bright enough to read by.  The light flickers like firelight, even when the fruit is simply placed on the table.  It smells like pine needles soaked in strong alcohol.",
     "copy-from": "goblin_fruit_abstract",
     "color": "yellow_cyan",
     "weight": "199 g",
