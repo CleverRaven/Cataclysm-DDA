@@ -64,13 +64,14 @@
     "slip_chance_mod": -20,
     "down": {
       "menu_text": "Place your stepladder below and climb down.",
-      "menu_cant": "Can't place your stepladder (needs empty ground).",
+      "menu_cant": "Can't place your stepladder (needs open space one story below).",
       "menu_hotkey": "l",
       "confirm_text": "Climb down with your stepladder?",
-      "msg_after": "You climb down the ladder.",
+      "msg_after": "You lower the ladder into place and climb down.",
       "//": "This removes a stepladder from inventory and places it on the ground below.",
       "max_height": 1,
-      "deploy_furn": "f_stepladder",
+      "allow_remaining_height": false,
+      "deploy_furn": "f_ladder",
       "easy_climb_back_up": 1
     },
     "condition": { "type": "item", "flag": "stepladder", "uses": 1 }
@@ -82,12 +83,13 @@
     "slip_chance_mod": -20,
     "down": {
       "menu_text": "Place your aluminum stepladder below and climb down.",
-      "menu_cant": "Can't place your stepladder (needs empty ground).",
+      "menu_cant": "Can't place your stepladder (needs open space one story below).",
       "menu_hotkey": "l",
       "confirm_text": "Climb down with your stepladder?",
-      "msg_after": "You climb down the ladder.",
+      "msg_after": "You lower the ladder into place and climb down.",
       "//": "This removes a stepladder from inventory and places it on the ground below.",
       "max_height": 1,
+      "allow_remaining_height": false,
       "deploy_furn": "f_aluminum_stepladder",
       "easy_climb_back_up": 1
     },

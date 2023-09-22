@@ -165,6 +165,11 @@ class climbing_aid
             //    Usually set to zero or equal to max_height.
             int         easy_climb_back_up = 0;
 
+            // Whether this aid can be used to climb down partway to ground.  Default true.
+            //   Note that climbing down partway usually means the player will fall...
+            bool        allow_remaining_height = true;
+
+            // Menu text.  Menus normally display all deploy aids and the safest non-deploy aid.
             translation menu_text;
             translation menu_cant;
             int         menu_hotkey = 0;
@@ -174,6 +179,7 @@ class climbing_aid
             translation msg_before;
             translation msg_after;
 
+            // Physical cost of using the aid and furniture created (these often go together).
             climb_cost  cost;
             furn_str_id deploy_furn;
 

@@ -13205,19 +13205,18 @@ void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
 
     // Debug:
     {
-        std::string cond_desc = string_format( "Climbing aid conditions: %d", conditions.size() );
+        add_msg_debug( debugmode::DF_IEXAMINE, "Climbing aid conditions: %d", conditions.size() );
         for( climbing_aid::condition &cond : conditions ) {
-            cond_desc += "\n" + cond.category_string() + ": " + cond.flag;
+            add_msg_debug( debugmode::DF_IEXAMINE, cond.category_string() + ": " + cond.flag );
         }
-        cond_desc += string_format( "\n\nClimbing aids available: %d", aids.size() );
+        add_msg_debug( debugmode::DF_IEXAMINE, "Climbing aids available: %d", aids.size() );
         for( const climbing_aid *aid : climbing_aid::list_all( conditions ) ) {
-            cond_desc += "\n#" + std::to_string( climb_affordance_menu_encode( aid->id ) )
-                         + " " + aid->id.str() + ": "
-                         + string_format( aid->down.menu_text.translated(), target_disp_name );
+            add_msg_debug( debugmode::DF_IEXAMINE, "#%d %s: %s (%s)",
+                           climb_affordance_menu_encode( aid->id ), aid->id.str(),
+                           aid->down.menu_text.translated(), target_disp_name );
         }
-        cond_desc += string_format( "\n\n%d-level drop; %d until furniture; %d until creature.",
-                                    fall.height, fall.height_until_furniture, fall.height_until_creature );
-        popup( cond_desc );
+        add_msg_debug( debugmode::DF_IEXAMINE, "%d-level drop; %d until furniture; %d until creature.",
+                       fall.height, fall.height_until_furniture, fall.height_until_creature );
     }
 
     for( const climbing_aid *aid : aids ) {
@@ -13226,6 +13225,12 @@ void game::climb_down_menu_gen( const tripoint &examp, uilist &cmenu )
         if( aid->down.deploys_furniture() &&
             fall.height_until_furniture < std::min( fall.height, aid->down.max_height ) ) {
             // Can't deploy because it would overwrite existing furniture.
+            enable_aid = false;
+        }
+
+        // Certain climbing aids can't be used for partial descent.
+        if( !aid->down.allow_remaining_height && aid->down.max_height < fall.height ) {
+            // TODO this check could block the safest non-deploying aid!
             enable_aid = false;
         }
 

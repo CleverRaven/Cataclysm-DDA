@@ -203,6 +203,7 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
     // max_height is optional; setting it to zero disables "down" motion
     optional( jo, true, "max_height", max_height );
     optional( jo, true, "easy_climb_back_up", easy_climb_back_up );
+    optional( jo, true, "allow_remaining_height", allow_remaining_height );
 
     if( enabled() ) {
         // Mechanics.  Deploying changes presentation of menus.
