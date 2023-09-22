@@ -56,6 +56,7 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test( "EOC_run_inv_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
@@ -71,6 +72,7 @@ effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -674,6 +676,34 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key" ).empty() );
     CHECK( d.get_value( "npctalk_var_key2" ).empty() );
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+}
+
+TEST_CASE( "EOC_run_inv_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    item weapon( itype_test_knife_combat );
+    item backpack( itype_backpack );
+    get_avatar().set_wielded_item( weapon );
+    get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
+    get_avatar().i_add( item( itype_test_knife_combat ) );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+
+    std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "";
+    } );
+
+    REQUIRE( items_before.size() == 3 );
+
+    CHECK( effect_on_condition_EOC_run_inv_test->activate( d ) );
+
+    std::vector<item *> items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 3 );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
