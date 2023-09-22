@@ -1110,7 +1110,7 @@
     "max_duration": 3000,
     "dur_add_perc": 5,
     "base_mods": { "speed_mod": [ -40 ] },
-    "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ]
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
   {
     "type": "effect_type",
