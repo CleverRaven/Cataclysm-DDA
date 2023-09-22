@@ -100,6 +100,18 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SALTWATER_TO_FRESHWATER" ],
+    "description": "Upon gaining this ability the Undine gains the ability to grow a goblin fruit from a natural water source.",
+    "category": [ "UNDINE" ],
+    "spells_learned": [ [ "undine_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALTWATER_TO_FRESHWATER",
     "name": { "str": "Saltwater to Freshwater" },
     "points": 0,

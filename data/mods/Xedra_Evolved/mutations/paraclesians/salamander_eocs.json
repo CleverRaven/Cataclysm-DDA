@@ -1,0 +1,21 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_GOBLIN_FRUIT",
+    "//": "I don't believe EoCs can detect if there is a fire nearby--once they can, that should be added in.",
+    "condition": {
+      "or": [
+        { "u_has_part_temp": 5500, "bodypart": "torso" },
+        { "u_has_item": "torch_lit" },
+        { "u_has_item": "candle_lit" },
+        { "u_has_item": "oil_lamp_on" },
+        { "u_has_item": "oil_lamp_clay_on" },
+        { "u_has_item": "cigar_lit" },
+        { "u_has_item": "cig_lit" },
+        { "u_is_in_field": "fd_fire" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "false_effect": [ { "u_message": "You must have a source of flames or heat to call forth a goblin fruit.", "type": "bad" } ]
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "mutation",
+    "id": "GOBLIN_FRUIT_GIANT_GROWTH",
+    "name": { "str": "Giant-sized" },
+    "//": "Mostly copied from Huge with some Tough mixed in.  Strength bonus includes improvements from STR_UP mutation that's normally required for LARGE",
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Eating that goblin fruit has made you grow to enormous size!",
+    "flags": [ "HUGE" ],
+    "passive_mods": { "str_mod": 6 },
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "stomach_size_multiplier": 2.0,
+    "weight_capacity_modifier": 1.1,
+    "cardio_multiplier": 1.25,
+    "social_modifiers": { "intimidate": 15 },
+    "enchantments": [ "ench_giant_growth_size_bonuses" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_giant_growth_size_bonuses",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_HP", "multiply": 0.4 } ]
+  }
+]

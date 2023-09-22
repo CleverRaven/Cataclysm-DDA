@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mutation",
+    "id": "IERDE_SKIN_1",
+    "name": { "str": "Clay of the earth" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Your skin has turned the color of manganese stained soil.  Your skin is now a purplish black.  This has no gameplay effects.",
+    "types": [ "skin_tone" ],
+    "leads_to": [ "IERDE_SKIN_2" ],
+    "category": [ "IERDE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SKIN_2",
+    "name": { "str": "pebbled skin" },
+    "points": 2,
+    "visibility": 4,
+    "ugliness": 3,
+    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "types": [ "SKIN" ],
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SKIN_1" ],
+    "changes_to": [ "IERDE_SKIN_3" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 6 }
+    ],
+    "integrated_armor": [ "integrated_pebbled" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SKIN_3",
+    "name": { "str": "stone skin" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your skin has developed into strong granite-like covering that retains some flexibility and has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "types": [ "skin_tone" ],
+    "prereqs": [ "IERDE_SKIN_2" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "category": [ "IERDE" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 5 },
+      { "part": "leg_l", "ignored": 16 },
+      { "part": "leg_r", "ignored": 16 },
+      { "part": "foot_l", "ignored": 5 },
+      { "part": "foot_r", "ignored": 5 },
+      { "part": "arm_l", "ignored": 14 },
+      { "part": "arm_r", "ignored": 14 },
+      { "part": "hand_l", "ignored": 4 },
+      { "part": "hand_r", "ignored": 4 },
+      { "part": "torso", "ignored": 30 }
+    ],
+    "integrated_armor": [ "integrated_granite_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to grow a goblin fruit from a earth or stone.",
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_cultivate_goblin_fruit", 1 ] ]
+  }
+]
