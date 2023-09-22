@@ -11955,8 +11955,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // TODO: just check if it's going for the avatar's location, it's simpler
             Creature *target = critter.attack_target();
             if( ( target && target->is_avatar() ) || ( !critter.has_effect( effect_ridden ) &&
-                ( critter.is_pet_follow() || critter.has_effect( effect_led_by_leash ) ) &&
-                !critter.has_effect( effect_tied ) && critter.sees( u ) ) ) {
+                    ( critter.is_pet_follow() || critter.has_effect( effect_led_by_leash ) ) &&
+                    !critter.has_effect( effect_tied ) && critter.sees( u ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }

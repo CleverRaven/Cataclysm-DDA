@@ -759,7 +759,7 @@ void monster::plan()
         }
         set_dest( next_stop );
     } else if( friendly != 0 && has_effect( effect_led_by_leash ) &&
-            get_location().z() == get_dest().z() ) {
+               get_location().z() == get_dest().z() ) {
         // visibility doesn't matter, we're getting pulled by a leash
         // To use stairs smoothly, if the destination is on a different Z-level, move there first.
         set_dest( player_character.get_location() );
@@ -771,8 +771,8 @@ void monster::plan()
         // Grow restless with no targets
         friendly--;
     } else if( is_pet_follow() && sees( player_character ) &&
-            ( get_location().z() == player_character.get_location().z() ||
-            get_location().z() == get_dest().z() ) ) {
+               ( get_location().z() == player_character.get_location().z() ||
+                 get_location().z() == get_dest().z() ) ) {
         // Simpleminded animals are too dumb to follow the player.
         // To use stairs smoothly, if the destination is on a different Z-level, move there first.
         set_dest( player_character.get_location() );
@@ -975,16 +975,18 @@ void monster::move()
 
     if( is_pet_follow() || ( friendly != 0 && has_effect( effect_led_by_leash ) ) ) {
         const int dist = rl_dist( get_location(), get_dest() );
-        if( ( dist <= 1 || ( dist <= 2 && !has_effect( effect_led_by_leash ) && sees( player_character ) ) ) &&
-            ( get_dest() == player_character.get_location() && get_location().z() == player_character.get_location().z() ) ) {
+        if( ( dist <= 1 || ( dist <= 2 && !has_effect( effect_led_by_leash ) &&
+                             sees( player_character ) ) ) &&
+            ( get_dest() == player_character.get_location() &&
+              get_location().z() == player_character.get_location().z() ) ) {
             moves = 0;
             stumble();
             return;
         }
     } else if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
-        ( ( current_attitude == MATT_FOLLOW ||
-            ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
-          && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
+               ( ( current_attitude == MATT_FOLLOW ||
+                   ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+                 && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
         return;
