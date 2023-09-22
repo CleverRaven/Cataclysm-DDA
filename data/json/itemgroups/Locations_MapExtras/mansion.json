@@ -1271,28 +1271,6 @@
     ]
   },
   {
-    "id": "sewing_room",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "suits", "prob": 50, "damage": [ 0, 2 ] },
-      [ "scissors", 50 ],
-      [ "thread", 50 ],
-      { "group": "pants", "prob": 40, "damage": [ 0, 2 ] },
-      { "group": "shirts", "prob": 40, "damage": [ 0, 2 ] },
-      [ "knitting_needles", 40 ],
-      [ "string_36", 40 ],
-      [ "yarn", 40 ],
-      { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
-      { "item": "sewing_kit", "prob": 30, "charges": [ 0, 25 ] },
-      [ "cotton_patchwork", 30 ],
-      [ "lycra_patch", 15 ],
-      [ "nylon", 10 ],
-      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] },
-      [ "kevlar_shears", 5 ]
-    ]
-  },
-  {
     "id": "vanity",
     "type": "item_group",
     "subtype": "distribution",
@@ -1586,31 +1564,6 @@
       { "group": "ammo_reloaded", "prob": 30 },
       { "group": "mags_obscure", "prob": 30 },
       { "group": "ammo_cannon", "prob": 10 }
-    ]
-  },
-  {
-    "id": "voyer",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "item": "camera_pro", "prob": 50, "charges": [ 0, 150 ] },
-      { "item": "camera_pro", "container-item": "camera_bag", "prob": 40, "charges": [ 0, 150 ] },
-      [ "hot_pants_leather", 50 ],
-      [ "photo_album", 50 ],
-      [ "sports_bra", 50 ],
-      [ "briefs", 20 ],
-      [ "swim_briefs", 10 ],
-      [ "speedo", 10 ],
-      [ "bikini_top", 30 ],
-      [ "bikini_top_short", 25 ],
-      [ "bikini_bottom", 30 ],
-      [ "bikini_bottom_short", 25 ],
-      [ "panties", 50 ],
-      [ "mag_porn", 40 ],
-      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
-      { "item": "camera", "container-item": "camera_bag", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
-      [ "binoculars", 20 ]
     ]
   },
   {

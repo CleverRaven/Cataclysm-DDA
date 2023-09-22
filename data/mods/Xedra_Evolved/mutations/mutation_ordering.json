@@ -1,0 +1,14 @@
+[
+  {
+    "type": "overlay_order",
+    "//": "VAMPIRE2 is when your fangs pop in.  ",
+    "overlay_ordering": [
+      { "id": [ "SYLPH_EYES", "UNDINE_EYES" ], "order": 250 },
+      {
+        "id": [ "IERDE_SKIN_1", "ARVORE_SKIN_1", "HOMULLUS_SKIN_1", "UNDINE_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1" ],
+        "order": 1500
+      },
+      { "id": [ "VAMPIRE2" ], "order": 7500 }
+    ]
+  }
+]

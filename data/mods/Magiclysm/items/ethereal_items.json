@@ -31,39 +31,6 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "id": "shape_of_dust",
-    "type": "ARMOR",
-    "name": "dust cloak",
-    "description": "You are unseen, hidden by the sand that covers you.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "brown",
-    "looks_like": "cloak",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-          "emitter": "emit_eshaper_dust",
-          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
-        }
-      ]
-    }
-  },
-  {
     "id": "finger_firelighter",
     "type": "TOOL",
     "name": "finger firelighter",
@@ -191,7 +158,7 @@
       "MAGIC_FOCUS"
     ],
     "volume": "1250 ml",
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_storm_hammer" } ] },
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 30 }
   },
@@ -217,9 +184,8 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS"
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material_thickness": 0.3,
     "armor": [
       {
@@ -542,103 +508,6 @@
     "fun": -15
   },
   {
-    "id": "obfuscating_aura",
-    "type": "ARMOR",
-    "name": "obfuscating aura",
-    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  It allows you to dodge two extra attacks in a given turn.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "white",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-      }
-    ]
-  },
-  {
-    "id": "acid_res_aura",
-    "type": "ARMOR",
-    "name": { "str": "acid resistance aura" },
-    "description": "An all-encompassing, invisible layer of protection against acid.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "green",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
-    },
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-      }
-    ]
-  },
-  {
-    "id": "acid_res_aura_greater",
-    "type": "ARMOR",
-    "name": "greater acid resistance aura",
-    "description": "An all-encompassing, invisible layer of protection against acid.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "green",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
-    },
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-      }
-    ]
-  },
-  {
     "id": "armor_frost",
     "type": "ARMOR",
     "category": "armor",
@@ -753,31 +622,10 @@
     ]
   },
   {
-    "id": "thorns_electric",
-    "type": "ARMOR",
-    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
-    "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "blue",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
-  },
-  {
     "id": "aura_feral",
     "type": "ARMOR",
     "name": "feral aura",
+    "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -786,21 +634,22 @@
     "color": "white",
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "STRENGTH", "add": 3 },
-            { "value": "DEXTERITY", "add": 3 },
-            { "value": "INTELLIGENCE", "add": -3 },
-            { "value": "PERCEPTION", "add": -3 }
-          ],
-          "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE" ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral" } ] }
+  },
+  {
+    "id": "aura_feral_plus",
+    "type": "ARMOR",
+    "name": "enhanced feral aura",
+    "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
+    "description": "The manifestation of your rage.  It won't disappear until you calm down.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral_plus" } ] }
   },
   {
     "id": "flamesword",
@@ -919,16 +768,7 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
-          "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
   },
   {
     "id": "aura_werewolf",
@@ -1033,9 +873,7 @@
     "weapon_category": [ "CLAWS" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [
       {
         "encumbrance": 5,

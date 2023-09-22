@@ -50,5 +50,18 @@
     "min_duration": 100000,
     "max_duration": 1000000,
     "duration_increment": 45000
+  },
+  {
+    "id": "cultivate_goblin_fruit_real",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit Real",
+    "description": "The actual spell that calls forth a goblin fruit.  It's a bug if you have it.",
+    "flags": [ "SPAWN_GROUP" ],
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "spell_spawned_goblin_fruit",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1
   }
 ]

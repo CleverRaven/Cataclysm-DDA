@@ -5,7 +5,7 @@
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
     "description": "A late night delivery to a lonely building, a cry for help from under the elevator, and a terrible conspiracy.  You are not drunk enough for this.",
     "points": 1,
-    "traits": [ "iso_trait" ],
+    "traits": [ "iso_trait", "iso_deliverator" ],
     "skills": [
       { "level": 3, "name": "driving" },
       { "level": 1, "name": "speech" },

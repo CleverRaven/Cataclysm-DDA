@@ -1,0 +1,190 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_plant_growth",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory", 32 ],
+          [ "t_tree_walnut", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut", 8 ],
+          [ "t_tree_hazelnut", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple", 2 ],
+          [ "t_tree_cherry", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear", 2 ],
+          [ "t_tree_plum", 2 ],
+          [ "t_tree_elderberry", 2 ],
+          [ "t_tree_mulberry", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_terrain": [ "t_tree_young" ],
+        "message": "The young tree creaks as its limbs begin growing, first slowly and then with increasing speed.  Roots churn through the soil and leaves stretch toward the sun, and in moments, before you is a tree that could have stood for a human lifetime."
+      },
+      {
+        "result": "t_grass_long",
+        "valid_terrain": [ "t_grass" ],
+        "message": "Fresh green grass grows longer and longer until it stands as tall as your knees."
+      },
+      {
+        "result": "t_grass_tall",
+        "valid_terrain": [ "t_grass_long" ],
+        "message": "The tall grass grows and grows until a child could easily hide themselves within it."
+      }
+    ],
+    "furniture": [
+      {
+        "result": "f_plant_harvest",
+        "valid_furniture": [ "f_plant_mature", "f_plant_seedling" ],
+        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's ripe and ready for the harvest."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_wall",
+    "terrain": [
+      {
+        "result": [ "t_triffid_bark_wall" ],
+        "valid_terrain": [ "t_barkfloor" ],
+        "message": "The bark surges upward as the roots below grow into a heavy, solid wall covered in bark."
+      },
+      {
+        "result": [ "t_triffid_wood_wall" ],
+        "valid_terrain": [ "t_triffid_bark_wall" ],
+        "message": "The wooden wall shudders as as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
+      },
+      {
+        "result": [ "t_triffid_bark_wall" ],
+        "valid_terrain": [ "t_triffid_wood_wall" ],
+        "message": "The bare wooden wall shudders as bark sprouts and spreads over it, covering the entire surface in moments."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_floor",
+    "terrain": [
+      {
+        "result": [ "t_barkfloor" ],
+        "valid_terrain": [
+          "t_grass",
+          "t_grass_long",
+          "t_dirt",
+          "t_dirtfloor",
+          "t_dirtfloor_no_roof",
+          "t_dirtmoundfloor",
+          "t_dirtmound",
+          "t_grass_dead",
+          "t_grass_white",
+          "t_sand",
+          "t_clay",
+          "t_sandmound",
+          "t_forestfloor"
+        ],
+        "message": "The ground churns as bark-covered roots erupt from it and form into a solid bark-covered floor."
+      },
+      {
+        "result": [ "t_barkfloor_no_roof" ],
+        "valid_terrain": [ "t_barkfloor" ],
+        "message": "The ground churns as bark-covered roots quest upward."
+      },
+      {
+        "result": [ "t_barkfloor_no_roof" ],
+        "valid_terrain": [ "t_triffid_wood_wall", "t_triffid_bark_wall" ],
+        "message": "The wooden wall spasms and recedes into the ground, leaving only a bark-covered floor in its place."
+      },
+      {
+        "result": [ "t_triffid_wood_wall" ],
+        "valid_terrain": [ "t_triffid_bark_wall" ],
+        "message": "The wooden wall shudders as as the bark peels off in sheets, eventually becoming a solid expanse of bare wood."
+      },
+      {
+        "result": [ "t_triffid_bark_wall" ],
+        "valid_terrain": [ "t_triffid_wood_wall" ],
+        "message": "The bare wooden wall shudders as bark sprouts and spreads over it, covering the entire surface in moments."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_branch",
+    "terrain": [
+      {
+        "result": [ "t_triffid_leaves" ],
+        "valid_terrain": [ "t_barkfloor_no_roof", "t_barkfloor" ],
+        "message": "The bark floor shudders as thin branches sprout from it, leaves already growing and unfurling, and soon a thicket of dense leaves covers the area."
+      },
+      {
+        "result": [ "t_triffid_leaves" ],
+        "valid_terrain": [
+          "t_grass",
+          "t_grass_long",
+          "t_dirt",
+          "t_dirtfloor",
+          "t_dirtfloor_no_roof",
+          "t_dirtmoundfloor",
+          "t_dirtmound",
+          "t_grass_dead",
+          "t_grass_white",
+          "t_sand",
+          "t_clay",
+          "t_sandmound",
+          "t_forestfloor"
+        ],
+        "message": "The ground shudders as thin branches sprout from it, leaves already growing and unfurling, and soon a thicket of dense leaves covers the area."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_wood_door",
+    "terrain": [
+      {
+        "result": [ "t_bramble_door_c" ],
+        "valid_terrain": [ "t_triffid_wood_wall", "t_triffid_bark_wall" ],
+        "message": "The wall trembles and splits apart into a tangle of gnarled roots, waving in the air like monstrous tentacles.  They weave together into a sturdy door before ceasing their motion."
+      },
+      {
+        "result": [ "t_triffid_bark_wall" ],
+        "valid_terrain": [ "t_bramble_door_c", "t_bramble_door_o" ],
+        "message": "The roots surge into motion, growing together thicker and more tangled until a bark-covered wall of solid wood is all that remains."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_summoned_brambles",
+    "furniture": [
+      {
+        "result": "f_magic_brambles",
+        "valid_furniture": [
+          "f_null",
+          "f_cattails",
+          "t_grass_tall",
+          "t_grass_long",
+          "f_burdock",
+          "f_lotus",
+          "f_japanese_knotweed",
+          "f_lilypad",
+          "f_bluebell",
+          "f_lily",
+          "f_salsify",
+          "f_wild_sarsaparilla"
+        ],
+        "message": "The ground churns as thick, tangled brambles burst forth and grow in moments."
+      }
+    ]
+  }
+]

@@ -119,12 +119,16 @@ Use the `Home` key to return to the top.
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
         - [Encumbrance_modifiers](#encumbrance_modifiers)
+        - [breathability](#breathability)
+        - [Layers](#layers)
+        - [rigid_layer_only](#rigid_layer_only)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
         - [Part Materials](#part-materials)
         - [Armor Data](#armor-data)
       - [Guidelines for thickness:](#guidelines-for-thickness)
+      - [Armor inheritance](#armor-inheritance)
     - [Pet Armor](#pet-armor)
     - [Books](#books)
       - [Conditional Naming](#conditional-naming)
@@ -220,6 +224,7 @@ Use the `Home` key to return to the top.
         - [`str_min_supported`, `str_max_supported`](#str_min_supported-str_max_supported)
         - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#sound-sound_fail-sound_vol-sound_fail_vol)
         - [`furn_set`, `ter_set`](#furn_set-ter_set)
+        - [`ter_set_bashed_from_above`](#ter_set_bashed_from_above)
         - [`explosive`](#explosive)
         - [`destroy_only`](#destroy_only)
         - [`bash_below`](#bash_below)
@@ -235,6 +240,7 @@ Use the `Home` key to return to the top.
         - [`growth_multiplier`](#growth_multiplier)
         - [`harvest_multiplier`](#harvest_multiplier)
     - [clothing_mod](#clothing_mod)
+    - [Flags](#flags)
 - [Scenarios](#scenarios)
   - [`description`](#description-1)
   - [`name`](#name-2)
@@ -5707,7 +5713,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Obsoletion and migration
 
-If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, monsters, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
+If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
 
 Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`
 
@@ -5753,7 +5759,7 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
 
 Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
 
-For items, monsters, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
+For items, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
 
 For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id `hive` and `hive2` into `omt_obsolete` add an entry similar to this, note that if mapgen has already generated this area this will only alter the tile shown on the overmap:
 ```json
@@ -5793,6 +5799,8 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 ```
 
 For recipes, deleting the recipe is enough.
+
+Similarly, monsters do not require obsoletion as saved monsters with invalid IDs will silently transform into a breather.
 
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
 

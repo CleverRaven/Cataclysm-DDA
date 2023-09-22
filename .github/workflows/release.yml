@@ -78,6 +78,13 @@ jobs:
             ext: zip
             content: application/zip
             sound: 1
+          - name: Windows Object Creator x64
+            mxe: x86_64
+            artifact: windows-objectcreator-x64
+            android: none
+            os: ubuntu-latest
+            ext: zip
+            content: application/zip
           - name: Linux Tiles x64
             os: ubuntu-20.04
             mxe: none
@@ -103,6 +110,13 @@ jobs:
             tiles: 0
             sound: 0
             artifact: linux-curses-x64
+            ext: tar.gz
+            content: application/gzip
+          - name: Linux object creator x64
+            os: ubuntu-20.04
+            mxe: none
+            android: none
+            artifact: linux-objectcreator-x64
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
@@ -172,11 +186,11 @@ jobs:
         run: |
           vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
       - name: Install dependencies (windows mxe)
-        if: matrix.mxe != 'none'
+        if: matrix.mxe != 'none' && matrix.artifact != 'windows-objectcreator-x64'
         run: |
           sudo apt install gettext
       - name: Install MXE
-        if: matrix.mxe != 'none'
+        if: matrix.mxe != 'none' && matrix.artifact != 'windows-objectcreator-x64'
         run: |
           curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz
           curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-${{ matrix.mxe }}.tar.xz.sha256
@@ -222,12 +236,47 @@ jobs:
         run: |
           lang/compile_mo.sh all
       - name: Build CDDA (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
+        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && matrix.artifact != 'linux-objectcreator-x64'
         run: |
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
           mv cataclysmdda-0.F.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+      - name: Login to GitHub Container Registry
+        if: matrix.artifact == 'windows-objectcreator-x64' || matrix.artifact == 'linux-objectcreator-x64'
+        uses: docker/login-action@v2 
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build object creator (windows)
+        if: matrix.artifact == 'windows-objectcreator-x64'
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          push: always
+          runCmd: |
+            git config --global --add safe.directory /workspaces/Cataclysm-DDA
+            make object_creator.exe CROSS="/opt/mxe/usr/bin/x86_64-w64-mingw32.static-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 PREFIX=output PCH=0 MXE_TARGETS='x86_64-w64-mingw32.static' -j4
+      - name: Build object creator (linux)
+        if: matrix.artifact == 'linux-objectcreator-x64'
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          push: never
+          runCmd: |
+            git config --global --add safe.directory /workspaces/Cataclysm-DDA
+            make -j$((`nproc`+0)) TILES=1 LINTJSON=0 RELEASE=1 object_creator
+      - name: zip Object Creator (windows)
+        if: matrix.artifact == 'windows-objectcreator-x64'
+        run: |
+            zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} ./object_creator/object_creator.exe ./object_creator/qt-license.txt
+      - name: tar Object Creator (linux)
+        if: matrix.artifact == 'linux-objectcreator-x64'
+        run: |
+            tar -czf cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} ./object_creator/object_creator ./object_creator/qt-license.txt
       - name: Build CDDA (windows mxe)
-        if: matrix.mxe != 'none'
+        if: matrix.mxe != 'none' && matrix.artifact != 'windows-objectcreator-x64'
         env:
           PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-
         run: |

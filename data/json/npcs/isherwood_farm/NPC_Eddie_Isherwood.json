@@ -102,12 +102,19 @@
         "effect": "start_trade",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "When will your cows produce again?", "topic": "TALK_ISHERWOOD_EDDIE_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_RESTOCK",
+    "dynamic_line": "If the cows don't get anything nasty it should be around <interval>.",
+    "responses": [ { "text": "Cheers, bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

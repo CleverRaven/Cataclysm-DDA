@@ -102,6 +102,7 @@
         "effect": "start_trade",
         "topic": "TALK_GODCO_Kostas_2"
       },
+      { "text": "Hey Kostas, find something interesting lately?", "topic": "TALK_GODCO_Kostas_Interval" },
       {
         "text": "Hey, Kostas.  I can't stay to talk.",
         "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
@@ -117,6 +118,18 @@
         "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
         "topic": "TALK_DONE"
       }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Kostas_Interval",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I'm afraid I haven't gone out there for a while, maybe come back in <interval>.  These are all I have, care to take a look?.",
+      "Sorry these are all I have.  However I'll be back from my next run in <interval>.  Care to take a look in the meanwhile?"
+    ],
+    "responses": [
+      { "text": "Alright, I'll take a look.", "effect": "start_trade", "topic": "TALK_GODCO_Kostas_1" },
+      { "text": "Alright, thanks for informing me. Bye!", "topic": "TALK_DONE" }
     ]
   },
   {

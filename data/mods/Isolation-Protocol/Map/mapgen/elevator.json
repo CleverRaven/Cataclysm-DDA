@@ -17,6 +17,12 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": "iso_elevator_safe",
+    "method": "json",
+    "object": { "fill_ter": "t_strconc_floor", "place_nested": [ { "chunks": [ "iso_elevator" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "iso_next_level_elevator",
     "method": "json",
     "object": { "fill_ter": "t_strconc_floor", "place_nested": [ { "chunks": [ "iso_elevator_next" ], "x": 0, "y": 0 } ] }

@@ -1225,7 +1225,8 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
     Character &player_character = get_player_character();
     const bool seen = player_character.sees( p );
     const bool known = tr.can_see( p, player_character );
-    if( seen ) {
+    const bool damage_done = vp_wheel.info().durability <= veh_data.damage;
+    if( seen && damage_done ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
             add_msg( m_bad, _( "The %1$s's %2$s runs over %3$s." ), name, vp_wheel.name(), tr.name() );
@@ -1242,7 +1243,8 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
         if( veh_data.do_explosion ) {
             const Creature *source = player_in_control( player_character ) ? &player_character : nullptr;
             explosion_handler::explosion( source, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
-        } else {
+            // Don't damage wheels with very high durability, such as roller drums or rail wheels
+        } else if( damage_done ) {
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( here, vp_wheel, veh_data.damage );
         }
