@@ -100,7 +100,6 @@ static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1"
 static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
-static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
 static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
 static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
