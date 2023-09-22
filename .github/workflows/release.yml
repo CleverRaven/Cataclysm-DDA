@@ -251,8 +251,8 @@ jobs:
         if: matrix.artifact == 'windows-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/cleverRaven/cataclysm-dda/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/cleverRaven/cataclysm-dda/cataclysm-dda-devcontainer
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
           push: always
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
@@ -261,8 +261,8 @@ jobs:
         if: matrix.artifact == 'linux-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/cleverRaven/cataclysm-dda/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/cleverRaven/cataclysm-dda/cataclysm-dda-devcontainer
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
           push: never
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
