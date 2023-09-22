@@ -56,7 +56,8 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
-static const effect_on_condition_id effect_on_condition_EOC_run_inv_test( "EOC_run_inv_test" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_run_inv_test1" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
@@ -692,18 +693,24 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
     std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "";
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
     } );
 
     REQUIRE( items_before.size() == 3 );
 
-    CHECK( effect_on_condition_EOC_run_inv_test->activate( d ) );
+    CHECK( effect_on_condition_EOC_run_inv_test1->activate( d ) );
 
     std::vector<item *> items_after = get_avatar().items_with( []( const item & it ) {
         return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "yes";
     } );
 
-    CHECK( items_after.size() == 3 );
+    CHECK( effect_on_condition_EOC_run_inv_test2->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key2" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )

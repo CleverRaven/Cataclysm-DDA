@@ -4524,23 +4524,28 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
     for( JsonValue jv : jo.get_array( "item_ids" ) ) {
         item_ids.emplace_back( get_str_or_var( jv, "item_ids" ) );
     }
+    bool worn_only = jo.get_bool( "worn_only", false );
 
-    function = [eocs, item_ids, is_npc]( dialogue & d ) {
+    function = [eocs, worn_only, item_ids, is_npc]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
         if( guy ) {
             std::vector<std::string> ids( item_ids.size() );
             for( const str_or_var &id : item_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
-            auto target_items = d.actor( is_npc )->items_with( [ids]( const item & e ) {
+            std::vector<item *> target_items = d.actor( is_npc )->items_with( [worn_only, guy,
+                       ids]( const item & it ) {
+                if( worn_only && !guy->is_worn( it ) ) {
+                    return false;
+                }
                 for( const std::string &id : ids ) {
-                    if( id == e.type->get_id().str() ) {
+                    if( id == it.type->get_id().str() ) {
                         return true;
                     }
                 }
                 return ids.empty();
             } );
-            for( auto *target : target_items ) {
+            for( item *target : target_items ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
                     item_location loc = item_location( *guy, target );
                     dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
