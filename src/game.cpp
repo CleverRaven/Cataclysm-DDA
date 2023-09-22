@@ -227,6 +227,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
@@ -11954,8 +11955,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // TODO: just check if it's going for the avatar's location, it's simpler
             Creature *target = critter.attack_target();
             if( ( target && target->is_avatar() ) || ( !critter.has_effect( effect_ridden ) &&
-                    critter.has_effect( effect_pet ) && critter.friendly == -1 &&
-                    !critter.has_effect( effect_tied ) ) ) {
+                ( critter.is_pet_follow() || critter.has_effect( effect_led_by_leash ) ) &&
+                !critter.has_effect( effect_tied ) && critter.sees( u ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }

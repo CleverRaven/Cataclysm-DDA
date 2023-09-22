@@ -181,6 +181,8 @@ class monster : public Creature
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool shearable() const;
+        bool is_pet() const;
+        bool is_pet_follow() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
