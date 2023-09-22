@@ -61,7 +61,8 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "abstract": "judo_belt_abstract",
@@ -225,7 +226,8 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "obi_gi",
@@ -314,7 +316,8 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "santa_belt",
@@ -438,7 +441,8 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "webbing_belt",
