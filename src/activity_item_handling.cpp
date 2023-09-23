@@ -2176,6 +2176,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             ++num_processed;
             item &thisitem = *it->first;
 
+            // skip items not owned by you
+            if( !thisitem.is_owned_by( you, true ) ) {
+                continue;
+            }
+
             // skip unpickable liquid
             if( !thisitem.made_of_from_type( phase_id::SOLID ) ) {
                 continue;
