@@ -1743,6 +1743,25 @@ static int parse_mod( const dialogue &d, const std::string &attribute, const int
             factor );
 }
 
+static int total_price( const talker &seller, const itype_id &item_type )
+{
+    int price = 0;
+    item tmp( item_type );
+
+    if( tmp.count_by_charges() ) {
+        tmp.charges =  seller.charges_of( item_type );
+        price = tmp.price( true );
+    } else {
+        std::vector<const item *> items = seller.const_items_with( [&item_type]( const item & e ) {
+            return item_type == e.type->get_id();
+        } );
+        for( const item *it : items ) {
+            price += it->price( true );
+        }
+    }
+    return price;
+}
+
 int talk_trial::calc_chance( dialogue &d ) const
 {
     if( d.actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) ) {
@@ -1972,13 +1991,11 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             item tmp( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( tag == "<topic_item_my_total_price>" ) {
-            item tmp( item_type );
-            tmp.charges = me_chr ? me_chr->charges_of( item_type ) : 0;
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            int price = total_price( me, item_type );
+            phrase.replace( fa, l, format_money( price ) );
         } else if( tag == "<topic_item_your_total_price>" ) {
-            item tmp( item_type );
-            tmp.charges = u_chr ? u_chr->charges_of( item_type ) : 0;
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            int price = total_price( u, item_type );
+            phrase.replace( fa, l, format_money( price ) );
         } else if( tag == "<interval>" ) {
             const npc *guy = dynamic_cast<const npc *>( &me );
             phrase.replace( fa, l, guy->get_restock_interval() );
@@ -3555,7 +3572,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, const std::
         tmp.charges = seller_has;
         if( is_trade ) {
             const int npc_debt = d.actor( true )->debt();
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + npc_debt;
+            int price = total_price( *seller, d.cur_item ) * ( is_npc ? -1 : 1 ) + npc_debt;
             if( d.actor( true )->get_faction() && !d.actor( true )->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.actor( true )->get_faction()->currency;
                 item pay( pay_in );
