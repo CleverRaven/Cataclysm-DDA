@@ -1571,6 +1571,7 @@
     "required_str": 10,
     "looks_like": "f_crate_c",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "deployed_item": "foot_locker",
     "deconstruct": {
       "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
     },
@@ -1594,6 +1595,7 @@
     "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
     "copy-from": "f_foot_locker",
     "color": "white",
+    "deployed_item": "foot_locker_aluminum",
     "deconstruct": {
       "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
     },
