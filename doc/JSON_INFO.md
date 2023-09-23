@@ -3910,7 +3910,6 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
-
 "integral_longest_side": "5 cm", // Length that would be added to a gun when this mod is installed
 "overwrite_min_cycle_recoil": 1350, // Using this field will overwrite gun's min_cycle_recoil
 "reload_noise": "chuk chuk.",   // Message, that would be produced when you reload a gun with this mod; Seems to not work 
