@@ -249,7 +249,7 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     calendar::turn += 2_seconds;
     get_timed_events().process();
     check_ter_in_radius( start, eoc_range, t_grass );
-    CHECK( "Cleaning up avatar's pos and location after successful test..." );
+    CHECK( "Cleaning up avatar's pos and location after successful test…" );
     // Bizarre point handling ahead, sanity beware...
     // Without this, we have an offset of {-12,-12, 0 } between player's pos and location.
     tripoint_abs_omt return_omt;
