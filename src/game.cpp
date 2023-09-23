@@ -214,6 +214,9 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const character_modifier_id character_modifier_slip_prevent_mod( "slip_prevent_mod" );
 
+static const climbing_aid_id climbing_aid_ability_WALL_CLING( "ability_WALL_CLING" );
+static const climbing_aid_id climbing_aid_default( "default" );
+
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
@@ -330,9 +333,6 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
-
-static const climbing_aid_id climbing_aid_default( "default" );
-static const climbing_aid_id climbing_aid_ability_WALL_CLING( "ability_WALL_CLING" );
 
 #if defined(TILES)
 #include "cata_tiles.h"

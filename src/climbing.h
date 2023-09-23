@@ -91,7 +91,7 @@ class climbing_aid
         class fall_scan
         {
             public:
-                fall_scan( const tripoint &examp );
+                explicit fall_scan( const tripoint &examp );
 
                 tripoint examp; // Initial position of scan (usually a ledge / open air tile)
                 int height; // Z-levels to "ground" based on here.valid_move
