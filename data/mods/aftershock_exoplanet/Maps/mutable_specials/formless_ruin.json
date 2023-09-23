@@ -15,9 +15,7 @@
       [ [ 0, -1, 0 ], [ "land" ] ],
       [ [ -1, 0, 0 ], [ "land" ] ]
     ],
-    "delete": {
-      "flags": [ "UNIQUE" ]
-    },
+    "delete": { "flags": [ "UNIQUE" ] },
     "joins": [ "ruin_to_ruin" ],
     "overmaps": {
       "ruin_core": {
