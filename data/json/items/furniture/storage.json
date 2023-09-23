@@ -5,6 +5,7 @@
     "category": "container",
     "name": { "str": "aluminum foot locker" },
     "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
+    "looks_like": "f_foot_locker_aluminum",
     "symbol": "O",
     "color": "white",
     "material": [ "aluminum" ],
@@ -31,8 +32,10 @@
     "name": { "str": "steel foot locker" },
     "description": "A steel storage box, capable of holding any number of things.  The lid has a small lock.",
     "copy-from": "foot_locker_aluminum",
+    "looks_like": "f_foot_locker",
     "color": "light_gray",
     "material": [ "steel" ],
-    "weight": "38950 g"
+    "weight": "38950 g",
+    "//": "Based on https://www.amazon.com/dp/B004K22VCE with the weight recalculated proportionally according to the density difference of aluminum and steel."
   }
 ]
