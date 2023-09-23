@@ -1,0 +1,210 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_bad_day",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "flu", "intensity": 1, "duration": "1000 minutes" },
+      { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_infected",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "infected", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" },
+      { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIBIOTICS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_fungal_infection",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "u_add_effect": "fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_paralyzepoison",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 3, "duration": "10 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_mansion_pursuit",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_MANSION_ARMORED",
+        "group": true,
+        "real_count": 1,
+        "min_radius": 30,
+        "max_radius": 45,
+        "indoor_only": true
+      },
+      {
+        "u_spawn_monster": "GROUP_MANSION_START",
+        "group": true,
+        "real_count": 2,
+        "min_radius": 20,
+        "max_radius": 35,
+        "indoor_only": true
+      },
+      {
+        "u_spawn_monster": "GROUP_MANSION_START",
+        "group": true,
+        "real_count": 2,
+        "min_radius": 25,
+        "max_radius": 40,
+        "indoor_only": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_assassin_convict",
+    "//": "Determines which prison the assassin is in currently to correctly place the target.",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "PROF_ASSASSIN_CONVICT" },
+    "deactivate_condition": { "not": { "u_has_trait": "PROF_ASSASSIN_CONVICT" } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_ASSASSIN_CONVICT_PRISON",
+          "condition": { "u_near_om_location": "prison_1_5" },
+          "effect": [
+            { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON" },
+            { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+          ],
+          "false_effect": {
+            "run_eocs": {
+              "id": "EOC_ASSASSIN_CONVICT_PRISON_ISLAND",
+              "condition": { "u_near_om_location": "prison_alcatraz_3" },
+              "effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ],
+              "false_effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ]
+            }
+          }
+        }
+      },
+      { "u_lose_trait": "PROF_ASSASSIN_CONVICT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "faction_camp_start",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "faction_start_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_surrounded_zombie",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 30 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_surrounded_zombie_heavy",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_lone_survivor",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "u_message": "They are all dead. The group you were surviving with has been annihilated. Their bodies are still nearby. You are the last one left alive and their screams will haunt you.",
+        "type": "warning",
+        "popup": true
+      },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "1440 minutes",
+        "decay_start": "180 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_drunk",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -50,
+        "max_bonus": -50,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_blood",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_BLOOD" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_BLOOD",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_blood", "x": [ 5, 20 ], "y": [ 5, 20 ], "intensity": [ 1, 3 ], "repeat": 10 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_fire",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_FIRE" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_FIRE",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_fire", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 15 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_smoke",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_SMOKE" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_SMOKE",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
+  }
+]
