@@ -20,7 +20,7 @@
 
 
 static const climbing_aid_id climbing_aid_default( "default" );
-static const string_id<climbing_aid> climbing_aid_NULL( "" );
+static const string_id<climbing_aid> climbing_aid_NULL( "NULL" );
 
 
 namespace

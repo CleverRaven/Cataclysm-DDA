@@ -13011,6 +13011,11 @@ void game::shift_destination_preview( const point &delta )
 int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
                             bool show_chance_messages )
 {
+    if( aid_id.is_null() ) {
+        // The NULL climbing aid ID may be passed as a default argument.
+        aid_id = climbing_aid_default;
+    }
+
     const climbing_aid &aid = aid_id.obj();
 
     int slip = 100;

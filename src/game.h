@@ -1243,7 +1243,7 @@ class game
         */
         bool slip_down(
             climb_maneuver maneuver,
-            climbing_aid_id aid = climbing_aid_id( "default" ),
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
             bool show_chance_messages = true );
 
         /**
@@ -1255,7 +1255,7 @@ class game
         */
         int slip_down_chance(
             climb_maneuver maneuver,
-            climbing_aid_id aid = climbing_aid_id( "default" ),
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
             bool show_chance_messages = true );
 
         /**
