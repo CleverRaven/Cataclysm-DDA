@@ -370,5 +370,121 @@
     "environmental_protection": 1,
     "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "face_veil",
+    "type": "ARMOR",
+    "name": { "str": "face veil" },
+    "description": "A simple piece of cotton that covers your face.",
+    "weight": "160 g",
+    "volume": "100 ml",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white_face_veil",
+        "name": { "str": "white face veil" },
+        "description": "It's a simple white color.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "blue_face_veil",
+        "name": { "str": "blue face veil" },
+        "description": "It's colored light blue.",
+        "color": "blue",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "black_face_veil",
+        "name": { "str": "black face veil" },
+        "description": "It's colored black.",
+        "color": "dark_gray",
+        "weight": 30,
+        "append": true
+      },
+      {
+        "id": "purple_face_veil",
+        "name": { "str": "purple face veil" },
+        "description": "It's colored purple.",
+        "color": "yellow",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "yellow_face_veil",
+        "name": { "str": "yellow face veil" },
+        "description": "It's colored dark yellow.",
+        "color": "green",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "trimmed_face_veil",
+        "name": { "str": "trimmed face veil" },
+        "description": "It's colored black with a rather fancy looking golden trim.",
+        "symbol": "w",
+        "color": "dark_gray",
+        "weight": 5,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "mask_plague",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plague mask" },
+    "description": "A beaked leather mask used by plague doctors.",
+    "weight": "50 g",
+    "volume": "780 ml",
+    "price": 5000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "warmth": 10,
+    "material_thickness": 0.6,
+    "environmental_protection": 1,
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "brown_mask_plague",
+        "name": { "str": "brown mask plague" },
+        "description": "It's colored brown.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "white_mask_plague",
+        "name": { "str": "white mask plague" },
+        "description": "It's a simple white color.",
+        "color": "blue",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "black_mask_plague",
+        "name": { "str": "black mask plague" },
+        "description": "It's colored black.",
+        "color": "dark_gray",
+        "weight": 25,
+        "append": true
+      }
+    ]
   }
 ]

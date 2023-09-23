@@ -30,6 +30,11 @@ std::string talker_character_const::disp_name() const
     return me_chr_const->disp_name();
 }
 
+std::string talker_character_const::get_name() const
+{
+    return me_chr_const->get_name();
+}
+
 character_id talker_character_const::getID() const
 {
     return me_chr_const->getID();

@@ -1,0 +1,147 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "bio_drain",
+    "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
+    "effect": [
+      { "u_message": "Your batteries discharge slightly.", "type": "bad" },
+      { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
+      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "25 kJ" } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_trip",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_trip" },
+        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_trip" } },
+    "effect": [
+      { "u_message": "Your vision pixelates!", "type": "bad" },
+      { "sound_effect": "pixelated", "id": "bionics", "volume": 100 },
+      { "u_add_effect": "visuals", "duration": "10 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_spasm",
+    "recurrence": [ "2 hours 30 minutes", "7 hours 30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_spasm" },
+        { "not": { "or": [ { "u_has_effect": "downed" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_spasm" } },
+    "effect": [
+      { "u_message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
+      { "sound_effect": "elec_crackle_high", "id": "bionics", "volume": 100 },
+      { "math": [ "u_pain()", "++" ] },
+      { "u_add_effect": "stunned", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_shakes",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
+    "effect": [
+      { "u_message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
+      { "sound_effect": "elec_crackle_med", "id": "bionics", "volume": 100 },
+      { "u_add_effect": "shakes", "duration": "5 minutes" },
+      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "25kJ" } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_glowy",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_glowy" },
+        { "not": { "u_has_effect": "glowy_led" } },
+        { "compare_num": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
+    "effect": [
+      { "u_message": "Your malfunctioning bionic starts to glow!", "type": "bad" },
+      { "u_add_effect": "glowy_led", "duration": "5 minutes" },
+      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "1kJ" } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_sleepy",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
+    "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
+    "effect": [ { "arithmetic": [ { "u_val": "fatigue" }, "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_itchy",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_itchy" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "and": [ { "u_has_effect": "sleep" }, { "u_has_bionics": "bio_sleep_shutdown" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
+    "effect": [
+      { "u_message": "Your malfunctioning bionic itches!", "type": "bad" },
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_noise",
+    "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
+    "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_noise" } },
+    "effect": [
+      { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
+      {
+        "run_eocs": [
+          {
+            "id": "bio_noise_hearing",
+            "condition": { "not": "u_is_deaf" },
+            "effect": [
+              { "u_message": "Your faulty bionic emits a crackle of noise!", "type": "bad" },
+              { "sound_effect": "elec_blast", "id": "bionics", "volume": 100 }
+            ]
+          },
+          {
+            "id": "bio_noise_deaf",
+            "condition": "u_is_deaf",
+            "effect": [
+              { "u_message": "You feel your faulty bionic shuddering.", "type": "bad" },
+              { "sound_effect": "elec_blast_muffled", "id": "bionics", "volume": 100 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_leaky",
+    "recurrence": [ "3 minutes", "9 minutes" ],
+    "condition": { "u_has_bionics": "bio_leaky" },
+    "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
+    "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
+  }
+]
