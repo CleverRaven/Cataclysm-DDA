@@ -108,7 +108,6 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
-8 new UI colour themes
 
 
 ## Mods:
@@ -154,7 +153,7 @@ JSON-ize faction camp hunting returns
 [DinoMod] document lore
 [Aftershock] Rebalance energy weapons to use overheat mechanics
 [Magiclysm] Add fantasy species ferals
-Add dispel magic spells
+[Magiclysm] Add dispel magic spells
 
 
 ## Balance:
@@ -259,7 +258,6 @@ Randomly generated characters are now aged appropriately to their profession
 AIM: Display correct truncation of container names
 Fix visible tiles revealing invisible tiles below
 Fix furniture & vehicle map memory refresh
-Fix overflow when using cash card charges
 
 
 ## Performance:
