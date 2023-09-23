@@ -3905,6 +3905,17 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
+
+"integral_longest_side": "5 cm", // Length that would be added to a gun when this mod is installed
+"overwrite_min_cycle_recoil": 1350, // Using this field will overwrite gun's min_cycle_recoil
+"reload_noise": "chuk chuk.",   // Message, that would be produced when you reload a gun with this mod; Seems to not work 
+"reload_noise_volume": 2,       // Amount of noise produced, when you reload a gun with this mod
+"aim_speed_modifier": -2,       // Changes how fast you aim a gun with this mod
+"add_mod": [ [ "grip", 1 ], [ "sights", 1 ] ], // adds this amoutn of gunmods to gun, if this gunmod is installed
+"energy_drain_multiplier": 1.2, // if weapon uses `energy_drain`, multiplies it on this amount
+"field_of_view": 270,           // upper limit of the effective range of the sight, in MOA (minutes of angle); I am not sure i understand it properly, so see #57365 for more info
+"min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ], // minimal skill level required to install this gunmod
+"shot_spread_multiplier_modifier": -0.8, // for shotguns, changes the spread of the pellets
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
