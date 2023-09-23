@@ -332,9 +332,6 @@ static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 static const climbing_aid_id climbing_aid_default( "default" );
-static const climbing_aid_id climbing_aid_alley( "alley" );
-static const climbing_aid_id climbing_aid_vehicle( "vehicle" );
-static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 static const climbing_aid_id climbing_aid_ability_WALL_CLING( "ability_WALL_CLING" );
 
 #if defined(TILES)
@@ -11785,7 +11782,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            climbing_aid = climbing_aid_furn_CLIMBABLE;
+            climbing_aid = climbing_aid_default;
             u.set_activity_level( EXTRA_EXERCISE );
             move_cost = cost == 0 ? 1000 : cost + 500;
 
