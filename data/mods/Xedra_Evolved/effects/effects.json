@@ -363,7 +363,11 @@
       "Your skin is pale and your eyes are thoroughly bloodshot.",
       "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
-    "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
+    "apply_message": [
+      [ "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.", "bad" ],
+      [ "Your iris slowly turns red from the outside in.", "bad" ],
+      [ "There is an emptiness in your stomach and soul that can no longer be filled with mortal joys.", "bad" ]
+    ],
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
@@ -372,7 +376,6 @@
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
     "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
-    "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
