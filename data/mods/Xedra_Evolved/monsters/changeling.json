@@ -382,7 +382,7 @@
     "id": "mon_goblin_spider",
     "type": "MONSTER",
     "name": { "str": "goblin spider" },
-    "description": "A giant, dark gray goblin spider, the size of a pony. Above the mandibles, where you would expect to see the eyes, instead there is a child's face.  It seems to vanish into the shadows if you take your eyes off it.",
+    "description": "A giant, dark gray goblin spider, the size of a pony.  Above the mandibles, where you would expect to see the eyes, instead there is a child's face.  It seems to vanish into the shadows if you take your eyes off it.",
     "default_faction": "changeling",
     "bodytype": "spider",
     "species": [ "CHANGELING" ],
