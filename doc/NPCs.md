@@ -396,6 +396,17 @@ Format:
 #### `type`
 Must always be there and must always be `"talk_topic"`.
 
+#### `"insert_before_standard_exits"`
+For mod usage to insert dialogue above the `TALK_DONE` and `TALK_NONE` lines. Defaults to false.
+```json
+  {
+    "id": "TALK_REFUGEE_Draco_1a",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [ { "text": "Have you seen anything that could help me?", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb" } ]
+  }
+```
+
 #### `id`
 The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
