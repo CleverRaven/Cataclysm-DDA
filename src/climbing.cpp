@@ -99,7 +99,7 @@ void climbing_aid::finalize()
     for( const climbing_aid &aid : get_all() ) {
         int category_index = int( aid.base_condition.cat );
         if( category_index >= int( climbing_lookup.size() ) ) {
-            // should throw, really.
+            debugmsg( "Climbing aid %s has invalid condition type.", aid.id.str() );
             continue;
         }
         climbing_lookup[ category_index ].emplace( aid.base_condition.flag, &aid );
@@ -169,7 +169,7 @@ std::string enum_to_string<climbing_aid::category>( climbing_aid::category data 
         case climbing_aid::category::last:
             break;
     }
-    cata_fatal( "Invalid achievement_completion" );
+    cata_fatal( "Invalid climbing aid condition category" );
 }
 } // namespace io
 
@@ -235,8 +235,6 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
         optional( jo, true, "msg_before", msg_before );
         optional( jo, true, "msg_after", msg_after );
     }
-
-    was_loaded = true;
 }
 
 void climbing_aid::climb_cost::deserialize( const JsonObject &jo )

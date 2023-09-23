@@ -13158,6 +13158,8 @@ bool game::slip_down( climb_maneuver maneuver, climbing_aid_id aid_id,
     return false;
 }
 
+// These helpers map climbing aid IDs to/from integers for use as return values in uilist.
+//   The integers are offset by 4096 to avoid collision with other options (see iexamine::ledge)
 static int climb_affordance_menu_encode( const climbing_aid_id &aid_id )
 {
     return 0x1000 + int_id<climbing_aid>( aid_id ).to_i();
@@ -13272,10 +13274,7 @@ void game::climb_down( const tripoint &examp )
     }
 }
 
-void game::climb_down_using(
-    const tripoint &examp,
-    climbing_aid_id aid_id,
-    bool deploy_affordance )
+void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool deploy_affordance )
 {
     const climbing_aid &aid = aid_id.obj();
 
@@ -13367,7 +13366,7 @@ void game::climb_down_using(
                                     remaining_height ), remaining_height );
     }
 
-    // Certain climbing aids make it easy to climb back up,, usually by making furniture.
+    // Certain climbing aids make it easy to climb back up, usually by making furniture.
     if( aid.down.easy_climb_back_up >= fall.height ) {
         estimated_climb_cost = 50;
     }
