@@ -227,6 +227,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
@@ -1822,8 +1823,7 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
         bool is_byproduct = false;  // product or byproduct
         bool can_craft = false;
         // Does a recipe for the item exist?
-        for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
-            const recipe &r = ( *it ).second;
+        for( const auto& [_, r] : recipe_dict ) {
             if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
                 is_byproduct = true;
                 // If if exists, do I know it?
@@ -2482,6 +2482,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
     ctxt.register_action( "reload_wielded" );
+    ctxt.register_action( "insert" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -9079,6 +9080,20 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
+void game::insert_item()
+{
+    item_location item_loc = inv_map_splice( [&]( const item_location & it ) {
+        return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
+    }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    game_menus::inv::insert_items( u, item_loc );
+}
+
 void game::unload_container()
 {
     if( const std::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
@@ -10378,8 +10393,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
-        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
-            !prompt_dangerous_tile( dest_loc ) ) {
+        if( harmful_stuff.size() == 1 && harmful_stuff[0] == "ledge" ) {
+            iexamine::ledge( u, dest_loc );
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
+                   !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
                    ( !u.is_running() || !prompt_dangerous_tile( dest_loc ) ) ) {
@@ -11937,8 +11955,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // TODO: just check if it's going for the avatar's location, it's simpler
             Creature *target = critter.attack_target();
             if( ( target && target->is_avatar() ) || ( !critter.has_effect( effect_ridden ) &&
-                    critter.has_effect( effect_pet ) && critter.friendly == -1 &&
-                    !critter.has_effect( effect_tied ) ) ) {
+                    ( critter.is_pet_follow() || critter.has_effect( effect_led_by_leash ) ) &&
+                    !critter.has_effect( effect_tied ) && critter.sees( u ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }

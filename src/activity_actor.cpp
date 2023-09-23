@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iterator>
 #include <list>
 #include <map>
 #include <new>
@@ -4134,13 +4135,36 @@ std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( Json
     return actor.clone();
 }
 
-static int item_move_cost( Character &who, item_location &item )
+static int item_move_cost( Character &who, item_location &item, bool bulk_cost )
 {
-    // Cost to take an item from a container or map
-    const int obtain_cost = item.obtain_cost( who );
-    // Cost to move an item to a container, vehicle or the ground
-    const int move_cost = Pickup::cost_to_move_item( who, *item );
-    return obtain_cost + move_cost;
+    if( !bulk_cost ) {
+        // Cost to take an item from a container or map
+        const int obtain_cost = item.obtain_cost( who );
+        // Cost to move an item to a container, vehicle or the ground
+        const int move_cost = Pickup::cost_to_move_item( who, *item );
+        return obtain_cost + move_cost;
+    } else {
+        // Pure cost to handling item excluding overhead.
+        return std::max( who.item_handling_cost( *item, true, 0, -1, true ), 1 );
+    }
+}
+
+static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
+{
+    if( lhs.where() == rhs.where() && lhs->stacks_with( *rhs ) ) {
+        switch( lhs.where() ) {
+            case item_location::type::container:
+                return lhs.parent_item() == rhs.parent_item();
+                break;
+            case item_location::type::map:
+            case item_location::type::vehicle:
+                return lhs.position() == rhs.position();
+                break;
+            default:
+                break;
+        }
+    }
+    return false;
 }
 
 void insert_item_activity_actor::start( player_activity &act, Character &who )
@@ -4152,65 +4176,107 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 
     all_pockets_rigid = holster->all_pockets_rigid();
 
-    const int total_moves = item_move_cost( who, items.front().first );
+    const int total_moves = item_move_cost( who, items.front().first, false );
     act.moves_left = total_moves;
     act.moves_total = total_moves;
+}
+
+static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
+                                 int *charges_added )
+{
+    item &it = *holstered_item.first;
+    ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
+
+    if( charges_added == nullptr ) {
+        if( it.is_bucket_nonempty() ) {
+            debugmsg( "ACT_INSERT_ITEM tried to stash a spillable container without spilling its contents first" );
+            return ret_val<void>::make_failure( _( "item would spill" ) );
+        }
+        ret = holster->can_contain_directly( it );
+        if( !ret.success() ) {
+            return ret;
+        }
+        ret = holster.parents_can_contain_recursive( &it );
+        if( !ret.success() ) {
+            return ret;
+        }
+
+        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true );
+    }
+
+    ret = holster->can_contain_partial_directly( it );
+    if( !ret.success() ) {
+        return ret;
+    }
+    ret_val<int> max_parent_charges = holster.max_charges_by_parent_recursive( it );
+    if( !max_parent_charges.success() ) {
+        return ret_val<void>::make_failure( max_parent_charges.str() );
+    }
+    int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
+    *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true );
+    if( *charges_added <= 0 ) {
+        return ret_val<void>::make_failure( _( "item can't be stored there" ) );
+    }
+
+    return ret;
 }
 
 void insert_item_activity_actor::finish( player_activity &act, Character &who )
 {
     bool success = false;
+    bool bulk_load = false;
     drop_location &holstered_item = items.front();
     if( holstered_item.first ) {
+        success = true;
         item &it = *holstered_item.first;
+        // Check if next is bulk load before moving item.
+        auto itr = std::next( items.begin() );
+        if( itr != items.end() && itr->first ) {
+            bulk_load = is_bulk_load( holstered_item.first, itr->first );
+        }
+        ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
+
         if( !it.count_by_charges() ) {
-            if( holster->can_contain_directly( it ).success() &&
-                holster.parents_can_contain_recursive( &it ) ) {
+            ret = try_insert( holster, holstered_item, nullptr );
 
-                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
-                                           /*unseal_pockets=*/true ).success();
-                if( success ) {
-                    //~ %1$s: item to put in the container, %2$s: container to put item in
-                    who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    holstered_item.first.remove_item();
-                }
-
+            if( ret.success() ) {
+                //~ %1$s: item to put in the container, %2$s: container to put item in
+                who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
+                                                      holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
+                handler.add_unsealed( holster );
+                handler.unseal_pocket_containing( holstered_item.first );
+                holstered_item.first.remove_item();
             }
         } else {
-            int charges = std::min( holstered_item.second, holster.max_charges_by_parent_recursive( it ) );
+            int charges_added = 0;
+            ret = try_insert( holster, holstered_item, &charges_added );
 
-            if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
-                int result = holster->fill_with( it, charges,
-                                                 /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true,
-                                                 /*ignore_settings*/true,
-                                                 /*into_bottom*/true );
-                success = result > 0;
-
-                if( success ) {
-                    item copy( it );
-                    copy.charges = result;
-                    //~ %1$s: item to put in the container, %2$s: container to put item in
-                    who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
-                                                          copy.display_name(), holster->type->nname( 1 ) ) );
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    it.charges -= result;
-                    if( it.charges == 0 ) {
-                        holstered_item.first.remove_item();
-                    }
+            if( ret.success() ) {
+                item copy( it );
+                copy.charges = charges_added;
+                //~ %1$s: item to put in the container, %2$s: container to put item in
+                who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
+                                                      copy.display_name(), holster->type->nname( 1 ) ) );
+                handler.add_unsealed( holster );
+                handler.unseal_pocket_containing( holstered_item.first );
+                it.charges -= charges_added;
+                if( it.charges == 0 ) {
+                    holstered_item.first.remove_item();
                 }
             }
         }
 
-        if( !success ) {
-            who.add_msg_if_player(
-                string_format(
-                    _( "Could not put %1$s into %2$s, aborting." ),
-                    it.tname(), holster->tname() ) );
+        if( !ret.success() ) {
+            success = false;
+            std::string error = !ret.str().empty() ?
+                                //~ %1$s: item we failed to put in the container, %2$s: container to put item in
+                                string_format( _( "Could not put %1$s into %2$s." ),
+                                               it.tname(), holster->tname() ) :
+                                //~ %1$s: item we failed to put in the container, %2$s: container to put item in, %3$s: reason it failed
+                                string_format( _( "Could not put %1$s into %2$s, %3$s." ),
+                                               it.tname(), holster->tname(), ret.str() );
+            who.add_msg_if_player( error );
         }
     } else {
         // item was lost, so just go to next item
@@ -4226,7 +4292,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Restart the activity
-    const int total_moves = item_move_cost( who, items.front().first );
+    const int total_moves = item_move_cost( who, items.front().first, bulk_load );
     act.moves_left = total_moves;
     act.moves_total = total_moves;
 }

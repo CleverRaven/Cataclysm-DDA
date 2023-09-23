@@ -150,7 +150,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_faux_fur_patchwork", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-    "byproducts": [ [ "faux_fur", 2 ] ]
+    "byproducts": [ [ "faux_fur", 2 ], [ "scrap_faux_fur", 6 ] ]
   },
   {
     "result": "armor_faux_farmor_xs",
@@ -158,7 +158,7 @@
     "copy-from": "armor_faux_farmor",
     "time": "8 h",
     "using": [ [ "tailoring_faux_fur_patchwork", 11 ] ],
-    "byproducts": [ [ "faux_fur", 5 ] ]
+    "byproducts": [ [ "faux_fur", 5 ], [ "scrap_faux_fur", 5 ] ]
   },
   {
     "result": "xl_armor_faux_farmor",
@@ -166,7 +166,7 @@
     "copy-from": "armor_faux_farmor",
     "time": "9 h",
     "using": [ [ "tailoring_faux_fur_patchwork", 16 ] ],
-    "byproducts": [ [ "faux_fur", 6 ] ]
+    "byproducts": [ [ "faux_fur", 6 ], [ "scrap_faux_fur", 12 ] ]
   },
   {
     "result": "armor_larmor",
@@ -1837,7 +1837,8 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 1 ] ]
   },
   {
     "result": "mask_wsurvivor_nofur_xs",
@@ -1851,7 +1852,8 @@
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ],
       [ [ "faux_fur", 4 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 1 ] ]
   },
   {
     "result": "mask_wsurvivorxl_nofur",
@@ -1877,7 +1879,8 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "hsurvivor_jumpsuit",
@@ -1913,7 +1916,8 @@
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 300 ] ],
       [ [ "sheet_kevlar", 590 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 9 ] ]
   },
   {
     "result": "xs_hsurvivor_jumpsuit",
@@ -2209,7 +2213,8 @@
     "time": "2 h",
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_lycra_patchwork", 20 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 3 ] ]
   },
   {
     "result": "sleeping_bag_improvised",

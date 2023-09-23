@@ -1,0 +1,57 @@
+[
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SKIN_1",
+    "name": { "str": "salamander skin" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Your skin has turned the color of an autumnal bonfire.  Your skin is now an orange red with dark freckles.  This has no gameplay effects.",
+    "types": [ "skin_tone" ],
+    "leads_to": [ "SALAMANDER_SKIN_2" ],
+    "category": [ "SALAMANDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SKIN_2",
+    "name": { "str": "burning coals skin" },
+    "points": 2,
+    "visibility": 4,
+    "ugliness": 3,
+    "description": "Your skin has has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "types": [ "SKIN" ],
+    "category": [ "SALAMANDER" ],
+    "prereqs": [ "SALAMANDER_SKIN_1" ],
+    "changes_to": [ "SALAMANDER_SKIN_3" ],
+    "weakness_to_water": 1,
+    "integrated_armor": [ "integrated_coal_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SKIN_3",
+    "name": { "str": "flame skin" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
+    "types": [ "SKIN" ],
+    "flags": [ "HEAT_IMMUNE" ],
+    "prereqs": [ "SALAMANDER_SKIN_2" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "category": [ "SALAMANDER" ],
+    "weakness_to_water": 4,
+    "integrated_armor": [ "integrated_flameskin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to pluck a goblin fruit from the flames.",
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_cultivate_goblin_fruit", 1 ] ]
+  }
+]

@@ -6,7 +6,11 @@
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
-        { "chunks": [ "microlab_generic_hallway_straight_tile" ], "x": 0, "y": 0 },
+        {
+          "chunks": [ [ "microlab_generic_hallway_straight_tile", 98 ], [ "microlab_generic_hallway_straight_isolated_tile", 2 ] ],
+          "x": 0,
+          "y": 0
+        },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
@@ -162,6 +166,42 @@
         "  icc| PP ==== PP |F cc ",
         "    F| PP      PP |F c  ",
         "    F| PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_straight_isolated_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "|####| PP  PP  PP |####|",
+        "|####| PP      PP |####|",
+        "|####| PP ==== PP |####|",
+        "|#|||| PP =XX= PP ||||#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX==[[==XX==[[==XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX=YPP =XX= PPY=XX|#|",
+        "|#|||| PP =XX= PP ||||#|",
+        "|####| PP ==== PP |####|",
+        "|####| PP      PP |####|",
+        "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }

@@ -1,0 +1,102 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "iso_first_elevator",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [ { "chunks": [ "iso_elevator" ], "x": 0, "y": 0 } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 9, "y": 14 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "iso_elevator",
+    "method": "json",
+    "object": { "fill_ter": "t_strconc_floor", "place_nested": [ { "chunks": [ "iso_elevator" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "iso_elevator_safe",
+    "method": "json",
+    "object": { "fill_ter": "t_strconc_floor", "place_nested": [ { "chunks": [ "iso_elevator" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "iso_next_level_elevator",
+    "method": "json",
+    "object": { "fill_ter": "t_strconc_floor", "place_nested": [ { "chunks": [ "iso_elevator_next" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "iso_elevator",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "#####|            |#####",
+        "#####|====    ====|#####",
+        "#####|XXX=    =XXX|#####",
+        "#####||||||22||||||#####",
+        "#####|XXX|    |XXX|#####",
+        "##||||===|    |===||||##",
+        "##|XX=  YYPPPPYY  =XX|##",
+        "##|XX=    PPPP    =XX|##",
+        "##|XX=    PPPP    =XX|##",
+        "##||||^ YYPPPPYY ^||||##",
+        "####|N            N|####",
+        "####||||  ||||  ||||####",
+        "#####|--22-##-22--|#####",
+        "#####|-Eee-##-eeE-|#####",
+        "#####|-eee-##-eee-|#####",
+        "#####|-----##-----|#####",
+        "#####||||||||||||||#####",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red", "E": "t_elevator_control_off" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "iso_elevator_next",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "#####|            |#####",
+        "#####|====    ====|#####",
+        "#####|XXX=    =XXX|#####",
+        "#####||||||22||||||#####",
+        "#####|XXX|    |XXX|#####",
+        "##||||===|    |===||||##",
+        "##|XX=  YYPPPPYY  =XX|##",
+        "##|XX=    PPPP    =XX|##",
+        "##|XX=    PPPP    =XX|##",
+        "##||||^ YYPPPPYY ^||||##",
+        "####|N            N|####",
+        "####||||  ||||  ||||####",
+        "#####|--22-##-22--|#####",
+        "#####|-Eee-##-eeE-|#####",
+        "#####|-eee-##-eee-|#####",
+        "#####|-----##-----|#####",
+        "#####||||||||||||||#####",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red", "E": "t_elevator_control_iso" }
+    }
+  }
+]

@@ -6491,10 +6491,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
     unsigned int truncate_override = 0;
 
+    const std::string item_health_option = get_option<std::string>( "ITEM_HEALTH" );
+    const bool show_bars  = item_health_option == "both" || item_health_option == "bars";
     if( ( damage() != 0 || ( degradation() > 0 && degradation() >= max_damage() / 5 ) ||
-          ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
+          ( show_bars  && is_armor() ) ) && !is_null() && with_prefix ) {
         damtext += durability_indicator();
-        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+        if( show_bars ) {
             // get the utf8 width of the tags
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
         }
@@ -8933,35 +8935,62 @@ std::string item::damage_indicator() const
 
 std::string item::durability_indicator( bool include_intact ) const
 {
-    std::string outputstring;
-
+    const std::string item_health_option = get_option<std::string>( "ITEM_HEALTH" );
+    const bool show_bars_only = item_health_option == "bars";
+    const bool show_description_only = item_health_option == "descriptions";
+    const bool show_both = item_health_option == "both";
+    const bool show_bars = show_both || show_bars_only;
+    const bool show_description = show_both || show_description_only;
+    std::string bars;
+    std::string description;
+    if( show_bars ) {
+        bars = damage_indicator() + degradation_symbol() + "\u00A0";
+    }
+    if( damage() < 0 ) {
+        if( show_description ) {
+            if( is_gun() ) {
+                description = pgettext( "damage adjective", "accurized " );
+            } else {
+                description = pgettext( "damage adjective", "reinforced " );
+            }
+        }
+        if( show_bars_only ) {
+            return bars;
+        }
+        if( show_description_only ) {
+            return description;
+        }
+        return bars + description;
+    }
     if( has_flag( flag_CORPSE ) ) {
         if( damage() > 0 ) {
             switch( damage_level() ) {
                 case 1:
-                    outputstring = pgettext( "damage adjective", "bruised " );
-                    break;
+                    return pgettext( "damage adjective", "bruised " );
                 case 2:
-                    outputstring = pgettext( "damage adjective", "damaged " );
-                    break;
+                    return pgettext( "damage adjective", "damaged " );
                 case 3:
-                    outputstring = pgettext( "damage adjective", "mangled " );
-                    break;
+                    return pgettext( "damage adjective", "mangled " );
                 default:
-                    outputstring = pgettext( "damage adjective", "pulped " );
-                    break;
+                    return pgettext( "damage adjective", "pulped " );
             }
         }
-    } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = damage_indicator() + degradation_symbol() + "\u00A0";
-    } else {
-        outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
-        if( include_intact && outputstring == " " ) {
-            outputstring = _( "fully intact " );
+    }
+    if( show_bars_only ) {
+        return bars;
+    }
+    description = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
+    if( description == " " ) {
+        if( include_intact ) {
+            description = _( "fully intact " );
+        } else {
+            description = "";
         }
     }
-
-    return outputstring;
+    if( show_description_only ) {
+        return description;
+    }
+    return bars + description;
 }
 
 const std::set<itype_id> &item::repaired_with() const
@@ -9949,7 +9978,7 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                          this == parent_it.get_item() ) ) {
         // does the set of all sets contain itself?
         // or does this already contain it?
-        return ret_val<void>::make_failure();
+        return ret_val<void>::make_failure( "can't put a container into itself" );
     }
     if( nested && !this->is_container() ) {
         return ret_val<void>::make_failure();
@@ -9997,27 +10026,27 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
            contents.can_contain( it, copies_remaining, ignore_pkt_settings, remaining_parent_volume );
 }
 
-bool item::can_contain( const itype &tp ) const
+ret_val<void> item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ) ).success();
+    return can_contain( item( &tp ) );
 }
 
-bool item::can_contain_partial( const item &it ) const
+ret_val<void> item::can_contain_partial( const item &it ) const
 {
     item i_copy = it;
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy ).success();
+    return can_contain( i_copy );
 }
 
-bool item::can_contain_partial_directly( const item &it ) const
+ret_val<void> item::can_contain_partial_directly( const item &it ) const
 {
     item i_copy = it;
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false ).success();
+    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false );
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
@@ -11758,7 +11787,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 
     int remaining_capacity = 0;
 
-    if( can_contain_partial( liquid ) ) {
+    if( can_contain_partial( liquid ).success() ) {
         if( !contents.can_contain_liquid( allow_bucket ) ) {
             return error( string_format( _( "That %s must be on the ground or held to hold contents!" ),
                                          tname() ) );
