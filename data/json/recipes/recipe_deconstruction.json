@@ -2054,6 +2054,8 @@
     "result": "camera",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 2 ] ], [ [ "lens", 1 ] ] ]
@@ -2062,6 +2064,8 @@
     "result": "camera_pro",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
@@ -2087,6 +2091,8 @@
     "result": "cell_phone",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
@@ -2095,6 +2101,8 @@
     "result": "smart_phone",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -2109,6 +2117,8 @@
     "result": "mp3",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -2945,7 +2955,7 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
-    "difficulty": 3,
+    "difficulty": 1,
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "scrap_aluminum", 4 ] ] ]
@@ -3075,6 +3085,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
+    "difficulty": 1,
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
