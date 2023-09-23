@@ -15,6 +15,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_inv_test1",
+    "effect": [ { "u_run_inv_eocs": [ "EOC_run_inv_test1_nested" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test1_nested",
+    "effect": [ { "npc_add_var": "key1", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test2",
+    "effect": [ { "u_run_inv_eocs": [ "EOC_run_inv_test2_nested" ], "item_ids": [ "backpack" ], "worn_only": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test2_nested",
+    "effect": [ { "npc_add_var": "key2", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
       { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },

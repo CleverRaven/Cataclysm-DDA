@@ -78,6 +78,9 @@ class talker
         virtual std::string disp_name() const {
             return "";
         }
+        virtual std::string get_name() const {
+            return "";
+        }
         virtual character_id getID() const {
             return character_id( 0 );
         }
