@@ -456,6 +456,7 @@ void start_leading( monster &z )
         untie_pet( z );
     }
     z.add_effect( effect_led_by_leash, 1_turns, true );
+    z.unset_dest();
     add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
 }
 

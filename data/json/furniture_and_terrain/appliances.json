@@ -601,7 +601,7 @@
     "color": "white",
     "broken_color": "blue",
     "durability": 20,
-    "description": "A floor lamp that provides illumination when turned on.",
+    "description": "A wall-mounted lamp that provides illumination when turned on.",
     "epower": "-10 W",
     "bonus": 200,
     "damage_modifier": 10,
@@ -611,7 +611,7 @@
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC", "OBSTACLE" ],
     "requirements": { "removal": { "time": "6 m" } },
     "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
