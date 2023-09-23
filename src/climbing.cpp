@@ -20,6 +20,7 @@
 
 
 static const climbing_aid_id climbing_aid_default( "default" );
+static const string_id<climbing_aid> climbing_aid_NULL( "" );
 
 
 namespace
@@ -74,8 +75,7 @@ int_id<climbing_aid>::int_id( const string_id<climbing_aid> &id ) : _id( id.id()
 template<>
 const string_id<climbing_aid> &string_id<climbing_aid>::NULL_ID()
 {
-    static const string_id<climbing_aid> null( "" );
-    return null;
+    return climbing_aid_NULL;
 }
 
 
@@ -112,7 +112,7 @@ void climbing_aid::finalize()
     if( !climbing_aid_default_ptr ) {
         // Force-generate the default climbing aid.
         static climbing_aid def;
-        def.id = climbing_aid_id( "default" );
+        def.id = climbing_aid_default;
         def.slip_chance_mod = 0;
         def.base_condition.cat = category::special;
         def.down.menu_text = to_translation( "Climb down by lowering yourself from the ledge." );
