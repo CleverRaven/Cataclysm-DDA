@@ -6,7 +6,7 @@
     "locations": [ "land" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 225, 275 ],
+    "occurrences": [ 33, 100 ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 0, 1, 0 ], [ "land" ] ],
