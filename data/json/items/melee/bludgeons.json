@@ -1455,7 +1455,7 @@
     "price": "15 USD",
     "price_postapoc": 50,
     "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 10 },
+    "melee_damage": { "bash": 8 },
     "//2": "Based on https://www.amazon.com/dp/B08183YH7Q"
   },
   {
