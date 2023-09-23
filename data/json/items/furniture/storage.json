@@ -1,0 +1,38 @@
+[
+  {
+    "id": "foot_locker_aluminum",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "aluminum foot locker" },
+    "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
+    "symbol": "O",
+    "color": "white",
+    "material": [ "aluminum" ],
+    "weight": "13150 g",
+    "volume": "165 L",
+    "longest_side": "94 cm",
+    "price": "508 USD",
+    "price_postapoc": 75,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "136 L",
+        "max_contains_weight": "300 kg",
+        "max_item_length": "91 cm"
+      }
+    ],
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.com/dp/B004K22VCE"
+  },
+  {
+    "id": "foot_locker",
+    "type": "GENERIC",
+    "name": { "str": "steel foot locker" },
+    "description": "A steel storage box, capable of holding any number of things.  The lid has a small lock.",
+    "copy-from": "foot_locker_aluminum",
+    "color": "light_gray",
+    "material": [ "steel" ],
+    "weight": "38950 g"
+  }
+]
