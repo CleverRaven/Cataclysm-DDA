@@ -9,22 +9,22 @@
     "symbol": "O",
     "color": "white",
     "material": [ "aluminum" ],
-    "weight": "13150 g",
-    "volume": "165 L",
-    "longest_side": "94 cm",
-    "price": "508 USD",
+    "weight": "3721 g",
+    "volume": "69 L",
+    "longest_side": "69 cm",
+    "price": "200 USD",
     "price_postapoc": 75,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "136 L",
-        "max_contains_weight": "300 kg",
-        "max_item_length": "91 cm"
+        "max_contains_volume": "67669 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "68 cm"
       }
     ],
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "//": "Based on https://www.amazon.com/dp/B004K22VCE"
+    "//": "Weight and pocket data recalculated from foot_locker with the use of the same resources but with the assumption that walls are gauge 16 aluminum."
   },
   {
     "id": "foot_locker",
@@ -35,7 +35,16 @@
     "looks_like": "f_foot_locker",
     "color": "light_gray",
     "material": [ "steel" ],
-    "weight": "38950 g",
-    "//": "Based on https://www.amazon.com/dp/B004K22VCE with the weight recalculated proportionally according to the density difference of aluminum and steel."
+    "weight": "6487 g",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "68208 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "68 cm"
+      }
+    ],
+    "//": "Based on https://www.duluthtrading.com/best-made-footlocker-B1098.html with the weight calculated from surface area with the use of https://www.engineeringtoolbox.com/gauge-sheet-d_915.html."
   }
 ]
