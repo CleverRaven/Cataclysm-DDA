@@ -5,8 +5,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 26 ] ], [ [ "hinge", 2 ] ], [ [ "lock", 1 ] ], [ [ "nuts_bolts", 8 ] ] ],
-    "//": "This generates mass. This is because our sheet metal gets to be generic and doesn't have concrete proportions defined. But even then - the assumed thickness is the same as the footlocker. So where does the mass come from? Don't ask me."
+    "components": [ [ [ "sheet_metal_small", 12 ] ], [ [ "scrap", 3 ] ], [ [ "hinge", 2 ] ], [ [ "lock", 1 ] ], [ [ "nuts_bolts", 8 ] ] ]
   },
   {
     "result": "foot_locker_aluminum",
