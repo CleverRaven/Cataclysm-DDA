@@ -35,6 +35,12 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_NO_LEGS",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "leg_r" }, { "lose": "foot_l" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
