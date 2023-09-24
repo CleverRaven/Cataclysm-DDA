@@ -31,5 +31,14 @@
         "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_shape_of_dust",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "emitter": "emit_eshaper_dust",
+    "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
   }
 ]

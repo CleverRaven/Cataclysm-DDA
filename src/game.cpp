@@ -227,6 +227,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
@@ -1822,8 +1823,7 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
         bool is_byproduct = false;  // product or byproduct
         bool can_craft = false;
         // Does a recipe for the item exist?
-        for( auto it = recipe_dict.begin(); it != recipe_dict.end(); ++it ) {
-            const recipe &r = ( *it ).second;
+        for( const auto& [_, r] : recipe_dict ) {
             if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
                 is_byproduct = true;
                 // If if exists, do I know it?
@@ -2482,6 +2482,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "reload_item" );
     ctxt.register_action( "reload_weapon" );
     ctxt.register_action( "reload_wielded" );
+    ctxt.register_action( "insert" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -9078,6 +9079,20 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
+void game::insert_item()
+{
+    item_location item_loc = inv_map_splice( [&]( const item_location & it ) {
+        return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
+    }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    game_menus::inv::insert_items( u, item_loc );
+}
+
 void game::unload_container()
 {
     if( const std::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
@@ -10377,8 +10392,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
-        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
-            !prompt_dangerous_tile( dest_loc ) ) {
+        if( harmful_stuff.size() == 1 && harmful_stuff[0] == "ledge" ) {
+            iexamine::ledge( u, dest_loc );
+            return true;
+        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
+                   !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
                    ( !u.is_running() || !prompt_dangerous_tile( dest_loc ) ) ) {
@@ -11936,8 +11954,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // TODO: just check if it's going for the avatar's location, it's simpler
             Creature *target = critter.attack_target();
             if( ( target && target->is_avatar() ) || ( !critter.has_effect( effect_ridden ) &&
-                    critter.has_effect( effect_pet ) && critter.friendly == -1 &&
-                    !critter.has_effect( effect_tied ) ) ) {
+                    ( critter.is_pet_follow() || critter.has_effect( effect_led_by_leash ) ) &&
+                    !critter.has_effect( effect_tied ) && critter.sees( u ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }
@@ -12996,20 +13014,26 @@ void game::shift_destination_preview( const point &delta )
     }
 }
 
-bool game::slip_down( bool check_for_traps )
+int game::slip_down_chance( bool show_messages )
 {
     int slip = 100;
 
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
     if( parkour && badknees ) {
-        add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+        }
     } else if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
-        add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
+        }
     } else if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
-        add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
+        if( show_messages ) {
+            add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
+        }
     }
 
     add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
@@ -13038,12 +13062,14 @@ bool game::slip_down( bool check_for_traps )
             wet_penalty += u.get_part( bp )->get_wetness_percentage() / 2;
         }
     }
-    if( wet_feet && wet_hands ) {
-        add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
-    } else if( wet_feet ) {
-        add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
-    } else if( wet_hands ) {
-        add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
+    if( show_messages ) {
+        if( wet_feet && wet_hands ) {
+            add_msg( m_info, _( "Your wet hands and feet make it harder to climb." ) );
+        } else if( wet_feet ) {
+            add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
+        } else if( wet_hands ) {
+            add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
+        }
     }
 
     // Apply wetness penalty
@@ -13072,20 +13098,41 @@ bool game::slip_down( bool check_for_traps )
     // Decreasing stamina makes you slip up more often
     const float stamina_ratio = static_cast<float>( u.get_stamina() ) / u.get_stamina_max();
     if( stamina_ratio < 0.8 ) {
-        slip /= stamina_ratio;
+        slip /= std::max( stamina_ratio, .1f );
+
+        if( show_messages ) {
+            if( stamina_ratio > 0.6 ) {
+                add_msg( m_info, _( "You are winded, which makes climbing harder." ) );
+            } else if( stamina_ratio > 0.4 ) {
+                add_msg( m_info, _( "You are out of breath, which makes climbing much harder." ) );
+            } else if( stamina_ratio > 0.2 ) {
+                add_msg( m_info, _( "You can't catch your breath, which makes it much more difficult to climb." ) );
+            } else {
+                add_msg( m_info, _( "You feel faint and can't keep your balance." ) );
+            }
+        }
     }
     add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, final slip chance %d%%",
                    stamina_ratio, slip );
 
-    if( weight_ratio >= 1 ) {
-        add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
-    } else if( weight_ratio > .75 ) {
-        add_msg( m_info, _( "You strain to climb with the weight of your possessions." ) );
-    } else if( weight_ratio > .5 ) {
-        add_msg( m_info, _( "You feel the weight of your luggage makes it more difficult to climb." ) );
-    } else if( weight_ratio > .25 ) {
-        add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
+    if( show_messages ) {
+        if( weight_ratio >= 1 ) {
+            add_msg( m_info, _( "Your carried weight tries to drag you down." ) );
+        } else if( weight_ratio > .75 ) {
+            add_msg( m_info, _( "You strain to climb with the weight of your possessions." ) );
+        } else if( weight_ratio > .5 ) {
+            add_msg( m_info, _( "You feel the weight of your luggage makes it more difficult to climb." ) );
+        } else if( weight_ratio > .25 ) {
+            add_msg( m_info, _( "Your carried weight makes it a little harder to climb." ) );
+        }
     }
+
+    return slip;
+}
+
+bool game::slip_down( bool check_for_traps, bool show_chance_messages )
+{
+    int slip = slip_down_chance( show_chance_messages );
 
     if( x_in_y( slip, 100 ) ) {
         add_msg( m_bad, _( "You slip while climbing and fall down." ) );
@@ -13134,55 +13181,121 @@ void game::climb_down( const tripoint &examp )
         return;
     }
 
+    bool can_use_ladder = ( height == 1 ) &&
+                          ( m.has_flag( ter_furn_flag::TFLAG_LADDER, where )
+                            || m.has_flag( ter_furn_flag::TFLAG_GOES_UP, where ) );
     bool has_grapnel = you.has_amount( itype_grapnel, 1 );
     bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
     const int climb_cost = you.climbing_cost( where, examp );
     const float fall_mod = you.fall_damage_mod();
     add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", climb_cost );
     add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
-    const char *query_str;
-    if( !web_rappel ) {
-        query_str = n_gettext( "Looks like %d story.  Jump down?",
-                               "Looks like %d stories.  Jump down?",
-                               height );
-    } else {
-        query_str = n_gettext( "Looks like %d story.  Nothing your webs can't handle.  Descend?",
-                               "Looks like %d stories.  Nothing your webs can't handle.  Descend?", height );
+
+    you.set_activity_level( ACTIVE_EXERCISE );
+    weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
+
+    std::string hint_remaining_fall;
+
+    if( height > 1 ) {
+        // After grappling or climbing down from a 2+ high ledge, the player will free-fall.
+        // We don't assess the expected damage but this simple warning is provided.
+        hint_remaining_fall = "\n";
+        hint_remaining_fall += string_format( n_gettext(
+                "Even if you climb down safely, you will fall <color_yellow>at least %d story</color>.",
+                "Even if you climb down safely, you will fall <color_red>at least %d stories</color>.",
+                height - 1 ), height - 1 );
     }
 
-    if( height > 1 && !query_yn( query_str, height ) ) {
-        return;
-    } else if( height == 1 ) {
-        you.set_activity_level( ACTIVE_EXERCISE );
-        weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
+    if( can_use_ladder ) {
+        if( !query_yn( _( "Climb down the ladder?" ) ) ) {
+            return;
+        } else {
+            has_grapnel = false;
+            web_rappel = false;
+        }
+    } else if( has_grapnel ) {
+        std::string query = _( "Use your grappling hook to climb down?" );
+        query += "%s";
+        if( !query_yn( query.c_str(), hint_remaining_fall ) ) {
+            has_grapnel = false;
+        } else {
+            web_rappel = false;
+        }
+    }
 
-        if( has_grapnel ) {
-            if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
-                has_grapnel = false;
+    if( !can_use_ladder && !has_grapnel ) {
+        std::string query;
+        std::string hint_slip_risk;
+        std::string hint_fall_damage;
+        std::string hint_climb_back;
+        if( web_rappel ) {
+            if( height <= 1 ) {
+                query = _( "Use your webs to descend?" );
             } else {
-                web_rappel = false;
+                query = string_format( n_gettext(
+                                           "Looks like % d story.  Nothing your webs can't handle.  Descend?",
+                                           "Looks like %d stories.  Nothing your webs can't handle.  Descend?", height ), height );
+            }
+        } else {
+            // The most common query reads as follows:
+            //   It [seems somewhat risky] to climb down like this.
+            //   Falling [would hurt].
+            //   You [probably won't be able to climb back up].
+            query = "%s%s\n%s\n%s\n";
+            query += _( "Climb down?" );
+
+            // Calculate chance of slipping.  Prints possible causes to log.
+            int slip_chance = slip_down_chance( true );
+
+            // Roughly estimate damage if we should fall.
+            int damage_estimate = 10 * height;
+            if( damage_estimate <= 30 ) {
+                damage_estimate *= fall_mod;
+            } else {
+                damage_estimate *= std::pow( fall_mod, 30.f / damage_estimate );
+            }
+
+            // Rough messaging about safety.  "very small risk" may or may not be zero chance.
+            if( slip_chance < 3 ) {
+                hint_slip_risk = _( "It <color_green>seems safe</color> to climb down like this." );
+            } else if( slip_chance < 8 ) {
+                hint_slip_risk = _( "It <color_yellow>seems a bit tricky</color> to climb down like this." );
+            } else if( slip_chance < 20 ) {
+                hint_slip_risk = _( "It <color_yellow>seems somewhat risky</color> to climb down like this." );
+            } else if( slip_chance < 50 ) {
+                hint_slip_risk = _( "It <color_red>seems very risky</color> to climb down like this." );
+            } else if( slip_chance < 80 ) {
+                hint_slip_risk = _( "It <color_pink>looks like you'll slip</color> if you climb down like this." );
+            } else {
+                hint_slip_risk = _( "It <color_pink>doesn't seem possible to climb down safely</color>." );
+            }
+
+            if( damage_estimate >= 100 ) {
+                hint_fall_damage = _( "Falling <color_pink>would kill you</color>" );
+            } else if( damage_estimate >= 60 ) {
+                hint_fall_damage = _( "Falling <color_pink>could cripple or kill you</color>." );
+            } else if( damage_estimate >= 30 ) {
+                hint_fall_damage = _( "Falling <color_pink>would break bones.</color>." );
+            } else if( damage_estimate >= 15 ) {
+                hint_fall_damage = _( "Falling <color_red>would hurt badly</color>." );
+            } else if( damage_estimate >= 5 ) {
+                hint_fall_damage = _( "Falling <color_red>would hurt</color>." );
+            } else {
+                hint_fall_damage = _( "Falling <color_light_blue>wouldn't hurt much<color>." );
+            }
+
+            if( climb_cost <= 0 ) {
+                hint_climb_back = _( "You <color_red>probably won't be able to climb back up</color>." );
+            } else if( climb_cost < 200 ) {
+                hint_climb_back = _( "You <color_green>should be easily able to climb back up</color>." );
+            } else {
+                hint_climb_back = _( "You <color_yellow>may have problems trying to climb back up</color>." );
             }
         }
 
-        if( !has_grapnel ) {
-            const char *query;
-            if( web_rappel ) {
-                query = _( "Use your webs to descend?" );
-            } else {
-                if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                    query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                } else if( climb_cost <= 0 ) {
-                    query = _( "You probably won't be able to get back up.  Climb down?" );
-                } else if( climb_cost < 200 ) {
-                    query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
-                } else {
-                    query = _( "You may have problems climbing back up.  Climb down?" );
-                }
-            }
-
-            if( !query_yn( query ) ) {
-                return;
-            }
+        if( !query_yn( query.c_str(),
+                       hint_slip_risk, hint_remaining_fall, hint_fall_damage, hint_climb_back ) ) {
+            return;
         }
     }
 
@@ -13225,11 +13338,18 @@ void game::climb_down( const tripoint &examp )
             used_item.spill_contents( you );
         }
         here.furn_set( you.pos(), furn_f_rope_up );
-    } else if( !g->slip_down( true ) ) {
+    } else if( can_use_ladder ) {
+        // Descend to the ladder's level.
+        add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down to ladder" );
+        you.add_msg_if_player( _( "You climb down the ladder." ) );
+        g->vertical_move( -height, true );
+    } else if( !g->slip_down( true, false ) ) {
         // One tile of falling less (possibly zero)
         add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
+        you.add_msg_if_player( _( "You lower yourself from the ledge." ) );
         g->vertical_move( -1, true );
     } else {
+        // The player slipped.  This result leaves the player in mid-air, about to fall.
         return;
     }
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {

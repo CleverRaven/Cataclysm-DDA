@@ -1688,7 +1688,7 @@ class Character : public Creature, public visitable
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic &bio );
         /** Adds a bionic to my_bionics[] */
-        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0 );
+        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0, bool suppress_debug = false );
         /**Calculate skill bonus from tiles in radius*/
         float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
@@ -1907,10 +1907,11 @@ class Character : public Creature, public visitable
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @param charges_in_it the amount of charges to be handled (default is whole)
+         * @param bulk_cost Calculate costs excluding overhead, such as when loading and unloading items in bulk (default is false)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1 ) const;
+                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1, bool bulk_cost = false ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container

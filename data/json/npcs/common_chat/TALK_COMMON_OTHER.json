@@ -403,7 +403,7 @@
     "id": "TALK_SHARE_EQUIPMENT",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect": "infected",
+      "npc_has_effect": "asked_for_item",
       "yes": "You just asked me for stuff; ask later.",
       "no": "Why should I share my equipment with you?"
     },
@@ -416,7 +416,7 @@
         "default": true,
         "condition": { "u_has_item": "mininuke" },
         "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
-        "opinion": { "value": -1 }
+        "opinion": { "trust": -6, "fear": 5, "value": -1, "anger": 5 }
       },
       {
         "text": "Because I'm your friend!",
@@ -428,7 +428,7 @@
           "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
           "opinion": { "value": -1 }
         },
-        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
+        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1, "anger": 2 } }
       },
       {
         "text": "Well, I am helping you out…",
@@ -441,7 +441,7 @@
           "mod": [ [ "TRUST", 1 ], [ "VALUE", 2 ], [ "ALTRUISM", 1 ], [ "MISSIONS", 1 ] ]
         },
         "success": { "topic": "TALK_GIVE_EQUIPMENT", "effect": "give_equipment" },
-        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
+        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1, "anger": 2 } }
       },
       {
         "text": "I'll give it back!",
@@ -453,7 +453,7 @@
           "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
           "opinion": { "value": -1 }
         },
-        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -1, "value": -1 } }
+        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -1, "value": -1, "anger": 2 } }
       },
       {
         "text": "Give it to me, or else!",
@@ -465,11 +465,17 @@
           "effect": {
             "give_equipment": { "allowance": [ [ "U_INTIMIDATE", 1 ], [ "NPC_INTIMIDATE", -1 ], [ "FEAR", 1 ], [ "BRAVERY", -1 ], [ "TOTAL", 500 ] ] }
           },
-          "opinion": { "trust": -3, "fear": 2, "value": -2, "anger": 2 }
+          "opinion": { "trust": -3, "fear": 2, "value": -2, "anger": 3 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -3, "fear": 1, "value": -3, "anger": 5 } }
       },
-      { "text": "Eh, never mind.", "topic": "TALK_NONE" },
+      {
+        "text": "Eh, never mind.",
+        "switch": true,
+        "default": true,
+        "condition": { "npc_has_effect": "asked_for_item" },
+        "topic": "TALK_NONE"
+      },
       { "text": "Never mind, I'll do without.  Bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -478,9 +484,17 @@
     "type": "talk_topic",
     "dynamic_line": "Okay, here you go.",
     "responses": [
-      { "text": "Thank you!", "topic": "TALK_NONE" },
-      { "text": "Thanks!  But can I have some more?", "topic": "TALK_SHARE_EQUIPMENT" },
-      { "text": "Thanks, see you later!", "topic": "TALK_DONE" }
+      { "text": "Thank you!", "topic": "TALK_NONE", "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 } },
+      {
+        "text": "Thanks!  But can I have some more?",
+        "topic": "TALK_SHARE_EQUIPMENT",
+        "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
+      },
+      {
+        "text": "Thanks, see you later!",
+        "topic": "TALK_DONE",
+        "effect": { "npc_add_effect": "asked_for_item", "duration": 86400 }
+      }
     ]
   },
   {

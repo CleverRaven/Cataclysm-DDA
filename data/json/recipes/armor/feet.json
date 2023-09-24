@@ -242,7 +242,8 @@
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 10 ] ]
   },
   {
     "result": "xs_boots_faux_fur",
@@ -310,7 +311,8 @@
       [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
       [ [ "sheet_faux_fur", 2 ], [ "sheet_faux_fur_patchwork", 2 ] ],
       [ [ "faux_fur", 8 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "xs_boots_wsurvivor_nofur",
@@ -332,7 +334,8 @@
       [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
       [ [ "sheet_faux_fur", 2 ], [ "sheet_faux_fur_patchwork", 2 ] ],
       [ [ "faux_fur", 4 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 7 ] ]
   },
   {
     "result": "xl_boots_wsurvivor_nofur",
@@ -369,7 +372,8 @@
       [ [ "thread_nomex", 30 ] ],
       [ [ "sheet_faux_fur", 4 ], [ "sheet_faux_fur_patchwork", 4 ] ],
       [ [ "faux_fur", 12 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
   },
   {
     "result": "boots_h20survivor",
@@ -961,10 +965,10 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "time": "1 m 30 s",
-    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "sheet_faux_fur_patchwork", 2 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_HARD" ],
+    "byproducts": [ [ "scrap_faux_fur", 6 ] ]
   },
   {
     "result": "footrags_leather",

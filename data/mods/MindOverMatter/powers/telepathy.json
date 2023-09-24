@@ -378,5 +378,61 @@
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -3.5
+  },
+  {
+    "id": "telepathic_network",
+    "type": "SPELL",
+    "name": "[Ψ]Network Effect",
+    "description": "Forge an unconscious telepathic network between you and nearby allies, allowing you all to send and receive information about nearby dangers and react more quickly in combat.  The network requires at least one ally nearby to be effective.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPATH_NETWORK_ALLY_CHECK",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_network') * 1500) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_network') * 3000) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6500,
+    "final_energy_cost": 3750,
+    "energy_increment": -175,
+    "base_casting_time": 500,
+    "final_casting_time": 250,
+    "casting_time_increment": -15
+  },
+  {
+    "id": "telepathic_network_real",
+    "type": "SPELL",
+    "name": "[Ψ]Network Effect Real",
+    "description": "The actual power that implements the Network Effect.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telepath_network_effect",
+    "shape": "blast",
+    "difficulty": 9,
+    "min_aoe": 60,
+    "max_aoe": 60,
+    "//": "Ideally range would scale with power level, but there would need to be a way to detect nearby allies first instead of just any ally in the bubble.",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_network') * 1500) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_network') * 3000) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
   }
 ]

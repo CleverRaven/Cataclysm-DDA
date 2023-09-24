@@ -169,5 +169,20 @@
     "name": "GROUP_CIVILIANS_STANDARD",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_CIVILIANS_PSYCHIC_FERAL", "weight": 10, "cost_multiplier": 2 } ]
+  },
+  {
+    "name": "GROUP_BEARS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "45 days", "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE",
+    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "45 days", "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+    "monsters": [ { "monster": "mon_hidebehind", "weight": 1, "starts": "45 days", "cost_multiplier": 10 } ]
   }
 ]

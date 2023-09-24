@@ -69,7 +69,7 @@
     "id": "super_hot_bracelet",
     "type": "TOOL_ARMOR",
     "name": { "str": "propulsion bracelet" },
-    "description": "It feels like the world around you just stops.  That's not true, that's just a combination of really fast speed and some mana tricks you can't understand.  Require a whole week to restore its charge.",
+    "description": "It feels like the world around you just stops.  That's not true, that's just a combination of really fast speed and some mana tricks you can't understand.  Requires a whole week to restore its charge.",
     "price_postapoc": "8500 USD",
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },

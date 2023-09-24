@@ -180,6 +180,88 @@
     ]
   },
   {
+    "id": "integrated_arvore_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "arvore eyes" },
+    "description": "Your eyes now reflect the seasons: green, yellow, red, orange, or brown.  You are also immune to the glare of the sun.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "green",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "integrated_arvore_thorns",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "woody thorns" },
+    "description": "Your skin is covered in thick, woody thorns.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood" ],
+    "symbol": ",",
+    "color": "green",
+    "to_hit": 1,
+    "flags": [ "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_wood", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 4 }
+  },
+  {
+    "id": "integrated_arvore_claws",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "jagged  wooden claws" },
+    "description": "Your hands and fingers have transformed into jagged wooden claws.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood" ],
+    "symbol": ",",
+    "color": "brown",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_wood", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
+    ],
+    "melee_damage": { "cut": 10 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -10 } ] } ]
+    }
+  },
+  {
     "id": "integrated_coal_skin",
     "type": "ARMOR",
     "category": "armor",
@@ -284,6 +366,46 @@
     ]
   },
   {
+    "id": "integrated_undine_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "undine eyes" },
+    "description": "Your eyes now reflect your mood in the colors of the deep waters.  From an aquamarine blue when you are pleased to the pitch black of the depths when you are angry or sad.  You are also immune to the glare of the sun and can see under water.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "SWIM_GOGGLES",
+      "NO_SALVAGE"
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
     "id": "integrated_cloud_skin",
     "type": "ARMOR",
     "category": "armor",
@@ -330,6 +452,46 @@
         "coverage": 100,
         "encumbrance": 0,
         "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_sylph_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sylph eyes" },
+    "description": "Your eyes now reflect your mood in different weather patterns.  Clear blue skies when you are pleased and storms when you are mad.  You are also immune to the glare of the sun.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "SWIM_GOGGLES",
+      "NO_SALVAGE"
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
       }
     ]
   },

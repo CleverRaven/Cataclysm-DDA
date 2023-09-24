@@ -156,17 +156,17 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
@@ -1300,8 +1300,8 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
-    flags |= g->check_near_zone( zone_type_zone_unload_all, player_character.pos() ) ||
-             g->check_near_zone( zone_type_zone_strip, player_character.pos() ) ? UnloadLoot : 0;
+    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
@@ -1320,7 +1320,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
                                  player_character.pos() ) ? MultiButchery : 0;
     flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
-    flags |= g->check_near_zone( zone_type_zone_disassemble,
+    flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
     if( flags == 0 ) {
@@ -2411,6 +2411,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                 }
             }
+            break;
+
+        case ACTION_INSERT_ITEM:
+            insert_item();
             break;
 
         case ACTION_UNLOAD_CONTAINER:

@@ -2753,10 +2753,13 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
+bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
+                                  bool suppress_debug )
 {
     if( has_bionic( b ) && !b->dupes_allowed ) {
-        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        if( !suppress_debug ) {
+            debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        }
         return 0;
     }
 
@@ -2775,7 +2778,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
     }
 
     for( const bionic_id &inc_bid : b->included_bionics ) {
-        add_bionic( inc_bid, bio_uid );
+        add_bionic( inc_bid, bio_uid, suppress_debug );
     }
 
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {

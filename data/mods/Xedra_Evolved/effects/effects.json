@@ -11,6 +11,46 @@
   },
   {
     "type": "effect_type",
+    "id": "buoyant",
+    "name": [ "Buoyant" ],
+    "desc": [ "You are more buoyant than before.  This will make swimming much easier." ],
+    "apply_message": "You feel more buoyant!",
+    "remove_message": "You feel less buoyant.",
+    "rating": "good",
+    "max_duration": "8 h",
+    "limb_score_mods": [ { "limb_score": "swim", "modifier": 2 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "acidic_mist",
+    "name": [ "Acidic mist" ],
+    "desc": [ "The mist is burning you!" ],
+    "apply_message": "The mist is burning you!",
+    "rating": "bad",
+    "max_duration": "30 s",
+    "max_intensity": 5,
+    "int_dur_factor": "5 s",
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 1 ],
+      "hurt_chance_bot": [ 10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_chance_bot": [ 10 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 1 ], "pain_chance": [ 1 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "vamp_blood_weave",
+    "removes_effects": [ "infected", "bite", "bleed" ],
+    "rating": "good",
+    "apply_message": "Your wound closes up and covers over instantly."
+  },
+  {
+    "type": "effect_type",
     "id": "xtr_str_aspirin",
     "max_duration": "4 m",
     "base_mods": {
@@ -323,7 +363,11 @@
       "Your skin is pale and your eyes are thoroughly bloodshot.",
       "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
-    "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
+    "apply_message": [
+      [ "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.", "bad" ],
+      [ "Your iris slowly turns red from the outside in.", "bad" ],
+      [ "There is an emptiness in your stomach and soul that can no longer be filled with mortal joys.", "bad" ]
+    ],
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
@@ -332,7 +376,6 @@
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
     "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
-    "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
@@ -659,6 +702,130 @@
     "show_intensity": false,
     "show_in_info": false,
     "enchantments": [ { "emitter": "emit_blood_karma" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "natures_commune",
+    "name": [ "Commune with Nature" ],
+    "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
+    "apply_message": "You can feel the lifeblood of nature all around, welcoming you as kin.",
+    "remove_message": "Your communion with nature fades.",
+    "rating": "good",
+    "max_duration": "360 m",
+    "dur_add_perc": 5,
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 50 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 100 ], "health_tick": [ 60 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hungry_roots",
+    "name": [ "Hungry Thirsty Roots" ],
+    "desc": [ "Roots and vines clutch at you." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "remove_message": "The roots and vines wither up and die.",
+    "base_mods": { "speed_mod": [ -30 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "arvore_verdant_infusion",
+    "name": [ "Verdant Infusion" ],
+    "desc": [ "You are filled with the vitality of nature." ],
+    "apply_message": "You can feel the power of nature flowing through you.",
+    "remove_message": "The power of nature fades from you.",
+    "rating": "good",
+    "max_duration": "12 h",
+    "base_mods": {
+      "str_mod": [ 1 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 30 ],
+      "h_mod_min": [ 1 ],
+      "h_mod_chance": [ 80 ],
+      "health_tick": [ 30 ],
+      "healing_rate": [ 2 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "arvore_perennial_rebirth_cooldown",
+    "name": [ "Reborn" ],
+    "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_1",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 1 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_2",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 2 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_dodge_bonus_3",
+    "name": [ "Enhanced Dodging" ],
+    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced dodging ability fades away.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 3 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
   },
   {
     "type": "mutation",

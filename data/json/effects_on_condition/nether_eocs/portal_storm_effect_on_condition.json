@@ -1075,6 +1075,19 @@
     }
   },
   {
+    "id": "EOC_DEATH_PORTAL_DUNGEON",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "effect": [
+      {
+        "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_EXIT" }
+    ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
     "effect": { "u_add_effect": "weakened_inertia", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
@@ -1149,5 +1162,181 @@
         "spawn_message_plural": "Several identical people walk nearby from nowhere."
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "MAKAYLA_MUTATOR_portal_storm",
+    "recurrence": "15 minutes",
+    "//": "The assumption is that Makayla controls this normally, so the effects are only active when she's the avatar.  Thus global:true.",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "u_has_trait": "MAKAYLA_MUTATOR" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "u_message": "Everything feels fuzzy.", "type": "info" },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
+      {
+        "run_eocs": [
+          {
+            "id": "cat_ears_portal_storm",
+            "condition": { "not": { "u_has_trait": "FELINE_EARS" } },
+            "effect": [
+              { "u_message": "It didn't take very long for the ears to be back.", "type": "info" },
+              { "u_add_trait": "FELINE_EARS" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "record_portal_storm_data",
+    "recurrence": "5 minutes",
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "one_in_chance": 12 } ] },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
+      }
+    },
+    "effect": [
+      { "math": [ "u_portal_storm_record", "++" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "large_printout_portal_storm_data_ping",
+            "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+            "effect": [ { "u_message": "The NRE recorder emits a three beep sequence!", "type": "info" } ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "medium_printout_portal_storm_data_ping",
+                    "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+                    "effect": [ { "u_message": "The NRE recorder emits a two beep sequence!", "type": "info" } ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "small_printout_portal_storm_data_ping",
+                            "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+                            "effect": [ { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "capture_generic_nre_anomaly",
+    "global": true,
+    "condition": { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+    "effect": [
+      { "math": [ "u_generic_nre_anomaly", "++" ] },
+      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_on_kill_capture_generic_nre_anomaly",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "//": "Only add monsters with significant reality altering powers, not just anything in the nether species.",
+    "condition": {
+      "and": [
+        { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
+        {
+          "or": [
+            { "compare_string": [ "mon_hound_tindalos", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_darkman", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_zombie_phase_shrike", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_swarm_structure", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_better_half", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_hallucinator", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_archunk_strong", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_void_spider", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_generic_nre_anomaly", "++" ] },
+      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "print_nre_data",
+    "condition": { "or": [ { "math": [ "u_portal_storm_record", ">", "0" ] }, { "math": [ "u_generic_nre_anomaly", ">", "0" ] } ] },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "large_printout_portal_storm_data",
+          "condition": { "math": [ "u_portal_storm_record", ">=", "25" ] },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "large_printout_portal_storm_data", "count": 1 },
+            { "math": [ "u_portal_storm_record", "=", "0" ] }
+          ]
+        },
+        {
+          "id": "medium_printout_portal_storm_data",
+          "condition": { "math": [ "u_portal_storm_record", ">=", "3" ] },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "medium_printout_portal_storm_data", "count": 1 },
+            { "math": [ "u_portal_storm_record", "=", "0" ] }
+          ]
+        },
+        {
+          "id": "small_printout_portal_storm_data",
+          "condition": { "math": [ "u_portal_storm_record", ">=", "1" ] },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "small_printout_portal_storm_data", "count": 1 },
+            { "math": [ "u_portal_storm_record", "=", "0" ] }
+          ]
+        },
+        {
+          "id": "printout_nre_anomaly_data",
+          "condition": { "math": [ "u_generic_nre_anomaly", ">=", "1" ] },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "nre_anomaly_printout_data", "count": { "u_val": "generic_nre_anomaly", "default": 1 } },
+            { "math": [ "u_generic_nre_anomaly", "=", "0" ] }
+          ]
+        }
+      ]
+    },
+    "false_effect": { "u_message": "The recorder prints: \"NO DATA\" in a short piece of paper", "type": "info" }
   }
 ]

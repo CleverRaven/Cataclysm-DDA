@@ -194,7 +194,7 @@
     "time": "30 s",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "fridge", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
+    "components": [ [ [ "fridge", 1 ] ], [ [ "rope_30", 1 ], [ "rope_6", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -205,6 +205,6 @@
     "time": "30 s",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "freezer", 1 ] ], [ [ "rope_30", 1 ], [ "rope_30", 5 ] ] ]
+    "components": [ [ [ "freezer", 1 ] ], [ [ "rope_30", 1 ], [ "rope_6", 5 ] ] ]
   }
 ]

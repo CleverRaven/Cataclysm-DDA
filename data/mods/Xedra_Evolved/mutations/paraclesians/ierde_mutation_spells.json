@@ -1,0 +1,21 @@
+[
+  {
+    "id": "ierde_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Cultivate Goblin Fruit",
+    "description": "You may spin a bit of fae magic into the earth, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_IERDE_GOBLIN_FRUIT",
+    "shape": "blast",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 450
+  }
+]
