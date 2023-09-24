@@ -4553,24 +4553,30 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
             for( const str_or_var &id : item_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
-            std::vector<item *> target_items = d.actor( is_npc )->items_with( [worn_only, guy,
-                       ids]( const item & it ) {
-                if( worn_only && !guy->is_worn( it ) ) {
-                    return false;
+            std::vector<item_location> target_items;
+            for( auto loc : guy->all_items_loc() ) {
+                if( worn_only && !guy->is_worn( *loc ) ) {
+                    continue;
                 }
-                for( const std::string &id : ids ) {
-                    if( id == it.type->get_id().str() ) {
-                        return true;
+                if( ids.empty() ) {
+                    target_items.push_back( loc );
+                } else {
+                    for( const std::string &id : ids ) {
+                        if( id == loc->type->get_id().str() ) {
+                            target_items.push_back( loc );
+                            break;
+                        }
                     }
                 }
-                return ids.empty();
-            } );
-            for( item *target : target_items ) {
+            }
+            for( item_location target : target_items ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
-                    item_location loc = item_location( *guy, target );
-                    dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
-                                                   d.get_conditionals(), d.get_context() );
-                    eoc->activate( newDialog );
+                    // Check if item is outdated.
+                    if( target.get_item() ) {
+                        dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( target ),
+                                                       d.get_conditionals(), d.get_context() );
+                        eoc->activate( newDialog );
+                    }
                 }
             }
         }
@@ -5150,7 +5156,7 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_vi
         success_message.str_val = "";
     }
     bool force = jo.get_bool( "force", false );
-    function = [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
+    function = [is_npc, target_var, fail_message, success_message, force]( dialogue & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
@@ -5160,6 +5166,17 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_vi
             } else {
                 teleporter->add_msg_if_player( _( fail_message.evaluate( d ) ) );
             }
+        }
+        item_location *it = d.actor( is_npc )->get_item();
+        if( it && it->get_item() ) {
+            if( get_map().inbounds( target_pos ) ) {
+                get_map().add_item_or_charges( get_map().getlocal( target_pos ), *it->get_item() );
+            } else {
+                tinymap target_bay;
+                target_bay.load( project_to<coords::sm>( target_pos ), false );
+                target_bay.add_item_or_charges( target_bay.getlocal( target_pos ), *it->get_item() );
+            }
+            it->remove_item();
         }
     };
 }
