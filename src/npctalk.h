@@ -54,6 +54,7 @@ void do_mining( npc & );
 void do_mopping( npc & );
 void do_read( npc & );
 void do_eread( npc & );
+void do_read_repeatedly( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
 void do_vehicle_repair( npc & );
@@ -110,30 +111,24 @@ void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
 void pick_style( npc &p );
+void do_craft( npc & );
 void do_disassembly( npc &p );
 } // namespace talk_function
 
-time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill );
-int calc_skill_training_cost( const npc &p, const skill_id &skill );
 int calc_skill_training_cost_char( const Character &teacher, const Character &student,
                                    const skill_id &skill );
-time_duration calc_proficiency_training_time( const proficiency_id &proficiency );
 time_duration calc_proficiency_training_time( const Character &teacher, const Character &student,
         const proficiency_id &proficiency );
-int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency );
 int calc_proficiency_training_cost( const Character &teacher, const Character &student,
                                     const proficiency_id &proficiency );
-time_duration calc_ma_style_training_time( const npc &p, const matype_id &id );
 time_duration calc_ma_style_training_time( const Character &teacher, const Character &student,
         const matype_id &id );
-int calc_ma_style_training_cost( const npc &p, const matype_id &id );
 int calc_ma_style_training_cost( const Character &teacher, const Character &student,
                                  const matype_id &id );
 time_duration calc_spell_training_time( const Character &teacher, const Character &student,
                                         const spell_id &id );
-int calc_spell_training_cost_gen( bool knows, int difficulty, int level );
 int calc_spell_training_cost( const Character &teacher, const Character &student,
                               const spell_id &id );
 

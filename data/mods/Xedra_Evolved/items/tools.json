@@ -182,5 +182,22 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ";",
     "color": "light_gray"
+  },
+  {
+    "id": "sacrifice_table",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "sacrifice table" },
+    "description": "A magickal space where offerings are sacrificed and transformed.",
+    "weight": "1000 g",
+    "volume": "5000ml",
+    "price": 2000,
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "stone" ],
+    "looks_like": "glass_tube_small",
+    "symbol": "N",
+    "color": "light_blue",
+    "qualities": [ [ "SACRIFICE", 1 ] ]
   }
 ]

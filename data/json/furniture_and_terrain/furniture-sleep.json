@@ -12,7 +12,7 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -44,7 +44,7 @@
       "items": [ { "item": "mattress", "count": 1 }, { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 10, 20 ] } ],
       "furn_set": "f_bed"
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -142,7 +142,7 @@
         { "item": "sheet_metal_small", "count": 12 }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 25,
       "str_max": 60,
@@ -167,7 +167,7 @@
     "coverage": 40,
     "required_str": 5,
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -295,7 +295,7 @@
         { "item": "nail", "charges": [ 4, 6 ] }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -322,7 +322,7 @@
     "floor_bedding_warmth": 200,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 120, 140 ] } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 6,
       "str_max": 20,

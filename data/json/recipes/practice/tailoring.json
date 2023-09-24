@@ -87,7 +87,8 @@
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "components": [ [ [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ], [ "lycra_patch", 2 ] ] ],
-    "using": [ [ "sewing_standard", 20 ] ]
+    "using": [ [ "sewing_standard", 20 ] ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "id": "prac_leather_beg",

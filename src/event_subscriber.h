@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_EVENT_SUBSCRIBER_H
 #define CATA_SRC_EVENT_SUBSCRIBER_H
 

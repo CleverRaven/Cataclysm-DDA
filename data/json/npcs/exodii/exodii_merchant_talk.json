@@ -196,6 +196,15 @@
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {
+        "text": "I found the warehouse.",
+        "condition": { "and": [ { "u_has_var": "u_found_warehouse", "type": "mission", "context": "completed", "value": "yes" } ] },
+        "effect": [
+          { "u_lose_var": "u_found_warehouse", "type": "mission", "context": "completed" },
+          { "arithmetic": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "=", { "const": 1 } ] }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
+      },
+      {
         "text": "Any chance you could help me get some of those sweet bionic upgrades?",
         "topic": "TALK_EXODII_MERCHANT_Exodize",
         "condition": {
@@ -269,6 +278,7 @@
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
         "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
       },
+      { "text": "Have you anything more back there?", "topic": "TALK_EXODII_MERCHANT_AskedRestock" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -322,6 +332,16 @@
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [ "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?.  Sure as 'ell, come back in <interval>." ],
+    "//~": "HEH, you can't get enough of old Rubik's merchandise, eh? Sure as hell, come back in <interval>.",
+    "responses": [
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, thanks.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -735,7 +755,13 @@
           "no": [
             {
               "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ],
-              "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
+              "yes": [
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ],
+                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
+                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?"
+                }
+              ],
               "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?"
             }
           ]
@@ -755,6 +781,19 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
+      },
+      {
+        "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
+            {
+              "not": { "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ] }
+            },
+            { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_intro"
       },
       { "text": "I'm not interested in anything right now.  I'll see you around.", "topic": "TALK_DONE" }
     ]

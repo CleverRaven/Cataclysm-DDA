@@ -1,38 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "solar_farm_spawn",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "faction_owner": [ { "id": "gods_community", "x": [ 1, 1 ], "y": [ 1, 1 ] } ],
-      "place_vehicles": [ { "vehicle": "makeshift_solar_farm", "x": 1, "y": 1, "chance": 100, "status": 0 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "olwen_radio_adapter",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "." ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_radio_tower" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "spawn_planer",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "." ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { ".": "f_planer" }
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "darryl_place_coop",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "darryl_coop" ], "x": 10, "y": 10 } ] }
@@ -125,8 +93,14 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "godco_permanent_trader_add",
+    "update_mapgen_id": "godco_permanent_trader_change",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader" ], "x": 1, "y": 8 } ] }
+    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader_predatory_remove" ], "x": 1, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "godco_permanent_trader_predatory_add",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader_predatory" ], "x": 1, "y": 8 } ] }
   }
 ]

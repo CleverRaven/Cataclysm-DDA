@@ -102,8 +102,9 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
+- ```EAT_CARRION``` The monster will nibble on organic corpses, including zombies and plants, damaging them and filling its stomach if it has the EATS flag.
 - ```EAT_CROP``` The monster eats an adjacent planted crop.
-- ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20).
+- ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20). If paired with the EATS flag, this will fill its stomach.
 - ```EVOLVE_KILL_STRIKE``` Damages the target's torso (damage scales with monster's melee dice), if it succeeds in killing a fleshy target the monster will upgrade to its next evolution.
 - ```FEAR_PARALYZE``` Paralyzes the player with fear.
 - ```FLAMETHROWER``` Shoots a stream of fire.
@@ -186,7 +187,6 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `accuracy`                  | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			      | List, If empty the regular melee roll body part selection is used.  If non-empty, a body part is selected from the map to be targeted using the provided weights.
 |						      | targeted with a chance proportional to the value.
-| `attack_chance`		      | Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
 | `condition`                 | Object, dialog conditions enabling the attack - see `NPC.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
@@ -284,8 +284,7 @@ Casts a separately-defined spell at the monster's target.  Spells with `target_s
 | ---                            | ------------------------------------------------------------------------------------------------------- |
 | `spell_data`                   | List of spell properties for the attack.                                                                |
 | `min_level`                    | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.    |
-| `cooldown `                    | How often the monster can cast this spell.                                                              |
-| `attack_chance`                | Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.    |
+| `cooldown `                    | How often the monster can cast this spell.
 | `monster_message`              | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`. |
 | `condition`                    | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the casting monster and `npc` to the target unless the spell allows no target (in which case only self-conditions can be defined).
 | `allow_no_target`              | Bool, default `false`. If `true` the monster will cast it even without a hostile target.                |
@@ -299,7 +298,6 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 | ---                     | ---------------------------------------------------------------------------------------------------- |
 | `max_range`             | (Required) Float, maximal range of the jump.  Respects circular distance setting!                    |
 | `min_range`             | (Required) Float, minimal range of the jump.  Respects circular distance setting!                    |
-| `attack_chance`         | Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100. |
 | `prefer_leap`           | Leap even when adjacent to target, will still choose the closest acceptable destination.             |
 | `random_leap`           | Disregard target location entirely when leaping, leading to completely random jumps.                 |
 | `allow_no_target`       | Default `false` prevents monster from using the ability without a hostile target at its destination. |

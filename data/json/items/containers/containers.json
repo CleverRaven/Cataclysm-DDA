@@ -2,7 +2,7 @@
   {
     "id": "2lcanteen",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "2.5L canteen" },
     "looks_like": "bottle_plastic",
     "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
@@ -336,12 +336,12 @@
     "name": { "str": "body bag" },
     "looks_like": "bag_canvas",
     "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Intended to hold a dead body.",
-    "weight": "1500 g",
-    "volume": "1 L",
-    "longest_side": "40 cm",
-    "price": 0,
+    "weight": "1061 g",
+    "volume": "5500 ml",
+    "//1": "This is ~85% of the package volume from the amazon listing, with the assumption that the player would be squishing it harder to condense the volume.",
+    "price": "30 USD",
     "price_postapoc": 10,
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
@@ -353,7 +353,9 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE" ],
+    "//2": "Based on https://www.amazon.com/dp/B0BYPB5DMW"
   },
   {
     "id": "heavy_punching_bag_sack",
@@ -447,6 +449,7 @@
     "description": "A watertight plastic bottle, holds 500ml of liquid.  Some may be factory-sealed to increase shelf life.",
     "weight": "13 g",
     "volume": "510 ml",
+    "longest_side": "18 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -478,6 +481,7 @@
     "description": "An inverted plastic bottle for condiments.  Preserves its contents from rot until opened.",
     "weight": "19 g",
     "volume": "525 ml",
+    "longest_side": "22 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -508,6 +512,7 @@
     "description": "A watertight plastic bottle, holds 250ml of liquid.",
     "weight": "7 g",
     "volume": "255 ml",
+    "longest_side": "14 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -582,6 +587,7 @@
     "description": "A two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
     "weight": "53 g",
     "volume": "2040 ml",
+    "longest_side": "31 cm",
     "price": 25,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -634,6 +640,32 @@
     "looks_like": "bowl_plastic",
     "description": "A crude-looking wooden bowl which can hold some liquid.",
     "weight": "48 g",
+    "volume": "300 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "bowl_coconut",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "coconut bowl" },
+    "looks_like": "bowl_wood",
+    "description": "A single half of a coconut with the meat removed.  Usable as a bowl to hold some liquid.",
+    "weight": "55 g",
     "volume": "300 ml",
     "price": 100,
     "price_postapoc": 10,
@@ -1201,6 +1233,7 @@
     "ascii_picture": "bucket",
     "weight": "725 g",
     "volume": "5500 ml",
+    "longest_side": "25 cm",
     "price": 300,
     "price_postapoc": 10,
     "material": [ "steel" ],
@@ -1324,6 +1357,7 @@
     "description": "A half-gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
     "weight": "28 g",
     "volume": "2003 ml",
+    "longest_side": "32 cm",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1379,6 +1413,7 @@
     "description": "A cardboard container with 12 individual cavities for storing eggs.",
     "weight": "28 g",
     "volume": "620 ml",
+    "longest_side": "29 cm",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1433,6 +1468,7 @@
     "//": "Represents a 4 cm radius x 5 cm height steel can.",
     "weight": "40 g",
     "volume": "262 ml",
+    "longest_side": "8 cm",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "steel" ],
@@ -1461,6 +1497,7 @@
     "//": "Represents a 4 cm radius x 10 cm height steel can.",
     "looks_like": "can_food",
     "weight": "70 g",
+    "longest_side": "10 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1479,12 +1516,13 @@
   {
     "id": "canteen",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "plastic canteen" },
     "looks_like": "2lcanteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": "155 g",
     "volume": "1575 ml",
+    "longest_side": "20 cm",
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
@@ -1523,9 +1561,10 @@
     "looks_like": "bottle_plastic",
     "description": "A Thermos brand vacuum flask.  Built for temperature retention, helps keep things hot or cold.  Contains 1L of liquid.",
     "weight": "530 g",
+    "volume": "1250 ml",
+    "longest_side": "32 cm",
     "price": 1595,
     "price_postapoc": 100,
-    "volume": "1250 ml",
     "material": [ "steel" ],
     "symbol": "I",
     "color": "green",
@@ -1820,7 +1859,7 @@
   {
     "id": "flask_hip",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
     "description": "A 250ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
@@ -1869,7 +1908,7 @@
     "volume": "3530 ml",
     "longest_side": "20 cm",
     "price": "20 USD",
-    "price_postapoc": 10,
+    "price_postapoc": 60,
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
@@ -1900,6 +1939,7 @@
     "volume": "690 ml",
     "longest_side": "127 mm",
     "price": "5 USD",
+    "price_postapoc": 10,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1927,6 +1967,7 @@
     "description": "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "1587 g",
     "volume": "10500 ml",
+    "longest_side": "33 cm",
     "price": 1250,
     "price_postapoc": 50,
     "to_hit": -2,
@@ -2010,6 +2051,7 @@
     "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
     "volume": "3825 ml",
+    "longest_side": "28 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -2036,13 +2078,14 @@
     "name": { "str": "gallon can" },
     "looks_like": "jerrycan_big",
     "description": "A large tin with a handle and a cap, meant for holding camp fuel or some other oil.  Looks like it could store just over a gallon.",
-    "weight": "36 g",
-    "volume": "4000 ml",
-    "price": 4000,
+    "weight": "363 g",
+    "volume": "4290 ml",
+    "price": "12 USD",
+    "//1": "Price calculated from https://www.uline.com/Product/Detail/S-22157/Hazardous-Materials-Packaging/Metal-F-Style-Can-with-Cap-1-Gallon",
     "price_postapoc": 400,
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
-    "longest_side": "22 cm",
+    "longest_side": "24 cm",
     "symbol": ")",
     "color": "red",
     "pocket_data": [
@@ -2055,7 +2098,8 @@
         "max_contains_weight": "14 kg"
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet"
   },
   {
     "id": "keg",
@@ -2200,7 +2244,7 @@
   {
     "id": "canteen_wood",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "wooden canteen" },
     "looks_like": "canteen",
     "description": "A water canteen made from wood, secured by metal bands and sealed with wax or pitch.  Holds 1.5 liters and has a simple carry strap.",
@@ -2268,7 +2312,8 @@
     "looks_like": "smart_phone",
     "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
     "weight": "50 g",
-    "volume": "125 ml",
+    "volume": "150 ml",
+    "longest_side": "16 cm",
     "price": 1000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
@@ -2846,6 +2891,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "100 ml",
         "max_contains_weight": "230 g",
+        "max_item_length": "15 cm",
         "moves": 100,
         "watertight": true,
         "rigid": true,
@@ -2882,7 +2928,7 @@
   {
     "id": "waterskin",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "small waterskin" },
     "looks_like": "canvas_bag",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
@@ -2920,7 +2966,7 @@
   {
     "id": "waterskin2",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "waterskin" },
     "looks_like": "waterskin",
     "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
@@ -2957,7 +3003,7 @@
   {
     "id": "waterskin3",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "large waterskin" },
     "looks_like": "waterskin2",
     "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
@@ -3621,7 +3667,9 @@
         "watertight": true,
         "open_container": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "//": "sealed_data is here so the container can be sealed to avoid spilling",
+        "sealed_data": { "spoil_multiplier": 1.0 }
       }
     ]
   },
@@ -3684,7 +3732,7 @@
   {
     "id": "aquarium_medium_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
     "description": "A 50-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "45 kg",
@@ -3748,7 +3796,7 @@
   {
     "id": "aquarium_small_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
     "description": "A 30-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "22 kg",
@@ -3813,7 +3861,7 @@
   {
     "id": "aquarium_large_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
     "description": "A 100-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "80 kg",
@@ -3850,6 +3898,7 @@
   {
     "id": "small_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "small propane tank" },
     "description": "A small tank of propane, commonly used for camping stoves and torches.",
     "//": "1 gallon tank, filled to 80% for safety.  1.3lbs while empty",
@@ -3879,6 +3928,7 @@
   {
     "id": "medium_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "medium propane tank" },
     "description": "A medium-sized tank of propane, commonly used for barbeques.",
     "//": "5 gallon tank, filled to 80% for safety..  About 15lbs while empty.",
@@ -3908,6 +3958,7 @@
   {
     "id": "large_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "large propane tank" },
     "description": "A large tank of propane, commonly used for heating.",
     "//": "20 gallon tank, filled to 80% for safety.  About 50 lbs while empty.",
@@ -3937,6 +3988,7 @@
   {
     "id": "xl_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "extra large propane tank" },
     "description": "A massive tank of propane, commonly used for heating a home or vehicle.",
     "//": "100 gallon tank, filled to 80% for safety.  212 lbs while empty",
@@ -4106,7 +4158,7 @@
   {
     "id": "bottle_gourd",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "bottle gourd" },
     "looks_like": "clay_canister",
     "description": "A hard, watertight container made from a dried bottle gourd.  Can be used similar to a canteen or just for storing liquids.",
@@ -4150,6 +4202,7 @@
     "description": "A metal paint can, able to hold a gallon of liquid.",
     "weight": "400 g",
     "volume": "4325 ml",
+    "longest_side": "21 cm",
     "price": 10,
     "price_postapoc": 3,
     "material": [ "steel" ],
@@ -4175,6 +4228,7 @@
     "description": "A plastic paint can, able to hold a gallon of liquid.",
     "weight": "50 g",
     "volume": "4325 ml",
+    "longest_side": "21 cm",
     "price": 10,
     "price_postapoc": 3,
     "material": [ "plastic" ],

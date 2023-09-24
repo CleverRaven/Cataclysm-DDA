@@ -228,7 +228,7 @@
     "type": "item_group",
     "items": [
       { "item": "cup_plastic", "prob": 50 },
-      { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "group": "cigar_box_opened", "prob": 15, "count": [ 1, 2 ] },
       { "item": "matches", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 50, "charges": [ 1, 32 ] },

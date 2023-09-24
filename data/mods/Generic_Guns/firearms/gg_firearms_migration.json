@@ -438,6 +438,11 @@
     "replace": "shot_short_pump"
   },
   {
+    "id": [ "varmint_airgun" ],
+    "type": "MIGRATION",
+    "replace": "pellet_airgun"
+  },
+  {
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
     "replace": "small_shotgun"

@@ -184,7 +184,7 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 
                     Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, false, dummy->pos() );
+                    actor->use( dummy, flashlight, dummy->pos() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {
@@ -279,15 +279,15 @@ TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
         }
 
         SECTION( "has compatible magazines" ) {
-            CHECK( flashlight.can_contain( *itype_light_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_disposable_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ) );
+            CHECK( flashlight.can_contain( *itype_light_battery_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_disposable_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ).success() );
         }
 
         SECTION( "Does not fit medium or large magazines" ) {
-            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ) );
-            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ) );
+            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ).success() );
+            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ).success() );
         }
 
         SECTION( "has a default magazine" ) {

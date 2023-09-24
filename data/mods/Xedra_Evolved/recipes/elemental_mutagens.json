@@ -1,0 +1,211 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_earthkin",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "earthkin_tablet", 0 ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 3 ] ],
+      [
+        [ "arvore_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "arvore_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_plantkin",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "plantkin_parchment", 0 ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 3 ] ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_flamekin",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "flametouched_parchment", 0 ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 3 ] ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_waterkin",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "waterkin_tablet", 0 ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 3 ] ],
+      [
+        [ "arvore_sample", 1 ],
+        [ "ierde_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "arvore_sample", 1 ],
+        [ "ierde_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_dollkin",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "dollkin_tablet", 0 ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 3 ] ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "arvore_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "arvore_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_airkin",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "sylph_parchment", 0 ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 3 ] ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "salamander_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "salamander_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "elemental_mana_draught",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [
+      [ "sylph_parchment", 0 ],
+      [ "dollkin_tablet", 0 ],
+      [ "plantkin_parchment", 0 ],
+      [ "waterkin_tablet", 0 ],
+      [ "flametouched_parchment", 0 ],
+      [ "earthkin_tablet", 0 ]
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "water", 1 ] ], [ [ "material_soil", 1 ] ], [ [ "scrap_dreamdross", 6 ] ] ],
+    "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
+    "flags": [ "SECRET" ]
+  }
+]

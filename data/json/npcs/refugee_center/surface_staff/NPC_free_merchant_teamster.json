@@ -7,6 +7,7 @@
     "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": 3,
+    "death_eocs": [ "GODCO_TRADER_MISSION_DEATHFAIL" ],
     "chat": "TALK_FREE_MERCHANT_TEAMSTER",
     "faction": "free_merchants"
   },
@@ -90,6 +91,45 @@
         ],
         "switch": true,
         "default": true
+      },
+      {
+        "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
+        "condition": {
+          "and": [
+            {
+              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
+            },
+            { "u_has_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" },
+            { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader"
+      },
+      {
+        "text": "I think I've got the evidence you were looking for.",
+        "condition": {
+          "and": [
+            {
+              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
+            },
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            { "u_has_item": "godcotrader_accounting_records_dirty" }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success"
+      },
+      {
+        "text": "I think I've got the evidence you were looking for.",
+        "condition": {
+          "and": [
+            {
+              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
+            },
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            { "u_has_item": "godcotrader_accounting_records_clean" }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail"
       },
       {
         "text": "I wanted to tell you about a potential new trading partner I met recently.",
@@ -260,6 +300,156 @@
     "responses": [
       { "text": "Thanks so much!  Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
       { "text": "Thanks so much!  I have to go ask a few others, talk to you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader",
+    "type": "talk_topic",
+    "dynamic_line": "Oh yeah, they're my rookie representative.  I figured that those people wouldn't cause too much trouble for them, so I sent them over there.  What about them?",
+    "responses": [
+      {
+        "text": "I think they're gouging the prices for the people living there.",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Pricegouge"
+      },
+      { "text": "Nothing, nothing.  Can we talk about something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "Nevermind, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Pricegouge",
+    "type": "talk_topic",
+    "dynamic_line": "Is that so?  What makes you think that?  My accounting reports have come back clean, just like everybody else.",
+    "responses": [
+      {
+        "text": "Everything they sell I can buy for twice as less here, even a box of crackers is an arm and a leg.",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Investigation_Mission"
+      },
+      {
+        "text": "I guess you guys are a bunch of thieves if you charge that much.",
+        "opinion": { "anger": 2, "like": -2 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Forget I said anything, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Investigation_Mission",
+    "type": "talk_topic",
+    "dynamic_line": "Tell you what, if you can find some sort of evidence that proves they're shafting customers and bring it to me, I'll send someone to look in to it.",
+    "responses": [
+      {
+        "text": "Alright, you have yourself a deal.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What sort of \"evidence\" did you have in mind?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type"
+      },
+      { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Forget I said anything, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself",
+    "type": "talk_topic",
+    "dynamic_line": "Look, I have limited manpower these days, and not everyone can go off of a strangers word with no supporting evidence.",
+    "responses": [
+      {
+        "text": "Makes sense, I'll find you some evidence.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What sort of \"evidence\" did you have in mind?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type"
+      },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Forget it, since you're not interested in taking this seriously.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type",
+    "type": "talk_topic",
+    "dynamic_line": "I guess sales records could work, or stock lists of inventory that give a discrepancy between what's sold and what money comes in.",
+    "responses": [
+      {
+        "text": "I'll get right to it, see you later.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Who would have these sorts of things?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Who"
+      },
+      { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Let's pick this up later, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Who",
+    "type": "talk_topic",
+    "dynamic_line": "Well, there's somebody else who works there, handles all of the money management.  I'd look into them first, should be in the same spot the other guy is.",
+    "responses": [
+      {
+        "text": "Makes sense, I'll get right to it.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "I'm not doing any of this legwork for you, figure it out on your own.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success",
+    "type": "talk_topic",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"I'd say this is sufficient, here's some money for your trouble.  I'll get somebody on this.",
+    "responses": [
+      {
+        "text": "Glad to help.",
+        "effect": [
+          { "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 1 } ] },
+          { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+          { "u_spawn_item": "FMCNote", "count": 20 },
+          { "u_sell_item": "godcotrader_accounting_records_dirty" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail",
+    "type": "talk_topic",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"This seems perfectly alright to me.  I don't know what you have against them, but give it up and quit wasting our time.",
+    "responses": [
+      {
+        "text": "Alright then, <name_b>.  I guess that's what I get for my troubles.",
+        "effect": [
+          { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+          { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false },
+          { "u_sell_item": "godcotrader_accounting_records_clean" }
+        ],
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

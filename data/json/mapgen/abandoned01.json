@@ -551,7 +551,6 @@
         { "item": "ax", "x": 15, "y": 15 },
         { "item": "recurbow", "x": 16, "y": 15 },
         { "item": "quiver", "x": 16, "y": 15 },
-        { "item": "arrow_wood_heavy", "x": 16, "y": 15 },
         { "item": "knife_hunting", "x": 16, "y": 15 },
         { "item": "flashlight", "x": 11, "y": 16 },
         { "item": "child_book", "x": 11, "y": 16 },
@@ -567,6 +566,7 @@
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
         { "group": "stash_water", "x": [ 20, 20 ], "y": [ 15, 15 ], "chance": 80 },
         { "group": "stash_water", "x": [ 19, 19 ], "y": [ 15, 15 ], "chance": 80 },
+        { "group": "makeshift_archery_ammo", "x": 16, "y": 15 },
         { "item": "remington_700", "x": 13, "y": 15, "chance": 80, "ammo": 100 }
       ]
     }

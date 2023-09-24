@@ -1,0 +1,263 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_mayhem",
+    "object": {
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "24x24_mayhem_crash", "24x24_mayhem_limo", "24x24_mayhem_tire_change" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_crash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                      ~2",
+        "                    ~~  ",
+        "                ~~~~    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                1       ",
+        "                s       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_vehicles": [
+        { "vehicle": "car", "x": 18, "y": 9, "chance": 100, "fuel": 0, "status": 1, "rotation": 270 },
+        { "vehicle": "4x4_car", "x": 20, "y": 5, "chance": 100, "fuel": 0, "status": 1, "rotation": 0 }
+      ],
+      "item": { "s": { "item": "shot_hull", "chance": 100 } },
+      "items": {
+        "1": [ { "item": "corpses", "chance": 100 }, { "item": "guns_shotgun_common_display", "chance": 80 } ],
+        "2": [ { "item": "corpses", "chance": 100 }, { "item": "guns_pistol_common_display", "chance": 80 } ]
+      },
+      "place_item": [ { "item": "9mm_casing", "x": [ 15, 17 ], "y": [ 2, 4 ], "chance": 50, "repeat": 9 } ],
+      "fields": { "1": { "field": "fd_blood", "intensity": [ 1, 3 ] }, "~": { "field": "fd_blood" }, "2": { "field": "fd_blood" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_limo",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ~       ",
+        "                C       ",
+        "                ~       ",
+        "                C       ",
+        "                C       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_vehicles": [ { "vehicle": "limousine", "x": 18, "y": 9, "chance": 100, "fuel": 0, "status": 1, "rotation": 270 } ],
+      "items": { "C": { "item": "corpses", "chance": 100 } },
+      "place_item": [ { "item": "223_casing", "x": [ 10, 14 ], "y": [ 9, 13 ], "chance": 33, "repeat": 25 } ],
+      "fields": { "C": { "field": "fd_blood" }, "~": { "field": "fd_blood" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_tire_change",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               ~I       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_vehicles": [ { "vehicle": "car_mayhem_tire_change", "x": 18, "y": 12, "chance": 100, "fuel": 0, "status": 1, "rotation": 270 } ],
+      "item": { "I": [ { "item": "jack_small", "chance": 100 }, { "item": "lug_wrench", "chance": 100 } ] },
+      "items": { "I": [ { "item": "wheel_spare", "chance": 100 }, { "item": "wheel_busted", "chance": 100 } ] },
+      "fields": { "~": { "field": "fd_blood", "intensity": [ 1, 3 ] } },
+      "place_nested": [ { "chunks": [ "24x24_mayhem_tire_change_robbed", "24x24_mayhem_tire_change_wolves" ], "x": 0, "y": 0 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "id": "wheel_spare",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "wheel", "damage": [ 0, 1 ] } ]
+  },
+  {
+    "id": "wheel_busted",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "wheel", "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_tire_change_robbed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                C    ,  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "item": { ",": { "item": "shot_hull", "chance": 100 } },
+      "items": { "C": { "item": "everyday_corpse", "chance": 100 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_tire_change_wolves",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ~       ",
+        "              ~~C~      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "items": { "C": [ { "item": "corpses", "chance": 100 }, { "item": "guns_shotgun_common_display", "chance": 80 } ] },
+      "place_item": [ { "item": "9mm_casing", "x": [ 15, 17 ], "y": [ 14, 16 ], "repeat": 9, "chance": 50 } ],
+      "fields": { "~": { "field": "fd_gibs_flesh", "intensity": [ 1, 3 ] }, "C": { "field": "fd_gibs_flesh", "intensity": [ 1, 3 ] } },
+      "place_nested": [ { "chunks": [ "24x24_mayhem_tire_change_wolves_north", "24x24_mayhem_tire_change_wolves_south" ], "x": 0, "y": 0 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_tire_change_wolves_north",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "1x1_dead_wolf" ], "x": [ 10, 14 ], "y": [ 10, 14 ] },
+        { "chunks": [ "1x1_dead_wolf", "null" ], "x": [ 10, 14 ], "y": [ 10, 14 ] },
+        { "chunks": [ "1x1_dead_wolf", "null" ], "x": [ 10, 14 ], "y": [ 10, 14 ] }
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_mayhem_tire_change_wolves_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "1x1_dead_wolf" ], "x": [ 10, 14 ], "y": [ 16, 20 ] },
+        { "chunks": [ "1x1_dead_wolf", "null" ], "x": [ 10, 14 ], "y": [ 16, 20 ] },
+        { "chunks": [ "1x1_dead_wolf", "null" ], "x": [ 10, 14 ], "y": [ 16, 20 ] }
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_dead_wolf",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_corpses": [ { "group": "GROUP_WOLFS", "age": 3, "x": 0, "y": 0 } ],
+      "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  }
+]

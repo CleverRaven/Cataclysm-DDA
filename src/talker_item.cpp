@@ -15,6 +15,11 @@ std::string talker_item::disp_name() const
     return me_it->get_item()->display_name();
 }
 
+std::string talker_item::get_name() const
+{
+    return me_it->get_item()->type_name();
+}
+
 int talker_item::posx() const
 {
     return me_it->position().x;

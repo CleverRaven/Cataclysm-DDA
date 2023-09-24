@@ -8,6 +8,7 @@
 #include "global_vars.h"
 #include "math_parser.h"
 #include "rng.h"
+#include "translation.h"
 #include "type_id.h"
 
 struct dialogue;
@@ -54,6 +55,7 @@ struct talk_effect_fun_t {
         void set_run_eoc_until( const JsonObject &jo, std::string_view member );
         void set_run_eoc_selector( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_run_inv_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
         void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
         void set_switch( const JsonObject &jo, std::string_view member );
@@ -147,14 +149,17 @@ std::string read_var_value( const var_info &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
 
-
-struct str_or_var {
-    std::optional<std::string> str_val;
+template<class T>
+struct abstract_str_or_var {
+    std::optional<T> str_val;
     std::optional<var_info> var_val;
-    std::optional<std::string> default_val;
-    std::optional<std::function<std::string( const dialogue & )>> function;
-    std::string evaluate( dialogue const &d ) const;
+    std::optional<T> default_val;
+    std::optional<std::function<T( const dialogue & )>> function;
+    std::string evaluate( dialogue const & ) const;
 };
+
+using str_or_var = abstract_str_or_var<std::string>;
+using translation_or_var = abstract_str_or_var<translation>;
 
 struct eoc_math {
     enum class oper : int {

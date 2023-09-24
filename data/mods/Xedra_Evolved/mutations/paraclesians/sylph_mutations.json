@@ -1,0 +1,298 @@
+[
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SKIN_1",
+    "name": { "str": "mannequin skin" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Your skin has turned the color of antique dolls.  Your skin is now a pearlescent white.  This has no gameplay effects.",
+    "types": [ "skin_tone" ],
+    "leads_to": [ "HOMULLUS_SKIN_2" ],
+    "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SKIN_2",
+    "name": { "str": "porcelain skin" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": -3,
+    "description": "Your skin has smoothed and all blemishes fade quickly away.  Somewhat reduces wet effects and is tougher but heals a little slower.",
+    "types": [ "SKIN" ],
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "changes_to": [ "HOMULLUS_SKIN_3" ],
+    "healing_multiplier": 0.9,
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "integrated_armor": [ "integrated_porcelain_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SKIN_3",
+    "name": { "str": "latex skin" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": -6,
+    "mixed_effect": true,
+    "description": "Your skin has become latex like.  It provides some additional protection and attractiveness but heals at a much slower rate.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "HOMULLUS_SKIN_2" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "healing_multiplier": 0.7,
+    "wet_protection": [
+      { "part": "head", "ignored": 5 },
+      { "part": "leg_l", "ignored": 16 },
+      { "part": "leg_r", "ignored": 16 },
+      { "part": "foot_l", "ignored": 5 },
+      { "part": "foot_r", "ignored": 5 },
+      { "part": "arm_l", "ignored": 14 },
+      { "part": "arm_r", "ignored": 14 },
+      { "part": "hand_l", "ignored": 4 },
+      { "part": "hand_r", "ignored": 4 },
+      { "part": "torso", "ignored": 30 }
+    ],
+    "integrated_armor": [ "integrated_latex_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_SKIN_1",
+    "name": { "str": "sylph skin" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Your skin has turned the rolling grey of the clouds.  Your skin is now an ever-shifting color of clouds shifting from stormy to rainy to barely there.  This has no gameplay effects.",
+    "types": [ "skin_tone" ],
+    "leads_to": [ "SYLPH_SKIN_2" ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_SKIN_2",
+    "name": { "str": "cloud skin" },
+    "points": 2,
+    "visibility": 5,
+    "ugliness": 3,
+    "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
+    "types": [ "SKIN" ],
+    "category": [ "SYLPH" ],
+    "prereqs": [ "SYLPH_SKIN_1" ],
+    "changes_to": [ "SYLPH_SKIN_3" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "integrated_armor": [ "integrated_cloud_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_SKIN_3",
+    "name": { "str": "storm skin" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your skin is a roiling storm.  Your flexibility is greatly increased, your ability to ignore temperatures hot and cold have greatly increased but your ability to carry objects has been reduced.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "SYLPH_SKIN_2" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "category": [ "SYLPH" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 5 },
+      { "part": "leg_l", "ignored": 16 },
+      { "part": "leg_r", "ignored": 16 },
+      { "part": "foot_l", "ignored": 5 },
+      { "part": "foot_r", "ignored": 5 },
+      { "part": "arm_l", "ignored": 14 },
+      { "part": "arm_r", "ignored": 14 },
+      { "part": "hand_l", "ignored": 4 },
+      { "part": "hand_r", "ignored": 4 },
+      { "part": "torso", "ignored": 30 }
+    ],
+    "integrated_armor": [ "integrated_storm_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BREATHE_WO_AIR",
+    "name": { "str": "Breathe Without Air" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to temporarily breathe without oxygen.  This will prevent damage from a lack of oxygen for a short window.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "breathe_wo_air", 1 ] ],
+    "//": "Needs an activated ability that affects the hidden oxygen stat."
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_EYES",
+    "name": { "str": "Sylph Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph's eyes begin reflecting their mood with lightning and storms when angry and clear skies when happy.  Glare no longer impacts them.",
+    "category": [ "SYLPH" ],
+    "integrated_armor": [ "integrated_sylph_eyes" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAP_OF_THUNDER",
+    "name": { "str": "Clap of Thunder" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create a loud clap of thunder noise at a distance.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "clap_of_thunder", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "OMINOUS_WIND",
+    "name": { "str": "Ominous Wind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to summon and ominous wind that damages sapient creatures morale.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "ominous_wind", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLOWFALL",
+    "name": { "str": "Slow Fall" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph ceases to fall at speeds that would damage themselves, no matter how high the fall is.",
+    "category": [ "SYLPH" ],
+    "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD",
+    "name": { "str": "Resist Cold" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "changes_to": "SLYPH_RESIST_COLD2",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": 10 } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD2",
+    "name": { "str": "Born of a Gale" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph gains a resistance to cold and cold based damage.",
+    "changes_to": "SLYPH_RESIST_COLD3",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_RESIST_COLD3",
+    "name": { "str": "Dancing On Winter Winds" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SLYPH_RESIST_COLD2" ],
+    "description": "The sylph is nearly immune to mundane cold and heavily resistant to cold-based damage.",
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PUSHING_WIND" ],
+    "description": "Upon gaining this ability the Sylph gains the ability to grow a goblin fruit when outdoors and the wind is blowing strongly.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "PUSHING_WIND",
+    "name": { "str": "Pushing Wind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph learns how to use the wind to push their opponents.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "pushing_wind", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTRICAL_EMISSIONS",
+    "name": { "str": "Electrical Emissions" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Sylphs often develop electrical emissions that can culminate in lightning bolts.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "zap_electrical_emission", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTRICAL_FIELD",
+    "name": { "str": "Electrical Field" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to summon electrical fields.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "electrical_field", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "air_sprite",
+    "name": { "str": "Summon Air Sprite" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  }
+]

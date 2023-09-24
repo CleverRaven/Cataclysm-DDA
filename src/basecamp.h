@@ -205,7 +205,6 @@ class basecamp
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point &dir );
 
-        bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
         std::string next_upgrade( const point &dir, int offset = 1 ) const;
@@ -340,7 +339,8 @@ class basecamp
                             float exertion_level );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
-        std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        drop_locations give_basecamp_equipment( inventory_filter_preset &preset, const std::string &title,
+                                                const std::string &column_title, const std::string &msg_empty ) const;
         drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
                                        const std::string &msg, const std::string &title, units::volume &total_volume,
                                        units::mass &total_mass );

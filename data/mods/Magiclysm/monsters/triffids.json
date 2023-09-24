@@ -1,0 +1,117 @@
+[
+  {
+    "id": "mon_triffid_vineweaver",
+    "type": "MONSTER",
+    "looks_like": "mon_triffid",
+    "name": { "str": "triffid vineweaver" },
+    "description": "A particularly large mobile plant, taller than a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  Some of its fronds move in particular patterns, an eldritch light trailing after them.  Nature will be healed.",
+    "default_faction": "triffid",
+    "species": [ "PLANT" ],
+    "volume": "77500 ml",
+    "weight": "100 kg",
+    "hp": 180,
+    "speed": 70,
+    "material": [ "veggy" ],
+    "symbol": "F",
+    "color": "green",
+    "aggression": 20,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "special_attacks": [
+      {
+        "id": "triffid_vineweaver_brambles",
+        "type": "spell",
+        "spell_data": { "id": "triffid_brambles_arc", "min_level": 5 },
+        "cooldown": 25,
+        "monster_message": "%1$s waves its fronds in a deliberate pattern."
+      },
+      {
+        "id": "triffid_vineweaver_tanglevine",
+        "type": "spell",
+        "spell_data": { "id": "triffid_summon_tanglevine", "min_level": 6 },
+        "cooldown": 50,
+        "monster_message": "%1$s waves its fronds toward the ground."
+      },
+      {
+        "id": "triffid_vineweaver_druid_veggrasp",
+        "type": "spell",
+        "spell_data": { "id": "druid_veggrasp", "min_level": 2 },
+        "cooldown": 30,
+        "monster_message": "%1$s twitches its base and roots burst from the ground around %3$s."
+      }
+    ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "bleed_rate": 60,
+    "harvest": "triffid_paralytic",
+    "dissect": "dissect_plant_sample_single",
+    "fungalize_into": "mon_fungaloid",
+    "death_drops": { "subtype": "collection", "items": [ { "item": "triffid_spellbook", "prob": 25 } ] },
+    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
+  },
+  {
+    "id": "mon_triffid_seedshaper",
+    "type": "MONSTER",
+    "name": { "str": "triffid seedshaper" },
+    "looks_like": "mon_triffid",
+    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  A hazy cloud of pollen hangs around it.",
+    "default_faction": "triffid",
+    "species": [ "PLANT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 120,
+    "speed": 70,
+    "diff": 25,
+    "material": [ "veggy" ],
+    "symbol": "F",
+    "color": "light_green",
+    "aggression": 20,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "special_attacks": [
+      {
+        "id": "triffid_seedshaper_pollen",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_cone", "min_level": 3 },
+        "cooldown": 15,
+        "monster_message": "%1$s waves its fronds and pollen erupts out in a cone!."
+      },
+      {
+        "id": "triffid_seedshaper_heal",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_heal", "min_level": 4 },
+        "cooldown": 30,
+        "monster_message": "%1$s waves its fronds and a glow surrounds %3$s."
+      },
+      {
+        "id": "triffid_seedshaper_speed",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_speed", "min_level": 6 },
+        "cooldown": 25,
+        "monster_message": "%1$s waves its fronds and %3$s starts moving faster!"
+      },
+      {
+        "id": "triffid_seedshaper_blind",
+        "type": "spell",
+        "spell_data": { "id": "triffid_pollen_blind", "min_level": 6 },
+        "cooldown": 35,
+        "monster_message": "%1$s waves its fronds and golden pollen cascades down over %3$s!"
+      }
+    ],
+    "bleed_rate": 60,
+    "harvest": "triffid_paralytic",
+    "emit_fields": [ { "emit_id": "emit_pollen_stream", "delay": "3 s" } ],
+    "dissect": "dissect_plant_sample_single",
+    "fungalize_into": "mon_fungaloid",
+    "death_drops": { "subtype": "collection", "items": [ { "item": "triffid_spellbook", "prob": 25 } ] },
+    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
+  }
+]

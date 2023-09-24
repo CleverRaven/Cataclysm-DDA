@@ -21,14 +21,15 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "MAGUS" ],
-    "spells_learned": [ [ "create_rune_animist", 0 ] ]
+    "spells_learned": [ [ "create_rune_animist", 0 ] ],
+    "moncams": [ [ "mon_watcher_spirit", 30 ] ]
   },
   {
     "type": "mutation",
     "id": "KELVINIST",
     "name": "Kelvinist",
     "points": 0,
-    "description": "Disciples of the great Archwizard Lord Kelvin.  Kelvinists focus their magic on manipulation and control of the temperature of their environment, leading to spectacularly powerful explosions or bone-chilling cold.  Your powers grant you some immunity from fire, that raises with your skills.",
+    "description": "Disciples of the great Archwizard Lord Kelvin.  Kelvinists focus their magic on manipulation and control of the temperature of their environment, leading to spectacularly powerful explosions or bone-chilling cold.  Your powers grant you some immunity from fire that increases with your skills.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -41,7 +42,7 @@
     "id": "STORMSHAPER",
     "name": "Stormshaper",
     "points": 0,
-    "description": "Stormshapers follow ancient arcane disciplines of meditation and harmony with the winds and tides that shape the planet.  Through their deep connection to these forces, they can request powerful changes.  Your powers grant you some immunity from electricity, that raises with your skills.",
+    "description": "Stormshapers follow ancient arcane disciplines of meditation and harmony with the winds and tides that shape the planet.  Through their deep connection to these forces, they can request powerful changes.  Your powers grant you some immunity from electricity that increases with your skills.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

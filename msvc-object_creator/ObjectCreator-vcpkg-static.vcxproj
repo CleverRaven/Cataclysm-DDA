@@ -81,6 +81,21 @@
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">.\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\debug\plugins\platforms;.\vcpkg_installed\$(VcpkgTriplet)\debug\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">.\vcpkg_installed\$(VcpkgTriplet)\$(VcpkgTriplet)\plugins\platforms;.\vcpkg_installed\$(VcpkgTriplet)\plugins\platforms;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <Link Condition="$(_CDDA_USE_LLD_LINK)">
+      <AdditionalDependencies>
+        double-conversion.lib;
+        harfbuzz.lib;
+        pcre2-16$(VcpkgLibSuffix).lib;
+        Qt5Core$(VcpkgLibSuffix).lib;
+        Qt5EventDispatcherSupport$(VcpkgLibSuffix).lib;
+        Qt5FontDatabaseSupport$(VcpkgLibSuffix).lib;
+        Qt5ThemeSupport$(VcpkgLibSuffix).lib;
+        Qt5Widgets$(VcpkgLibSuffix).lib;
+        Qt5WindowsUIAutomationSupport$(VcpkgLibSuffix).lib;
+        zstd.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>

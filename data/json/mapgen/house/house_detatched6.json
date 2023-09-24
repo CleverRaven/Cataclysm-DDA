@@ -36,7 +36,7 @@
         ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "terrain": {
         "K": "t_dirtfloor",
         "G": "t_dirtfloor",

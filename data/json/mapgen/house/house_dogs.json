@@ -48,7 +48,7 @@
         "........................"
       ],
       "palettes": [
-        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_abandoned_palette", 2 ] ] },
         "standard_domestic_landscaping_palette"
       ],
       "set": [

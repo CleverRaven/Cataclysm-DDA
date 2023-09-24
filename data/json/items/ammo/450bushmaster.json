@@ -119,7 +119,7 @@
   },
   {
     "id": "reloaded_450_penetrator",
-    "copy-from": "50beowulf_penetrator",
+    "copy-from": "450_penetrator",
     "type": "AMMO",
     "name": { "str_sp": ".450 Xtreme Hunter, reloaded" },
     "description": ".450 Bushmaster ammunition, loaded with a solid-copper 220-grain penetrator bullet.  Born from discontent with the .223 Remington’s weak stopping potential, the .450 Bushmaster round was crafted in line with the so-called 'Thumper' concept: an envisioned need for a large-bore, semi-automatic sporting cartridge capable of downing game in one shot.  Along with its elder sibling, the .50-caliber Beowulf cartridge, the .450 Bushmaster is one of a number of such high-caliber rounds and is compatible with appropriately converted AR-15-platform rifles.  This particular cartridge is loaded with a solid-copper projectile: excellent at punching through thick barriers and delivering massive amounts of energy to anything unfortunate enough to be hit.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",

@@ -61,6 +61,13 @@
   },
   {
     "type": "material",
+    "id": "mana",
+    "name": "Mana",
+    "copy-from": "pseudo_fuel",
+    "fuel_data": { "energy": "500000 kJ", "perpetual": true }
+  },
+  {
+    "type": "material",
     "id": "moon_tears",
     "name": "Moon Tears",
     "//": "Common matrial used by Fae artisans instead of iron.",
@@ -159,5 +166,18 @@
       { "fuel": -10, "smoke": 2, "burn": 2 }
     ],
     "fuel_data": { "energy": "100 kJ" }
+  },
+  {
+    "type": "material",
+    "id": "elemental_water",
+    "name": "elemental water",
+    "//": "Trying to give it the resistances of frozen water in plastic jugs.",
+    "density": 2,
+    "soft": true,
+    "chip_resist": 15,
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
+    "bash_dmg_verb": "shaken",
+    "cut_dmg_verb": "rippled",
+    "resist": { "bash": 6, "cut": 3, "acid": 20, "heat": 2, "bullet": 3 }
   }
 ]

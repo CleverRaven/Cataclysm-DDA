@@ -25,5 +25,522 @@
         "cover_vitals": 65
       }
     ]
+  },
+  {
+    "id": "integrated_pebbled",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "pebbled skin" },
+    "description": "Your skin has begun to harden and pebbles have begun to surface.",
+    "weight": "400 g",
+    "volume": "400 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "hflesh", "stone" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 1,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "stone", "covered_by_mat": 55, "thickness": 0.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "stone", "covered_by_mat": 60, "thickness": 0.5 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "stone", "covered_by_mat": 55, "thickness": 0.25 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      }
+    ]
+  },
+  {
+    "id": "integrated_granite_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "granite skin" },
+    "description": "Your skin has hardened into a granite like covering.",
+    "weight": "400 g",
+    "volume": "400 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "hflesh", "stone" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 1,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "stone", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "stone", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "stone", "covered_by_mat": 100, "thickness": 0.25 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "POOR"
+      }
+    ]
+  },
+  {
+    "id": "integrated_vegital_cuticle",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "vegital cuticle" },
+    "description": "A pliable but hefty layer of living plant matter impregnated with various waxy polymers.",
+    "weight": "2 kg",
+    "volume": "300 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "x",
+    "color": "light_green",
+    "warmth": 1,
+    "environmental_protection": 2,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "GOOD"
+      }
+    ]
+  },
+  {
+    "id": "integrated_bark_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "barkskin" },
+    "description": "A thin layer of bark covers your body.",
+    "weight": "12 kg",
+    "volume": "15 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 2,
+    "environmental_protection": 4,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 4,
+        "breathability": "AVERAGE"
+      }
+    ]
+  },
+  {
+    "id": "integrated_arvore_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "arvore eyes" },
+    "description": "Your eyes now reflect the seasons: green, yellow, red, orange, or brown.  You are also immune to the glare of the sun.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "green",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "integrated_arvore_thorns",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "woody thorns" },
+    "description": "Your skin is covered in thick, woody thorns.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood" ],
+    "symbol": ",",
+    "color": "green",
+    "to_hit": 1,
+    "flags": [ "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_wood", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 4 }
+  },
+  {
+    "id": "integrated_arvore_claws",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "jagged  wooden claws" },
+    "description": "Your hands and fingers have transformed into jagged wooden claws.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_wood" ],
+    "symbol": ",",
+    "color": "brown",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_wood", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
+    ],
+    "melee_damage": { "cut": 10 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -10 } ] } ]
+    }
+  },
+  {
+    "id": "integrated_coal_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "burning coals skin" },
+    "description": "Your skin has has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "fae_flesh" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 1,
+    "environmental_protection": 1,
+    "relic_data": { "passive_effects": [ { "id": "coal_skin_enchantment" } ] },
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ],
+    "melee_damage": { "heat": 4 }
+  },
+  {
+    "id": "integrated_flameskin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "flaming skin" },
+    "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "fae_flesh" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 1,
+    "environmental_protection": 1,
+    "relic_data": { "passive_effects": [ { "id": "flame_skin_enchantment" } ] },
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ],
+    "melee_damage": { "heat": 12 }
+  },
+  {
+    "id": "integrated_gelatinous_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "liquid skin" },
+    "description": "Your skin has become vaguely gelatinous.  Provides some extra bash defense and immunity to wet effects.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "elemental_water" ],
+    "symbol": "x",
+    "color": "light_red",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "elemental_water", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_wave_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "wave skin" },
+    "description": "Your skin is completely replaced by magickal water.  You have become immune to acid effects.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "elemental_water" ],
+    "symbol": "x",
+    "color": "light_red",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "elemental_water", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_undine_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "undine eyes" },
+    "description": "Your eyes now reflect your mood in the colors of the deep waters.  From an aquamarine blue when you are pleased to the pitch black of the depths when you are angry or sad.  You are also immune to the glare of the sun and can see under water.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "SWIM_GOGGLES",
+      "NO_SALVAGE"
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "integrated_cloud_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "cloud skin" },
+    "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "fae_flesh" ],
+    "symbol": "x",
+    "color": "light_red",
+    "relic_data": { "passive_effects": [ { "id": "cloud_skin_enchantment" } ] },
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_storm_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "storm skin" },
+    "description": "Your skin is a roiling storm.  Your flexibility is greatly increased, your ability to ignore temperatures hot and cold have greatly increased but your ability to carry objects has been reduced.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "fae_flesh" ],
+    "symbol": "x",
+    "color": "light_red",
+    "relic_data": { "passive_effects": [ { "id": "storm_skin_enchantment" } ] },
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_sylph_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sylph eyes" },
+    "description": "Your eyes now reflect your mood in different weather patterns.  Clear blue skies when you are pleased and storms when you are mad.  You are also immune to the glare of the sun.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "SWIM_GOGGLES",
+      "NO_SALVAGE"
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "integrated_porcelain_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "porcelain skin" },
+    "description": "Your skin has smoothed and all blemishes fade quickly away.  Somewhat reduces wet effects and is tougher but heals a little slower.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "glass" ],
+    "symbol": "x",
+    "color": "light_red",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "glass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_latex_skin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "latex skin" },
+    "description": "Your skin has become latex like.  It provides some additional protection and flexibility but heals at a much slower rate.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "thermo_resin" ],
+    "symbol": "x",
+    "color": "light_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
   }
 ]

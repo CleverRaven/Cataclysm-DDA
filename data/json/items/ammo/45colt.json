@@ -47,5 +47,16 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_45colt_jhp",
+    "copy-from": "bp_45colt_jhp",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".45 Colt JHP, matchhead powder" },
+    "description": ".45 Colt ammunition with a 250gr jacketed hollow point bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_45colt_jhp",
+    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

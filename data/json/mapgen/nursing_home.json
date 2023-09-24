@@ -192,6 +192,7 @@
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ]
       },
+      "monster": { "3": { "monster": "mon_civilian_icu", "chance": 10 }, "8": { "monster": "mon_civilian_icu", "chance": 10 } },
       "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
       "palettes": [ "nursing_home_palette" ],
       "place_monster": [
@@ -413,6 +414,7 @@
       },
       "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
       "palettes": [ "nursing_home_sh_palette" ],
+      "monster": { "3": { "monster": "mon_civilian_icu", "chance": 10 }, "8": { "monster": "mon_civilian_icu", "chance": 10 } },
       "place_monster": [
         { "group": "GROUP_NURSING_HOME", "x": [ 1, 20 ], "y": [ 6, 23 ], "repeat": [ 5, 8 ] },
         { "group": "GROUP_NURSING_HOME", "x": [ 1, 13 ], "y": [ 24, 39 ], "repeat": [ 4, 6 ] },

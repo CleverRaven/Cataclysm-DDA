@@ -33,7 +33,7 @@
     "copy-from": "char_forge",
     "description": "A fake charcoal forge used for basecamps.",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
   },
   {
     "id": "fake_clay_kiln",
@@ -44,8 +44,8 @@
     "description": "A fake clay kiln used for basecamps.",
     "sub": "brick_kiln",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
-    "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ]
+    "ammo": [ "charcoal", "coal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
   },
   {
     "id": "fake_fireplace",

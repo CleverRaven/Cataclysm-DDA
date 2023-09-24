@@ -34,7 +34,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
-    "//": "2 Magus, 1 classless spell",
+    "//": "2 Magus, 3 classless spell",
     "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least one interesting spell you can use.",
     "weight": "585 g",
     "volume": "250 ml",
@@ -43,7 +43,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
+    }
   },
   {
     "id": "novice_stormshaper_book",
@@ -112,7 +115,7 @@
     "id": "wizard_advanced",
     "type": "BOOK",
     "category": "manuals",
-    "//": "1 Magus, 1 biomancer, 2 kelvinist spells",
+    "//": "1 Magus, 1 biomancer, 2 kelvinist, 1 classless spells",
     "name": { "str": "A Treatise on Magical Elements", "str_pl": "copies of A Treatise on Magical Elements" },
     "description": "This details complex diagrams, rituals, and choreography that describes various spells.",
     "weight": "920 g",
@@ -122,7 +125,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split", "classless_dispel_magic" ]
+    }
   },
   {
     "id": "priest_beginner",
@@ -240,7 +246,14 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "windstrike", "windrun", "stormshaper_wall_of_fog", "explosive_decompression", "air_bubble" ]
+      "spells": [
+        "windstrike",
+        "windrun",
+        "stormshaper_wall_of_fog",
+        "explosive_decompression",
+        "air_bubble",
+        "stormshaper_heart_of_hurricane"
+      ]
     }
   },
   {
@@ -388,6 +401,33 @@
     }
   },
   {
+    "id": "farmer_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Farm-Wizard's Almanac", "str_pl": "copies of The Farm-Wizard's Almanac" },
+    "//": "2 earthshaper spells, 4 druid spells, 1 stormshaper spell",
+    "description": "While no longer popular in the age of nitrogen fertilizer and industrial farm equipment, copies of this tome continued to be published for years for a small audience of back-to-nature, do-it-yourself organic mage-farmers.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "green",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "earthshaper_turning_of_earth",
+        "move_earth",
+        "druid_growth",
+        "druid_natures_commune",
+        "druidic_regrowth",
+        "purify_seed",
+        "electric_eye"
+      ]
+    }
+  },
+  {
     "id": "magus_spellbook",
     "type": "BOOK",
     "category": "manuals",
@@ -465,7 +505,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
-    "//": "3 Magus spells",
+    "//": "5 Magus spells",
     "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
     "weight": "231 g",
     "volume": "500 ml",
@@ -474,7 +514,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "phase_door", "magus_escape", "magus_haste", "magus_slowfall", "magus_spiderclimb" ]
+    }
   },
   {
     "id": "summon_scroll_smudged",
@@ -643,5 +686,53 @@
     "symbol": "?",
     "color": "yellow",
     "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
+  },
+  {
+    "id": "magic_movement_book",
+    "type": "BOOK",
+    "name": { "str": "Wherever You've Gone, There You Can Be", "str_pl": "copies of Wherever You've Gone, There You Can Be" },
+    "//": "3 Magus spells, 1 Technomancer spell",
+    "description": "A very sarcastically-written guide to using magic to get into and out of places you absolutely are not supposed to be.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": 7500,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magus_teleport_mark", "magus_word_of_recall", "magus_spiderclimb", "quantum_tunnel_lesser" ]
+    }
+  },
+  {
+    "id": "prepper_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "It's the End of the World, But You'll Feel Fine",
+      "str_pl": "copies of It's the End of the World, But You'll Feel Fine"
+    },
+    "//": "3 Druid spells, 1 Earthshaper spell, 1 Biomancer spell, 2 Kelvinist spells",
+    "description": "This thick paperback book is a collection of the proper magical preparations to survive various disasters.  Unfortunately, the zombie apocalypse section doesn't account for everything that's gone wrong in the Cataclysm, but there's still a lot of useful knowledge here.",
+    "weight": "473 g",
+    "volume": "825 ml",
+    "price": 3500,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "yellow",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_harvest_hunter",
+        "druid_naturebow1",
+        "biomancer_carrion_feast",
+        "purify_seed",
+        "earthshaper_turning_of_earth",
+        "create_lighter",
+        "kelvinist_anti_cold"
+      ]
+    }
   }
 ]

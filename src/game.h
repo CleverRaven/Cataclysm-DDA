@@ -889,6 +889,7 @@ class game
         // Pick up items from all nearby tiles
         void pickup_all();
 
+        void insert_item(); // Insert items to container  'v'
         void unload_container(); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 
@@ -1063,7 +1064,6 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-
         map &m;
         avatar &u;
         scent_map &scent;
@@ -1082,8 +1082,7 @@ class game
         bool unique_npc_exists( const std::string &id );
         void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-        queued_global_effect_on_conditions;
+        queued_eocs queued_global_effect_on_conditions;
 
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
@@ -1230,9 +1229,17 @@ class game
         /**
         Checks if player is able to successfully climb to/from some terrain and not slip down
         @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
         @return whether player has slipped down
         */
-        bool slip_down( bool check_for_traps = false );
+        bool slip_down( bool check_for_traps = false, bool show_chance_messages = true );
+
+        /**
+        Calculates the chance that slip_down will return true.
+        @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
+        @return Probability, as a percentage, that player will slip down while climbing some terrain.
+        */
+        int slip_down_chance( bool show_messages = true );
 
         /**
         * Climb down from a ledge using grappling hooks or spider webs if appropriate.

@@ -48,6 +48,18 @@
   },
   {
     "type": "effect_type",
+    "id": "spooked",
+    "name": [ "Cornered Fighter Spooked" ],
+    "desc": [ "AI tag to let CORNERED_FIGHTER monsters try to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spooked_recent",
+    "name": [ "Cornered Fighter Recently Spooked" ],
+    "desc": [ "AI tag to allow CORNERED_FIGHTER monsters to turn and fight.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
     "show_in_info": true,
@@ -498,7 +510,7 @@
     "rating": "bad",
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.2 }, { "limb_score": "reaction", "modifier": 0.0 } ],
-    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD", "NO_SPELLCASTING" ]
   },
   {
     "type": "effect_type",

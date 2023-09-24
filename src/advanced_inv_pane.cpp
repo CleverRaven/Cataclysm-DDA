@@ -46,6 +46,7 @@ void advanced_inventory_pane::restore_area()
 void advanced_inventory_pane::save_settings() const
 {
     save_state->container = container;
+    save_state->container_base_loc = container_base_loc;
     save_state->in_vehicle = in_vehicle();
     save_state->area_idx = get_area();
     save_state->selected_idx = index;
@@ -78,6 +79,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     index = save_state->selected_idx;
     filter = save_state->filter;
     container = save_state->container;
+    container_base_loc = static_cast<aim_location>( save_state->container_base_loc );
 }
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
@@ -215,7 +217,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
 
         u.worn.add_AIM_items_from_area( u, square, *this );
-    } else if( square.id == AIM_CONTAINER || square.id == AIM_CONTAINER2 ) {
+    } else if( square.id == AIM_CONTAINER ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
         if( container ) {
@@ -232,7 +234,6 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                     }
                 }
             }
-            square.desc[0] = container->tname( 1, false );
         }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && ( in_vehicle() || vehicle_override );
@@ -259,8 +260,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                     if( it->is_corpse() ) {
                         for( item *loot : it->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                             if( !is_filtered( *loot ) ) {
-                                advanced_inv_listitem aim_item( item_location( loc_cursor, loot ), 0, 1, square.id,
-                                                                is_in_vehicle );
+                                advanced_inv_listitem aim_item( item_location( item_location( loc_cursor, it ), loot ),
+                                                                0, 1, square.id, is_in_vehicle );
                                 square.volume += aim_item.volume;
                                 square.weight += aim_item.weight;
                                 items.push_back( aim_item );

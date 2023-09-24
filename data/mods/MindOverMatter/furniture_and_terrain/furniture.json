@@ -45,5 +45,37 @@
         { "item": "matrix_crystal_telepath_dust", "count": [ 10, 25 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nether_crystal_structure",
+    "name": "glowing crystal",
+    "description": "An irregular chunk of glowing crystal.  The fitful glow sheds no illumination on the nearby terrain.",
+    "symbol": "#",
+    "color": "black",
+    "move_cost_mod": -1,
+    "looks_like": "f_boulder_large",
+    "coverage": 75,
+    "required_str": 32,
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 100,
+      "sound": "crystal shattering!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "items": [
+        { "item": "matrix_shard", "count": [ 4, 20 ] },
+        { "item": "matrix_crystal_biokin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_clair_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_pyrokin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_telekin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_telepath_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_teleport_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_drained_dust", "count": [ 3, 6 ] }
+      ]
+    }
   }
 ]

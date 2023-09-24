@@ -187,7 +187,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "insecticide", 50 ] ],
+      [ [ "insecticide", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "superglue", 1 ] ]
@@ -203,7 +203,7 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "flammable_liquid", 500 ] ],
+    "using": [ [ "accelerant_liquid", 500 ] ],
     "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
   },
   {

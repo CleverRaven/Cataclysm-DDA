@@ -3,6 +3,7 @@
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"
+#include "action.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -21,6 +22,7 @@
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const quality_id qual_HOSE( "HOSE" );
 
@@ -35,8 +37,6 @@ static const std::string flag_WALL_MOUNTED( "WALL_MOUNTED" );
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
-
-static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
@@ -77,44 +77,15 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     }
     veh->name = vpart->name();
 
-    // Allow for wall-mounted appliances in a general-ish way.
-    if( vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
-        veh->add_tag( flag_CANT_DRAG );
-        if( vpinfo.has_flag( flag_WIRING ) ) {
-            veh->add_tag( flag_WIRING );
-            // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too big.
-            // TODO: Push into a separate function.
-            for( const point &offset : four_adjacent_offsets ) {
-                const optional_vpart_position vp = here.veh_at( p + offset );
-                if( !vp ) {
-                    continue;
-                }
+    veh->last_update = calendar::turn;
 
-                bounding_box vehicle_box = veh->get_bounding_box( false );
-                point size;
-                size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-                size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
-
-                vehicle &veh_target = vp->vehicle();
-                if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
-                    bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
-
-                    point target_size;
-                    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-                    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
-
-                    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
-                        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
-                        if( !veh->merge_vehicle_parts( &veh_target ) ) {
-                            debugmsg( "failed to merge vehicle parts" );
-                        }
-                    }
-                }
-            }
-        }
+    if( vpinfo.base_item == itype_wall_wiring ) {
+        veh->add_tag( flag_WIRING );
     }
 
-    veh->last_update = calendar::turn;
+    if( veh->is_powergrid() || vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
+        veh->add_tag( flag_CANT_DRAG );
+    }
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
@@ -127,8 +98,12 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         if( !vp ) {
             continue;
         }
-        const vehicle &veh_target = vp->vehicle();
-        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
+        vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) ) {
+            if( veh->is_powergrid() && veh_target.is_powergrid() ) {
+                veh->merge_appliance_into_grid( veh_target );
+                continue;
+            }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 veh->connect( p, trip );
                 connected_vehicles.insert( &veh_target );
@@ -173,6 +148,7 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "UNPLUG" );
+    ctxt.register_action( "MERGE" );
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
@@ -350,12 +326,9 @@ bool veh_app_interact::can_siphon()
     return false;
 }
 
-bool veh_app_interact::can_unplug()
+bool veh_app_interact::can_merge()
 {
-    vehicle_part_range vpr = veh->get_all_parts();
-    return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
-        return ref.info().has_flag( "POWER_TRANSFER" );
-    } );
+    return veh->is_powergrid();
 }
 
 // Helper function for selecting a part in the parts list.
@@ -535,32 +508,50 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( a_point );
     const tripoint pos = veh->global_part_pos3( part );
-    veh->plug_in( get_map().getabs( pos ) );
+    veh->plug_in( pos );
 }
 
-void veh_app_interact::unplug()
+void veh_app_interact::merge()
 {
-    veh->shed_loose_parts();
-    int const part = veh->part_at( a_point );
-    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
-    act = player_activity( ACT_VEHICLE, 1, static_cast<int>( 'u' ) );
-    act.str_values.push_back( vp.info().id.str() );
-    const point q = veh->coord_translate( vp.mount );
     map &here = get_map();
-    for( const tripoint &p : veh->get_points( true ) ) {
-        act.coord_set.insert( here.getabs( p ) );
+
+    const int part = veh->part_at( a_point );
+    const tripoint app_pos = veh->global_part_pos3( part );
+
+    const std::function<bool( const tripoint & )> f = [&here, app_pos]( const tripoint & pnt ) {
+        if( pnt == app_pos ) {
+            return false;
+        }
+        const optional_vpart_position target_vp = here.veh_at( pnt );
+        if( !target_vp ) {
+            return false;
+        }
+        vehicle &target_veh = target_vp->vehicle();
+        if( !target_veh.has_tag( flag_APPLIANCE ) || !target_veh.is_powergrid() ) {
+            return false;
+        }
+        return true;
+    };
+
+    const std::optional<tripoint> target_pos = choose_adjacent_highlight( app_pos,
+            _( "Merge the appliance into which grid?" ), _( "Target must be adjacent." ), f, false, false );
+    if( !target_pos ) {
+        return;
     }
-    act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-    act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
-    act.values.push_back( a_point.x );
-    act.values.push_back( a_point.y );
-    act.values.push_back( -a_point.x );
-    act.values.push_back( -a_point.y );
-    act.values.push_back( veh->index_of_part( &vp ) );
+    const optional_vpart_position target_vp = here.veh_at( *target_pos );
+    if( !target_vp ) {
+        return;
+    }
+    vehicle &target_veh = target_vp->vehicle();
+    veh->merge_appliance_into_grid( target_veh );
 }
 
 void veh_app_interact::populate_app_actions()
 {
+
+    int const part = veh->part_at( a_point );
+    const vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
+
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
     imenu.entries.clear();
     app_actions.clear();
@@ -588,7 +579,7 @@ void veh_app_interact::populate_app_actions()
     app_actions.emplace_back( [this]() {
         remove();
     } );
-    imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
+    imenu.addentry( -1, veh->can_unmount( vp ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
     app_actions.emplace_back( [this]() {
@@ -597,12 +588,12 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     ctxt.get_action_name( "PLUG" ) );
 
-    // Unplug
+    // Merge
     app_actions.emplace_back( [this]() {
-        unplug();
+        merge();
     } );
-    imenu.addentry( -1, can_unplug(), ctxt.keys_bound_to( "UNPLUG" ).front(),
-                    ctxt.get_action_name( "UNPLUG" ) );
+    imenu.addentry( -1, can_merge(), ctxt.keys_bound_to( "MERGE" ).front(),
+                    ctxt.get_action_name( "MERGE" ) );
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );

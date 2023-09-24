@@ -25,8 +25,7 @@
     "time": "15 s",
     "charges": 10,
     "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
-    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "tools": [ [ [ "sieve_steel", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "SIEVE", "level": 1 } ],
     "components": [
       [
         [ "gunpowder_shotgun", 10 ],
@@ -147,7 +146,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
     "components": [ [ [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
   },
   {
@@ -163,7 +162,7 @@
     "batch_time_factors": [ 80, 5 ],
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
     "components": [ [ [ "223_casing", 1 ] ] ]
   },
   {

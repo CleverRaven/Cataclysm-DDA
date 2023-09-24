@@ -159,14 +159,14 @@
     "difficulty": 5,
     "time": "6 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 3 ] ],
     "using": [ [ "tailoring_lycra_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_lycra", 9 ] ]
   },
   {
     "result": "fanny",
@@ -568,7 +568,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "bbholster",
@@ -582,7 +583,8 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "bindle",
@@ -1436,6 +1438,24 @@
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
+    "result": "nylon_quiver",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "archery", 2 ],
+    "time": "11 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 8 ], [ "fastener_large", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "strap_large", 2, "LIST" ] ] ]
+  },
+  {
     "result": "quiver_birchbark",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1653,7 +1673,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_canvas_patchwork", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
@@ -1907,7 +1927,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 120 ], [ "tailoring_lycra_patchwork", 10 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "dry_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "duct_tape", 120 ] ] ]
+    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "dry_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "duct_tape", 120 ] ] ],
+    "byproducts": [ [ "scrap_lycra", 9 ] ]
   },
   {
     "result": "survivor_vest",

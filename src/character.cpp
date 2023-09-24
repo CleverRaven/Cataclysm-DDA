@@ -169,6 +169,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_synlungs( "bio_synlungs" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
@@ -407,7 +408,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -425,6 +425,7 @@ static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -587,7 +588,6 @@ Character::Character() :
     leak_level_dirty = true;
     volume = 0;
     set_value( "THIEF_MODE", "THIEF_ASK" );
-	last_pc_zlev = 0; // Z-level on the last turn (used in character.cpp for "fine_detail_vision_mod" NPCs function override)																										  
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
         daily_vitamins[v.first] = { 0,0 };
@@ -656,15 +656,26 @@ void Character::set_wielded_item( const item &to_wield )
     weapon = to_wield;
 }
 
+std::vector<matype_id> Character::known_styles( bool teachable_only ) const
+{
+    return martial_arts_data->get_known_styles( teachable_only );
+}
+
+bool Character::has_martialart( const matype_id &m ) const
+{
+    return martial_arts_data->has_martialart( m );
+}
+
 int Character::get_oxygen_max() const
 {
-    return 30 + 2 * str_cur;
+    return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * str_cur );
 }
 
 bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
-           !has_effect_with_flag( json_flag_GRAB );
+           !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) &&
+                   !has_active_bionic( bio_synlungs ) );
 }
 
 void Character::randomize_heartrate()
@@ -913,7 +924,7 @@ aim_mods_cache Character::gen_aim_mods_cache( const item &gun )const
 
 double Character::fastest_aiming_method_speed( const item &gun, double recoil,
         const Target_attributes target_attributes,
-        std::optional<std::reference_wrapper<const parallax_cache>> parallax_cache ) const
+        const std::optional<std::reference_wrapper<parallax_cache>> parallax_cache ) const
 {
     // Get fastest aiming method that can be used to improve aim further below @ref recoil.
 
@@ -1262,7 +1273,7 @@ int Character::overmap_sight_range( float light_level ) const
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
-    const bool has_optic = has_item_with_flag( flag_ZOOM ) ||
+    const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
                            has_flag( json_flag_ENHANCED_VISION ) ||
                            ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
@@ -1310,19 +1321,19 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
-             ( here.veh_at( pos() ) &&
-               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
-             has_flag( json_flag_ALARMCLOCK ) );
+    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
+           ( here.veh_at( pos() ) &&
+             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+           has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_WATCH, true ) ||
-             ( here.veh_at( pos() ) &&
-               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
-             has_flag( json_flag_WATCH ) );
+    return cache_has_item_with_flag( flag_WATCH, true ) ||
+           ( here.veh_at( pos() ) &&
+             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+           has_flag( json_flag_WATCH );
 }
 
 void Character::react_to_felt_pain( int intensity )
@@ -1436,6 +1447,21 @@ bool Character::is_on_ground() const
 bool Character::can_stash( const item &it, bool ignore_pkt_settings )
 {
     return best_pocket( it, nullptr, ignore_pkt_settings ).second != nullptr;
+}
+
+bool Character::can_stash( const item &it, int &copies_remaining, bool ignore_pkt_settings )
+{
+    bool stashed_any = false;
+
+    for( item_location loc : top_items_loc() ) {
+        if( loc->can_contain( it, copies_remaining, false, false, ignore_pkt_settings ).success() ) {
+            stashed_any = true;
+        }
+        if( copies_remaining <= 0 ) {
+            return stashed_any;
+        }
+    }
+    return stashed_any;
 }
 
 bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
@@ -1811,20 +1837,34 @@ float Character::stability_roll() const
 
 bool Character::is_dead_state() const
 {
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
+
+    cached_dead_state = false;
     // we want to warn the player with a debug message if they are invincible. this should be unimportant once wounds exist and bleeding is how you die.
     bool has_vitals = false;
-    for( const bodypart_id &part : get_all_body_parts( get_body_part_flags::only_main ) ) {
-        if( part->is_vital ) {
-            if( get_part_hp_cur( part ) <= 0 ) {
-                return true;
-            }
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->is_vital ) {
             has_vitals = true;
+            if( get_part_hp_cur( bp ) <= 0 ) {
+                cached_dead_state = true;
+                return cached_dead_state.value();
+            }
         }
     }
     if( !has_vitals ) {
         debugmsg( _( "WARNING!  Player has no vital part and is invincible." ) );
     }
     return false;
+}
+
+void Character::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_cur( id, set );
 }
 
 void Character::on_try_dodge()
@@ -1839,7 +1879,8 @@ void Character::on_try_dodge()
     consume_dodge_attempts();
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
-    mod_stamina( -base_burn_rate * 6 );
+    const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
+    mod_stamina( std::floor( -static_cast<float>( base_burn_rate ) * 6.0f * dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
@@ -2239,13 +2280,8 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
-        mod_power_level( get_max_power_level() );
-    }
-
-    visit_items( [this]( item * e, item * ) {
-        e->process_relic( this, pos() );
-        return VisitResponse::NEXT;
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
+        it.process_relic( this, pos() );
     } );
 
     suffer();
@@ -2393,6 +2429,30 @@ void Character::recalc_hp()
                           enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
+    cached_dead_state.reset();
+}
+
+void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
+                                   int per_max, int int_max, int healthy_mod, int fat_to_max_hp )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
+        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
+                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
+                        part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
+                        hp_adjustment ) * hp_mod;
+
+        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
+            new_max *= 0.8;
+        }
+
+        float max_hp_ratio = static_cast<float>( new_max ) /
+                             static_cast<float>( part.second.get_hp_max() );
+
+        int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+
+        part.second.set_hp_max( std::max( new_max, 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
+    }
 }
 
 // This must be called when any of the following change:
@@ -2692,13 +2752,14 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light;
-    // Light is calculated for player's z-level; NPC actions on different Z-level would stop
-    // Check if NPC is on the same z-level - if not overwrite light level for it
-    // Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
-    if( ( p.z == get_player_character().pos().z ) && ( p.z == get_player_character().last_pc_zlev ) ) {
+    float ambient_light{};
+    tripoint const check_p = p == tripoint_min ? pos() : p;
+    tripoint const avatar_p = get_avatar().pos();
+    // Light might not have been calculated on the NPC's z-level
+    if( is_avatar() || check_p.z == avatar_p.z ||
+        ( fov_3d && std::abs( avatar_p.z - check_p.z ) <= fov_3d_z_range ) ) {
         ambient_light = std::max( 1.0f,
-                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {
         ambient_light = 1.0f;
     }
@@ -2763,6 +2824,46 @@ bool Character::has_max_power() const
 bool Character::enough_power_for( const bionic_id &bid ) const
 {
     return get_power_level() >= bid->power_activate;
+}
+
+std::vector<skill_id> Character::skills_offered_to( const Character *you ) const
+{
+    std::vector<skill_id> ret;
+    for( const auto &pair : *_skills ) {
+        const skill_id &id = pair.first;
+        if( id->is_teachable() && pair.second.level() > 0 &&
+            ( !you || you->get_knowledge_level( id ) < pair.second.level() ) ) {
+            ret.push_back( id );
+        }
+    }
+    return ret;
+}
+
+std::vector<matype_id> Character::styles_offered_to( const Character *you ) const
+{
+    if( you ) {
+        return you->martial_arts_data->get_unknown_styles( *martial_arts_data, true );
+    }
+    return martial_arts_data->get_known_styles( true );
+}
+
+std::vector<spell_id> Character::spells_offered_to( const Character *you ) const
+{
+    std::vector<spell_id> teachable;
+    for( const spell_id &sp : magic->spells() ) {
+        const spell &teacher_spell = magic->get_spell( sp );
+        if( sp->teachable && ( !you || you->magic->can_learn_spell( *you, sp ) ) ) {
+            if( you && you->magic->knows_spell( sp ) ) {
+                const spell &student_spell = you->magic->get_spell( sp );
+                if( student_spell.is_max_level( *you ) ||
+                    student_spell.get_level() >= teacher_spell.get_level() ) {
+                    continue;
+                }
+            }
+            teachable.emplace_back( sp );
+        }
+    }
+    return teachable;
 }
 
 void Character::conduct_blood_analysis()
@@ -2872,6 +2973,12 @@ std::list<item> Character::remove_worn_items_with( const std::function<bool( ite
     return worn.remove_worn_items_with( filter, *this );
 }
 
+void Character::clear_worn()
+{
+    worn.worn.clear();
+    inv_search_caches.clear();
+}
+
 std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
     std::list<item *> dependent;
@@ -2889,6 +2996,7 @@ item Character::remove_weapon()
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
+    invalidate_weight_carried_cache();
     return tmp;
 }
 
@@ -2904,7 +3012,9 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
     // In case we've moved out of range of lifting assist.
-    invalidate_weight_carried_cache();
+    if( using_lifting_assist ) {
+        invalidate_weight_carried_cache();
+    }
 }
 
 units::mass Character::weight_carried() const
@@ -2980,6 +3090,9 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
             best_nearby_lifting_assist() < weaponweight ) ) {
         ret += weaponweight;
+        using_lifting_assist = false;
+    } else {
+        using_lifting_assist = true;
     }
 
     return ret;
@@ -3158,7 +3271,6 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     int order;
     std::string overlay_id;
     std::string variant;
-
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
@@ -3350,7 +3462,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-
 void Character::normalize()
 {
     Creature::normalize();
@@ -3436,8 +3547,6 @@ void Character::do_skill_rust()
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
-            add_msg_if_player( m_warning,
-                               _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
         }
     }
@@ -3813,7 +3922,7 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 
 int Character::encumb( const bodypart_id &bp ) const
 {
-    if( !has_part( bp ) ) {
+    if( !has_part( bp, body_part_filter::equivalent ) ) {
         debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
         return 0;
     }
@@ -5744,12 +5853,11 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    has_item_with( [&maxlum]( const item & it ) {
+    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
         const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
-        return false; // continue search, otherwise has_item_with would cancel the search
     } );
 
     lumination = static_cast<float>( maxlum );
@@ -5810,7 +5918,7 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     std::string err;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
     int amount = container->all_pockets_rigid() ? max_remaining_capacity :
-                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ) );
+                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
 
     if( !err.empty() ) {
         if( !container->has_item_with( [&liquid]( const item & it ) {
@@ -6120,7 +6228,6 @@ float Character::get_bmi() const
     return get_bmi_lean() + get_bmi_fat();
 }
 
-
 float Character::get_bmi_lean() const
 {
     //strength BMIs decrease to zero as you starve (muscle atrophy)
@@ -6131,7 +6238,6 @@ float Character::get_bmi_lean() const
     }
     return 12.0f + get_str_base();
 }
-
 
 float Character::get_bmi_fat() const
 {
@@ -6690,24 +6796,26 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         effective_regen_rate * get_modifier( character_modifier_stamina_recovery_breathing_mod ) );
-    stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
-                       stamina_recovery );
-    // TODO: recovering stamina causes hunger/thirst/fatigue.
-    // TODO: Tiredness slowing recovery
+    // only apply stim-related and mutant stamina boosts if you don't have bionic lungs
+    if( !has_bionic( bio_synlungs ) ) {
+        stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
+                           stamina_recovery );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
+        // TODO: Tiredness slowing recovery
 
-    // stim recovers stamina (or impairs recovery)
-    if( current_stim > 0 ) {
-        // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
-    } else if( current_stim < 0 ) {
-        // Affect it less near 0 and more near full
-        // Negative stim kill at -200
-        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
-        // effectivly countering stamina gain of default 20,
-        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        // stim recovers stamina (or impairs recovery)
+        if( current_stim > 0 ) {
+            // TODO: Make stamina recovery with stims cost health
+            stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+        } else if( current_stim < 0 ) {
+            // Affect it less near 0 and more near full
+            // Negative stim kill at -200
+            // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+            // effectivly countering stamina gain of default 20,
+            // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+            stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        }
     }
-
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
@@ -6736,6 +6844,11 @@ int Character::get_cardiofit() const
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
         return 2 * get_cardio_acc_base();
+    }
+
+    if( has_bionic( bio_synlungs ) ) {
+        // If you have the synthetic lungs bionic your cardioacc is forced to a specific value
+        return 3 * get_cardio_acc_base();
     }
 
     const int cardio_base = get_cardio_acc();
@@ -6820,8 +6933,8 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                                it_name, ammo_req );
         } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
             add_msg_if_player( m_info,
-                               n_gettext( "Your %s needs %d bionic power.",
-                                          "Your %s needs %d bionic power.",
+                               n_gettext( "Your %s needs %d kJ of bionic power.",
+                                          "Your %s needs %d kJ of bionic power.",
                                           ammo_req ),
                                it_name, ammo_req );
         } else {
@@ -6925,7 +7038,7 @@ bool Character::consume_charges( item &used, int qty )
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost,
-                                   int charges_in_it ) const
+                                   int charges_in_it, bool bulk_cost ) const
 {
     int mv = base_cost;
     if( penalties ) {
@@ -6947,17 +7060,20 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         mv *= pen;
     }
 
-    // For single handed items use the least encumbered hand
-    if( it.is_two_handed( *this ) ) {
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            mv += encumb( part );
+    // The following is considered as overhead and is not included in the cost when handling multiple items at once.
+    if( !bulk_cost ) {
+        // For single handed items use the least encumbered hand
+        if( it.is_two_handed( *this ) ) {
+            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+                mv += encumb( part );
+            }
+        } else {
+            int min_encumb = INT_MAX;
+            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+                min_encumb = std::min( min_encumb, encumb( part ) );
+            }
+            mv += min_encumb;
         }
-    } else {
-        int min_encumb = INT_MAX;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            min_encumb = std::min( min_encumb, encumb( part ) );
-        }
-        mv += min_encumb;
     }
 
     return std::max( mv, 0 );
@@ -7394,18 +7510,17 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    visit_items( [&]( const item * it, item * ) {
-        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
-            if( ench.is_active( *this, *it ) ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
+        for( const enchant_cache &ench : it.get_proc_enchantments() ) {
+            if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
-        for( const enchantment &ench : it->get_defined_enchantments() ) {
-            if( ench.is_active( *this, *it ) ) {
+        for( const enchantment &ench : it.get_defined_enchantments() ) {
+            if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
-        return VisitResponse::NEXT;
     } );
 
     // get from traits/ mutations
@@ -7743,7 +7858,6 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-
 
     map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( pos() );
@@ -8825,22 +8939,263 @@ bool Character::in_sleep_state() const
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
+void Character::cache_visit_items_with( const itype_id &type,
+                                        const std::function<void( item & )> &do_func )
+{
+    cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const flag_id &type_flag,
+                                        const std::function<void( item & )> &do_func )
+{
+    cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<void( item & )> &do_func )
+{
+    cache_visit_items_with( key, {}, {}, filter_func, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
+                                        const flag_id &type_flag, bool( item::*filter_func )() const,
+                                        const std::function<void( item & )> &do_func )
+{
+    // If the cache already exists, use it. Remove all invalid item references.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
+            if( it ) {
+                do_func( *it );
+                return false;
+            }
+            return true;
+        } ), inv_search_caches[key].items.end() );
+        return;
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                do_func( *it );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+void Character::cache_visit_items_with( const itype_id &type,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const flag_id &type_flag,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( key, {}, {}, filter_func, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
+                                        const flag_id &type_flag, bool( item::*filter_func )() const,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    // If the cache already exists, use it. Remove all invalid item references.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
+            if( it ) {
+                do_func( *it );
+                return false;
+            }
+            return true;
+        } ), inv_search_caches[key].items.end() );
+        return;
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                do_func( *it );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+bool Character::cache_has_item_with( const itype_id &type,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_has_item_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+}
+
+bool Character::cache_has_item_with( const flag_id &type_flag,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
+}
+
+bool Character::cache_has_item_with( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_has_item_with( key, {}, {}, filter_func, check_func );
+}
+
+bool Character::cache_has_item_with( const std::string &key, const itype_id &type,
+                                     const flag_id &type_flag, bool( item::*filter_func )() const,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    bool aborted = false;
+
+    // If the cache already exists, use it. Stop iterating if the check_func ever returns true. Remove any invalid item references encountered.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        for( auto iter = found_cache->second.items.begin();
+             iter != found_cache->second.items.end(); ) {
+            if( *iter ) {
+                if( check_func( **iter ) ) {
+                    aborted = true;
+                    break;
+                }
+                ++iter;
+            } else {
+                iter = inv_search_caches[found_cache->first].items.erase( iter );
+            }
+        }
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                // If check_func returns true, stop running it but keep populating the cache.
+                if( !aborted && check_func( *it ) ) {
+                    aborted = true;
+                }
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    return aborted;
+}
+
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges, this]( const item & it ) {
-        if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
-                                            it.ammo_remaining( this ) > 0 );
-        }
-        return it.has_flag( flag );
+        return it.has_flag( flag ) && ( !need_charges || !it.is_tool() ||
+                                        it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0 );
     } );
 }
 
-std::vector<const item *> Character::all_items_with_flag( const flag_id &flag ) const
+bool Character::cache_has_item_with_flag( const flag_id &type_flag, bool need_charges ) const
 {
-    return items_with( [&flag]( const item & it ) {
-        return it.has_flag( flag );
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
+    [this, &need_charges]( const item & it ) {
+        return !need_charges || !it.is_tool() || it.type->tool->max_charges == 0 ||
+               it.ammo_remaining( this ) > 0;
     } );
+}
+
+std::vector<item *> Character::cache_get_items_with( const itype_id &type,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_and_check_func );
+}
+
+std::vector<item *> Character::cache_get_items_with( const flag_id &type_flag,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
+                                 do_and_check_func );
+}
+
+std::vector<item *> Character::cache_get_items_with( const std::string &key,
+        bool( item::*filter_func )() const,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return cache_get_items_with( key, {}, {}, filter_func, do_and_check_func );
+}
+
+std::vector<item *> Character::cache_get_items_with( const std::string &key, const itype_id &type,
+        const flag_id &type_flag, bool( item::*filter_func )() const,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    std::vector<item *> ret;
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
+        if( do_and_check_func( it ) ) {
+            ret.push_back( &it );
+        }
+    } );
+    return ret;
+}
+
+std::vector<const item *> Character::cache_get_items_with( const itype_id &type,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+}
+
+std::vector<const item *> Character::cache_get_items_with( const flag_id &type_flag,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
+}
+
+std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+        bool( item::*filter_func )() const,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_get_items_with( key, {}, {}, filter_func, check_func );
+}
+
+std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+        const itype_id &type, const flag_id &type_flag, bool( item::*filter_func )() const,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    std::vector<const item *> ret;
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &check_func]( const item & it ) {
+        if( check_func( it ) ) {
+            ret.push_back( &it );
+        }
+    } );
+    return ret;
+}
+
+void Character::add_to_inv_search_caches( item &it ) const
+{
+    for( auto &cache : inv_search_caches ) {
+        if( ( cache.second.type.is_valid() && it.typeId() != cache.second.type ) ||
+            ( cache.second.type_flag.is_valid() && !it.type->has_flag( cache.second.type_flag ) ) ||
+            ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
+            continue;
+        }
+        cache.second.items.push_back( it.get_safe_reference() );
+    }
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,
@@ -8910,9 +9265,9 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
-        available_charges += units::from_kilojoule( i->ammo_remaining() );
-    }
+    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
+        available_charges += units::from_kilojoule( it.ammo_remaining() );
+    } );
 
     return available_charges;
 }
@@ -8937,15 +9292,14 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
-        for( const item *i : ups_items ) {
-            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
-                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
-                        i->type->tool->fuel_efficiency );
+        cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
+            if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
+                qty -= it.energy_consume( qty, tripoint_zero, nullptr,
+                                          it.type->tool->fuel_efficiency );
             } else {
-                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint_zero, nullptr );
             }
-        }
+        } );
     }
 
     // UPS from nearby map
@@ -9020,21 +9374,24 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
-    for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
-        if( !i->typeId()->can_have_charges() ) {
-            const use_function *usef = i->type->get_use( "firestarter" );
+    item ret;
+    cache_has_item_with( flag_FIRESTARTER, [&]( const item & it ) {
+        if( !it.typeId()->can_have_charges() ) {
+            const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
-                    return *i;
+                if( actor->can_use( *this->as_character(), it, tripoint_zero ).success() ) {
+                    ret = it;
+                    return true;
                 }
             }
-        } else if( i->ammo_sufficient( this, quantity ) ) {
-            return *i;
+        } else if( it.ammo_sufficient( this, quantity ) ) {
+            ret = it;
+            return true;
         }
-    }
-
-    return item();
+        return false;
+    } );
+    return ret;
 }
 
 bool Character::has_fire( const int quantity ) const
@@ -9044,7 +9401,7 @@ bool Character::has_fire( const int quantity ) const
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
     }
-    if( has_item_with_flag( flag_FIRE ) ) {
+    if( cache_has_item_with( flag_FIRE ) ) {
         return true;
     }
     if( !find_firestarter_with_charges( quantity ).is_null() ) {
@@ -9135,7 +9492,7 @@ void Character::use_fire( const int quantity )
     if( get_map().has_nearby_fire( pos() ) ) {
         return;
     }
-    if( has_item_with_flag( flag_FIRE ) ) {
+    if( cache_has_item_with( flag_FIRE ) ) {
         return;
     }
 
@@ -9196,6 +9553,7 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
+    invalidate_weight_carried_cache();
     invalidate_leak_level_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
         // flag these mutations to be removed at the start of the next turn
@@ -9218,9 +9576,20 @@ void Character::enchantment_wear_change()
 
 void Character::on_item_acquire( const item &it )
 {
-    if( is_avatar() && it.has_item_with( []( const item & it ) {
-    return it.has_flag( flag_ZOOM );
-    } ) ) {
+    bool check_for_zoom = is_avatar();
+    bool update_overmap_seen = false;
+
+    it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( item * cont_it, item * ) {
+        add_to_inv_search_caches( *cont_it );
+        if( check_for_zoom && !update_overmap_seen && cont_it->has_flag( flag_ZOOM ) ) {
+            update_overmap_seen = true;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    invalidate_weight_carried_cache();
+
+    if( update_overmap_seen ) {
         g->update_overmap_seen();
     }
 }
@@ -9769,6 +10138,24 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     } );
 }
 
+int Character::get_mutation_visibility_cap( const Character *observed ) const
+{
+    // as of now, visibility of mutations is between 0 and 10
+    // 10 perception and 10 distance would see all mutations - cap 0
+    // 10 perception and 30 distance - cap 5, some mutations visible
+    // 3 perception and 3 distance would see all mutations - cap 0
+    // 3 perception and 15 distance - cap 5, some mutations visible
+    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    const int dist = rl_dist( pos(), observed->pos() );
+    int visibility_cap;
+    if( per_cur <= 1 ) {
+        visibility_cap = INT_MAX;
+    } else {
+        visibility_cap = std::round( dist * dist / 20.0 / ( per_cur - 1 ) );
+    }
+    return visibility_cap;
+}
+
 std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
@@ -10043,14 +10430,14 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                } else {
+                } else if( val > 0 )  {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
@@ -10612,6 +10999,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
+        item *prev_contained = nullptr;
 
         for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
@@ -10620,7 +11008,12 @@ bool Character::unload( item_location &loc, bool bypass_activity )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
-                moves += this->item_handling_cost( *contained );
+                if( prev_contained && prev_contained->stacks_with( *contained ) ) {
+                    moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                } else {
+                    moves += this->item_handling_cost( *contained );
+                }
+                prev_contained = contained;
             }
 
         }
@@ -10688,6 +11081,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     target->casings_handle( [&]( item & e ) {
         return this->i_add_or_drop( e );
     } );
+
+    invalidate_weight_carried_cache();
 
     if( target->is_magazine() ) {
         if( bypass_activity ) {
@@ -11017,6 +11412,49 @@ bool Character::beyond_final_warning( const faction_id &id )
     return false;
 }
 
+read_condition_result Character::check_read_condition( const item &book ) const
+{
+    read_condition_result result = read_condition_result::SUCCESS;
+    if( !book.is_book() ) {
+        result |= read_condition_result::NOT_BOOK;
+    } else {
+        const optional_vpart_position vp = get_map().veh_at( pos() );
+        if( vp && vp->vehicle().player_in_control( *this ) ) {
+            result |= read_condition_result::DRIVING;
+        }
+
+        if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+            result |= read_condition_result::MORALE_LOW;
+        }
+
+        const book_mastery mastery = get_book_mastery( book );
+        if( mastery == book_mastery::CANT_UNDERSTAND ) {
+            result |= read_condition_result::CANT_UNDERSTAND;
+        }
+        if( mastery == book_mastery::MASTERED ) {
+            result |= read_condition_result::MASTERED;
+        }
+
+        const bool book_requires_intelligence = book.type->book->intel > 0;
+        if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
+            result |= read_condition_result::ILLITERATE;
+        }
+        if( has_flag( json_flag_HYPEROPIC ) &&
+            !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+            !has_effect( effect_contacts ) &&
+            !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+            result |= read_condition_result::NEED_GLASSES;
+        }
+        if( fine_detail_vision_mod() > 4 ) {
+            result |= read_condition_result::TOO_DARK;
+        }
+        if( is_blind() ) {
+            result |= read_condition_result::BLIND;
+        }
+    }
+    return result;
+}
+
 const Character *Character::get_book_reader( const item &book,
         std::vector<std::string> &reasons ) const
 {
@@ -11033,22 +11471,21 @@ const Character *Character::get_book_reader( const item &book,
     const cata::value_ptr<islot_book> &type = book.type->book;
     const skill_id &book_skill = type->skill;
     const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = get_map().veh_at( pos() );
-    if( vp && vp->vehicle().player_in_control( *this ) ) {
+    read_condition_result condition = check_read_condition( book );
+    if( condition & read_condition_result::DRIVING ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+    if( condition & read_condition_result::MORALE_LOW ) {
         // Low morale still permits skimming
         reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
                               string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
-    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
+    if( condition & read_condition_result::CANT_UNDERSTAND ) {
         reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
                            book_skill->name(), book_skill_requirement, get_knowledge_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
@@ -11057,16 +11494,13 @@ const Character *Character::get_book_reader( const item &book,
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
+    if( condition & read_condition_result::ILLITERATE ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
-    } else if( has_flag( json_flag_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) &&
-               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+    } else if( condition & read_condition_result::NEED_GLASSES ) {
         reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( condition & read_condition_result::TOO_DARK ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -11091,30 +11525,28 @@ const Character *Character::get_book_reader( const item &book,
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
-        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
+        condition = elem->check_read_condition( book );
+        if( condition & read_condition_result::ILLITERATE ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
-        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
+        } else if( condition & read_condition_result::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               book_skill->name(), book_skill_requirement, elem->disp_name(),
                                               elem->get_knowledge_level( book_skill ) ) );
-        } else if( elem->has_flag( json_flag_HYPEROPIC ) &&
-                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-                   !elem->has_effect( effect_contacts ) ) {
+        } else if( condition & read_condition_result::NEED_GLASSES ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+        } else if( condition & read_condition_result::TOO_DARK ) {
             reasons.push_back( string_format(
                                    _( "It's too dark for %s to read!" ),
                                    elem->disp_name() ) );
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
-                   has_identified( book.typeId() ) ) {
+        } else if( condition & read_condition_result::MORALE_LOW ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
-        } else if( elem->is_blind() ) {
+        } else if( condition & read_condition_result::BLIND ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
             time_duration proj_time = time_to_read( book, *elem );
@@ -11324,27 +11756,6 @@ stat_mod Character::get_pain_penalty() const
 
     ret.speed = std::min( ret.speed, 50 );
     return ret;
-}
-
-std::list<item *> Character::get_radio_items()
-{
-    std::list<item *> rc_items;
-    const invslice &stacks = inv->slice();
-    for( const auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &stack_iter );
-        }
-    }
-
-    worn.append_radio_items( rc_items );
-
-    if( is_armed() ) {
-        if( weapon.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &weapon );
-        }
-    }
-    return rc_items;
 }
 
 int Character::get_lift_str() const
@@ -11747,8 +12158,8 @@ void Character::process_items()
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    const auto inv_use_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_USE_UPS ) && itm.ammo_data();
+    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, []( item & it ) {
+        return !!it.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
@@ -11966,11 +12377,11 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
                 moves = pre_obtain_moves;
                 return;
             }
-            u->assign_activity( consume_activity_actor( item_location( *u, &used ) ) );
+            u->assign_activity( consume_activity_actor( loc ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
             moves -= to_moves<int>( consume_time );
-            consume( used );
+            consume( loc );
         }
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.

@@ -61,6 +61,7 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
         bool will_talk_to_u( const Character &u, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
         int get_cur_hp( const bodypart_id & ) const override;
+        int get_hp_max( const bodypart_id & ) const override;
     protected:
         talker_monster_const() = default;
         const monster *me_mon_const;
@@ -101,6 +102,8 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void set_friendly( int ) override;
         bool get_is_alive() const override;
         void die() override;
+
+        void set_all_parts_hp_cur( int ) const override;
     protected:
         talker_monster() = default;
         monster *me_mon;

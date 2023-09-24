@@ -297,6 +297,7 @@ enum class ter_furn_flag : int {
     TFLAG_ALARMED,
     TFLAG_CHOCOLATE,
     TFLAG_SIGN,
+    TFLAG_SIGN_ALWAYS,
     TFLAG_DONT_REMOVE_ROTTEN,
     TFLAG_BLOCKSDOOR,
     TFLAG_NO_SELF_CONNECT,
@@ -307,6 +308,7 @@ enum class ter_furn_flag : int {
     TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
+    TFLAG_SMALL_HIDE,
 
     NUM_TFLAG_FLAGS
 };

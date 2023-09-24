@@ -3,7 +3,7 @@
     "type": "npc_class",
     "id": "NC_SWAMPER",
     "name": { "str": "Swamper" },
-    "job_description": "The great eaters have returned and they must be fed",
+    "job_description": "The great eaters have returned and they must be fed.",
     "traits": [ { "trait": "SPIRITUAL" }, { "trait": "PRETTY" }, { "trait": "PSYCHOPATH" } ],
     "common": false,
     "bonus_per": { "rng": [ 0, 2 ] },
@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_EATING",
-    "dynamic_line": "The great eaters have returned, along with the false ones.  We must feed the eaters and destroy the pretenders child.",
+    "dynamic_line": "The great eaters have returned, along with the false ones.  We must feed the eaters and destroy the pretenders, child.",
     "responses": [
       { "text": "Who are you talking about?", "topic": "TALK_SWAMPER_EATING2" },
       { "text": "No thank you, I'd like to leave now.", "topic": "TALK_DONE" }
@@ -105,7 +105,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_EATING3",
-    "dynamic_line": "The great eaters are the ones that were lost, what we call dinosaurs whose meat we took and who are taking it back.  The pretenders are those others that have come to steal the meat of this world.  It does not belong to them and we will take it from their mouths.",
+    "dynamic_line": "The great eaters are the ones that were lost, what we call dinosaurs, whose meat we took and who are taking it back.  The pretenders are those others that have come to steal the meat of this world.  It does not belong to them and we will take it from their mouths.",
     "responses": [ { "text": "Okay, so you worship dinosaurs.  Understood.", "topic": "TALK_NONE" } ]
   },
   {
@@ -161,7 +161,7 @@
       ]
     },
     "dialogue": {
-      "describe": "The eaters are hungry.  They need meat",
+      "describe": "The eaters are hungry.  They need meat.",
       "offer": "If you wish to feed the eaters, your work will be rewarded.  Go out, butcher a pure animal.  Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
       "accepted": "Excellent.  The eaters must feed.",
       "rejected": "Understood.  The great eaters will feed either way.",
@@ -177,7 +177,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "has_no_available_mission": {
-        "has_no_assigned_mission": "The eaters have fed.  They will be hungry again in time",
+        "has_no_assigned_mission": "The eaters have fed.  They will be hungry again in time.",
         "no": { "has_many_assigned_missions": "You know what to do.", "no": "That is all for now." }
       },
       "no": {

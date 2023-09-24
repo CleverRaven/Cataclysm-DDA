@@ -7,6 +7,7 @@ std::map<vproto_id, std::vector<double>> test_data::drag_data;
 std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
 std::map<spawn_type, std::vector<container_spawn_test_data>> test_data::container_spawn_data;
+std::map<std::string, npc_boarding_test_data> test_data::npc_boarding_data;
 
 void efficiency_data::deserialize( const JsonObject &jo )
 {
@@ -37,6 +38,14 @@ void container_spawn_test_data::deserialize( const JsonObject &jo )
     if( jo.has_member( "charges" ) ) {
         jo.read( "charges", charges );
     }
+}
+
+void npc_boarding_test_data::deserialize( const JsonObject &jo )
+{
+    jo.read( "vehicle", veh_prototype );
+    jo.read( "player_pos", player_pos );
+    jo.read( "npc_pos", npc_pos );
+    jo.read( "npc_target", npc_target );
 }
 
 void test_data::load( const JsonObject &jo )
@@ -100,5 +109,11 @@ void test_data::load( const JsonObject &jo )
             container_spawn_data[spawn_type::map].insert( container_spawn_data[spawn_type::map].end(),
                     test_map.begin(), test_map.end() );
         }
+    }
+
+    if( jo.has_object( "npc_boarding_data" ) ) {
+        std::map<std::string, npc_boarding_test_data> new_boarding_data;
+        jo.read( "npc_boarding_data", new_boarding_data );
+        npc_boarding_data.insert( new_boarding_data.begin(), new_boarding_data.end() );
     }
 }

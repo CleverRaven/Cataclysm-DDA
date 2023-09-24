@@ -34,7 +34,8 @@
         { "item": "chunk_aluminum", "count": [ 0, 3 ], "prob": 3 },
         { "item": "chunk_cassiterite", "count": [ 2, 4 ], "prob": 10 },
         { "item": "chunk_galena", "count": [ 2, 4 ], "prob": 10 },
-        { "item": "chunk_hematite", "count": [ 2, 2 ], "prob": 10 }
+        { "item": "chunk_hematite", "count": [ 2, 2 ], "prob": 10 },
+        { "item": "chunk_cinnabar", "count": [ 1, 3 ], "prob": 15 }
       ]
     }
   }

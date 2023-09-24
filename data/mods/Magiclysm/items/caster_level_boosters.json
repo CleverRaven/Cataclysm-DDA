@@ -361,6 +361,7 @@
     "description": "A thick purple liquid that is filled to the brim with arcane energy.  With the right tool, it can be used to boost your biomancer caster level.",
     "weight": "265 g",
     "volume": "250 ml",
+    "charges": 1,
     "price": 0,
     "symbol": "~",
     "color": "pink",

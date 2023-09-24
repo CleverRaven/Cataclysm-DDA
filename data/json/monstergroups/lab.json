@@ -265,7 +265,6 @@
       { "monster": "mon_zombie_hazmat", "weight": 20, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_pipe", "weight": 18, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_human_crowbar", "weight": 18, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_eyebot", "weight": 5 },
       { "monster": "mon_hazmatbot", "weight": 7, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie", "weight": 30, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zombie_fat", "weight": 30 },

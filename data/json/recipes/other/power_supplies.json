@@ -671,7 +671,7 @@
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
@@ -694,7 +694,7 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 166 ] ],
@@ -716,7 +716,7 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 48 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
@@ -739,7 +739,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 48 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 664 ] ],
@@ -761,7 +761,7 @@
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 100 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
@@ -784,7 +784,7 @@
     "time": "1 h 45 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 100 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 1328 ] ],

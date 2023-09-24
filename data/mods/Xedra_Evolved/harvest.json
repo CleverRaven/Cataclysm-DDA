@@ -15,6 +15,40 @@
     ]
   },
   {
+    "id": "stoneling",
+    "type": "harvest",
+    "entries": [ { "drop": "pebble", "type": "blood", "mass_ratio": 0.1 }, { "drop": "rock", "type": "flesh", "mass_ratio": 0.4 } ]
+  },
+  {
+    "id": "water_elemental",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fae_meat", "type": "flesh", "mass_ratio": 0.4 }
+    ]
+  },
+  {
+    "id": "rat_with_skull_arvore",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_rodent", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "fae_meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "fae_flying",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fae_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.003 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "fae_organs", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "fig_harv",
     "type": "harvest",
     "entries": [ { "drop": "fig", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]

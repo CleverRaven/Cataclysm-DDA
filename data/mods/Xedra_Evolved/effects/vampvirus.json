@@ -21,6 +21,7 @@
               { "u_lose_trait": "VAMPIRE" },
               { "u_lose_trait": "EYEGLEAM" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
+              { "u_lose_trait": "COMMUNE_NIGHT" },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
           },
@@ -94,7 +95,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_COMPLETED_ROLL_REMAINDER",
+    "id": "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS",
     "effect": { "u_message": "You flush with desire as you think about blood." }
   },
   {
@@ -147,10 +148,10 @@
               "condition": { "u_has_trait": "VAMPIRE" },
               "effect": [
                 {
-                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ],
+                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD", "COMMUNE_NIGHT" ],
                   "type": "mutation",
-                  "true_eocs": [ "EOC_VAMPVIRUS1", "EOC_SUCCESFUL_ROLL_REMAINDER" ],
-                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                  "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]
                 },
                 { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
               ],
@@ -179,10 +180,10 @@
                 {
                   "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ],
                   "type": "mutation",
-                  "true_eocs": [ "EOC_VAMPVIRUS2" ],
-                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                  "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
                 },
-                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "5 days", "8 hours" ] }
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "15 days", "8 hours" ] }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
@@ -209,8 +210,8 @@
                 {
                   "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ],
                   "type": "mutation",
-                  "true_eocs": [ "EOC_VAMPVIRUS2" ],
-                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                  "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
                 },
                 {
                   "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."

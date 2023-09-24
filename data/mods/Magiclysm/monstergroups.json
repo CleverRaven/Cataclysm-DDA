@@ -35,7 +35,20 @@
       { "monster": "mon_owlbear_zombie_brute", "weight": 1, "cost_multiplier": 15, "starts": "30 days" },
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12 },
-      { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 }
+      { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 },
+      {
+        "group": "GROUP_FOREST_SPIRIT",
+        "weight": 15,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+        "cost_multiplier": 3
+      },
+      {
+        "group": "GROUP_FOREST_SPIRIT",
+        "weight": 20,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "DAY" ],
+        "cost_multiplier": 3
+      },
+      { "group": "GROUP_EARTH_SPIRIT", "weight": 5, "cost_multiplier": 3 }
     ]
   },
   {
@@ -57,7 +70,8 @@
       { "monster": "mon_wisp", "weight": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragon_black_wyrmling", "weight": 2, "cost_multiplier": 50 },
       { "monster": "mon_dragon_black_young", "weight": 1, "cost_multiplier": 65 },
-      { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 }
+      { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 },
+      { "group": "GROUP_FOREST_SPIRIT_SWAMP", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {
@@ -83,7 +97,34 @@
         "pack_size": [ 1, 2 ],
         "starts": "30 days"
       },
-      { "monster": "mon_yulecat_zombie_brute", "weight": 5, "cost_multiplier": 30, "starts": "30 days" }
+      { "monster": "mon_yulecat_zombie_brute", "weight": 5, "cost_multiplier": 30, "starts": "30 days" },
+      { "group": "GROUP_EARTH_SPIRIT_CAVE", "weight": 50 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "monsters": [ { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_SURFACE",
+    "monsters": [
+      { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_feral_radiation_mage", "weight": 2, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MICROLAB",
+    "monsters": [ { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_RESEARCHERS",
+    "monsters": [
+      { "monster": "mon_feral_lab_magician", "weight": 20, "cost_multiplier": 5 },
+      { "monster": "mon_feral_radiation_mage", "weight": 1, "cost_multiplier": 10 }
     ]
   },
   {
@@ -170,6 +211,20 @@
     ]
   },
   {
+    "name": "GROUP_FROGS_CLOAK",
+    "//": "Nature frogs with no seasonal limits",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_bullfrog_frog", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_fowler_toad", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_freedom_toad", "weight": 100, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_peeper_frog", "weight": 100, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_gray_frog", "weight": 100, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_GOBLIN_STANDARD",
     "monsters": [
@@ -224,5 +279,156 @@
     "name": "GROUP_WORKSHOP",
     "default": "mon_workshop_elf",
     "monsters": [ { "monster": "mon_workshop_elf", "freq": 100, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FERAL",
+    "monsters": [
+      { "monster": "mon_feral_elf_pipe", "weight": 20, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_dwarf_pipe", "weight": 20, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_elf_crowbar", "weight": 15, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_dwarf_crowbar", "weight": 15, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_elf_axe", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_dwarf_axe", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_feral_goblin", "weight": 20, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_ravenfolk", "weight": 15, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_lizardfolk", "weight": 10, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST_SPIRIT",
+    "monsters": [
+      { "monster": "mon_mossling", "weight": 24, "cost_multiplier": 1 },
+      { "monster": "mon_mossling", "weight": 8, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_dryad", "weight": 8, "cost_multiplier": 2 },
+      { "monster": "mon_dryad", "weight": 3, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_brackenwight", "weight": 5, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST_SPIRIT_SWAMP",
+    "monsters": [
+      { "monster": "mon_mossling", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_mossling", "weight": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_brackenwight", "weight": 8, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_EARTH_SPIRIT",
+    "monsters": [
+      { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_earth_gnome", "weight": 5, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_EARTH_SPIRIT_CAVE",
+    "monsters": [
+      { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_earth_gnome", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAGIC_FIELD",
+    "monsters": [ { "group": "GROUP_FOREST", "weight": 2 }, { "group": "GROUP_FOREST_SPIRIT", "weight": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_triffid_vineweaver", "weight": 25, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_OUTER",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_vineweaver", "weight": 50, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HEARTGUARDS",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_vineweaver", "weight": 150, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HERBALISM_SEEDSHAPER",
+    "//": "For placing in magic fields",
+    "monsters": [
+      { "monster": "mon_triffid_seedshaper", "weight": 1 },
+      { "monster": "mon_triffid", "weight": 1, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_vinebeast", "weight": 1, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HERBALISM_VINEWEAVER",
+    "//": "For placing in magic fields",
+    "monsters": [
+      { "monster": "mon_triffid_vineweaver", "weight": 1 },
+      { "monster": "mon_triffid", "weight": 1, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_vinebeast", "weight": 1, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_CAMP_OM",
+    "monsters": [
+      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" },
+      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_COMMON",
+    "monsters": [
+      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "monsters": [
+      { "monster": "mon_mi_go_fleshwarper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_nethermancer", "weight": 100, "cost_multiplier": 2, "starts": "210 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_BOSS",
+    "monsters": [
+      { "monster": "mon_mi_go_fleshwarper", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mi_go_nethermancer", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHERMANCER_SUMMON",
+    "default": "mon_blank",
+    "monsters": [
+      { "monster": "mon_flying_polyp_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter_migo", "weight": 100, "starts": "180 hours" },
+      { "monster": "mon_yugg_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye_migo", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_kreck_migo", "weight": 100, "cost_multiplier": 0 }
+    ]
   }
 ]

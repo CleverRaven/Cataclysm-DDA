@@ -8,7 +8,7 @@
     "to_hit": 1,
     "color": "dark_gray",
     "symbol": "&",
-    "material": [ "steel", "plastic" ],
+    "material": [ "copper", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
     "category": "tools",
@@ -16,34 +16,8 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": {
-      "type": "link_up",
-      "menu_text": "Plug in / Unplug",
-      "is_cable_item": true,
-      "cable_length": 3,
-      "targets": [ "vehicle_port" ]
-    },
-    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
-    "melee_damage": { "bash": 2 }
-  },
-  {
-    "type": "TOOL",
-    "id": "generic_device_cable",
-    "name": { "str": "device cable" },
-    "description": "A cable for attaching devices to power or to other devices.",
-    "//": "This cable is automatically handled by devices and is used for connecting them to vehicles/appliances",
-    "to_hit": 1,
-    "color": "dark_gray",
-    "symbol": "&",
-    "material": [ "steel", "plastic" ],
-    "volume": "500 ml",
-    "weight": "75 g",
-    "category": "tools",
-    "price": 1,
-    "price_postapoc": 70,
-    "max_charges": 4,
-    "initial_charges": 4,
-    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Manage connections", "targets": [ "vehicle_port" ] },
+    "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -54,7 +28,7 @@
     "to_hit": 1,
     "color": "light_blue",
     "symbol": "&",
-    "material": [ "steel", "plastic" ],
+    "material": [ "copper", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
     "category": "tools",
@@ -64,10 +38,9 @@
     "initial_charges": 4,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Attach / Detach",
-      "is_cable_item": true,
-      "cable_length": 4,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
+      "menu_text": "Attach / Manage connections",
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ],
+      "can_extend": [ "jumper_cable", "jumper_cable_heavy" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 },
@@ -75,47 +48,57 @@
   },
   {
     "type": "TOOL",
+    "id": "jumper_cable_heavy",
+    "name": { "str": "heavy-duty jumper cable" },
+    "description": "A long, thick, heavy-duty jumper cable with power leads on either end.  It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.  Can also link other electrical systems.",
+    "volume": "1500 ml",
+    "weight": "750 g",
+    "max_charges": 20,
+    "initial_charges": 20,
+    "copy-from": "jumper_cable"
+  },
+  {
+    "type": "TOOL",
     "id": "extension_cable",
     "name": { "str": "extension cord" },
-    "description": "A long 30-foot (or about 10 m) orange extension cord for connecting appliances.  Could be used on any appliance or other household electrical system.",
-    "copy-from": "jumper_cable",
+    "description": "A long 30-foot (or about 10 m) orange extension cord for extending cables or connecting appliances.  Could be used on any appliance or other household electrical system.",
+    "to_hit": 1,
+    "color": "light_blue",
+    "symbol": "&",
+    "material": [ "copper", "plastic" ],
     "volume": "1200 ml",
     "weight": "800 g",
+    "category": "tools",
+    "price": 1,
+    "price_postapoc": 100,
     "max_charges": 10,
     "initial_charges": 10,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Plug in / Unplug",
-      "is_cable_item": true,
-      "cable_length": 10,
-      "targets": [ "no_link", "vehicle_port" ]
+      "menu_text": "Plug in / Manage connections",
+      "targets": [ "no_link", "vehicle_port" ],
+      "can_extend": [ "ELECTRICAL_DEVICES", "extension_cable", "long_extension_cable" ]
     },
-    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "TOOL",
     "id": "long_extension_cable",
     "name": { "str": "outdoor extension cord" },
-    "description": "An extra-long 100-foot (or about 30 m) orange extension cord for connecting outdoor appliances.  Could be used on any appliance or other household electrical system.",
-    "copy-from": "jumper_cable",
+    "description": "An extra-long 100-foot (or about 30 m) orange extension cord for extending cables or connecting outdoor appliances.  Could be used on any appliance or other household electrical system.",
+    "copy-from": "extension_cable",
     "volume": "3750 ml",
     "weight": "2500 g",
     "max_charges": 30,
     "initial_charges": 30,
-    "use_action": {
-      "type": "link_up",
-      "menu_text": "Plug in / Unplug",
-      "is_cable_item": true,
-      "cable_length": 30,
-      "targets": [ "no_link", "vehicle_port" ]
-    },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
     "id": "hd_tow_cable",
     "name": { "str": "heavy-duty tow cable" },
-    "description": "An extremely heavy-duty 75-foot (or about 24 m) tow cable made from thick steel wire.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
+    "description": "An extremely heavy-duty 30-foot (or about 9 m) tow cable made from thick steel wire coated in plastic.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
     "to_hit": -1,
     "color": "light_blue",
     "symbol": "&",
@@ -125,48 +108,34 @@
     "category": "tools",
     "price": 80,
     "price_postapoc": 500,
-    "max_charges": 6,
-    "initial_charges": 6,
-    "use_action": { "type": "link_up", "is_cable_item": true, "cable_length": 6, "targets": [ "no_link", "vehicle_tow" ] },
+    "max_charges": 8,
+    "initial_charges": 8,
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Attach / Manage connections",
+      "efficiency": 0.0,
+      "targets": [ "no_link", "vehicle_tow" ]
+    },
     "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 6 }
   },
   {
     "type": "TOOL",
-    "id": "jumper_cable_heavy",
-    "name": { "str": "heavy-duty cable" },
-    "description": "A long, thick, heavy-duty cable with power leads on either end.  It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.  Can also link other electrical systems.",
-    "volume": "1500 ml",
-    "weight": "750 g",
-    "max_charges": 20,
-    "initial_charges": 20,
-    "use_action": {
-      "type": "link_up",
-      "menu_text": "Attach / Detach",
-      "is_cable_item": true,
-      "cable_length": 20,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
-    },
-    "copy-from": "jumper_cable"
-  },
-  {
-    "type": "TOOL",
     "id": "jumper_cable_debug",
     "name": { "str": "shiny debug cable" },
     "description": "This is the cable of the gods: 100 meters long, no power loss, light as a feather, and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
+    "copy-from": "jumper_cable",
     "weight": "1 g",
     "volume": "1 ml",
     "max_charges": 100,
     "initial_charges": 100,
     "use_action": {
       "type": "link_up",
-      "menu_text": "Plug in / Unplug",
-      "is_cable_item": true,
-      "cable_length": 100,
-      "efficiency": 1000,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ]
-    },
-    "copy-from": "jumper_cable"
+      "menu_text": "Attach / Manage connections",
+      "efficiency": 1.0,
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ],
+      "can_extend": [ "ELECTRICAL_DEVICES", "jumper_cable_debug" ]
+    }
   }
 ]

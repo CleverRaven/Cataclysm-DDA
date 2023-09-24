@@ -310,7 +310,7 @@
     "id": "test_spawn_w_modifier",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "butter", "prob": 100, "charges-min": 1, "charges-max": 1, "container-item": "wrapper" } ]
+    "entries": [ { "item": "butter", "prob": 100, "count": 1, "container-item": "null", "entry-wrapper": "wrapper" } ]
   },
   {
     "id": "test_spawn_custom_container",

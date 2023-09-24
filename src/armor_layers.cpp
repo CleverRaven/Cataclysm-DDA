@@ -261,7 +261,6 @@ std::vector<std::string> clothing_properties(
         props.reserve( 5 );
     }
 
-
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
 
     int coverage = worn_item.get_coverage( used_bp );

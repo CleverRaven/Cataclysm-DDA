@@ -112,7 +112,11 @@
     "using": [ [ "surface_heat", 50 ] ],
     "charges": 50,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ]
+    ],
     "components": [ [ [ "lead", 15 ], [ "bismuth", 25 ] ], [ [ "tin", 25 ] ], [ [ "rosin", 2 ] ] ]
   }
 ]

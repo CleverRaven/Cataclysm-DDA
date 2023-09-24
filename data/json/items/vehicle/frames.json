@@ -113,6 +113,7 @@
     "color": "brown",
     "material": [ "wood" ],
     "volume": "8750 ml",
+    "longest_side": "75 cm",
     "melee_damage": { "bash": 8, "cut": 1 },
     "price": 1000,
     "price_postapoc": 50,

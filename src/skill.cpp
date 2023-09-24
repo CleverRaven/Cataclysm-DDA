@@ -153,6 +153,7 @@ void Skill::load_skill( const JsonObject &jsobj )
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
     sk._companion_skill_practice = companion_skill_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
+    sk._teachable = jsobj.get_bool( "teachable", true );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;

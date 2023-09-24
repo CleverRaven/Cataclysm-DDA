@@ -40,21 +40,24 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
+#include "help.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
 #include "options.h"
-#include "output.h"
-#include "help.h"
 #include "ordered_static_globals.h"
+#include "output.h"
 #include "path_info.h"
 #include "rng.h"
 #include "system_locale.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#if defined(MACOSX)
+#   include <unistd.h> // getpid()
+#endif
 
 #if defined(PREFIX)
 #   undef PREFIX
@@ -149,7 +152,19 @@ void exit_handler( int s )
         signal( SIGABRT, SIG_DFL );
 #endif
 
-        exit( exit_status );
+#if !defined(_WIN32)
+        if( s == 2 ) {
+            struct sigaction sigIntHandler;
+            sigIntHandler.sa_handler = SIG_DFL;
+            sigemptyset( &sigIntHandler.sa_mask );
+            sigIntHandler.sa_flags = 0;
+            sigaction( SIGINT, &sigIntHandler, nullptr );
+            kill( getpid(), s );
+        } else
+#endif
+        {
+            exit( exit_status );
+        }
     }
     inp_mngr.set_timeout( old_timeout );
     ui_manager::redraw_invalidated();

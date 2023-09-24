@@ -1,0 +1,108 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_godco_hate_u_mutant",
+    "recurrence": [ 20, 40 ],
+    "condition": {
+      "or": [
+        {
+          "u_has_any_trait": [
+            "THRESH_LIZARD",
+            "THRESH_GASTROPOD",
+            "THRESH_BIRD",
+            "THRESH_FISH",
+            "THRESH_BEAST",
+            "THRESH_FELINE",
+            "THRESH_LUPINE",
+            "THRESH_URSINE",
+            "THRESH_CATTLE",
+            "THRESH_INSECT",
+            "THRESH_PLANT",
+            "THRESH_SLIME",
+            "THRESH_TROGLOBITE",
+            "THRESH_CEPHALOPOD",
+            "THRESH_SPIDER",
+            "THRESH_RAT",
+            "THRESH_ELPHA",
+            "THRESH_CHIMERA",
+            "THRESH_RAPTOR",
+            "THRESH_BATRACHIAN",
+            "THRESH_MOUSE",
+            "THRESH_MARLOSS",
+            "THRESH_MYCUS",
+            "THRESH_CRUSTACEAN"
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+    "effect": [ { "u_add_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "theresa_remove",
+    "recurrence": 100,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_has_var": "theresa_going_away", "type": "general", "context": "completed", "value": "yes" },
+        { "u_near_om_location": "godco_3", "range": 12 }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "theresa_gone", "type": "general", "context": "completed", "value": "yes" },
+    "effect": [
+      { "mapgen_update": "theresa_remove", "om_terrain": "godco_3" },
+      { "u_lose_var": "theresa_going_away", "type": "general", "context": "completed" },
+      { "u_add_var": "theresa_gone", "type": "general", "context": "completed", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_trader",
+    "recurrence": 100,
+    "global": false,
+    "condition": {
+      "and": [
+        { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 0 } ] },
+        { "days_since_cataclysm": 7 },
+        { "u_near_om_location": "godco_enter", "range": 2 },
+        { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
+      ]
+    },
+    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 1 } ] },
+    "effect": [
+      { "mapgen_update": "godco_permanent_trader_predatory_add", "om_terrain": "godco_enter" },
+      { "arithmetic": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_change_trader",
+    "recurrence": 100,
+    "global": false,
+    "condition": {
+      "and": [
+        { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 1 } ] },
+        { "u_near_om_location": "godco_enter", "range": 2 },
+        { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
+      ]
+    },
+    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 2 } ] },
+    "effect": [
+      { "mapgen_update": "godco_permanent_trader_change", "om_terrain": "godco_enter" },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_TRADER_MISSION_DEATHFAIL",
+    "eoc_type": "NPC_DEATH",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "=", { "const": 0 } ] },
+      { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+      { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
+    ]
+  }
+]

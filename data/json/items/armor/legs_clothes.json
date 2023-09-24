@@ -913,7 +913,7 @@
       {
         "id": "pants_chartreuse",
         "name": { "str": "chartreuse-green pants", "str_pl": "pairs of chartreuse-green pants" },
-        "description": "An almost florescent set of yellowish-green pants with two deep pockets.  Considering that chartreuse has better night-visibility than most other colors, these pants, apart from being a nightmare to match with other hues, would probably be an ill-advised choice to dawn if you wish to keep your legs attached to your boddy.",
+        "description": "An almost fluorescent set of yellowish-green pants with two deep pockets.  Considering that chartreuse has better night-visibility than most other colors, these pants, apart from being a nightmare to match with other hues, would probably be an ill-advised choice to don if you wish to keep your legs attached to your body.",
         "color": "green",
         "weight": 4
       },
@@ -941,7 +941,7 @@
       {
         "id": "pants_poppy",
         "name": { "str": "poppy-red pants", "str_pl": "pairs of poppy-red pants" },
-        "description": "A fine choice to have dawned during Veterans Day, these pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren’t any poppies blowing between crosses, the heaps of dead are certainly high.",
+        "description": "A fine choice to have donned during Veterans Day, this pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren’t any poppies blowing between crosses, the heaps of dead are certainly high.",
         "color": "red",
         "weight": 4
       },
@@ -1719,6 +1719,24 @@
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
+  },
+  {
+    "id": "skirt_long",
+    "type": "ARMOR",
+    "name": { "str": "long skirt" },
+    "description": "A long skirt with no pockets.  Slightly more cumbersome but warmer than a normal skirt.",
+    "weight": "500 g",
+    "volume": "550 ml",
+    "price": 6500,
+    "price_postapoc": 75,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kilt",
+    "color": "black",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt_grass",

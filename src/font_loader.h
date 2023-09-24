@@ -2,16 +2,18 @@
 #ifndef CATA_SRC_FONT_LOADER_H
 #define CATA_SRC_FONT_LOADER_H
 
+#if defined( TILES )
+
 #include <algorithm>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
 #include "path_info.h"
-#include "cata_utility.h"
 
 extern void ensure_unifont_loaded( std::vector<std::string> &font_list );
 
@@ -40,5 +42,7 @@ class font_loader
         /// @throws std::exception upon any kind of error.
         void load();
 };
+
+#endif // TILES
 
 #endif // CATA_SRC_FONT_LOADER_H

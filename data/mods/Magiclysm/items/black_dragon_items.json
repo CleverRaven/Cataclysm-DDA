@@ -39,8 +39,7 @@
     "material": [ "black_dragon_hide", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "vitamins": [  ],
-    "volume": "4 L",
-    "stack_size": 1
+    "volume": "4 L"
   },
   {
     "id": "black_dragon_tanning_hide",
@@ -167,7 +166,7 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
     "material_thickness": 5,
     "environmental_protection": 3,
-    "delete": { "qualities": [ [ "GLARE", 1 ] ], "flags": [ "SUN_GLASSES" ] }
+    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] }
   },
   {
     "id": "helmet_black_dragon_hide",

@@ -156,6 +156,6 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
     "autolearn": true,
-    "result_mult": 10
+    "charges": 10
   }
 ]

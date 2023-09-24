@@ -23,28 +23,37 @@
         "How do you like that boot, huh?"
       ],
       "no": {
-        "u_has_faction_trust": 15,
+        "u_has_trait": "PROF_HUB01_ANCILLIARY",
         "yes": [
-          "Great to see you back in base.",
-          "Heres hoping I get out of guard duty soon.",
-          "Got anything good?",
-          "On an errand from the box?",
-          "Up and at them again?",
-          "Up for a drink when my shift ends?",
-          "Well I cant complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
+          "Hey oh umm.  Yes, Sir?",
+          "&The mercenary looks noticeably tense as you approach.",
+          "Nothing to report, Sir!",
+          "Hey boss."
         ],
         "no": {
-          "u_has_var": "first_meet",
-          "type": "dialogue",
-          "context": "ancilla_hq_guard",
-          "value": "yes",
+          "u_has_faction_trust": 15,
           "yes": [
-            "If you don't have any business here, you better get going.",
-            "Terminal is down there, please move along.",
-            "Please head right down, scavenger.",
-            "Are you here to do anything?"
+            "Great to see you back in base.",
+            "Heres hoping I get out of guard duty soon.",
+            "Got anything good?",
+            "On an errand from the box?",
+            "Up and at them again?",
+            "Up for a drink when my shift ends?",
+            "Well I cant complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
           ],
-          "no": "If you are looking for the Terminal, its first basement, right up the stairs and to the left."
+          "no": {
+            "u_has_var": "first_meet",
+            "type": "dialogue",
+            "context": "ancilla_hq_guard",
+            "value": "yes",
+            "yes": [
+              "If you don't have any business here, you better get going.",
+              "Terminal is down there, please move along.",
+              "Please head right down, scavenger.",
+              "Are you here to do anything?"
+            ],
+            "no": "If you are looking for the Terminal, it's in the first basement, right down the stairs and to the left."
+          }
         }
       }
     },

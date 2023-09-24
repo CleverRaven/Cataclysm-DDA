@@ -1,0 +1,94 @@
+[
+  {
+    "id": "mx_alien_grass",
+    "type": "map_extra",
+    "name": { "str": "alien flora" },
+    "description": "A cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grass" },
+    "sym": "A",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_alien_grass_2",
+    "type": "map_extra",
+    "name": { "str": "alien flora" },
+    "description": "A cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grass_2" },
+    "sym": "A",
+    "color": "magenta",
+    "autonote": true
+  },
+  {
+    "id": "mx_alien_grass_3",
+    "type": "map_extra",
+    "name": { "str": "alien flora" },
+    "description": "A cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grass_3" },
+    "sym": "A",
+    "color": "cyan",
+    "autonote": true
+  },
+  {
+    "id": "mx_alien_grass_4",
+    "type": "map_extra",
+    "name": { "str": "alien flora" },
+    "description": "A cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grass_4" },
+    "sym": "A",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_alien_grass_5",
+    "type": "map_extra",
+    "name": { "str": "alien flora" },
+    "description": "A cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grass_5" },
+    "sym": "A",
+    "color": "light_red",
+    "autonote": true
+  },
+  {
+    "id": "mx_alien_grove",
+    "type": "map_extra",
+    "name": { "str": "alien grove" },
+    "description": "A large cluster of alien flora.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_alien_grove" },
+    "sym": "F",
+    "color": "magenta",
+    "autonote": true
+  },
+  {
+    "id": "mx_nether_pond",
+    "type": "map_extra",
+    "name": { "str": "pool of dark water" },
+    "description": "A pool of some unearthly liquid.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nether_pond" },
+    "sym": "O",
+    "color": "dark_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_glass_and_crystal",
+    "type": "map_extra",
+    "name": { "str": "crystal cluster" },
+    "description": "A patch of crystals and black stone.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_glass_and_crystal" },
+    "sym": "C",
+    "color": "dark_gray",
+    "autonote": true
+  },
+  {
+    "id": "mx_phavian_science",
+    "type": "map_extra",
+    "name": { "str": "Scientists" },
+    "description": "Several corpses of scientists are here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_phavian_science" },
+    "min_max_zlevel": [ -5, 0 ],
+    "sym": "s",
+    "color": "light_blue",
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
+  }
+]

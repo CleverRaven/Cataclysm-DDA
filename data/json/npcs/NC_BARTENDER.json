@@ -61,9 +61,9 @@
       { "item": "belgian_ale", "prob": 10 },
       { "item": "imperial_stout", "prob": 4 },
       { "item": "single_malt_whiskey", "prob": 2, "container-item": "bottle_glass" },
-      { "item": "cig", "prob": 50 },
-      { "item": "chaw", "prob": 20 },
-      { "item": "cigar", "prob": 40 }
+      { "prob": 50, "group": "cig_box_cigarette_20" },
+      { "prob": 20, "group": "chaw_wrapper_20" },
+      { "item": "cigar", "prob": 40, "count": 5 }
     ]
   }
 ]

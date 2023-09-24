@@ -558,5 +558,21 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "wallet_photo",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "photograph" },
+    "snippet_category": "wallet_photos",
+    "description": "A small picture of something or somebody important to the owner, designed to be safely tucked into a wallet.",
+    "weight": "12 mg",
+    "volume": "1 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
   }
 ]

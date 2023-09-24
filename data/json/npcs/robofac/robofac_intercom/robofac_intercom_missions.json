@@ -23,17 +23,6 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
       },
       {
-        "//": "Remove after 0.G - This is to prevent players who accepted the mission before its update from being unable to continue the questline",
-        "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
-        "effect": [
-          { "u_consume_item": "data_card", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 4 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
-        ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
-      },
-      {
         "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
         "effect": [

@@ -51,7 +51,7 @@
     "id": "bio_power_storage_salvaged",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Power Storage, salvaged", "str_pl": "several salvaged Power Storage cbms" },
+    "name": { "str": "Salvaged Power Storage", "str_pl": "Several Salvaged Power Storage CBMs" },
     "looks_like": "bio_int_enhancer",
     "description": "A battered and used Compact Bionics Module that upgrades the user's power capacity by 50 units.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
     "price": 380000,
@@ -178,7 +178,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Skullgun CBM" },
-    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "description": "A single shot 10mm gun which implants into the forehead.  It has the shortest time from thought to shot of all bionic guns which makes it popular among street punks for whom every millisecond counts, but this poorly conceived bionic removes a distressing amount of grey matter to make room for it and gives you a concussion every time you fire it.",
     "price": 100000,
     "price_postapoc": 1500,
     "difficulty": 16

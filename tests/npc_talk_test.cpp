@@ -53,6 +53,7 @@ static const item_category_id item_category_manual( "manual" );
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
+static const itype_id itype_knife_butcher( "knife_butcher" );
 static const itype_id itype_manual_speech( "manual_speech" );
 
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
@@ -788,6 +789,15 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[6].success.next_topic.item_type == itype_beer );
     CHECK( d.responses[7].text == "This is a basic test response." );
 
+    d.add_topic( "TALK_TEST_ITEM_WIELDED" );
+    item_location loc = player_character.i_add( item( itype_knife_butcher ) );
+    CHECK( player_character.wield( *loc ) );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text ==
+           "This is a u_has_wielded_with_weapon_category KNIVES test response." );
+    player_character.i_rem( &*player_character.get_wielded_item() );
+
     // test sell and consume
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
@@ -1139,6 +1149,10 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
 
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
+    calendar::turn = calendar::turn_zero;
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
+
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
@@ -1324,6 +1338,9 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     gen_response_lines( d, 14 );
 
     calendar::turn = calendar::turn_zero;
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
+
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 2 * 5 turns.  (10)"
     talk_effect_t &effects = d.responses[ 0 ].success;
@@ -1650,4 +1667,27 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 
     // Teardown
     player_character.remove_value( var_name );
+}
+
+TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+    Character &player_character = get_avatar();
+    clear_avatar();
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    player_character.inv->add_item( item( itype_bottle_glass ) );
+    CHECK( player_character.has_amount( itype_bottle_glass, 1 ) );
+    d.add_topic( "TALK_TEST_TOPIC_ITEM_MUTATOR" );
+    gen_response_lines( d, 2 );
+    talk_response &chosen = d.responses[0];
+    CHECK( chosen.text == "This is a repeated item bottle_glass test response" );
+    d.add_topic( chosen.success.next_topic );
+    gen_dynamic_line( d );
+    gen_response_lines( d, 1 );
+    chosen = d.responses[0];
+    chosen.success.apply( d );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "bottle_glass" );
 }

@@ -259,9 +259,6 @@ WORLD *worldfactory::make_new_world( special_game_type special_type )
         case special_game_type::TUTORIAL:
             worldname = "TUTORIAL";
             break;
-        case special_game_type::DEFENSE:
-            worldname = "DEFENSE";
-            break;
         default:
             return nullptr;
     }
@@ -1367,7 +1364,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 }
             }
         }
-
 
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;

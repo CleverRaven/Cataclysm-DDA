@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "defense_mode",
+    "name": "Defense Mode",
+    "description": "Enables the Defense game mode.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -1,0 +1,397 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "recurrence": [ "4 hours", "4 hours" ],
+    "//": "Copy EoC: original in json/monsters/zed_lieutenant.json",
+    "condition": {
+      "and": [
+        { "one_in_chance": 6 },
+        { "not": "is_day" },
+        { "math": [ "u_Lieutenants_active", ">", "0" ] },
+        { "math": [ "u_Shadow_Lurking", ">", "0" ] },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LIEUTENANT_SPAWN_SHADOW_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "The darkness takes on a palpable sense of menace.  Something terrible is coming.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 5) + 10" ] }
+              }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
+    "effect": [
+      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
+      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_EARLY_PORTAL_STORM",
+    "//": "Copy EoC: original in json/portal_storm_effect_on_condition.json",
+    "global": true,
+    "condition": {
+      "not": {
+        "or": [
+          { "is_weather": "portal_storm" },
+          { "is_weather": "early_portal_storm" },
+          { "math": [ "cause_portal_storm", "==", "1" ] },
+          { "math": [ "cause_early_portal_storm", "==", "1" ] }
+        ]
+      }
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CAUSE_EARLY_PORTAL_STORM_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "The air hums like a wire stretched taut and on the verge of breaking.  Any moment, something is going to snap.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM_ACTUAL",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 15) + 15" ] }
+              }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_CAUSE_EARLY_PORTAL_STORM_ACTUAL" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_EARLY_PORTAL_STORM_ACTUAL",
+    "effect": [
+      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
+      { "math": [ "cause_early_portal_storm", "=", "1" ] },
+      "next_weather",
+      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
+      { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
+      {
+        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby, a tiny cataclysm has begun (check mission log for details).",
+        "type": "bad",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN",
+    "//": "Copy EoC: original in json/effect_on_condition.json",
+    "recurrence": [ "60 days", "100 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -40 } ] },
+        { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -60 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
+        { "days_since_cataclysm": 9 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BANDIT_ASSASSIN_1_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "You feel hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "EOC_BANDIT_ASSASSIN_1_ACTUAL_FAR",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+              }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_1_ACTUAL_NEAR" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_1_ACTUAL_NEAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 1,
+        "outdoor_only": false,
+        "min_radius": 15,
+        "max_radius": 25,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_1_ACTUAL_FAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 1,
+        "outdoor_only": false,
+        "min_radius": 25,
+        "max_radius": 40,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_2",
+    "//": "Copy EoC: original in json/effect_on_condition.json",
+    "recurrence": [ "60 days", "100 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -60 } ] },
+        { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -90 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
+        { "days_since_cataclysm": 15 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BANDIT_ASSASSIN_2_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "You feel hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "EOC_BANDIT_ASSASSIN_2_ACTUAL_NEAR",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+              }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_2_ACTUAL_FAR" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_2_ACTUAL_NEAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 2,
+        "outdoor_only": false,
+        "min_radius": 15,
+        "max_radius": 25,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
+        "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_2_ACTUAL_FAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 2,
+        "outdoor_only": false,
+        "min_radius": 25,
+        "max_radius": 40,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
+        "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_3",
+    "//": "Copy EoC: original in json/effect_on_condition.json",
+    "recurrence": [ "60 days", "100 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -90 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
+        { "days_since_cataclysm": 21 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BANDIT_ASSASSIN_3_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "You feel several sets of hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "EOC_BANDIT_ASSASSIN_3_ACTUAL_NEAR",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+              }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_3_ACTUAL_FAR" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_3_ACTUAL_NEAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 3,
+        "outdoor_only": false,
+        "min_radius": 15,
+        "max_radius": 25,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
+        "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_3_ACTUAL_FAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 3,
+        "outdoor_only": false,
+        "min_radius": 25,
+        "max_radius": 40,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
+        "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OLD_GUARD_ASSASSIN",
+    "//": "Copy EoC: original in json/effect_on_condition.json",
+    "recurrence": [ "60 days", "100 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "old_guard" }, "<", { "const": -45 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "<=", { "const": 6 } ] },
+        { "days_since_cataclysm": 9 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_OLD_GUARD_ASSASSIN_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "You feel several sets of hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "EOC_OLD_GUARD_ASSASSIN_ACTUAL_NEAR",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+              }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_OLD_GUARD_ASSASSIN_ACTUAL_FAR" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OLD_GUARD_ASSASSIN_ACTUAL_NEAR",
+    "effect": [
+      {
+        "u_spawn_npc": "old_guard_assassin",
+        "real_count": 2,
+        "outdoor_only": false,
+        "min_radius": 15,
+        "max_radius": 25,
+        "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
+        "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OLD_GUARD_ASSASSIN_ACTUAL_FAR",
+    "effect": [
+      {
+        "u_spawn_npc": "old_guard_assassin",
+        "real_count": 2,
+        "outdoor_only": false,
+        "min_radius": 25,
+        "max_radius": 40,
+        "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
+        "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+    ]
+  }
+]

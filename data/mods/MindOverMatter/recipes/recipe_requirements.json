@@ -13,5 +13,20 @@
         [ "matrix_crystal_vitakin_dust_refined", 1 ]
       ]
     ]
+  },
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
   }
 ]

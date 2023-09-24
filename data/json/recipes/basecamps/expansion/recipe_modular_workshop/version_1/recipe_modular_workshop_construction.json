@@ -133,8 +133,8 @@
     "blueprint_requires": [ { "id": "fbmw_center" } ],
     "blueprint_provides": [ { "id": "fbmw_north" }, { "id": "blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
-    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ]
+    "blueprint_resources": [ "metalworking_tongs", "chisel", "hammer", "swage" ],
+    "components": [ [ [ "metalworking_tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",

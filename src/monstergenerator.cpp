@@ -80,6 +80,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::SOUND: return "SOUND";
         case mon_trigger::PLAYER_NEAR_BABY: return "PLAYER_NEAR_BABY";
         case mon_trigger::MATING_SEASON: return "MATING_SEASON";
+        case mon_trigger::BRIGHT_LIGHT: return "BRIGHT_LIGHT";
         // *INDENT-ON*
         case mon_trigger::LAST:
             break;
@@ -486,6 +487,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "NONE", mattack::none );
     add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
     add_hardcoded_attack( "SPLIT", mattack::split );
+    add_hardcoded_attack( "EAT_CARRION", mattack::eat_carrion );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
@@ -707,6 +709,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "speed", speed, strict, 0 );
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
+    assign( jo, "stomach_size", stomach_size, strict );
+    assign( jo, "amount_eaten", amount_eaten, strict );
 
     assign( jo, "tracking_distance", tracking_distance, strict, 3 );
 
