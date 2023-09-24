@@ -1,6 +1,19 @@
 [
   {
     "type": "climbing_aid",
+    "id": "null",
+    "//": "SPECIAL, DO NOT REMOVE. This is a sentinel value only used for the absence of data.",
+    "down": {
+      "menu_text": "Climb down by lowering yourself from the ledge.",
+      "menu_hotkey": "c",
+      "confirm_text": "Climb down the ledge?",
+      "msg_after": "You lower yourself from the ledge.",
+      "max_height": 1
+    },
+    "condition": { "type": "special", "flag": "null" }
+  },
+  {
+    "type": "climbing_aid",
     "id": "default",
     "//": "SPECIAL, DO NOT REMOVE. This is used when no items, terrain or abilities aid in climbing.",
     "slip_chance_mod": 0,

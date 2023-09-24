@@ -20,7 +20,7 @@
 
 
 static const climbing_aid_id climbing_aid_default( "default" );
-static const string_id<climbing_aid> climbing_aid_NULL( "NULL" );
+static const string_id<climbing_aid> climbing_aid_null( "null" );
 
 
 namespace
@@ -71,13 +71,6 @@ template<>
 int_id<climbing_aid>::int_id( const string_id<climbing_aid> &id ) : _id( id.id() )
 {
 }
-
-template<>
-const string_id<climbing_aid> &string_id<climbing_aid>::NULL_ID()
-{
-    return climbing_aid_NULL;
-}
-
 
 const std::vector<climbing_aid> &climbing_aid::get_all()
 {
