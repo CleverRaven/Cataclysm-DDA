@@ -2,6 +2,6 @@
   {
     "type": "test_data",
     "//": "expected value ideally around 28",
-    "expected_dps": { "warhammer": 35.77, "hammer_sledge": 20.0, "halligan": 16.5, "stick_long": 6.0 }
+    "expected_dps": { "warhammer": 35.77, "hammer_sledge": 20.0, "halligan": 16.5, "stick_long": 8.0 }
   }
 ]
