@@ -3278,11 +3278,14 @@
     "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
     "points": 2,
     "traits": [ "NO_LEGS" ],
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" }, { "level": 4, "name": "chemistry" }, { "level": 4, "name": "electronics" } ],
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
     "items": {
-      "both": {
-        "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ]
-      },
+      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
