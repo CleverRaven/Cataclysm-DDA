@@ -82,7 +82,7 @@
     "longest_side": "45 cm",
     "price": 0,
     "price_postapoc": 10,
-    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
