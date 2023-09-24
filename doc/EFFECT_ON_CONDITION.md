@@ -2008,7 +2008,7 @@ You or NPC is teleported to `target_var` coordinates
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
 
 ##### Examples
 

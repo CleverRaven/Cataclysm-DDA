@@ -5156,7 +5156,7 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_vi
         success_message.str_val = "";
     }
     bool force = jo.get_bool( "force", false );
-    function = [is_npc, target_var, fail_message, success_message, force]( dialogue & d ) {
+    function = [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
@@ -5176,6 +5176,7 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_vi
                 target_bay.load( project_to<coords::sm>( target_pos ), false );
                 target_bay.add_item_or_charges( target_bay.getlocal( target_pos ), *it->get_item() );
             }
+            add_msg( _( success_message.evaluate( d ) ) );
             it->remove_item();
         }
     };

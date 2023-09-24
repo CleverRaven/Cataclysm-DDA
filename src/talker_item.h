@@ -53,7 +53,6 @@ class talker_item: public talker_cloner<talker_item>
         int get_cur_hp( const bodypart_id & ) const override;
         int get_hp_max( const bodypart_id & ) const override;
         void set_all_parts_hp_cur( int ) const override;
-        void die() override;
 
     protected:
         talker_item() = default;
