@@ -50,6 +50,11 @@ class talker_item: public talker_cloner<talker_item>
         std::vector<std::string> get_topics( bool radio_contact ) override;
         bool will_talk_to_u( const Character &you, bool force ) override;
 
+        int get_cur_hp( const bodypart_id & ) const override;
+        int get_hp_max( const bodypart_id & ) const override;
+        void set_all_parts_hp_cur( int ) const override;
+        void die() override;
+
     protected:
         talker_item() = default;
         item_location *me_it;

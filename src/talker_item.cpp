@@ -74,3 +74,18 @@ bool talker_item::will_talk_to_u( const Character &you, bool )
 {
     return !you.is_dead_state();
 }
+
+int talker_item::get_cur_hp( const bodypart_id & ) const
+{
+    return me_it->get_item()->max_damage() - me_it->get_item()->damage();
+}
+
+int talker_item::get_hp_max( const bodypart_id & ) const
+{
+    return me_it->get_item()->max_damage();
+}
+
+void talker_item::set_all_parts_hp_cur( int set ) const
+{
+    me_it->get_item()->set_damage( me_it->get_item()->max_damage() - set );
+}

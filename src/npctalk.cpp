@@ -4554,7 +4554,7 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
                 ids.emplace_back( id.evaluate( d ) );
             }
             std::vector<item_location> target_items;
-            for( auto loc : guy->all_items_loc() ) {
+            for( item_location loc : guy->all_items_loc() ) {
                 if( worn_only && !guy->is_worn( *loc ) ) {
                     continue;
                 }
