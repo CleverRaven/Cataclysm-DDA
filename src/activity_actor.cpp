@@ -1040,7 +1040,8 @@ void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
         for( const auto& [rid, r] : recipe_dict ) {
             if( r.never_learn || r.obsolete || mmd->recipes_categories.count( r.category ) == 0 ||
                 saved_recipes.count( rid ) ||
-                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ) {
+                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ||
+                ( r.has_flag( "SECRET" ) && !mmd->secret_recipes ) ) {
                 continue;
             }
             candidates.emplace( rid );

@@ -2562,6 +2562,9 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
     } else {
         mcd.recipes_categories = { "CC_FOOD" };
     }
+    if( jo.has_member( "secret_recipes" ) ) {
+        mcd.secret_recipes = jo.get_bool( "secret_recipes" );
+    }
 }
 
 void islot_ammo::load( const JsonObject &jo )

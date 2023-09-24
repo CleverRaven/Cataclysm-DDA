@@ -3826,7 +3826,8 @@ Memory card information can be defined on any GENERIC item by adding an object n
   "recipes_amount": 5,                 // contains between 1 and 5 new recipes
   "recipes_level_min": 4,              // recipes will have at least level 4
   "recipes_level_max": 8,              // recipes will have at most level 8
-  "recipes_categories": [ "CC_FOOD" ]  // recipes from CC_FOOD category
+  "recipes_categories": [ "CC_FOOD" ], // (Optional) Array, defaults `CC_FOOD`. Memory card can contain recipes from any of these categories.
+  "secret_recipes": true               // (Optional) Boolean, default false. If true, can contain recipes with the `SECRET` flag.
 }
 ```
 
