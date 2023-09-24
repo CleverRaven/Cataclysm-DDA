@@ -6280,6 +6280,7 @@ void game::peek( const tripoint &p )
     const bool is_same_pos = u.pos() == prev;
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
+    m.build_map_cache( p.z );
 
     look_around_result result;
     const look_around_params looka_params = { true, center, center, false, false, true };
@@ -7742,6 +7743,9 @@ look_around_result game::look_around(
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
+            // Fix player character not visible from above
+            m.build_map_cache( u.posz() );
+            m.invalidate_visibility_cache();
         } else if( action == "TRAVEL_TO" ) {
             const std::optional<std::vector<tripoint_bub_ms>> try_route = safe_route_to( u, lp,
             0,  []( const std::string & msg ) {
