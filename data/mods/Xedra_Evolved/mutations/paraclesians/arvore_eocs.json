@@ -400,5 +400,15 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_FORM_ON",
+    "effect": [ { "u_add_trait": "CHLOROMORPH" }, { "u_add_trait": "LEAVES3" }, { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_FORM_OFF",
+    "effect": [ { "u_lose_trait": "CHLOROMORPH" }, { "u_lose_trait": "LEAVES3" }, { "u_lose_trait": "ARVORE_TREE_FORM_TRAITS" } ]
   }
 ]

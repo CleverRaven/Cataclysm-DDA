@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SKIN_1",
-    "name": { "str": "viridian skin" },
+    "name": { "str": "Viridian Skin" },
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SKIN_2",
-    "name": { "str": "vegetal cuticle" },
+    "name": { "str": "Vegetal Cuticle" },
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
@@ -24,12 +24,13 @@
     "prereqs": [ "ARVORE_SKIN_1" ],
     "changes_to": [ "ARVORE_SKIN_3" ],
     "thirst_modifier": -0.3,
-    "integrated_armor": [ "integrated_vegital_cuticle" ]
+    "integrated_armor": [ "integrated_vegital_cuticle" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_SKIN_3",
-    "name": { "str": "bark skin" },
+    "name": { "str": "Bark Skin" },
     "points": 3,
     "visibility": 8,
     "ugliness": 4,
@@ -51,7 +52,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_bark_skin" ]
+    "integrated_armor": [ "integrated_bark_skin" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -243,7 +245,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_ANTI_PLANT_SPELL",
-    "name": { "str": "Uproot the Mistletoe" },
+    "name": { "str": "Tending the Garden" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -1028,6 +1030,71 @@
       ]
     ],
     "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_TREE_FORM",
+    "name": { "str": "One with the Forest" },
+    "points": 8,
+    "description": "You may transform into a tree, extending roots and spreading leaves out to the sun.   You will heal faster, gain more benefit from sleep, and monsters will ignore you, but you will only be dimly aware of the outside world and will be nearly unable to move.",
+    "prereqs": [ "ARVORE_HEAL_LIMB_REGEN" ],
+    "prereqs2": [ "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_MANA_BONUS_ON" ],
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_TREE_FORM_TRAITS",
+    "name": { "str": "Ancient Tree" },
+    "points": 10,
+    "description": "You are a tree.  You will heal much more quickly and resting is more beneficial.  You are still able to move, but only incredibly slowly.",
+    "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
+    "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
+    "allow_soft_gear": true,
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "metabolism_modifier": -0.5,
+    "thirst_modifier": -0.9,
+    "fatigue_regen_modifier": 0.5,
+    "healing_awake": 0.8,
+    "healing_multiplier": 2.5,
+    "mending_modifier": 16,
+    "attackcost_modifier": 900,
+    "movecost_modifier": 900,
+    "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
+    "ignored_by": [
+      "MAMMAL",
+      "AMPHIBIAN",
+      "MUTANT",
+      "CYBORG",
+      "REPTILE",
+      "FISH",
+      "KRAKEN",
+      "MIGO",
+      "SLIME",
+      "LEECH_PLANT",
+      "INSECT",
+      "CENTIPEDE",
+      "INSECT_FLYING",
+      "SPIDER",
+      "BIRD",
+      "MOLLUSK",
+      "WORM",
+      "ZOMBIE",
+      "NETHER",
+      "PLANT",
+      "FERAL",
+      "ROBOT",
+      "HORROR",
+      "ABERRATION",
+      "HUMAN"
+    ],
+    "//": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 100 } ] } ]
   },
   {
     "type": "mutation",

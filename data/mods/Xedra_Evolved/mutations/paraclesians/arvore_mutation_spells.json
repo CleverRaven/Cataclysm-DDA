@@ -216,8 +216,8 @@
   {
     "id": "arvore_anti_plant_spell",
     "type": "SPELL",
-    "name": "Uproot the Mistletoe",
-    "description": "",
+    "name": "Tending the Garden",
+    "description": "Invasive weeds must be rooted out, lest they choke the life from the garden.  This spell inflicts a rapid withering on plants and fungus within its area of effect.",
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
@@ -227,51 +227,7 @@
     "effect": "attack",
     "extra_effects": [ { "id": "arvore_anti_plant_spell_fungicide" } ],
     "damage_type": "biological",
-    "min_damage": {
-      "math": [ "(10 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 2.5) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_damage": {
-      "math": [ "(15 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "min_dot": 1,
-    "max_dot": 3,
-    "dot_increment": 0.1,
-    "min_duration": {
-      "math": [ "(200 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 150) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_duration": {
-      "math": [ "(1000 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 350) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "min_range": {
-      "math": [ "(2 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_range": 70,
-    "min_aoe": {
-      "math": [ "(0 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 0.25) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_aoe": 8,
-    "energy_source": "MANA",
-    "base_energy_cost": 400,
-    "final_energy_cost": 150,
-    "energy_increment": -10,
-    "base_casting_time": 200,
-    "final_casting_time": 100,
-    "casting_time_increment": -5
-  },
-  {
-    "id": "arvore_anti_plant_spell",
-    "type": "SPELL",
-    "name": "Uproot the Mistletoe",
-    "description": "Invasive weeds must be rooted out, lest they choke the garden.  This spell inflicts a rapid withering on plants and fungus within its area of effect.",
-    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
-    "valid_targets": [ "hostile" ],
-    "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
-    "max_level": { "math": [ "per_to_level(1)" ] },
-    "skill": "deduction",
-    "difficulty": 4,
-    "effect": "attack",
-    "extra_effects": [ { "id": "arvore_anti_plant_spell_fungicide" } ],
-    "damage_type": "biological",
+    "shape": "blast",
     "min_damage": {
       "math": [ "(10 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 2.5) * (scaling_factor(u_val('perception') ) ) )" ]
     },
@@ -306,8 +262,8 @@
   {
     "id": "arvore_anti_plant_spell_fungicide",
     "type": "SPELL",
-    "name": "Uproot the Mistletoe Fungicide",
-    "description": "This is the fungicidal effect of the Uproot the Mistletoe.  It's a bug if you have it directly.",
+    "name": "Tending the Garden Fungicide",
+    "description": "This is the fungicidal effect of the Tending the Garden spell.  It's a bug if you have it directly.",
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
@@ -315,7 +271,8 @@
     "skill": "deduction",
     "difficulty": 4,
     "effect": "ter_transform",
-    "effect_str": "",
+    "effect_str": "ter_arvore_fungicide",
+    "shape": "blast",
     "min_range": {
       "math": [ "(2 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
     },
