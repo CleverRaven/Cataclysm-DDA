@@ -2568,6 +2568,7 @@ rrrip
 rrrrip
 rubra
 rugerlcp
+ruggedized
 ruleset
 ruminant
 ruminants
