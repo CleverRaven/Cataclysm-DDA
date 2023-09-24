@@ -51,6 +51,18 @@
   },
   {
     "type": "GENERIC",
+    "copy-from": "mountable_cooler",
+    "id": "integrated_cooler",
+    "name": { "str": "small integrated cooler" },
+    "description": "A small vehicle-mounted area cooler.",
+    "weight": "6000 g",
+    "volume": "3750 ml",
+    "price": 10000,
+    "price_postapoc": 750,
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "GENERIC",
     "id": "mountable_heater",
     "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",

@@ -172,7 +172,7 @@
       "no": "Ssh.  Some people in here hate… mutations.  This was an accident."
     },
     "responses": [
-      { "text": "Sorry to ask", "topic": "TALK_ARSONIST" },
+      { "text": "Sorry to ask.", "topic": "TALK_ARSONIST" },
       { "text": "You're disgusting.", "topic": "TALK_ARSONIST_MUTATION_INSULT" }
     ]
   },

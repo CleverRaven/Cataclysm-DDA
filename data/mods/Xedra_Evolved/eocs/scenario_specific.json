@@ -1,0 +1,8 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_once_bitten",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" } ]
+  }
+]

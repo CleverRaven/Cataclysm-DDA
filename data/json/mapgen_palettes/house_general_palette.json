@@ -145,7 +145,7 @@
       "@": "f_bed",
       "¤": "f_table",
       "₸": "f_deckchair",
-      "∞": "f_foot_locker",
+      "∞": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",

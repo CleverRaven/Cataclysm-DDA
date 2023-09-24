@@ -1743,6 +1743,25 @@ static int parse_mod( const dialogue &d, const std::string &attribute, const int
             factor );
 }
 
+static int total_price( const talker &seller, const itype_id &item_type )
+{
+    int price = 0;
+    item tmp( item_type );
+
+    if( tmp.count_by_charges() ) {
+        tmp.charges =  seller.charges_of( item_type );
+        price = tmp.price( true );
+    } else {
+        std::vector<const item *> items = seller.const_items_with( [&item_type]( const item & e ) {
+            return item_type == e.type->get_id();
+        } );
+        for( const item *it : items ) {
+            price += it->price( true );
+        }
+    }
+    return price;
+}
+
 int talk_trial::calc_chance( dialogue &d ) const
 {
     if( d.actor( false )->has_trait( trait_DEBUG_MIND_CONTROL ) ) {
@@ -1895,8 +1914,16 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 void parse_tags( std::string &phrase, const Character &u, const Character &me, const dialogue &d,
                  const itype_id &item_type )
 {
+    parse_tags( phrase, *get_talker_for( u ), *get_talker_for( me ), d, item_type );
+}
+
+void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
+                 const itype_id &item_type )
+{
     phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
+    const Character *u_chr = u.get_character();
+    const Character *me_chr = me.get_character();
     size_t fa;
     size_t fb;
     std::string tag;
@@ -1910,13 +1937,13 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
             return;
         }
 
-        const item_location u_weapon = u.get_wielded_item();
-        const item_location me_weapon = me.get_wielded_item();
+        const item_location u_weapon = u_chr ? u_chr->get_wielded_item() : item_location();
+        const item_location me_weapon = me_chr ? me_chr->get_wielded_item() : item_location();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
             phrase.replace( fa, l, remove_color_tags( u_weapon->tname() ) );
         } else if( tag == "<mywp>" ) {
-            if( !me.is_armed() ) {
+            if( me_chr && !me_chr->is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
                 phrase.replace( fa, l, remove_color_tags( me_weapon->tname() ) );
@@ -1933,8 +1960,8 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
-            const npc *guy = dynamic_cast<const npc *>( &me );
-            if( guy->current_activity_id ) {
+            const npc *guy = dynamic_cast<const npc *>( me_chr );
+            if( guy && guy->current_activity_id ) {
                 activity_name = guy->get_current_activity();
             } else {
                 activity_name = _( "doing this and that" );
@@ -1953,10 +1980,10 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
                     break;
             }
         } else if( tag == "<mypronoun>" ) {
-            std::string npcstr = me.male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
+            std::string npcstr = me.is_male() ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
             phrase.replace( fa, l, npcstr );
         } else if( tag == "<mypossesivepronoun>" ) {
-            std::string npcstr = me.male ? pgettext( "npc", "his" ) : pgettext( "npc", "her" );
+            std::string npcstr = me.is_male() ? pgettext( "npc", "his" ) : pgettext( "npc", "her" );
             phrase.replace( fa, l, npcstr );
         } else if( tag == "<topic_item>" ) {
             phrase.replace( fa, l, item::nname( item_type, 2 ) );
@@ -1964,13 +1991,11 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
             item tmp( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( tag == "<topic_item_my_total_price>" ) {
-            item tmp( item_type );
-            tmp.charges = me.charges_of( item_type );
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            int price = total_price( me, item_type );
+            phrase.replace( fa, l, format_money( price ) );
         } else if( tag == "<topic_item_your_total_price>" ) {
-            item tmp( item_type );
-            tmp.charges = u.charges_of( item_type );
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            int price = total_price( u, item_type );
+            phrase.replace( fa, l, format_money( price ) );
         } else if( tag == "<interval>" ) {
             const npc *guy = dynamic_cast<const npc *>( &me );
             phrase.replace( fa, l, guy->get_restock_interval() );
@@ -3547,7 +3572,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, const std::
         tmp.charges = seller_has;
         if( is_trade ) {
             const int npc_debt = d.actor( true )->debt();
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + npc_debt;
+            int price = total_price( *seller, d.cur_item ) * ( is_npc ? -1 : 1 ) + npc_debt;
             if( d.actor( true )->get_faction() && !d.actor( true )->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.actor( true )->get_faction()->currency;
                 item pay( pay_in );
@@ -3739,15 +3764,10 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         } else {
             translated_message = _( message.evaluate( d ) );
         }
-        Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
-        if( !alpha ) {
-            alpha = &get_player_character();
-        }
-        Character *beta = d.has_beta ? d.actor( true )->get_character() : nullptr;
-        if( !beta ) {
-            beta = &get_player_character();
-        }
-        parse_tags( translated_message, *alpha, *beta, d );
+        std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
+        talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
+        talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
+        parse_tags( translated_message, alpha, beta, d );
         if( sound ) {
             bool display = false;
             map &here = get_map();
@@ -4514,6 +4534,47 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
             }
         };
     }
+}
+
+void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
+        const std::string_view member, bool is_npc )
+{
+    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
+    std::vector<str_or_var> item_ids;
+    for( JsonValue jv : jo.get_array( "item_ids" ) ) {
+        item_ids.emplace_back( get_str_or_var( jv, "item_ids" ) );
+    }
+    bool worn_only = jo.get_bool( "worn_only", false );
+
+    function = [eocs, worn_only, item_ids, is_npc]( dialogue & d ) {
+        Character *guy = d.actor( is_npc )->get_character();
+        if( guy ) {
+            std::vector<std::string> ids( item_ids.size() );
+            for( const str_or_var &id : item_ids ) {
+                ids.emplace_back( id.evaluate( d ) );
+            }
+            std::vector<item *> target_items = d.actor( is_npc )->items_with( [worn_only, guy,
+                       ids]( const item & it ) {
+                if( worn_only && !guy->is_worn( it ) ) {
+                    return false;
+                }
+                for( const std::string &id : ids ) {
+                    if( id == it.type->get_id().str() ) {
+                        return true;
+                    }
+                }
+                return ids.empty();
+            } );
+            for( item *target : target_items ) {
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    item_location loc = item_location( *guy, target );
+                    dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
+                                                   d.get_conditionals(), d.get_context() );
+                    eoc->activate( newDialog );
+                }
+            }
+        }
+    };
 }
 
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string_view member )
@@ -5403,6 +5464,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_run_npc_eocs( jo, "u_run_npc_eocs", false );
         } else if( jo.has_array( "npc_run_npc_eocs" ) ) {
             subeffect_fun.set_run_npc_eocs( jo, "npc_run_npc_eocs", true );
+        } else if( jo.has_array( "u_run_inv_eocs" ) ) {
+            subeffect_fun.set_run_inv_eocs( jo, "u_run_inv_eocs", false );
+        } else if( jo.has_array( "npc_run_inv_eocs" ) ) {
+            subeffect_fun.set_run_inv_eocs( jo, "npc_run_inv_eocs", true );
         } else if( jo.has_array( "weighted_list_eocs" ) ) {
             subeffect_fun.set_weighted_list_eocs( jo, "weighted_list_eocs" );
         } else if( jo.has_member( "switch" ) ) {
@@ -6061,8 +6126,27 @@ void json_talk_topic::load( const JsonObject &jo )
             }
         }
     }
-    for( JsonObject response : jo.get_array( "responses" ) ) {
-        responses.emplace_back( response );
+    bool insert_above_bottom = false;
+    if( jo.has_bool( "insert_before_standard_exits" ) ) {
+        insert_above_bottom = jo.get_bool( "insert_before_standard_exits" );
+    }
+    if( !insert_above_bottom || responses.empty() ) {
+        for( JsonObject response : jo.get_array( "responses" ) ) {
+            responses.emplace_back( response );
+        }
+    } else {
+        int dec_count = 0;
+        if( !responses.empty() &&
+            responses.back().get_actual_response().success.next_topic.id == "TALK_DONE" ) {
+            dec_count = 1;
+        }
+        if( responses.size() >= 2 &&
+            responses[ responses.size() - 2].get_actual_response().success.next_topic.id == "TALK_NONE" ) {
+            dec_count = 2;
+        }
+        for( JsonObject response : jo.get_array( "responses" ) ) {
+            responses.emplace( responses.end() - dec_count, response );
+        }
     }
     if( jo.has_object( "repeat_responses" ) ) {
         repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
@@ -6271,3 +6355,4 @@ const json_talk_topic *get_talk_topic( const std::string &id )
     }
     return &it->second;
 }
+

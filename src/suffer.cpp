@@ -2097,7 +2097,7 @@ void Character::sound_hallu()
                                   "east",
                                   "west" };
 
-    std::vector<std::string> dirz{ "and above you ", "and below you " };
+    std::vector<std::string> dirz{ "and above you", "and below you" };
 
     std::vector<std::tuple<std::string, std::string, std::string>> desc{
         std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
@@ -2105,7 +2105,7 @@ void Character::sound_hallu()
         std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
 
     std::vector<std::tuple<std::string, std::string, std::string>> desc_big{
-        std::make_tuple( "huge explosion!", "explosion", "default" ),
+        std::make_tuple( "a huge explosion!", "explosion", "default" ),
         std::make_tuple( "bang!", "fire_gun", "glock_19" ),
         std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
         std::make_tuple( "crash!", "smash_success", "t_wall" ),

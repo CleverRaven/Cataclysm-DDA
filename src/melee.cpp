@@ -2569,7 +2569,7 @@ std::string melee_message( const ma_technique &tec, Character &p,
     };
 
     int total_dam = 0;
-    std::pair<damage_type_id, int> dominant_type = { damage_type_id::NULL_ID(), 0 };
+    std::pair<damage_type_id, int> dominant_type = { damage_bash, 0 };
     for( const damage_type &dt : damage_type::get_all() ) {
         if( dt.melee_only ) {
             int dmg = ddi.type_damage( dt.id );

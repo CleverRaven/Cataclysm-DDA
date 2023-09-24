@@ -35,6 +35,7 @@ class talker_item: public talker_cloner<talker_item>
         }
         // identity and location
         std::string disp_name() const override;
+        std::string get_name() const override;
         int posx() const override;
         int posy() const override;
         int posz() const override;
