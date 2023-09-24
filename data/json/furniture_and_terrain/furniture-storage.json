@@ -1594,6 +1594,7 @@
     "name": "aluminum foot locker",
     "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
     "copy-from": "f_foot_locker",
+    "symbol": "O",
     "color": "white",
     "deployed_item": "foot_locker_aluminum",
     "deconstruct": {
