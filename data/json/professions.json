@@ -3285,9 +3285,7 @@
       { "level": 4, "name": "electronics" }
     ],
     "items": {
-      "both": {
-        "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ]
-      },
+      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
