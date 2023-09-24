@@ -5,7 +5,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 26 ] ], [ [ "hinge", 2 ] ], [ [ "lock", 1 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 26 ] ], [ [ "hinge", 2 ] ], [ [ "lock", 1 ] ], [ [ "nuts_bolts", 8 ] ] ],
     "//": "This generates mass. Sheet metal looks to have overkill weight assigned. I'll need to take a look at this sometime."
   },
   {
@@ -14,6 +14,12 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "material_aluminium_ingot", 12 ] ], [ [ "scrap_aluminum", 3 ] ], [ [ "hinge", 2 ] ], [ [ "lock", 1 ] ] ]
+    "components": [
+      [ [ "material_aluminium_ingot", 12 ] ],
+      [ [ "scrap_aluminum", 3 ] ],
+      [ [ "hinge", 2 ] ],
+      [ [ "lock", 1 ] ],
+      [ [ "nuts_bolts", 8 ] ]
+    ]
   }
 ]
