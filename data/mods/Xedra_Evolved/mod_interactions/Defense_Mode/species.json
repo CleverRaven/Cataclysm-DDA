@@ -1,0 +1,13 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "DM_VAMPIRE",
+    "description": "a variety of creatures that subsist off the blood of living humans",
+    "flags": [ "NO_NECRO", "VAMP_VIRUS", "ALL_SEEING", "NEMESIS" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "DM_XEDRA_EVOLVED",
+    "flags": [ "ALL_SEEING", "NEMESIS", "BASHES" ]
+  }
+]
