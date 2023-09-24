@@ -121,6 +121,50 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
+struct item_search_data {
+    itype_id id;
+    item_category_id category;
+    material_id material;
+    std::vector<flag_id> flags;
+    bool worn_only;
+    bool wielded_only;
+
+    item_search_data( const JsonObject &jo ) {
+        id = itype_id( jo.get_string( "id", "" ) );
+        category = item_category_id( jo.get_string( "category", "" ) );
+        material = material_id( jo.get_string( "material", "" ) );
+        for( std::string flag : jo.get_string_array( "flags" ) ) {
+            flags.push_back( flag_id( flag ) );
+        }
+        worn_only = jo.get_bool( "worn_only", false );
+        wielded_only = jo.get_bool( "wielded_only", false );
+    }
+
+    bool check( const Character *guy, const item_location &loc ) {
+        if( !id.is_empty() && id != loc->typeId() ) {
+            return false;
+        }
+        if( !category.is_empty() && category != loc->get_category_shallow().id ) {
+            return false;
+        }
+        if( !material.is_empty() && material != loc->get_base_material().id ) {
+            return false;
+        }
+        bool has_flags = true;
+        for( flag_id flag : flags ) {
+            if( !loc->has_flag( flag ) ) {
+                return false;
+            }
+        }
+        if( worn_only && !guy->is_worn( *loc ) ) {
+            return false;
+        }
+        if( wielded_only && !guy->is_wielding( *loc ) ) {
+            return false;
+        }
+    }
+};
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static int topic_category( const talk_topic &the_topic );
@@ -4537,50 +4581,66 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
-        const std::string_view member, bool is_npc )
+        const std::string member, bool is_npc )
 {
-    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-    std::vector<str_or_var> item_ids;
-    for( JsonValue jv : jo.get_array( "item_ids" ) ) {
-        item_ids.emplace_back( get_str_or_var( jv, "item_ids" ) );
+    str_or_var option = get_str_or_var( jo.get_member( member ), member );
+    std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+    std::vector <item_search_data> datum;
+    for( const JsonObject &search_data_jo : jo.get_array( "search_data" ) ) {
+        datum.emplace_back( search_data_jo );
     }
-    bool worn_only = jo.get_bool( "worn_only", false );
-    bool wielded_only = jo.get_bool( "wielded_only", false );
 
-    function = [eocs, worn_only, wielded_only, item_ids, is_npc]( dialogue & d ) {
+    function = [option, true_eocs, false_eocs, datum, is_npc]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
         if( guy ) {
-            std::vector<std::string> ids( item_ids.size() );
-            for( const str_or_var &id : item_ids ) {
-                ids.emplace_back( id.evaluate( d ) );
-            }
-            std::vector<item_location> target_items;
+            std::vector<item_location> true_items;
+            std::vector<item_location> false_items;
+
             for( item_location loc : guy->all_items_loc() ) {
-                if( worn_only && !guy->is_worn( *loc ) ) {
-                    continue;
-                }
-                if( wielded_only && !guy->is_wielding( *loc ) ) {
-                    continue;
-                }
-                if( ids.empty() ) {
-                    target_items.push_back( loc );
-                } else {
-                    for( const std::string &id : ids ) {
-                        if( id == loc->type->get_id().str() ) {
-                            target_items.push_back( loc );
-                            break;
-                        }
+                // Check if item matches any search_data.
+                bool true_tgt = datum.empty();
+                for( item_search_data data : datum ) {
+                    if( data.check( guy, loc ) ) {
+                        true_tgt = true;
+                        break;
                     }
                 }
+                if( true_tgt ) {
+                    true_items.push_back( loc );
+                } else {
+                    false_items.push_back( loc );
+                }
             }
-            for( item_location target : target_items ) {
+
+            const auto run_eoc = [&d, is_npc]( item_location & loc, std::vector<effect_on_condition_id> eocs ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
                     // Check if item is outdated.
-                    if( target.get_item() ) {
-                        dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( target ),
+                    if( loc.get_item() ) {
+                        dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
                                                        d.get_conditionals(), d.get_context() );
                         eoc->activate( newDialog );
                     }
+                }
+            };
+
+            if( option.evaluate( d ) == "all" ) {
+                for( item_location target : true_items ) {
+                    run_eoc( target, true_eocs );
+                }
+                for( item_location target : false_items ) {
+                    run_eoc( target, false_eocs );
+                }
+            } else if( option.evaluate( d ) == "random" ) {
+                std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
+                run_eoc( true_items.back(), true_eocs );
+                true_items.pop_back();
+
+                for( item_location target : true_items ) {
+                    run_eoc( target, false_eocs );
+                }
+                for( item_location target : false_items ) {
+                    run_eoc( target, false_eocs );
                 }
             }
         }
@@ -5486,9 +5546,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_run_npc_eocs( jo, "u_run_npc_eocs", false );
         } else if( jo.has_array( "npc_run_npc_eocs" ) ) {
             subeffect_fun.set_run_npc_eocs( jo, "npc_run_npc_eocs", true );
-        } else if( jo.has_array( "u_run_inv_eocs" ) ) {
+        } else if( jo.has_member( "u_run_inv_eocs" ) ) {
             subeffect_fun.set_run_inv_eocs( jo, "u_run_inv_eocs", false );
-        } else if( jo.has_array( "npc_run_inv_eocs" ) ) {
+        } else if( jo.has_member( "npc_run_inv_eocs" ) ) {
             subeffect_fun.set_run_inv_eocs( jo, "npc_run_inv_eocs", true );
         } else if( jo.has_array( "weighted_list_eocs" ) ) {
             subeffect_fun.set_weighted_list_eocs( jo, "weighted_list_eocs" );
