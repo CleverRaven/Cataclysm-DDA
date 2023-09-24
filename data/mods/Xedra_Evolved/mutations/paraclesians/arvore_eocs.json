@@ -404,7 +404,34 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
-    "effect": [ { "u_add_trait": "CHLOROMORPH" }, { "u_add_trait": "LEAVES3" }, { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" } ]
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_sand" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_grave" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_moss" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_add_trait": "CHLOROMORPH" }, { "u_add_trait": "LEAVES3" }, { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" } ],
+    "false_effect": [ { "u_message": "You must be outside on diggable ground to transform into a tree", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
