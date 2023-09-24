@@ -4545,8 +4545,9 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
         item_ids.emplace_back( get_str_or_var( jv, "item_ids" ) );
     }
     bool worn_only = jo.get_bool( "worn_only", false );
+    bool wielded_only = jo.get_bool( "wielded_only", false );
 
-    function = [eocs, worn_only, item_ids, is_npc]( dialogue & d ) {
+    function = [eocs, worn_only, wielded_only, item_ids, is_npc]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
         if( guy ) {
             std::vector<std::string> ids( item_ids.size() );
@@ -4556,6 +4557,9 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
             std::vector<item_location> target_items;
             for( item_location loc : guy->all_items_loc() ) {
                 if( worn_only && !guy->is_worn( *loc ) ) {
+                    continue;
+                }
+                if( wielded_only && !guy->is_wielding( *loc ) ) {
                     continue;
                 }
                 if( ids.empty() ) {
