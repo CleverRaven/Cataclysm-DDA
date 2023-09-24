@@ -458,7 +458,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_PAIN_RESISTANCE",
-    "name": { "str": "The Fallen Branch Does Not Suffer" },
+    "name": { "str": "The Fallen Branch Suffers Not" },
     "points": 5,
     "visibility": 1,
     "types": [ "PAIN" ],
@@ -1038,7 +1038,7 @@
     "id": "ARVORE_TREE_FORM",
     "name": { "str": "One with the Forest" },
     "points": 8,
-    "description": "You may transform into a tree, extending roots and spreading leaves out to the sun.   You will heal faster, gain more benefit from sleep, and monsters will ignore you, but you will only be dimly aware of the outside world and will be nearly unable to move.",
+    "description": "You may transform into a tree, extending roots and spreading leaves out to the sun.  You will heal faster, gain more benefit from sleep, and almost all monsters will ignore you, but you will only be dimly aware of the outside world and will be nearly unable to move.",
     "prereqs": [ "ARVORE_HEAL_LIMB_REGEN" ],
     "prereqs2": [ "ARVORE_SUN_FOODS", "ARVORE_SUN_FOODS_ON" ],
     "category": [ "ARVORE" ],
@@ -1046,6 +1046,8 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
+    "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
+    "time": 120,
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
   },
   {
@@ -1060,13 +1062,13 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,
-    "thirst_modifier": -0.9,
+    "thirst_modifier": -0.95,
     "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
+    "//": "Healing values copied from the Regeneration mutation",
     "attackcost_modifier": 900,
-    "movecost_modifier": 900,
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
     "ignored_by": [
       "MAMMAL",
@@ -1095,7 +1097,7 @@
       "ABERRATION",
       "HUMAN"
     ],
-    "//": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
+    "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 100 } ] } ]
   },
   {
