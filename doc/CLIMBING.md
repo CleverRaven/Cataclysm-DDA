@@ -96,6 +96,12 @@ Note:  Due to limited implementation, this should only be set to `false` for cli
 
 Optional.  Integer.  Default 0.  When climbing down this many stories or fewer, the player will be told it should be easy to climb back up.  This bypasses the normal estimation of climbing difficulty.  Typically set to the same value as `max_height` for climbing aids that leave climbable furniture behind.
 
+#### `down` › `confirm_text`
+
+Mandatory.  String.  A sentence in the form of a question, shown at the end of a prompt describing the dangers of the climb.  This prompt appears *after* choosing this climbing aid in a menu (see below).
+
+This string may use `%s` to refer to the furniture one Z-level below the player on the climbing path.  `%s` will be expanded into a string of the form `"the (furniture)"`.
+
 #### `down` › `menu_text`
 
 Mandatory.  String.  Text of the menu option for using this climbing aid.
