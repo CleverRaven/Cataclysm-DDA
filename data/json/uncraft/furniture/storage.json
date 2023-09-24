@@ -1,0 +1,10 @@
+[
+  {
+    "result": "foot_locker",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "hinge", 2 ] ], [ [ "lock", 1 ] ] ]
+  }
+]
