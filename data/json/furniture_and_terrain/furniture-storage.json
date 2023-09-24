@@ -1573,7 +1573,7 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deployed_item": "foot_locker",
     "deconstruct": {
-      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
+      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "count": 2 } ]
     },
     "bash": {
       "str_min": 12,
@@ -1584,7 +1584,7 @@
         { "item": "sheet_metal_small", "count": [ 2, 4 ] },
         { "item": "lock", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "hinge", "charges": 2 }
+        { "item": "hinge", "count": 2 }
       ]
     }
   },
@@ -1598,7 +1598,7 @@
     "color": "white",
     "deployed_item": "foot_locker_aluminum",
     "deconstruct": {
-      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
+      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "count": 2 } ]
     },
     "bash": {
       "str_min": 12,
@@ -1609,7 +1609,7 @@
         { "item": "sheet_metal_small", "count": [ 2, 4 ] },
         { "item": "lock", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "hinge", "charges": 2 }
+        { "item": "hinge", "count": 2 }
       ]
     }
   },

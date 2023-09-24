@@ -4482,7 +4482,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
     "result": "wire",
