@@ -26,6 +26,10 @@ effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
+effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
@@ -716,6 +720,27 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     } );
 
     CHECK( items_after.size() == 1 );
+
+    // Math function test for item
+    items_before = get_avatar().items_with( []( const item & it ) {
+        return it.damage() == 0;
+    } );
+
+    REQUIRE( items_before.size() == 4 );
+    CHECK( effect_on_condition_EOC_item_math_test->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.damage() == it.max_damage() - 100;
+    } );
+
+    CHECK( items_after.size() == 4 );
+
+    // Teleport test for item
+    tripoint_abs_ms before = get_avatar().get_location();
+    tripoint_abs_ms after = before + tripoint_south_east;
+
+    CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
+    CHECK( get_map().i_at( get_map().getlocal( after ) ).size() == 4 );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
