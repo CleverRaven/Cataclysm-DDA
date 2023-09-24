@@ -65,5 +65,118 @@
       { "group": "bondage_costume_unisex", "prob": 30 },
       { "group": "fursuit_costume_unisex", "prob": 30 }
     ]
+  },
+  {
+    "id": "sexy_santa_costume_male",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for sexy male santa zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "santa_hat", "damage": [ 1, 4 ] },
+          { "item": "santa_belt", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "santa_beard", "prob": 55, "damage": [ 1, 4 ] },
+              { "group": "scarfs_unisex", "prob": 45, "damage": [ 1, 4 ] }
+            ],
+            "prob": 15
+          },
+          {
+            "distribution": [
+              { "item": "gloves_white", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "santa_gloves", "prob": 80, "damage": [ 1, 4 ] }
+            ],
+            "prob": 45
+          },
+          {
+            "distribution": [
+              { "item": "santa_jacket", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "santa_jacket_short", "prob": 90, "damage": [ 1, 4 ] }
+            ],
+            "prob": 85
+          },
+          {
+            "distribution": [
+              { "item": "santa_pants", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "santa_shorts", "prob": 80, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "boots_winter", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "boots_fur", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "male_underwear", "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 40, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_unisex", "prob": 15, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sexy_santa_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for sexy female santa zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "santa_hat", "damage": [ 1, 4 ] },
+          { "item": "santa_belt", "prob": 75, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "santa_beard", "prob": 10, "damage": [ 1, 4 ] },
+              { "group": "scarfs_unisex", "prob": 90, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          },
+          {
+            "distribution": [
+              { "item": "gloves_white", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "santa_gloves", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "long_glove_white", "prob": 30, "damage": [ 1, 4 ] }
+            ],
+            "prob": 50
+          },
+          {
+            "distribution": [
+              { "item": "santa_dress", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
+              { "item": "santa_dress_short", "prob": 75, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "boots_winter", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "heels", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 10, "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 20, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
