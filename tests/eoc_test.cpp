@@ -297,8 +297,8 @@ TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
     CHECK( effect_on_condition_EOC_combat_mutator_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID_TEST" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike Test" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "50% moves, 66% damage" );
 }
 

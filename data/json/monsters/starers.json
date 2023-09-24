@@ -15,13 +15,14 @@
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "rock",
         "no_ammo_sound": "",
-        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
+        "fake_skills": [ [ "throw", 2 ] ],
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The starer throws a rock!"
-      }
+      },
+      { "id": "feral_weapon_pipe" }
     ],
     "death_drops": "starer_death_drops_pipe",
     "harvest": "exempt",
@@ -45,8 +46,23 @@
     "type": "MONSTER",
     "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
     "copy-from": "mon_starer_pipe",
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 2 ] ],
+        "fake_dex": 6,
+        "fake_per": 6,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The starer throws a rock!"
+      },
+      { "id": "feral_weapon_crowbar" }
+    ],
     "death_drops": "starer_death_drops_crowbar"
   },
   {
@@ -54,9 +70,7 @@
     "type": "MONSTER",
     "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
     "copy-from": "mon_starer_pipe",
-    "melee_dice": 2,
-    "melee_dice_sides": 7,
-    "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
+    "special_attacks": [ { "id": "feral_weapon_axe" } ],
     "death_drops": "starer_death_drops_axe"
   }
 ]

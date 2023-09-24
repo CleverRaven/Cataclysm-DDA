@@ -1,0 +1,92 @@
+[
+  {
+    "type": "climbing_aid",
+    "id": "null",
+    "//": "SPECIAL, DO NOT REMOVE. This is a sentinel value only used for the absence of data.",
+    "down": {
+      "menu_text": "Climb down by lowering yourself from the ledge.",
+      "menu_hotkey": "c",
+      "confirm_text": "Climb down the ledge?",
+      "msg_after": "You lower yourself from the ledge.",
+      "max_height": 1
+    },
+    "condition": { "type": "special", "flag": "null" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "default",
+    "//": "SPECIAL, DO NOT REMOVE. This is used when no items, terrain or abilities aid in climbing.",
+    "slip_chance_mod": 0,
+    "down": {
+      "menu_text": "Climb down by lowering yourself from the ledge.",
+      "menu_hotkey": "c",
+      "confirm_text": "Climb down the ledge?",
+      "msg_after": "You lower yourself from the ledge.",
+      "max_height": 1
+    },
+    "condition": { "type": "special", "flag": "" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "furn_LADDER",
+    "//": "currently applies to placeable stepladders, not constructed stair-like ladders",
+    "slip_chance_mod": -1000,
+    "down": {
+      "menu_text": "Climb down %s here.",
+      "confirm_text": "Climb down %s?",
+      "msg_after": "You climb down the ladder.",
+      "max_height": 1
+    },
+    "condition": { "type": "ter_furn", "flag": "LADDER" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "item_grapnel",
+    "//": "deploy a grappling hook from inventory.  Already-placed hooks are not helpful at this time...",
+    "slip_chance_mod": -1000,
+    "down": {
+      "menu_text": "Attach your grappling hook to climb down.",
+      "menu_cant": "Can't attach your grappling hook (something is in the way).",
+      "menu_hotkey": "g",
+      "confirm_text": "Use your grappling hook to climb down?",
+      "msg_before": "You tie the rope around your waist and begin to climb down.",
+      "//": "Grappling hook is 30 ft (ie, 2 levels) but we don't currently have proper furniture for that.",
+      "max_height": 1,
+      "deploy_furn": "f_rope_up",
+      "easy_climb_back_up": 1
+    },
+    "condition": { "type": "item", "flag": "grapnel", "uses": 1 }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_WALL_CLING",
+    "//": "Allows players to safely climb up/down or hold position against a wall.",
+    "slip_chance_mod": -1000,
+    "down": {
+      "menu_text": "Crawl down the wall with your sticky pads.",
+      "confirm_text": "Crawl down the wall?",
+      "msg_after": "You crawl down the wall.",
+      "//": "Can be used repeatedly to descend 1 floor at a time.",
+      "max_height": 1
+    },
+    "condition": { "type": "character", "flag": "WALL_CLING" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_WEB_RAPPEL",
+    "//": "Extremely safe descent regardless of height by spinning webs.",
+    "slip_chance_mod": -1000,
+    "down": {
+      "menu_text": "Spin your webs to descend.",
+      "menu_cant": "Can't spin your webs (something is in the way).",
+      "menu_hotkey": "w",
+      "confirm_text": "Use your webs to descend?",
+      "msg_before": "You affix a long, sticky strand on the ledge and begin your descent.",
+      "max_height": 999,
+      "cost": { "kcal": 87, "thirst": 10 },
+      "deploy_furn": "f_web_up",
+      "easy_climb_back_up": 999
+    },
+    "condition": { "type": "trait", "flag": "WEB_RAPPEL" }
+  }
+]
