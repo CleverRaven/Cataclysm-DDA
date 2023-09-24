@@ -129,12 +129,12 @@ struct item_search_data {
     bool worn_only;
     bool wielded_only;
 
-    item_search_data( const JsonObject &jo ) {
+    explicit item_search_data( const JsonObject &jo ) {
         id = itype_id( jo.get_string( "id", "" ) );
         category = item_category_id( jo.get_string( "category", "" ) );
         material = material_id( jo.get_string( "material", "" ) );
         for( std::string flag : jo.get_string_array( "flags" ) ) {
-            flags.push_back( flag_id( flag ) );
+            flags.emplace_back( flag_id( flag ) );
         }
         worn_only = jo.get_bool( "worn_only", false );
         wielded_only = jo.get_bool( "wielded_only", false );
@@ -150,7 +150,6 @@ struct item_search_data {
         if( !material.is_empty() && material != loc->get_base_material().id ) {
             return false;
         }
-        bool has_flags = true;
         for( flag_id flag : flags ) {
             if( !loc->has_flag( flag ) ) {
                 return false;
@@ -162,6 +161,7 @@ struct item_search_data {
         if( wielded_only && !guy->is_wielding( *loc ) ) {
             return false;
         }
+        return true;
     }
 };
 
@@ -4581,7 +4581,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
-        const std::string member, bool is_npc )
+        const std::string &member, bool is_npc )
 {
     str_or_var option = get_str_or_var( jo.get_member( member ), member );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
@@ -4597,7 +4597,7 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
             std::vector<item_location> true_items;
             std::vector<item_location> false_items;
 
-            for( item_location loc : guy->all_items_loc() ) {
+            for( item_location &loc : guy->all_items_loc() ) {
                 // Check if item matches any search_data.
                 bool true_tgt = datum.empty();
                 for( item_search_data data : datum ) {
@@ -4613,7 +4613,8 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
                 }
             }
 
-            const auto run_eoc = [&d, is_npc]( item_location & loc, std::vector<effect_on_condition_id> eocs ) {
+            const auto run_eoc = [&d, is_npc]( item_location & loc,
+            const std::vector<effect_on_condition_id> &eocs ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
                     // Check if item is outdated.
                     if( loc.get_item() ) {
