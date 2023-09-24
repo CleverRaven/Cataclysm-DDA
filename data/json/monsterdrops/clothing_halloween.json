@@ -1,0 +1,69 @@
+[
+  {
+    "id": "default_zombie_clothes_halloween",
+    "type": "item_group",
+    "//": "For use in halloween as special sets of zombie cloth drops.",
+    "//2": "Current prob is based around the number of male/female/unisex sets of clothing, to be adjusted if more are added.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "halloween_male", "prob": 20 },
+      { "group": "halloween_female", "prob": 30 },
+      { "group": "halloween_unisex", "prob": 60 }
+    ]
+  },
+  {
+    "id": "halloween_male",
+    "type": "item_group",
+    "//": "For use in halloween as special sets of zombie cloth drops for male zombies.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "sexy_santa_costume_male", "prob": 25 },
+      { "group": "butler_costume_male", "prob": 25 },
+      { "group": "groom_costume_male", "prob": 10 },
+      { "group": "priest_costume_male", "prob": 15 }
+    ]
+  },
+  {
+    "id": "halloween_female",
+    "type": "item_group",
+    "//": "For use in halloween as special sets of zombie cloth drops for female zombies.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "vampire_costume_female", "prob": 45 },
+      { "group": "ninja_costume_female", "prob": 20 },
+      { "group": "sexy_santa_costume_female", "prob": 25 },
+      { "group": "bride_costume_female", "prob": 25 },
+      { "group": "mummy_costume_female", "prob": 40 },
+      { "group": "wizard_costume_female", "prob": 50 },
+      { "group": "bee_costume_female", "prob": 20 },
+      { "group": "cheerleader_costume_female", "prob": 35 },
+      { "group": "maid_costume_female", "prob": 20 }
+    ]
+  },
+  {
+    "id": "halloween_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as special unisex sets of zombie cloth drops for zombies.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "vampire_costume_unisex", "prob": 45 },
+      { "group": "ninja_costume_unisex", "prob": 20 },
+      { "group": "mummy_costume_unisex", "prob": 40 },
+      { "group": "wizard_costume_unisex", "prob": 50 },
+      { "group": "skeleton_costume_unisex", "prob": 50 },
+      { "group": "ghost_costume_unisex", "prob": 65 },
+      { "group": "grim_reaper_costume_unisex", "prob": 35 },
+      { "group": "clown_costume_unisex", "prob": 25 },
+      { "group": "army_costume_unisex", "prob": 20 },
+      { "group": "chef_costume_unisex", "prob": 20 },
+      { "group": "leather_jacket_costume_unisex", "prob": 15 },
+      { "group": "cowboy_costume_unisex", "prob": 25 },
+      { "group": "japan_costume_unisex", "prob": 15 },
+      { "group": "pirate_costume_unisex", "prob": 30 },
+      { "group": "scientist_costume_unisex", "prob": 20 },
+      { "group": "beekeeping_costume_unisex", "prob": 5 },
+      { "group": "bondage_costume_unisex", "prob": 30 },
+      { "group": "fursuit_costume_unisex", "prob": 30 }
+    ]
+  }
+]
