@@ -19,6 +19,7 @@ static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 TEST_CASE( "camp_calorie_counting", "[camp]" )
 {
+    clear_avatar();
     clear_map();
     map &m = get_map();
     const tripoint zone_loc = m.getabs( tripoint{ 5, 5, 0 } );
@@ -26,7 +27,6 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
                        "food" );
     mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_STORAGE, your_fac, {},
                        "storage" );
-    get_player_character().setpos( zone_loc );
     faction *camp_faction = get_player_character().get_faction();
     const tripoint_abs_omt this_omt = project_to<coords::omt>( m.getglobal( zone_loc ) );
     m.add_camp( this_omt, "faction_camp" );
