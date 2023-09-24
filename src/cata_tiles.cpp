@@ -1348,6 +1348,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
                              ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
 
+    const level_cache &ch = here.access_cache( center.z );
+
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the display
     // since at farthest zoom displayed area may be bigger than view range.
@@ -1429,10 +1431,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
         }
     }
-    const auto apply_visible = [&]( const tripoint & np, map & here ) {
+    const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {
         return np.y < min_visible.y || np.y > max_visible.y ||
                np.x < min_visible.x || np.x > max_visible.x ||
-               would_apply_vision_effects( here.get_visibility( here.apparent_light_at( np, cache ),
+               would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
                                            cache ) );
     };
     std::map<tripoint, int> npc_attack_rating_map;
@@ -1479,7 +1481,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     continue;
                 }
             } else {
-                ll = here.apparent_light_at( pos, cache );
+                ll = ch.visibility_cache[x][y];
             }
 
             // Add scent value to the overlay_strings list for every visible tile when
@@ -1657,7 +1659,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
             for( int i = 0; i < 4; i++ ) {
                 const tripoint np = pos + neighborhood[i];
-                invisible[1 + i] = apply_visible( np, here );
+                invisible[1 + i] = apply_visible( np, ch, here );
             }
 
             // Determine lowest z-level to draw for 3D vision. Some off-screen
@@ -1858,7 +1860,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 continue;
             }
             const tripoint p( mem_x, mem_y, center.z );
-            lit_level lighting = here.apparent_light_at( p, cache );
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
             // `apply_vision_effects` does not memorize anything so we only need
             // to call `would_apply_vision_effects` here.
             if( would_apply_vision_effects( here.get_visibility( lighting, cache ) ) ) {
@@ -1869,7 +1871,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             invisible[0] = false;
             for( int i = 0; i < 4; i++ ) {
                 const tripoint np = p + neighborhood[i];
-                invisible[1 + i] = apply_visible( np, here );
+                invisible[1 + i] = apply_visible( np, ch, here );
             }
             //calling draw to memorize (and only memorize) everything.
             //bypass cache check in case we learn something new about the terrain's connections
@@ -1961,10 +1963,11 @@ std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripo
     const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
     const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
                              ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
-    const auto apply_visible = [&]( const tripoint & np, map & here ) {
+    const level_cache &ch = here.access_cache( draw_loc.z );
+    const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {
         return np.y < min_visible.y || np.y > max_visible.y ||
                np.x < min_visible.x || np.x > max_visible.x ||
-               would_apply_vision_effects( here.get_visibility( here.apparent_light_at( np, cache ),
+               would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
                                            cache ) );
     };
 
@@ -1985,7 +1988,7 @@ std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripo
             invisible[0] = true;
         }
     } else {
-        ll = here.apparent_light_at( draw_loc, cache );
+        ll = here.access_cache( draw_loc.z ).visibility_cache[draw_loc.x][draw_loc.y];
     }
 
     if( !invisible[0] ) {
@@ -2003,7 +2006,7 @@ std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripo
     }
     for( int i = 0; i < 4; i++ ) {
         const tripoint np = pos + neighborhood[i];
-        invisible[1 + i] = apply_visible( np, here );
+        invisible[1 + i] = apply_visible( np, ch, here );
     }
 
     std::pair<lit_level, std::array<bool, 5>> ret( ll, invisible );
