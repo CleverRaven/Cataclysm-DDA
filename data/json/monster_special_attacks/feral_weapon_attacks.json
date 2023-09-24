@@ -4,7 +4,7 @@
     "attack_type": "melee",
     "id": "feral_weapon_pipe",
     "cooldown": 1,
-    "move_cost": 90,
+    "move_cost": 80,
     "accuracy": 3,
     "//": "Feral melee skill + weapon's to hit, so 3+0=3",
     "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
