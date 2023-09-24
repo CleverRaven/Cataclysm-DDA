@@ -24,7 +24,9 @@
             { "math": [ "megafauna_allowed", "==", "1" ] },
             { "math": [ "mindovermatter_allowed", "==", "1" ] },
             { "math": [ "candymonsters_allowed", "==", "1" ] },
-            { "math": [ "mythos_allowed", "==", "1" ] }
+            { "math": [ "mythos_allowed", "==", "1" ] },
+            { "math": [ "exodii_allowed", "==", "1" ] },
+            { "math": [ "xedra_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -219,6 +221,30 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
+        "text": "Allow exodii.",
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "exodii_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable exodii.",
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "exodii_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow XEDRA offworlders.",
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "xedra_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "xedra_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable XEDRA offworlders.",
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "xedra_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "xedra_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
         "text": "Play!",
         "condition": {
           "or": [
@@ -236,7 +262,9 @@
             { "math": [ "megafauna_allowed", "==", "1" ] },
             { "math": [ "mindovermatter_allowed", "==", "1" ] },
             { "math": [ "candymonsters_allowed", "==", "1" ] },
-            { "math": [ "mythos_allowed", "==", "1" ] }
+            { "math": [ "mythos_allowed", "==", "1" ] },
+            { "math": [ "exodii_allowed", "==", "1" ] },
+            { "math": [ "xedra_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"
