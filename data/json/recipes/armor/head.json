@@ -2361,7 +2361,6 @@
     "result": "wetsuit_hood_thick",
     "type": "recipe",
     "copy-from": "wetsuit_hood",
-    "skill_used": "tailor",
     "difficulty": 5,
     "time": "3 h",
     "using": [ [ "tailoring_nylon_patchwork", 20 ], [ "tailoring_neoprene_patchwork", 12 ] ]

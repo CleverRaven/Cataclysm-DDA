@@ -434,7 +434,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
     "difficulty": 6,
     "time": "14 h",
     "autolearn": true,
@@ -487,7 +486,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
     "difficulty": 6,
     "time": "14 h",
     "autolearn": true,
@@ -1377,8 +1375,6 @@
     "result": "xs_wetsuit_booties",
     "type": "recipe",
     "copy-from": "wetsuit_booties",
-    "skill_used": "tailor",
-    "difficulty": 4,
     "time": "5 h",
     "using": [
       [ "tailoring_neoprene_patchwork", 6 ],
@@ -1422,7 +1418,6 @@
     "result": "xs_wetsuit_booties_thick",
     "type": "recipe",
     "copy-from": "wetsuit_booties_thick",
-    "skill_used": "tailor",
     "difficulty": 4,
     "time": "6 h",
     "using": [
