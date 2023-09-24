@@ -48,6 +48,7 @@ NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
 Add overheat mechanics to energy guns.
 Sound-triggered traps
+Item transformation can now pick variant items to transform into
 
 
 ## Content:
@@ -145,13 +146,14 @@ Add the Mind Over Matter mod to the CDDA repository
 [XE] Paraclesians: Elemental Races
 [Railroads] New mod
 [MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
-[Magiclysm] Add more than a dozen spells to magiclysm
+[Magiclysm] Add more than two dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
 [Magiclysm] Add two more playable fantasy species for Magiclysm
 JSON-ize faction camp hunting returns
 [DinoMod] document lore
 [Aftershock] Rebalance energy weapons to use overheat mechanics
 [Magiclysm] Add fantasy species ferals
+[Magiclysm] Add dispel magic spells
 
 
 ## Balance:
@@ -183,6 +185,7 @@ Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
+Climbing down stepladders is now safe; climbing down ledges tells you how risky it is.
 
 
 ## Bugfixes:
@@ -252,6 +255,9 @@ Make sure overconfident officers reliably drop their guns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
 Randomly generated characters are now aged appropriately to their profession
+AIM: Display correct truncation of container names
+Fix visible tiles revealing invisible tiles below
+Fix furniture & vehicle map memory refresh
 
 
 ## Performance:
@@ -262,6 +268,7 @@ Fix Nested List lag in crafting menu
 Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
+Stop clearing weight carried cache unnecessarily
 
 
 ## Infrastructure:
