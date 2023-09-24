@@ -152,7 +152,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_CAUSE_DECAY",
-    "name": { "str": "The Fallen Trees Decay to Soil" },
+    "name": { "str": "Fallen Trees Decay to Soil" },
     "points": 8,
     "visibility": 0,
     "ugliness": 0,
@@ -181,21 +181,10 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_ROOTS_SPELL" ],
+    "leads_to": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "description": "Upon gaining this ability, the Arvore gains the ability to summon semitangible roots that will shatter walls and furniture.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_roots_crack_the_foundation", 1 ] ]
-  },
-  {
-    "type": "mutation",
-    "id": "WIND_BLOWS_WILLOW_BENDS",
-    "name": { "str": "The Wind Blows, the Willow Bends" },
-    "points": 4,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability, you gains the ability to enhance your dodge capabilities.",
-    "category": [ "ARVORE", "SYLPH" ],
-    "leads_to": [ "ARVORE_DEX_BONUS" ],
-    "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
   },
   {
     "type": "mutation",
@@ -250,6 +239,18 @@
     "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_roots_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_ANTI_PLANT_SPELL",
+    "name": { "str": "Uproot the Mistletoe" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_TERRAIN_BASH_SPELL" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to damage plant and fungal entities, including others of their own kind.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_anti_plant_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -708,15 +709,30 @@
   {
     "type": "mutation",
     "id": "ARVORE_BLOOD_3",
-    "name": { "str": "Sap Maintains the Heartwood" },
+    "name": { "str": "Sap Defends the Trunk" },
     "points": 10,
     "visibility": 2,
     "ugliness": 1,
     "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and has potent defensive properties.  They will not bleed and are immune to parasites and infection.",
     "prereqs": [ "ARVORE_BLOOD_2" ],
+    "changes_to": "ARVORE_BLOOD_4",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_BLOOD_4",
+    "name": { "str": "Sap Maintains the Heartwood" },
+    "points": 13,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and aggressively fights back against invading organisms.  They will not bleed, are immune to parasites and infection, and cannot be transformed by the Mycus.",
+    "prereqs": [ "ARVORE_BLOOD_3" ],
+    "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -1024,6 +1040,7 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_MANA_BONUS_ON", "msg_transform": "", "active": false, "moves": 0 },
     "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
@@ -1043,9 +1060,9 @@
     "healing_awake": 0.25,
     "healing_multiplier": 1.5,
     "mending_modifier": 3.0,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "mana_regen_multiplier": 1.5,
     "mana_multiplier": 1.5,
-    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [
       [
         {
@@ -1055,5 +1072,49 @@
       ]
     ],
     "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_POWER_MANA_STATS",
+    "name": { "str": "Solar Ascendancy" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, your mana regenerates much quicker, you gain a bonus to your maximum mana, and you gain a +2 bonus to all stats.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "prereqs": [ "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_MANA_BONUS_ON" ],
+    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_SUN_POWER_MANA_STATS_ON", "msg_transform": "", "active": false, "moves": 0 },
+    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_POWER_MANA_STATS_ON",
+    "name": { "str": "Solar Ascendancy (active)" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, your maximum mana is increased, and you have +2 to all stats.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
+    "healing_awake": 0.25,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 3.0,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
+    "mana_regen_multiplier": 1.5,
+    "mana_multiplier": 1.5,
+    "passive_mods": { "str_mod": 2, "dex_mod": 2, "int_mod": 2, "per_mod": 2 },
+    "triggers": [
+      [
+        {
+          "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_POWER_MANA_STATS", "msg_transform": "", "active": false, "moves": 0 }
   }
 ]

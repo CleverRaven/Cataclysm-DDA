@@ -322,5 +322,17 @@
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
     "mana_modifier": 2000
+  },
+  {
+    "type": "mutation",
+    "id": "WIND_BLOWS_WILLOW_BENDS",
+    "name": { "str": "The Wind Blows, the Willow Bends" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
+    "category": [ "ARVORE", "SYLPH" ],
+    "leads_to": [ "ARVORE_DEX_BONUS" ],
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
   }
 ]

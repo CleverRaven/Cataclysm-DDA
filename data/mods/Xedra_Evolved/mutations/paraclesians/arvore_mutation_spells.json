@@ -119,7 +119,7 @@
     "id": "arvore_roots_crack_the_foundation",
     "type": "SPELL",
     "name": "Roots Crack the Foundation",
-    "description": "You draw on your own connection to nature and infuse some of its power into one of your allies, healing them for a small amount and increasing their overall health.",
+    "description": "Roots can grow through even concrete given time.  With this spell, you can compress that time into a single instant to shatter walls or rip doors off their hinges.",
     "valid_targets": [ "ground" ],
     "skill": "deduction",
     "effect": "bash",
@@ -128,10 +128,10 @@
     "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 7,
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: arvore_verdant_infusion') * 2.5) * (scaling_factor(u_val('perception') ) ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: arvore_verdant_infusion') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: arvore_verdant_infusion') * 7.5) * (scaling_factor(u_val('perception') ) ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: arvore_verdant_infusion') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ]
     },
     "min_range": 2,
     "max_range": 8,
@@ -214,6 +214,120 @@
     "max_range": { "math": [ "( (u_val('spell_level', 'spell: arvore_summon_briars') * 1) + 1)" ] }
   },
   {
+    "id": "arvore_anti_plant_spell",
+    "type": "SPELL",
+    "name": "Uproot the Mistletoe",
+    "description": "",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile" ],
+    "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "skill": "deduction",
+    "difficulty": 4,
+    "effect": "attack",
+    "extra_effects": [ { "id": "arvore_anti_plant_spell_fungicide" } ],
+    "damage_type": "biological",
+    "min_damage": {
+      "math": [ "(10 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 2.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "(15 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "min_dot": 1,
+    "max_dot": 3,
+    "dot_increment": 0.1,
+    "min_duration": {
+      "math": [ "(200 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 150) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "(1000 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 350) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "min_range": {
+      "math": [ "(2 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [ "(0 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 0.25) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_aoe": 8,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 150,
+    "energy_increment": -10,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "arvore_anti_plant_spell",
+    "type": "SPELL",
+    "name": "Uproot the Mistletoe",
+    "description": "Invasive weeds must be rooted out, lest they choke the garden.  This spell inflicts a rapid withering on plants and fungus within its area of effect.",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile" ],
+    "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "skill": "deduction",
+    "difficulty": 4,
+    "effect": "attack",
+    "extra_effects": [ { "id": "arvore_anti_plant_spell_fungicide" } ],
+    "damage_type": "biological",
+    "min_damage": {
+      "math": [ "(10 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 2.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "(15 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "min_dot": 1,
+    "max_dot": 3,
+    "dot_increment": 0.1,
+    "min_duration": {
+      "math": [ "(200 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 150) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "(1000 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 350) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "min_range": {
+      "math": [ "(2 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [ "(0 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 0.25) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_aoe": 8,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 150,
+    "energy_increment": -10,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "arvore_anti_plant_spell_fungicide",
+    "type": "SPELL",
+    "name": "Uproot the Mistletoe Fungicide",
+    "description": "This is the fungicidal effect of the Uproot the Mistletoe.  It's a bug if you have it directly.",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "hostile" ],
+    "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "skill": "deduction",
+    "difficulty": 4,
+    "effect": "ter_transform",
+    "effect_str": "",
+    "min_range": {
+      "math": [ "(2 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [ "(1 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 0.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_aoe": {
+      "math": [ "(1 + (u_val('spell_level', 'spell: arvore_anti_plant_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ]
+    }
+  },
+  {
     "id": "arvore_nurture_the_green",
     "type": "SPELL",
     "name": "Nurturing the Green",
@@ -222,48 +336,19 @@
     "valid_targets": [ "ground" ],
     "skill": "deduction",
     "max_level": 20,
-    "energy_source": "MANA",
     "shape": "blast",
     "difficulty": 4,
     "effect": "ter_transform",
     "effect_str": "ter_arvore_plant_growth",
-    "base_casting_time": 6000,
-    "final_casting_time": 1500,
-    "casting_time_increment": -225,
+    "min_range": 1,
+    "energy_source": "MANA",
     "base_energy_cost": 1000,
     "final_energy_cost": 500,
     "energy_increment": -40,
-    "min_range": 1,
-    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth"
-  },
-  {
-    "id": "paraclesian_spell_dodge_bonus",
-    "type": "SPELL",
-    "name": "The Wind Blows, the Willow Bends",
-    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.",
-    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "self" ],
-    "skill": "deduction",
-    "max_level": 15,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
-    "shape": "blast",
-    "difficulty": 5,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
-      ]
-    },
-    "energy_source": "MANA",
-    "base_energy_cost": 600,
-    "final_energy_cost": 400,
-    "energy_increment": -12,
-    "base_casting_time": 150
+    "base_casting_time": 6000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -225,
+    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth.  They need to go stand in the sun for that."
   },
   {
     "id": "arvore_growing_wood_walls",
@@ -445,8 +530,8 @@
   {
     "id": "arvore_cause_decay",
     "type": "SPELL",
-    "name": "The Fallen Trees Decay to Soil",
-    "description": "Even the mightest tree returns to soil in the end.  The Arvore may channel this natural process into an area around themselves, infecting everyone within with the energies of rot.\n\n<color_yellow>This spell is indiscriminate</color> and <color_red>should not be used near allies</color>.",
+    "name": "Fallen Trees Decay to Soil",
+    "description": "Even the mightiest tree returns to soil in the end.  The Arvore may channel this natural process into an area around themselves, infecting everyone within with the energies of rot.\n\n<color_yellow>This spell is indiscriminate</color> and <color_red>should not be used near allies</color>.",
     "flags": [ "SOMATIC", "NO_PROJECTILE", "RANDOM_DURATION", "CONCENTRATE", "VERBAL" ],
     "valid_targets": [ "hostile", "ground", "ally" ],
     "skill": "deduction",
@@ -454,7 +539,7 @@
     "shape": "blast",
     "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 9,
-    "damage_type": "pure",
+    "damage_type": "biological",
     "min_aoe": {
       "math": [ "( ( (u_val('spell_level', 'spell: arvore_cause_decay') * 0.8) + 3) * (scaling_factor(u_val('perception') ) ) )" ]
     },
@@ -482,7 +567,7 @@
     "id": "arvore_traverse_the_wilds",
     "type": "SPELL",
     "name": "Traverse the Wilds",
-    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest.",
+    "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest or a swamp.",
     "valid_targets": [ "none" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "SILENT", "TARGET_TELEPORT" ],
     "effect": "effect_on_condition",
@@ -495,12 +580,12 @@
     "aoe_increment": -0.25,
     "min_range": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )"
+        "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 1.5) + 4) * (scaling_factor(u_val('perception') ) ) )"
       ]
     },
     "max_range": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )"
+        "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 1.5) + 4) * (scaling_factor(u_val('perception') ) ) )"
       ]
     },
     "energy_source": "MANA",
@@ -512,7 +597,7 @@
     "final_casting_time": 80
   },
   {
-    "id": "arvore_walk_the_wilds_real",
+    "id": "arvore_traverse_the_wilds_real",
     "type": "SPELL",
     "name": "Traverse the Wilds Real",
     "description": "This is the actual spell that teleports you when you use Walk the Wilds.  It's a bug if you have it directly",
@@ -526,12 +611,12 @@
     "aoe_increment": -0.25,
     "min_range": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )"
+        "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )"
       ]
     },
     "max_range": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: arvore_walk_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )"
+        "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )"
       ]
     }
   }

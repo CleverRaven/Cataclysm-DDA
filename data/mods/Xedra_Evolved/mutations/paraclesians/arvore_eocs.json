@@ -138,8 +138,8 @@
         { "u_at_om_location": "arvore_genius_loci_SE" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_walk_the_wilds_real" }, "targeted": true } ],
-    "false_effect": { "u_message": "You need to be in a forest to traverse the wilds.", "type": "bad" }
+    "effect": [ { "u_cast_spell": { "id": "arvore_traverse_the_wilds_real" }, "targeted": true } ],
+    "false_effect": { "u_message": "You need to be in a forest or swamp to traverse the wilds.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
