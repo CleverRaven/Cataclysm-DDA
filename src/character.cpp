@@ -362,6 +362,8 @@ static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
 static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
+static const morale_type morale_cold( "morale_cold" );
+static const morale_type morale_hot( "morale_hot" );
 static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -5974,9 +5976,50 @@ bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 
 float Character::rest_quality() const
 {
-    // Just a placeholder for now.
-    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
-    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
+    map &here = get_map();
+    const tripoint your_pos = pos();
+    float rest = 0.0f;
+    // Negative morales are penalties
+    int cold_penalty = -has_morale( morale_cold );
+    int heat_penalty = -has_morale( morale_hot );
+    if( cold_penalty > 0 || heat_penalty > 0 ) {
+        // Extreme temperatures have the body working harder to fight them, with less energy dedicated to healing, even just laying around will have you shivering or sweating.
+        rest -= cold_penalty / 10.0f;
+        rest -= heat_penalty / 10.0f;
+    }
+
+    if( has_effect( effect_sleep ) ) {
+        // Beds should normally have a maximum of 1000, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
+        // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
+        rest += ( std::max( floor_bedding_warmth( your_pos ), 0 ) / 1000.0f ) ;
+        return std::max( rest, 0.0f );
+    }
+    const optional_vpart_position veh_part = here.veh_at( your_pos );
+    bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
+    if( activity_level() <= LIGHT_EXERCISE ) {
+        rest += 0.1f;
+        if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
+            // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
+            rest += 0.2f;
+        } else if( floor_bedding_warmth( your_pos ) > 0 ) {
+            // Any comfortable bed can substitute for a chair, but only if you don't have one.
+            rest += 0.2f * ( floor_bedding_warmth( your_pos ) / 1000.0f );
+        }
+        if( activity_level() <= NO_EXERCISE ) {
+            rest += 0.2f;
+        }
+    }
+    // These stack!
+    if( activity_level() >= BRISK_EXERCISE ) {
+        rest -= 0.1f;
+    }
+    if( activity_level() >= ACTIVE_EXERCISE ) {
+        rest -= 0.2f;
+    }
+    if( activity_level() >= EXTRA_EXERCISE ) {
+        rest -= 0.3f;
+    }
+    return rest;
 }
 
 std::string Character::extended_description() const
