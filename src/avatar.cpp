@@ -298,7 +298,7 @@ void avatar::memorize_clear_decoration( const tripoint_abs_ms &p, std::string_vi
 std::vector<achievement *> avatar::has_achievement() const
 {
     std::vector<achievement *> ret;
-    for( auto &elem : achievements ) {
+    for( auto &elem : achievement ) {
         if( elem.second ) {
             ret.push_back( elem.second.get() );
         }
