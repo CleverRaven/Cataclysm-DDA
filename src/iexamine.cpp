@@ -5070,7 +5070,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     g->climb_down_menu_gen( examp, cmenu );
     if( here.has_flag_furn( "EXAMINE_FROM_ABOVE", just_below ) ) {
         cmenu.addentry( ledge_examine_furniture_below, true, 'e',
-            _( "Reach for the %s below." ), here.furn( just_below ).obj().name() );
+                        _( "Reach for the %s below." ), here.furn( just_below ).obj().name() );
     }
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
