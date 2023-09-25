@@ -51,12 +51,9 @@
     "description": "A handful of oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some thread if you really want.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 5,
     "material": [ "cotton" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "id": "scrap_faux_fur",
@@ -162,12 +159,9 @@
     "description": "A misshapen section of loose carpet.  Not useful for much on its own and can be discarded.",
     "weight": "500 g",
     "volume": "500 ml",
-    "price": 1,
-    "price_postapoc": 1,
     "material": [ "carpet_pilling", "plastic" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
@@ -661,6 +655,7 @@
   },
   {
     "id": "scrap_denim",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "denim scraps" },
@@ -671,8 +666,7 @@
     "price_postapoc": 5,
     "material": [ "denim" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
@@ -740,6 +734,7 @@
   },
   {
     "id": "scrap_canvas",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "canvas scraps" },
@@ -750,8 +745,7 @@
     "price_postapoc": 5,
     "material": [ "canvas" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
