@@ -13448,14 +13448,15 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
             // The player has slipped and probably fallen.
             return;
         } else {
-            g->vertical_move( -1, true );
-            add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
             descent_pos.z--;
             if( aid.down.deploys_furniture() ) {
                 here.furn_set( descent_pos, aid.down.deploy_furn );
             }
         }
     }
+
+    int descended_levels = examp.z - descent_pos.z;
+    add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down %d Z-levels", descended_levels );
 
     // Post-descent logic...
 
@@ -13486,8 +13487,8 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         you.mod_thirst( aid.down.cost.thirst );
     }
 
-    // After descending, make the player fall if they are unsupported.
-    u.gravity_check();
+    // vertical_move with force=true triggers traps (ie, fall) at the end of the move.
+    g->vertical_move( -descended_levels, true );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
         you.set_underwater( true );
