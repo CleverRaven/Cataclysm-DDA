@@ -1,10 +1,10 @@
 [
   {
-    "id": "scrap_worthless",
+    "abstract": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "worthless scraps" },
-    "description": "A handful of oddly-shaped smallish bits of worthless waste material from tailoring projects.  Not actually real item, seeing this is a bug.",
+    "description": "A handful of oddly-shaped worthless bits of abstract code.  Seeing this is a bug.",
+    "category": "other",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 1,
@@ -15,11 +15,11 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
   },
   {
-    "id": "scrap_valuable",
+    "abstract": "scrap_valuable",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "valuable scraps" },
-    "description": "A handful of oddly-shaped smallish bits of waste material from tailoring projects.  Rare enough to be worth something, but seeing this is a bug.",
+    "description": "A handful of oddly-shaped valuable bits of abstract code.  Seeing this is a bug.",
+    "category": "other",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 1,
