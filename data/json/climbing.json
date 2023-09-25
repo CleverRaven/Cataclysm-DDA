@@ -223,6 +223,19 @@
   },
   {
     "type": "climbing_aid",
+    "id": "ability_INSECT_ARMS_OK",
+    "//": "Four insectoid arms makes climbing quite easy.",
+    "copy-from": "generic_superpower",
+    "down": {
+      "menu_text": "Crawl down using all your arms.",
+      "confirm_text": "Crawl down?",
+      "msg_after": "You crawl down using all your arms.",
+      "max_height": 2
+    },
+    "condition": { "type": "trait", "flag": "INSECT_ARMS_OK" }
+  },
+  {
+    "type": "climbing_aid",
     "id": "ability_VINES2",
     "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES2, keeping.",
     "copy-from": "generic_superpower",
