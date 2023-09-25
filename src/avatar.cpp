@@ -392,7 +392,7 @@ std::vector<mission *> avatar::get_failed_missions() const
     return failed_missions;
 }
 
-mission *avatar::get_active_mission() const
+mission * avatar::get_active_mission() const
 {
     return active_mission;
 }
@@ -477,7 +477,7 @@ void avatar::remove_active_mission( mission &cur_mission )
     }
 }
 
-diary *avatar::get_avatar_diary()
+diary * avatar::get_avatar_diary()
 {
     if( a_diary == nullptr ) {
         a_diary = std::make_unique<diary>();
@@ -1262,7 +1262,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
     }
 }
 
-faction *avatar::get_faction() const
+faction * avatar::get_faction() const
 {
     return g->faction_manager_ptr->get( faction_your_followers );
 }
@@ -2069,7 +2069,7 @@ void avatar::set_location( const tripoint_abs_ms &loc )
     Creature::set_location( loc );
 }
 
-npc &avatar::get_shadow_npc()
+npc & avatar::get_shadow_npc()
 {
     if( !shadow_npc ) {
         shadow_npc = std::make_unique<npc>();
