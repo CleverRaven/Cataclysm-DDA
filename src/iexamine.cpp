@@ -4237,7 +4237,7 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const float traps_skill_level = player_character.get_skill_level( skill_traps );
-        const float traps_knowledge_level = player_character.get_knowledge_level(skill_traps);
+        const float traps_knowledge_level = player_character.get_knowledge_level( skill_traps );
         const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
                                               player_character.dex_cur +
                                               player_character.int_cur ) / 6.0f;
