@@ -1099,6 +1099,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
+    int default_selection_idx = 0;
+    int default_selection_treatment_rank = 0;
 
     // If this is an NPC, the player is the one examining them and so the fact
     // that they can't self-diagnose effectively doesn't matter
@@ -1109,6 +1111,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const bodypart_id &bp = e.bp;
         const int maximal_hp = get_part_hp_max( bp );
         const int current_hp = get_part_hp_cur( bp );
+        const float cur_hp_pcnt = current_hp / static_cast<float>( maximal_hp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = display::limb_color( *this, bp, bleed > 0, bite > 0.0f, infect > 0.0f );
@@ -1118,6 +1121,12 @@ bodypart_id Character::body_window( const std::string &menu_header,
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
         const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
+        // How much this treatment would help, if applied to this bodypart.
+        // The value itself is just a sorting number and has no actual meaning in itself, but is roughly ranged at:
+        // 0-30=bandage, 30-60=disinfectant, 60-70=bitten/infected, 70-80=bleeding
+        // A high value means that this bodypart should be prioritized to get this
+        // treatment, and is likely to be selected as default in the ui.
+        int treatment_rank = 0;
 
         if( show_all || has_curable_effect ) { // NOLINT(bugprone-branch-clone)
             e.allowed = true;
@@ -1169,7 +1178,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
         } else if( no_feeling ) {
-            const float cur_hp_pcnt = current_hp / static_cast<float>( maximal_hp );
             if( cur_hp_pcnt < 0.125f ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
             } else if( cur_hp_pcnt < 0.375f ) {
@@ -1194,13 +1202,15 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
+            const int bleeding_intensity = get_effect_int( effect_bleed, bp );
             desc += string_format( _( "Bleeding: %s" ),
                                    colorize( get_effect( effect_bleed, bp ).get_speed_name(),
-                                             colorize_bleeding_intensity( get_effect_int( effect_bleed, bp ) ) ) );
+                                             colorize_bleeding_intensity( bleeding_intensity ) ) );
             if( bleed > 0 ) {
-                int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
+                int percent = static_cast<int>( bleed * 100 / bleeding_intensity );
                 percent = std::min( percent, 100 );
                 desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
+                treatment_rank += 70 + bleeding_intensity;
             }
             desc += "\n";
         }
@@ -1212,6 +1222,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
                 desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
                 if( new_b_power <= b_power ) {
                     desc += _( " (no improvement)" );
+                } else {
+                    treatment_rank += ( 1 - cur_hp_pcnt ) * 10; // lower hp percent -> higher rank
+                    treatment_rank += new_b_power - b_power; // bandage improvement -> higher rank
+                    treatment_rank += b_power == 0 ? 10 : 0; // no previous bandage -> higher rank
                 }
             }
             desc += "\n";
@@ -1224,6 +1238,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
                 desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
                 if( new_d_power <= d_power ) {
                     desc += _( " (no improvement)" );
+                } else {
+                    treatment_rank += 30 + ( 1 - cur_hp_pcnt ) * 10; // lower hp percent -> higher rank
+                    treatment_rank += new_d_power - d_power; // better disinfectant -> higher rank
+                    treatment_rank += d_power == 0 ? 10 : 0; // not previously disinfected -> higher rank
                 }
             }
             desc += "\n";
@@ -1235,6 +1253,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
                                                  static_cast<int>( bite * 100 ) ), c_light_green );
+                treatment_rank += 60 + bite * 10;
             } else {
                 desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red );
             }
@@ -1247,6 +1266,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( infect > 0 ) {
                 desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
+                treatment_rank += 60 + infect * 10;
             } else {
                 desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                                   c_red );
@@ -1263,6 +1283,11 @@ bodypart_id Character::body_window( const std::string &menu_header,
             desc += colorize( _( "You don't expect any effect from using this." ), c_yellow );
         } else {
             is_valid_choice = true;
+            if( treatment_rank > default_selection_treatment_rank ) {
+                // the bodypart with the highest rank should be selected as default
+                default_selection_treatment_rank = treatment_rank;
+                default_selection_idx = i;
+            }
         }
         bmenu.addentry_desc( i, e.allowed, MENU_AUTOASSIGN, msg, desc );
     }
@@ -1272,6 +1297,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bmenu.desc_enabled = false;
         bmenu.text = _( "No limb would benefit from it." );
         bmenu.addentry( parts.size(), true, 'q', "%s", _( "Cancel" ) );
+    } else {
+        bmenu.set_selected( default_selection_idx );
     }
 
     bmenu.query();
