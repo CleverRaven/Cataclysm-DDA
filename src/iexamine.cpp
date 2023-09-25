@@ -117,7 +117,6 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
 
-static const climbing_aid_id climbing_aid_default( "default" );
 static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 
 static const efftype_id effect_antibiotic( "antibiotic" );
