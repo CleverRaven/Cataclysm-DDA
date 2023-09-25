@@ -543,7 +543,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `scent_types.json`            | type of scent available
 | `scores.json`                 | scores
 | `skills.json`                 | skill descriptions and ID's
-| `snippets.json`               | flier/poster descriptions
+| `snippets.json`               | flier/poster/monster speech/dream/etc descriptions
 | `species.json`                | monster species
 | `speed_descripton.json`       | monster speed description
 | `speech.json`                 | monster vocalizations
