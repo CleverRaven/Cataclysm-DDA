@@ -121,6 +121,7 @@ struct conditional_t {
         void set_is_riding( bool is_npc = false );
         void set_npc_has_class( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_u_has_mission( const JsonObject &jo, const std::string &member );
+        void set_u_has_achievement(const JsonObject& jo, const std::string& member);
         void set_u_monsters_in_direction( const JsonObject &jo, const std::string &member );
         void set_u_safe_mode_trigger( const JsonObject &jo, const std::string &member );
         void set_has_strength( const JsonObject &jo, const std::string &member, bool is_npc = false );
