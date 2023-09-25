@@ -932,6 +932,12 @@ void vpart_info::check() const
     if( base_item->pockets.size() > 4 ) {
         debugmsg( "Error: vehicle parts assume only one pocket.  Multiple pockets unsupported" );
     }
+    for( const auto &dt : damage_reduction ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid damage_reduction type \"%s\" for vehicle part %s", dt.first.c_str(),
+                      id.c_str() );
+        }
+    }
 }
 
 void vehicles::parts::reset()
