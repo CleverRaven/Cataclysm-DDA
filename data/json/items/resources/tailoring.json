@@ -18,7 +18,7 @@
     "id": "scrap_valuable",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str_sp": "cotton scraps" },
+    "name": { "str_sp": "valuable scraps" },
     "description": "A handful of oddly-shaped smallish bits of waste material from tailoring projects.  Rare enough to be worth something, but seeing this is a bug.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -114,7 +114,7 @@
   },
   {
     "id": "scrap_lycra",
-    "copy-from": "scrap_worthless",,
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "Lycra scraps" },
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -124,7 +124,7 @@
   },
   {
     "id": "scrap_neoprene",
-    "copy-from": "scrap_worthless",,
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "neoprene scraps" },
     "description": "A handful of oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -134,7 +134,7 @@
   },
   {
     "id": "scrap_nylon",
-    "copy-from": "scrap_worthless",,
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "A handful of oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -155,7 +155,7 @@
   },
   {
     "id": "scrap_carpet",
-	"copy-from": "scrap_worthless",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "scraps of carpet" },
