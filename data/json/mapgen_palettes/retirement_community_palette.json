@@ -182,13 +182,13 @@
       "Я": "t_null"
     },
     "furniture": {
-      "!": "f_foot_locker",
+      "!": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "-": "f_cupboard",
       "₸": "f_pool_table",
       "#": "f_glass_cabinet",
       "*": "f_toilet",
       "@": "f_console",
-      "_": "f_foot_locker",
+      "_": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "~": "f_cupboard",
       "=": "f_null",
       "5": "f_dresser",

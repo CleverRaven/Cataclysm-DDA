@@ -1226,25 +1226,53 @@ class game
         // called on map shifting
         void shift_destination_preview( const point &delta );
 
+        /** Passed to climbing-related functions (slip_down) to
+        *   indicate the climbing action being attempted.
+        */
+        enum class climb_maneuver {
+            down,          // climb up one Z-level
+            up,            // climb down one Z-level
+            over_obstacle, // climb over an obstacle (horizontal move)
+        };
+
         /**
         Checks if player is able to successfully climb to/from some terrain and not slip down
-        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param aid Identifies the object, terrain or ability being used to climb.  See climbing.h.
         @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
         @return whether player has slipped down
         */
-        bool slip_down( bool check_for_traps = false, bool show_chance_messages = true );
+        bool slip_down(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
 
         /**
         Calculates the chance that slip_down will return true.
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param affordance Identifies the object, terrain or ability being used to climb.  See climbing.h.
         @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
         @return Probability, as a percentage, that player will slip down while climbing some terrain.
         */
-        int slip_down_chance( bool show_messages = true );
+        int slip_down_chance(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
 
         /**
-        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        * Climb down from a ledge.
+        * Player is prompted to deploy grappling hook, webs or detach vines if applicable.
+        * Otherwise the safest available affordance (see above) is detected and used.
+        * The player is shown a confirmation query with an assessment of falling risk and damage.
         */
         void climb_down( const tripoint &examp );
+
+        void climb_down_menu_gen( const tripoint &examp, uilist &cmenu );
+        bool climb_down_menu_pick( const tripoint &examp, int retval );
+        void climb_down_using(
+            const tripoint &examp,
+            climbing_aid_id aid,
+            bool deploy_affordance = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
