@@ -731,7 +731,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
         return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
     } );
 
-    CHECK( items_after.size() == 0 );
+    CHECK( items_after.empty() );
 
     get_avatar().get_wielded_item().remove_item();
     item weapon_wood( itype_sword_wood );
