@@ -12,7 +12,7 @@
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE", "TRADERAVOID" ]
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
   },
   {
     "id": "scrap_valuable",
