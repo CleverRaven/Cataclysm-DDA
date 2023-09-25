@@ -96,7 +96,7 @@ set(SDL2IMAGE_FOUND ${SDL2_IMAGE_FOUND})
 
 mark_as_advanced(SDL2_IMAGE_LIBRARY SDL2_IMAGE_INCLUDE_DIR)
 
-if(NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
+if(NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
     if (NOT TARGET SDL2_image:SDL2_image-static)
       add_library(SDL2_image::SDL2_image-static STATIC IMPORTED)
       set_property(TARGET SDL2_image::SDL2_image-static

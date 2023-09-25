@@ -95,7 +95,7 @@ set(SDL2TTF_FOUND ${SDL2_TTF_FOUND})
 
 mark_as_advanced(SDL2_TTF_LIBRARY SDL2_TTF_INCLUDE_DIR)
 
-if (NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
+if (NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
   if (NOT TARGET SDL2_ttf::SDL2_ttf-static)
     add_library(SDL2_ttf::SDL2_ttf-static STATIC IMPORTED)
     set_property(TARGET SDL2_ttf::SDL2_ttf-static
