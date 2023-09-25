@@ -556,11 +556,11 @@ void conditional_t::set_u_has_mission( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_u_has_achievement(const JsonObject& jo, const std::string& member)
+void conditional_t::set_u_has_achievement( const JsonObject &jo, const std::string &member )
 {
-    str_or_var u_achievement = get_str_or_var(jo.get_member(member), member, true);
-    condition = [u_achievement](dialogue const& d) {
-        return get_avatar().has_achievement(achievement_id(u_achievement.evaluate(d)));
+    str_or_var u_achievement = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [u_achievement]( dialogue const & d ) {
+        return get_avatar().has_achievement( achievement_id( u_achievement.evaluate( d ) ) );
     };
 }
 
@@ -3285,10 +3285,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_activity( is_npc );
     } else if( jo.has_string( "npc_is_riding" ) ) {
         set_is_riding( is_npc );
-    } else if (jo.has_member("u_has_mission")) {
-        set_u_has_mission(jo, "u_has_mission");
-    } else if (jo.has_member("u_has_achievement")) {
-        set_u_has_achievement(jo, "u_has_achievement");
+    } else if( jo.has_member( "u_has_mission" ) ) {
+        set_u_has_mission( jo, "u_has_mission" );
+    } else if( jo.has_member( "u_has_achievement" ) ) {
+        set_u_has_achievement( jo, "u_has_achievement" );
     } else if( jo.has_member( "u_monsters_in_direction" ) ) {
         set_u_monsters_in_direction( jo, "u_monsters_in_direction" );
     } else if( jo.has_member( "u_safe_mode_trigger" ) ) {
