@@ -582,8 +582,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m 30 s",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 8 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "bio_blood_filter",
@@ -4493,7 +4493,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
     "result": "wire",
@@ -6305,7 +6305,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 30 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 6 ] ] ]
   },
   {
     "result": "guitar_stand",
@@ -6313,7 +6313,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 10 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
   },
   {
     "result": "bat_metal",
@@ -6321,7 +6321,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 15 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 3 ] ] ]
   },
   {
     "result": "PR24-extended",
@@ -6445,7 +6445,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 315 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 63 ] ] ]
   },
   {
     "result": "esbit_stove",
@@ -6626,7 +6626,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 3 ] ], [ [ "material_aluminium_ingot", 6 ] ] ]
   },
   {
     "result": "foldxlframe",
@@ -6634,7 +6634,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 3 ] ], [ [ "material_aluminium_ingot", 6 ] ] ]
   },
   {
     "result": "aquarium_medium",
@@ -6674,7 +6674,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 100 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
   },
   {
     "result": "crutches",
@@ -6698,7 +6698,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 149 ] ], [ [ "cotton_patchwork", 10 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 29 ] ], [ [ "cotton_patchwork", 10 ] ] ]
   },
   {
     "result": "stethoscope",
@@ -7275,7 +7275,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 51 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "material_aluminium_ingot", 10 ] ] ]
   },
   {
     "result": "55gal_drum_aluminum",
@@ -7283,7 +7283,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 200 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 40 ] ] ]
   },
   {
     "result": "sweater",

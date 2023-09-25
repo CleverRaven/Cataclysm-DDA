@@ -1441,7 +1441,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "scrap_aluminum", 13 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 5 ] ] ]
   },
   {
     "result": "scrap_aluminum",

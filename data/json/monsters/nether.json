@@ -1058,7 +1058,18 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]
+    "flags": [
+      "HEARS",
+      "GOODHEARING",
+      "STUMBLES",
+      "BIOLOGICALPROOF",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "FLIES",
+      "PLASTIC",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_shifting_mass",
@@ -1085,7 +1096,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "BIOLOGICALPROOF", "HEARS" ]
   },
   {
     "id": "mon_impossible_shape",
@@ -1112,7 +1123,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "BIOLOGICALPROOF", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_absence",
@@ -1139,7 +1150,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "BIOLOGICALPROOF", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_giant_appendage",
@@ -1162,7 +1173,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is pulled back through the closing portal." },
-    "flags": [ "FLIES", "NO_BREATHE", "STUMBLES" ]
+    "flags": [ "FLIES", "NO_BREATHE", "BIOLOGICALPROOF", "STUMBLES" ]
   },
   {
     "id": "mon_memory",
@@ -1186,7 +1197,7 @@
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab", "cooldown": 2 }, [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "NO_BREATHE", "GRABS", "PUSH_MON", "GROUP_BASH" ]
+    "flags": [ "NO_BREATHE", "GRABS", "BIOLOGICALPROOF", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1212,7 +1223,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
-    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ],
+    "flags": [ "IMMOBILE", "NO_BREATHE", "BIOLOGICALPROOF", "SEES", "HEARS", "RANGED_ATTACKER" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 5 }
   },
   {
@@ -1240,7 +1251,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "FLIES", "NO_BREATHE", "BIOLOGICALPROOF", "SEES", "HEARS", "RANGED_ATTACKER" ]
   },
   {
     "id": "mon_archunk_weak",
@@ -1274,7 +1285,7 @@
       "message": "The material stabilizes and reforms itself into a small chunk of unknown composition."
     },
     "death_drops": "ps_artifact_weak",
-    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ],
+    "flags": [ "COLDPROOF", "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ],
     "armor": { "bash": 20, "cut": 20, "stab": 20, "heat": 20, "bullet": 20, "electric": 20 }
   },
   {
@@ -1334,7 +1345,7 @@
         "cooldown": 5
       }
     ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_twisted_reflection",
@@ -1415,7 +1426,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "Your shadow seemingly becomes normal again."
     },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE" ]
   },
   {
     "id": "mon_hallucinator",
@@ -1444,6 +1455,7 @@
       "ACIDPROOF",
       "CAN_OPEN_DOORS",
       "FIREPROOF",
+      "BIOLOGICALPROOF",
       "LOUDMOVES",
       "SLUDGEPROOF",
       "SMELLS",
@@ -1476,7 +1488,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "BIOLOGICALPROOF", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_sloth",
@@ -1493,7 +1505,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "BIOLOGICALPROOF", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_hanging_roper",

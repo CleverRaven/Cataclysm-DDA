@@ -108,7 +108,9 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_MYTHOS", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_MYTHOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_EXODII", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_XEDRA", { "const": 1 } ]
         ]
       }
     ]

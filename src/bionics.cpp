@@ -582,6 +582,13 @@ void bionic_data::check_bionic_consistency()
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
             debugmsg( "Bionic %s has no defined item version", bio.id.c_str() );
         }
+        for( const std::pair<const bodypart_str_id, resistances> &bprot : bio.protec ) {
+            for( const std::pair<const damage_type_id, float> &dt : bprot.second.resist_vals ) {
+                if( !dt.first.is_valid() ) {
+                    debugmsg( "Invalid protection type \"%s\" for bionic %s", dt.first.c_str(), bio.id.c_str() );
+                }
+            }
+        }
     }
 }
 
