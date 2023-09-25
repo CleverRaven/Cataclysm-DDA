@@ -41,6 +41,38 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_inv_test3",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test3_nested" ],
+        "search_data": [ { "material": "wood", "wielded_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test3_nested",
+    "effect": [ { "npc_add_var": "key3", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test4",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test4_nested" ],
+        "search_data": [ { "category": "weapons", "flags": [ "BELT_CLIP" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test4_nested",
+    "effect": [ { "npc_add_var": "key4", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_item_math_test",
     "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] } ]
   },

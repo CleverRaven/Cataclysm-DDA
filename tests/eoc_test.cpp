@@ -62,6 +62,8 @@ static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_run_inv_test1" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test4( "EOC_run_inv_test4" );
 static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
@@ -78,6 +80,7 @@ static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -712,11 +715,41 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 4 );
 
-    // Worn backpack only
+    // Test search_data: id, worn_only
     CHECK( effect_on_condition_EOC_run_inv_test2->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
         return it.get_var( "npctalk_var_general_run_inv_test_key2" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Test search_data: material, wielded_only
+    CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 0 );
+
+    get_avatar().get_wielded_item().remove_item();
+    item weapon_wood( itype_sword_wood );
+    get_avatar().set_wielded_item( weapon_wood );
+
+    CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Test search_data: category, flags
+    CHECK( effect_on_condition_EOC_run_inv_test4->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key4" ) == "yes";
     } );
 
     CHECK( items_after.size() == 1 );

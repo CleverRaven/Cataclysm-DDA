@@ -147,7 +147,7 @@ struct item_search_data {
         if( !category.is_empty() && category != loc->get_category_shallow().id ) {
             return false;
         }
-        if( !material.is_empty() && material != loc->get_base_material().id ) {
+        if( !material.is_empty() && loc->made_of( material ) == 0 ) {
             return false;
         }
         for( flag_id flag : flags ) {
