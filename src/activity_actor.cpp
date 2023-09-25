@@ -1176,7 +1176,7 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     }
     vehicle &veh = vp->vehicle();
 
-    int skill = round( who.get_skill_level( skill_mechanics ) );
+    int skill = round( who.get_average_skill_level( skill_mechanics ) );
     if( skill > rng( 1, 6 ) ) {
         // Success
         who.add_msg_if_player( _( "You found the wire that starts the engine." ) );
