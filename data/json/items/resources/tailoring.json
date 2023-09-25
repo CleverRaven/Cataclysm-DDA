@@ -1,5 +1,35 @@
 [
   {
+    "id": "scrap_worthless",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str_sp": "worthless scraps" },
+    "description": "A handful of oddly-shaped smallish bits of worthless waste material from tailoring projects.  Not actually real item, seeing this is a bug.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "TRADERAVOID" ]
+  },
+  {
+    "id": "scrap_valuable",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str_sp": "cotton scraps" },
+    "description": "A handful of oddly-shaped smallish bits of waste material from tailoring projects.  Rare enough to be worth something, but seeing this is a bug.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "grass_yarn",
     "symbol": ",",
