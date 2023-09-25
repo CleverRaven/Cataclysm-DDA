@@ -3371,6 +3371,12 @@ int Character::get_knowledge_level( const skill_id &ident, const item &context )
 {
     return _skills->get_knowledge_level( ident, context );
 }
+
+float Character::get_average_skill_level(const skill_id& ident) const
+{
+    return ( get_skill_level( ident ) + get_knowledge_level( ident ) ) / 2;
+}
+
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
     get_skill_level_object( ident ).level( level );
