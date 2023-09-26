@@ -897,7 +897,7 @@ void Character::activate_mutation( const trait_id &mut )
             has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
             // Arvore are forest fae from Xedra Evolved.
-        } else if (has_trait( trait_ARVORE_FOREST_DETECT ) || has_trait( trait_ARVORE_FOREST_DETECT_ON ) ) {
+        } else if( has_trait( trait_ARVORE_FOREST_DETECT ) || has_trait( trait_ARVORE_FOREST_DETECT_ON ) ) {
             add_msg_if_player( _( "You close your eyes and reach out to the spirits of the forest." ) );
 
         } else {
