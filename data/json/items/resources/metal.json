@@ -12,7 +12,7 @@
     "symbol": "/",
     "material": [ "steel" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "volume": "370 ml",
     "price": "38 USD",

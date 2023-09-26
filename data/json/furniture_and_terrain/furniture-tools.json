@@ -671,7 +671,7 @@
     "color": "brown",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
     "bash": {
@@ -695,7 +695,7 @@
     "color": "light_gray",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "looks_like": "f_ladder",
     "deployed_item": "aluminum_stepladder",
@@ -1574,7 +1574,7 @@
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z", "ALLOW_ON_OPEN_AIR" ],
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z", "ALLOW_ON_OPEN_AIR" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
     "bash": {
