@@ -4533,6 +4533,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     }
 
     u.hobbies.clear();
+    u.add_default_background();
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();
