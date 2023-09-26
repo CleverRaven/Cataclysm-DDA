@@ -120,11 +120,13 @@ struct visibility_variables {
     bool variables_set = false;
     bool u_sight_impaired = false;
     bool u_is_boomered = false;
+    bool visibility_cache_dirty = true;
     // Cached values for map visibility calculations
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
     std::optional<field_type_id> clairvoyance_field;
+    tripoint last_pos;
 };
 
 struct bash_params {
@@ -2232,6 +2234,7 @@ class map
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
+        void invalidate_visibility_cache();
         const visibility_variables &get_visibility_variables_cache() const;
 
         void update_submaps_with_active_items();

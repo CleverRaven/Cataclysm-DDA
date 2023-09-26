@@ -267,7 +267,8 @@
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "glasses_safety",
@@ -410,7 +411,8 @@
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 4 ] ]
   },
   {
     "result": "hat_hard",
@@ -1142,7 +1144,8 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_polymerworking" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_cotton", 3 ], [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "xs_hood_wsurvivor_nofur",
@@ -1157,7 +1160,8 @@
       [ [ "sheet_kevlar_layered", 3 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "xl_hood_wsurvivor_nofur",
@@ -1172,7 +1176,8 @@
       [ [ "sheet_kevlar_layered", 6 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 5 ] ]
   },
   {
     "result": "hood_rain",

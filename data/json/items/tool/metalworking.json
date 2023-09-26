@@ -370,10 +370,10 @@
     "type": "TOOL",
     "name": { "str": "pair of flatjaw tongs", "str_pl": "pairs of flatjaw tongs" },
     "description": "A pair of flatjaw tongs.  They are commonly used for metalworking, fabrication, or forging recipes.",
-    "weight": "750 g",
-    "volume": "500 ml",
-    "longest_side": "30 cm",
-    "price": 1600,
+    "weight": "730 g",
+    "volume": "662 ml",
+    "longest_side": "44 cm",
+    "price": "39 USD",
     "price_postapoc": 300,
     "material": [ "steel" ],
     "symbol": ";",
@@ -381,7 +381,9 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 9 },
+    "//": "Based on https://www.amazon.com/dp/B0BGPJ5HQD"
   },
   {
     "id": "sandpaper",

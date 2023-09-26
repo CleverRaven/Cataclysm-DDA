@@ -935,22 +935,6 @@
     ]
   },
   {
-    "id": "jewelry_furshop",
-    "type": "item_group",
-    "items": [
-      [ "gold_watch", 50 ],
-      [ "sf_watch", 50 ],
-      [ "jade_brooch", 80 ],
-      [ "pearl_collar", 50 ],
-      [ "silver_bracelet", 30 ],
-      [ "gold_bracelet", 20 ],
-      { "group": "earrings_silver", "prob": 10 },
-      { "group": "earrings_gold", "prob": 10 },
-      { "group": "earrings_platinum", "prob": 10 },
-      { "group": "costume_jewelry", "prob": 1 }
-    ]
-  },
-  {
     "id": "cufflinks_silver",
     "type": "item_group",
     "subtype": "distribution",
@@ -1367,12 +1351,6 @@
       { "item": "ruby_platinum_bracelet", "prob": 50 },
       { "item": "garnet_platinum_bracelet", "prob": 50 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "shirts_summer_unisex",
-    "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 5 }, { "item": "tank_top", "prob": 5 }, { "item": "flag_shirt", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -1916,12 +1894,6 @@
       { "item": "coat_fur", "prob": 4 },
       { "item": "cloak_fur", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "fur_pants_unisex",
-    "subtype": "distribution",
-    "entries": [ { "item": "pants_fur", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -2888,34 +2860,6 @@
   },
   {
     "type": "item_group",
-    "id": "mil_armor_torso",
-    "items": [
-      [ "kevlar", 10 ],
-      { "group": "military_ballistic_vest", "prob": 30 },
-      [ "winter_jacket_army", 30 ],
-      [ "vest", 15 ],
-      [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
-      [ "under_armor", 20 ],
-      [ "power_armor_basic", 5 ],
-      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
-      [ "elbow_pads", 20 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "mil_armor_helmet",
-    "items": [
-      [ "helmet_army", 40 ],
-      [ "helmet_liner", 20 ],
-      [ "beret", 50 ],
-      [ "beret_wool", 40 ],
-      [ "mask_bal", 10 ],
-      [ "power_armor_helmet_basic", 4 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "mil_armor_pants",
     "items": [
       [ "pants_army", 10 ],
@@ -2924,98 +2868,6 @@
       [ "pants_cargo", 70 ],
       [ "legrig", 10 ],
       [ "knee_pads", 20 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "survival_armor",
-    "items": [
-      [ "boots_steel", 50 ],
-      [ "sneakers_steel", 35 ],
-      [ "boots_combat", 50 ],
-      [ "boots_hiking", 50 ],
-      [ "bootsheath", 8 ],
-      [ "leg_sheath6", 3 ],
-      [ "gartersheath1", 1 ],
-      [ "gartersheath2", 1 ],
-      [ "pants_cargo", 70 ],
-      [ "pants_hiking", 15 ],
-      [ "shorts_cargo", 50 ],
-      [ "pants_army", 30 ],
-      [ "jacket_army", 6 ],
-      [ "combat_shirt", 6 ],
-      [ "jacket_army_modern", 18 ],
-      [ "winter_pants_army", 10 ],
-      [ "winter_jacket_army", 10 ],
-      [ "winter_gloves_army", 10 ],
-      [ "technician_coveralls", 20 ],
-      [ "technician_coveralls_h", 10 ],
-      [ "jacket_leather", 15 ],
-      [ "leather_police_jacket", 30 ],
-      [ "sleeveless_trenchcoat", 2 ],
-      [ "sleeveless_trenchcoat_leather", 5 ],
-      [ "sleeveless_duster", 2 ],
-      [ "sleeveless_duster_leather", 5 ],
-      [ "kevlar", 30 ],
-      [ "stab_vest", 30 ],
-      { "group": "military_ballistic_vest", "prob": 8 },
-      [ "dump_pouch", 20 ],
-      [ "mask_bal", 5 ],
-      [ "vest", 15 ],
-      [ "gloves_fingerless", 20 ],
-      [ "gloves_tactical", 20 ],
-      [ "glasses_bal", 20 ],
-      [ "elbow_pads", 40 ],
-      [ "knee_pads", 40 ],
-      { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
-      [ "goggles_ski", 30 ],
-      [ "helmet_skid", 30 ],
-      [ "chestguard_hard", 20 ],
-      [ "armguard_hard", 20 ],
-      [ "legguard_hard", 15 ],
-      [ "armor_riot_leg", 10 ],
-      [ "armor_riot_arm", 10 ],
-      [ "armor_riot_torso", 5 ],
-      [ "under_armor", 20 ],
-      [ "long_underpants", 40 ],
-      [ "long_undertop", 40 ],
-      [ "union_suit", 20 ],
-      [ "helmet_ball", 45 ],
-      [ "helmet_riot", 25 ],
-      [ "helmet_motor", 40 ],
-      [ "touring_suit", 15 ],
-      [ "motorbike_armor", 5 ],
-      [ "motorbike_pants", 5 ],
-      [ "motorbike_boots", 5 ],
-      [ "holster", 3 ],
-      [ "nylon_holster", 5 ],
-      [ "sholster", 4 ],
-      [ "shoulder_holster", 1 ],
-      [ "bootstrap", 3 ],
-      [ "legpouch", 12 ],
-      [ "legpouch_large", 6 ],
-      [ "chestpouch", 9 ],
-      [ "ammo_satchel", 4 ],
-      [ "ammo_pouch", 4 ],
-      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
-      [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
-      [ "legrig", 10 ],
-      [ "rucksack", 20 ],
-      [ "emer_blanket", 20 ],
-      [ "flotation_vest", 1 ],
-      [ "fishing_waders", 2 ],
-      [ "cloak", 5 ],
-      [ "cloak_wool", 5 ],
-      [ "tac_helmet", 5 ],
-      [ "tac_fullhelmet", 2 ],
-      [ "apron_leather", 2 ],
-      [ "apron_cut_resistant", 2 ],
-      [ "apron_plastic", 1 ],
-      [ "tool_belt", 5 ],
-      [ "bootsheath", 8 ],
-      [ "sheath", 5 ]
     ]
   },
   {

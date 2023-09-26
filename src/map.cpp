@@ -6570,6 +6570,11 @@ void map::update_submaps_with_active_items()
 void map::update_visibility_cache( const int zlev )
 {
     Character &player_character = get_player_character();
+    if( !visibility_variables_cache.visibility_cache_dirty &&
+        player_character.pos() == visibility_variables_cache.last_pos ) {
+        return;
+    }
+
     if( player_character.pos().z - zlev < fov_3d_z_range && zlev > -OVERMAP_DEPTH ) {
         update_visibility_cache( zlev - 1 );
     }
@@ -6618,6 +6623,14 @@ void map::update_visibility_cache( const int zlev )
     // clear previously cached visibility variables from cata_tiles
     tilecontext->clear_draw_caches();
 #endif
+
+    visibility_variables_cache.last_pos = player_character.pos();
+    visibility_variables_cache.visibility_cache_dirty = false;
+}
+
+void map::invalidate_visibility_cache()
+{
+    visibility_variables_cache.visibility_cache_dirty = true;
 }
 
 const visibility_variables &map::get_visibility_variables_cache() const

@@ -55,7 +55,7 @@
         "2": "f_armchair",
         "3": "f_bed",
         "4": "f_chair",
-        "5": "f_foot_locker",
+        "5": [ "f_foot_locker", "f_foot_locker_aluminum" ],
         "6": "f_trashcan",
         "7": "f_rack_wood"
       },

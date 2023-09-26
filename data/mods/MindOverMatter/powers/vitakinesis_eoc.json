@@ -399,5 +399,16 @@
       { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "effect": [
+      { "math": [ "u_val('stored_kcal')", "-=", "rng( 50,250 )" ] },
+      { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 50,200 )" ] },
+      { "math": [ "u_val('vitamin', 'name:calcium')", "-=", "rng( 100,200 )" ] },
+      { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 20,80 )" ] },
+      { "math": [ "u_val('fatigue')", "+=", "rng( 2,10 )" ] }
+    ]
   }
 ]

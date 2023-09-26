@@ -1,0 +1,183 @@
+[
+  {
+    "id": "thick_rs_column_cleaner",
+    "type": "widget",
+    "style": "layout",
+    "label": "stacked",
+    "arrange": "rows",
+    "widgets": [
+      "ll_limbs_layout",
+      "spacer",
+      "ll_stats_layout",
+      "sound_mood_focus_layout",
+      "spacer",
+      "stamina_speed_layout_full",
+      "weary_rest_layout",
+      "needs_layout_cleaner"
+    ]
+  },
+  {
+    "id": "thick_rs_column_more_graphs",
+    "type": "widget",
+    "style": "layout",
+    "label": "stacked",
+    "arrange": "rows",
+    "widgets": [ "ll_limbs_layout", "spacer", "more_graphs_layout" ]
+  },
+  {
+    "id": "thick_rs_column_cleaner_2",
+    "type": "widget",
+    "style": "layout",
+    "label": "Status displays",
+    "description": "All sorts of <color_yellow>bars</color> and <color_yellow>numbers</color> about the player's status, 'not too little, not too much'.",
+    "arrange": "rows",
+    "widgets": [
+      "ll_stats_layout",
+      "sound_mood_focus_layout",
+      "spacer",
+      "stamina_speed_layout_full",
+      "weary_rest_layout",
+      "needs_layout_cleaner"
+    ]
+  },
+  {
+    "id": "more_graphs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Extra body graphs",
+    "arrange": "columns",
+    "description": "Three <color_yellow>small body graphs</color> for status, encumbrance and temperature.",
+    "widgets": [ "more_body_graph_status", "more_body_graph_temp", "more_body_graph_encumb" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "more_body_graph_status",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "more_body_graph_status_text", "structured_body_graph_status_layout" ]
+  },
+  {
+    "id": "more_body_graph_temp",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "more_body_graph_temp_text", "structured_body_graph_temp_layout" ]
+  },
+  {
+    "id": "more_body_graph_encumb",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "more_body_graph_encumb_text", "structured_body_graph_encumb_layout" ]
+  },
+  {
+    "id": "spacer",
+    "type": "widget",
+    "style": "text",
+    "string": "",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "more_body_graph_status_text",
+    "type": "widget",
+    "style": "text",
+    "string": " Status",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "more_body_graph_temp_text",
+    "type": "widget",
+    "style": "text",
+    "string": "Temperature",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "more_body_graph_encumb_text",
+    "type": "widget",
+    "style": "text",
+    "string": "Encumbrance",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "stamina_speed_layout_full",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph", "speed_num" ]
+  },
+  {
+    "id": "weary_rest_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "weariness_desc", "fatigue_desc_label" ]
+  },
+  {
+    "id": "needs_layout_cleaner",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [ "pain_heat_layout", "thirst_hunger_label" ]
+  },
+  {
+    "id": "pain_heat_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_desc_label", "body_temp_desc_label" ]
+  },
+  {
+    "id": "thirst_hunger_label",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "thirst_desc_label", "hunger_desc_label" ]
+  },
+  {
+    "id": "thick_side_by_side_cleaner",
+    "type": "widget",
+    "style": "layout",
+    "label": "Body + Details",
+    "arrange": "minimum_columns",
+    "description": "A large <color_yellow>health display</color> and details about the <color_yellow>player's status</color>, with the principle of 'not too little, not too much'.",
+    "widgets": [ "thick_body_graph", "thick_rs_column_cleaner" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "thick_side_by_side_more_graphs",
+    "type": "widget",
+    "style": "layout",
+    "label": "Body + More Graphs",
+    "description": "A large <color_yellow>health display</color> and health bars, as well as three <color_yellow>small body graphs</color> for status, encumbrance and temperature.",
+    "arrange": "minimum_columns",
+    "widgets": [ "thick_body_graph", "thick_rs_column_more_graphs" ]
+  },
+  {
+    "id": "my_labels_sidebar_cleaner",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "thick-cleaner",
+    "description": "An alternate thick sidebar. Restart required if using the extra body graphs.",
+    "separator": ": ",
+    "padding": 2,
+    "width": 66,
+    "widgets": [
+      "thick_side_by_side_cleaner",
+      "more_graphs_layout",
+      "thick_side_by_side_more_graphs",
+      "thick_rs_column_cleaner_2",
+      "separator",
+      "thick_side_by_side_2",
+      "lcla_weapon_layout",
+      "structured_style_ma_buffs_layout",
+      "separator_disabled",
+      "structured_mana_layout",
+      "vehicle_acf_label_layout_columns",
+      "sundial_label_layout",
+      "separator_disabled",
+      "compass_all_layout"
+    ]
+  }
+]

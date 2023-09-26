@@ -100,7 +100,6 @@ static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1"
 static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
-static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
 static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
 static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
@@ -294,9 +293,14 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) {
+        const tripoint above( p.xy(), p.z + 1 );
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
+            return true;
+        }
+        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) &&
+            ( !flies() || !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, above ) ) ) {
             // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
+            // Check floors for flying monsters movement
             return false;
         }
     }
@@ -753,13 +757,11 @@ void monster::plan()
             next_stop = patrol_route.at( next_patrol_point );
         }
         set_dest( next_stop );
-    } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
+    } else if( friendly != 0 && has_effect( effect_led_by_leash ) &&
+               get_location().z() == get_dest().z() ) {
         // visibility doesn't matter, we're getting pulled by a leash
-        if( rl_dist( get_location(), player_character.get_location() ) > 1 ) {
-            set_dest( player_character.get_location() );
-        } else {
-            unset_dest();
-        }
+        // To use stairs smoothly, if the destination is on a different Z-level, move there first.
+        set_dest( player_character.get_location() );
         if( friendly > 0 && one_in( 3 ) ) {
             // Grow restless with no targets
             friendly--;
@@ -767,14 +769,12 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( player_character ) &&
-               // Simpleminded animals are too dumb to follow the player.
-               !has_flag( mon_flag_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( get_location(), player_character.get_location() ) > 2 ) {
-            set_dest( player_character.get_location() );
-        } else {
-            unset_dest();
-        }
+    } else if( is_pet_follow() && sees( player_character ) &&
+               ( get_location().z() == player_character.get_location().z() ||
+                 get_location().z() == get_dest().z() ) ) {
+        // Simpleminded animals are too dumb to follow the player.
+        // To use stairs smoothly, if the destination is on a different Z-level, move there first.
+        set_dest( player_character.get_location() );
     }
 }
 
@@ -972,10 +972,20 @@ void monster::move()
         }
     }
 
-    if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
-        ( ( current_attitude == MATT_FOLLOW ||
-            ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
-          && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
+    if( is_pet_follow() || ( friendly != 0 && has_effect( effect_led_by_leash ) ) ) {
+        const int dist = rl_dist( get_location(), get_dest() );
+        if( ( dist <= 1 || ( dist <= 2 && !has_effect( effect_led_by_leash ) &&
+                             sees( player_character ) ) ) &&
+            ( get_dest() == player_character.get_location() &&
+              get_location().z() == player_character.get_location().z() ) ) {
+            moves = 0;
+            stumble();
+            return;
+        }
+    } else if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
+               ( ( current_attitude == MATT_FOLLOW ||
+                   ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+                 && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
         return;
@@ -1077,11 +1087,14 @@ void monster::move()
             }
 
             bool via_ramp = false;
+            int rampPos = 0;
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
+                rampPos -= 1;
                 candidate.z += 1;
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
+                rampPos += 1;
                 candidate.z -= 1;
             }
             const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
@@ -1179,7 +1192,8 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( candidate, destination );
+            const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(),
+                                   candidate.z + rampPos ), destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;

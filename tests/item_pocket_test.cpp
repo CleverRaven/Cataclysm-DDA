@@ -52,6 +52,7 @@ Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
 static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
@@ -296,7 +297,7 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
         }
         THEN( "it cannot contain solid items larger than the opening" ) {
             REQUIRE_FALSE( rock.is_soft() );
-            expect_cannot_contain( pocket_jug, rock, "item too big",
+            expect_cannot_contain( pocket_jug, rock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -404,7 +405,7 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
 
             THEN( "it cannot contain items that are not ammo" ) {
                 item rag( "test_rag" );
-                expect_cannot_contain( pocket_mag, rag, "item is not an ammo",
+                expect_cannot_contain( pocket_mag, rag, "item is not ammunition",
                                        item_pocket::contain_code::ERR_AMMO );
             }
         }
@@ -542,12 +543,12 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
                 REQUIRE( axe.volume() > data_belt.max_contains_volume() );
 
                 THEN( "pocket cannot contain it, because it is too big" ) {
-                    expect_cannot_contain( pocket_belt, axe, "item too big",
+                    expect_cannot_contain( pocket_belt, axe, "item is too big",
                                            item_pocket::contain_code::ERR_TOO_BIG );
                 }
 
                 THEN( "item cannot be inserted into the pocket" ) {
-                    expect_cannot_insert( pocket_belt, axe, "item too big",
+                    expect_cannot_insert( pocket_belt, axe, "item is too big",
                                           item_pocket::contain_code::ERR_TOO_BIG );
                 }
             }
@@ -631,12 +632,12 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
         item_pocket pocket_holster( &data_holster );
 
         THEN( "it cannot contain the item, because it is too big" ) {
-            expect_cannot_contain( pocket_holster, glock, "item too big",
+            expect_cannot_contain( pocket_holster, glock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
 
         THEN( "item cannot be successfully inserted" ) {
-            expect_cannot_insert( pocket_holster, glock, "item too big",
+            expect_cannot_insert( pocket_holster, glock, "item is too big",
                                   item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -1017,7 +1018,7 @@ TEST_CASE( "sealed_containers", "[pocket][seal]" )
     }
 
     GIVEN( "non-sealable jug" ) {
-        item jug( "test_jug_plastic" );
+        item jug( itype_test_jug_plastic );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
         std::vector<item_pocket *>jug_pockets = jug.get_all_contained_pockets();
@@ -1649,7 +1650,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
         item filler( "test_rag" );
 
         // wear the backpack item.
@@ -1699,7 +1700,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -2244,7 +2245,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     map &m = get_map();
     Character &u = get_player_character();
     item water( "water" );
-    item cont_jug( "test_jug_plastic" );
+    item cont_jug( itype_test_jug_plastic );
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet

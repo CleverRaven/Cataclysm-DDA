@@ -147,54 +147,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_console_table",
-    "name": "computer console",
-    "looks_like": "t_console",
-    "description": "A standalone computer terminal, the screen glowing with dim artificial light.  If examined closely, you can read what's on the screen and perform any allowed functions.  It might even be possible to hack it, given the skills.",
-    "symbol": "6",
-    "color": "blue",
-    "move_cost_mod": -1,
-    "coverage": 50,
-    "required_str": -1,
-    "light_emitted": 10,
-    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
-    "deconstruct": {
-      "furn_set": "f_table",
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 8,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "furn_set": "f_console_broken_table",
-      "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "large_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_forge",
     "name": "forge",
     "looks_like": "f_fireplace",
@@ -719,7 +671,7 @@
     "color": "brown",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
     "bash": {
@@ -743,7 +695,7 @@
     "color": "light_gray",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "looks_like": "f_ladder",
     "deployed_item": "aluminum_stepladder",
@@ -1615,14 +1567,14 @@
   {
     "type": "furniture",
     "id": "f_rope_up",
-    "name": "rope leading up",
+    "name": "grappling hook",
     "looks_like": "t_rope_up",
-    "description": "A dangling end of a rope, the other end is tied securely to something above you.  You could use it to climb up.",
+    "description": "A dangling piece of rope, hooked securely to something above you.  You could climb up or take it down.",
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z", "ALLOW_ON_OPEN_AIR" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
     "bash": {

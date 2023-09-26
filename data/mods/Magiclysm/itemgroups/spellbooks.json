@@ -54,6 +54,7 @@
     "id": "spell_scroll_tier_1",
     "type": "item_group",
     "items": [
+      [ "spell_scroll_classless_dispel_magic", 45 ],
       [ "spell_scroll_sound_bomb", 35 ],
       [ "spell_scroll_animist_summon_watcher", 30 ],
       [ "spell_scroll_pain_split", 25 ],
@@ -187,6 +188,7 @@
     "id": "spell_scroll_tier_3",
     "type": "item_group",
     "items": [
+      [ "spell_scroll_classless_disjunction", 35 ],
       [ "spell_scroll_magus_mana_blast", 50 ],
       [ "spell_scroll_magus_word_of_recall", 25 ],
       [ "lightning_storm_scroll", 50 ],

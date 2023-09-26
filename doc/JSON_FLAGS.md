@@ -409,6 +409,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_SCENT``` You have no scent.
+- ```NO_SPELLCASTING``` Mutations with this flag blocks you from casting spells with the spellcasting menu. No effect on other spells sources such as activated items, mutations and bionics
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NUMB``` Changes character's moral behaviour in some situations
 - ```NYCTOPHOBIA``` Apply some negative effects when the ambient light is too low
@@ -605,6 +606,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
+- ```EXAMINE_FROM_ABOVE``` Furniture can be <kbd>e</kbd> examined from a ledge above.  If deployed furniture is taken down it will be placed on the ledge.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.

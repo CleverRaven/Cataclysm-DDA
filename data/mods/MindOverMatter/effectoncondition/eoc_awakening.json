@@ -48,7 +48,7 @@
     "id": "EOC_BIOKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you become aware of the sound of your heartbeat, of the blood rushing through your veins...and then a searing headache crashes through your brain, blotting out all other sensations. You tear your gaze away from the now-dark crystal but the pounding in your head remains.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  As it fills your vision, you become aware of the sound of your heartbeat, of the blood rushing through your veins… and then a searing headache crashes through your brain, blotting out all other sensations. You tear your gaze away from the now-dark crystal but the pounding in your head remains.",
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },

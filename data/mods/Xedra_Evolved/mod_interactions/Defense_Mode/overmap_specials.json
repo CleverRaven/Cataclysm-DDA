@@ -1,0 +1,668 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "defense_mode_field_office",
+    "overmaps": [
+      { "point": [ 1, 1, 0 ], "overmap": "dm_field_office_5_south" },
+      { "point": [ 0, 1, 0 ], "overmap": "dm_field_office_6_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "dm_field_office_7_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "dm_field_office_8_south" },
+      { "point": [ 1, 1, -1 ], "overmap": "dm_field_office_1_south" },
+      { "point": [ 0, 1, -1 ], "overmap": "dm_field_office_2_south" },
+      { "point": [ 1, 0, -1 ], "overmap": "dm_field_office_3_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "dm_field_office_4_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "dm_field_office_9_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "dm_field_office_10_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "dm_field_office_11_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "dm_field_office_12_south" },
+      { "point": [ 1, 1, 2 ], "overmap": "dm_field_office_9_south" },
+      { "point": [ 0, 1, 2 ], "overmap": "dm_field_office_10_south" },
+      { "point": [ 1, 0, 2 ], "overmap": "dm_field_office_11_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "dm_field_office_12_south" },
+      { "point": [ 1, 1, 3 ], "overmap": "dm_field_office_13_south" },
+      { "point": [ 0, 1, 3 ], "overmap": "dm_field_office_14_south" },
+      { "point": [ 1, 0, 3 ], "overmap": "dm_field_office_15_south" },
+      { "point": [ 0, 0, 3 ], "overmap": "dm_field_office_16_south" },
+      { "point": [ 1, 1, 4 ], "overmap": "dm_field_office_17_south" },
+      { "point": [ 0, 1, 4 ], "overmap": "dm_field_office_18_south" },
+      { "point": [ 1, 0, 4 ], "overmap": "dm_field_office_19_south" },
+      { "point": [ 0, 0, 4 ], "overmap": "dm_field_office_20_south" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "dm_field_office_1", "dm_field_office_2" ], [ "dm_field_office_3", "dm_field_office_4" ] ],
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~##########################################~~~",
+        "~~~#,___________,_____,'',_____,___________,#~~~",
+        "~~~#,___________,_____,'',_____,___________,#~~~",
+        "~~~#,___________,_____,'',_____,___________,#~~~",
+        "~~~#,___________,_____,'',_____,___________,#~~~",
+        "~~~#,___________,_____,'',_____,___________,#~~~",
+        "~~~#,___________,_____,'',_____,___________,#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#___,,___,____,____,'',____,____,________#~~~",
+        "~~~#__,,,,__,____,____,'',____,____,________#~~~",
+        "~~~#___,,___,____,____,'',____,____,________#~~~",
+        "~~~#___,,___,____,____,'',____,____,________#~~~",
+        "~~~#________,____,____,'',____,____,________#~~~",
+        "~~~#________,____,____,'',____,____,________#~~~",
+        "~~~#_________#########HGGH########__________#~~~",
+        "~~~#_________#<R'#EEE#'''#xEE#<R'#__________#~~~",
+        "~~~#_________#'R'#EEED'''DEEE#'R'#_____,,___#~~~",
+        "~~~#_________#'''#EEED'''DEEE#'''#_____,,___#~~~",
+        "~~~#_________#'''#EEx#'''#EEE#'''#____,,,,__#~~~",
+        "~~~#_________##+######HGGH######+#_____,,___#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#________________________________________#~~~",
+        "~~~#____,,______,,__________________________#~~~",
+        "~~~#___,,,,_____,,__________________________#~~~",
+        "~~~#____,,_____,,,,_________________________#~~~",
+        "~~~#____,,______,,__________________________#~~~",
+        "~~~###ΔΔΔΔΔΔ##ΔΔΔΔΔΔ#####___________________#~~~",
+        "~~~~~#ɅɅɅɅɅɅ##ɅɅɅɅɅɅ#~~~#___________________#~~~",
+        "~~~~~################~~~#,_____,_____,_____,#~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~#,_____,_____,_____,#~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~#,_____,_____,_____,#~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~#,_____,_____,_____,#~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~#,_____,_____,_____,#~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~#,_____,_____,_____,#~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~#####################~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      ],
+      "place_vehicles": [
+        { "vehicle": "truck_swat", "x": 8, "y": 6, "rotation": 90, "chance": 25 },
+        { "vehicle": "motorcycle", "x": 19, "y": 6, "rotation": 90, "chance": 25 },
+        { "vehicle": "beetle", "x": 15, "y": 18, "rotation": 90, "chance": 25 },
+        { "vehicle": "car_fbi", "x": 20, "y": 18, "rotation": 90, "chance": 25 },
+        { "vehicle": "car_fbi", "x": 28, "y": 18, "rotation": 90, "chance": 25 },
+        { "vehicle": "car", "x": 33, "y": 18, "rotation": 90, "chance": 25 },
+        { "vehicle": "motorcycle", "x": 35, "y": 5, "rotation": 90, "chance": 25 },
+        { "vehicle": "beetle", "x": 41, "y": 5, "rotation": 90, "chance": 25 },
+        { "vehicle": "car", "x": 28, "y": 7, "rotation": 90, "chance": 25 },
+        { "vehicle": "car_fbi", "x": 33, "y": 39, "rotation": 270, "chance": 25 },
+        { "vehicle": "car", "x": 40, "y": 40, "rotation": 90, "chance": 25 },
+        { "vehicle": "beetle", "x": 28, "y": 40, "rotation": 270, "chance": 25 }
+      ],
+      "palettes": [ "field_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "dm_field_office_5", "dm_field_office_6" ], [ "dm_field_office_7", "dm_field_office_8" ] ],
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ss                                            ss",
+        "ssI%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Iss",
+        "ss%|-HHH-HHH-HHH--|HHH-|--HHH|--HHH-HHH-HHH-|%ss",
+        "ss%|::::::::::::::::::::::::::::::::::::::::|%ss",
+        "ss%V::::::::::::::::::::::::::::::::::::::::V%ss",
+        "ss%V::::::::::::::::::::::::::::::::::::::::V%ss",
+        "ss%V::::::::::::::::::::::::::::::::::::::::V%ss",
+        "ss%|::::::::::::::::::::::::::::::::::::::::|%ss",
+        "ss%V::::::::::::::::::::::::::::::::::::::::V%ss",
+        "ss%V::::::::::::::|----|-----|::::::::::::::V%ss",
+        "ss%V::::::::::::::|.::::::::.|::::::::::::::V%ss",
+        "ss%|::::::::::::::|.::::::::.|::::::::::::::|%ss",
+        "ss%V::::::::::::::..::::::::..::::::::::::::V%ss",
+        "ss%V::::::::::::::..::::::::..::::::::::::::V%ss",
+        "ss%V::::::::::::::............::::::::::::::V%ss",
+        "ss%|:::::...|--|-|-|HHHGGHHH|-|-|--|...:::::|%ss",
+        "ss%|:::::...|SS|T|T|........|T|T|SS|...:::::|%ss",
+        "ss%|----|...+ii|+|+|........|+|+|ii+...|----|%ss",
+        "ss%|gggg|6..|iiiiii|........|iiiiii|...|rrrr|%ss",
+        "ss%|''''L...|---|--||......||--|---|...+''''|%ss",
+        "ss%|gggg|...|>R<|EEE|......|xEE|>R<|...|rrrr|%ss",
+        "ss%|----|...|'R'|EEED......DEEE|'R'|...|----|%ss",
+        "ss%|:::::...|'''|EEED......DEEE|'''|...:::::|%ss",
+        "ss%|:::::...|'''|EEx|......|EEE|'''|...:::::|%ss",
+        "ss%|:::::...|-+-|---|^....^|---|-+-|...:::::|%ss",
+        "ss%Vc.h.+..........................+...:::::V%ss",
+        "ss%Vcddx|^.........................+...:::::V%ss",
+        "ssI|----|-|-+--ccc--|-+----|...|---|...:::::|%ss",
+        "ss%|QQQQQQ|..cc.h..F|d.cc.F|...='''+...:::::V%ss",
+        "sss|''''''L...h....F|dh...F|HGH|rrr|^..::::^V%ss",
+        "ss%|QQQQQQ|7xdd....F|xxx|--|...|---|--------|%ss",
+        "ssI|------|---------|---|..a...::::::::.....VIss",
+        "ss%|~################~~~|......::::::::.....Vsss",
+        "ss%|~#±±±±±±##±±±±±±#~~~|......::::::::.....Gsss",
+        "ss%|~#ŦŦŦŦŦŦ##ŦŦŦŦŦŦ#~~~|......::::::::.....Gsss",
+        "ss%|~#______##______#~~~|Ycbbbc.......cbbbcYVsss",
+        "ss%|~#__,,__##__,,__#~~~|...................Gsss",
+        "ss%|~#_,,,,_##__,,__#~~~|...................Gsss",
+        "ss%|~#__,,__##_,,,,_#~~~|...................Vsss",
+        "ss%|~#__,,__##__,,__#~~~|...................VIss",
+        "ss%|~#______##______#~~~|Ycbbbc.......cbbbcY|%ss",
+        "ss%||#__,,__##__,,__#-----HHHHHGGHHGGHHHHH--|%ss",
+        "ss%I  _,,,,_ss__,,__  I%%%%%I ssssssss I%%%%%Iss",
+        "ss    __,,__ss_,,,,_          ssssssss        ss",
+        "ssssss__,,__ss__,,__ssssssssssssssssssssssssssss",
+        "ssssss______ss______ssssssssssssssssssssssssssss"
+      ],
+      "palettes": [ "field_office_palette" ],
+      "computers": {
+        "7": {
+          "name": "Border Patrol OS v0.A17 - Armory Access",
+          "security": 2,
+          "options": [ { "name": "Unlock Armory", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        },
+        "6": {
+          "name": "Border Patrol OS v0.A17 - Evidence Locker Access",
+          "security": 3,
+          "options": [ { "name": "Unlock Evidence Locker", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
+        }
+      },
+      "place_nested": [
+        {
+          "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
+          "x": [ 31, 31 ],
+          "y": [ 33, 33 ]
+        },
+        {
+          "chunks": [ [ "xed_4x4_cr1_r", 20 ], [ "xed_4x4_cr2_r", 20 ], [ "xed_4x4_cr3_r", 20 ] ],
+          "x": [ 35, 35 ],
+          "y": [ 33, 33 ]
+        },
+        {
+          "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
+          "x": [ 20, 20 ],
+          "y": [ 12, 12 ]
+        },
+        {
+          "chunks": [ [ "xed_4x4_cr1_r", 20 ], [ "xed_4x4_cr2_r", 20 ], [ "xed_4x4_cr3_r", 20 ] ],
+          "x": [ 24, 24 ],
+          "y": [ 12, 12 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_register_ol", 20 ],
+            [ "xed_5x5_office_ur", 20 ],
+            [ "xed_5x5_benches_ur", 10 ],
+            [ "xed_5x5_sofa_ur", 10 ],
+            [ "xed_5x5_office1_ol", 10 ],
+            [ "xed_5x5_office2_ol", 10 ],
+            [ "xed_5x5_sofas_ol", 20 ]
+          ],
+          "x": [ 39, 39 ],
+          "y": [ 27, 27 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_toilet_il", 20 ],
+            [ "xed_5x5_storage1_il", 10 ],
+            [ "xed_5x5_storage2_il", 10 ],
+            [ "xed_5x5_storage3_il", 10 ],
+            [ "xed_5x5_cleaning1_il", 20 ],
+            [ "xed_5x5_cleaning2_il", 20 ]
+          ],
+          "x": [ 4, 4 ],
+          "y": [ 24, 24 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_toilet_ir", 20 ],
+            [ "xed_5x5_storage1_ir", 10 ],
+            [ "xed_5x5_storage2_ir", 10 ],
+            [ "xed_5x5_storage3_ir", 10 ],
+            [ "xed_5x5_cleaning1_ir", 20 ],
+            [ "xed_5x5_cleaning2_ir", 20 ]
+          ],
+          "x": [ 39, 39 ],
+          "y": [ 24, 24 ]
+        },
+        {
+          "chunks": [
+            [ "xed_office_glass_al", 20 ],
+            [ "xed_office_private_al", 20 ],
+            [ "xed_office_al", 20 ],
+            [ "xed_office_slide_al", 20 ],
+            [ "xed_office_crowded_al", 20 ]
+          ],
+          "x": [ 2, 2 ],
+          "y": [ 1, 1 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_register_ol", 20 ],
+            [ "xed_5x5_office1_ol", 10 ],
+            [ "xed_5x5_office2_ol", 10 ],
+            [ "xed_5x5_sofas_ol", 20 ]
+          ],
+          "x": [ 4, 4 ],
+          "y": [ 14, 14 ]
+        },
+        {
+          "chunks": [
+            [ "xed_office_glass_ar", 20 ],
+            [ "xed_office_private_ar", 20 ],
+            [ "xed_office_ar", 20 ],
+            [ "xed_office_slide_ar", 20 ],
+            [ "xed_office_crowded_ar", 20 ]
+          ],
+          "x": [ 30, 30 ],
+          "y": [ 1, 1 ]
+        },
+        {
+          "chunks": [ [ "xed_5x5_register_or", 20 ], [ "xed_5x5_office_or", 20 ], [ "xed_5x5_sofas_or", 20 ] ],
+          "x": [ 39, 39 ],
+          "y": [ 14, 14 ]
+        },
+        {
+          "chunks": [ [ "xed_8x8_boss_al", 20 ], [ "xed_8x8_meeting_al", 20 ], [ "xed_8x8_office_al", 20 ], [ "xed_8x8_eating_al", 20 ] ],
+          "x": [ 16, 16 ],
+          "y": [ 4, 4 ]
+        },
+        {
+          "chunks": [ [ "xed_8x8_boss_ar", 20 ], [ "xed_8x8_sofas_ar", 20 ], [ "xed_8x8_office_ar", 20 ], [ "xed_8x8_files_ar", 20 ] ],
+          "x": [ 24, 24 ],
+          "y": [ 4, 4 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "dm_field_office_9", "dm_field_office_10" ], [ "dm_field_office_11", "dm_field_office_12" ] ],
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "///|-HHH-HHH-HHH--|HHH-|--HHH|--HHH-HHH-HHH-|///",
+        "///|::::::::::::::::::::::::::::::::::::::::|///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///|::::::::::::::::::::::::::::::::::::::::|///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::|----|-----|::::::::::::::V///",
+        "///V::::::::::::::|.::::::::.|::::::::::::::V///",
+        "///|::::::::::::::|.::::::::.|::::::::::::::|///",
+        "///V::::::::::::::..::::::::..::::::::::::::V///",
+        "///V::::::::::::::..::::::::..::::::::::::::V///",
+        "///V::::::::::::::............::::::::::::::V///",
+        "///|:::::...|--|-|-|HHHGGHHH|-|-|--|...:::::|///",
+        "///|:::::...|SS|T|T|........|T|T|SS|...:::::|///",
+        "///|----|...+ii|+|+|........|+|+|ii+...|----|///",
+        "///|rrrr|...|iiiiii|........|iiiiii|...|rrrr|///",
+        "///|''''+...|---|--||......||--|---|...+''''|///",
+        "///|rrrr|...|<R>|EEE|......|xEE|<R>|...|rrrr|///",
+        "///|----|...|'R'|EEED......DEEE|'R'|...|----|///",
+        "///|:::::...|'''|EEED......DEEE|'''|...:::::|///",
+        "///|:::::...+'''|EEx|......|EEE|'''+...:::::|///",
+        "///|:::::...|---|-|-|......|-|-|---|...:::::|///",
+        "///V:::::...::::::|..........|:::::|...:::::V///",
+        "///V:::::...::::::|..........|:::::|...:::::V///",
+        "///V:::::...::::::|^........^|:::::|...:::::V///",
+        "///|:::::...::::::|-HHHGGHHH-|:::::|...:::::|///",
+        "///V::::::::::::::............::::::::::::::V///",
+        "///V::::::::::::::............::::::::::::::V///",
+        "///V::::::::::::::.a..........::::::::::::::V///",
+        "///|::::::::::::::|-HHHGGHHH-|::::::::::::::|///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///|::::::::::::::::::::::::::::::::::::::::|///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///V::::::::::::::::::::::::::::::::::::::::V///",
+        "///|::::::::::::::::::::::::::::::::::::::::|///",
+        "///|-HHH-HHHH-HHH-|-HHHHHHHH-|-HHH-HHHH-HHH-|///",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////"
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
+          "x": [ 20, 20 ],
+          "y": [ 12, 12 ]
+        },
+        {
+          "chunks": [ [ "xed_4x4_cr1_r", 20 ], [ "xed_4x4_cr2_r", 20 ], [ "xed_4x4_cr3_r", 20 ] ],
+          "x": [ 24, 24 ],
+          "y": [ 12, 12 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_toilet_il", 20 ],
+            [ "xed_5x5_storage1_il", 10 ],
+            [ "xed_5x5_storage2_il", 10 ],
+            [ "xed_5x5_storage3_il", 10 ],
+            [ "xed_5x5_cleaning1_il", 20 ],
+            [ "xed_5x5_cleaning2_il", 20 ]
+          ],
+          "x": [ 4, 4 ],
+          "y": [ 24, 24 ]
+        },
+        {
+          "chunks": [
+            [ "xed_office_slide_dl", 20 ],
+            [ "xed_glass_dl", 20 ],
+            [ "xed_private_dl", 20 ],
+            [ "xed_crowded_dl", 20 ],
+            [ "xed_generic_dl", 20 ]
+          ],
+          "x": [ 2, 2 ],
+          "y": [ 31, 31 ]
+        },
+        {
+          "chunks": [ [ "xed_small1_ul", 20 ], [ "xed_small_office_ul", 20 ], [ "xed_small_sofa_ul", 20 ], [ "xed_small2_ul", 20 ] ],
+          "x": [ 4, 4 ],
+          "y": [ 27, 27 ]
+        },
+        {
+          "chunks": [ [ "xed_small1_ul", 20 ], [ "xed_small_office_ul", 20 ], [ "xed_small_sofa_ul", 20 ], [ "xed_small2_ul", 20 ] ],
+          "x": [ 30, 30 ],
+          "y": [ 27, 27 ]
+        },
+        {
+          "chunks": [ [ "xed_6x6_office_ur", 20 ], [ "xed_6x6_glass_ur", 20 ], [ "xed_6x6_computer_ur", 5 ], [ "xed_6x6_files_ur", 5 ] ],
+          "x": [ 12, 12 ],
+          "y": [ 27, 27 ]
+        },
+        {
+          "chunks": [
+            [ "xed_office_slide_dr", 20 ],
+            [ "xed_office_glass_dr", 20 ],
+            [ "xed_armory_cafe_dr", 20 ],
+            [ "xed_office_dr", 20 ],
+            [ "xed_office_private_dr", 20 ],
+            [ "xed_office_crowded_dr", 20 ]
+          ],
+          "x": [ 30, 30 ],
+          "y": [ 31, 31 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_toilet_ir", 20 ],
+            [ "xed_5x5_storage1_ir", 10 ],
+            [ "xed_5x5_storage2_ir", 10 ],
+            [ "xed_5x5_storage3_ir", 10 ],
+            [ "xed_5x5_cleaning1_ir", 20 ],
+            [ "xed_5x5_cleaning2_ir", 20 ]
+          ],
+          "x": [ 39, 39 ],
+          "y": [ 24, 24 ]
+        },
+        {
+          "chunks": [ [ "xed_5x5_register_ur", 20 ], [ "xed_5x5_office_ur", 20 ], [ "xed_5x5_benches_ur", 10 ], [ "xed_5x5_sofa_ur", 10 ] ],
+          "x": [ 39, 39 ],
+          "y": [ 27, 27 ]
+        },
+        {
+          "chunks": [
+            [ "14x14_office_glass_nw", 1 ],
+            [ "14x14_office_cubicle_nw", 1 ],
+            [ "14x14_office_generic_nw", 1 ],
+            [ "14x14_office_slide_nw", 1 ],
+            [ "14x14_office_crowded_nw", 1 ]
+          ],
+          "x": [ 4, 4 ],
+          "y": [ 5, 5 ]
+        },
+        {
+          "chunks": [
+            [ "xed_5x5_register_ol", 20 ],
+            [ "xed_5x5_office1_ol", 10 ],
+            [ "xed_5x5_office2_ol", 10 ],
+            [ "xed_5x5_sofas_ol", 20 ]
+          ],
+          "x": [ 4, 4 ],
+          "y": [ 14, 14 ]
+        },
+        {
+          "chunks": [
+            [ "xed_office_glass_ar", 20 ],
+            [ "xed_office_private_ar", 20 ],
+            [ "xed_office_ar", 20 ],
+            [ "xed_office_slide_ar", 20 ],
+            [ "xed_office_crowded_ar", 20 ]
+          ],
+          "x": [ 30, 30 ],
+          "y": [ 1, 1 ]
+        },
+        {
+          "chunks": [ [ "xed_5x5_register_or", 20 ], [ "xed_5x5_office_or", 20 ], [ "xed_5x5_sofas_or", 20 ] ],
+          "x": [ 39, 39 ],
+          "y": [ 14, 14 ]
+        },
+        { "chunks": [ [ "xed_8x8_containment_empty", 40 ] ], "x": [ 14, 14 ], "y": [ 5, 5 ] },
+        {
+          "chunks": [ [ "xed_8x8_boss_ar", 20 ], [ "xed_8x8_sofas_ar", 20 ], [ "xed_8x8_office_ar", 20 ], [ "xed_8x8_files_ar", 20 ] ],
+          "x": [ 24, 24 ],
+          "y": [ 4, 4 ]
+        },
+        {
+          "chunks": [ [ "xed_8x8_mr1_l", 20 ], [ "xed_8x8_mr2_l", 20 ], [ "xed_8x8_mr3_l", 20 ] ],
+          "x": [ 16, 16 ],
+          "y": [ 35, 35 ]
+        },
+        {
+          "chunks": [ [ "xed_8x8_mr1_r", 20 ], [ "xed_8x8_mr2_r", 20 ], [ "xed_8x8_mr3_r", 20 ], [ "xed_8x8_mr4_r", 20 ] ],
+          "x": [ 24, 24 ],
+          "y": [ 35, 35 ]
+        }
+      ],
+      "palettes": [ "field_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "dm_field_office_13", "dm_field_office_14" ], [ "dm_field_office_15", "dm_field_office_16" ] ],
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "///511111111111111111111111111111111111111115///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzz|---|---|zzzzzz|---|---|zzzzzzzz4///",
+        "///2zzzzzzzz|'R>|XXX|zzzzzz|XXX|'R>|zzzzzzzz4///",
+        "///2zzzzzzzz|'R'|XXX|zzzzzz|XXX|'R'|zzzzzzzz4///",
+        "///2zzzzzzzz|'''|N''wzzzzzzw''N|'''|zzzzzzzz4///",
+        "///2zzzzzzzz|'''|N'x|zzzzzz|x'N|'''|zzzzzzzz4///",
+        "///2zzzzzzzz|-=-|-=-|zzzzzz|-=-|-=-|zzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///2zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz4///",
+        "///533333333333333333333333333333333333333335///",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////"
+      ],
+      "palettes": [ "field_office_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "roof_16x16_help", 3000 ], [ "null", 10 ] ], "x": [ 4, 8 ], "y": [ 30, 38 ] },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_utility_1", 20 ],
+            [ "roof_4x4_utility", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_b", 20 ]
+          ],
+          "x": [ 13, 19 ],
+          "y": [ 6, 15 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_utility_1", 20 ],
+            [ "roof_4x4_utility", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_b", 20 ]
+          ],
+          "x": [ 24, 40 ],
+          "y": [ 30, 38 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_utility_1", 20 ],
+            [ "roof_4x4_utility", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_b", 20 ]
+          ],
+          "x": [ 24, 40 ],
+          "y": [ 6, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "dm_field_office_17", "dm_field_office_18" ], [ "dm_field_office_19", "dm_field_office_20" ] ],
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////zzzzzzzzz//////zzzzzzzzz////////////",
+        "////////////zzz6z6zzz//////zzz7z7zzz////////////",
+        "////////////zzzzzzzzz//////zzzzzzzzz////////////",
+        "////////////zzzzzzzzz//////zzzzzzzzz////////////",
+        "////////////zzz6z6zzz//////zzz7z7zzz////////////",
+        "////////////zzzzzzzzz//////zzzzzzzzz////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////",
+        "////////////////////////////////////////////////"
+      ],
+      "palettes": [ "field_office_palette" ]
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "border patrol office",
+    "id": [
+      "dm_field_office_1",
+      "dm_field_office_2",
+      "dm_field_office_3",
+      "dm_field_office_4",
+      "dm_field_office_5",
+      "dm_field_office_6",
+      "dm_field_office_7",
+      "dm_field_office_8",
+      "dm_field_office_9",
+      "dm_field_office_10",
+      "dm_field_office_11",
+      "dm_field_office_12",
+      "dm_field_office_13",
+      "dm_field_office_14",
+      "dm_field_office_15",
+      "dm_field_office_16",
+      "dm_field_office_17",
+      "dm_field_office_18",
+      "dm_field_office_19",
+      "dm_field_office_20"
+    ],
+    "copy-from": "generic_large_office_tower"
+  }
+]
