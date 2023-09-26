@@ -2606,7 +2606,8 @@ bool map::has_floor( const tripoint &p ) const
     if( !inbounds( p ) ) {
         return true;
     }
-    return !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) && !has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, p );
+    return !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) &&
+           !has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, p );
 }
 
 bool map::has_floor_or_water( const tripoint &p ) const
@@ -6858,7 +6859,7 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
     return !zlevels || p.z <= -OVERMAP_DEPTH ||
-            ( has_floor( p ) && !has_flag( ter_furn_flag::TFLAG_Z_TRANSPARENT, p ) );
+           ( has_floor( p ) && !has_flag( ter_furn_flag::TFLAG_Z_TRANSPARENT, p ) );
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
