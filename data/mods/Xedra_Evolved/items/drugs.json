@@ -35,6 +35,8 @@
     "stim": -20,
     "fun": 45,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "addiction_type": "lotus_blossom",
+    "addiction_potential": 40,
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You eat the purple lotus blossom.",
