@@ -62,8 +62,8 @@ static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
-static const trait_id trait_ARVORE_FOREST_DETECT("ARVORE_FOREST_DETECT");
-static const trait_id trait_ARVORE_FOREST_DETECT_ON("ARVORE_FOREST_DETECT_ON");
+static const trait_id trait_ARVORE_FOREST_DETECT( "ARVORE_FOREST_DETECT" );
+static const trait_id trait_ARVORE_FOREST_DETECT_ON( "ARVORE_FOREST_DETECT_ON" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
