@@ -914,7 +914,7 @@ void Character::activate_mutation( const trait_id &mut )
                                                          30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
-        } else if ( has_trait( trait_ARVORE_FOREST_DETECT ) || has_trait( trait_ARVORE_FOREST_DETECT_ON ) ) {
+        } else if( has_trait( trait_ARVORE_FOREST_DETECT ) || has_trait( trait_ARVORE_FOREST_DETECT_ON ) ) {
             const time_duration startup_time = rng( 10_minutes, 20_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
