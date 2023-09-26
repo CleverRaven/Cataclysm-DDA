@@ -1443,7 +1443,7 @@ int vehicle::install_part( const point &dp, const vpart_id &type, item &&base )
 }
 
 int vehicle::install_part( const point &dp, const vpart_id &type, item &&base,
-                           std::vector<item> &installed_with )
+                           std::vector<item &> &installed_with )
 {
     return install_part( dp, vehicle_part( type, std::move( base ), installed_with ) );
 }

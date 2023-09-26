@@ -1761,7 +1761,7 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
-        for( auto it : sel_vehicle_part->salvageable ) {
+        for( const item &it : sel_vehicle_part->salvageable ) {
             nmsg += "> " + it.display_name() + "\n";
         }
     }
@@ -3134,8 +3134,8 @@ void veh_interact::complete_vehicle( Character &you )
 
             // consume items extracting a match for the parts base item
             item base;
-            std::vector<item> installed_with;
-            for( const auto &e : reqs.get_components() ) {
+            std::vector<item &> installed_with;
+            for( const std::vector<item_comp> &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
             } ) ) {
@@ -3321,8 +3321,8 @@ void veh_interact::complete_vehicle( Character &you )
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
                 } else {
                     resulting_items.push_back( veh.part_to_item( vp ) );
-                    for( auto it : vp.salvageable ) {
-                        resulting_items.push_back( std::move( it ) );
+                    for( item &it : vp.salvageable ) {
+                        resulting_items.push_back( it );
                     }
                 }
                 for( const std::pair<const skill_id, int> &sk : vpi.install_skills ) {

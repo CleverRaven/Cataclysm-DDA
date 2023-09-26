@@ -51,12 +51,12 @@ vehicle_part::vehicle_part( const vpart_id &type, item &&base )
     variant = info_->variant_default;
 }
 
-vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item> &_salvageable )
+vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item &> &installed_with )
     : info_( &type.obj() )
 {
     set_base( std::move( base ) );
     variant = info_->variant_default;
-    for( auto it : _salvageable ) {
+    for( item &it : installed_with ) {
         if( !it.has_flag( flag_UNRECOVERABLE ) ) {
             salvageable.push_back( it );
         }
