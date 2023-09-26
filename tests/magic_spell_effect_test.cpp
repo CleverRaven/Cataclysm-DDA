@@ -108,6 +108,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
             player_add_headlamp();
         }
 
+        m.invalidate_visibility_cache();
         m.update_visibility_cache( 0 );
         m.invalidate_map_cache( 0 );
         m.build_map_cache( 0 );

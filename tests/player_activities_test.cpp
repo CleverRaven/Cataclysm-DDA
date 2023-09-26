@@ -1747,9 +1747,11 @@ static void cleanup( avatar &dummy )
 static void update_cache( map &m )
 {
     // Why twice? See vision_test.cpp
+    m.invalidate_visibility_cache();
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
+    m.invalidate_visibility_cache();
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
