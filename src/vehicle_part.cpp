@@ -73,7 +73,8 @@ std::vector<item> vehicle_part::get_salvageable() const
     if( salvageable.empty() ) {
         // Get default install component
         std::vector<item> tmp;
-        for( const std::vector<item_comp> &altercomps : info().install_requirements().get_components() ) {
+        const requirement_data reqs = info().install_requirements();
+        for( const auto &altercomps : reqs.get_components() ) {
             const item_comp &comp = altercomps.front();
             item newit( comp.type, calendar::turn );
             if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {

@@ -3324,12 +3324,12 @@ void veh_interact::complete_vehicle( Character &you )
 
                     // damage reduces chance of success (0.8^damage)
                     const double component_success_chance = std::pow( 0.8, vp.damage_percent() );
+                    const double charges_min = std::clamp( component_success_chance, 0.0, 1.0 );
+                    const double charges_max = std::clamp( component_success_chance + 0.1, 0.0, 1.0 );
                     for( item &it : vp.get_salvageable() ) {
                         if( it.count_by_charges() ) {
-                            const double min = std::clamp( component_success_chance, 0.0, 1.0 );
-                            const double max = std::clamp( component_success_chance + 0.1, 0.0, 1.0 );
                             const int charges_befor = it.charges;
-                            it.charges *= rng_float( min, max );
+                            it.charges *= rng_float( charges_min, charges_max );
                             const int charges_destroyed = charges_befor - it.charges;
                             if( charges_destroyed > 0 ) {
                                 add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), charges_destroyed,
