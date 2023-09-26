@@ -684,11 +684,9 @@ bool avatar::create( character_type type, const std::string &tempname )
         pool = pool_type::MULTI_POOL;
     }
 
-    bool default_backgrounds = false;
     switch( type ) {
         case character_type::CUSTOM:
             randomize_cosmetics();
-            default_backgrounds = true;
             break;
         case character_type::RANDOM:
             //random scenario, default name if exist
@@ -718,9 +716,8 @@ bool avatar::create( character_type type, const std::string &tempname )
             break;
     }
 
-    if( default_backgrounds )
-        //to check which starts add the basic adult backgrounds
-    {
+    // Don't apply the default backgrounds on a template
+    if( type != character_type::TEMPLATE ) {
         add_default_background();
     }
 
