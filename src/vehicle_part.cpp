@@ -51,7 +51,7 @@ vehicle_part::vehicle_part( const vpart_id &type, item &&base )
     variant = info_->variant_default;
 }
 
-vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item &> &installed_with )
+vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item> &installed_with )
     : info_( &type.obj() )
 {
     set_base( std::move( base ) );

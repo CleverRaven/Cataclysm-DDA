@@ -262,7 +262,7 @@ struct vehicle_part {
         // constructs part with \p type and std::move()-ing \p base as part's base
         vehicle_part( const vpart_id &type, item &&base );
         // constructs part with \p type and std::move()-ing \p base as part's base, installed_with as salvageable components
-        vehicle_part( const vpart_id &type, item &&base, std::vector<item &> &installed_with );
+        vehicle_part( const vpart_id &type, item &&base, std::vector<item> &installed_with );
 
         // gets reference to the current base item
         const item &get_base() const;
@@ -1024,7 +1024,7 @@ class vehicle
         int install_part( const point &dp, const vpart_id &type, item &&base );
 
         int install_part( const point &dp, const vpart_id &type, item &&base,
-                          std::vector<item &> &installed_with );
+                          std::vector<item> &installed_with );
 
         // install the given part \p vp (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed

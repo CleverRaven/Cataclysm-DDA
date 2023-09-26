@@ -3323,11 +3323,11 @@ void veh_interact::complete_vehicle( Character &you )
                     resulting_items.push_back( veh.part_to_item( vp ) );
 
                     // damage reduces chance of success (0.8^hp)
-                    const float component_success_chance = std::pow( 0.8, vp.damage_percent() );
+                    const double component_success_chance = std::pow( 0.8, vp.damage_percent() );
                     for( item &it : vp.get_salvageable() ) {
                         if( it.count_by_charges() ) {
-                            const float min = std::clamp( component_success_chance, 0.0, 1.0 );
-                            const float max = std::clamp( component_success_chance + 0.1, 0.0, 1.0 );
+                            const double min = std::clamp( component_success_chance, 0.0, 1.0 );
+                            const double max = std::clamp( component_success_chance + 0.1, 0.0, 1.0 );
                             const int charges_befor = it.charges;
                             it.charges *= rng_float( min, max );
                             const int charges_destroyed = charges_befor - it.charges;
