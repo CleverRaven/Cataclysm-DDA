@@ -261,6 +261,7 @@ struct vehicle_part {
         vehicle_part();
         // constructs part with \p type and std::move()-ing \p base as part's base
         vehicle_part( const vpart_id &type, item &&base );
+        vehicle_part( const vpart_id &type, item &&base, std::vector<item> &_salvageable );
 
         // gets reference to the current base item
         const item &get_base() const;
@@ -515,6 +516,9 @@ struct vehicle_part {
         std::string variant;
 
         time_point last_disconnected = calendar::before_time_starts;
+
+        // Salvageable components
+        std::vector<item> salvageable;
 
     private:
         // part type definition
@@ -1016,6 +1020,9 @@ class vehicle
         // install a part of type \p type at mount \p dp with \p base (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed
         int install_part( const point &dp, const vpart_id &type, item &&base );
+
+        int install_part( const point &dp, const vpart_id &type, item &&base,
+                          std::vector<item> &installed_with );
 
         // install the given part \p vp (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed

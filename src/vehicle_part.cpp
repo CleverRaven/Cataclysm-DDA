@@ -51,6 +51,18 @@ vehicle_part::vehicle_part( const vpart_id &type, item &&base )
     variant = info_->variant_default;
 }
 
+vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item> &_salvageable )
+    : info_( &type.obj() )
+{
+    set_base( std::move( base ) );
+    variant = info_->variant_default;
+    for( auto it : _salvageable ) {
+        if( !it.has_flag( flag_UNRECOVERABLE ) ) {
+            salvageable.push_back( it );
+        }
+    }
+}
+
 const item &vehicle_part::get_base() const
 {
     return base;

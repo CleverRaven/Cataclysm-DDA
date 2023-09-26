@@ -1761,6 +1761,9 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
+        for( auto it : sel_vehicle_part->salvageable ) {
+            nmsg += "> " + it.display_name() + "\n";
+        }
     }
 
     const requirement_data reqs = sel_vpart_info->removal_requirements();
@@ -3131,12 +3134,15 @@ void veh_interact::complete_vehicle( Character &you )
 
             // consume items extracting a match for the parts base item
             item base;
+            std::vector<item> installed_with;
             for( const auto &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
             } ) ) {
                     if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
+                    } else {
+                        installed_with.push_back( obj );
                     }
                 }
             }
@@ -3154,7 +3160,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.invalidate_crafting_inventory();
-            const int partnum = veh.install_part( d, part_id, std::move( base ) );
+            const int partnum = veh.install_part( d, part_id, std::move( base ), installed_with );
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s",
                           d.x, d.y, part_id.c_str() );
@@ -3315,6 +3321,9 @@ void veh_interact::complete_vehicle( Character &you )
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
                 } else {
                     resulting_items.push_back( veh.part_to_item( vp ) );
+                    for( auto it : vp.salvageable ) {
+                        resulting_items.push_back( std::move( it ) );
+                    }
                 }
                 for( const std::pair<const skill_id, int> &sk : vpi.install_skills ) {
                     // removal is half as educational as installation
