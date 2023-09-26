@@ -1761,7 +1761,7 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
-        for( const item &it : sel_vehicle_part->salvageable ) {
+        for( const item &it : sel_vehicle_part->get_salvageable() ) {
             nmsg += "> " + it.display_name() + "\n";
         }
     }
@@ -3321,8 +3321,18 @@ void veh_interact::complete_vehicle( Character &you )
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
                 } else {
                     resulting_items.push_back( veh.part_to_item( vp ) );
-                    for( item &it : vp.salvageable ) {
-                        resulting_items.push_back( it );
+
+                    // damage reduces chance of success (0.8^hp)
+                    const float component_success_chance = std::pow( 0.8, vp.health_percent() );
+                    for( item &it : vp.get_salvageable() ) {
+                        if( it.count_by_charges() ) {
+                            const float min = std::clamp( component_success_chance - 0.1, 0.0, 1, 0 );
+                            const float max = std::clamp( component_success_chance + 0.1, 0.0, 1, 0 );
+                            it.charges *= rng_float( min, max );
+                            resulting_items.push_back( it );
+                        } else if( component_success_chance > rng_float( 0, 1 ) ) {
+                            resulting_items.push_back( it );
+                        }
                     }
                 }
                 for( const std::pair<const skill_id, int> &sk : vpi.install_skills ) {

@@ -261,10 +261,13 @@ struct vehicle_part {
         vehicle_part();
         // constructs part with \p type and std::move()-ing \p base as part's base
         vehicle_part( const vpart_id &type, item &&base );
+        // constructs part with \p type and std::move()-ing \p base as part's base, installed_with as salvageable components
         vehicle_part( const vpart_id &type, item &&base, std::vector<item &> &installed_with );
 
         // gets reference to the current base item
         const item &get_base() const;
+        // Salvageable components
+        std::vector<item> get_salvageable() const;
         // set part base to \p new_base, std::move()-ing it
         void set_base( item &&new_base );
 
@@ -517,9 +520,6 @@ struct vehicle_part {
 
         time_point last_disconnected = calendar::before_time_starts;
 
-        // Salvageable components
-        std::vector<item> salvageable;
-
     private:
         // part type definition
         // note: this could be a const& but doing so would require hassle with implementing
@@ -533,6 +533,8 @@ struct vehicle_part {
         std::vector<item> tools;
         // items of CARGO parts
         cata::colony<item> items;
+        // Salvageable components
+        std::vector<item> salvageable;
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();

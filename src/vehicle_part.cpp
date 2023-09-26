@@ -68,6 +68,33 @@ const item &vehicle_part::get_base() const
     return base;
 }
 
+std::vector<item> vehicle_part::get_salvageable() const
+{
+    if( salvageable.empty() ) {
+        // Get default install component
+        std::vector<item> tmp;
+        for( const std::vector<item_comp> &altercomps : info().install_requirements().get_components() ) {
+            const item_comp &comp = altercomps.front();
+            item newit( comp.type, calendar::turn );
+            if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
+                int compcount = comp.count;
+                const bool is_liquid = newit.made_of( phase_id::LIQUID );
+                if( newit.count_by_charges() || is_liquid ) {
+                    newit.charges = compcount;
+                    compcount = 1;
+                } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                    newit.charges = 0;
+                }
+                for( ; compcount > 0; compcount-- ) {
+                    tmp.push_back( newit );
+                }
+            }
+        }
+        return tmp;
+    }
+    return salvageable;
+}
+
 void vehicle_part::set_base( item &&new_base )
 {
     if( new_base.typeId() != info().base_item ) {
