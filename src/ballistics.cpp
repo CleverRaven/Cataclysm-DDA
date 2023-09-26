@@ -353,7 +353,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.
-            if( here.has_floor( floor1 ) && here.has_floor( floor2 ) ) {
+            if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
                 // Currently strictly no shooting through floor
                 // TODO: Bash the floor
                 tp = prev_point;
