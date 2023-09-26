@@ -49,7 +49,6 @@ Adds basic vehicle proficiencies for driving and boating, as well as athletic pr
 Add overheat mechanics to energy guns.
 Sound-triggered traps
 Item transformation can now pick variant items to transform into
-[EOC]Inventory itereter
 
 
 ## Content:
@@ -268,7 +267,6 @@ Randomly generated characters are now aged appropriately to their profession
 AIM: Display correct truncation of container names
 Fix visible tiles revealing invisible tiles below
 Fix furniture & vehicle map memory refresh
-Ki Strike now works with worn equipment
 Monsters can go down ramps
 Don't teleport items to the ground if the vehicle storage destination is full
 Fix Free Merchants Broker price calculation of non charge based item
