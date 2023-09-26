@@ -892,7 +892,7 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
 
-        if( has_flag( TREE_COMMUNION_PLUS ) ) {
+        if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
             add_msg_if_player( _( "You close your eyes and reach out to the spirits of the forest." ) );
         } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
                    has_flag( json_flag_CHLOROMORPH ) ) {
@@ -904,7 +904,7 @@ void Character::activate_mutation( const trait_id &mut )
 
         assign_activity( ACT_TREE_COMMUNION );
 
-        if( has_flag( TREE_COMMUNION_PLUS ) ) {
+        if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
             const time_duration startup_time = rng( 10_minutes, 20_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
