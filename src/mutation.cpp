@@ -919,8 +919,7 @@ void Character::activate_mutation( const trait_id &mut )
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
 
-        }
-        else {
+        } else {
             const time_duration startup_time = rng( 120_minutes, 180_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
