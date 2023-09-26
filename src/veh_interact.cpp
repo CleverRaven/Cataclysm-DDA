@@ -3326,12 +3326,22 @@ void veh_interact::complete_vehicle( Character &you )
                     const float component_success_chance = std::pow( 0.8, vp.health_percent() );
                     for( item &it : vp.get_salvageable() ) {
                         if( it.count_by_charges() ) {
-                            const float min = std::clamp( component_success_chance - 0.1, 0.0, 1, 0 );
-                            const float max = std::clamp( component_success_chance + 0.1, 0.0, 1, 0 );
+                            const float min = std::clamp( component_success_chance, 0.0, 1.0 );
+                            const float max = std::clamp( component_success_chance + 0.1, 0.0, 1.0 );
+                            const int charges_befor = it.charges;
                             it.charges *= rng_float( min, max );
-                            resulting_items.push_back( it );
+                            const int charges_destroyed = charges_befor - it.charges;
+                            if( charges_destroyed > 0 ) {
+                                add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), charges_destroyed,
+                                         it.type_name( charges_destroyed ) );
+                            }
+                            if( it.charges > 0 ) {
+                                resulting_items.push_back( it );
+                            }
                         } else if( component_success_chance > rng_float( 0, 1 ) ) {
                             resulting_items.push_back( it );
+                        } else {
+                            add_msg( m_bad, _( "You fail to recover %1$s." ), it.type_name() );
                         }
                     }
                 }
