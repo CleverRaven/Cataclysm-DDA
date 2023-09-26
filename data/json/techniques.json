@@ -1983,7 +1983,7 @@
     "id": "tec_muay_thai_rapid",
     "name": "Jab",
     "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.5 },
@@ -2024,6 +2024,7 @@
     "id": "tec_muay_thai_front_kick",
     "name": "Front Kick",
     "messages": [ "You knock %s back with a front kick", "<npcname> knocks %s back with a front kick" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
     "mult_bonuses": [
