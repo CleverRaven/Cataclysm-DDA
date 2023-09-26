@@ -57,7 +57,7 @@ static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
-static const json_character_flag json_flag_CHLOROMORPH( "TREE_COMMUNION_PLUS" );
+static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
