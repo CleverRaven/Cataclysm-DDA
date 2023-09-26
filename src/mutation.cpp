@@ -895,7 +895,7 @@ void Character::activate_mutation( const trait_id &mut )
         if( has_flag( TREE_COMMUNION_PLUS ) ) {
             add_msg_if_player( _( "You close your eyes and reach out to the spirits of the forest." ) );
         } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
-            has_flag( json_flag_CHLOROMORPH ) ) {
+                   has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player(
