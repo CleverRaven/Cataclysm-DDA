@@ -606,6 +606,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
+- ```EXAMINE_FROM_ABOVE``` Furniture can be <kbd>e</kbd> examined from a ledge above.  If deployed furniture is taken down it will be placed on the ledge.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.

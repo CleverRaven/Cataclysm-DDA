@@ -1575,13 +1575,26 @@ void iexamine::bars( Character &you, const tripoint &examp )
 void iexamine::deployed_furniture( Character &you, const tripoint &pos )
 {
     map &here = get_map();
-    if( !query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
-        return;
+
+    tripoint drop_pos = pos;
+
+    if( you.pos().z != pos.z ) {
+        drop_pos = you.pos();
+        if( !you.query_yn( _( "Pull up the %s?" ), here.furn( pos ).obj().name() ) ) {
+            return;
+        }
+        you.add_msg_if_player( m_info, _( "You pull up the %s." ),
+                               here.furn( pos ).obj().name() );
+    } else {
+        if( !you.query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
+            return;
+        }
+        you.add_msg_if_player( m_info, _( "You take down the %s." ),
+                               here.furn( pos ).obj().name() );
     }
-    you.add_msg_if_player( m_info, _( "You take down the %s." ),
-                           here.furn( pos ).obj().name() );
+
     const itype_id furn_item = here.furn( pos ).obj().deployed_item;
-    here.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    here.add_item_or_charges( drop_pos, item( furn_item, calendar::turn ) );
     here.furn_set( pos, f_null );
 }
 
@@ -5037,6 +5050,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         ledge_peek_down = 1,
         ledge_jump_across,
         ledge_fall_down,
+        ledge_examine_furniture_below,
     };
 
     map &here = get_map();
@@ -5045,12 +5059,19 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
 
+    tripoint just_below = examp;
+    just_below.z--;
+
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
 
     // NOTE this menu is merged with the climb down menu, manage keys carefully.
     cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
     g->climb_down_menu_gen( examp, cmenu );
+    if( here.has_flag_furn( "EXAMINE_FROM_ABOVE", just_below ) ) {
+        cmenu.addentry( ledge_examine_furniture_below, true, 'e',
+                        _( "Reach for the %s below." ), here.furn( just_below ).obj().name() );
+    }
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
@@ -5111,6 +5132,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
             g->peek( where );
             you.add_msg_if_player( _( "You peek over the ledge." ) );
+            break;
+        }
+        case ledge_examine_furniture_below: {
+            // Examine the furniture below.
+            here.furn( just_below ).obj().examine( you, just_below );
             break;
         }
         /*case ledge_cling_down: {
