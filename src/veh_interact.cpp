@@ -3134,7 +3134,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             // consume items extracting a match for the parts base item
             item base;
-            std::vector<item &> installed_with;
+            std::vector<item> installed_with;
             for( const std::vector<item_comp> &e : reqs.get_components() ) {
                 for( item &obj : you.consume_items( e, 1, is_crafting_component, [&vpinfo]( const itype_id & itm ) {
                 return itm == vpinfo.base_item;
@@ -3322,7 +3322,7 @@ void veh_interact::complete_vehicle( Character &you )
                 } else {
                     resulting_items.push_back( veh.part_to_item( vp ) );
 
-                    // damage reduces chance of success (0.8^hp)
+                    // damage reduces chance of success (0.8^damage)
                     const double component_success_chance = std::pow( 0.8, vp.damage_percent() );
                     for( item &it : vp.get_salvageable() ) {
                         if( it.count_by_charges() ) {
