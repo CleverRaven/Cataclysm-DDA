@@ -29,6 +29,8 @@
       { "item": "dress_shoes", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "dress_shirt", "prob": 50, "damage": [ 0, 4 ] },
       { "item": "suit", "prob": 100, "damage": [ 0, 4 ] },
+      { "item": "glasses_monocle", "prob": 40, "damage": [ 0, 4 ] },
+      { "item": "pocketwatch", "prob": 35, "damage": [ 0, 4 ] },
       { "group": "corpse_male" }
     ]
   },
@@ -1621,6 +1623,7 @@
       [ "sinister_cane", 2 ],
       [ "wizard_cane", 1 ],
       [ "wizard_cane_cheap", 1 ],
+      [ "hollow_cane", 1 ],
       [ "umbrella", 20 ],
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       [ "candlestick", 5 ]
