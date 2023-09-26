@@ -2273,7 +2273,8 @@
       "recipes_chance": 1.0,
       "recipes_amount": 3,
       "recipes_categories": [ "CC_CHEM" ],
-      "recipes_level_min": 6
+      "recipes_level_min": 6,
+      "secret_recipes": true
     },
     "pocket_data": [  ]
   },
