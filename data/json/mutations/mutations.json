@@ -310,6 +310,20 @@
   },
   {
     "type": "mutation",
+    "id": "NO_LEGS",
+    "name": { "str": "No Legs" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Wether by a serious accident, birth, defect, or other means, you have lost your legs.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "types": [ "LEGS", "RUNNING", "FEET", "SOLES" ],
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "restricts_gear": [ "foot_l", "foot_r", "leg_knee_l", "leg_lower_l", "leg_draped_l", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
+    "cancels": [ "BADKNEES", "STRONGKNEES" ],
+    "enchantments": [ "ENCH_NO_LEGS" ]
+  },
+  {
+    "type": "mutation",
     "id": "BIOLUM0",
     "name": { "str": "Reflex Photophore" },
     "points": -1,
