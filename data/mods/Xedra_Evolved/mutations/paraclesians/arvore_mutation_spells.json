@@ -32,6 +32,16 @@
     "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_arvore_tree_form",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "SLEEPY", "add": 150 },
+      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
+    ]
+  },
+  {
     "id": "spell_arvore_thorns_mut_counter",
     "type": "SPELL",
     "name": { "str": "Arvore Thorns Damage" },
@@ -525,8 +535,8 @@
     "type": "SPELL",
     "name": "Traverse the Wilds",
     "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves while standing in a forest or a swamp.",
-    "valid_targets": [ "none" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "SILENT", "TARGET_TELEPORT" ],
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "SILENT" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
     "shape": "blast",
@@ -558,7 +568,7 @@
     "type": "SPELL",
     "name": "Traverse the Wilds Real",
     "description": "This is the actual spell that teleports you when you use Walk the Wilds.  It's a bug if you have it directly",
-    "valid_targets": [ "none" ],
+    "valid_targets": [ "ground", "ally", "hostile" ],
     "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
     "effect": "short_range_teleport",
     "shape": "blast",

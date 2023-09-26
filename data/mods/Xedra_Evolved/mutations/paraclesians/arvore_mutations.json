@@ -148,7 +148,7 @@
     "prereqs": [ "GREENSTRIDE" ],
     "prereqs2": [ "ARVORE_FOREST_STEALTH" ],
     "category": [ "ARVORE" ],
-    "spells_learned": [ [ "arvore_walk_the_wilds", 1 ] ],
+    "spells_learned": [ [ "arvore_traverse_the_wilds", 1 ] ],
     "//": "Ideally this would require the destination as well as the departure point to be in a forest (in which case, maybe it could be expanded to fields), but no way to do that for now."
   },
   {
@@ -274,9 +274,27 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_FOREST_DETECT" ],
-    "description": "Upon gaining this ability the Arvore gains the ability to speak to the trees and, using their wisdom, map the surrounding area.",
+    "description": "The Arvore are closely tied with the forests and may commune with the trees to learn the layout of the land.  Activate this ability to enter the communion.",
     "category": [ "ARVORE" ],
-    "spells_learned": [ [ "arvore_forest_mapping_spell", 1 ] ]
+    "active": true,
+    "cost": 0
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_TOXIC_FLESH",
+    "name": { "str": "Essence of Hemlock" },
+    "points": 8,
+    "description": "With a brief effort of will, the Arvore may infuse their blood with a poison that harms any who bite them.",
+    "prereqs": [ "ARVORE_BLOOD" ],
+    "category": [ "ARVORE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "time": 120,
+    "thirst": true,
+    "cost": 1,
+    "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ],
+    "//": "Ideally this would be powered by mana, but thirst will work for now"
   },
   {
     "type": "mutation",
@@ -328,6 +346,7 @@
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, and your mana regenerates much quicker.",
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
+    "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA_ON", "msg_transform": "", "active": false, "moves": 0 },
     "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
@@ -367,7 +386,14 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
+    "prereqs": [
+      "ARVORE_SUN_NUTRIENTS_AND_MANA",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
+    ],
     "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, you absorb its energy as food.  You still need to drink water and you will still get hungry.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -680,6 +706,17 @@
     "description": "Upon gaining this ability the Arvore's eyes begin reflecting the seasons: a bright yellow-green in spring; verdant green in summer; red, yellow, or orange in autumn, and dark brown in winter.  Glare no longer impacts them.",
     "category": [ "ARVORE" ],
     "integrated_armor": [ "integrated_arvore_eyes" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_EARS",
+    "name": { "str": "Arvore Ears" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "The Arvore's ears are longer and pointed, more \"leaf-shaped.\"  While they cannot hear any better, like the trees in the deep forest, they are unphased by loud sounds.",
+    "category": [ "ARVORE" ],
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {
     "type": "mutation",
@@ -1055,7 +1092,7 @@
     "id": "ARVORE_TREE_FORM_TRAITS",
     "name": { "str": "Ancient Tree" },
     "points": 10,
-    "description": "You are a tree.  You will heal much more quickly and resting is more beneficial.  You are still able to move, but only incredibly slowly.",
+    "description": "You are a tree.  You will heal much more quickly and resting is more beneficial.  You are unable to see, hear, or move, but have a dim awareness of nearby movement.",
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
@@ -1098,7 +1135,7 @@
       "HUMAN"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 100 } ] } ]
+    "enchantments": [ "ench_arvore_tree_form" ]
   },
   {
     "type": "mutation",
@@ -1127,6 +1164,7 @@
     "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, and your maximum mana is increased.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
     "healing_awake": 0.25,
     "healing_multiplier": 1.5,
