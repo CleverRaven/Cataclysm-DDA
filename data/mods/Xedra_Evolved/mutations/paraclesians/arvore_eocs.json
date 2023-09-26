@@ -1,0 +1,387 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_COMMUNE_OAKS",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_message": "The trees whisper their secrets to you.  [Check mutations to activate]", "type": "good" },
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_COMMUNE_OAKS",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_BRIARS_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_ARVORE_BRIARS_SELECTOR_ARC", "EOC_ARVORE_BRIARS_SELECTOR_LINE", "EOC_NULL" ],
+        "names": [ "Thorny Arc", "Wall of Brambles", "Do nothing" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [ "Summon a spray of brambles to entrap an enemy.", "Summon a wall of thorns to fortify a location.", "Do nothing." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_BRIARS_SELECTOR_ARC",
+    "effect": [ { "u_cast_spell": { "id": "arvore_summon_briars_arc" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_BRIARS_SELECTOR_LINE",
+    "effect": [ { "u_cast_spell": { "id": "arvore_summon_briars_line" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMMUNE_WITH_NATURE",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "natures_commune",
+        "duration": { "math": [ "( 300 + (u_val('spell_level', 'spell: arvore_commune_with_nature') * 165)) " ] }
+      },
+      {
+        "u_add_morale": "morale_forest_unity",
+        "bonus": 10,
+        "max_bonus": 15,
+        "duration": { "math": [ "( 300 + (u_val('spell_level', 'spell: arvore_commune_with_nature') * 165) )" ] },
+        "decay_start": { "math": [ "(( 300 + (u_val('spell_level', 'spell: arvore_commune_with_nature') * 165) ) / 2)" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [
+            {
+              "u_add_effect": "effect_paraclesian_dodge_bonus_1",
+              "duration": {
+                "math": [
+                  "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "case": 15,
+          "effect": [
+            {
+              "u_add_effect": "effect_paraclesian_dodge_bonus_2",
+              "duration": {
+                "math": [
+                  "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "case": 25,
+          "effect": [
+            {
+              "u_add_effect": "effect_paraclesian_dodge_bonus_3",
+              "duration": {
+                "math": [
+                  "( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GROWING_WOOD_WALLS_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_GROWING_WOOD_WALLS",
+          "EOC_GROWING_WOOD_FLOORS",
+          "EOC_GROWING_WOOD_DOORS",
+          "EOC_GROWING_WOOD_BRANCHES",
+          "EOC_NULL"
+        ],
+        "names": [ "Grow Wooden Wall", "Grow Wooden Floor", "Grow Wooden Door", "Grow Leafy Branch", "Do nothing" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "descriptions": [
+          "Grow a wall of solid wood from the earth, grow or remove bark from a wall, or turn one of your wooden floors into a bark wall.",
+          "Grow a floor of bark from the earth, roof over a bark floor, or turn one of your wooden walls into a bark floor.",
+          "Grow a bramble door from a wooden wall or return the wall to solid wood.",
+          "Grow a leafy branch.  It won't provide shelter but it helps it feel like home.",
+          "Do nothing."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GROWING_WOOD_WALLS",
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_wall" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GROWING_WOOD_FLOORS",
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_floor" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GROWING_WOOD_BRANCHES",
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_branch" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GROWING_WOOD_DOORS",
+    "effect": [ { "u_cast_spell": { "id": "arvore_growing_wood_walls_door" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NULL",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_INITIAL_CHECK",
+    "condition": { "not": { "u_has_effect": "arvore_perennial_rebirth_cooldown" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_PERENNIAL_REBIRTH_INITIAL_CHECK_2",
+          "condition": {
+            "or": [
+              { "u_at_om_location": "forest_thick" },
+              { "u_at_om_location": "arvore_genius_loci_NW" },
+              { "u_at_om_location": "arvore_genius_loci_NE" },
+              { "u_at_om_location": "arvore_genius_loci_SW" },
+              { "u_at_om_location": "arvore_genius_loci_SE" }
+            ]
+          },
+          "effect": { "run_eocs": "EOC_PERENNIAL_REBIRTH_INITIAL" },
+          "false_effect": {
+            "u_message": "You need to be in the heart of the forest or at an attuned elemental altar to successfully bind your soul.",
+            "type": "bad"
+          }
+        }
+      ]
+    },
+    "false_effect": [
+      {
+        "u_message": "Your soul is still attaching itself to your new body.  You need to give it time before attempting to bind it to the forest again.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_INITIAL",
+    "effect": [
+      { "u_location_variable": { "u_val": "arvore_perennial_rebirth_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "u_add_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
+      { "u_message": "You bind your soul to the abundance of nature around you.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
+    "effect": [
+      {
+        "u_message": "As your body dies, your fae spirit flies free and, drawn to the pull of the heart of the forest, rebirths itself from the bounty of nature.",
+        "popup": true
+      },
+      { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_START" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_START",
+    "effect": [
+      { "u_add_effect": "incorporeal", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1 },
+      { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
+      { "u_spawn_item": "corpse_painful" },
+      { "queue_eocs": "EOC_PERENNIAL_REBIRTH_FINALIZE", "time_in_future": "1 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_HEAL",
+    "effect": [
+      { "u_set_hp": 999, "only_increase": true },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "torso" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "head" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "arm_l" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "arm_r" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "leg_r" },
+      { "u_set_hp": 45, "only_increase": false, "target_part": "leg_l" },
+      { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
+      { "math": [ "u_val('thirst')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: instability')", "=", "0" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_val('rad')", "=", "0" ] },
+      { "u_lose_effect": "corroding" },
+      { "u_lose_effect": "onfire" },
+      { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "stunned" },
+      { "u_lose_effect": "venom_blind" },
+      { "u_lose_effect": "formication" },
+      { "u_lose_effect": "blisters" },
+      { "u_lose_effect": "frostbite" },
+      { "u_lose_effect": "frostbite_recovery" },
+      { "u_lose_effect": "wet" },
+      { "u_lose_effect": "slimed" },
+      { "u_lose_effect": "migo_atmosphere" },
+      { "u_lose_effect": "fetid_goop" },
+      { "u_lose_effect": "sap" },
+      { "u_lose_effect": "nausea" },
+      { "u_lose_effect": "bleed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERENNIAL_REBIRTH_FINALIZE",
+    "//": "duration below of arvore_perennial_rebirth_cooldown is 28 days",
+    "condition": { "u_has_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
+    "effect": [
+      { "u_teleport": { "u_val": "arvore_perennial_rebirth_teleport" } },
+      { "u_lose_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
+      { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_val('stored_kcal')", "=", "65000" ] },
+      { "math": [ "u_val('thirst')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: human_blood_vitamin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: calcium')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: instability')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: iron')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: vitC')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_plantkin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_earthkin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_waterkin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_flamekin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_dollkin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_airkin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_alpha')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_batrachian')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_beast')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_bird')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cattle')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cephalopod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chelator')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chimera')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_elfa')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_feline')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_fish')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_gastropod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_human')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_insect')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lizard')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lupine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_medical')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_mouse')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_plant')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rabbit')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_raptor')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rat')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_slime')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_spider')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_troglobite')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_ursine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagenic_slurry')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutant_toxin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: vitC')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUN_FOODS_ON_KCAL",
+    "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
+    "condition": { "math": [ "u_val('stored_kcal')", ">=", "118000" ] },
+    "effect": [  ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_SUN_FOODS_ON_KCAL_2",
+          "condition": {
+            "and": [ { "math": [ "u_val('stored_kcal')", "<=", "179999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ]
+          },
+          "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "7" ] } ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_SUN_FOODS_ON_KCAL_3",
+                "condition": { "math": [ "u_val('stored_kcal')", "<=", "74999" ] },
+                "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "12" ] } ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

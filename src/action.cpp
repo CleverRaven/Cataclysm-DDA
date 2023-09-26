@@ -237,6 +237,8 @@ std::string action_ident( action_id act )
             return "reload_weapon";
         case ACTION_RELOAD_WIELDED:
             return "reload_wielded";
+        case ACTION_INSERT_ITEM:
+            return "insert";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -889,6 +891,7 @@ action_id handle_action_menu()
             // Everything below here can be accessed through
             // the inventory screen, so it's sorted to the
             // end of the list.
+            REGISTER_ACTION( ACTION_INSERT_ITEM );
             REGISTER_ACTION( ACTION_UNLOAD_CONTAINER );
             REGISTER_ACTION( ACTION_DROP );
             REGISTER_ACTION( ACTION_COMPARE );

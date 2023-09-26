@@ -1231,7 +1231,6 @@
     "difficulty": 6,
     "time": "6 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 4 ] ],
     "using": [
       [ "sewing_standard", 100 ],
@@ -1244,7 +1243,8 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" }
     ],
-    "components": [ [ [ "duct_tape", 400 ] ] ]
+    "components": [ [ [ "duct_tape", 400 ] ] ],
+    "byproducts": [ [ "scrap_lycra", 16 ] ]
   },
   {
     "type": "recipe",
@@ -1259,7 +1259,7 @@
     "using": [ [ "blacksmithing_standard", 64 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "scrap_aluminum", 200 ], [ "material_aluminium_ingot", 16 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 200 ], [ "material_aluminium_ingot", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -1274,7 +1274,7 @@
     "using": [ [ "blacksmithing_standard", 40 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "scrap_aluminum", 52 ], [ "material_aluminium_ingot", 4 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 52 ], [ "material_aluminium_ingot", 11 ] ] ]
   },
   {
     "type": "recipe",

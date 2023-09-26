@@ -108,7 +108,7 @@
   {
     "id": "longsword_judgement",
     "type": "GENERIC",
-    "name": { "str": "sword of judgement" },
+    "name": { "str": "sword of judgement", "str_pl": "swords of judgement" },
     "looks_like": "longsword",
     "symbol": "/",
     "color": "light_gray",
@@ -139,7 +139,7 @@
   {
     "id": "dagger_judgement",
     "type": "GENERIC",
-    "name": { "str": "dagger of judgement" },
+    "name": { "str": "dagger of judgement", "str_pl": "daggers of judgement" },
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "kris",
@@ -168,7 +168,7 @@
   {
     "id": "zwei_judgement",
     "type": "GENERIC",
-    "name": { "str": "great sword of judgement" },
+    "name": { "str": "great sword of judgement", "str_pl": "great swords of judgement" },
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "zweihander",
@@ -207,7 +207,7 @@
   {
     "id": "qiang_judgement",
     "type": "GENERIC",
-    "name": { "str": "spear of judgement" },
+    "name": { "str": "spear of judgement", "str_pl": "spears of judgement" },
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "qiang",
@@ -246,7 +246,7 @@
   {
     "id": "mace_judgement",
     "type": "GENERIC",
-    "name": { "str": "mace of judgement" },
+    "name": { "str": "mace of judgement", "str_pl": "maces of judgement" },
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "mace",

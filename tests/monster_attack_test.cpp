@@ -48,16 +48,20 @@ static void reset_caches( int a_zlev, int t_zlev )
     map &here = get_map();
     g->reset_light_level();
     // Why twice? See vision_test.cpp
+    here.invalidate_visibility_cache();
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
     here.build_map_cache( a_zlev );
+    here.invalidate_visibility_cache();
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
     here.build_map_cache( a_zlev );
     if( a_zlev != t_zlev ) {
+        here.invalidate_visibility_cache();
         here.update_visibility_cache( t_zlev );
         here.invalidate_map_cache( t_zlev );
         here.build_map_cache( t_zlev );
+        here.invalidate_visibility_cache();
         here.update_visibility_cache( t_zlev );
         here.invalidate_map_cache( t_zlev );
         here.build_map_cache( t_zlev );

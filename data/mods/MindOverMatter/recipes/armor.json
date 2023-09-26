@@ -9,7 +9,7 @@
     "skills_required": [ "metaphysics", 5 ],
     "difficulty": 3,
     "time": "250 m",
-    "book_learn": [  ],
+    "book_learn": [ [ "schematics_anchoring_crown", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_psionic_basic", "required": true },

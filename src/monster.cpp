@@ -104,6 +104,7 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
@@ -177,6 +178,7 @@ static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
 static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
 static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
 static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
 static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
 static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
@@ -1281,6 +1283,16 @@ bool monster::shearable() const
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
+}
+
+bool monster::is_pet() const
+{
+    return friendly == -1 && has_effect( effect_pet );
+}
+
+bool monster::is_pet_follow() const
+{
+    return is_pet() && !has_flag( mon_flag_PET_WONT_FOLLOW );
 }
 
 std::vector<material_id> monster::get_absorb_material() const

@@ -34,6 +34,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
 
         // identity and location
         std::string disp_name() const override;
+        std::string get_name() const override;
         character_id getID() const override;
         bool is_male() const override;
         std::vector<std::string> get_grammatical_genders() const override;

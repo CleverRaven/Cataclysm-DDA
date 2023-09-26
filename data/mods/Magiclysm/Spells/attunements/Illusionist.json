@@ -61,7 +61,7 @@
     "id": "illusionist_transposition",
     "type": "SPELL",
     "name": "Illusion Transposition",
-    "description": "Fool the reality, and swap your position with any another creature in your line of sight",
+    "description": "Fool reality, and swap your position with any other creature in your line of sight",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "NO_LEGS", "NO_HANDS", "SWAP_POS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "attack",

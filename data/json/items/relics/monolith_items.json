@@ -2,6 +2,7 @@
   {
     "type": "GENERIC",
     "id": "monolith_disc",
+    "category": "artifacts",
     "symbol": ".",
     "color": "dark_gray",
     "name": { "str": "inscribed disc" },
@@ -14,6 +15,7 @@
   {
     "type": "GENERIC",
     "id": "monolith_brick",
+    "category": "artifacts",
     "symbol": ",",
     "color": "dark_gray",
     "name": { "str": "warped brick" },

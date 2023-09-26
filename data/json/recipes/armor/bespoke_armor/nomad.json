@@ -79,6 +79,7 @@
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
+    "byproducts": [ [ "scrap_leather", 6 ], [ "denim_patch", 2 ], [ "scrap_denim", 7 ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -105,6 +106,7 @@
       [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
       [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ]
     ],
+    "byproducts": [ [ "scrap_leather", 7 ], [ "denim_patch", 2 ], [ "scrap_denim", 7 ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -132,6 +134,7 @@
       [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
+    "byproducts": [ [ "scrap_leather", 3 ], [ "denim_patch", 1 ], [ "scrap_denim", 3 ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -178,6 +181,7 @@
       [ [ "purse", 2 ], [ "leather_pouch", 4 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ]
     ],
+    "byproducts": [ [ "scrap_leather", 11 ], [ "denim_patch", 1 ], [ "scrap_denim", 3 ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -199,7 +203,8 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ],
-    "flags": [ "SECRET" ]
+    "flags": [ "SECRET" ],
+    "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]
   },
   {
     "result": "nomad_bodyglove_2",
@@ -220,6 +225,7 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
     "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ],
-    "flags": [ "SECRET" ]
+    "flags": [ "SECRET" ],
+    "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]
   }
 ]

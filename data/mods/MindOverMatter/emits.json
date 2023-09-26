@@ -56,5 +56,12 @@
     "intensity": 3,
     "qty": 25,
     "chance": 50
+  },
+  {
+    "id": "emit_anti_psi",
+    "type": "emit",
+    "field": "fd_nullifying_field",
+    "intensity": 3,
+    "qty": 80
   }
 ]

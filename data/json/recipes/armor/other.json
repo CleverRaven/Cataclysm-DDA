@@ -238,7 +238,8 @@
         [ "bottle_plastic_small", 10 ],
         [ "jug_plastic", 1 ]
       ]
-    ]
+    ],
+    "byproducts": [ [ "scrap_faux_fur", 2 ] ]
   },
   {
     "result": "fur_collar",
@@ -268,7 +269,8 @@
     "using": [ [ "sewing_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "faux_fur", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "faux_fur", 2 ] ], [ [ "scrap", 1 ] ] ],
+    "byproducts": [ [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "basket_laundry",

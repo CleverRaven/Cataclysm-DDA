@@ -123,6 +123,13 @@
         "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
         "cooldown": 30,
         "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
+      },
+      {
+        "id": "feral_thaum_sci_spell_disjunction",
+        "type": "spell",
+        "spell_data": { "id": "disjunction_monster", "min_level": 8 },
+        "cooldown": 50,
+        "monster_message": "%1$s waves their hands in a gesture of negation!"
       }
     ],
     "death_drops": {

@@ -1356,7 +1356,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     if( !data->ammo_restriction.empty() ) {
         if( !it.is_ammo() ) {
             return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_AMMO, _( "item is not an ammo" ) );
+                       contain_code::ERR_AMMO, _( "item is not ammunition" ) );
         }
 
         const auto ammo_restriction_iter = data->ammo_restriction.find( it.ammo_type() );
@@ -1389,7 +1389,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         !it.is_frozen_liquid() && data->max_item_volume &&
         !charges_per_volume_recursive( *data->max_item_volume, it ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_TOO_BIG, _( "item too big" ) );
+                   contain_code::ERR_TOO_BIG, _( "item is too big" ) );
     }
     if( it.length() > data->max_item_length ) {
         return ret_val<item_pocket::contain_code>::make_failure(
@@ -1488,7 +1488,7 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
         }
         if( it.volume() > volume_capacity() ) {
             return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_TOO_BIG, _( "item too big" ) );
+                       contain_code::ERR_TOO_BIG, _( "item is too big" ) );
         }
         return ret_val<item_pocket::contain_code>::make_success();
     }
@@ -1557,7 +1557,7 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     units::volume volume = it.volume();
     if( volume > volume_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_TOO_BIG, _( "item too big" ) );
+                   contain_code::ERR_TOO_BIG, _( "item is too big" ) );
     }
 
     int fallback_capacity = it.count_by_charges() ? it.charges : copies_remaining;
