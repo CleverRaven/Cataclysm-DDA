@@ -542,19 +542,6 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": { "math": [ "per_to_level(1)" ] },
-    "min_aoe": 4,
-    "max_aoe": 1,
-    "aoe_increment": -0.25,
-    "min_range": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 1.5) + 4) * (scaling_factor(u_val('perception') ) ) )"
-      ]
-    },
-    "max_range": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 1.5) + 4) * (scaling_factor(u_val('perception') ) ) )"
-      ]
-    },
     "energy_source": "MANA",
     "base_energy_cost": 250,
     "energy_increment": -5,
