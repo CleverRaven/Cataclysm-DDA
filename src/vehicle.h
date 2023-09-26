@@ -231,7 +231,8 @@ enum class vp_flag : uint32_t {
     carried_flag = 4,
     carrying_flag = 8,
     tracked_flag = 16, //carried vehicle part with tracking enabled
-    linked_flag = 32 //a cable is attached to this
+    linked_flag = 32, //a cable is attached to this
+    unsalvageable_flag = 64 //install components are unsalvageable
 };
 
 class turret_cpu
