@@ -1376,7 +1376,7 @@
       { "fuel": 0.001, "smoke": 3, "burn": 0.002, "volume_per_turn": "5 ml" },
       { "fuel": 0.003, "smoke": 3, "burn": 0.005 }
     ],
-    "resist": { "bash": 2, "cut": 1, "acid": 1, "heat": 2, "bullet": 1 },
+    "resist": { "bash": 3, "cut": 1, "acid": 4, "heat": 3, "bullet": 1 },
     "repair_difficulty": 3
   },
   {
@@ -2116,6 +2116,14 @@
     ],
     "resist": { "bash": 1, "cut": 1, "acid": 9, "heat": 2, "bullet": 3 },
     "repair_difficulty": 2
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give technical shorts and diving rigs an extra coverage layer without causing weirdness",
+    "id": "nylon_2",
+    "copy-from": "nylon",
+    "repaired_with": "null",
+    "name": "Synthetic Fabric"
   },
   {
     "type": "material",

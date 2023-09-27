@@ -2500,10 +2500,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return false;
     }
 
-    if( !up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) &&
-        !up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) &&
-        !up_is_ledge &&
-        !via_ramp ) {
+    if( has_floor( up_p ) && !up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) &&
+        !up_is_ledge && !via_ramp ) {
         // Can't move from up to down
         if( std::abs( from.x - to.x ) == 1 || std::abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
@@ -2515,6 +2513,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
 
     if( !flying && !down_ter.has_flag( ter_furn_flag::TFLAG_GOES_UP ) &&
+        !down_ter.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) &&
         !down_ter.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
         !up_is_ledge && !via_ramp ) {
         // Can't safely reach the lower tile
@@ -2604,12 +2603,22 @@ bool map::has_floor( const tripoint &p ) const
     if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
         return true;
     }
-
     if( !inbounds( p ) ) {
         return true;
     }
+    return !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) &&
+           !has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, p );
+}
 
-    return !ter( p )->has_flag( ter_furn_flag::TFLAG_NO_FLOOR );
+bool map::has_floor_or_water( const tripoint &p ) const
+{
+    if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
+        return true;
+    }
+    if( !inbounds( p ) ) {
+        return true;
+    }
+    return !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p );
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -2639,7 +2648,7 @@ bool map::has_floor_or_support( const tripoint &p ) const
 
 void map::drop_everything( const tripoint &p )
 {
-    if( has_floor( p ) ) {
+    if( has_floor_or_water( p ) ) {
         return;
     }
 
@@ -2670,7 +2679,7 @@ void map::drop_furniture( const tripoint &p )
     // has unsupporting furniture below (bad support, things should "slide" if possible)
     // has no support and thus allows things to fall through
     const auto check_tile = [this]( const tripoint & pt ) {
-        if( has_floor( pt ) ) {
+        if( has_floor_or_water( pt ) ) {
             return SS_FLOOR;
         }
 
@@ -2807,7 +2816,7 @@ void map::drop_items( const tripoint &p )
 
     tripoint below( p );
     int height_fallen = 0;
-    while( !has_floor( below ) ) {
+    while( !has_floor_or_water( below ) ) {
         below.z--;
         height_fallen++;
     }
@@ -6850,8 +6859,7 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
     return !zlevels || p.z <= -OVERMAP_DEPTH ||
-           !( has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ||
-              has_flag( ter_furn_flag::TFLAG_Z_TRANSPARENT, p ) );
+           ( has_floor( p ) && !has_flag( ter_furn_flag::TFLAG_Z_TRANSPARENT, p ) );
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
@@ -8454,7 +8462,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // TODO: flying creatures should be allowed to spawn without a floor,
         // but the new creature is created *after* determining the terrain, so
         // we can't check for it here.
-        return passable( p ) && has_floor( p );
+        return passable( p ) && has_floor_or_water( p );
     };
 
     // If the submap is uniform, we can skip many checks
@@ -9084,6 +9092,7 @@ bool map::build_floor_cache( const int zlev )
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                        terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
                         terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
                         terrain.has_flag( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR ) ) {
                         if( below_submap &&

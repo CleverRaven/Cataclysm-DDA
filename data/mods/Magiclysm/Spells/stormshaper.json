@@ -1125,9 +1125,9 @@
     "id": "EOC_LOSE_CLOAK_OF_FROG_MUTATIONS",
     "effect": [
       { "u_message": "It wasn't easy being green.", "type": "mixed" },
-      { "u_add_trait": "FRESHWATEROSMOSIS" },
-      { "u_add_trait": "PHEROMONE_AMPHIBIAN" },
-      { "u_add_trait": "AMPHIBIAN" }
+      { "u_lose_trait": "FRESHWATEROSMOSIS" },
+      { "u_lose_trait": "PHEROMONE_AMPHIBIAN" },
+      { "u_lose_trait": "AMPHIBIAN" }
     ]
   },
   {

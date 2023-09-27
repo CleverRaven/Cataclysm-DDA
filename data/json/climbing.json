@@ -28,9 +28,95 @@
   },
   {
     "type": "climbing_aid",
+    "abstract": "generic_improvised",
+    "//": "TEMPLATE: terrain that helps a little with climbing but is still risky (eg, downspouts)",
+    "slip_chance_mod": -5,
+    "down": { "menu_text": "Climb down.", "confirm_text": "Climb down %s?" },
+    "condition": { "type": "special", "flag": "abstract" }
+  },
+  {
+    "type": "climbing_aid",
+    "abstract": "generic_rappel",
+    "//": "TEMPLATE: Rope used to rappel.  Much safer than a bare ledge, but should be strenuous.",
+    "slip_chance_mod": -12,
+    "down": {
+      "menu_text": "Rappel down.",
+      "confirm_text": "Rappel down?",
+      "msg_before": "You grasp the rope firmly and rappel down."
+    },
+    "condition": { "type": "special", "flag": "abstract" }
+  },
+  {
+    "type": "climbing_aid",
+    "abstract": "generic_stepladder",
+    "//": "TEMPLATE: Stepladders, not the bolted-down kind.  Very safe and easy unless you're reckless.",
+    "slip_chance_mod": -20,
+    "down": {
+      "menu_text": "Climb down with this stepladder.",
+      "confirm_text": "Climb down the ladder?",
+      "msg_after": "You climb down the ladder."
+    },
+    "condition": { "type": "special", "flag": "abstract" }
+  },
+  {
+    "type": "climbing_aid",
+    "abstract": "generic_half_z_level",
+    "//": "TEMPLATE: Immobile things about half a Z-level (~5 feet) tall.  Extremely safe but strenuous.",
+    "slip_chance_mod": -40,
+    "down": { "menu_text": "Clamber down.", "confirm_text": "Clamber down?", "msg_after": "You clamber down.", "max_height": 1 },
+    "condition": { "type": "special", "flag": "abstract" }
+  },
+  {
+    "type": "climbing_aid",
+    "abstract": "generic_superpower",
+    "//": "Template for powerful mutations that make climbing almost completely safe.  Be sure to customize text.",
+    "slip_chance_mod": -100,
+    "down": {
+      "menu_text": "Use your talents to climb down.",
+      "confirm_text": "Use your talents to climb down?",
+      "msg_after": "You descend effortlessly.",
+      "max_height": 1
+    },
+    "condition": { "type": "special", "flag": "abstract" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "vehicle",
+    "//": "Currently this applies to any part of any vehicle.  Trickier than most climbing.",
+    "slip_chance_mod": -8,
+    "down": {
+      "menu_text": "Climb down onto the vehicle here.",
+      "confirm_text": "Climb down onto the vehicle?",
+      "msg_after": "You climb down onto the vehicle.",
+      "max_height": 1
+    },
+    "condition": { "type": "veh", "flag": "INITIAL_PART" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "furn_CLIMBABLE",
+    "//": "eg: fences, downspouts",
+    "copy-from": "generic_improvised",
+    "down": { "menu_text": "Climb down %s here.", "confirm_text": "Climb down %s?", "msg_after": "You climb down." },
+    "condition": { "type": "ter_furn", "flag": "CLIMBABLE" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "furn_CLIMB_SIMPLE",
+    "//": "eg: sandbag walls, earthbag walls.  Flag is for furniture where climbing 'never fails'.",
+    "copy-from": "generic_half_z_level",
+    "down": {
+      "menu_text": "Clamber down onto %s here.",
+      "confirm_text": "Clamber down onto %s?",
+      "msg_after": "You clamber down onto %s."
+    },
+    "condition": { "type": "ter_furn", "flag": "CLIMB_SIMPLE" }
+  },
+  {
+    "type": "climbing_aid",
     "id": "furn_LADDER",
     "//": "currently applies to placeable stepladders, not constructed stair-like ladders",
-    "slip_chance_mod": -1000,
+    "copy-from": "generic_stepladder",
     "down": {
       "menu_text": "Climb down %s here.",
       "confirm_text": "Climb down %s?",
@@ -41,15 +127,61 @@
   },
   {
     "type": "climbing_aid",
-    "id": "item_grapnel",
-    "//": "deploy a grappling hook from inventory.  Already-placed hooks are not helpful at this time...",
-    "slip_chance_mod": -1000,
+    "id": "item_stepladder",
+    "//": "We can generalize the grappling hook mechanism to portable ladders, so why not?",
+    "copy-from": "generic_stepladder",
     "down": {
-      "menu_text": "Attach your grappling hook to climb down.",
+      "menu_text": "Place your wooden stepladder below and climb down.",
+      "menu_cant": "Can't place your stepladder (needs open space one story below).",
+      "menu_hotkey": "l",
+      "confirm_text": "Climb down with your stepladder?",
+      "msg_after": "You lower the ladder into place and climb down.",
+      "//": "This removes a stepladder from inventory and places it on the ground below.",
+      "max_height": 1,
+      "allow_remaining_height": false,
+      "deploy_furn": "f_ladder",
+      "easy_climb_back_up": 1
+    },
+    "condition": { "type": "item", "flag": "stepladder", "uses": 1 }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "item_aluminum_stepladder",
+    "//": "Variant of the wooden stepladder.",
+    "copy-from": "item_stepladder",
+    "down": {
+      "menu_text": "Place your aluminum stepladder below and climb down.",
+      "menu_cant": "Can't place your stepladder (needs open space one story below).",
+      "menu_hotkey": "l",
+      "confirm_text": "Climb down with your stepladder?",
+      "deploy_furn": "f_aluminum_stepladder"
+    },
+    "condition": { "type": "item", "flag": "aluminum_stepladder", "uses": 1 }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "furn_ROPE",
+    "//": "currently based on DIFFICULT_Z flag, but a ROPE flag would be appropriate in the future.",
+    "copy-from": "generic_rappel",
+    "down": {
+      "menu_text": "Rappel down with the %s here.",
+      "confirm_text": "Rappel down with the %s?",
+      "msg_before": "You grasp the rope firmly and rappel down.",
+      "max_height": 1
+    },
+    "condition": { "type": "ter_furn", "flag": "DIFFICULT_Z" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "item_grapnel",
+    "//": "deploy a grappling hook from inventory.  Already-placed hooks instead use furn_ROPE.",
+    "copy-from": "generic_rappel",
+    "down": {
+      "menu_text": "Attach your grappling hook and rappel down.",
       "menu_cant": "Can't attach your grappling hook (something is in the way).",
       "menu_hotkey": "g",
-      "confirm_text": "Use your grappling hook to climb down?",
-      "msg_before": "You tie the rope around your waist and begin to climb down.",
+      "confirm_text": "Use your grappling hook to rappel down?",
+      "msg_before": "You tie the rope around your waist and begin to rappel down.",
       "//": "Grappling hook is 30 ft (ie, 2 levels) but we don't currently have proper furniture for that.",
       "max_height": 1,
       "deploy_furn": "f_rope_up",
@@ -61,7 +193,7 @@
     "type": "climbing_aid",
     "id": "ability_WALL_CLING",
     "//": "Allows players to safely climb up/down or hold position against a wall.",
-    "slip_chance_mod": -1000,
+    "copy-from": "generic_superpower",
     "down": {
       "menu_text": "Crawl down the wall with your sticky pads.",
       "confirm_text": "Crawl down the wall?",
@@ -75,7 +207,7 @@
     "type": "climbing_aid",
     "id": "ability_WEB_RAPPEL",
     "//": "Extremely safe descent regardless of height by spinning webs.",
-    "slip_chance_mod": -1000,
+    "copy-from": "generic_superpower",
     "down": {
       "menu_text": "Spin your webs to descend.",
       "menu_cant": "Can't spin your webs (something is in the way).",
@@ -88,5 +220,80 @@
       "easy_climb_back_up": 999
     },
     "condition": { "type": "trait", "flag": "WEB_RAPPEL" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_INSECT_ARMS_OK",
+    "//": "Four insectoid arms makes climbing quite easy.",
+    "copy-from": "generic_superpower",
+    "down": {
+      "menu_text": "Crawl down using all your arms.",
+      "confirm_text": "Crawl down?",
+      "msg_after": "You crawl down using all your arms.",
+      "max_height": 2
+    },
+    "condition": { "type": "trait", "flag": "INSECT_ARMS_OK" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_VINES2",
+    "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES2, keeping.",
+    "copy-from": "generic_superpower",
+    "down": {
+      "menu_text": "Climb down using your vines.",
+      "confirm_text": "Use your vines to descend?",
+      "msg_after": "You gingerly descend using your vines.",
+      "max_height": 1
+    },
+    "condition": { "type": "trait", "flag": "VINES2" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_VINES2_deploy",
+    "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES2, detaching.",
+    "copy-from": "generic_superpower",
+    "down": {
+      "menu_text": "Detach a vine so you can climb back up (<color_yellow>this will hurt</color>).",
+      "menu_cant": "Can't detach a vine (something is in the way).",
+      "menu_hotkey": "v",
+      "confirm_text": "Detach a vine to descend?",
+      "msg_after": "You descend on your vines, though leaving a part of you behind stings.",
+      "max_height": 1,
+      "cost": { "pain": 5, "damage": 5, "kcal": 87, "thirst": 10 },
+      "deploy_furn": "f_vine_up",
+      "easy_climb_back_up": 1
+    },
+    "condition": { "type": "trait", "flag": "VINES2" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_VINES3",
+    "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES3, keeping.",
+    "copy-from": "generic_superpower",
+    "down": {
+      "menu_text": "Climb down using your vines.",
+      "confirm_text": "Use your vines to descend?",
+      "msg_after": "You effortlessly descend using your vines.",
+      "max_height": 1
+    },
+    "condition": { "type": "trait", "flag": "VINES3" }
+  },
+  {
+    "type": "climbing_aid",
+    "id": "ability_VINES3_deploy",
+    "//": "Vines 2-3 gives the option to leave a vine behind or not.  This is VINES3, detaching.",
+    "copy-from": "generic_superpower",
+    "down": {
+      "menu_text": "Detach a vine so you can climb back up (this is harmless).",
+      "menu_cant": "Can't detach a vine (something is in the way).",
+      "menu_hotkey": "v",
+      "confirm_text": "Detach a vine to descend?",
+      "msg_after": "You effortlessly lower yourself and leave a vine rooted for future use.",
+      "max_height": 1,
+      "cost": { "kcal": 87, "thirst": 10 },
+      "deploy_furn": "f_vine_up",
+      "easy_climb_back_up": 1
+    },
+    "condition": { "type": "trait", "flag": "VINES3" }
   }
 ]

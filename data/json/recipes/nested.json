@@ -2486,6 +2486,9 @@
       "h20survivor_jumpsuit",
       "xs_h20survivor_jumpsuit",
       "xl_h20survivor_jumpsuit",
+      "h20survivor_jumpsuit_light",
+      "xs_h20survivor_jumpsuit_light",
+      "xl_h20survivor_jumpsuit_light",
       "thick_h20survivor_jumpsuit",
       "xs_thick_h20survivor_jumpsuit",
       "xl_thick_h20survivor_jumpsuit"
@@ -2720,7 +2723,17 @@
     "name": "survivor wetsuit hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from water.",
     "skill_used": "tailor",
-    "nested_category_data": [ "hood_h20survivor" ],
+    "nested_category_data": [
+      "hood_h20survivor",
+      "xs_hood_h20survivor",
+      "xl_hood_h20survivor",
+      "hood_h20survivor_light",
+      "xs_hood_h20survivor_light",
+      "xl_hood_h20survivor_light",
+      "hood_h20survivor_thick",
+      "xs_hood_h20survivor_thick",
+      "xl_hood_h20survivor_thick"
+    ],
     "difficulty": 7
   },
   {
@@ -3162,7 +3175,17 @@
     "name": "survivor wetsuit gloves",
     "description": "Recipes related to constructing various sizes of survivor wetsuit gloves.",
     "skill_used": "tailor",
-    "nested_category_data": [ "gloves_h20survivor" ],
+    "nested_category_data": [
+      "gloves_h20survivor",
+      "xs_gloves_h20survivor",
+      "xl_gloves_h20survivor",
+      "gloves_h20survivor_light",
+      "xs_gloves_h20survivor_light",
+      "xl_gloves_h20survivor_light",
+      "gloves_h20survivor_thick",
+      "xs_gloves_h20survivor_thick",
+      "xl_gloves_h20survivor_thick"
+    ],
     "difficulty": 7
   },
   {
@@ -3628,7 +3651,17 @@
     "name": "survivor wetsuit boots",
     "description": "Recipes related to constructing various sizes of survivor wetsuit boots.",
     "skill_used": "tailor",
-    "nested_category_data": [ "boots_h20survivor" ],
+    "nested_category_data": [
+      "boots_h20survivor",
+      "xs_boots_h20survivor",
+      "xl_boots_h20survivor",
+      "boots_h20survivor_light",
+      "xs_boots_h20survivor_light",
+      "xl_boots_h20survivor_light",
+      "boots_h20survivor_thick",
+      "xs_boots_h20survivor_thick",
+      "xl_boots_h20survivor_thick"
+    ],
     "difficulty": 5
   },
   {

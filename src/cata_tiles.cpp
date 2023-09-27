@@ -3231,6 +3231,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ||
                curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+               curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
                curr_ter.movecost == 0 ) {
         col = curr_ter.color();
     } else {
