@@ -99,7 +99,7 @@
       "type": "transform",
       "msg": "You wrap your %s around your head.",
       "target": "patchwork_scarf_headwrap",
-      "menu_text": "Wrap around your head"
+      "menu_text": "Wrap head"
     },
     "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
     "warmth": 10,
@@ -236,7 +236,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You wrap your %s around your head.",
-      "target": "patchwork_scarf_headwrap",
+      "target": "knit_scarf_headwrap",
       "menu_text": "Wrap head"
     },
     "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
