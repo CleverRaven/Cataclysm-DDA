@@ -201,6 +201,7 @@
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       { "item": "goggles_nv", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "goggles_ir", "prob": 2, "charges": [ 0, 100 ] },
       [ "hand_crank_charger", 15 ],
       { "item": "handflare", "prob": 20, "charges": 300 },
       [ "hatchet", 10 ],
