@@ -7339,8 +7339,7 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
     const furn_id target_furn = furn( target_p );
     if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
                                   !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
-        const int target_furn_coverage = target_furn->coverage;
-        ledge_coverage -= target_furn_coverage > 0 ? target_furn_coverage : 50 ;
+        ledge_coverage -= target_furn->coverage;
     }
 
     return ledge_coverage >= 0 ? ledge_coverage : 0;
