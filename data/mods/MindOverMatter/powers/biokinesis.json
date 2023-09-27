@@ -553,7 +553,9 @@
       "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "base_casting_time": 75,
     "final_casting_time": 15,
