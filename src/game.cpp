@@ -5215,7 +5215,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( monster( mt->id ), target_point ) &&
-            ( open_air_allowed || get_map().has_floor( target_point ) ) &&
+            ( open_air_allowed || get_map().has_floor_or_water( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
             ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
@@ -5236,7 +5236,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_npc( target_point ) &&
-            ( open_air_allowed || get_map().has_floor( target_point ) ) &&
+            ( open_air_allowed || get_map().has_floor_or_water( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
             ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
@@ -11104,7 +11104,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
     const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
-    const bool has_floor = m.has_floor( fdest );
+    const bool has_floor = m.has_floor_or_water( fdest );
     creature_tracker &creatures = get_creature_tracker();
     bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
                            m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fdest ) ||
@@ -11344,7 +11344,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
 
-    if( !m.has_floor( fdest ) && !m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) {
+    if( !m.has_floor_or_water( fdest ) && !m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) {
         std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
@@ -11813,7 +11813,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() ) {
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
