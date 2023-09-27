@@ -134,7 +134,7 @@ struct item_search_data {
         category = item_category_id( jo.get_string( "category", "" ) );
         material = material_id( jo.get_string( "material", "" ) );
         for( std::string flag : jo.get_string_array( "flags" ) ) {
-            flags.emplace_back( flag_id( flag ) );
+            flags.emplace_back( flag );
         }
         worn_only = jo.get_bool( "worn_only", false );
         wielded_only = jo.get_bool( "wielded_only", false );
@@ -4587,7 +4587,7 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     std::vector <item_search_data> datum;
-    for( const JsonObject &search_data_jo : jo.get_array( "search_data" ) ) {
+    for( const JsonValue &search_data_jo : jo.get_array( "search_data" ) ) {
         datum.emplace_back( search_data_jo );
     }
 
