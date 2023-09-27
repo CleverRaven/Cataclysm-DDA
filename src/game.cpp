@@ -13373,7 +13373,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         } else if( damage_estimate >= 5 ) {
             hint_fall_damage = _( "Falling <color_red>would hurt</color>." );
         } else {
-            hint_fall_damage = _( "Falling <color_green>wouldn't hurt much<color>." );
+            hint_fall_damage = _( "Falling <color_green>wouldn't hurt much</color>." );
         }
         query += "\n";
         query += hint_fall_damage;
