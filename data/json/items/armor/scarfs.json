@@ -320,7 +320,7 @@
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
-    "name": { "str": "knit scarf (headwrap)", "str_pl": "knit scarf (headwrap)" },
+    "name": { "str": "long knit scarf (headwrap)", "str_pl": "long knit scarf (headwrap)" },
     "description": "A long knitted cotton scarf, worn over the head and mouth for warmth.  Use it to wear it around your mouth.",
     "price": 3000,
     "price_postapoc": 100,
