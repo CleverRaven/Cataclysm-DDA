@@ -212,7 +212,7 @@
     "id": "TALK_GODCO_chef_k&j_conflict",
     "type": "talk_topic",
     "dynamic_line": [
-      "Katherine is a bit overprotective of him, and ever since <the_cataclysm>, she's become extremely worried for his safety.  He wants more independance, seein' as how he's grown now, but she won't leave him be.  She tells me that someone needs to keep an eye on him, so she took it upon herself to do so.  I think she has the best intentions at heart, I know she loves him dearly, but the boy needs to figure out some things on his own."
+      "Katherine is a bit overprotective of him, and ever since <the_cataclysm>, she's become extremely worried for his safety.  He wants more independence, seein' as how he's grown now, but she won't leave him be.  She tells me that someone needs to keep an eye on him, so she took it upon herself to do so.  I think she has the best intentions at heart, I know she loves him dearly, but the boy needs to figure out some things on his own."
     ],
     "responses": [
       { "text": "Could you tell me more about Katherine?", "topic": "TALK_GODCO_chef_katherine" },
