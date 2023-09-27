@@ -170,6 +170,11 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
+int vehicle_part::damage_level() const
+{
+    return base.damage_level();
+}
+
 bool vehicle_part::is_repairable() const
 {
     return !is_broken() && base.repairable_levels() > 0 && info().is_repairable();
