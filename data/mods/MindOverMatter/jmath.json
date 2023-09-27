@@ -15,7 +15,7 @@
     "type": "jmath_function",
     "id": "matrix_awakening_odds",
     "num_args": 1,
-    "return": "(100 - (100 * (e ^ (_0 / -2) ) ) )"
+    "return": "(100 - (100 * (e ^ (_0 / -1.7) ) ) )"
   },
   {
     "type": "jmath_function",
