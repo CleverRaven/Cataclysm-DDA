@@ -13412,7 +13412,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     if( !aid.down.confirm_text.empty() ) {
         query_prompt = aid.down.confirm_text.translated();
     }
-    query += "\n";
+    query += "\n\n";
     query += query_prompt;
 
     add_msg_debug( debugmode::DF_GAME, "Generated climb_down prompt for the player." );
