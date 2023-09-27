@@ -1744,4 +1744,3 @@ Gun fault flags:
 - ```JAMMED_GUN``` Stops burst fire. Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 - ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
-

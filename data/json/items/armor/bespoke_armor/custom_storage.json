@@ -10,7 +10,7 @@
     "price_postapoc": 3250,
     "material": [ "leather", "canvas" ],
     "symbol": "[",
-    "looks_like": "rucksack",
+    "looks_like": "duffelbag",
     "color": "dark_gray",
     "pocket_data": [
       {
@@ -73,14 +73,14 @@
     "id": "survivor_dry_duffelbag",
     "type": "ARMOR",
     "name": { "str": "survivor dry duffel bag" },
-    "description": "A custom-built heavy watertight duffel bag.  Durable and carefully crafted to hold as much stuff as possible.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
+    "description": "A modified large watertight duffel bag.  Durable and carefully crafted to hold as much stuff as possible.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
     "weight": "1400 g",
     "volume": "10800 ml",
     "price": 30000,
     "price_postapoc": 3500,
     "material": [ "plastic" ],
     "symbol": "[",
-    "looks_like": "rucksack",
+    "looks_like": "duffelbag",
     "color": "blue",
     "pocket_data": [
       {
@@ -137,7 +137,7 @@
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 10,
@@ -366,14 +366,14 @@
     "type": "ARMOR",
     "//": "custom-made, but the design is inspired by GVANCA Waterproof Dry Bag Backpack and Lee Valley Waterproof Dry Bag Backpack",
     "name": { "str": "survivor dry bag" },
-    "description": "A custom-built lightweight watertight backpack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "description": "A modified lightweight watertight backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "620 g",
     "volume": "1850 ml",
     "price": 30000,
     "price_postapoc": 1500,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
-    "looks_like": "backpack",
+    "looks_like": "dry_bag",
     "color": "blue",
     "pocket_data": [
       {
@@ -446,7 +446,7 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,

@@ -117,7 +117,7 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
 
-static const climbing_aid_id climbing_aid_default( "default" );
+static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
@@ -1518,7 +1518,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         move_cost = 100;
     } else {
         move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
-        if( g->slip_down( game::climb_maneuver::over_obstacle, climbing_aid_default ) ) {
+        if( g->slip_down( game::climb_maneuver::over_obstacle, climbing_aid_furn_CLIMBABLE ) ) {
             you.moves -= move_cost;
             return;
         }
