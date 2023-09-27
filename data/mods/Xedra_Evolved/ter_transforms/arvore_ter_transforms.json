@@ -186,5 +186,11 @@
         "message": "The ground churns as thick, tangled brambles burst forth and grow in moments."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_fungicide",
+    "terrain": [ { "result": "t_dirt_barren", "valid_flags": [ "FUNGUS" ], "message": "The fungus withers and dies!." } ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "FUNGUS" ], "message": "The fungus withers and dies!" } ]
   }
 ]

@@ -83,7 +83,8 @@
     "description": "A spirit of leaf and bark.",
     "anger_relations": [ [ "ARVORE", -20 ], [ "HOMULLUS", 20 ] ],
     "allowed_category": [ "ARVORE" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "flags": [ "TREE_COMMUNION_PLUS" ]
   },
   {
     "type": "mutation",
@@ -317,5 +318,17 @@
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
     "mana_modifier": 2000
+  },
+  {
+    "type": "mutation",
+    "id": "WIND_BLOWS_WILLOW_BENDS",
+    "name": { "str": "The Wind Blows, the Willow Bends" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
+    "category": [ "ARVORE", "SYLPH" ],
+    "leads_to": [ "ARVORE_DEX_BONUS" ],
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
   }
 ]

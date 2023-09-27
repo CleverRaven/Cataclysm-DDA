@@ -1,27 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_GAIN_COMMUNE_OAKS",
-    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
-    "effect": [
-      { "u_message": "The trees whisper their secrets to you.  [Check mutations to activate]", "type": "good" },
-      { "u_add_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
-    ],
-    "false_effect": [
-      {
-        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
-        "type": "good"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LOSE_COMMUNE_OAKS",
-    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
@@ -123,6 +102,33 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TOXIC_FLESH_ON",
+    "effect": [ { "u_add_trait": "TOXICFLESH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TOXIC_FLESH_OFF",
+    "effect": [ { "u_lose_trait": "TOXICFLESH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
+    "condition": {
+      "or": [
+        { "u_at_om_location": "forest_thick" },
+        { "u_at_om_location": "forest" },
+        { "u_at_om_location": "forest_water" },
+        { "u_at_om_location": "arvore_genius_loci_NW" },
+        { "u_at_om_location": "arvore_genius_loci_NE" },
+        { "u_at_om_location": "arvore_genius_loci_SW" },
+        { "u_at_om_location": "arvore_genius_loci_SE" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "arvore_traverse_the_wilds_real" }, "targeted": true } ],
+    "false_effect": { "u_message": "You need to be in a forest or swamp to traverse the wilds.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
@@ -383,5 +389,57 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_FORM_ON",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_sand" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_grave" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_moss" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "CHLOROMORPH" },
+      { "u_add_trait": "LEAVES3" },
+      { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" },
+      { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 100 }
+    ],
+    "false_effect": [ { "u_message": "You must be outside on diggable ground to become one with the forest.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_FORM_OFF",
+    "effect": [
+      { "u_lose_trait": "CHLOROMORPH" },
+      { "u_lose_trait": "LEAVES3" },
+      { "u_lose_trait": "ARVORE_TREE_FORM_TRAITS" },
+      { "u_lose_effect": "effect_arvore_tree_immobility" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_FORM_IMMOBILE",
+    "effect": [ { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 100 } ]
   }
 ]
