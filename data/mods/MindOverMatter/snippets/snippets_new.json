@@ -121,12 +121,20 @@
       { "name": "post-it", "id": "lab_postit_psi_48", "text": "Can't block them out anymore" },
       { "name": "post-it", "id": "lab_postit_psi_49", "text": "Can they go through halfway?" },
       { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
-      { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" }
+      { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" },
+      { "name": "post-it", "id": "lab_postit_psi_52", "text": "It's like a shadow and it won't go away" },
+      { "name": "post-it", "id": "lab_postit_psi_53", "text": "SMOKE USHER found something.  It's everywhere.  It's in us" },
+      { "name": "post-it", "id": "lab_postit_psi_54", "text": "Zombies can't awaken.  What a surprise" },
+      { "name": "post-it", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
+      { "name": "post-it", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
+      { "name": "post-it", "id": "lab_postit_psi_57", "text": "Eyes, always watching from outside" },
+      { "name": "post-it", "id": "lab_postit_psi_58", "text": "We're definitely sailing the black seas of infinity" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_biokinesis",
+    "//": "Phavian designation for biokinetic study is BURNT NOVEMBER.  Designation for use in combat is VERDANT HAND",
     "text": [
       {
         "name": "AAR ID# V78-08",
@@ -146,18 +154,24 @@
       {
         "name": "incident report: 385924",
         "id": "lab_file_biokinesis_04",
-        "text": "Upon leaving for the evening, Dr. Erikson neglected to seal cage #3, allowing one of experimental mice (#748562) to gain access to the matrix crystal supplies.  One crystal discharged, affecting 748562 and apparently causing an awakening.  748562 escaped the room, squeezing under the door, and is currently loose within the facility.\n\nDr. Erickson has been placed on administrative leave pending a full investigation and new procedures for storing matrix crystals are currently being implemented.  A search for 748562 is still underway."
+        "text": "Upon leaving for the evening, Dr. Erikson neglected to seal cage #3, allowing one of the experimental mice (#748562) to gain access to the matrix crystal supplies.  One crystal discharged, affecting 748562 and apparently causing an awakening.  748562 escaped the room, squeezing under the door, and is currently loose within the facility.\n\nDr. Erickson has been placed on administrative leave pending a full investigation and new procedures for storing matrix crystals are currently being implemented.  A search for 748562 is still underway."
       },
       {
         "name": "torn notebook page",
         "id": "lab_file_biokinesis_05",
-        "text": "wanted me to keep a logbook of my daily exercise but I don't understand the point.  I run, I lift, I sleep, that's about all these have me do here.  What, they want \"5:40 a.m.: 30 reps 250 lbs, run 20 minutes, 100 burpees (10 sets)\" blah blah who cares?  That shit doesn't matter.  We're all trapped here and things are going to hell and we got some kind of poison in our bodies that's going to bring us back when we die so we can eat brains.\n\nWell, fine, here's my log: 6:05 a.m.: 50 reps 400 lbs, sprint 10 minutes, 200 pull-ups, triple sommersault from a standing start.  Put me in the Olympics right now."
+        "text": "They wanted me to keep a logbook of my daily exercise but I don't understand the point.  I run, I lift, I sleep, that's about all these have me do here.  What, they want \"5:40 a.m.: 30 reps 250 lbs, run 20 minutes, 100 burpees (10 sets)\" blah blah who cares?  That shit doesn't matter.  We're all trapped here and things are going to hell and we got some kind of poison in our bodies that's going to bring us back when we die so we can eat brains.\n\nWell, fine, here's my log: 6:05 a.m.: 50 reps 400 lbs, sprint 10 minutes, 200 pull-ups, triple sommersault from a standing start.  Put me in the Olympics right now."
+      },
+      {
+        "name": "The VERDANT HAND combat protocols",
+        "id": "lab_file_biokinesis_06",
+        "text": "They demanded that I include that title on this report even though it's pretentious as hell.  This isn't some superweapon that will change the face of modern warfare, it's just a better form of hand-to-hand combat.  They can't dodge bullets.  They can't punch through brick walls.  They can't do that movie thing where the hero hits a bad guy and the bad guy goes flying twenty feet.  They're just faster and stronger and hit harder, all good things but they aren't going to beat someone with a gun.  There's a reason we invented guns and why functional martial arts training is about defending yourself and getting away, not about going on the offense.\n\nSo is it worth training people?  That's the wrong question.  This isn't a codified martial art, it's just using dimensional metaphysics to enhance existing methods of combat.  A VERDANT HAND candidate will be better at Muay Thai than anyone who hasn't gone through BURNT NOVEMBER but they still need the actual martial arts training.  This is just another tool.  I'm not sure why there's so much focus on this, be honest.  With the cost of retrieving materials, surely we could spend that money better elsewhere."
       }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_telepathy",
+    "//": "Phavian designation for telepathic study is GRAY DAWN",
     "text": [
       {
         "name": "testing report C3-6204",
@@ -189,17 +203,29 @@
   {
     "type": "snippet",
     "category": "lab_file_telekinesis",
+    "//": "Phavian designation for telekineic study for use in combat is ONYX LIGHTNING",
     "text": [
       {
         "name": "It's all just motion",
         "id": "lab_file_telekinesis_01",
-        "text": "Why is there a distinction between pyrokinesis and telekinesis at all?  Fire isn't a fundamental element, it's the result of heat which is the result of molecular motion.  There's no conceptual reason why a pyrokinetic couldn't make all the molecules of an object move in a particular direction, producing motion of the entire object, or a telekinetic couldn't produce a more chaotic motion that resulted in the object's energy increasing.  Furthermore, in no test has a telekinetic been able to move part of an object unless that part is designe for motion; pulling a lever is possible, but breaking a plate in half is not.  And a pyrokinetic cannot apply the reverse and slow down an object's molecules to reduce heat unless that object is on fire.\n\nMy theory is that it's all psychological.  We've all grown up with modern culture and stories about what psychics are \"supposed\" to be capable of, and so the matrix crystals and Netherum mathematics shape the candidates' abilities toward those pre-determined pathways.  If we could get a SMOKE USHER mathematician from an uncontacted tribe, maybe they'd be able to induce diseases in their targets or steal or their soul, in accordance with that tribe's belief practices about supernatural powers.  But since our candidates come from a culture where pyrokinesis and telekinesis are separate things and geokinesis or osteokinesis are very rare in fiction, the former result from awakenings and the latter do not.\n\nI would like to formally request a wider variety of cultural backgrounds for our project candidates to test this theory."
+        "text": "Why is there a distinction between pyrokinesis and telekinesis at all?  Fire isn't a fundamental element, it's the result of heat which is the result of molecular motion.  There's no conceptual reason why a pyrokinetic couldn't make all the molecules of an object move in a particular direction, producing motion of the entire object, or a telekinetic couldn't produce a more chaotic motion that resulted in the object's energy increasing.  Furthermore, in no test has a telekinetic been able to move part of an object unless that part is designed for motion; pulling a lever is possible, but breaking a plate in half is not.  And a pyrokinetic cannot apply the reverse and slow down an object's molecules to reduce heat unless that object is on fire.\n\nMy theory is that it's all psychological.  We've all grown up with modern culture and stories about what psychics are \"supposed\" to be capable of, and so the matrix crystals and Netherum mathematics shape the candidates' abilities toward those pre-determined pathways.  If we could get a SMOKE USHER mathematician from an uncontacted tribe, maybe they'd be able to induce diseases in their targets or steal their soul, in accordance with that tribe's beliefs and practices about supernatural powers.  But since our candidates come from a culture where pyrokinesis and telekinesis are separate things and geokinesis or osteokinesis are very rare to nonexistant in fiction, the former result from awakenings and the latter do not.\n\nI would like to formally request a wider variety of cultural backgrounds for our project candidates to test this theory."
+      },
+      {
+        "name": "re: the Third",
+        "id": "lab_file_telekinesis_02",
+        "text": "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha"
+      },
+      {
+        "name": "re: the Third",
+        "id": "lab_file_telekinesis_03",
+        "text": ".00: No penetration\n9mm: No penetration\n10mm: No penetration\n.357: No penetration\n.22: No penetration\n.308: No penetration\n.30-06: No penetration\n.50: Mathematician refused to continue with experiment despite repeated entreaties from supervisors."
       }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_vitakinesis",
+    "//": "Phavian designation for vitakinetic study is SMOKE USHER",
     "text": [
       {
         "name": "SMOKE USHER anti-agapic properties (revised estimate)",
@@ -208,6 +234,7 @@
       },
       {
         "name": "Compound XV471 update",
+        "//": "This is a refernce to Panaceus testing",
         "id": "lab_file_vitakinesis_02",
         "text": "Application of matrix technology and XE037 samples together with cutting-edge medical advances blah blah you know the drill.  Anyway, we sourced the samples, we synthesized the compound, we did the tests.  It's magic.  I know that sounds dumb but it's literally magic.  Animal testing showed complete remission of every cancer they developed.  \"Alright, Eric,\" you say, \"that's fine but cancer testing in animals is b̵u̵l̵l̵s̵h̵i̵t̵\"clinically irrelevant due to to high real-world failure rates in humans\".  Sure, yes, you're right.  But we sourced some enthusiastic voluntolds from XEDRA-12's stock and a couple of them had cancer they were planning on testing XE037 interactions with.  Well they aren't going to anymore because XV471 cleaned them right up.  Totally healthy.  Zero cancer.\n\nSubject B84 had cystic fibrosis and it's gone.  GONE.  Perfectly normal lungs.  Now what's that other than magic?\n\nYou want to get more funding for this, just authorize selling XV471 to some sick Russian oligarch for like $10 billion.  He gets cured and the money keeps flowing.  And honestly it needs to be that expensive with how much this stuff costs to produce.  We get the materials and process them and nine times out of ten it's just a sugar pill for no damn reason I can find.  But that tenth time, wow.\n\nShred this after you read it.  I don't need the director lecturing me about professionalism again."
       },
@@ -257,7 +284,7 @@
       {
         "name": "LV-429 Analysis",
         "id": "lab_file_matrix_research_04",
-        "text": "Human-portable laser weapons suffer from three major problems--high power draw preventing them from easily being transportable or usable in skirmish combat, long dwell times meaning that the operator must remain exposed to return fire in order to do anything more than blind the target, and common atmospheric conditions like dust or haze severely reducing the effectiveness of the beam.  The LV-429 solves all three of these problems.  Before the primary laser is fired, a secondary netherum mathemathical beam clears the path of the laser, removing atmospheric contaminants without affecting the target.  The laser is fired in a series of short pulses, each much higher intensity than a standard laser, eliminating the need for extensive dwell time.  Finally, the power source contains a small ND-cell, capable of powering the weapon effectively indefinitely.\n\nOne problem remains to be solved.  While the weapon is capable of providing enough power for every shot in succession, matrix technology has not yet provided us with more efficient battery storage.  This means that the ND-cell must charge existing batteries, allowing the LV-429 to be fired only once every few seconds, obviously too low a rate of fire for any live engagement.  Further enhancements in power storage technology will be necessary before proper deployment."
+        "text": "Human-portable laser weapons suffer from three major problems--high power draw preventing them from easily being transportable or usable in skirmish combat, long dwell times meaning that the operator must remain exposed to return fire in order to do anything more than blind the target, and common atmospheric conditions like dust or haze severely reducing the effectiveness of the beam.  The LV-429 solves all three of these problems.  Before the primary laser is fired, a secondary netherum mathemathical beam clears the path of the laser, removing atmospheric contaminants without affecting the target.  The laser is fired in a series of short pulses, each much higher intensity than a standard laser, eliminating the need for extensive dwell time.  Finally, the power source contains a small ND-cell, capable of powering the weapon effectively indefinitely.\n\nOne problem remains to be solved.  While the weapon is capable of providing enough power for every shot in succession, matrix technology has not yet provided us with more efficient battery storage.  This means that the ND-cell must charge existing batteries, allowing the LV-429 to be fired only once every few seconds, obviously too low a rate of fire for any live engagement.  An attempt to overcome this limitation by including processed matrix crystals for additional energy production led to unnacceptable heat levels, reending the weapon unusable after less than a minute of sustained fire and, in one case, leading to the detonation of the prototype and the death of the tester.  Further enhancements in power storage technology will be necessary before proper deployment."
       },
       {
         "name": "XE037 or whatever",
@@ -267,6 +294,7 @@
       {
         "name": "Re: COBALT RAIN",
         "id": "lab_file_matrix_research_06",
+        "//": "XE843 here is a Gracken",
         "text": "As my initial report indicated, COBALT RAIN has passed all the tests we've performed.  In fact, it exceeded our production predictions by over 15%.  It's not actually a perpetual motion machine but it might as well be from the end-user's point of view.  It produces energy with no fuel required, at a constant rate, with no waste byproducts and very little heat.\n\nHowever--there's always a however in this line of work--it has the significant disadvantage that prevents me from recommending it for deployment at this time.  COBALT RAIN works through a microportal to the Netherum, siphoning energy through without the possibility of hostile incursions.  During normal operation, this remains true, but if the device is damaged it can destabilize containment and the portal can rapidly expand without warning.  Just last week we had an incident during testing, and while the engineers were able to get the device shut down quickly, something still came through the portal.  We're lucky that it doesn't seem hostile or really even interested in us.  Despite its appearance (see attached), XE843 is indifferent to the presence or absence of others, light levels, food, or noise.  It just wanders around its containment cell.  We've contacted XEDRA-40 to ask them if they want to take a look at it. I'll forward the reply to you when we get it.\n\nWork to overcome this significant drawback is ongoing.  At the moment, however, COBALT RAIN should remain in the prototype stage.\n\nAnita Morales\nSenior Researcher"
       }
     ]
@@ -289,6 +317,11 @@
         "name": "Re: your proposal",
         "id": "lab_file_phavian_memo_03",
         "text": "Anna, I know things are stressful, especially with some of the irregularities in staff behavior we've been witnessing, and under normal circumstances I would never countenance your proposal.  I have to admit, though, that I was extremely disturbed by what I've heard of the behavior of several VERDANT HAND mathematicians, as well as Dr. Holland and Dr. Almeida's recent public argument.  As such, for the duration of the emergency, I think that your \"psi-cop\" proposal is a good one.  I'll draft a memo immediately to Dr. Nayak to organize the GREY DAWN mathematicians toward keeping order and maintaining morale.  Hopefully, this will only be the matter of a few weeks before Dr. Sidhu and his team can find a solution.  They already found one way to remove XE037 contamination, so hope remains.\n\nSincerely,\nHarold Liu"
+      },
+      {
+        "name": "Introductory materials",
+        "id": "lab_file_phavian_memo_04",
+        "text": "Colleague,\n\nGreetings.  You have selected, or have been selected, to participate in XEDRA-23, or as we call it, Project PHAVIAN.  As a member of XEDRA, you will already have seen many extraordinary things in the course of your work, things which you previously might have scoffed at or dismissed out of hand.  You will see more extraordinary things in the course of your work here, things that even those at other XEDRA divisions would have thought impossible a few years ago.  Phase experiments expand the range of human exploration, but matrix technology unlocks human potential to a degree never before seen.  You will be a part of that endeavor, advancing human knowledge and ensuring the United States of America's place at the forefront of scientific advancement throughout the 21st century.\n\nThere is an ancient proverb that is often translated as \"A single spark can start a prairie fire.\"  Our work here will be the light that will lead humanity into a new age.  I look forward to working with you.\n\nHarold Liu\nDirector, Project PHAVIAN"
       }
     ]
   }
