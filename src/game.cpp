@@ -216,6 +216,7 @@ static const character_modifier_id character_modifier_slip_prevent_mod( "slip_pr
 
 static const climbing_aid_id climbing_aid_ability_WALL_CLING( "ability_WALL_CLING" );
 static const climbing_aid_id climbing_aid_default( "default" );
+static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -11800,7 +11801,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            climbing_aid = climbing_aid_default;
+            climbing_aid = climbing_aid_furn_CLIMBABLE;
             u.set_activity_level( EXTRA_EXERCISE );
             move_cost = cost == 0 ? 1000 : cost + 500;
 
