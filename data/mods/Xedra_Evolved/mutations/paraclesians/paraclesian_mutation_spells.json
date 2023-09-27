@@ -63,5 +63,34 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1
+  },
+  {
+    "id": "paraclesian_spell_dodge_bonus",
+    "type": "SPELL",
+    "name": "The Wind Blows, the Willow Bends",
+    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
+    "shape": "blast",
+    "difficulty": 5,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 600,
+    "final_energy_cost": 400,
+    "energy_increment": -12,
+    "base_casting_time": 150
   }
 ]

@@ -128,7 +128,7 @@
     "id": "integrated_vegital_cuticle",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "vegital cuticle" },
+    "name": { "str": "vegetal cuticle" },
     "description": "A pliable but hefty layer of living plant matter impregnated with various waxy polymers.",
     "weight": "2 kg",
     "volume": "300 ml",
