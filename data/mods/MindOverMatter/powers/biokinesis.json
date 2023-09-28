@@ -518,10 +518,10 @@
     "final_energy_cost": 2250,
     "energy_increment": -125,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 100,
     "final_casting_time": 40,
@@ -550,10 +550,12 @@
     "final_energy_cost": 3500,
     "energy_increment": -175,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "base_casting_time": 75,
     "final_casting_time": 15,

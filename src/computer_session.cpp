@@ -238,7 +238,8 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     }
 
     you.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
-    int player_roll = hack_skill;
+    int player_roll = round( you.get_greater_skill_or_knowledge_level(
+                                 skill_computer ) ); //this relates to the success of the roll for hacking - the practical skill covers the time.
     ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
     if( you.int_cur < 8 && one_in( 2 ) ) {
         player_roll -= rng( 0, 8 - you.int_cur );

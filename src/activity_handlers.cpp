@@ -784,12 +784,12 @@ static int butchery_dissect_skill_level( Character &you, int tool_quality,
         float sk_total = 0;
         int sk_count = 0;
         for( const skill_id &sk : htype->get_harvest_skills() ) {
-            sk_total += you.get_skill_level( sk );
+            sk_total += you.get_average_skill_level( sk );
             sk_count++;
         }
         return round( ( sk_total + tool_quality ) / ( sk_count > 0 ? sk_count : 1 ) );
     }
-    return round( you.get_skill_level( skill_survival ) );
+    return round( you.get_average_skill_level( skill_survival ) );
 }
 
 static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
@@ -859,7 +859,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
 
     //all BUTCHERY types - FATAL FAILURE
     if( action != butcher_type::DISSECT &&
-        roll_butchery_dissect( round( you.get_skill_level( skill_survival ) ), you.dex_cur,
+        roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                tool_quality ) <= ( -15 ) && one_in( 2 ) ) {
         return false;
     }
@@ -1163,7 +1163,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
         for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            if( ( roll_butchery_dissect( round( you.get_skill_level( skill_survival ) ), you.dex_cur,
+            if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 you.add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
@@ -1305,7 +1305,8 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             }
             break;
         case butcher_type::FIELD_DRESS: {
-            bool success = roll_butchery_dissect( round( you->get_skill_level( skill_survival ) ), you->dex_cur,
+            bool success = roll_butchery_dissect( round( you->get_average_skill_level( skill_survival ) ),
+                                                  you->dex_cur,
                                                   you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
