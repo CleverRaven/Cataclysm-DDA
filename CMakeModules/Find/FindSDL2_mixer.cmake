@@ -114,12 +114,13 @@ endif()
 
 if(PKG_CONFIG_FOUND)
     message(STATUS "Searching for SDL_mixer deps libraries --")
-    pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
     if(TARGET SDL2_mixer::SDL2_mixer-static)
+        pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
         target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
             PkgConfig::FLAC
         )
     elseif(TARGET SDL2_mixer::SDL2_mixer)
+        pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
         target_link_libraries(SDL2_mixer::SDL2_mixer INTERFACE
             PkgConfig::FLAC
         )
