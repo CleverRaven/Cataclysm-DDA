@@ -199,6 +199,13 @@ bool monster::will_move_to( const tripoint &p ) const
         return false; // if a large critter, can't move through tight passages
     }
 
+    return true;
+}
+
+bool monster::know_danger_at( const tripoint &p ) const
+{
+    map &here = get_map();
+
     // Various avoiding behaviors.
 
     bool avoid_fire = has_flag( mon_flag_PATH_AVOID_FIRE );
@@ -308,7 +315,7 @@ bool monster::can_reach_to( const tripoint &p ) const
 
 bool monster::can_move_to( const tripoint &p ) const
 {
-    return can_reach_to( p ) && will_move_to( p );
+    return can_reach_to( p ) && will_move_to( p ) && know_danger_at( p );
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const

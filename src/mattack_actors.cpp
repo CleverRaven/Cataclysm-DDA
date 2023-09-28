@@ -82,6 +82,8 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
     optional( obj, was_loaded, "random_leap", random_leap, false );
+    optional( obj, was_loaded, "ignore_dest_terrain", ignore_dest_terrain, false );
+    optional( obj, was_loaded, "ignore_dest_danger", ignore_dest_danger, false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
@@ -167,9 +169,14 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
-        if( !z.will_move_to( candidate ) ) {
+        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
-                           "Candidate place that it doesn't want to enter, discarded" );
+                           "Candidate place it can't enter, discarded" );
+            continue;
+        }
+        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate with dangerous conditions, discarded" );
             continue;
         }
         candidates.emplace( candidate_dist, candidate );
