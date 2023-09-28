@@ -13374,7 +13374,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         } else if( damage_estimate >= 5 ) {
             hint_fall_damage = _( "Falling <color_red>would hurt</color>." );
         } else {
-            hint_fall_damage = _( "Falling <color_green>wouldn't hurt much<color>." );
+            hint_fall_damage = _( "Falling <color_green>wouldn't hurt much</color>." );
         }
         query += "\n";
         query += hint_fall_damage;
@@ -13413,7 +13413,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     if( !aid.down.confirm_text.empty() ) {
         query_prompt = aid.down.confirm_text.translated();
     }
-    query += "\n";
+    query += "\n\n";
     query += query_prompt;
 
     add_msg_debug( debugmode::DF_GAME, "Generated climb_down prompt for the player." );
