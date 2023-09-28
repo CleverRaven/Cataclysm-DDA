@@ -231,7 +231,8 @@ enum class vp_flag : uint32_t {
     carried_flag = 4,
     carrying_flag = 8,
     tracked_flag = 16, //carried vehicle part with tracking enabled
-    linked_flag = 32 //a cable is attached to this
+    linked_flag = 32, //a cable is attached to this
+    unsalvageable_flag = 64 //install components are unsalvageable
 };
 
 class turret_cpu
@@ -261,9 +262,13 @@ struct vehicle_part {
         vehicle_part();
         // constructs part with \p type and std::move()-ing \p base as part's base
         vehicle_part( const vpart_id &type, item &&base );
+        // constructs part with \p type and std::move()-ing \p base as part's base, installed_with as salvageable components
+        vehicle_part( const vpart_id &type, item &&base, std::vector<item> &installed_with );
 
         // gets reference to the current base item
         const item &get_base() const;
+        // Salvageable components
+        std::vector<item> get_salvageable() const;
         // set part base to \p new_base, std::move()-ing it
         void set_base( item &&new_base );
 
@@ -450,6 +455,8 @@ struct vehicle_part {
         int degradation() const;
         /** max damage of part base */
         int max_damage() const;
+        /** damage level of part base */
+        int damage_level() const;
         // @returns true if part can be repaired, accounting for part degradation
         bool is_repairable() const;
 
@@ -529,6 +536,8 @@ struct vehicle_part {
         std::vector<item> tools;
         // items of CARGO parts
         cata::colony<item> items;
+        // Salvageable components
+        std::vector<item> salvageable;
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();
@@ -1016,6 +1025,9 @@ class vehicle
         // install a part of type \p type at mount \p dp with \p base (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed
         int install_part( const point &dp, const vpart_id &type, item &&base );
+
+        int install_part( const point &dp, const vpart_id &type, item &&base,
+                          std::vector<item> &installed_with );
 
         // install the given part \p vp (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed

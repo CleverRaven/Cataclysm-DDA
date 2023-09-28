@@ -422,6 +422,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty
+- ```ROOTS2``` Gain enhanced effects from the Mycorrhizal Communion mutation.
+- ```ROOTS3``` Gain enhanced effects from the Mycorrhizal Communion mutation (slightly faster than ROOTS2).
 - ```SAPIOVORE``` Butcher humans without a morale penalty
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
 - ```SLUDGE_IMMUNE``` Critter is immune to sludge trail field (`fd_sludge`)
@@ -436,6 +438,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
+- ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
 - ```WATCH``` You always know what time it is.
