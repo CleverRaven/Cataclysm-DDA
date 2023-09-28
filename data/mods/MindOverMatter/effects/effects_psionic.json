@@ -783,9 +783,9 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_pyrokinetic_aoe_blast_immunity",
-    "name": [ "Hellfire Immunity" ],
-    "desc": [ "You are immune to the aftereffects of Hellfire." ],
+    "id": "effect_pyrokinetic_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are completely immune to fire." ],
     "apply_message": "",
     "rating": "good",
     "max_duration": "10 minutes",

@@ -636,7 +636,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
-    "effect_str": "effect_pyrokinetic_aoe_blast_immunity",
+    "effect_str": "effect_pyrokinetic_flame_immunity",
     "shape": "blast",
     "min_duration": 6000,
     "max_duration": 18000,
