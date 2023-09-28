@@ -330,7 +330,7 @@
     "player_display": false,
     "description": "Dummy mutation that keeps you from wearing prosthetics.",
     "changes_to": [ "NO_RIGHT_LEG" ],
-    "restricts_gear": [ "leg_stub_r" ]              
+    "restricts_gear": [ "leg_stub_r" ]
   },
   {
     "type": "mutation",
