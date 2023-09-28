@@ -279,7 +279,7 @@
     "move_cost": 82,
     "accuracy": 5,
     "//": "Feral melee skill + weapon's to hit, so 6-1=5",
-    "damage_max_instance": [ { "damage_type": "bash", "amount": 4 }, { "damage_type": "stab", "amount": 26 } ],
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 26 } ],
     "hit_dmg_u": "%1$s hits your %2$s with a knife!",
     "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a knife!",
     "miss_msg_u": "%1$s tries to hit you, but you dodge!",
