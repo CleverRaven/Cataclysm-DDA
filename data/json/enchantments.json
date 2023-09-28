@@ -47,11 +47,7 @@
     "type": "enchantment",
     "id": "ENCH_NO_LEFT_LEG",
     "condition": "ALWAYS",
-    "modified_bodyparts": [
-      { "lose": "leg_l" },
-      { "lose": "foot_l" },
-      { "gain": "leg_stub_l" }
-    ]
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_stub_l" } ]
   },
   {
     "type": "enchantment",
