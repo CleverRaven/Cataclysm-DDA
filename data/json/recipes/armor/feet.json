@@ -383,21 +383,152 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 6 ],
-    "time": "24 h",
+    "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "plastic_molding", 4 ], [ "fastener_small", 2 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 14 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 3 ],
+      [ "fastener_small", 6 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_plasticworking" }
+      { "proficiency": "prof_elastics" }
     ],
-    "components": [
-      [ [ "duct_tape", 200 ] ],
-      [ [ "wetsuit_booties", 1 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
+    "components": [ [ [ "wetsuit_booties", 1 ] ] ]
+  },
+  {
+    "result": "xs_boots_h20survivor",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor",
+    "time": "10 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 12 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 2 ],
+      [ "fastener_small", 6 ]
+    ]
+  },
+  {
+    "result": "xl_boots_h20survivor",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor",
+    "time": "16 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 17 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_neoprene_patchwork", 4 ],
+      [ "fastener_small", 6 ]
+    ]
+  },
+  {
+    "result": "boots_h20survivor_light",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "difficulty": 6,
+    "time": "14 h",
+    "autolearn": true,
+    "using": [
+      [ "tailoring_kevlar_fabric", 14 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 1 ],
+      [ "fastener_small", 6 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_elastics" }
+    ],
+    "components": [ [ [ "wetsuit_booties", 1 ] ] ]
+  },
+  {
+    "result": "xs_boots_h20survivor_light",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor_light",
+    "time": "11 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 12 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 1 ],
+      [ "fastener_small", 6 ]
+    ]
+  },
+  {
+    "result": "xl_boots_h20survivor_light",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor_light",
+    "time": "18 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 17 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_neoprene_patchwork", 2 ],
+      [ "fastener_small", 6 ]
+    ]
+  },
+  {
+    "result": "boots_h20survivor_thick",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "difficulty": 6,
+    "time": "14 h",
+    "autolearn": true,
+    "using": [
+      [ "tailoring_kevlar_fabric", 28 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 1 ],
+      [ "fastener_small", 6 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_elastics" }
+    ],
+    "components": [ [ [ "wetsuit_booties_thick", 1 ] ] ]
+  },
+  {
+    "result": "xs_boots_h20survivor_thick",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor_thick",
+    "time": "11 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 24 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 1 ],
+      [ "fastener_small", 6 ]
+    ]
+  },
+  {
+    "result": "xl_boots_h20survivor_thick",
+    "type": "recipe",
+    "copy-from": "boots_h20survivor_thick",
+    "time": "18 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 36 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_neoprene_patchwork", 2 ],
+      [ "fastener_small", 6 ]
     ]
   },
   {
@@ -1226,10 +1357,87 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "3 h",
+    "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_elastics" } ],
-    "using": [ [ "tailoring_neoprene_patchwork", 7 ] ]
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_elastics" },
+      { "proficiency": "prof_cobbling" }
+    ],
+    "using": [
+      [ "tailoring_neoprene_patchwork", 7 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 10 ]
+    ]
+  },
+  {
+    "result": "xs_wetsuit_booties",
+    "type": "recipe",
+    "copy-from": "wetsuit_booties",
+    "time": "5 h",
+    "using": [
+      [ "tailoring_neoprene_patchwork", 6 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 8 ]
+    ]
+  },
+  {
+    "result": "xl_wetsuit_booties",
+    "type": "recipe",
+    "copy-from": "wetsuit_booties",
+    "time": "8 h",
+    "using": [
+      [ "tailoring_neoprene_patchwork", 9 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_nylon_patchwork", 15 ]
+    ]
+  },
+  {
+    "result": "wetsuit_booties_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_booties",
+    "difficulty": 5,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_elastics" },
+      { "proficiency": "prof_cobbling" }
+    ],
+    "using": [
+      [ "tailoring_neoprene_patchwork", 12 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 20 ]
+    ]
+  },
+  {
+    "result": "xs_wetsuit_booties_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_booties_thick",
+    "difficulty": 4,
+    "time": "6 h",
+    "using": [
+      [ "tailoring_neoprene_patchwork", 10 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 16 ]
+    ]
+  },
+  {
+    "result": "xl_wetsuit_booties_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_booties_thick",
+    "time": "12 h",
+    "using": [
+      [ "tailoring_neoprene_patchwork", 16 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_nylon_patchwork", 30 ]
+    ]
   },
   {
     "result": "lc_chainmail_feet",

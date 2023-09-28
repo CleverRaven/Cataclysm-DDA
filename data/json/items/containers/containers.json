@@ -336,12 +336,12 @@
     "name": { "str": "body bag" },
     "looks_like": "bag_canvas",
     "description": "A human-sized rectangular bag made of strong plastic, with a zipper in the middle.  Intended to hold a dead body.",
-    "weight": "1500 g",
-    "volume": "1 L",
-    "longest_side": "40 cm",
-    "price": 0,
+    "weight": "1061 g",
+    "volume": "5500 ml",
+    "//1": "This is ~85% of the package volume from the amazon listing, with the assumption that the player would be squishing it harder to condense the volume.",
+    "price": "30 USD",
     "price_postapoc": 10,
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
@@ -353,7 +353,9 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE" ],
+    "//2": "Based on https://www.amazon.com/dp/B0BYPB5DMW"
   },
   {
     "id": "heavy_punching_bag_sack",
@@ -2894,6 +2896,32 @@
         "watertight": true,
         "rigid": true,
         "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
+      }
+    ]
+  },
+  {
+    "id": "waterproof_camera_case",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "waterproof camera case" },
+    "looks_like": "camera",
+    "description": "A waterproof case designed for a standard camera.  Will protect your camera from water damage entirely.",
+    "weight": "50 g",
+    "volume": "275 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "907 g",
+        "moves": 100,
+        "watertight": true,
+        "rigid": true,
+        "item_restriction": [ "camera" ]
       }
     ]
   },

@@ -1123,6 +1123,7 @@ struct memory_card_info {
     int recipes_level_min;
     int recipes_level_max;
     std::set<std::string> recipes_categories;
+    bool secret_recipes;
 };
 
 struct itype {

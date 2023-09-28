@@ -1605,7 +1605,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         }
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
-            get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
+            get_event_bus().send<event_type::character_gains_effect>( ch->getID(), bp.id(), eff_id );
             if( is_avatar() ) {
                 eff_id->add_apply_msg( e.get_intensity() );
             }

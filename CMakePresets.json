@@ -31,8 +31,7 @@
       "description": "Target Linux (64-bit) with the GCC development environment.",
       "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "CMAKE_EXE_LINKER_FLAGS": "-fuse-ld=mold",
-        "DYNAMIC_LINKING": "False", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "DYNAMIC_LINKING": "True", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "False",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }

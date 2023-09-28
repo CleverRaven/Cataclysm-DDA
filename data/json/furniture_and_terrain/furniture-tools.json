@@ -671,7 +671,7 @@
     "color": "brown",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
     "bash": {
@@ -695,7 +695,7 @@
     "color": "light_gray",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "looks_like": "f_ladder",
     "deployed_item": "aluminum_stepladder",
@@ -1567,14 +1567,14 @@
   {
     "type": "furniture",
     "id": "f_rope_up",
-    "name": "rope leading up",
+    "name": "grappling hook",
     "looks_like": "t_rope_up",
-    "description": "A dangling end of a rope, the other end is tied securely to something above you.  You could use it to climb up.",
+    "description": "A dangling piece of rope, hooked securely to something above you.  You could climb up or take it down.",
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z", "ALLOW_ON_OPEN_AIR" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
     "bash": {
@@ -1583,6 +1583,27 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vine_up",
+    "name": "vine leading up",
+    "looks_like": "t_rope_up",
+    "description": "A thick vine is rigidly anchored to something above you.  It looks quite alive.  You could climb up or tear it down.",
+    "symbol": "<",
+    "color": "light_green",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "ALLOW_ON_OPEN_AIR", "DIFFICULT_Z" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "vine_30",
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "twang.",
+      "items": [ { "item": "vine_6", "count": [ 2, 5 ] } ]
     }
   },
   {

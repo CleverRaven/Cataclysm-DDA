@@ -309,6 +309,7 @@ enum class ter_furn_flag : int {
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
+    TFLAG_NO_FLOOR_WATER,
 
     NUM_TFLAG_FLAGS
 };

@@ -48,6 +48,7 @@ NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
 Add overheat mechanics to energy guns.
 Sound-triggered traps
+Item transformation can now pick variant items to transform into
 
 
 ## Content:
@@ -85,6 +86,7 @@ Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
+Vehicles now contain heater, and some contain AC
 
 
 ## Interface:
@@ -107,6 +109,9 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
+Walking into ledges examines them.
+Accessible item insert menu
+Show insertion failure reasons in Insert menu and AIM
 
 
 ## Mods:
@@ -145,13 +150,16 @@ Add the Mind Over Matter mod to the CDDA repository
 [XE] Paraclesians: Elemental Races
 [Railroads] New mod
 [MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
-[Magiclysm] Add more than a dozen spells to magiclysm
+[Magiclysm] Add more than two dozen spells to magiclysm
 [Magiclysm] Add fantasy species starting option
 [Magiclysm] Add two more playable fantasy species for Magiclysm
 JSON-ize faction camp hunting returns
 [DinoMod] document lore
 [Aftershock] Rebalance energy weapons to use overheat mechanics
 [Magiclysm] Add fantasy species ferals
+[Magiclysm] Add dispel magic spells
+Create the Isolation Protocol Mod: A traditional roguelike experience
+[Magiclysm] Add triffid and migo mages
 
 
 ## Balance:
@@ -183,6 +191,10 @@ Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
+Climbing down stepladders is now safe; climbing down ledges tells you how risky it is.
+Add NO_SPELLCASTING flag to Stunned effect
+Improve pets' ability to use stairs
+Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 
 
 ## Bugfixes:
@@ -252,6 +264,13 @@ Make sure overconfident officers reliably drop their guns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
 Randomly generated characters are now aged appropriately to their profession
+AIM: Display correct truncation of container names
+Fix visible tiles revealing invisible tiles below
+Fix furniture & vehicle map memory refresh
+Monsters can go down ramps
+Don't teleport items to the ground if the vehicle storage destination is full
+Fix Free Merchants Broker price calculation of non charge based item
+Skip auto sorting items that don't belong to you
 
 
 ## Performance:
@@ -262,6 +281,7 @@ Fix Nested List lag in crafting menu
 Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
+Stop clearing weight carried cache unnecessarily
 
 
 ## Infrastructure:
@@ -283,6 +303,7 @@ Remove charges from solid comestibles
 New item categories for martial arts manuals and traps
 Update all active items to new tick action system and remove old system
 Add ability to merge appliance into grid
+Add JSON-based system for climbing aids.
 
 
 ## Build:
@@ -292,6 +313,7 @@ Allow for cross-compiling from Linux to Windows in Devcontainer
 Faster local VS builds
 Fast Windows iteration with llvm-lib and lld-link
 Cross compile object creator from linux to Windows using Devcontainer
+add object creator to releases
 
 
 ## I18N and A11Y:

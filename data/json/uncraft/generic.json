@@ -299,7 +299,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 54 ] ] ]
   },
   {
     "result": "exodii_ingot_plastic",
@@ -682,5 +682,13 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap_tin", 5 ] ] ]
+  },
+  {
+    "result": "bag_body_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "plastic_sheet", 4 ] ] ]
   }
 ]

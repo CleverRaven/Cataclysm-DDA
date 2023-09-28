@@ -3273,6 +3273,27 @@
   },
   {
     "type": "profession",
+    "id": "mutant_amputee",
+    "name": "Mutant Para-Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": 2,
+    "traits": [ "NO_LEGS" ],
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "items": {
+      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
     "id": "hitchhiker",
     "name": "Hitchhiker",
     "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
@@ -3949,6 +3970,23 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_nolegs",
+    "name": "Para-Amputee",
+    "description": "By some unfortunate means, you have lost both of your legs.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  Even if society has collapsed, so long as you've got your trusty wheelchair, you'll be alright.",
+    "points": 0,
+    "traits": [ "NO_LEGS" ],
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {

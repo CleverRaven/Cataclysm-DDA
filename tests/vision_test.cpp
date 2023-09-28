@@ -218,12 +218,14 @@ struct vision_test_case {
             // player's vision_threshold is based on the previous lighting level (so
             // they might, for example, have poor nightvision due to having just been
             // in daylight)
+            here.invalidate_visibility_cache();
             here.update_visibility_cache( zlev );
             // make sure floor caches are valid on all zlevels above
             for( int z = -2; z <= OVERMAP_HEIGHT; z++ ) {
                 here.invalidate_map_cache( z );
             }
             here.build_map_cache( zlev );
+            here.invalidate_visibility_cache();
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
             here.build_map_cache( zlev );

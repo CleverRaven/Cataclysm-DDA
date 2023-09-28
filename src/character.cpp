@@ -362,6 +362,8 @@ static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
 static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
+static const morale_type morale_cold( "morale_cold" );
+static const morale_type morale_hot( "morale_hot" );
 static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -3367,10 +3369,27 @@ int Character::get_knowledge_level( const skill_id &ident ) const
     return _skills->get_knowledge_level( ident );
 }
 
+float Character::get_knowledge_plus_progress( const skill_id &ident ) const
+{
+    return _skills->get_knowledge_level( ident ) + _skills->get_knowledge_progress_level( ident );
+}
+
 int Character::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
     return _skills->get_knowledge_level( ident, context );
 }
+
+float Character::get_average_skill_level( const skill_id &ident ) const
+{
+    return ( get_skill_level( ident ) + get_knowledge_plus_progress( ident ) ) / 2;
+}
+
+float Character::get_greater_skill_or_knowledge_level( const skill_id &ident ) const
+{
+    return get_skill_level( ident ) > get_knowledge_plus_progress( ident ) ? get_skill_level(
+               ident ) : get_knowledge_plus_progress( ident );
+}
+
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
     get_skill_level_object( ident ).level( level );
@@ -5974,9 +5993,50 @@ bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 
 float Character::rest_quality() const
 {
-    // Just a placeholder for now.
-    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
-    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
+    map &here = get_map();
+    const tripoint your_pos = pos();
+    float rest = 0.0f;
+    // Negative morales are penalties
+    int cold_penalty = -has_morale( morale_cold );
+    int heat_penalty = -has_morale( morale_hot );
+    if( cold_penalty > 0 || heat_penalty > 0 ) {
+        // Extreme temperatures have the body working harder to fight them, with less energy dedicated to healing, even just laying around will have you shivering or sweating.
+        rest -= cold_penalty / 10.0f;
+        rest -= heat_penalty / 10.0f;
+    }
+
+    if( has_effect( effect_sleep ) ) {
+        // Beds should normally have a maximum of 1000, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
+        // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
+        rest += ( std::max( floor_bedding_warmth( your_pos ), 0 ) / 1000.0f ) ;
+        return std::max( rest, 0.0f );
+    }
+    const optional_vpart_position veh_part = here.veh_at( your_pos );
+    bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
+    if( activity_level() <= LIGHT_EXERCISE ) {
+        rest += 0.1f;
+        if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
+            // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
+            rest += 0.2f;
+        } else if( floor_bedding_warmth( your_pos ) > 0 ) {
+            // Any comfortable bed can substitute for a chair, but only if you don't have one.
+            rest += 0.2f * ( floor_bedding_warmth( your_pos ) / 1000.0f );
+        }
+        if( activity_level() <= NO_EXERCISE ) {
+            rest += 0.2f;
+        }
+    }
+    // These stack!
+    if( activity_level() >= BRISK_EXERCISE ) {
+        rest -= 0.1f;
+    }
+    if( activity_level() >= ACTIVE_EXERCISE ) {
+        rest -= 0.2f;
+    }
+    if( activity_level() >= EXTRA_EXERCISE ) {
+        rest -= 0.3f;
+    }
+    return rest;
 }
 
 std::string Character::extended_description() const
@@ -6461,7 +6521,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const fault_fix &fix = *fix_id;
             mending_option opt{ f, fix, true };
             for( const auto &[skill_id, level] : fix.skills ) {
-                if( get_skill_level( skill_id ) < level ) {
+                if( get_greater_skill_or_knowledge_level( skill_id ) < level ) {
                     opt.doable = false;
                     break;
                 }
@@ -6547,16 +6607,16 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else {
                 descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
                 fix.skills.begin(), fix.skills.end(), [this]( const std::pair<skill_id, int> &sk ) {
-                    if( get_skill_level( sk.first ) >= sk.second ) {
+                    if( get_greater_skill_or_knowledge_level( sk.first ) >= sk.second ) {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
                     } else {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
                     }
                 } ) );
             }
@@ -10430,14 +10490,14 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                } else {
+                } else if( val > 0 )  {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );

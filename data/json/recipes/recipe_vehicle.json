@@ -1421,7 +1421,7 @@
         [ "oxy_torch", 10 ]
       ]
     ],
-    "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 4 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1439,6 +1439,6 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 34 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 7 ], [ "scrap_aluminum", 34 ] ] ]
   }
 ]
