@@ -1617,7 +1617,8 @@ bool Character::consume_effects( item &food )
 
 bool Character::can_estimate_rot() const
 {
-    return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
+    return get_greater_skill_or_knowledge_level( skill_cooking ) >= 3 ||
+           get_greater_skill_or_knowledge_level( skill_survival ) >= 4;
 }
 
 bool Character::can_consume_as_is( const item &it ) const
