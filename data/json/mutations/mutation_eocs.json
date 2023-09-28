@@ -31,7 +31,10 @@
     "type": "effect_on_condition",
     "id": "EOC_PROSTHETIC_RIGHT_WEAR",
     "condition": { "and": [ { "u_has_trait": "NO_RIGHT_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } ] },
-    "effect": [ { "u_lose_trait": "NO_RIGHT_LEG" }, { "u_add_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" } ]
+    "effect": [
+      { "u_lose_trait": "NO_RIGHT_LEG" },
+      { "u_add_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" }
+    ]
   },
   {
     "type": "effect_on_condition",
