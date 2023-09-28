@@ -60,8 +60,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PROSTHETIC_LEFT_REMOVE",
-    "recurrence": 5, 
-    "condition": { "and": [ { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } }, { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" } ] },
+    "recurrence": 5,
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } },
+        { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" }
+      ]
+    },
     "effect": [ { "u_add_trait": "NO_LEFT_LEG" } ]
   },
   {
