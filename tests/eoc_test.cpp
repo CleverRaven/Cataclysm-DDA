@@ -26,6 +26,10 @@ effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
+effect_on_condition_EOC_item_activate_test( "EOC_item_activate_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_flag_test( "EOC_item_flag_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
@@ -78,6 +82,10 @@ static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
+
+static const flag_id flag_FILTHY( "FILTHY" );
+
+static const furn_id furn_f_cardboard_box( "f_cardboard_box" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
@@ -698,6 +706,9 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     get_avatar().i_add( item( itype_test_knife_combat ) );
     get_avatar().i_add( item( itype_backpack ) );
 
+    tripoint_abs_ms pos_before = get_avatar().get_location();
+    tripoint_abs_ms pos_after = pos_before + tripoint_south_east;
+
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
     std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
@@ -754,6 +765,21 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 1 );
 
+    // Flag test for item
+    CHECK( effect_on_condition_EOC_item_flag_test->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_is_filthy" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.has_flag( flag_FILTHY );
+    } );
+
+    CHECK( items_after.empty() );
+
     // Math function test for item
     items_before = get_avatar().items_with( []( const item & it ) {
         return it.damage() == 0;
@@ -768,12 +794,13 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 4 );
 
-    // Teleport test for item
-    tripoint_abs_ms before = get_avatar().get_location();
-    tripoint_abs_ms after = before + tripoint_south_east;
+    // Activate test for item
+    CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
+    CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
 
+    // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
-    CHECK( get_map().i_at( get_map().getlocal( after ) ).size() == 4 );
+    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 4 );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )

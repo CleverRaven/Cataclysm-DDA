@@ -96,6 +96,46 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_item_flag_test",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_item_flag_test_nested1", "EOC_item_flag_test_nested2", "EOC_item_flag_test_nested3" ],
+        "search_data": [ { "worn_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested1",
+    "effect": [ { "npc_set_flag": "FILTHY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested2",
+    "condition": { "npc_has_flag": "FILTHY" },
+    "effect": [ { "npc_add_var": "is_filthy", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested3",
+    "effect": [ { "npc_unset_flag": "FILTHY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_activate_test",
+    "effect": [
+      { "u_location_variable": { "u_val": "activate_pos" }, "x_adjust": 1, "y_adjust": 1 },
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_activate_test_nested" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_activate_test_nested",
+    "effect": [ { "u_activate": "deploy_furn", "target_var": { "u_val": "activate_pos" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
       { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
