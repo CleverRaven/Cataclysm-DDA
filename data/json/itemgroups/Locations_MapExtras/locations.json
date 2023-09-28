@@ -2647,8 +2647,8 @@
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ 
-      { "item": "blanket", "prob": 50 }, 
+    "entries": [
+      { "item": "blanket", "prob": 50 },
       { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
       { "item": "left_leg_prosthetic", "prob": 20 },
       { "item": "right_leg_prosthetic", "prob": 20 }
