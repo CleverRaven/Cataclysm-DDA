@@ -5094,7 +5094,7 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
     if( creatures.creature_at<Character>( p ) ) {
         return false;
     }
-    return mon.will_move_to( p );
+    return mon.will_move_to( p ) && mon.know_danger_at( p );
 }
 
 static bool can_place_npc( const tripoint &p )
