@@ -1399,9 +1399,9 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         } else {
             m.ter_set( loc, ter_t_dirt );
             if( one_in( 4 ) ) {
-              m.furn_set( loc, f_ash );
+                m.furn_set( loc, f_ash );
             } else {
-              m.furn_set( loc, furn_id( "f_fireweed" ));
+                m.furn_set( loc, furn_id( "f_fireweed" ) );
             }
             m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
         }
