@@ -422,7 +422,10 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" }, { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" } ],
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" }
+    ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
@@ -443,7 +446,10 @@
     "move_cost_mod": 0,
     "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" }, { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" } ],
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" }
+    ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
