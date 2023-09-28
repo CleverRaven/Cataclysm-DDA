@@ -3277,7 +3277,7 @@
     "name": "Mutant Para-Amputee",
     "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
     "points": 2,
-    "traits": [ "NO_LEGS" ],
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
     "skills": [
       { "level": 2, "name": "driving" },
       { "level": 2, "name": "swimming" },
@@ -3978,7 +3978,7 @@
     "name": "Para-Amputee",
     "description": "By some unfortunate means, you have lost both of your legs.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  Even if society has collapsed, so long as you've got your trusty wheelchair, you'll be alright.",
     "points": 0,
-    "traits": [ "NO_LEGS" ],
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
     "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
