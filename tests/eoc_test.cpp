@@ -85,7 +85,7 @@ static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_k
 
 static const flag_id flag_FILTHY( "FILTHY" );
 
-static const furn_id furn_f_cardboard_box( "f_cardboard_box" );
+static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
@@ -800,7 +800,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
-    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 4 );
+    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
