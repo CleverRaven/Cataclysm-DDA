@@ -1685,7 +1685,7 @@
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "item": "badge_doctor", "prob": 2 },
       { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2  }
+      { "item": "right_leg_prosthetic", "prob": 2 }
     ]
   },
   {
