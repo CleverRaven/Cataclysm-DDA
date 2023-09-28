@@ -190,6 +190,27 @@
       { "weight": "2200 g", "encumbrance": 75 },
       { "weight": "5600 g", "encumbrance": 120 },
       { "weight": "10000 g", "encumbrance": 240 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
     ]
   },
   {
@@ -218,6 +239,7 @@
     "base_hp": 84,
     "drench_capacity": 0,
     "bionic_slots": 0,
+    "is_limb": true,
     "flags": [ "LIMB_LOWER" ],
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "encumbrance_per_weight": [
@@ -229,6 +251,27 @@
       { "weight": "2200 g", "encumbrance": 75 },
       { "weight": "5600 g", "encumbrance": 120 },
       { "weight": "10000 g", "encumbrance": 240 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
     ]
   }
 ]
