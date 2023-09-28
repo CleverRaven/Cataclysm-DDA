@@ -83,7 +83,7 @@ effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
-static const flag_id flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
 
@@ -775,7 +775,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( items_after.size() == 1 );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.has_flag( flag_FILTHY );
+        return it.has_flag( json_flag_FILTHY );
     } );
 
     CHECK( items_after.empty() );

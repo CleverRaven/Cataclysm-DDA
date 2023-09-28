@@ -4284,7 +4284,7 @@ void talk_effect_fun_t::set_activate( const JsonObject &jo, const std::string &m
             const std::string method_str = method.evaluate( d );
             if( it && it->get_item() ) {
                 if( !it->get_item()->get_usable_item( method_str ) ) {
-                    add_msg_debug( debugmode::DF_NPC,   "Invalid use action. %s", method_str );
+                    add_msg_debug( debugmode::DF_NPC, "Invalid use action.  %s", method_str );
                     return;
                 }
                 if( target_var.has_value() ) {
