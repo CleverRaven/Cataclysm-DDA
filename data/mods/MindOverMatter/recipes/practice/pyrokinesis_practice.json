@@ -532,7 +532,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: hellfire",
-    "id": "  practice_pyrokinetic_aoe_blast",
+    "id": "practice_pyrokinetic_aoe_blast",
     "description": "Contemplate your powers and improve your ability to call down sheets of fire on everything around you.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
