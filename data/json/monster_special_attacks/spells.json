@@ -1015,5 +1015,18 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_carry_strength" }, "--" ], "min": -75 },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
+  },
+  {
+    "id": "mi-go_capture_creature",
+    "type": "SPELL",
+    "name": { "str": "Capture Creature" },
+    "description": "Attempt to capture the target creature.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 1,
+    "max_range": 1,
+    "shape": "line",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_mi-go_capture_creature"
   }
 ]

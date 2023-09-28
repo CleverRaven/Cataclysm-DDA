@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mi-go_camp_spawn",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "mi-go_encampment1_room1" ], "x": 1, "y": 8 } ] }
+  }
+]

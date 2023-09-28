@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mi-go_capture_creature",
+    "condition": {
+      "or": [
+        {
+          "compare_num": [
+            { "u_val": "fatigue" }, ">=", { "const": 580 }
+          ]
+        },
+        {
+          "u_has_strength": 3
+        }
+      ]
+    },
+    "effect": [ { "mapgen_update": "mi-go_camp_spawn", "om_terrain": "mi-go_camp1"} ],
+    "false_effect": [ { "u_message": "You resist the mi-go's restrain attempts." } ]
+  }
+]
