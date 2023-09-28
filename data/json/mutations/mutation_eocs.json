@@ -68,7 +68,9 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "and": [ { "not": { "u_has_trait": "NO_RIGHT_LEG" } }, { "not": { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } } ] },
-    "deactivate_condition": { "or": [ { "u_has_trait": "NO_RIGHT_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" }, { "u_has_trait": "HAS_RIGHT_LEG" } ] },
+    "deactivate_condition": {
+      "or": [ { "u_has_trait": "NO_RIGHT_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" }, { "u_has_trait": "HAS_RIGHT_LEG" } ]
+    },
     "effect": [ { "u_add_trait": "HAS_RIGHT_LEG" } ]
   }
 ]
