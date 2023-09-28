@@ -4586,12 +4586,12 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
     str_or_var option = get_str_or_var( jo.get_member( member ), member );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    std::vector <item_search_data> datum;
+    std::vector <item_search_data> data;
     for( const JsonValue &search_data_jo : jo.get_array( "search_data" ) ) {
-        datum.emplace_back( search_data_jo );
+        data.emplace_back( search_data_jo );
     }
 
-    function = [option, true_eocs, false_eocs, datum, is_npc]( dialogue & d ) {
+    function = [option, true_eocs, false_eocs, data, is_npc]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
         if( guy ) {
             std::vector<item_location> true_items;
@@ -4599,9 +4599,9 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
 
             for( item_location &loc : guy->all_items_loc() ) {
                 // Check if item matches any search_data.
-                bool true_tgt = datum.empty();
-                for( item_search_data data : datum ) {
-                    if( data.check( guy, loc ) ) {
+                bool true_tgt = data.empty();
+                for( item_search_data datum : data ) {
+                    if( datum.check( guy, loc ) ) {
                         true_tgt = true;
                         break;
                     }
