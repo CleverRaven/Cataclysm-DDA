@@ -106,7 +106,7 @@
     ],
     "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
   },
-{
+  {
     "id": "mon_mi_go_slaver_test",
     "type": "MONSTER",
     "name": { "str": "mi-go slaver test" },

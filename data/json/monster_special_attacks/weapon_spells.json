@@ -9,7 +9,11 @@
     "shape": "blast",
     "effect": "attack",
     "effect_str": "dazed",
-    "extra_effects": [ { "id": "pain_damage_mi-go_slaver_beam" }, { "id": "stamina_damage_mi-go_slaver_beam" }, { "id": "weariness_damage_mi-go_slaver_beam" } ],
+    "extra_effects": [
+      { "id": "pain_damage_mi-go_slaver_beam" },
+      { "id": "stamina_damage_mi-go_slaver_beam" },
+      { "id": "weariness_damage_mi-go_slaver_beam" }
+    ],
     "base_casting_time": 100,
     "max_level": 5,
     "min_range": 1,
@@ -55,7 +59,7 @@
     "id": "weariness_damage_mi-go_slaver_beam",
     "type": "SPELL",
     "name": { "str": "Weariness" },
-      "description": "Increases weariness.  Designed for mi-go slaver beam.",
+    "description": "Increases weariness.  Designed for mi-go slaver beam.",
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
