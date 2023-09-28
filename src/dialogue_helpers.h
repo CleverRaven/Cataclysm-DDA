@@ -127,6 +127,8 @@ struct talk_effect_fun_t {
         void set_open_dialogue( const JsonObject &jo, std::string_view member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
+        void set_set_flag( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_unset_flag( const JsonObject &jo, const std::string &member, bool is_npc );
         void operator()( dialogue &d ) const {
             if( !function ) {
                 return;

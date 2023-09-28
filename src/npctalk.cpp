@@ -4095,6 +4095,40 @@ void talk_effect_fun_t::set_attack( const JsonObject &jo, const std::string &mem
     };
 }
 
+void talk_effect_fun_t::set_set_flag( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+
+    function = [is_npc, flag]( dialogue & d ) {
+        item_location *it = d.actor( is_npc )->get_item();
+
+        if( it && it->get_item() ) {
+            flag_id f_id( flag.evaluate( d ) );
+            it->get_item()->set_flag( f_id );
+        } else {
+            debugmsg( "No valid %s talker.", is_npc ? "beta" : "alpha" );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_unset_flag( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+
+    function = [is_npc, flag]( dialogue & d ) {
+        item_location *it = d.actor( is_npc )->get_item();
+
+        if( it && it->get_item() ) {
+            flag_id f_id( flag.evaluate( d ) );
+            it->get_item()->unset_flag( f_id );
+        } else {
+            debugmsg( "No valid %s talker.", is_npc ? "beta" : "alpha" );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_die( bool is_npc )
 {
     function = [is_npc]( dialogue const & d ) {
@@ -5631,6 +5665,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_open_dialogue( jo, "open_dialogue" );
         } else if( jo.has_member( "take_control" ) ) {
             subeffect_fun.set_take_control( jo );
+        } else if( jo.has_member( "u_set_flag" ) ) {
+            subeffect_fun.set_set_flag( jo, "u_set_flag", false );
+        } else if( jo.has_member( "npc_set_flag" ) ) {
+            subeffect_fun.set_set_flag( jo, "npc_set_flag", true );
+        } else if( jo.has_member( "u_unset_flag" ) ) {
+            subeffect_fun.set_unset_flag( jo, "u_unset_flag", false );
+        } else if( jo.has_member( "npc_unset_flag" ) ) {
+            subeffect_fun.set_unset_flag( jo, "npc_unset_flag", true );
         } else {
             jo.throw_error( "invalid sub effect syntax: " + jo.str() );
         }
