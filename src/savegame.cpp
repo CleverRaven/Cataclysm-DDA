@@ -657,8 +657,30 @@ void overmap::unserialize( const JsonObject &jsobj )
         } else if( name == "predecessors" ) {
             std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
             om_member.read( flattened_predecessors, true );
+            std::vector<oter_id> deduped_predecessors;
             for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
-                predecessors_.insert( std::move( p ) );
+                // TODO remove after 0.H release.
+                // JSONizing roads caused some bad mapgen data to get saved to disk. Repeated redundant linear
+                // type omts were all saved. The new logic only pushes a linear predecessor if the predecessors
+                // list is empty or the incoming omt is not linear. Fixup bad saves to conform.
+                deduped_predecessors.reserve( p.second.size() );
+                for( const oter_id &id : p.second ) {
+                    if( deduped_predecessors.empty() || !id->is_linear() ) {
+                        deduped_predecessors.push_back( id );
+                    } else {
+                        oter_id &last_predecessor = deduped_predecessors.back();
+                        if( last_predecessor->get_type_id() == id->get_type_id() ) {
+                            last_predecessor = id;
+                        } else {
+                            deduped_predecessors.push_back( id );
+                        }
+                    }
+                }
+                predecessors_.insert_or_assign( p.first, std::move( deduped_predecessors ) );
+
+                // Reuse allocations because it's a good habit.
+                deduped_predecessors = std::move( p.second );
+                deduped_predecessors.clear();
             }
         }
     }
