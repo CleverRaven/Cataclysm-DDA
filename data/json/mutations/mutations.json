@@ -369,7 +369,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right leg.",
     "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],     
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
     "enchantments": [ "ENCH_RIGHT_PROSTHETIC" ]
   },
   {
