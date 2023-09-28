@@ -4095,40 +4095,6 @@ void talk_effect_fun_t::set_attack( const JsonObject &jo, const std::string &mem
     };
 }
 
-void talk_effect_fun_t::set_set_flag( const JsonObject &jo, const std::string &member,
-                                      bool is_npc )
-{
-    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
-
-    function = [is_npc, flag]( dialogue & d ) {
-        item_location *it = d.actor( is_npc )->get_item();
-
-        if( it && it->get_item() ) {
-            flag_id f_id( flag.evaluate( d ) );
-            it->get_item()->set_flag( f_id );
-        } else {
-            debugmsg( "No valid %s talker.", is_npc ? "beta" : "alpha" );
-        }
-    };
-}
-
-void talk_effect_fun_t::set_unset_flag( const JsonObject &jo, const std::string &member,
-                                        bool is_npc )
-{
-    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
-
-    function = [is_npc, flag]( dialogue & d ) {
-        item_location *it = d.actor( is_npc )->get_item();
-
-        if( it && it->get_item() ) {
-            flag_id f_id( flag.evaluate( d ) );
-            it->get_item()->unset_flag( f_id );
-        } else {
-            debugmsg( "No valid %s talker.", is_npc ? "beta" : "alpha" );
-        }
-    };
-}
-
 void talk_effect_fun_t::set_die( bool is_npc )
 {
     function = [is_npc]( dialogue const & d ) {
@@ -4263,6 +4229,78 @@ void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::stri
             for( const std::string &mission_name : mission_names ) {
                 p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
             }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_set_flag( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+
+    function = [is_npc, flag]( dialogue & d ) {
+        item_location *it = d.actor( is_npc )->get_item();
+
+        if( it && it->get_item() ) {
+            flag_id f_id( flag.evaluate( d ) );
+            it->get_item()->set_flag( f_id );
+        } else {
+            debugmsg( "No valid %s talker.", is_npc ? "beta" : "alpha" );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_unset_flag( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+
+    function = [is_npc, flag]( dialogue & d ) {
+        item_location *it = d.actor( is_npc )->get_item();
+
+        if( it && it->get_item() ) {
+            flag_id f_id( flag.evaluate( d ) );
+            it->get_item()->unset_flag( f_id );
+        } else {
+            debugmsg( "No valid %s talker.", is_npc ? "beta" : "alpha" );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_activate( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    str_or_var method = get_str_or_var( jo.get_member( member ), member, true );
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+
+    function = [is_npc, method, target_var]( dialogue & d ) {
+        Character *guy = d.actor( is_npc )->get_character();
+        item_location *it = d.actor( !is_npc )->get_item();
+
+        if( guy ) {
+            const std::string method_str = method.evaluate( d );
+            if( it && it->get_item() ) {
+                if( !it->get_item()->get_usable_item( method_str ) ) {
+                    add_msg_debug( debugmode::DF_NPC,   "Invalid use action. %s", method_str );
+                    return;
+                }
+                if( target_var.has_value() ) {
+                    tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+                    if( get_map().inbounds( target_pos ) ) {
+                        guy->invoke_item( it->get_item(), method_str, get_map().getlocal( target_pos ) );
+                        return;
+                    }
+                }
+                guy->invoke_item( it->get_item(), method.evaluate( d ) );
+
+            } else {
+                debugmsg( "%s talker must be Item.", is_npc ? "alpha" : "beta" );
+            }
+        } else {
+            debugmsg( "%s talker must be Character.", is_npc ? "beta" : "alpha" );
         }
     };
 }
@@ -5673,6 +5711,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_unset_flag( jo, "u_unset_flag", false );
         } else if( jo.has_member( "npc_unset_flag" ) ) {
             subeffect_fun.set_unset_flag( jo, "npc_unset_flag", true );
+        } else if( jo.has_member( "u_activate" ) ) {
+            subeffect_fun.set_activate( jo, "u_activate", false );
+        } else if( jo.has_member( "npc_activate" ) ) {
+            subeffect_fun.set_activate( jo, "npc_activate", true );
         } else {
             jo.throw_error( "invalid sub effect syntax: " + jo.str() );
         }
