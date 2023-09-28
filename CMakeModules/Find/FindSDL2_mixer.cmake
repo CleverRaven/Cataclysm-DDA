@@ -99,14 +99,16 @@ mark_as_advanced(SDL2_MIXER_LIBRARY SDL2_MIXER_INCLUDE_DIR)
 if(NOT DYNAMIC_LINKING)
   if (NOT TARGET SDL2_mixer::SDL2_mixer-static)
     add_library(SDL2_mixer::SDL2_mixer-static STATIC IMPORTED)
-    set_property(TARGET SDL2_mixer::SDL2_mixer-static
-      PROPERTY IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+    set_target_properties(SDL2_mixer::SDL2_mixer-static PROPERTIES
+      IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+      INTERFACE_INCLUDE_DIRECTORIES ${SDL2_MIXER_INCLUDE_DIRS}
     )
   endif()
 elseif(NOT TARGET SDL2_mixer::SDL2_mixer)
     add_library(SDL2_mixer::SDL2_mixer STATIC IMPORTED)
-    set_property(TARGET SDL2_mixer::SDL2_mixer
-      PROPERTY IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+    set_target_properties(SDL2_mixer::SDL2_mixer PROPERTIES
+      IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+      INTERFACE_INCLUDE_DIRECTORIES ${SDL2_MIXER_INCLUDE_DIRS}
     )
 endif()
 
