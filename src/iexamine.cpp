@@ -5151,7 +5151,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 return;
             } else {
                 you.setpos( examp );
-                g->vertical_move( -1, false );
+                g->vertical_move( -1, vertical_movement::action );
                 if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
                     you.set_underwater( true );
                     g->water_affect_items( you );

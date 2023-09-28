@@ -44,7 +44,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         g->vertical_shift( 0 );
 
         WHEN( "avatar dives down" ) {
-            g->vertical_move( -1, false );
+            g->vertical_move( -1, game::vertical_movement::action );
 
             THEN( "avatar is underwater at z0" ) {
                 REQUIRE( dummy.pos() == test_origin );
@@ -54,7 +54,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         }
 
         WHEN( "avatar swims up" ) {
-            g->vertical_move( 1, false );
+            g->vertical_move( 1, game::vertical_movement::action );
 
             THEN( "avatar is not underwater at z0" ) {
                 REQUIRE( dummy.pos() == test_origin );
@@ -70,7 +70,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         g->vertical_shift( 0 );
 
         WHEN( "avatar dives down" ) {
-            g->vertical_move( -1, false );
+            g->vertical_move( -1, game::vertical_movement::action );
 
             THEN( "avatar is underwater at z-1" ) {
                 REQUIRE( dummy.pos() == test_origin + tripoint_below );
@@ -80,7 +80,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         }
 
         WHEN( "avatar swims up" ) {
-            g->vertical_move( 1, false );
+            g->vertical_move( 1, game::vertical_movement::action );
 
             THEN( "avatar is not underwater at z0" ) {
                 REQUIRE( dummy.pos() == test_origin );
@@ -96,7 +96,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         g->vertical_shift( -1 );
 
         WHEN( "avatar dives down" ) {
-            g->vertical_move( -1, false );
+            g->vertical_move( -1, game::vertical_movement::action );
 
             THEN( "avatar is underwater at z-2" ) {
                 REQUIRE( dummy.pos() == test_origin + tripoint( 0, 0, -2 ) );
@@ -106,7 +106,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         }
 
         WHEN( "avatar swims up" ) {
-            g->vertical_move( 1, false );
+            g->vertical_move( 1, game::vertical_movement::action );
 
             THEN( "avatar is underwater at z0" ) {
                 REQUIRE( dummy.pos() == test_origin );
@@ -122,7 +122,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         g->vertical_shift( -2 );
 
         WHEN( "avatar dives down" ) {
-            g->vertical_move( -1, false );
+            g->vertical_move( -1, game::vertical_movement::action );
 
             THEN( "avatar is underwater at z-2" ) {
                 REQUIRE( dummy.pos() == test_origin + tripoint( 0, 0, -2 ) );
@@ -132,7 +132,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
         }
 
         WHEN( "avatar swims up" ) {
-            g->vertical_move( 1, false );
+            g->vertical_move( 1, game::vertical_movement::action );
 
             THEN( "avatar is underwater at z-1" ) {
                 REQUIRE( dummy.pos() == test_origin + tripoint_below );

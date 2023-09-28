@@ -6259,7 +6259,7 @@ void game::peek()
     if( p->z != 0 ) {
         // Character might peek to a different submap; ensures return location is accurate.
         const tripoint_abs_ms old_loc = u.get_location();
-        vertical_move( p->z, false, true );
+        vertical_move( p->z, vertical_movement::peeking );
 
         if( old_loc != u.get_location() ) {
             new_pos = u.pos();
@@ -11725,7 +11725,7 @@ static std::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
     return std::nullopt;
 }
 
-void game::vertical_move( int movez, bool force, bool peeking )
+void game::vertical_move( int movez, vertical_movement mode )
 {
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
@@ -11740,13 +11740,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     map &here = get_map();
 
-    // Force means we're going down, even if there's no staircase, etc.
+    bool is_move_action = ( mode == vertical_movement::action || mode == vertical_movement::peeking );
     bool climbing = false;
     climbing_aid_id climbing_aid = climbing_aid_default;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
-    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
+    if( is_move_action && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
         !u.is_underwater() ) {
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
@@ -11813,7 +11813,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
+    if( is_move_action && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
         !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
@@ -11825,13 +11825,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
             add_msg( m_info, _( "You can't go down here!" ) );
             return;
         }
-    } else if( !climbing && !force && movez == 1 &&
+    } else if( !climbing && is_move_action && movez == 1 &&
                !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
 
-    if( force ) {
+    if( !is_move_action ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
     } else if( u.grab_point != tripoint_zero ) {
@@ -11846,7 +11846,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    if( !u.move_effects( false ) && !force ) {
+    if( !u.move_effects( false ) && is_move_action ) {
         u.moves -= 100;
         return;
     }
@@ -11948,9 +11948,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // Find the corresponding staircase
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing && !swimming ) {
-        const std::optional<tripoint> pnt = find_or_make_stairs( m, z_after, rope_ladder, peeking,
-                                            u.pos() );
+    if( is_move_action && !climbing && !swimming ) {
+        const std::optional<tripoint> pnt = find_or_make_stairs( m, z_after, rope_ladder,
+                                            mode == vertical_movement::peeking, u.pos() );
         if( !pnt ) {
             return;
         }
@@ -11994,7 +11994,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     const tripoint old_abs_pos = here.getabs( old_pos );
     point submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
-    if( !force ) {
+    if( mode != vertical_movement::uncontrolled && mode != vertical_movement::climbing ) {
         submap_shift = update_map( stairs.x, stairs.y, z_level_changed );
     }
 
@@ -12078,7 +12078,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
     if( !wall_cling )  {
-        here.creature_on_trap( u, !force );
+        here.creature_on_trap( u, mode != vertical_movement::uncontrolled );
     }
 
     u.recoil = MAX_RECOIL;
@@ -13491,8 +13491,8 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         you.mod_thirst( aid.down.cost.thirst );
     }
 
-    // vertical_move with force=true triggers traps (ie, fall) at the end of the move.
-    g->vertical_move( -descended_levels, true );
+    // We currently use 'uncontrolled' descent mode to trigger traps (ie, ledge) at the end.
+    g->vertical_move( -descended_levels, vertical_movement::climbing );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
         you.set_underwater( true );

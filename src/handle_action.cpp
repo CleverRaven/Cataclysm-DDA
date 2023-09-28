@@ -2187,7 +2187,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
                 // If we're here, we might or might not be standing on tiles with stairs, ropes, ladders etc
                 // In any case, attempt a descend
-                vertical_move( -1, false );
+                vertical_move( -1, vertical_movement::action );
             }
             break;
         }
@@ -2201,7 +2201,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             if( !player_character.in_vehicle ) {
-                vertical_move( 1, false );
+                vertical_move( 1, vertical_movement::action );
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
                 if( vp->vehicle().is_rotorcraft() ) {

@@ -181,7 +181,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
         player_character.setpos( map_starting_point );
         if( z_change ) {
-            g->vertical_move( z_change, true );
+            g->vertical_move( z_change, game::vertical_movement::uncontrolled );
         }
     }
 }

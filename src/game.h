@@ -287,7 +287,13 @@ class game
          * If force == true then they are falling.
          * If peeking == true, forbids some exotic movement options
          */
-        void vertical_move( int z, bool force, bool peeking = false );
+        enum class vertical_movement {
+            peeking, // peeking at another location; not a "full" movement
+            action, // ie, direct player command
+            climbing, // move is part of a climbing action
+            uncontrolled, // player is falling or otherwise forced to move (not by stairs)
+        };
+        void vertical_move( int z, vertical_movement mode );
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.

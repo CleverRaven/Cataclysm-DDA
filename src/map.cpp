@@ -1552,7 +1552,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
 
     if( z_change || src.z() != dst.z() ) {
         if( z_change ) {
-            g->vertical_move( z_change, true );
+            // vertical movement is "uncontrolled" because vehicle forces the player to move.
+            g->vertical_move( z_change, game::vertical_movement::uncontrolled );
             // vertical moves can flush the caches, so make sure we're still in the cache
             add_vehicle_to_cache( &veh );
         }
@@ -5015,7 +5016,8 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
     auto how_many_copies_fit = [&]( const tripoint & e ) {
         return std::min( { copies_remaining,
                            obj.volume() == 0_ml ? INT_MAX : free_volume( e ) / obj.volume(),
-                           static_cast<int>( MAX_ITEM_IN_SQUARE - i_at( e ).size() ) } );
+                           static_cast<int>( MAX_ITEM_IN_SQUARE - i_at( e ).size() )
+                         } );
     };
 
     // Performs the actual insertion of the object onto the map
