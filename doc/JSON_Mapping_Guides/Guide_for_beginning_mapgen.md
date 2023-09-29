@@ -398,7 +398,7 @@ I have a separate roof document at: [doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md
   3. `"locations"`: defines where this building can be place by overmap terrain type.  Land is the default.
   4. `"overmaps"`: this is the bit where you define how the maps fit together, so lets break it up:
   `{ "point": [ 0, 0, 0 ], "overmap": "house_dogs_north" },`
-  point: its point in relation to the other mapgen files for your building.  The coordinates are [ x, y, z ].  In this example, x,y are 0 because we only have one map per z level.  Zero for y means this is the ground level.  Note the roof above is at 1 and the basement is -1.
+  point: its point in relation to the other mapgen files for your building.  The coordinates are [ x, y, z ].  In this example, x,y are 0 because we only have one map per z level.  Zero for z means this is the ground level.  Note the roof above is at 1 and the basement is -1.
   5. appending `_north` to the ID's:
       * If your building rotates you need this compass point so the floors can match up correctly.  This is the generic basement mapgen group and thus doesn't get `_north` (this will change as we add dedicated stairs to our houses).
 
