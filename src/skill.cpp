@@ -509,6 +509,18 @@ int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &conte
     return get_knowledge_level( id );
 }
 
+float SkillLevelMap::get_knowledge_progress_level( const skill_id &ident ) const
+{
+    return static_cast<float>( get_skill_level_object( ident ).knowledgeExperience() ) / 100.0f;
+}
+
+float SkillLevelMap::get_knowledge_progress_level( const skill_id &ident,
+        const item &context ) const
+{
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_progress_level( id );
+}
+
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
     return meets_skill_requirements( req, item() );

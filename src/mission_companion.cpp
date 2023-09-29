@@ -2044,7 +2044,7 @@ bool talk_function::carpenter_return( npc &p )
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->get_skill_level( skill_fabrication );
+        int skill_1 = comp->get_greater_skill_or_knowledge_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
         popup( _( "While %s was framing a building, one of the walls began to collapse…" ),

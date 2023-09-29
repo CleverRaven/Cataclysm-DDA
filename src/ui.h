@@ -515,6 +515,8 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
+
+        void set_selected( int index );
 };
 
 /**

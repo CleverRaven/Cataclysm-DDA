@@ -728,7 +728,7 @@ static int hack_level( const Character &who )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    return round( who.get_skill_level( skill_computer ) + static_cast<float>
+    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + static_cast<float>
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
@@ -1040,7 +1040,8 @@ void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
         for( const auto& [rid, r] : recipe_dict ) {
             if( r.never_learn || r.obsolete || mmd->recipes_categories.count( r.category ) == 0 ||
                 saved_recipes.count( rid ) ||
-                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ) {
+                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ||
+                ( r.has_flag( "SECRET" ) && !mmd->secret_recipes ) ) {
                 continue;
             }
             candidates.emplace( rid );
@@ -1176,7 +1177,7 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     }
     vehicle &veh = vp->vehicle();
 
-    int skill = round( who.get_skill_level( skill_mechanics ) );
+    int skill = round( who.get_average_skill_level( skill_mechanics ) );
     if( skill > rng( 1, 6 ) ) {
         // Success
         who.add_msg_if_player( _( "You found the wire that starts the engine." ) );

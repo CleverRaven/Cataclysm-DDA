@@ -1271,6 +1271,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "steel" ],
+    "//": "weight and volume assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
     "weight": "54431 g",
     "volume": "240 L",
     "to_hit": -5,
@@ -2273,7 +2274,8 @@
       "recipes_chance": 1.0,
       "recipes_amount": 3,
       "recipes_categories": [ "CC_CHEM" ],
-      "recipes_level_min": 6
+      "recipes_level_min": 6,
+      "secret_recipes": true
     },
     "pocket_data": [  ]
   },

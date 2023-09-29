@@ -202,10 +202,12 @@ class monster : public Creature
          * will_move_to() checks for impassable terrain etc
          * can_reach_to() checks for z-level difference.
          * can_move_to() is a wrapper for both of them.
+         * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
         bool can_move_to( const tripoint &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
+        bool know_danger_at( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?

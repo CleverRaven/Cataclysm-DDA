@@ -43,7 +43,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "BIOLOGICALPROOF", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ],
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
@@ -74,7 +74,7 @@
       "message": "As the final light is destroyed, it erupts in a blinding flare!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "BIOLOGICALPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
@@ -127,6 +127,7 @@
       "SEES",
       "NOHEAD",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "COLDPROOF",
       "IMMOBILE",
       "NO_BREATHE",
@@ -186,6 +187,7 @@
       "SEES",
       "NOHEAD",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "COLDPROOF",
       "IMMOBILE",
       "NO_BREATHE",
@@ -245,6 +247,7 @@
       "SEES",
       "NOHEAD",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "COLDPROOF",
       "IMMOBILE",
       "NO_BREATHE",
@@ -301,7 +304,17 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "ID_CARD_DESPAWN" ],
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "BIOLOGICALPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "DROPS_AMMO",
+      "ID_CARD_DESPAWN"
+    ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
@@ -328,7 +341,7 @@
     "special_attacks": [ [ "SPEAKER", 10 ] ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ],
+    "flags": [ "SEES", "NOHEAD", "BIOLOGICALPROOF", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ],
     "armor": { "bash": 14, "cut": 16, "bullet": 14, "stab": 16 }
   },
   {
@@ -377,7 +390,17 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "INTERIOR_AMMO" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "BIOLOGICALPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "INTERIOR_AMMO"
+    ],
     "armor": { "bash": 24, "bullet": 24, "cut": 26, "stab": 26 }
   },
   {
