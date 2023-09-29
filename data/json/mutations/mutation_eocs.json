@@ -90,5 +90,18 @@
       "or": [ { "u_has_trait": "NO_RIGHT_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" }, { "u_has_trait": "HAS_RIGHT_LEG" } ]
     },
     "effect": [ { "u_add_trait": "HAS_RIGHT_LEG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_LEG_HIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "left_leg_prosthetic", "worn_only": true } ],
+        "true_eocs": [ { "id": "prosthetic_damage", "effect": [ { "math": [ "hp()", "-", "10" ] } ] } ]
+      }
+    ]
   }
 ]
