@@ -2041,8 +2041,9 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             int price = total_price( u, item_type );
             phrase.replace( fa, l, format_money( price ) );
         } else if( tag == "<interval>" ) {
-            const npc *guy = dynamic_cast<const npc *>( &me );
-            phrase.replace( fa, l, guy->get_restock_interval() );
+            const npc *guy = dynamic_cast<const npc *>( me_chr );
+            std::string restock_interval = guy ? guy->get_restock_interval() : _( "a few days" );
+            phrase.replace( fa, l, restock_interval );
         } else if( tag.find( "<u_val:" ) != std::string::npos ) {
             //adding a user variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
