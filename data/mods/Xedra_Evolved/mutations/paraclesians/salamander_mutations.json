@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_SKIN_1",
-    "name": { "str": "salamander skin" },
+    "name": { "str": "Salamander Skin" },
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_SKIN_2",
-    "name": { "str": "burning coals skin" },
+    "name": { "str": "Burning Coals Skin" },
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
@@ -29,7 +29,7 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_SKIN_3",
-    "name": { "str": "flame skin" },
+    "name": { "str": "Flame Skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -68,7 +68,7 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_FIRE_IMMUNE",
-    "name": { "str": "Innured to Flame" },
+    "name": { "str": "Inured to Flame" },
     "points": 9,
     "visibility": 0,
     "ugliness": 0,
@@ -87,7 +87,7 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_NO_WATER",
-    "name": { "str": "Inner Flames Cannot Be Quenched" },
+    "name": { "str": "The Inner Fire Cannot Be Quenched" },
     "points": 6,
     "description": "Accursed water.  Its touch dampens your flames, and you will no longer have anything to do with it.  You do not need to drink.",
     "types": [ "THIRST" ],
