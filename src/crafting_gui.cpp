@@ -196,7 +196,7 @@ struct availability {
                                craft_flags::start_only );
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
                                  craft_flags::start_only );
-            would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
+            useless_practice = r->is_practice() && cannot_gain_skill_or_prof( crafter, *r );
             is_nested_category = r->is_nested();
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
@@ -212,7 +212,7 @@ struct availability {
         bool can_craft;
         bool would_use_rotten;
         bool would_use_favorite;
-        bool would_not_benefit;
+        bool useless_practice;
         bool apparently_craftable;
         bool has_proficiencies;
         bool has_all_skills;
@@ -260,7 +260,7 @@ struct availability {
                 return h_dark_gray;
             } else if( is_nested_category ) {
                 return h_light_blue;
-            }  else if( would_use_rotten || would_not_benefit ) {
+            }  else if( would_use_rotten || useless_practice ) {
                 return has_all_skills ? h_brown : h_red;
             } else if( would_use_favorite ) {
                 return has_all_skills ? h_pink : h_red;
@@ -276,7 +276,7 @@ struct availability {
                 return c_dark_gray;
             } else if( is_nested_category ) {
                 return c_light_blue;
-            } else if( would_use_rotten || would_not_benefit ) {
+            } else if( would_use_rotten || useless_practice ) {
                 return has_all_skills || ignore_missing_skills ? c_brown : c_red;
             } else if( would_use_favorite ) {
                 return has_all_skills ? c_pink : c_red;
