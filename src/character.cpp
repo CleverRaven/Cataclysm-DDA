@@ -12341,7 +12341,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 
     weapon.on_wield( *this );
 
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    item_location loc( *this, &weapon );
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send_with_talker( this, &loc, e );
 
     return true;
 }
