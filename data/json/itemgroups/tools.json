@@ -695,7 +695,7 @@
       [ "gloves_medical", 5 ],
       [ "mask_dust", 5 ],
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
-      [ "gasfilter_s", 5 ],
+      { "item": "gasfilter_sm", "prob": 5, "charges": [ 0, 100 ] },
       [ "glasses_safety", 5 ],
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
