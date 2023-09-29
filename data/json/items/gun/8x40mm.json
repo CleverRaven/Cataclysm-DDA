@@ -82,9 +82,8 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_56_mag", "8x40_45_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_42_mag", "8x40_24_mag", "8x40_54_mag" ] } ]
   },
   {
     "id": "xm614",
@@ -255,39 +254,22 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "id": "rm51_assault_rifle",
+    "id": "rsa840",
     "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "RM51 assault rifle" },
-    "description": "Originally produced for military use, the Rivtech RM51 assault rifle was designed for durability and ease of use under less than ideal circumstances, with its considerable bulk minimized by a compact and ergonomic layout.  Accepts box magazines.",
-    "weight": "2850 g",
-    "volume": "2150 ml",
-    "longest_side": "905 mm",
-    "price": 1800000,
-    "price_postapoc": 12000,
-    "to_hit": -1,
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "8x40mm" ],
-    "skill": "rifle",
-    "dispersion": 50,
-    "durability": 9,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 1 ],
-      [ "underbarrel", 1 ]
+    "copy-from": "xm88",
+    "name": { "str": "Rivtech 8x40mm bullpup rifle" },
+    "description": "A large and hefty rifle that looks suspiciously like a weapon prop that escaped from the set of a sci-fi blockbuster, this advanced offering from Rivtech is chambered for proprietary 8x40mm caseless munitions.  Originally entered for military trials years before the Cataclysm, what rests before you today is a civilian, semi-automatic version of the design offered by Rivtech shortly after their prototype failed to win the US Army’s weapon contract.  Sold as a novelty rifle before the end of the world, its steep price and the company’s later controversy kept it out of most laymen’s hands and shy of achieving true market success.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rsa840",
+        "name": { "str": "Rivtech SA-840 Mirage" },
+        "description": "Encased within a boxy aluminum receiver and uncannily similar to a sci-fi prop with a recessed barrel and pistol grip, this is a bullpup 8x40mm caseless rifle produced by the Rivtech corporation.  Originally entered for military trials before being trounced by its competitors, this version of the design has been adapted, with a few extra bells and whistles in the ergonomics department, into a semi-automatic civilian rifle.  While its impractically hefty price point made it little more than a trophy gun among the general population, and Rivtech’s latter-day controversy awarded it a less than ideal reputation, the SA-840 remains a capable rifle, and quite the goochy one at that.",
+        "weight": 1
+      }
     ],
-    "flags": [ "WATERPROOF_GUN" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "price": 396500,
+    "price_postapoc": 85000,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   }
 ]

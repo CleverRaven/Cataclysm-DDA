@@ -4,7 +4,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Rivtech 24-round magazine" },
-    "description": "A stubby, coffin-shaped 24-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 12-round magazines that feed two stacks of cartridges into a compatible firearm, this downsized magazine proved to be one of the company’s most popular, striking a favourable balance between practical dimensions while also offering a large amount of potential firepower.",
+    "description": "A stubby, coffin-shaped 24-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 12-round magazines that feed two stacks of cartridges into a compatible firearm, this downsized magazine proved to be one of the company’s most popular, striking a favourable balance between practical dimensions while also offering a respectable amount of potential firepower.",
     "variant_type": "gun",
     "variants": [
       {
@@ -38,7 +38,7 @@
       {
         "id": "8x40_42_mag",
         "name": { "str": "8x40mm 42-round magazine" },
-        "description": "Consisting of two parallelly fused, double-stacked compartments, this is a standard magazine for the Rivtech caseless rifle platform.  With the front of one compartment melded with the spine of its partner, both magazines possess their own follower assemblies and plastic witness holes.  When cycling, the cartridges at the apex of each compartment are shuttled forward, with the front round being delivered into the chamber while its twin replaces its position at the foremost magazine's top.  Having been Rivtech’s original offering when still competing within NGSW trials, it, due to its comparatively small size and plentiful ammunition capacity, remained the standard within 8x40mm magazine designs.",
+        "description": "Consisting of two parallelly fused, double-stacked compartments, this is a standard magazine for the Rivtech caseless rifle platform.  With the front of one compartment melded with the spine of its partner, both magazines possess their own follower assemblies and plastic witness holes.  When cycling, the cartridges at the apex of each compartment are shuttled forward, with the front round being delivered into the chamber while its twin replaces its position at the foremost magazine's top.  Having been Rivtech’s original offering when still competing within military trials, it, due to its comparatively small size and plentiful ammunition capacity, remained the standard within 8x40mm magazine designs.",
         "weight": 1
       }
     ],
@@ -60,7 +60,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Rivtech 54-round magazine" },
-    "description": "An extended-capacity 54-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 27-round magazines that feed two stacks of cartridges into a compatible firearm, the hardware was mildly criticised for being the cause of more than its fair share of mechanical hiccups within civilian-offered guns.  That being said, considering the magazine’s very unconventional design, it actually functions quite well.",
+    "description": "An extended-capacity 54-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 27-round magazines that feed two stacks of cartridges into a compatible firearm, the hardware was mildly criticised for being the cause of more than its fair share of mechanical hiccups within civilian guns.  That being said, considering the magazine’s very unconventional design, it actually functions quite well.",
     "variant_type": "gun",
     "variants": [
       {
