@@ -278,7 +278,7 @@ The monster fires a gun at a target.  If the monster is friendly, it will avoid 
 ### "spell" Monster Spells
 
 
-Casts a separately-defined spell at the monster's target.  Spells with `target_self: true` will only target the casting monster, and will still be casted only if the monster has a hostile target.
+Casts a separately-defined spell at the monster's target.  Spells with `target_self: true` will only target the casting monster, and will still be casted only if the monster has a hostile target. Monsters with more than one special attack require the `id` to be defined for each.
 
 | Identifier                     | Description                                                                                             |
 | ---                            | ------------------------------------------------------------------------------------------------------- |
