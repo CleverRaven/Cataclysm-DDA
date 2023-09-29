@@ -230,7 +230,7 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_fly_small", "weight": 2, "cost_multip lier": 0 },
+      { "monster": "mon_fly_small", "weight": 2, "cost_multiplier": 0 },
       { "monster": "mon_spider_jumping_small", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_spider_wolf_small", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_mantis_small", "weight": 2, "cost_multiplier": 10 },
