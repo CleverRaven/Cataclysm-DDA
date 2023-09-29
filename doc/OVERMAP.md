@@ -430,6 +430,7 @@ Depending on the subtype, there are further relevant fields:
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 0, 5 ],
+    "priority": 0,
     "flags": [ "CLASSIC" ],
     "rotate" : true
   }

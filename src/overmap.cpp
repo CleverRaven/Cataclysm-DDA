@@ -6298,8 +6298,8 @@ bool overmap::place_special_attempt(
 
     std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
     std::set<int> priorities;
-    for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ++iter ) {
-        priorities.emplace( iter->special_details->get_priority() );
+    for( const overmap_special_placement &os : enabled_specials ) {
+        priorities.emplace( os.special_details->get_priority() );
     }
     for( auto pri_iter = priorities.rbegin(); pri_iter != priorities.rend(); ++pri_iter ) {
         for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ++iter ) {
