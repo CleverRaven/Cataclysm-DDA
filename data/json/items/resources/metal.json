@@ -1038,7 +1038,7 @@
     "material": [ "mc_steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "qualities": [ [ "ANVIL", 2 ] ]
+    "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
     "type": "GENERIC",
