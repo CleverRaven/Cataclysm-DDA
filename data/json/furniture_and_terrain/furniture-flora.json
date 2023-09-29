@@ -121,7 +121,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "tulip_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -168,7 +168,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "black_eyed_susan_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -184,7 +184,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "lily_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -245,7 +245,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "lilypad_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -354,7 +354,6 @@
     "looks_like": "f_lily",
     "color": [ "brown_green", "green", "red", "brown" ],
     "move_cost_mod": 1,
-    "coverage": 20,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
@@ -377,7 +376,6 @@
     "//": "green all year long",
     "color": "green",
     "move_cost_mod": 1,
-    "coverage": 20,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
@@ -401,7 +399,7 @@
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
     "bash": {
@@ -410,6 +408,115 @@
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireweed",
+    "name": "fireweed",
+    "description": "Vibrant purple, it tends to be the first to appear after fires, hence its name.",
+    "symbol": ",",
+    "looks_like": "f_dahlia",
+    "move_cost_mod": 0,
+    "color": [ "brown_green", "magenta", "magenta", "brown" ],
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" }
+    ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_selfheal",
+    "name": "common selfheal",
+    "description": "A small purple flower.  It got its name due to its usage in traditional medicine.",
+    "symbol": ",",
+    "looks_like": "f_dahlia",
+    "color": [ "brown_green", "magenta", "magenta", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" }
+    ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dogbane",
+    "name": "spreading dogbane",
+    "description": "It is not only toxic to dogs when eaten by them.  Humans and many other animals are affected, too.  Its fibers sure are worth salvaging though.  Despite its name, it is not actually spreading fast.",
+    "symbol": ",",
+    "looks_like": "f_chamomile",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dogbane_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_thistle",
+    "name": "thistle",
+    "looks_like": "f_burdock",
+    "description": "A prickly and invasive small plant.",
+    "symbol": ",",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "thistle_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_purple_loosestrife",
+    "name": "purple loosestrife",
+    "looks_like": "f_dahlia",
+    "description": "A pretty violet flower that likes water.  Unfortunately it is invasive and does not benefit the environment.",
+    "symbol": ",",
+    "color": [ "brown_green", "magenta", "magenta", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "SHORT", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
   },
   {

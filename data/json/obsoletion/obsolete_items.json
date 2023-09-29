@@ -1163,5 +1163,12 @@
     "dispersion": 50,
     "recoil": 350,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "burdock_stalk",
+    "name": { "str": "burdock stalk" },
+    "description": "A stiff, green stalk from a burdock plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
+    "copy-from": "cattail_stalk"
   }
 ]
