@@ -55,7 +55,7 @@ struct talk_effect_fun_t {
         void set_run_eoc_until( const JsonObject &jo, std::string_view member );
         void set_run_eoc_selector( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
-        void set_run_inv_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_run_inv_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
         void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
         void set_switch( const JsonObject &jo, std::string_view member );
@@ -127,6 +127,9 @@ struct talk_effect_fun_t {
         void set_open_dialogue( const JsonObject &jo, std::string_view member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
+        void set_set_flag( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_unset_flag( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_activate( const JsonObject &jo, const std::string &member, bool is_npc );
         void operator()( dialogue &d ) const {
             if( !function ) {
                 return;
