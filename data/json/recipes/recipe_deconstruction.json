@@ -4183,8 +4183,9 @@
       [ [ "thermostat", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "metal_tank", 1 ] ]
-    ]
+      [ [ "30gal_drum", 1 ] ]
+    ],
+    "//": "drum assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>"
   },
   {
     "result": "television",

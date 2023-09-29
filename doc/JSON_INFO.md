@@ -4596,7 +4596,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 For every `type` other then those with "dissect_only" (see below) the following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using
+    `max` upper limit after `base_num` and `scale_num` are calculated using
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
 For `type`s with "dissect_only" (see below), the following entries can scale the results:

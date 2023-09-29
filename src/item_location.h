@@ -159,5 +159,6 @@ class item_location
         std::shared_ptr<impl> ptr;
 };
 std::unique_ptr<talker> get_talker_for( item_location &it );
+std::unique_ptr<talker> get_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
 #endif // CATA_SRC_ITEM_LOCATION_H

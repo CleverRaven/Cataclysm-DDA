@@ -5,6 +5,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "young_leaves", "prob": 50, "count-min": 1, "count-max": 4 },
+      { "item": "plant_stalk", "prob": 20, "count-min": 1, "count-max": 3 },
       { "group": "any_wild_egg", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "groundnut", "prob": 5, "count-min": 1, "count-max": 8 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
@@ -29,6 +30,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mayapple", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "plant_stalk", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "groundnut", "prob": 3, "count-min": 1, "count-max": 6 },
       { "group": "forage_mushroom", "prob": 25 },
       { "group": "any_wild_egg", "prob": 5, "count-min": 2, "count-max": 5 },
@@ -52,6 +54,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mayapple", "prob": 8, "count-min": 1, "count-max": 2 },
+      { "item": "plant_stalk", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "groundnut", "prob": 2, "count-min": 1, "count-max": 9 },
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "wild_herbs", "prob": 10, "count": 20 },

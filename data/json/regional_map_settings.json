@@ -202,6 +202,7 @@
           "f_black_eyed_susan": 3,
           "f_bluebell": 2,
           "f_maianthemum_stellatum": 2,
+          "f_fireweed": 1,
           "f_flower_spurge": 1,
           "f_dahlia": 1,
           "f_salsify": 1,
@@ -209,13 +210,15 @@
           "f_sunflower": 1
         },
         "f_region_weed": {
-          "f_chamomile": 400,
+          "f_thistle": 400,
+          "f_dandelion": 400,
+          "f_burdock": 400,
+          "f_chamomile": 300,
           "f_carrot_wild": 300,
           "f_salsify": 300,
           "f_datura": 300,
           "f_japanese_knotweed": 300,
           "f_bluebell": 200,
-          "f_burdock": 100,
           "f_dahlia": 100,
           "f_lily": 100,
           "f_sunflower": 100,
@@ -228,6 +231,7 @@
           "f_carrot_wild": 300,
           "f_salsify": 300,
           "f_datura": 300,
+          "f_thistle": 300,
           "f_japanese_knotweed": 200,
           "f_dahlia": 200,
           "f_maianthemum_stellatum": 200,
@@ -236,9 +240,12 @@
           "f_flower_tulip": 100,
           "f_mustard": 100,
           "f_sunflower": 100,
+          "f_fireweed": 100,
+          "f_selfheal": 100,
           "f_jerusalem_artichoke": 100,
           "f_lily": 100,
-          "f_chicory": 100
+          "f_chicory": 100,
+          "f_dogbane": 30
         },
         "f_region_forest": {
           "f_burdock": 2000,
@@ -252,7 +259,8 @@
           "f_dahlia": 200,
           "f_mutpoppy": 100,
           "f_maianthemum_stellatum": 100,
-          "f_wintergreen": 100
+          "f_wintergreen": 100,
+          "f_dogbane": 80
         },
         "f_region_forest_dense": {
           "f_burdock": 2000,
@@ -260,10 +268,11 @@
           "f_lily": 500,
           "f_wild_sarsaparilla": 400,
           "f_salsify": 300,
-          "f_wintergreen": 200
+          "f_wintergreen": 200,
+          "f_dogbane": 100
         },
-        "f_region_forest_water": { "f_burdock": 4, "f_japanese_knotweed": 2, "f_lily": 1 },
-        "f_region_water_plant": { "f_cattails": 15, "f_wild_rice": 1, "f_lilypad": 1, "f_lotus": 5 }
+        "f_region_forest_water": { "f_burdock": 4, "f_purple_loosestrife": 3, "f_japanese_knotweed": 2, "f_lily": 1 },
+        "f_region_water_plant": { "f_cattails": 15, "f_purple_loosestrife": 10, "f_wild_rice": 1, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
     "river_scale": 1.0,
