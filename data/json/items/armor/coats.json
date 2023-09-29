@@ -1446,6 +1446,46 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "gosling_jacket",
+    "type": "ARMOR",
+    "name": { "str": "scorpion ornamented jacket" },
+    "description": "A light cotton padded nylon jacket with a white surface.  It has two pockets on the front, mainly for putting your hands in.  A golden scorpion is embedded on its back.  Fit for a real human being, and a real hero.",
+    "weight": "900 g",
+    "volume": "1500 ml",
+    "price": 8000,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "nylon", "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_leather",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 5, 8 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 6, 6 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 70,
+        "max_item_length": "8 cm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 70,
+        "max_item_length": "8 cm"
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.8,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
+  },
+  {
     "id": "jacket_light",
     "type": "ARMOR",
     "name": { "str": "light jacket" },
@@ -2122,7 +2162,7 @@
     "copy-from": "grim_reaper_robe",
     "type": "ARMOR",
     "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
-    "description": "A black hooded grim reaper's robe with the face cover removed to show user's lack of facial skin.  It pairs nicely with a scythe.  Use it to hide your lack of facial features.",
+    "description": "A black hooded grim reaper's robe with the face cover removed to show the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to hide your lack of facial features.",
     "//": "'Faceless' as in 'face cover'less and because, without the cover of darkness (A black face cover) a real grim reaper would really be faceless",
     "use_action": {
       "type": "transform",

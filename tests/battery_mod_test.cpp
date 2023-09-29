@@ -279,15 +279,15 @@ TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
         }
 
         SECTION( "has compatible magazines" ) {
-            CHECK( flashlight.can_contain( *itype_light_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_disposable_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ) );
+            CHECK( flashlight.can_contain( *itype_light_battery_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_disposable_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ).success() );
         }
 
         SECTION( "Does not fit medium or large magazines" ) {
-            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ) );
-            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ) );
+            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ).success() );
+            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ).success() );
         }
 
         SECTION( "has a default magazine" ) {

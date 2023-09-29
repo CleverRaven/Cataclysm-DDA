@@ -167,6 +167,7 @@
     "price_postapoc": 2,
     "material": [ "cotton" ],
     "symbol": ",",
+    "qualities": [ [ "SIEVE", 1 ], [ "STRAIN", 2 ] ],
     "color": "white",
     "use_action": [
       { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },

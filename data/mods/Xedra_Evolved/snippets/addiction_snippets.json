@@ -1,0 +1,62 @@
+[
+  {
+    "type": "snippet",
+    "category": "blood_addiction",
+    "text": [
+      { "id": "blood_addiction_1", "text": "You need blood to survive." },
+      { "id": "blood_addiction_2", "text": "A blood spattered charnel room flashes in front of your eyes." },
+      { "id": "blood_addiction_3", "text": "You lick your teeth thinking about blood." }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "blood_addiction_dream",
+    "text": [
+      {
+        "id": "blood_addiction_dream_1",
+        "text": "You dream of sneaking into a home through an open window late at night.  Walking through the darkened hallways, unerringly finding your way to a bedroom.  You stand at the foot of the bed staring down at the person sleeping in it.  Are they a man, woman or child?  You can't tell, all you know is they are filled with blood and you need it."
+      },
+      {
+        "id": "blood_addiction_dream_2",
+        "text": "In your dream, an early evening storm begins with you outside.  You feel the rain hitting you but it is thicker than water, more viscous.  You smell it first, before you look at your hands and realize the rain is blood.  You lean your head back and open your mouth wide to the rain falling into it."
+      },
+      {
+        "id": "blood_addiction_dream_3",
+        "text": "You float above a house late at night watching someone enter through an open window.  You blink and you are now in a bedroom seeing a disturbing scene.  Someone who's face is shadowed where you can't see them is standing over a person lying on the bed.  You startle when you realize that you are the person lying on the bed.  You scream helplessly as the shadowed person bites into sleeping you's throat and blood sprays across the room.  You wake as your struggles slow and lessen."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lotus_addiction",
+    "text": [
+      { "id": "lotus_addiction_1", "text": "You are sure you saw movement at the edge of your vision." },
+      {
+        "id": "lotus_addiction_2",
+        "text": "The hair on the back of your neck rises as you hear a voice you remember from just out of sight."
+      },
+      {
+        "id": "lotus_addiction_3",
+        "text": "Your eye twitches on it's own for several minutes.  From the top corner near your temple down into the cheek."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lotus_addiction_dream",
+    "text": [
+      {
+        "id": "lotus_addiction_dream_1",
+        "text": "You dream about watching tv, it's a documentary about some bioweapon that got loose in Newfoundland.  A doctor is talking about how containment failed and health campaigns failed to eradicate it.  You recognize the voice, it's your voice.  As the credits play you see listed '<full_name> M.D.'  This seems worrying."
+      },
+      {
+        "id": "lotus_addiction_dream_2",
+        "text": "You dream of walking down a long hallway with no definite beginning or end, portraits and mirrors alternate on the sides of the hallway.  Slowly you have a sneaking suspicion that your reflections aren't quite reflecting you.  Sometimes you spot out of the corner of your eyes distorted features, a mouth full of sharp teeth, different hair styles and colors, even horns.  Each time you turn and look though it's just your own reflection looking back at you.  You try one last time to catch your reflection and while you are staring into its eyes, you see the pupils track towards the portrait reflected behind you.  You turn your eyes to focus on the portrait reflection and there you are climbing out of the portrait mouth agape, full of too many needle sharp teeth, you quickly focus back at your reflection in the mirror and see only clear glass.  Before you can turn you feel a sharp pain in your shoulder."
+      },
+      {
+        "id": "lotus_addiction_dream_3",
+        "text": "You lounge in sunny glades, eating lotus blossoms while others frolick through the breeze.  You wake feeling calmer than normal and go back to less pleasant sleep."
+      }
+    ]
+  }
+]

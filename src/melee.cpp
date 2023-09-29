@@ -1241,7 +1241,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
 
     // FIXME: Hardcoded damage type effects (bash)
     if( dt == damage_bash ) {
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed && weap.is_null() ) {
+        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
             // Pure unarmed doubles the bonuses from unarmed skill
             skill *= 2;
         }
@@ -2569,7 +2569,7 @@ std::string melee_message( const ma_technique &tec, Character &p,
     };
 
     int total_dam = 0;
-    std::pair<damage_type_id, int> dominant_type = { damage_type_id::NULL_ID(), 0 };
+    std::pair<damage_type_id, int> dominant_type = { damage_bash, 0 };
     for( const damage_type &dt : damage_type::get_all() ) {
         if( dt.melee_only ) {
             int dmg = ddi.type_damage( dt.id );

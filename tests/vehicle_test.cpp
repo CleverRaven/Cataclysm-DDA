@@ -652,8 +652,8 @@ static void rack_check( const rack_preset &preset )
         } else {
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
-                     "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [81, 80, and 78]." );
+                     "racking actor failed: failed racking Foldable wheelchair on Station Wagon, "
+                     "racks: [82, 81, and 79]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(

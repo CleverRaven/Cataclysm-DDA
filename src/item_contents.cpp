@@ -653,7 +653,7 @@ void item_contents::read_mods( const item_contents &read_input )
 }
 
 void item_contents::combine( const item_contents &read_input, const bool convert,
-                             const bool into_bottom, bool restack_charges )
+                             const bool into_bottom, bool restack_charges, bool ignore_contents )
 {
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
@@ -671,7 +671,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                     pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
                     ++pocket_index;
                     for( const item *it : pocket.all_items_top() ) {
-                        insert_item( *it, pocket.get_pocket_data()->type );
+                        insert_item( *it, pocket.get_pocket_data()->type, ignore_contents );
                     }
                     continue;
                 } else if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
@@ -688,7 +688,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                 } else if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
                            pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
                     for( const item *it : pocket.all_items_top() ) {
-                        insert_item( *it, pocket.saved_type() );
+                        insert_item( *it, pocket.saved_type(), ignore_contents );
                     }
                     ++pocket_index;
                     continue;
@@ -699,7 +699,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
 
             for( const item *it : pocket.all_items_top() ) {
                 const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it,
-                        into_bottom, restack_charges );
+                        into_bottom, restack_charges, ignore_contents );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
                     debugmsg( "error: item %s cannot fit into pocket while loading: %s",
@@ -720,7 +720,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item &uninserted_item : uninserted_items ) {
-        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
+        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION, ignore_contents );
     }
 }
 
@@ -813,7 +813,7 @@ int item_contents::insert_cost( const item &it ) const
 }
 
 ret_val<item_pocket *> item_contents::insert_item( const item &it,
-        item_pocket::pocket_type pk_type )
+        item_pocket::pocket_type pk_type, bool ignore_contents )
 {
     if( pk_type == item_pocket::pocket_type::LAST ) {
         // LAST is invalid, so we assume it will be a regular container
@@ -828,7 +828,8 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
         return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
     }
 
-    ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
+    ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it, false,
+            true, ignore_contents );
     if( pocket_contain_code.success() ) {
         return pocket;
     }
@@ -1582,6 +1583,21 @@ item *item_contents::get_item_with( const std::function<bool( const item &it )> 
             continue;
         }
         item *it = pocket.get_item_with( filter );
+        if( it != nullptr ) {
+            return it;
+        }
+    }
+    return nullptr;
+}
+
+const item *item_contents::get_item_with( const std::function<bool( const item &it )> &filter )
+const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            continue;
+        }
+        const item *it = pocket.get_item_with( filter );
         if( it != nullptr ) {
             return it;
         }
@@ -2425,8 +2441,7 @@ float item_contents::relative_encumbrance() const
         nonrigid_max_volume += pocket.max_contains_volume() * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
-        debugmsg( "volume exceeds capacity (%sml > %sml)",
-                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_max_volume ) );
+        // volume exceeds capacity and will spill until 1 or lower if picked up, so assume 1
         return 1;
     }
     if( nonrigid_max_volume == 0_ml ) {

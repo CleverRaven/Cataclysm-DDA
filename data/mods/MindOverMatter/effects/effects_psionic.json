@@ -272,7 +272,6 @@
       [ "Your lungs are straining with the effort of holding your breath.", "bad" ]
     ],
     "rating": "good",
-    "show_intensity": false,
     "max_duration": "8 minutes",
     "max_intensity": 50,
     "dur_add_perc": 10,
@@ -292,7 +291,8 @@
       "badpoison"
     ],
     "removes_effects": [ "bleed" ],
-    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST" ]
+    "//": "Gills here because they're holding their breath",
+    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST", "GILLS", "WALK_UNDERWATER" ]
   },
   {
     "type": "effect_type",
@@ -306,7 +306,6 @@
       [ "The rush of power filling you is beginning to ebb.", "bad" ]
     ],
     "rating": "good",
-    "show_intensity": false,
     "max_duration": "10 minutes",
     "max_intensity": 25,
     "dur_add_perc": 10,
@@ -321,7 +320,7 @@
               "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
           },
-          { "value": "MOVE_COST", "multiply": -0.2 },
+          { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "RECOIL_MODIFIER", "add": -30 },
           {
             "value": "MELEE_DAMAGE",
@@ -338,6 +337,35 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_perfected_motion",
+    "name": [ "Perfected Motion" ],
+    "desc": [ "You feel like you can outrun a locomotive." ],
+    "apply_message": "",
+    "remove_message": "The world returns to normal speed.",
+    "decay_messages": [ [ "Your movements are slower and slower now.", "bad" ], [ "The world begins speeding up around you.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "1 minutes",
+    "max_intensity": 18,
+    "dur_add_perc": 10,
+    "int_dur_factor": "3 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "( -0.5 + ( u_val('spell_level', 'spell: biokin_perfected_motion') * -0.015) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
   },
   {
     "type": "effect_type",
@@ -698,6 +726,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_omniscence",
+    "name": [ "Omniscience" ],
+    "desc": [ "You can see forever." ],
+    "apply_message": "",
+    "remove_message": "Your senses snap back to your physical body.",
+    "rating": "good",
+    "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 1 ] ], "tick": [ "2 s" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
@@ -834,7 +873,7 @@
     "apply_message": "",
     "remove_message": "The barrier of force around you falls apart.",
     "decay_messages": [
-      [ "The barrier around you is nearly gone", "bad" ],
+      [ "The barrier around you is nearly gone.", "bad" ],
       [ "You can feel the barrier around you losing its integrity.", "bad" ]
     ],
     "rating": "good",
@@ -873,6 +912,22 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_levitation",
+    "name": [ "Levitation" ],
+    "desc": [ "You are floating in defiance of gravity." ],
+    "apply_message": "",
+    "remove_message": "Your feet touch the ground once again.",
+    "decay_messages": [ [ "You are sinking despite your best efforts.", "bad" ], [ "You wobble briefly downward before recovering.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "68 seconds",
+    "max_intensity": 34,
+    "dur_add_perc": 10,
+    "int_dur_factor": "2 s",
+    "flags": [ "LEVITATION" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 1 ] ], "tick": [ "5 s" ] } ]
   },
   {
     "type": "effect_type",
@@ -935,7 +990,10 @@
     "desc": [ "You are hiding your presence from your enemies." ],
     "apply_message": "",
     "remove_message": "You are again visible and vulnerable.",
-    "decay_messages": [ [ "You obscurity is nearly gone.", "bad" ], [ "You notice nearby enemies glancing in your direction.", "bad" ] ],
+    "decay_messages": [
+      [ "Your veil of obscurity is nearly gone.", "bad" ],
+      [ "You notice nearby enemies glancing in your direction.", "bad" ]
+    ],
     "rating": "good",
     "max_duration": "100 seconds",
     "max_intensity": 14,
@@ -964,6 +1022,85 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telepath_network_effect",
+    "name": [ "Telepathic Network" ],
+    "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
+    "//": "Ideally this would directly increase Perception and the Dodge, Melee, and Marksmanship skills, in some proportion to the target's current skill vs. the highest skill among the group.  The below is currently what is possible.",
+    "apply_message": "",
+    "remove_message": "Silence fills your mind.",
+    "decay_messages": [
+      [ "The inner voices of your allies are only a whisper now.", "bad" ],
+      [ "The inner voices of your allies begin to fade.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 59,
+    "dur_add_perc": 10,
+    "int_dur_factor": "31 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: telepathic_network') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "BONUS_BLOCK",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: telepathic_network') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "PERCEPTION",
+            "add": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.2) + 1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "RANGE",
+            "add": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.25) + 3) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "EVASION",
+            "multiply": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          },
+          {
+            "value": "RANGED_DAMAGE",
+            "multiply": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          },
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.005) + 0.05) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          },
+          {
+            "value": "COMBAT_CATCHUP",
+            "multiply": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: telepathic_network') * 0.25) + 1.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],
@@ -973,7 +1110,7 @@
     "max_duration": 3000,
     "dur_add_perc": 5,
     "base_mods": { "speed_mod": [ -40 ] },
-    "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ]
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -1073,5 +1210,27 @@
       "fatigue_chance": [ -65 ],
       "vomit_chance": [ -150 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_super_heal",
+    "desc": [ "You are healing extraordinarily quickly." ],
+    "apply_message": "",
+    "remove_message": "Your body aches as your preternatural healing slows to a stop.",
+    "rating": "good",
+    "removes_effects": [ "bleed" ],
+    "enchantments": [
+      {
+        "intermittent_activation": {
+          "effects": [
+            {
+              "frequency": "30 seconds",
+              "spell_effects": [ { "id": "vita_super_heal_healing" }, { "id": "vita_super_heal_drain" } ]
+            }
+          ]
+        }
+      }
+    ],
+    "flags": [ "BLEED_IMMUNE" ]
   }
 ]

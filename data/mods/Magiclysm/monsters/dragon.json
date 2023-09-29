@@ -94,8 +94,22 @@
     "harvest": "dragon_black",
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 7 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 4 }, "cooldown": 20 }
+      { "id": "scratch", "cooldown": 7 },
+      {
+        "id": "black_whelp_breath_prep",
+        "type": "spell",
+        "spell_data": { "id": "dragon_deep_breath", "min_level": 4 },
+        "cooldown": 20,
+        "monster_message": "%1$s takes a deep breath!"
+      },
+      {
+        "id": "black_whelp_breath",
+        "type": "spell",
+        "spell_data": { "id": "dragon_breath_black", "min_level": 4 },
+        "cooldown": 1,
+        "condition": { "u_has_effect": "effect_dragon_deep_breath" },
+        "monster_message": "%1$s breathes a stream of caustic acid!"
+      }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "ACIDPROOF", "PUSH_MON", "FLIES" ],
     "armor": { "bash": 2, "cut": 12, "acid": 600, "bullet": 10 }
@@ -116,8 +130,22 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 3 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 12 }, "cooldown": 20 }
+      { "id": "scratch", "cooldown": 3 },
+      {
+        "id": "black_young_breath_prep",
+        "type": "spell",
+        "spell_data": { "id": "dragon_deep_breath", "min_level": 12 },
+        "cooldown": 20,
+        "monster_message": "%1$s takes a deep breath!"
+      },
+      {
+        "id": "black_young_breath",
+        "type": "spell",
+        "spell_data": { "id": "dragon_breath_black", "min_level": 12 },
+        "cooldown": 1,
+        "condition": { "u_has_effect": "effect_dragon_deep_breath" },
+        "monster_message": "%1$s breathes a stream of caustic acid!"
+      }
     ],
     "armor": { "acid": 600, "bash": 8, "cut": 20, "bullet": 16 }
   },
@@ -140,8 +168,22 @@
     "emit_fields": [ { "emit_id": "emit_dragon_adult_fright", "delay": "1 s" } ],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 3 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 22 }, "cooldown": 30 }
+      { "id": "scratch", "cooldown": 3 },
+      {
+        "id": "black_wyrm_breath_prep",
+        "type": "spell",
+        "spell_data": { "id": "dragon_deep_breath", "min_level": 22 },
+        "cooldown": 30,
+        "monster_message": "%1$s takes a deep breath!"
+      },
+      {
+        "id": "black_wyrm_breath",
+        "type": "spell",
+        "spell_data": { "id": "dragon_breath_black", "min_level": 22 },
+        "cooldown": 1,
+        "condition": { "u_has_effect": "effect_dragon_deep_breath" },
+        "monster_message": "%1$s breathes a stream of caustic acid!"
+      }
     ],
     "armor": { "acid": 600, "bash": 14, "cut": 30, "bullet": 24 }
   }

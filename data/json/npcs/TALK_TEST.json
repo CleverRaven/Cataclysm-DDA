@@ -598,6 +598,24 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_TEST_ITEM_WIELDED",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is a u_has_wielded_with_weapon_category LONG_SWORDS test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
+      },
+      {
+        "text": "This is a u_has_wielded_with_weapon_category KNIVES test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_wielded_with_weapon_category": "KNIVES" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_TEST_VARS",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [

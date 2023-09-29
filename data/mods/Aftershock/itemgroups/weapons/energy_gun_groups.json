@@ -41,7 +41,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_pam-41", 30 ] ]
+    "items": [ [ "afs_pam-41", 30 ], [ "afs_magnadrive_230k", 30 ] ]
   },
   {
     "id": "afs_any_energy_mag",
@@ -66,7 +66,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "ammo": 100,
-    "items": [ [ "afs_4g_plasma", 30 ] ]
+    "items": [ [ "afs_4g_plasma", 30 ], [ "afs_20g_plasma", 20 ] ]
   },
   {
     "type": "item_group",

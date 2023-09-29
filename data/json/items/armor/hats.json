@@ -495,6 +495,7 @@
     "description": "A hard plastic hat worn at construction and industrial sites.  Provides excellent protection from cuts and percussion.",
     "weight": "430 g",
     "volume": "2500 ml",
+    "longest_side": "28 cm",
     "price": 1200,
     "price_postapoc": 250,
     "material": [ "plastic" ],
@@ -570,7 +571,7 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
-        "max_contains_weight": "400 g",
+        "max_contains_weight": "500 g",
         "max_item_length": "14 cm",
         "moves": 100,
         "description": "Pocket for a flashlight attachment.",
@@ -709,6 +710,7 @@
     "description": "A hard plastic hat worn at construction and industrial sites, with a cloth tucked under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
     "weight": "470 g",
     "volume": "2750 ml",
+    "longest_side": "28 cm",
     "price": 1200,
     "price_postapoc": 300,
     "material": [ "plastic" ],
@@ -755,7 +757,7 @@
         "pocket_type": "CONTAINER",
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
-        "max_contains_weight": "400 g",
+        "max_contains_weight": "500 g",
         "max_item_length": "14 cm",
         "moves": 100,
         "description": "Pocket for a flashlight attachment.",
@@ -1032,6 +1034,25 @@
     "color": "blue",
     "warmth": 2,
     "material_thickness": 0.1,
+    "armor": [
+      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+    ]
+  },
+  {
+    "id": "zucchetto",
+    "type": "ARMOR",
+    "name": { "str": "Zucchetto" },
+    "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "red",
+    "warmth": 3,
+    "material_thickness": 0.2,
     "armor": [
       { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
     ]

@@ -510,7 +510,7 @@
     "rating": "bad",
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.2 }, { "limb_score": "reaction", "modifier": 0.0 } ],
-    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD", "NO_SPELLCASTING" ]
   },
   {
     "type": "effect_type",
