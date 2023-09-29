@@ -417,6 +417,7 @@
     "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "787 ml",
+    "longest_side": "17 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1152,6 +1153,7 @@
     "color": "light_gray",
     "weight": "728 g",
     "volume": "1575 ml",
+    "longest_side": "21 cm",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ "COOK" ] },
     "melee_damage": { "bash": 5 }
@@ -1180,6 +1182,7 @@
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
@@ -1191,6 +1194,7 @@
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },
@@ -1237,12 +1241,14 @@
     "id": "pizza_cutter",
     "name": { "str": "pizza cutter" },
     "description": "A utensil used for cutting pizza.  Practically useless in combat.",
-    "weight": "190 g",
-    "volume": "135 ml",
+    "price": "6 USD",
+    "weight": "186 g",
+    "volume": "350 ml",
     "longest_side": "23 cm",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "copy-from": "base_silverware",
-    "melee_damage": { "bash": 1, "cut": 2 }
+    "melee_damage": { "bash": 1, "cut": 2 },
+    "//": "Based on https://www.amazon.com/dp/B07YP2VL68"
   },
   {
     "type": "GENERIC",

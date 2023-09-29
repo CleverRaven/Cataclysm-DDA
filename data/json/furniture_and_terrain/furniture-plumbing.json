@@ -112,8 +112,9 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "//": "keg_capacity assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
     "examine_action": "keg",
-    "keg_capacity": 240,
+    "keg_capacity": 400,
     "deconstruct": { "items": [ { "item": "household_water_heater", "count": 1 } ] },
     "bash": {
       "str_min": 18,

@@ -1761,25 +1761,49 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             }
                         } else if( const tile_render_info::sprite * const
                                    var = std::get_if<tile_render_info::sprite>( &p.var ) ) {
+
+                            // Get visibility variables
+                            lit_level ll;
+                            std::array<bool, 5> invisible;
+                            if( cur_zlevel == center.z ) {
+                                // For the same z-level, use tile_render_info vars
+                                ll = var->ll;
+                                invisible = var->invisible;
+                            } else {
+                                // Otherwise, recalculate ll and invisible
+                                if( here.ll_invis_cache.count( draw_loc ) == 0 ) {
+                                    const std::pair<lit_level, std::array<bool, 5>> ll_invis = calc_ll_invis( draw_loc );
+                                    ll = ll_invis.first;
+                                    invisible = ll_invis.second;
+                                    // Only cache ll_invis if not in test mode
+                                    if( !test_mode ) {
+                                        here.ll_invis_cache[ draw_loc ] = ll_invis;
+                                    }
+                                } else {
+                                    ll = here.ll_invis_cache[ draw_loc ].first;
+                                    invisible = here.ll_invis_cache[ draw_loc ].second;
+                                }
+                            }
+
                             if( f == &cata_tiles::draw_vpart_no_roof || f == &cata_tiles::draw_vpart_roof ) {
                                 int temp_height_3d = p.com.height_3d;
                                 // Reset height_3d to base when drawing vehicles
                                 p.com.height_3d = ( cur_zlevel - center.z ) * zlevel_height;
                                 // Draw
-                                if( !( this->*f )( draw_loc, var->ll, p.com.height_3d, var->invisible, false ) ) {
+                                if( !( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false ) ) {
                                     // If no vpart drawn, revert height_3d changes
                                     p.com.height_3d = temp_height_3d;
                                 }
                             } else if( f == &cata_tiles::draw_critter_at ) {
                                 // Draw
-                                if( !( this->*f )( draw_loc, var->ll, p.com.height_3d, var->invisible, false ) && do_draw_shadow &&
+                                if( !( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false ) && do_draw_shadow &&
                                     cur_zlevel == p.com.draw_min_z ) {
                                     // Draw shadow of flying critters on bottom-most tile if no other critter drawn
-                                    draw_critter_above( draw_loc, var->ll, p.com.height_3d, var->invisible );
+                                    draw_critter_above( draw_loc, ll, p.com.height_3d, invisible );
                                 }
                             } else {
                                 // Draw
-                                ( this->*f )( draw_loc, var->ll, p.com.height_3d, var->invisible, false );
+                                ( this->*f )( draw_loc, ll, p.com.height_3d, invisible, false );
                             }
                         }
                     }
@@ -1832,7 +1856,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
             const point colrow = player_to_tile( { mem_x, mem_y } );
-            if( top_any_tile_range.contains( colrow ) ) {
+            if( is_isometric() && top_any_tile_range.contains( colrow ) ) {
                 continue;
             }
             const tripoint p( mem_x, mem_y, center.z );
@@ -1853,6 +1877,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             //bypass cache check in case we learn something new about the terrain's connections
             draw_terrain( p, lighting, height_3d, invisible, true );
             if( here.memory_cache_dec_is_dirty( p ) ) {
+                you.memorize_clear_decoration( here.getglobal( p ), "" );
                 draw_furniture( p, lighting, height_3d, invisible, true );
                 draw_trap( p, lighting, height_3d, invisible, true );
                 draw_part_con( p, lighting, height_3d, invisible, true );
@@ -1928,6 +1953,70 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
                   "SDL_RenderSetClipRect failed" );
+}
+
+std::pair<lit_level, std::array<bool, 5>> cata_tiles::calc_ll_invis( const tripoint &draw_loc )
+{
+    avatar &you = get_avatar();
+    map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
+    const visibility_variables &cache = here.get_visibility_variables_cache();
+    const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
+    const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
+                             ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
+    const level_cache &ch = here.access_cache( draw_loc.z );
+    const auto apply_visible = [&]( const tripoint & np, const level_cache & ch, map & here ) {
+        return np.y < min_visible.y || np.y > max_visible.y ||
+               np.x < min_visible.x || np.x > max_visible.x ||
+               would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
+                                           cache ) );
+    };
+
+    lit_level ll  = lit_level::DARK;
+    // invisible to normal eyes
+    std::array<bool, 5> invisible;
+    invisible[0] = false;
+    tripoint pos = draw_loc;
+    tripoint_abs_ms pos_global = here.getglobal( pos );
+
+    if( draw_loc.y < min_visible.y || draw_loc.y > max_visible.y || draw_loc.x < min_visible.x ||
+        draw_loc.x > max_visible.x ) {
+        if( has_memory_at( pos_global ) ) {
+            ll = lit_level::MEMORIZED;
+            invisible[0] = true;
+        } else if( has_draw_override( pos ) ) {
+            ll = lit_level::DARK;
+            invisible[0] = true;
+        }
+    } else {
+        ll = here.access_cache( draw_loc.z ).visibility_cache[draw_loc.x][draw_loc.y];
+    }
+
+    if( !invisible[0] ) {
+        const visibility_type vis_type = here.get_visibility( ll, cache );
+        if( would_apply_vision_effects( vis_type ) ) {
+            const Creature *critter = creatures.creature_at( pos, true );
+            if( has_draw_override( pos ) || has_memory_at( pos_global ) ||
+                ( critter &&
+                  ( critter->has_flag( mon_flag_ALWAYS_VISIBLE )
+                    || you.sees_with_infrared( *critter )
+                    || you.sees_with_specials( *critter ) ) ) ) {
+                invisible[0] = true;
+            }
+        }
+    }
+    for( int i = 0; i < 4; i++ ) {
+        const tripoint np = pos + neighborhood[i];
+        invisible[1 + i] = apply_visible( np, ch, here );
+    }
+
+    std::pair<lit_level, std::array<bool, 5>> ret( ll, invisible );
+    return ret;
+}
+
+void cata_tiles::clear_draw_caches()
+{
+    get_map().ll_invis_cache.clear();
 }
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
@@ -3142,6 +3231,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         sizefactor = ( roof >= 0 || vpobst ) ? 4 : 2;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ||
                curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+               curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
                curr_ter.movecost == 0 ) {
         col = curr_ter.color();
     } else {

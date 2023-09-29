@@ -17,8 +17,8 @@
       { "proficiency": "prof_intro_chem_synth" },
       { "proficiency": "prof_inorganic_chemistry" }
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "cotton_patchwork", -1 ], [ "felt_patch", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "feces_bird", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -184,9 +184,10 @@
       { "id": "CHEM", "level": 2 },
       { "id": "HAMMER", "level": 1 },
       { "id": "CONTAIN", "level": 1 },
-      { "id": "SEPARATE", "level": 1 }
+      { "id": "SEPARATE", "level": 1 },
+      { "id": "STRAIN", "level": 2 }
     ],
-    "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [
         [ "lemon", 8 ],

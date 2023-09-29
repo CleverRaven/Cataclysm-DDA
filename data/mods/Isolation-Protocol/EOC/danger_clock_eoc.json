@@ -1,0 +1,63 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "ISO_DANGER_CLOCK",
+    "recurrence": "3 minutes",
+    "global": true,
+    "condition": { "not": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] } },
+    "effect": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "++" ] }, { "math": [ "u_ISO_DANGER", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ISO_DANGER_LEVEL_SPAWNER",
+    "recurrence": "5 minutes",
+    "global": true,
+    "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_hound_tindalos",
+        "real_count": 2,
+        "min_radius": 20,
+        "max_radius": 40,
+        "spawn_message": "Hungry shadows peer at you from the darkness.",
+        "spawn_message_plural": "Hungry shadows peer at you from the darkness."
+      }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "ISO_CURRENT_LEVEL_DANGER_medium",
+          "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] },
+          "effect": [
+            {
+              "u_spawn_monster": "mon_darkman",
+              "real_count": 3,
+              "min_radius": 20,
+              "max_radius": 40,
+              "spawn_message": "The room's shadows merge into menacing shapes.",
+              "spawn_message_plural": "The room's shadows merge into menacing shapes."
+            }
+          ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "ISO_CURRENT_LEVEL_DANGER_low",
+                "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "10" ] },
+                "effect": [
+                  {
+                    "u_spawn_monster": "mon_shadow",
+                    "real_count": 10,
+                    "min_radius": 20,
+                    "max_radius": 40,
+                    "spawn_message": "The lab grows unnaturally dark.",
+                    "spawn_message_plural": "The lab grows unnaturally dark."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

@@ -103,5 +103,32 @@
     "priority": -1,
     "half_life": "50 minutes",
     "phase": "gas"
+  },
+  {
+    "id": "fd_nullifying_field",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "droning hum",
+        "effects": [
+          {
+            "effect_id": "effect_psi_null",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "100 seconds",
+            "max_duration": "350 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 5,
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas"
   }
 ]

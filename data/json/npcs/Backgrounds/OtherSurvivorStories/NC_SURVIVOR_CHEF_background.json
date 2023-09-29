@@ -38,7 +38,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "s_restaurant", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_terrain": "s_restaurant", "om_special": "restraunt", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

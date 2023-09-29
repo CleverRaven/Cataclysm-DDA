@@ -127,6 +127,16 @@
   },
   {
     "type": "tool_quality",
+    "id": "SIEVE",
+    "name": { "str": "sieving" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "STRAIN",
+    "name": { "str": "straining" }
+  },
+  {
+    "type": "tool_quality",
     "id": "SMOKE_PIPE",
     "name": { "str": "smoking" }
   },

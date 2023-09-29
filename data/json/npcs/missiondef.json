@@ -317,7 +317,14 @@
     "start": {
       "update_mapgen": { "place_item": [ { "item": "safe_box", "x": [ 18, 21 ], "y": [ 4, 6 ], "amount": 1 } ] },
       "effect": "follow_only",
-      "assign_mission_target": { "om_terrain": "bank", "om_terrain_match_type": "PREFIX", "search_range": 120, "random": true, "z": 0 }
+      "assign_mission_target": {
+        "om_terrain": "bank",
+        "om_terrain_match_type": "PREFIX",
+        "om_special": "bank",
+        "search_range": 120,
+        "random": true,
+        "z": 0
+      }
     },
     "end": {
       "effect": [
@@ -555,7 +562,7 @@
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
       "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
-      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
+      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zeds but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
       "accepted": "Thanks, make sure you're ready for whatever the beast is.",
       "rejected": "Hey, I know I wouldn't volunteer for it either.",
       "advice": "I'd carry a shotgun at least, it sounded pretty big.",
@@ -839,8 +846,8 @@
     },
     "end": {
       "effect": [
-        { "u_sell_item": "duffelbag" },
         { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "u_sell_item": "duffelbag" },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
         { "u_message": "You learn how to craft cattail jelly.", "popup": true },

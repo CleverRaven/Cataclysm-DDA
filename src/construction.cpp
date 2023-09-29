@@ -1036,6 +1036,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     for( const auto &it : con.requirements->get_tools() ) {
         player_character.consume_tools( it );
     }
+    player_character.invalidate_crafting_inventory();
+    player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
     player_character.activity.placement = here.getglobal( pnt );
 }
@@ -1422,7 +1424,8 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
 
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
+    const int partnum = veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
+    veh->part( partnum ).set_flag( vp_flag::unsalvageable_flag );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.

@@ -31,6 +31,7 @@
 #include "achievement.h"
 #include "action.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "calendar_ui.h"
@@ -98,6 +99,7 @@
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "rng.h"
+#include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -247,6 +249,9 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EXPORT_FOLLOWER: return "EXPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
 		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
+		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
+		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
+		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -588,6 +593,9 @@ static int quick_setup_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
+        { uilist_entry( debug_menu_index::TOGGLE_SETUP_MUTATION, true, 't', _( "Toggle debug mutations" ) ) },
+        { uilist_entry( debug_menu_index::NORMALIZE_BODY_STAT, true, 'n', _( "Normalize body stats" ) ) },
+        { uilist_entry( debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, true, 'B', _( "Install ALL bionics" ) ) },
     };
 
     return uilist( _( "Quick setup…" ), uilist_initializer );
@@ -1696,6 +1704,43 @@ static void character_edit_opinion_menu( npc *np )
     }
 }
 
+static void character_edit_personality_menu( npc *np )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'h', "%s: %d", _( "aggression" ), np->personality.aggression );
+    smenu.addentry( 1, true, 's', "%s: %d", _( "bravery" ), np->personality.bravery );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "collector" ), np->personality.collector );
+    smenu.addentry( 3, true, 'f', "%s: %d", _( "altruism" ), np->personality.altruism );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Set aggression to?  Currently: %d" ),
+                           np->personality.aggression ) ) {
+                np->personality.aggression = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Set bravery to?  Currently: %d" ), np->personality.bravery ) ) {
+                np->personality.bravery = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Set collector to?  Currently: %d" ),
+                           np->personality.collector ) ) {
+                np->personality.collector = value;
+            }
+            break;
+        case 3:
+            if( query_int( value, _( "Set altruism to?  Currently: %d" ),
+                           np->personality.altruism ) ) {
+                np->personality.altruism = value;
+            }
+            break;
+    }
+}
+
 static void character_edit_desc_menu( Character &you )
 {
     uilist smenu;
@@ -1854,7 +1899,7 @@ static void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
+        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
@@ -1897,6 +1942,7 @@ static void character_edit_menu()
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
+        nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1923,7 +1969,7 @@ static void character_edit_menu()
                 break;
             }
             you.worn.on_takeoff( you );
-            you.worn.clear();
+            you.clear_worn();
             you.inv->clear();
             you.remove_weapon();
             break;
@@ -1979,6 +2025,9 @@ static void character_edit_menu()
         break;
         case D_OPINION:
             character_edit_opinion_menu( np );
+            break;
+        case D_PERSONALITY:
+            character_edit_personality_menu( np );
             break;
         case D_DESC:
             character_edit_desc_menu( you );
@@ -2615,6 +2664,24 @@ static cata_path prepare_export_dir_and_find_unused_name( const std::string &cha
     return ret;
 }
 
+static void normalize_body()
+{
+    Character &u = get_avatar();
+    u.clear_effects();
+    u.clear_morale();
+    u.clear_vitamins();
+    u.set_all_parts_hp_to_max();
+    u.set_fatigue( 0 );
+    u.set_focus( 100 );
+    u.set_hunger( 0 );
+    u.set_pain( 0 );
+    u.set_rad( 0 );
+    u.set_sleep_deprivation( 0 );
+    u.set_stamina( u.get_stamina_max() );
+    u.set_stored_kcal( u.get_healthy_kcal() );
+    u.set_thirst( 0 );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -2655,6 +2722,18 @@ void debug()
     }
 
     get_event_bus().send<event_type::uses_debug_menu>( *action );
+
+    // Used for quick setup, constructed outside the switches to reduce duplicate code
+    std::vector<trait_id> setup_traits;
+    setup_traits.emplace_back( trait_DEBUG_BIONICS );
+    setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
+    setup_traits.emplace_back( trait_DEBUG_CLOAK );
+    setup_traits.emplace_back( trait_DEBUG_HS );
+    setup_traits.emplace_back( trait_DEBUG_LS );
+    setup_traits.emplace_back( trait_DEBUG_MANA );
+    setup_traits.emplace_back( trait_DEBUG_NODMG );
+    setup_traits.emplace_back( trait_DEBUG_NOTEMP );
+    setup_traits.emplace_back( trait_DEBUG_SPEED );
 
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -3474,35 +3553,40 @@ void debug()
         }
 
         case debug_menu_index::QUICK_SETUP: {
-            std::vector<trait_id> setup_traits;
-            setup_traits.emplace_back( trait_DEBUG_BIONICS );
-            setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
-            setup_traits.emplace_back( trait_DEBUG_CLOAK );
-            setup_traits.emplace_back( trait_DEBUG_HS );
-            setup_traits.emplace_back( trait_DEBUG_LS );
-            setup_traits.emplace_back( trait_DEBUG_MANA );
-            setup_traits.emplace_back( trait_DEBUG_NODMG );
-            setup_traits.emplace_back( trait_DEBUG_NOTEMP );
-            setup_traits.emplace_back( trait_DEBUG_SPEED );
             Character &u = get_avatar();
-            u.clear_bionics();
-            u.clear_effects();
-            u.clear_morale();
-            u.clear_mutations();
-            u.clear_vitamins();
-            u.set_all_parts_hp_to_max();
-            u.set_fatigue( 0 );
-            u.set_hunger( 0 );
+            normalize_body();
+            // Specifically only adds mutations instead of toggling them.
             u.set_mutations( setup_traits );
-            u.set_pain( 0 );
-            // Ideally, delete all held and worn items? (Then add debug backpack as worn item?)
-            // u.remove_items_with();
-            u.set_rad( 0 );
-            // This would require a lot more declarations or a bunch more code, so no skill levels being set (for now)
-            // u.set_skill_level(skill_archery, 10);
-            u.set_sleep_deprivation( 0 );
-            u.set_stored_kcal( u.get_healthy_kcal() );
-            u.set_thirst( 0 );
+            u.remove_weapon();
+            u.clear_worn();
+            item backpack( "debug_backpack" );
+            u.wear_item( backpack );
+            for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+                u.set_skill_level( pair.first, 10 );
+            }
+            break;
+        }
+
+        case debug_menu_index::TOGGLE_SETUP_MUTATION: {
+            Character &u = get_avatar();
+            for( trait_id &trait : setup_traits ) {
+                u.toggle_trait( trait );
+            }
+            break;
+        }
+
+        case debug_menu_index::NORMALIZE_BODY_STAT: {
+            normalize_body();
+            break;
+        }
+
+        case debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: {
+            Character &u = get_avatar();
+            for( const bionic_data &bionic : bionic_data::get_all() ) {
+                u.add_bionic( bionic.id, 0, true );
+            }
+            // Prevent synthetic lungs/etc from instantly suffocating you. This is bad for testing!
+            u.set_power_level( 2500_kJ );
             break;
         }
 

@@ -310,6 +310,20 @@
   },
   {
     "type": "mutation",
+    "id": "NO_LEGS",
+    "name": { "str": "No Legs" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Wether by a serious accident, birth, defect, or other means, you have lost your legs.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "types": [ "LEGS", "RUNNING", "FEET", "SOLES" ],
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "restricts_gear": [ "foot_l", "foot_r", "leg_knee_l", "leg_lower_l", "leg_draped_l", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
+    "cancels": [ "BADKNEES", "STRONGKNEES" ],
+    "enchantments": [ "ENCH_NO_LEGS" ]
+  },
+  {
+    "type": "mutation",
     "id": "BIOLUM0",
     "name": { "str": "Reflex Photophore" },
     "points": -1,
@@ -387,7 +401,7 @@
     "id": "BIOLUM3",
     "name": { "str": "Bioluminescent Flare" },
     "points": 6,
-    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up it's surroundings until it dissipates.",
+    "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up its surroundings until it dissipates.",
     "encumbrance_covered": [ [ "head", 5 ] ],
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
@@ -7264,7 +7278,7 @@
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "ROOTS2" ]
   },
   {
     "type": "mutation",
@@ -7274,13 +7288,14 @@
     "visibility": 5,
     "ugliness": 5,
     "description": "You find it difficult not to sink roots when able.  You extract nutrients and water whenever on diggable terrain, but move more slowly.",
-    "types": [ "LEGS" ],
+    "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "CHLOROMORPH" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "TOUGH_FEET", "ROOTS3" ]
   },
   {
     "type": "mutation",
@@ -7291,7 +7306,7 @@
     "ugliness": 1,
     "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.  Activate this mutation to force yourself to sleep until nightfall.",
     "purifiable": false,
-    "types": [ "LEGS" ],
+    "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS3" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -7300,7 +7315,8 @@
     "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "active": true,
-    "cost": 0
+    "cost": 0,
+    "flags": [ "TOUGH_FEET", "ROOTS3" ]
   },
   {
     "type": "mutation",
@@ -9094,7 +9110,7 @@
     "id": "RESISTWARM",
     "name": { "str": "Heat Tolerance" },
     "points": 1,
-    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
+    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you it will take more heat and exposure for you to suffer from sunstroke, this will not make dealing with its consequences any easier.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
     "types": [ "ACCLIMATIZATION" ],

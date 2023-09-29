@@ -260,8 +260,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                     if( it->is_corpse() ) {
                         for( item *loot : it->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                             if( !is_filtered( *loot ) ) {
-                                advanced_inv_listitem aim_item( item_location( loc_cursor, loot ), 0, 1, square.id,
-                                                                is_in_vehicle );
+                                advanced_inv_listitem aim_item( item_location( item_location( loc_cursor, it ), loot ),
+                                                                0, 1, square.id, is_in_vehicle );
                                 square.volume += aim_item.volume;
                                 square.weight += aim_item.weight;
                                 items.push_back( aim_item );

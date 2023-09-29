@@ -250,12 +250,14 @@ class item_contents
          * With CONTAINER, MAGAZINE, or MAGAZINE_WELL pocket types, items must fit the pocket's
          * volume, length, weight, ammo type, and all other physical restrictions.  This is
          * synonymous with the success of item_contents::can_contain with that item.
+         * If ignore_contents is true, will disregard other pocket contents for these checks.
          *
          * For the MOD, CORPSE, SOFTWARE, CABLE, and MIGRATION pocket types, if contents have such a
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type,
+                                            bool ignore_contents = false );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
         bool can_unload_liquid() const;
 
@@ -320,6 +322,7 @@ class item_contents
         const item &only_item() const;
         const item &first_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
         void remove_items_if( const std::function<bool( item & )> &filter );
 
         // whether the contents has a pocket with the associated type
@@ -359,7 +362,7 @@ class item_contents
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
         void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false,
-                      bool restack_charges = true );
+                      bool restack_charges = true, bool ignore_contents = false );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

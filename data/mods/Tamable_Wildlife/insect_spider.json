@@ -6,7 +6,7 @@
     "name": { "str": "plague nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -32,7 +32,7 @@
     "name": { "str": "giant cockroach nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -58,7 +58,7 @@
     "name": { "str": "giant dragonfly naiad" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] },
@@ -85,7 +85,7 @@
     "name": { "str": "wasp larva", "str_pl": "wasp larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
       "pet": "The %s crawls around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -104,7 +104,7 @@
     "name": { "str": "acidic ant larva", "str_pl": "acidic ant larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
       "pet": "The %s crawls around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -130,7 +130,7 @@
     "name": { "str": "ant larva", "str_pl": "ant larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
       "pet": "The %s crawls around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -163,7 +163,7 @@
     "name": { "str": "locust nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -189,7 +189,7 @@
     "name": { "str": "aphid" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -208,7 +208,7 @@
     "name": { "str": "praying mantis nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] },
@@ -235,7 +235,7 @@
     "name": { "str": "grasshopper nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -254,7 +254,7 @@
     "name": { "str": "giant stag beetle larva", "str_pl": "giant stag beetle larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
       "pet": "The %s crawls around you."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -266,7 +266,7 @@
     "name": { "str": "giant antlion larva", "str_pl": "giant antlion larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
       "pet": "The %s crawls around you."
     },
     "extend": { "flags": [ "CANPLAY" ] },
@@ -286,7 +286,7 @@
     "name": { "str": "water strider nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -305,7 +305,7 @@
     "name": { "str": "cicada nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] },
@@ -325,7 +325,7 @@
     "name": { "str": "baby woodlouse", "str_pl": "baby woodlice" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -344,7 +344,7 @@
     "name": { "str": "giant water tiger" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
       "pet": "The %s swims around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] },
@@ -364,7 +364,7 @@
     "name": { "str": "water scorpion nymph" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
       "pet": "The %s swims around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] },
@@ -405,7 +405,7 @@
     "name": { "str": "jumping spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s looks at you with its large eyes and skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -424,7 +424,7 @@
     "name": { "str": "cellar spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -471,7 +471,7 @@
     "name": { "str": "trapdoor spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s looks at you with its large eyes and skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -504,7 +504,7 @@
     "name": { "str": "web spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -537,7 +537,7 @@
     "name": { "str": "black widow spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -570,7 +570,7 @@
     "name": { "str": "wolf spiderling" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -603,7 +603,7 @@
     "name": { "str": "centipede larva", "str_pl": "centipede larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] },

@@ -51,7 +51,7 @@
     "type": "GENERIC",
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
-    "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.  It's not toxic, but a lot of people died, trying to taste it, due to the airway obstruction.",
+    "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.  It's not toxic, but many people have died trying to taste it, due to the airway obstruction.",
     "//": "armor' and 'summon' related",
     "price_postapoc": 400,
     "flags": [ "NONCONDUCTIVE" ],

@@ -8,10 +8,12 @@
       { "u_learn_recipe": "practice_biokin_flexibility" },
       { "u_learn_recipe": "practice_biokin_climate_control" },
       { "u_learn_recipe": "practice_biokin_enhance_mobility" },
+      { "u_learn_recipe": "practice_biokin_hammerhand" },
       { "u_learn_recipe": "practice_biokin_armor_skin" },
       { "u_learn_recipe": "practice_biokin_reflex_enhance" },
       { "u_learn_recipe": "practice_biokin_sealed_system" },
-      { "u_learn_recipe": "practice_biokin_combat_dance" }
+      { "u_learn_recipe": "practice_biokin_combat_dance" },
+      { "u_learn_recipe": "practice_biokin_perfected_motion" }
     ]
   },
   {
@@ -26,7 +28,8 @@
       { "u_learn_recipe": "practice_clair_voyance" },
       { "u_learn_recipe": "practice_clair_dodge_power" },
       { "u_learn_recipe": "practice_clair_clear_sight" },
-      { "u_learn_recipe": "practice_clair_see_map" }
+      { "u_learn_recipe": "practice_clair_see_map" },
+      { "u_learn_recipe": "practice_clair_omniscience" }
     ]
   },
   {
@@ -59,6 +62,7 @@
       { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
       { "u_learn_recipe": "practice_telekinetic_shield" },
       { "u_learn_recipe": "practice_telekinetic_explosion" },
+      { "u_learn_recipe": "practice_telekinetic_levitation" },
       { "u_learn_recipe": "practice_telekinetic_aegis" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
@@ -74,7 +78,8 @@
       { "u_learn_recipe": "practice_telepathic_confusion" },
       { "u_learn_recipe": "practice_telepathic_invisibility" },
       { "u_learn_recipe": "practice_telepathic_scream" },
-      { "u_learn_recipe": "practice_telepathic_mind_control" }
+      { "u_learn_recipe": "practice_telepathic_mind_control" },
+      { "u_learn_recipe": "practice_telepathic_network" }
     ]
   },
   {
@@ -107,7 +112,8 @@
       { "u_learn_recipe": "practice_vita_stop_infection" },
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" },
-      { "u_learn_recipe": "practice_vita_banish_illness" }
+      { "u_learn_recipe": "practice_vita_banish_illness" },
+      { "u_learn_recipe": "practice_vita_super_heal" }
     ]
   },
   {

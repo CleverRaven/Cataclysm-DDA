@@ -248,12 +248,15 @@
       { "item": "mask_guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
+      { "item": "blindfold", "prob": 5 },
       { "item": "balaclava_skull", "prob": 25 },
       { "item": "mask_skull", "prob": 20 },
       { "item": "scarf_long", "prob": 10 },
       { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20 },
       { "item": "mask_dust", "variant": "steampunk_mask_dust", "prob": 15 },
-      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 }
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 },
+      { "item": "face_veil", "prob": 10 },
+      { "item": "mask_plague", "prob": 15 }
     ]
   },
   {

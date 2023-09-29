@@ -1576,6 +1576,16 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
 }
 
 /**
+ * Made to test sound-triggered traps.
+ * Warning: generating a sound can trigger sound-triggered traps.
+ */
+bool trapfunc::sound_detect( const tripoint &p, Creature *, item * )
+{
+    sounds::sound( p, 10, sounds::sound_t::alert, _( "Sound Detected!" ), false, "misc" );
+    return true;
+}
+
+/**
  * Takes the name of a trap function and returns a function pointer to it.
  * @param function_name The name of the trapfunc function to find.
  * @return A function object with a pointer to the matched function,
@@ -1618,7 +1628,8 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
             { "spell", trapfunc::cast_spell },
-            { "snake", trapfunc::snake }
+            { "snake", trapfunc::snake },
+            { "sound_detect", trapfunc::sound_detect }
         }
     };
 

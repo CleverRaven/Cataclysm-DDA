@@ -277,7 +277,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 1, "stab": 12 }
+    "melee_damage": { "stab": 12 }
   },
   {
     "id": "knife_combat",
@@ -306,7 +306,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 26 }
+    "melee_damage": { "stab": 26 }
   },
   {
     "id": "knife_combat_mod",
@@ -396,7 +396,7 @@
         "description": "A hidden handle compartment.  Unscrew the compass to access."
       }
     ],
-    "melee_damage": { "bash": 6, "stab": 18 }
+    "melee_damage": { "stab": 18 }
   },
   {
     "id": "hc_knife_rambo",
@@ -455,7 +455,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "DIAMOND", "NO_REPAIR" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 27 }
+    "melee_damage": { "stab": 27 }
   },
   {
     "id": "knife_swissarmy",
@@ -494,7 +494,7 @@
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel" },
-    "relative": { "melee_damage": { "bash": -1, "stab": -2 } }
+    "relative": { "melee_damage": { "stab": -2 } }
   },
   {
     "id": "mc_knife_trench",
@@ -516,7 +516,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 6, "stab": 19 }
+    "melee_damage": { "stab": 19 }
   },
   {
     "id": "hc_knife_trench",
@@ -565,7 +565,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 10 }
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "bone_knife",
@@ -585,7 +585,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 3, "stab": 12 }
+    "melee_damage": { "stab": 12 }
   },
   {
     "id": "knife_baselard",
@@ -603,7 +603,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 5, "stab": 16 }
+    "melee_damage": { "stab": 16 }
   },
   {
     "id": "makeshift_machete",
@@ -624,7 +624,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 16 }
+    "melee_damage": { "cut": 16 }
   },
   {
     "id": "machete",
@@ -646,7 +646,7 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 21 }
+    "melee_damage": { "cut": 21 }
   },
   {
     "id": "survivor_machete",
@@ -708,7 +708,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 15 }
+    "melee_damage": { "cut": 15 }
   },
   {
     "id": "cavalry_sabre",
@@ -815,7 +815,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 20 }
+    "melee_damage": { "stab": 20 }
   },
   {
     "id": "kris_fake",
@@ -824,7 +824,7 @@
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "A dull, cheap replica of a wavy-bladed dagger from Southeast Asia.",
     "replace_materials": { "steel": "aluminum" },
-    "proportional": { "melee_damage": { "bash": 0.25, "stab": 0.083 }, "price": 0.05, "price_postapoc": 0.05 },
+    "proportional": { "melee_damage": { "stab": 0.083 }, "price": 0.05, "price_postapoc": 0.05 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
@@ -868,7 +868,7 @@
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 3, "cut": 24 }
+    "melee_damage": { "cut": 24 }
   },
   {
     "id": "hc_kukri",
@@ -1765,7 +1765,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 1, "stab": 25 }
+    "melee_damage": { "stab": 25 }
   },
   {
     "id": "kirpan_cheap",
@@ -2749,7 +2749,7 @@
     "weapon_category": [ "KNIVES" ],
     "price": 10000,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ],
-    "melee_damage": { "bash": 2, "stab": 14 }
+    "melee_damage": { "stab": 14 }
   },
   {
     "type": "GENERIC",

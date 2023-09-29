@@ -801,7 +801,7 @@
       [ [ "pipe", 2 ] ],
       [ [ "hd_pipe", 2 ] ],
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "cotton_patchwork", 2 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "nitrogen_membrane_filter", 1 ] ],
       [ [ "cable", 10 ] ],
@@ -1028,15 +1028,15 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "sieve_steel",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sieve_steel_makeshift",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "colander_steel", 1 ], [ "wire_mesh", 1 ], [ "splatter_guard", 1 ] ] ]
+    "components": [ [ [ "wire_mesh", 1 ], [ "wire", 1 ] ] ]
   },
   {
     "result": "sieve_primitive",

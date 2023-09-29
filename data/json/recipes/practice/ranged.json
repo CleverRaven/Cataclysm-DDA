@@ -61,7 +61,7 @@
       ]
     ],
     "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ],
-    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 2 ] } ]
+    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "count": [ 0, 2 ] } ]
   },
   {
     "id": "prac_crossbow_beg",
@@ -79,7 +79,7 @@
     "book_learn": [ [ "recipe_bows", 0 ], [ "manual_archery", 0 ], [ "book_archery", 0 ] ],
     "tools": [ [ [ "crossbows", 1, "LIST" ] ] ],
     "components": [ [ [ "bolt_crude", 10 ] ] ],
-    "byproduct_group": [ { "item": "bolt_crude", "charges": [ 0, 2 ] } ]
+    "byproduct_group": [ { "item": "bolt_crude", "count": [ 0, 2 ] } ]
   },
   {
     "id": "prac_archery_int",
@@ -114,7 +114,7 @@
       [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ]
     ],
     "components": [ [ [ "arrow_wood_heavy", 20 ] ] ],
-    "byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 0, 4 ] } ]
+    "byproduct_group": [ { "item": "arrow_wood_heavy", "count": [ 0, 4 ] } ]
   },
   {
     "id": "prac_crossbow_int",
@@ -132,7 +132,7 @@
     "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "tools": [ [ [ "crossbows", 1, "LIST" ] ], [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ] ],
     "components": [ [ [ "bolt_wood", 20 ] ] ],
-    "byproduct_group": [ { "item": "bolt_wood", "charges": [ 0, 4 ] } ]
+    "byproduct_group": [ { "item": "bolt_wood", "count": [ 0, 4 ] } ]
   },
   {
     "id": "prac_archery_form",
