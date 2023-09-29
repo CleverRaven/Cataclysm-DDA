@@ -50,7 +50,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -80,7 +80,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -110,7 +110,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "deconstruct": {
       "ter_set": "t_rock_floor",
@@ -148,7 +148,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -178,7 +178,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -208,7 +208,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -334,7 +334,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -364,7 +364,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "deconstruct": {
       "ter_set": "t_rock_floor",
@@ -404,7 +404,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
@@ -434,7 +434,7 @@
       "result": "t_rock_floor",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 4 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "connect_groups": "RAIL",
     "connects_to": "RAIL",

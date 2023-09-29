@@ -58,6 +58,16 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "railroad_track_item_half", 2 ] ] ]
+  },
+  {
+    "result": "railroad_track_item_half",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
     "time": "120 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "mc_steel_lump", 30 ] ] ]

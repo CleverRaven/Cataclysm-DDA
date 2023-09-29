@@ -3051,7 +3051,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "angle_grinder", 200 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "railroad_track_item", 1 ] ] ]
+    "components": [ [ [ "railroad_track_item_half", 1 ] ] ]
   },
   {
     "result": "anvil_bronze",
