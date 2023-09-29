@@ -768,6 +768,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_levitation",
+    "name": [ "Smoke-Walking" ],
+    "desc": [ "You are walking through the air." ],
+    "apply_message": "",
+    "remove_message": "Your feet touch the ground once again.",
+    "rating": "good",
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_featherfall",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_prevented_death",
+    "name": [ "Arisen" ],
+    "desc": [ "Like the phoenix, you have been reborn." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
     "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],

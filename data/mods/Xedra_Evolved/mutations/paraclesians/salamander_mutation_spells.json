@@ -1,5 +1,56 @@
 [
   {
+    "id": "salamander_aoe_explosion",
+    "type": "SPELL",
+    "name": "Salamander AoE Explosion",
+    "description": "This is the aoe used by some other Salamander spells.  It's a bug if you have it directly,",
+    "message": "",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat",
+    "max_level": 20,
+    "min_damage": 10,
+    "max_damage": 40,
+    "min_aoe": 1,
+    "max_aoe": 10,
+    "aoe_increment": 1,
+    "field_id": "fd_fire",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_chance": 2,
+    "sound_type": "combat",
+    "sound_description": "a crackle!"
+  },
+  {
+    "id": "salamander_dash_boom_spell",
+    "type": "SPELL",
+    "name": { "str": "Fiery Charge" },
+    "description": "Hurl yourself forward in a burst of speed, causing an explosion at your arrive point.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "VERBAL", "NO_HANDS", "LOUD" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "dash",
+    "extra_effects": [ { "id": "salamander_aoe_explosion", "hit_self": true, "max_level": 4 } ],
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": {
+      "math": [ "(3 + (u_val('spell_level', 'spell: salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ]
+    },
+    "max_range": {
+      "math": [ "(3 + (u_val('spell_level', 'spell: salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "final_energy_cost": 200,
+    "energy_increment": -6,
+    "base_casting_time": 200,
+    "final_casting_time": 50,
+    "casting_time_increment": -6
+  },
+  {
     "id": "salamander_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",
@@ -12,10 +63,48 @@
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "str_to_level(1)" ] },
     "difficulty": 8,
+    "energy_source": "MANA",
+    "base_energy_cost": 450,
     "base_casting_time": 180000,
     "final_casting_time": 100,
-    "casting_time_increment": -6000,
+    "casting_time_increment": -6000
+  },
+  {
+    "id": "salamander_fire_fly",
+    "type": "SPELL",
+    "name": "Burning Ascension",
+    "description": "Like the rising heat of fire, you can ascend into the air and walk with the smoke for a short time before falling safely back to the earth.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "flags": [ "SOMATIC", "SILENT", "NO_LEGS", "VERBAL", "TARGET_TELEPORT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SALAMANDER_FIRE_FLY",
+    "shape": "blast",
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "difficulty": 4,
     "energy_source": "MANA",
-    "base_energy_cost": 450
+    "base_energy_cost": 250,
+    "base_casting_time": 150,
+    "final_casting_time": 50,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "salamander_fire_fly_real",
+    "type": "SPELL",
+    "name": "Burning Ascension Real",
+    "description": "The actual spell that causes the burning ascension.  It's a bug if you have it.",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "flags": [ "SOMATIC", "SILENT", "NO_LEGS", "VERBAL", "TARGET_TELEPORT", "EXTRA_EFFECTS_FIRST" ],
+    "effect": "short_range_teleport",
+    "extra_effects": [ { "id": "salamander_aoe_explosion", "hit_self": true, "max_level": 5 } ],
+    "shape": "blast",
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "min_range": {
+      "math": [ "(2 + (u_val('spell_level', 'spell: salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ]
+    },
+    "max_range": {
+      "math": [ "(2 + (u_val('spell_level', 'spell: salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ]
+    }
   }
 ]

@@ -45,6 +45,17 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_DASH_BOOM",
+    "name": { "str": "Fiery Charge" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to rush forward and cause an explosion at the place they land.",
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_dash_boom_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -53,5 +64,57 @@
     "description": "Upon gaining this ability the Salamander gains the ability to pluck a goblin fruit from the flames.",
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_FIRE_IMMUNE",
+    "name": { "str": "Innured to Flame" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SALAMANDER_SKIN_3" ],
+    "description": "The Salamander is utterly immune to heat and flame of any kind.",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ]
+      }
+    ],
+    "flags": [ "HEAT_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_NO_WATER",
+    "name": { "str": "Inner Flames Cannot Be Quenched" },
+    "points": 6,
+    "description": "Accursed water.  Its touch dampens your flames, and you will no longer have anything to do with it.  You do not need to drink.",
+    "types": [ "THIRST" ],
+    "prereqs": "SALAMANDER_SKIN_2",
+    "category": [ "SALAMANDER" ],
+    "flags": [ "NO_THIRST" ],
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_FLY_IN_FIRE_SPELL",
+    "name": { "str": "Burning Ascension" },
+    "points": 6,
+    "description": "Upon gaining this ability the Salamander gains the ability to hurl themselves skyward while standing in a fire.",
+    "prereqs": "SALAMANDER_FIRE_IMMUNE",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "spells_learned": [ [ "salamander_fire_fly", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_PREVENT_DEATH",
+    "name": { "str": "In Flames, Reborn Like the Phoenix" },
+    "points": 12,
+    "description": "Like the bird of legend, you can recreate yourself from the heat and smoke of a fire.  If your body takes fatal damage while standing in a fire, your fae spirit will use those flames to renew yourself.  This can generally occur no more often than once every 14 days, though there is a small chance it can occur more often.",
+    "prereqs": "SALAMANDER_FIRE_IMMUNE",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ]
   }
 ]
