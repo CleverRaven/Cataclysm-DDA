@@ -1024,6 +1024,23 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "id": "railroad_track_item",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "length of railroad track", "str_pl": "lengths of railroad track" },
+    "description": "A heavy half-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Far too heavy to be useful as a weapon, but it can be used as a makeshift anvil, especially with some modifications.",
+    "weight": "30000 g",
+    "//0": "Modern railroad tracks are typically around 60kg per meter.",
+    "volume": "5 L",
+    "longest_side": "50 cm",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "mc_steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "qualities": [ [ "ANVIL", 2 ] ]
+  },
+  {
     "type": "GENERIC",
     "id": "scrap_aluminum",
     "symbol": ",",
