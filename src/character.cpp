@@ -6223,25 +6223,37 @@ float _hp_modified_rate( Character const &who, float rate )
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    float const rest = clamp( at_rest_quality, 0.0f, 1.0f );
+    bool is_asleep = false;
+    float const rest = std::max( at_rest_quality, -1.0f );
+    // Most common case: awake player with no regenerative abilities
+    // ~7e-5 is 1 hp per day, anything less than that is totally negligible
+    static constexpr float eps = 0.000007f;
     // TODO: Cache
     float const base_heal_rate = is_avatar() ? get_option<float>( "PLAYER_HEALING_RATE" )
                                  : get_option<float>( "NPC_HEALING_RATE" );
     float const heal_rate =
         base_heal_rate * mutation_value( "healing_multiplier" );
-    float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
-    float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
-    float final_rate = awake_rate + asleep_rate;
-    final_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
-    // Most common case: awake player with no regenerative abilities
-    // ~7e-5 is 1 hp per day, anything less than that is totally negligible
-    static constexpr float eps = 0.000007f;
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", get_name(), final_rate );
-    if( std::abs( final_rate ) < eps ) {
-        return 0.0f;
+    float asleep_rate = 0.0f;
+    if( has_effect( effect_sleep ) ) {
+        is_asleep = true;
+        // Sufficiently negative rest quality can completely eliminate your natural healing, but never turn it negative.
+        asleep_rate = std::max( rest, 0.0f ) * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
+        asleep_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, asleep_rate );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", get_name(), asleep_rate );
+        if( asleep_rate < eps ) {
+            asleep_rate = 0.0f;
+        }
+    }
+    float awake_rate = ( 1.0f + rest ) * heal_rate * mutation_value( "healing_awake" );
+    awake_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, awake_rate );
+    if( !is_asleep ) {
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", get_name(), awake_rate );
+        if( awake_rate < eps ) {
+            awake_rate = 0.0f;
+        }
     }
 
-    return final_rate;
+    return is_asleep ? asleep_rate : awake_rate ;
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
