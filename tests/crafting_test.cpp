@@ -43,11 +43,11 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
-static const itype_id itype_fake_anvil( "fake_anvil" );
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chisel( "chisel" );
+static const itype_id itype_fake_anvil( "fake_anvil" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_kevlar_shears( "kevlar_shears" );
