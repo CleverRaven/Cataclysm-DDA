@@ -199,6 +199,13 @@ bool monster::will_move_to( const tripoint &p ) const
         return false; // if a large critter, can't move through tight passages
     }
 
+    return true;
+}
+
+bool monster::know_danger_at( const tripoint &p ) const
+{
+    map &here = get_map();
+
     // Various avoiding behaviors.
 
     bool avoid_fire = has_flag( mon_flag_PATH_AVOID_FIRE );
@@ -231,7 +238,7 @@ bool monster::will_move_to( const tripoint &p ) const
 
         if( avoid_fall ) {
             // Don't throw ourselves off cliffs if we have a concept of falling
-            if( !here.has_floor( p ) && !flies() ) {
+            if( !here.has_floor_or_water( p ) && !flies() ) {
                 return false;
             }
 
@@ -262,7 +269,7 @@ bool monster::will_move_to( const tripoint &p ) const
             }
             // Don't step on any traps (if we can see)
             const trap &target_trap = here.tr_at( p );
-            if( has_flag( mon_flag_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
+            if( has_flag( mon_flag_SEES ) && !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
                 return false;
             }
         }
@@ -287,8 +294,7 @@ bool monster::can_reach_to( const tripoint &p ) const
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
             return true;
         }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos() ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos() ) && here.has_floor( p ) ) {
             // can't go through the roof
             return false;
         }
@@ -298,7 +304,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return true;
         }
         if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) &&
-            ( !flies() || !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, above ) ) ) {
+            ( here.has_floor( above ) || ( !flies() && !here.has_floor_or_water( above ) ) ) ) {
             // can't go through the floor
             // Check floors for flying monsters movement
             return false;
@@ -309,7 +315,7 @@ bool monster::can_reach_to( const tripoint &p ) const
 
 bool monster::can_move_to( const tripoint &p ) const
 {
-    return can_reach_to( p ) && will_move_to( p );
+    return can_reach_to( p ) && will_move_to( p ) && know_danger_at( p );
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
@@ -1110,8 +1116,11 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        // Can't "jump" up a whole z-level
-                        can_z_move = false;
+                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
+                              !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
+                            // Can't "jump" up a whole z-level
+                            can_z_move = false;
+                        }
                     }
                 }
 

@@ -160,18 +160,12 @@
     "time": "6 h 40 m",
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 3 ] ],
-    "using": [
-      [ "sewing_standard", 100 ],
-      [ "tailoring_lycra_patchwork", 20 ],
-      [ "clasps", 1 ],
-      [ "waterproofing_plastic_sheets", 10 ]
-    ],
+    "using": [ [ "tailoring_lycra_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" }
     ],
-    "components": [ [ [ "duct_tape", 200 ] ] ],
     "byproducts": [ [ "scrap_lycra", 9 ] ]
   },
   {
@@ -1735,6 +1729,7 @@
   },
   {
     "result": "survivor_dry_duffelbag",
+    "//": "Survivor expands the drybag a bit, reinforces it and adds compression straps to the side, along with making other personal adjustments.",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -1744,10 +1739,9 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ], [ "tailoring_lycra_patchwork", 30 ], [ "fastener_large", 3 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 20 ], [ "waterproofing_plastic_sheets", 16 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "plastic_sheet", 6 ] ], [ [ "dry_duffelbag", 1 ] ], [ [ "duct_tape", 300 ] ] ],
-    "byproducts": [ [ "scrap_lycra", 17 ] ]
+    "components": [ [ [ "dry_duffelbag", 1 ] ] ]
   },
   {
     "result": "light_load_bearing_vest",
