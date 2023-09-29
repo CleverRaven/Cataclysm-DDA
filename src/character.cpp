@@ -6268,7 +6268,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     }
 
     rate_medicine *= mutation_value( "healing_multiplier" );
-    rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
+    // Sufficiently negative rest quality can completely eliminate your healing, but never turn it negative.
+    rate_medicine *= 1.0f + std::max( at_rest_quality, -1.0f );
 
     // increase healing if character has both effects
     if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
