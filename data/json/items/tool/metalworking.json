@@ -48,6 +48,22 @@
     "melee_damage": { "bash": 40 }
   },
   {
+    "id": "anvil_crude",
+    "type": "TOOL",
+    "name": { "str": "crude anvil" },
+    "description": "An anvil-shaped object cut out of some form of metal stock or a railroad track.  Usable on its own for simpler metalworking, but could be improved for more advanced recipes.",
+    "weight": "27000 g",
+    "volume": "12 L",
+    "price": 100000,
+    "price_postapoc": 2000,
+    "to_hit": -5,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 40 }
+  },
+  {
     "id": "boltcutters",
     "type": "TOOL",
     "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },

@@ -233,7 +233,7 @@
   {
     "type": "furniture",
     "id": "f_anvil_bronze",
-    "name": "anvil",
+    "name": "bronze anvil",
     "looks_like": "f_anvil",
     "description": "A heavy block of oddly-shaped bronze with a pritchel hole and hardy hole.  It's used for metalworking.",
     "symbol": "^",
@@ -261,6 +261,22 @@
     "deconstruct": { "items": [ { "item": "anvil_heavy", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
     "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_heavy", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anvil_crude",
+    "name": "crude anvil",
+    "looks_like": "f_anvil",
+    "description": "A heavy anvil-shaped block of steel.  It's used for simple metalworking.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "fake_anvil_crude",
+    "deconstruct": { "items": [ { "item": "anvil_crude", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_crude", "count": 1 } ] }
   },
   {
     "type": "furniture",

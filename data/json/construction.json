@@ -2616,6 +2616,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_anvil_crude",
+    "group": "place_anvil_crude",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "anvil_crude", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_crude",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_forge",
     "group": "place_forge",
     "category": "FURN",

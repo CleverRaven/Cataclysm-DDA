@@ -1451,6 +1451,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_anvil_crude",
+    "name": "Place Crude Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
