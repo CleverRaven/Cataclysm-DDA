@@ -244,7 +244,13 @@
     "crafting_pseudo_item": "fake_anvil",
     "deconstruct": { "items": [ { "item": "anvil_bronze", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_bronze", "count": 1 } ] }
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_bronze", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",
@@ -260,7 +266,13 @@
     "crafting_pseudo_item": "fake_anvil_heavy",
     "deconstruct": { "items": [ { "item": "anvil_heavy", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_heavy", "count": 1 } ] }
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_heavy", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",
@@ -276,7 +288,13 @@
     "crafting_pseudo_item": "fake_anvil_crude",
     "deconstruct": { "items": [ { "item": "anvil_crude", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_crude", "count": 1 } ] }
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_crude", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",

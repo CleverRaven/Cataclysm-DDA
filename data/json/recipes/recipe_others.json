@@ -1245,11 +1245,7 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 },
-      { "id": "GRIND", "level": 2 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "drill_press_tool", 20 ] ], [ [ "angle_grinder", 20 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "anvil_crude", 1 ] ] ]
