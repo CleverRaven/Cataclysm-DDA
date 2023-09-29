@@ -411,46 +411,48 @@ void overmap::unserialize( const JsonObject &jsobj )
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
-    for( JsonMember om_member : jsobj ) {
-        const std::string name = om_member.name();
-        if( name == "layers" ) {
-            std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
-            JsonArray layers_json = om_member;
+    // Extract layers first so predecessor deduplication can happen.
+    if( jsobj.has_member( "layers" ) ) {
+        std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
+        JsonArray layers_json = jsobj.get_array( "layers" );
 
-            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                JsonArray layer_json = layers_json.next_array();
-                int count = 0;
-                std::string tmp_ter;
-                oter_id tmp_otid( 0 );
-                for( int j = 0; j < OMAPY; j++ ) {
-                    for( int i = 0; i < OMAPX; i++ ) {
-                        if( count == 0 ) {
-                            {
-                                JsonArray rle_terrain = layer_json.next_array();
-                                tmp_ter = rle_terrain.next_string();
-                                count = rle_terrain.next_int();
-                                if( rle_terrain.has_more() ) {
-                                    rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
-                                }
-                            }
-                            if( is_oter_id_obsolete( tmp_ter ) ) {
-                                for( int p = i; p < i + count; p++ ) {
-                                    oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
-                                }
-                            } else if( oter_str_id( tmp_ter ).is_valid() ) {
-                                tmp_otid = oter_id( tmp_ter );
-                            } else {
-                                debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
-                                tmp_otid = oter_omt_obsolete;
+        for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+            JsonArray layer_json = layers_json.next_array();
+            int count = 0;
+            std::string tmp_ter;
+            oter_id tmp_otid( 0 );
+            for( int j = 0; j < OMAPY; j++ ) {
+                for( int i = 0; i < OMAPX; i++ ) {
+                    if( count == 0 ) {
+                        {
+                            JsonArray rle_terrain = layer_json.next_array();
+                            tmp_ter = rle_terrain.next_string();
+                            count = rle_terrain.next_int();
+                            if( rle_terrain.has_more() ) {
+                                rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
                             }
                         }
-                        count--;
-                        layer[z].terrain[i][j] = tmp_otid;
+                        if( is_oter_id_obsolete( tmp_ter ) ) {
+                            for( int p = i; p < i + count; p++ ) {
+                                oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
+                            }
+                        } else if( oter_str_id( tmp_ter ).is_valid() ) {
+                            tmp_otid = oter_id( tmp_ter );
+                        } else {
+                            debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
+                            tmp_otid = oter_omt_obsolete;
+                        }
                     }
+                    count--;
+                    layer[z].terrain[i][j] = tmp_otid;
                 }
             }
-            migrate_oter_ids( oter_id_migrations );
-        } else if( name == "region_id" ) {
+        }
+        migrate_oter_ids( oter_id_migrations );
+    }
+    for( JsonMember om_member : jsobj ) {
+        const std::string name = om_member.name();
+        if( name == "region_id" ) {
             std::string new_region_id;
             om_member.read( new_region_id );
             if( settings->id != new_region_id ) {
