@@ -1372,7 +1372,7 @@
     "id": "pointed_hat",
     "type": "ARMOR",
     "name": "pointed hat",
-    "description": "A black pointed hat suitable for a witch.",
+    "description": "A pointed hat suitable for a witch.",
     "weight": "40 g",
     "volume": "2 L",
     "price": 3000,
@@ -1390,6 +1390,37 @@
         "coverage": 80,
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_pointed_hat",
+        "name": { "str": "black pointed hat" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "green_pointed_hat",
+        "name": { "str": "green pointed hat" },
+        "description": "It's colored dark green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "red_pointed_hat",
+        "name": { "str": "red pointed hat" },
+        "description": "It's colored dark red.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "purple_pointed_hat",
+        "name": { "str": "purple pointed_hat" },
+        "description": "It's colored dark purple.",
+        "weight": 25,
+        "append": true
       }
     ]
   }
