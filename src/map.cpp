@@ -9962,7 +9962,7 @@ void map::update_pathfinding_cache( int zlev ) const
                     }
 
                     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
-                          !here.has_vehicle_floor( p ) ) {
+                        !here.has_vehicle_floor( p ) ) {
                         cur_value |= PF_TRAP;
                     }
 

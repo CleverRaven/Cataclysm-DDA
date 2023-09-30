@@ -3246,7 +3246,8 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
+        !here.has_vehicle_floor( pos_bub() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
