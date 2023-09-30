@@ -96,7 +96,13 @@
     "id": "EOC_PROSTHETIC_LEG_HIT",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
-    "effect": [ { "u_run_inv_eocs": "random", "search_data": [ { "id": "left_leg_prosthetic", "worn_only": true } ], "true_eocs": [ "EOC_left_leg_hp_set" ] } ]
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "left_leg_prosthetic", "worn_only": true } ],
+        "true_eocs": [ "EOC_left_leg_hp_set" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
