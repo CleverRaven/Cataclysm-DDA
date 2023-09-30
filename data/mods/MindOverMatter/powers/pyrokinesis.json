@@ -6,7 +6,7 @@
     "description": "Cause a burst of flames at the target location.",
     "message": "You summon flames!",
     "teachable": false,
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
@@ -281,7 +281,7 @@
     "description": "Spray fire in a cone in front of you.",
     "message": "You hurl a spray of flames.",
     "teachable": false,
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
@@ -313,7 +313,7 @@
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
-    "field_chance": 6,
+    "field_chance": 5,
     "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 1200,
@@ -323,7 +323,7 @@
     "casting_time_increment": -6,
     "sound_type": "combat",
     "sound_description": "a crackle!",
-    "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12 }
+    "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
   },
   {
     "id": "pyrokinetic_lance",
@@ -533,7 +533,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -6.5,
-    "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6 }
+    "learn_spells": { "pyrokinetic_thermogenesis": 6, "pyrokinetic_aoe_blast": 12 }
   },
   {
     "id": "pyrokinetic_blast",
@@ -542,7 +542,7 @@
     "description": "Create an expanding fireball that catches multiple targets in its wake.",
     "message": "You call forth a raging inferno!",
     "teachable": false,
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
@@ -579,6 +579,69 @@
     "casting_time_increment": -9,
     "sound_type": "combat",
     "sound_description": "a crackle!",
-    "learn_spells": { "pyrokinetic_cloak": 4, "pyrokinetic_flash": 6 }
+    "learn_spells": { "pyrokinetic_aoe_blast": 7 }
+  },
+  {
+    "id": "pyrokinetic_aoe_blast",
+    "type": "SPELL",
+    "name": "[Ψ]Hellfire",
+    "description": "Send forth raging flames and turn the ground around you into an inferno.  You will be <color_yellow>briefly</color> immune to the aftereffects of your own power as well.",
+    "message": "The ground around you explodes in flames!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_nine", "hit_self": true },
+      { "id": "pyrokinetic_aoe_blast_immunity", "hit_self": true }
+    ],
+    "shape": "blast",
+    "damage_type": "heat",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 5) + 40) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 8) + 120) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_aoe_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_aoe": 30,
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 1,
+    "field_chance": 2,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9000,
+    "final_energy_cost": 5000,
+    "energy_increment": -300,
+    "base_casting_time": 175,
+    "final_casting_time": 55,
+    "casting_time_increment": -8,
+    "sound_type": "combat",
+    "sound_description": "a crackle!"
+  },
+  {
+    "id": "pyrokinetic_aoe_blast_immunity",
+    "type": "SPELL",
+    "name": "[Ψ]Hellfire Immunity spell",
+    "description": "This prevents the pyrokinetic from dying in heat and flames after using Hellfire.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_pyrokinetic_flame_immunity",
+    "shape": "blast",
+    "min_duration": 2000,
+    "max_duration": 4000,
+    "duration_increment": 150
   }
 ]
