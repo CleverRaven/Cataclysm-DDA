@@ -191,11 +191,41 @@
   {
     "type": "effect_type",
     "id": "effect_psi_null",
-    "name": [ "Nullified" ],
-    "desc": [ "You can't use your powers." ],
+    "name": [
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified",
+      "Nullified"
+    ],
+    "desc": [
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers.",
+      "You can't use your powers."
+    ],
     "apply_message": "You feel a dull pain behind your eyes and a terrible sense of loss.",
     "remove_message": "You have a sudden sense of regaining something you had lost.",
-    "flags": [ "NO_SPELLCASTING" ]
+    "flags": [ "NO_SPELLCASTING" ],
+    "rating": "bad",
+    "max_duration": "1 minutes",
+    "show_intensity": false,
+    "max_intensity": 10,
+    "int_decay_step": -2,
+    "int_add_val": 2,
+    "int_decay_tick": 1,
+    "int_decay_remove": true
   },
   {
     "type": "effect_type",
@@ -250,6 +280,7 @@
       "effect_vitakin_purge_rads_sideeffects",
       "effect_vita_super_heal"
     ],
+    "max_duration": "24 hours",
     "flags": [ "NO_SPELLCASTING" ]
   },
   {
