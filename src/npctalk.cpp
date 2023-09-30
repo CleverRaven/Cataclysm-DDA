@@ -5162,13 +5162,12 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
     }
     std::string spawn_message = jo.get_string( "spawn_message", "" );
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
-    const bool take_control = jo.get_bool( "take_control", false );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [sov_npc_class, unique_id, traits, dov_hallucination_count, dov_real_count,
                                dov_min_radius,
                                dov_max_radius, outdoor_only, indoor_only, dov_lifespan, target_var, spawn_message,
-                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc, take_control]( dialogue & d ) {
+                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc]( dialogue & d ) {
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
         int real_count = dov_real_count.evaluate( d );
@@ -5186,7 +5185,6 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
         }
         int visible_spawns = 0;
         int spawns = 0;
-        Creature *control_guy = nullptr;
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, min_radius,
@@ -5202,9 +5200,6 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
                         if( get_avatar().sees( *guy ) ) {
                             visible_spawns++;
                         }
-                    }
-                    if( !control_guy ) {
-                        control_guy = get_creature_tracker().creature_at( spawn_point );
                     }
                 }
             }
@@ -5236,9 +5231,6 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
             get_avatar().add_msg_if_player( m_bad, spawn_message );
         }
         if( spawns > 0 ) {
-            if( take_control && control_guy != nullptr ) {
-                get_avatar().control_npc( *control_guy->as_npc(), false );
-            }
             run_eoc_vector( true_eocs, d );
         } else {
             run_eoc_vector( false_eocs, d );

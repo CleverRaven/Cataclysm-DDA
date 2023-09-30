@@ -13,18 +13,8 @@
     "type": "effect_on_condition",
     "id": "EOC_mount_rescue_op",
     "condition": {
-      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have been abducted.  Continue as an NPC to mount a rescue operation?", "default": false } ]
+      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have been abducted.  Continue as one of your followers?", "default": false } ]
     },
-    "effect": [ "take_control_menu" ],
-    "false_effect": [
-      {
-        "u_spawn_npc": "survivor_camper",
-        "real_count": 1,
-        "min_radius": 25,
-        "max_radius": 30,
-        "open_air_allowed": true,
-        "take_control": true
-      }
-    ]
+    "effect": [ "take_control_menu" ]
   }
 ]

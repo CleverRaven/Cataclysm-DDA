@@ -130,9 +130,9 @@ class avatar : public Character
         }
         /**
          * Makes the avatar "take over" the given NPC, while the current avatar character
-         * becomes an NPC. To transfer control to only allies ally_check=true
+         * becomes an NPC.
          */
-        void control_npc( npc &, bool debug = false, bool ally_check = true );
+        void control_npc( npc &, bool debug = false );
         /**
          * Open a menu to choose the NPC to take over.
          */
