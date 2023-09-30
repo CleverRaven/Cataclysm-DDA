@@ -110,7 +110,10 @@
       { "item": "coat_straw", "prob": 5 },
       { "item": "robe", "prob": 10 },
       { "item": "samghati", "prob": 1 },
-      { "item": "haori", "prob": 1 }
+      { "item": "haori", "prob": 1 },
+      { "item": "trenchcoat_steampunk", "prob": 15 },
+      { "item": "plaguedoctor_robe", "prob": 15 },
+      { "item": "nun_habit", "prob": 10 }
     ]
   },
   {
@@ -200,7 +203,8 @@
       { "item": "straw_hat", "prob": 5 },
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
-      { "item": "porkpie", "prob": 10 }
+      { "item": "porkpie", "prob": 10 },
+      { "item": "nun_wimple", "prob": 12 }
     ]
   },
   {
@@ -256,7 +260,9 @@
       { "item": "mask_dust", "variant": "steampunk_mask_dust", "prob": 15 },
       { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 },
       { "item": "face_veil", "prob": 10 },
-      { "item": "mask_plague", "prob": 15 }
+      { "item": "mask_plague", "prob": 15 },
+      { "item": "pumpkin_mask", "prob": 10 },
+      { "item": "zombie_mask", "prob": 10 }
     ]
   },
   {
