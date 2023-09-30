@@ -60,9 +60,9 @@
 
 class gun_mode;
 
-static const construction_str_id construction_constr_deconstruct( "constr_deconstruct" );
 static const construction_str_id construction_constr_deconstruct_simple
     = construction_str_id( "constr_deconstruct_simple" );
+static const construction_str_id construction_constr_deconstruct( "constr_deconstruct" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
