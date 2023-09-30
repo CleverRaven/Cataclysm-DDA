@@ -3630,11 +3630,11 @@ void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, const std::
                     } else {
                         if( buyer_has == 1 ) {
                             //~ %1%s is the NPC name, %2$s is an item
-                            popup( _( "%1$s gives you a %2$s." ), seller->disp_name(),
+                            popup( _( "%1$s gives you a %2$s." ), buyer->disp_name(),
                                    pay.tname() );
                         } else if( buyer_has > 1 ) {
                             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                            popup( _( "%1$s gives you %2$d %3$s." ), seller->disp_name(), buyer_has,
+                            popup( _( "%1$s gives you %2$d %3$s." ), buyer->disp_name(), buyer_has,
                                    pay.tname() );
                         }
                     }
