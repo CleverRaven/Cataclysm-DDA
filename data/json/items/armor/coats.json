@@ -3303,9 +3303,9 @@
     "flags": [ "VARSIZE", "OUTER", "FANCY" ]
   },
   {
-    "id": "plaguedoctor_robes",
+    "id": "plaguedoctor_robe",
     "type": "ARMOR",
-    "name": { "str": "plague robes" },
+    "name": { "str": "plague robe" },
     "description": "A dark robbed cassock worn by plague doctors.",
     "weight": "1200 g",
     "volume": "5 L",
