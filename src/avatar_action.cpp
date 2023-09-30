@@ -89,6 +89,8 @@ static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 
+static const zone_type_id zone_type_BUMP_INTERACT( "BUMP_INTERACT" );
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool check_water_affect_items( avatar &you )
@@ -491,7 +493,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( int move_cost = m.move_cost_ter_furn( dest_loc );
         ( move_cost <= 0 || move_cost > 2 ) && you.is_avatar() && !you.is_auto_moving() ) {
         // Generate context menu for bumped furniture.
-        tripoint_bub_ms dest_loc_bub = m.bub_from_abs( m.getabs( dest_loc ) );
+        bool is_bump_zone = g->check_zone( zone_type_BUMP_INTERACT, dest_loc );
+        tripoint_bub_ms dest_loc_bub = tripoint_bub_ms( dest_loc );
         bool can_examine = can_interact_at( ACTION_EXAMINE, dest_loc );
         bool can_pickup = can_interact_at( ACTION_PICKUP, dest_loc );
         int can_decon = 0;
@@ -502,14 +505,17 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                                         construction_constr_deconstruct.obj() ) ) {
             can_decon = 2;
         }
-        bool has_prominent_interaction = can_examine || can_decon >= 3;
-        bool enable_context_actions = move_cost <= 0 ||
-                                      ( g->safe_mode != SAFE_MODE_OFF && has_prominent_interaction );
-        if( move_cost <= 0 && m.has_flag( "DOOR", dest_loc ) ) {
-            // Special case: don't activate this menu on doors.
-            enable_context_actions = false;
+        bool enable_bumping = false;
+        if( move_cost <= 0 ) {
+            // Impassable.  Allow interaction if it's not a door.
+            enable_bumping = !m.has_flag( "DOOR", dest_loc );
+        } else {
+            // Passable.  Enable if zone set, safe mode off and can examine or quick-deconstruct.
+            bool has_prominent_interaction = can_examine || can_decon >= 3;
+            enable_bumping = is_bump_zone
+                             && g->safe_mode != SAFE_MODE_OFF && has_prominent_interaction;
         }
-        if( enable_context_actions ) {
+        if( enable_bumping ) {
             enum bump_actions {
                 bump_move_onto = 1,
                 bump_pickup,
