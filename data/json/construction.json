@@ -6843,7 +6843,7 @@
     "post_terrain": "f_dirtmound_shallow",
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel",
-	"components": [ [ [ "material_soil", 200 ] ] ]
+    "components": [ [ [ "material_soil", 200 ] ] ]
   },
   {
     "type": "construction",
@@ -6859,7 +6859,7 @@
     "post_terrain": "f_dirtmound_pile",
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel",
-	"components": [ [ [ "material_soil", 200 ] ] ]
+    "components": [ [ [ "material_soil", 200 ] ] ]
   },
   {
     "type": "construction",
@@ -6875,8 +6875,8 @@
     "post_terrain": "f_dirtmound_tall",
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel",
-	"components": [ [ [ "material_soil", 400 ] ] ]
-  }
+    "components": [ [ [ "material_soil", 400 ] ] ]
+  },
   {
     "type": "construction",
     "id": "constr_water_channel",
