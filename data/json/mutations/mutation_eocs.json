@@ -112,11 +112,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_left_leg_hp_set",
-    "effect": [ { "math": [ "n_hp()", "=", "u_hp('leg_prosthetic_l')" ] } ]
+    "effect": [ { "math": [ "u_hp('leg_prosthetic_l')", "=", "n_hp()" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_right_leg_hp_set",
-    "effect": [ { "math": [ "n_hp()", "=", "u_hp('leg_prosthetic_r')" ] } ]
+    "effect": [ { "math": [ "u_hp('leg_prosthetic_r')", "=", "n_hp()" ] } ]
   }
 ]
