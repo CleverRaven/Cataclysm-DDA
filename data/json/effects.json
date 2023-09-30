@@ -3337,11 +3337,10 @@
     "desc": [ "You're being shocked with electricity to the point of serious harm!" ],
     "apply_message": "You're being electrocuted!",
     "rating": "bad",
-    "max_duration": "2 s",
     "dur_add_perc": 20,
     "pain_sizing": true,
     "hurt_sizing": true,
-    "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ], "hurt_amount": [ 5, 0 ], "hurt_min": [ 2, 1 ],
+    "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ], "hurt_amount": [ 5, 0 ], "hurt_min": [ 2, 1 ] },
     "show_in_info": true,
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
