@@ -114,7 +114,7 @@
           {
             "effect_id": "effect_psi_null",
             "body_part": "mouth",
-            "intensity": 1,
+            "intensity": 10,
             "min_duration": "100 seconds",
             "max_duration": "350 seconds",
             "immune_inside_vehicle": false

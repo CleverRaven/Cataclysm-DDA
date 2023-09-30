@@ -673,7 +673,7 @@
       [ "duffelbag", 25 ],
       [ "backpack_tactical_large", 10 ],
       [ "binoculars", 20 ],
-      [ "bolt_steel", 7 ],
+      { "group": "crossbow_bolts", "prob": 7 },
       [ "crossbow", 2 ],
       { "group": "book_gunmags", "prob": 70 },
       [ "mag_fieldrepair", 100 ],

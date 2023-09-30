@@ -5,30 +5,30 @@
     "//2": "bio_blade_weapon: much better than any other knife",
     "//3": "RM42 knife has very high DPS owing to being pre cvded. Without that it is slightly worse than a combat knife due to being slower",
     "expected_dps": {
-      "knife_baselard": 15.87,
+      "knife_baselard": 12.93,
       "bio_blade_weapon": 24.5,
-      "bone_knife": 7.9,
+      "bone_knife": 7.11,
       "knife_butcher": 10,
-      "knife_combat": 19.0,
+      "knife_combat": 17.5,
       "copper_knife": 8.0,
       "diveknife": 8.0,
       "knife_hunting": 11.0,
       "kirpan": 18.0,
-      "kirpan_cheap": 7.61,
-      "kris": 14.08,
+      "kirpan_cheap": 3.58,
+      "kris": 13.5,
       "kris_fake": 1.811,
       "knife_meat_cleaver": 13.97,
       "pockknife": 4.5,
       "primitive_knife": 2.5,
-      "mc_knife_rambo": 13.15,
-      "knife_rm42": 31.85,
+      "mc_knife_rambo": 10.47,
+      "knife_rm42": 30.11,
       "spike": 4.0,
       "switchblade": 10.5,
       "tanto": 15.78,
       "tanto_inferior": 12.271,
       "tanto_fake": 6.33,
       "throwing_knife": 7.0,
-      "mc_knife_trench": 15.19
+      "mc_knife_trench": 12.29
     }
   }
 ]
