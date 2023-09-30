@@ -19,6 +19,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
+#include "construction.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -58,6 +59,10 @@
 #include "vpart_position.h"
 
 class gun_mode;
+
+static const construction_str_id construction_constr_deconstruct( "constr_deconstruct" );
+static const construction_str_id construction_constr_deconstruct_simple
+    = construction_str_id( "constr_deconstruct_simple" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
@@ -482,6 +487,117 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             you.defer_move( dest_loc );
         }
         return true;
+    }
+    if( int move_cost = m.move_cost_ter_furn( dest_loc );
+        ( move_cost <= 0 || move_cost > 2 ) && you.is_avatar() && !you.is_auto_moving() ) {
+        // Generate context menu for bumped furniture.
+        tripoint_bub_ms dest_loc_bub = m.bub_from_abs( m.getabs( dest_loc ) );
+        bool can_examine = can_interact_at( ACTION_EXAMINE, dest_loc );
+        bool can_pickup = can_interact_at( ACTION_PICKUP, dest_loc );
+        int can_decon = 0;
+        if( can_construct( construction_constr_deconstruct_simple.obj(), dest_loc_bub ) ) {
+            can_decon = 3;
+        } else if( can_construct( construction_constr_deconstruct.obj(), dest_loc_bub )
+                   && player_can_build( you, you.crafting_inventory(),
+                                        construction_constr_deconstruct.obj() ) ) {
+            can_decon = 2;
+        }
+        bool has_prominent_interaction = can_examine || can_decon >= 3;
+        bool enable_context_actions = move_cost <= 0 ||
+                                      ( g->safe_mode != SAFE_MODE_OFF && has_prominent_interaction );
+        if( move_cost <= 0 && m.has_flag( "DOOR", dest_loc ) ) {
+            // Special case: don't activate this menu on doors.
+            enable_context_actions = false;
+        }
+        if( enable_context_actions ) {
+            enum bump_actions {
+                bump_move_onto = 1,
+                bump_pickup,
+                bump_examine,
+                bump_deconstruct,
+                //bump_smash,
+            };
+            uilist cmenu;
+            cmenu.text = string_format( _( "What do you want to do with %s?" ), m.disp_name( dest_loc ) );
+            if( move_cost > 0 ) {
+                cmenu.addentry( bump_move_onto, true, 'm',
+                                _( "Move onto %s.  (This will slow you down.)" ), m.disp_name( dest_loc ) );
+            }
+            if( can_pickup ) {
+                cmenu.addentry( bump_pickup, true, 'g', _( "Access items in %s." ),
+                                m.disp_name( dest_loc ) );
+            }
+            if( can_examine ) {
+                // TODO ideally this text should be customized based on the examine action.
+                cmenu.addentry( bump_examine, true, 'e', _( "Examine %s." ), m.disp_name( dest_loc ) );
+            }
+            if( can_decon > 0 ) {
+                cmenu.addentry( bump_deconstruct, true, 'd', can_decon >= 3 ?
+                                _( "Take down %s.  (This would take a few seconds.)" ) :
+                                _( "Deconstruct %s.  (This would take some time.)" ),
+                                m.disp_name( dest_loc ) );
+            }
+            // TODO: there's no subroutine for smashing things.
+            /*if( m.is_bashable_ter_furn( dest_loc ) ) {
+                cmenu.addentry( bump_smash, true, 's', _( "Smash %s." ), m.disp_name(dest_loc) );
+            }*/
+
+            // Note: following the example of doors, we return true when performing context actions.
+            switch( cmenu.entries.size() ) {
+                case 0: {
+                    // Skip the menu if no interactions were possible.
+                    cmenu.ret = bump_move_onto;
+                    break;
+                }
+                case 1: {
+                    // If the only option is move onto or pick up, automatically choose that.
+                    switch( cmenu.entries[0].retval ) {
+                        case bump_move_onto: {
+                            cmenu.ret = bump_move_onto;
+                            break;
+                        }
+                        case bump_pickup: {
+                            cmenu.ret = bump_pickup;
+                            break;
+                        }
+                        default: {
+                            cmenu.query();
+                            break;
+                        }
+                    }
+                    break;
+                }
+                default: {
+                    cmenu.query();
+                    break;
+                }
+            }
+            switch( cmenu.ret ) {
+                default: {
+                    // If the user canceled the menu, don't do anything.
+                    return false;
+                }
+                case bump_move_onto: {
+                    // Proceed to walk_move.
+                    break;
+                }
+                case bump_pickup: {
+                    you.pick_up( game_menus::inv::pickup( you, dest_loc ) );
+                    return true;
+                }
+                case bump_examine: {
+                    m.examine( you, dest_loc );
+                    return true;
+                }
+                case bump_deconstruct: {
+                    place_construction( { can_decon >= 3
+                                          ? construction_constr_deconstruct_simple.obj().group
+                                          : construction_constr_deconstruct.obj().group
+                                        } );
+                    return true;
+                }
+            }
+        }
     }
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
