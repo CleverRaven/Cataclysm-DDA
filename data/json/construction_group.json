@@ -1811,6 +1811,11 @@
   },
   {
     "type": "construction_group",
+    "id": "constr_dirtmound",
+    "name": "Build a Mound of Dirt"
+  },
+  {
+    "type": "construction_group",
     "id": "build_brick_oven",
     "name": "Build Brick Oven"
   }
