@@ -787,7 +787,7 @@
       "m": { "item": "codeine" },
       "e": { "item": "wheel" }
     },
-    "items": { "a": { "item": "bolt_makeshift", "repeat": 3, "chance": 100 } }
+    "items": { "a": { "item": "crossbow_bolts_makeshift", "chance": 100 } }
   },
   {
     "type": "mapgen",
@@ -798,15 +798,10 @@
       "place_item": [ { "item": "compcrossbow", "x": 0, "y": 0, "chance": 100 } ],
       "place_items": [
         { "item": "corpses", "x": 0, "y": 0, "chance": 100 },
-        { "item": "bolt_makeshift", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 66 }
+        { "item": "crossbow_bolts_makeshift", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 66 }
       ],
       "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
     }
-  },
-  {
-    "type": "item_group",
-    "id": "bolt_makeshift",
-    "items": [ { "item": "bolt_makeshift", "charges": 1 } ]
   },
   {
     "type": "mapgen",

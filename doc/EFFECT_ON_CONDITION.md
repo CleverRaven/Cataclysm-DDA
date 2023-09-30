@@ -331,7 +331,7 @@ Checks do alpha talker has `FEATHERS` mutation
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ |
 
 #### Examples
 Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster uses it to perform grabs - the game checks do monster (alpha talker, `u_`) has GRAB flag (i.e. able to grab at all), and check is target able to be grabbed using `GRAB_FILTER` flag
@@ -2008,7 +2008,7 @@ You or NPC is teleported to `target_var` coordinates
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
 
 ##### Examples
 
@@ -2091,6 +2091,66 @@ You and NPC both die
   "id": "both_are_ded",
   "effect": [ "u_die", "npc_die" ]
 }
+```
+
+## Item effects
+
+#### `u_set_flag`, `npc_set_flag`
+Give item a flag
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_flag" / "npc_set_flag" | **mandatory** | string or [variable object](##variable-object) | id of flag that should be given |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+##### Examples
+Make item filthy
+```json
+{ "npc_set_flag": "FILTHY" }
+```
+
+#### `u_unset_flag`, `npc_unset_flag`
+Remove a flag from item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_unset_flag" / "npc_unset_flag" | **mandatory** | string or [variable object](##variable-object) | id of flag that should be remove |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+##### Examples
+Make item clean
+```json
+{ "npc_unset_flag": "FILTHY" }
+```
+
+#### `u_activate`, `npc_activate`
+You activate beta talker / NPC activates alpha talker. One must be a Character and the other an item.
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_activate" / "npc_activate" | **mandatory** | string or [variable object](##variable-object) |  use action id of item that activate |
+| "target_var" | optional | [variable object](##variable-object) | if set, target location is forced this variable's coordinates | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Force you consume drug item
+```json
+{ "u_activate": "consume_drug" }
 ```
 
 ## Map Updates

@@ -3770,6 +3770,7 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "install_time": "5 s"
     },
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID_TEST" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],

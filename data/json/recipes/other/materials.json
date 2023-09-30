@@ -952,6 +952,20 @@
     ]
   },
   {
+    "result": "tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "3 m",
+    "batch_time_factors": [ 75, 3 ],
+    "tools": [ [ [ "chemistry_set", 50 ] ], [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ] ],
+    "components": [ [ [ "scrap_tin", 4 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "vine_30",

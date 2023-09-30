@@ -154,9 +154,6 @@
       { "item": "arrow_wood", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_field_point_fletched", "prob": 50, "count": [ 10, 30 ] },
       { "item": "arrow_cf", "prob": 100, "count": [ 10, 30 ] },
-      { "item": "bolt_wood", "prob": 100, "count": [ 10, 30 ] },
-      { "item": "bolt_wood_bodkin", "prob": 50, "count": [ 10, 30 ] },
-      { "item": "bolt_cf", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_small_game_fletched", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_heavy_field_point_fletched", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_metal", "prob": 100, "count": [ 10, 30 ] },
@@ -186,5 +183,35 @@
     "id": "archery_quivers",
     "subtype": "distribution",
     "entries": [ { "item": "quiver", "prob": 100 }, { "item": "quiver_large", "prob": 50 }, { "item": "nylon_quiver", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crossbow_bolts",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bolt_makeshift", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_bodkin", "prob": 50, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_small_game", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_metal", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_steel", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_steel_bodkin", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_steel_target", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_cf", "prob": 100, "count": [ 10, 30 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "crossbow_bolts_makeshift",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bolt_crude", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_simple_wood", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_simple_small_game", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_makeshift", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_bodkin", "prob": 50, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_small_game", "prob": 100, "count": [ 10, 30 ] }
+    ]
   }
 ]
