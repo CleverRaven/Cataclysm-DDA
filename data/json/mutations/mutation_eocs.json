@@ -101,12 +101,22 @@
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "left_leg_prosthetic", "worn_only": true } ],
         "true_eocs": [ "EOC_left_leg_hp_set" ]
+      },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "right_leg_prosthetic", "worn_only": true } ],
+        "true_eocs": [ "EOC_right_leg_hp_set" ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_left_leg_hp_set",
-    "effect": [ { "math": [ "n_hp()", "=", "100" ] } ]
+    "effect": [ { "math": [ "n_hp()", "=", "u_hp('leg_prosthetic_l')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_right_leg_hp_set",
+    "effect": [ { "math": [ "n_hp()", "=", "u_hp('leg_prosthetic_r')" ] } ]
   }
 ]
