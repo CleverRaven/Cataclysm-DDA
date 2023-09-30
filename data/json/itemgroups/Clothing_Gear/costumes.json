@@ -112,7 +112,7 @@
       { "item": "samghati", "prob": 1 },
       { "item": "haori", "prob": 1 },
       { "item": "trenchcoat_steampunk", "prob": 15 },
-      { "item": "plaguedoctor_robes", "prob": 15 },
+      { "item": "plaguedoctor_robe", "prob": 15 },
       { "item": "nun_habit", "prob": 10 }
     ]
   },
