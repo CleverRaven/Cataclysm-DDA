@@ -262,7 +262,7 @@
       { "item": "face_veil", "prob": 10 },
       { "item": "mask_plague", "prob": 15 },
       { "item": "pumpkin_mask", "prob": 10 },
-      { "item": "zombie_mask", "prob": 10 },
+      { "item": "zombie_mask", "prob": 10 }
     ]
   },
   {
