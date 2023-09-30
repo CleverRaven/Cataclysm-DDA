@@ -3307,7 +3307,7 @@
     "type": "ARMOR",
     "name": { "str": "plague robe" },
     "description": "A dark robbed cassock worn by plague doctors.",
-    "weight": "1200 g",
+    "weight": "1300 g",
     "volume": "5 L",
     "price": 800,
     "price_postapoc": 60,
@@ -3324,7 +3324,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
-        "encumbrance": 10,
+        "encumbrance": 12,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
