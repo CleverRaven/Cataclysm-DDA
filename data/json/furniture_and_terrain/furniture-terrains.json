@@ -1550,10 +1550,11 @@
     "color": "brown",
     "looks_like": "t_dirtmound",
     "move_cost_mod": -1,
+    "examine_action": "chainfence",
     "coverage": 100,
     "description": "A mound of dirt almost as tall as a building!",
     "required_str": -1,
-    "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE" ],
+    "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
     "deconstruct": { "items": [ { "item": "material_soil", "count": 400 } ], "furn_set": "f_dirtmound_pile" },
     "bash": {
       "str_min": 50,
