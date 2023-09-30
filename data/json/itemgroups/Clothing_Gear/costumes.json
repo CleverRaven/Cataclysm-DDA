@@ -204,7 +204,7 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "nuns_wimple", "prob": 12 }
+      { "item": "nun_wimple", "prob": 12 }
     ]
   },
   {
