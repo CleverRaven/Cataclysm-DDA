@@ -96,7 +96,13 @@
         "prob": 30
       },
       { "item": "morphine", "count-min": 1, "count-max": 12, "container-item": "null", "prob": 5 },
-      { "item": "oxycodone", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic_pill_prescription", "prob": 100 }
+      {
+        "item": "oxycodone",
+        "count-min": 1,
+        "count-max": 30,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      }
     ]
   },
   {
