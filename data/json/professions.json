@@ -3356,8 +3356,8 @@
   },
   {
     "type": "profession",
-    "id": "jeweller",
-    "name": "Jeweller",
+    "id": "jeweler",
+    "name": "Jeweler",
     "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
     "points": 2,
     "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
