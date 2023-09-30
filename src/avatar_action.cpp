@@ -492,8 +492,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
     if( int move_cost = m.move_cost_ter_furn( dest_loc );
         ( move_cost <= 0 || move_cost > 2 ) && you.is_avatar() && !you.is_auto_moving() ) {
+
+        // Check the bump-to-interact setting, and force it on in bump-interact zones.
+        std::string bump_setting = get_option<std::string>( "BUMP_TO_INTERACT" );
+        if( g->check_zone( zone_type_BUMP_INTERACT, dest_loc ) ) {
+            bump_setting = "all";
+        }
+
         // Generate context menu for bumped furniture.
-        bool is_bump_zone = g->check_zone( zone_type_BUMP_INTERACT, dest_loc );
         tripoint_bub_ms dest_loc_bub = tripoint_bub_ms( dest_loc );
         bool can_examine = can_interact_at( ACTION_EXAMINE, dest_loc );
         bool can_pickup = can_interact_at( ACTION_PICKUP, dest_loc );
@@ -505,16 +511,21 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                                         construction_constr_deconstruct.obj() ) ) {
             can_decon = 2;
         }
+
+        // Decide whether to enable the bump interaction.
         bool enable_bumping = false;
-        if( move_cost <= 0 ) {
+        if( bump_setting == "off" ) {
+            // Turned off!
+            enable_bumping = false;
+        } else if( move_cost <= 0 ) {
             // Impassable.  Allow interaction if it's not a door.
             enable_bumping = !m.has_flag( "DOOR", dest_loc );
-        } else {
-            // Passable.  Enable if zone set, safe mode off and can examine or quick-deconstruct.
-            bool has_prominent_interaction = can_examine || can_decon >= 3;
-            enable_bumping = is_bump_zone
-                             && g->safe_mode != SAFE_MODE_OFF && has_prominent_interaction;
+        } else if( g->safe_mode != SAFE_MODE_OFF && bump_setting != "impassable" ) {
+            if( bump_setting != "selective" || can_examine || can_decon >= 3 ) {
+                enable_bumping = true;
+            }
         }
+
         if( enable_bumping ) {
             enum bump_actions {
                 bump_move_onto = 1,

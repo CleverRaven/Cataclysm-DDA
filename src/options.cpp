@@ -1488,6 +1488,17 @@ void options_manager::add_options_general()
     add_option_group( "general", Group( "auto_feat_opts", to_translation( "Auto Features Options" ),
                                         to_translation( "Options regarding auto features." ) ),
     [&]( const std::string & page_id ) {
+        add( "BUMP_TO_INTERACT", page_id, to_translation( "Bump to Interact" ),
+             to_translation( "Enables a pop-up menu when walking into a tile that can be examined, accessed or deconstructed.  This is disabled when safe mode is off.  It can be enabled for specific tiles by placing a \"Bump to Interact\" zone." ),
+        {
+            { "off", to_translation( "options", "Disabled" ) },
+            { "impassable", to_translation( "Impassable Tiles" ) },
+            { "selective", to_translation( "Useful Furniture" ) },
+            { "furniture", to_translation( "Most Furniture" ) },
+            // TODO maybe add "all" / "wherever possible" option.
+        }, "impassable"
+           );
+
         add( "AUTO_FEATURES", page_id, to_translation( "Additional auto features" ),
              to_translation( "If true, enables configured auto features below.  Disabled as long as any enemy monster is seen." ),
              false
