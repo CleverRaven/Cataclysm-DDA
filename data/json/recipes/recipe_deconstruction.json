@@ -4916,6 +4916,33 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "bundle_kevlar_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "kevlar_patch", 50 ] ], [ [ "thread", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 50 ] ], [ [ "thread", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_lycra_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "thread", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "bundle_leather",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
