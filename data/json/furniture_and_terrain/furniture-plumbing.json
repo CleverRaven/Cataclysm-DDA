@@ -129,7 +129,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "water_faucet", "count": [ 0, 1 ] }
+        { "item": "water_faucet", "count": [ 0, 1 ] },
+        { "item": "material_aluminium_ingot", "count": 2 }
       ]
     }
   },
@@ -162,7 +163,8 @@
         { "item": "hose", "count": [ 1, 4 ] },
         { "item": "cu_pipe", "count": [ 1, 8 ] },
         { "item": "scrap_copper", "count": [ 1, 4 ] },
-        { "item": "water_faucet", "count": [ 0, 1 ] }
+        { "item": "water_faucet", "count": [ 0, 1 ] },
+        { "item": "material_aluminium_ingot", "count": 4 }
       ]
     }
   },

@@ -4183,7 +4183,8 @@
       [ [ "thermostat", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "30gal_drum", 1 ] ]
+      [ [ "30gal_drum", 1 ] ],
+      [ [ "material_aluminium_ingot", 2 ] ]
     ],
     "//": "drum assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>"
   },
@@ -4206,7 +4207,8 @@
       [ [ "thermostat", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "55gal_drum", 1 ] ]
+      [ [ "55gal_drum", 1 ] ],
+      [ [ "material_aluminium_ingot", 4 ] ]
     ],
     "//": "drum assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>"
   },
