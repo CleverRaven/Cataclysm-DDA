@@ -1190,7 +1190,7 @@
     "coverage": 40,
     "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
     "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
     "bash": {
       "str_min": 50,
@@ -1212,7 +1212,7 @@
     "coverage": 60,
     "description": "An area of dirt heaped up to your waist, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
     "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ], "furn_set": "f_dirtmound_shallow" },
     "bash": {
       "str_min": 50,
