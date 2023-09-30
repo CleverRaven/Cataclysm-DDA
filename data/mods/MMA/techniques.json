@@ -493,7 +493,6 @@
     "condition_desc": "* Only works on a <info>non-downed</info> target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "down_dur": 2,
     "knockback_dist": 4,
-    "powerful_knockback": true,
     "weighting": 2,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.5 },
