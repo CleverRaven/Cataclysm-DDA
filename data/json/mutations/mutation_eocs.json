@@ -107,6 +107,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_left_leg_hp_set",
-    "effect": [ { "math": [ "n_hp()", "=", "100"] } ]
+    "effect": [ { "math": [ "n_hp()", "=", "100" ] } ]
   }
 ]
