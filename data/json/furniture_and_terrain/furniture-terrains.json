@@ -1178,5 +1178,72 @@
         { "item": "plastic_chunk", "count": [ 1, 6 ] }
       ]
     }
+  },
+ {
+    "type": "furniture",
+    "id": "f_dirtmound_shallow",
+    "name": "shallow mound of dirt",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 6,
+    "coverage": 40,
+    "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
+    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ] },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "material_soil", "count": [ 170, 200 ] } ]
+    },
+	"//":"Needs planting support"
+  },
+  {
+    "type": "furniture",
+    "id": "f_dirtmound_pile",
+    "name": "mound of dirt",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": 8,
+    "coverage": 60,
+    "description": "An area of dirt heaped up to your waist, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "PLANTABLE" ],
+    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ], "furn_set": "f_dirtmound_shallow" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "material_soil", "count": [ 170, 200 ] } ],
+      "furn_set": "f_dirtmound_shallow"
+    },
+	"//":"Needs planting support"
+  },
+  {
+    "type": "furniture",
+    "id": "f_dirtmound_tall",
+    "name": "tall mound of dirt",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_dirtmound",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "description": "A mound of dirt almost as tall as a building!",
+    "required_str": -1,
+    "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE" ],
+    "deconstruct": { "items": [ { "item": "material_soil", "count": 400 } ], "furn_set": "f_dirtmound_pile" },
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "material_soil", "count": [ 340, 400 ] } ],
+      "furn_set": "f_dirtmound_pile"
+    }
   }
 ]
