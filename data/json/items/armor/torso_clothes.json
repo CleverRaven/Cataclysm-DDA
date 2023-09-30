@@ -1831,7 +1831,7 @@
   {
     "id": "witch_dress",
     "type": "ARMOR",
-    "name": { "str": "witch dress" },
+    "name": { "str": "witch dress", "str_pl": "witch dresses" },
     "description": { "str": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween." },
     "weight": "258 g",
     "volume": "1500 ml",
@@ -1890,7 +1890,7 @@
   {
     "id": "witch_dress_long",
     "type": "ARMOR",
-    "name": { "str": "long witch dress" },
+    "name": { "str": "long witch dress", "str_pl": "long witch dresses" },
     "description": "A long dress with sleeves, typical of a witch.  It includes a pouch for storing potions and other magical items.",
     "weight": "700 g",
     "volume": "3750 ml",
@@ -1952,7 +1952,7 @@
   {
     "id": "witch_dress_short",
     "type": "ARMOR",
-    "name": { "str": "short witch dress" },
+    "name": { "str": "short witch dress", "str_pl": "short witch dresses" },
     "description": { "str": "A short dress typically used by witches." },
     "weight": "200 g",
     "volume": "1500 ml",
