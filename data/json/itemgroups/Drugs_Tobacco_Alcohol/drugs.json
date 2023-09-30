@@ -74,9 +74,27 @@
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
     "distribution": [
-      { "item": "aspirin", "count-min": 5, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 150 },
-      { "item": "codeine", "count-min": 1, "count-max": 21, "container-item": "bottle_plastic_pill_prescription", "prob": 30 },
-      { "item": "tramadol", "count-min": 1, "count-max": 120, "container-item": "bottle_plastic_pill_prescription", "prob": 30 },
+      {
+        "item": "aspirin",
+        "count-min": 5,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 150
+      },
+      {
+        "item": "codeine",
+        "count-min": 1,
+        "count-max": 21,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 30
+      },
+      {
+        "item": "tramadol",
+        "count-min": 1,
+        "count-max": 120,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 30
+      },
       { "item": "morphine", "count-min": 1, "count-max": 12, "container-item": "null", "prob": 5 },
       { "item": "oxycodone", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic_pill_prescription", "prob": 100 }
     ]
@@ -162,17 +180,83 @@
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
     "distribution": [
-      { "item": "adderall", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "antibiotics", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "strong_antibiotic", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 45 },
-      { "item": "antifungal", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "antiparasitic", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "diazepam", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "calcium_tablet", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "inj_iron", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "prozac", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "thorazine", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 },
-      { "item": "xanax", "count-min": 15, "count-max": 60, "container-item": "bottle_plastic_pill_prescription", "prob": 100 }
+      {
+        "item": "adderall",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "antibiotics",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "strong_antibiotic",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 45
+      },
+      {
+        "item": "antifungal",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "antiparasitic",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "diazepam",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "calcium_tablet",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "inj_iron",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "prozac",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "thorazine",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "xanax",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      }
     ]
   },
   {
