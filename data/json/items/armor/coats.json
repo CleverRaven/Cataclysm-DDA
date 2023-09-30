@@ -3271,7 +3271,7 @@
     "id": "trenchcoat_steampunk",
     "type": "ARMOR",
     "name": { "str": "steampunk trenchcoat" },
-    "description": "A thick black leather steampunk themed trenchcoat, unlike a regular trenchcoat this one has no pockets.",
+    "description": "A thick black leather steampunk themed trenchcoat.  Unlike a regular trenchcoat, this one has no pockets.",
     "weight": "1967 g",
     "volume": "5250 ml",
     "price": 24500,
