@@ -297,7 +297,8 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         worn.push_back( to_wear );
     }
 
-    item_location loc( guy, &*new_item_it );
+    item_location loc = new_item_it != worn.end() ?
+                        item_location( guy, &*new_item_it ) : item_location();
     cata::event e = cata::event::make<event_type::character_wears_item>( guy.getID(), guy.last_item );
     get_event_bus().send_with_talker( &guy, &loc, e );
 

@@ -484,8 +484,8 @@
     "required_event": "character_wields_item",
     "condition": { "compare_string": [ "test_knife_combat", { "context_val": "itype" } ] },
     "effect": [
-      { "u_add_var": "last_event", "type": "general", "context": "event_test", "value": "character_wields_item" },
-      { "npc_add_var": "last_event", "type": "general", "context": "event_test", "value": "character_wields_item" }
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" }
     ]
   },
   {
