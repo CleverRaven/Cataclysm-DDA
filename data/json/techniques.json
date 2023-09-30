@@ -1940,34 +1940,96 @@
   },
   {
     "type": "technique",
+    "id": "tec_muay_thai_rapid",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s!", "<npcname> quickly jabs at %s!" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_cross",
+    "name": "Cross",
+    "messages": [ "You throw a heavy cross at %s!", "<npcname> throws a cross at %s!" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_muay_thai_elbow",
     "name": "Elbow Strike",
     "messages": [ "You slam your elbow into %s!", "<npcname> slams their elbow into %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "flat_bonuses": [ { "stat": "damage", "type": "cut", "scale": 2 } ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ],
     "attack_vectors": [ "ELBOW" ]
   },
   {
     "type": "technique",
-    "id": "tec_muay_thai_kick",
-    "name": "Power Kick",
-    "messages": [ "You deal a powerful kick to %s!", "<npcname> deals a powerful kick to %s!" ],
+    "id": "tec_muay_thai_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s!", "<npcname> roundhouse kicks %s!" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.3 },
-      { "stat": "damage", "type": "cut", "scale": 1.3 },
-      { "stat": "damage", "type": "stab", "scale": 1.3 }
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
     "attack_vectors_random": [ "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
+    "id": "tec_muay_thai_push",
+    "name": "Push Kick",
+    "messages": [ "You shove %s back with a front kick!", "<npcname> shoves %s back with a front kick!" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "unarmed_allowed": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        {
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
+    "knockback_dist": 1,
+    "attack_vectors": [ "FOOT" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_muay_thai_knee",
-    "name": "Flying Knee",
-    "messages": [ "You leap and deliver a flying knee to %s!", "<npcname> leaps and delivers a flying knees to %s!" ],
+    "name": "Knee Strike",
+    "messages": [ "You drive your knee into %s!", "<npcname> drives their knee into %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
@@ -1997,7 +2059,7 @@
       ]
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.35 } ],
     "attack_vectors": [ "KNEE" ]
   },
   {
