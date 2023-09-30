@@ -89,17 +89,22 @@
     "//": "What an MRE in pristine condition should contain.",
     "subtype": "collection",
     "entries": [
-      { "group": "mre_entrees", "container-item": "mre_bag_small" },
+      { "group": "mre_entrees", "container-item": "mre_bag_small", "sealed": true },
       { "item": "heatpack" },
       {
         "distribution": [
-          { "item": "can_cheese", "container-item": "null", "entry-wrapper": "mre_bag_spread" },
-          { "item": "spread_peanutbutter", "container-item": "null", "entry-wrapper": "mre_bag_spread" }
+          { "item": "can_cheese", "container-item": "null", "entry-wrapper": "mre_bag_spread", "sealed": true },
+          {
+            "item": "spread_peanutbutter",
+            "container-item": "null",
+            "entry-wrapper": "mre_bag_spread",
+            "sealed": true
+          }
         ]
       },
-      { "group": "crackers_mre_bag_small_2" },
+      { "group": "crackers_mre_bag_small_2", "sealed": true },
       { "group": "mre_accessory_pack" },
-      { "item": "mre_bag_dessert", "contents-group": "mre_dessert_pack" }
+      { "item": "mre_bag_dessert", "contents-group": "mre_dessert_pack", "sealed": true }
     ]
   },
   {
