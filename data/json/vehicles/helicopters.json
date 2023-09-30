@@ -1558,7 +1558,7 @@
       { "x": -6, "y": 1, "chance": 10, "items": [ "manual_stabbing" ] },
       { "x": -6, "y": 1, "chance": 7, "ammo": 70, "items": [ "stanag30" ] },
       { "x": -6, "y": 1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_m" ] },
+      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_med" ] },
       {
         "x": -6,
         "y": 1,
@@ -1674,7 +1674,7 @@
       { "x": -6, "y": 1, "chance": 10, "items": [ "manual_stabbing" ] },
       { "x": -6, "y": 1, "chance": 7, "ammo": 70, "items": [ "stanag30" ] },
       { "x": -6, "y": 1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_m" ] },
+      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_med" ] },
       {
         "x": -6,
         "y": 1,
@@ -1788,7 +1788,7 @@
       { "x": -6, "y": 1, "chance": 10, "items": [ "manual_stabbing" ] },
       { "x": -6, "y": 1, "chance": 7, "ammo": 70, "items": [ "stanag30" ] },
       { "x": -6, "y": 1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_m" ] },
+      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_med" ] },
       {
         "x": -6,
         "y": 1,
