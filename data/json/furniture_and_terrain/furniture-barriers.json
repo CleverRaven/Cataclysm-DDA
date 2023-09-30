@@ -239,7 +239,6 @@
       "sound_fail": "whack!",
       "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
     }
-	"//":"Needs planting support"
   },
   {
     "type": "furniture",
@@ -283,7 +282,8 @@
       "sound_fail": "thud!",
       "items": [ { "item": "material_soil", "count": [ 170, 200 ] } ],
       "furn_set": "f_dirtmound_shallow"
-    }
+    },
+	"//":"Needs planting support"
   },
   {
     "type": "furniture",
