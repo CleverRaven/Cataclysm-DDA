@@ -132,7 +132,7 @@
     "id": "ench_subzero_talons",
     "has": "WORN",
     "condition": "ALWAYS",
-    "name": { "str_sp": "Subzero Talons" },
+    "name": { "str": "Subzero Talons" },
     "description": "Icy talons to freeze your enemies.",
     "values": [
       {
