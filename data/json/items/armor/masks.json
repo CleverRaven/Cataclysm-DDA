@@ -377,7 +377,7 @@
       {
         "id": "bear_plastic_mask",
         "name": { "str": "plastic bear mask" },
-        "description": "It's modeled after an american black bear.",
+        "description": "It's modeled after an American black bear.",
         "weight": 15,
         "append": true
       },
