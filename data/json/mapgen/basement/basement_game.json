@@ -34,11 +34,13 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "F": "f_home_furnace",
-                     "W": [ "f_water_heater", "f_water_heater_family" ],
-                     "S": "f_utility_shelf",
-                     "L": "f_floor_lamp",
-                     "G": "f_glass_cabinet" },
+      "furniture": {
+        "F": "f_home_furnace",
+        "W": [ "f_water_heater", "f_water_heater_family" ],
+        "S": "f_utility_shelf",
+        "L": "f_floor_lamp",
+        "G": "f_glass_cabinet"
+      },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
@@ -90,9 +92,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "F": "f_home_furnace",
-                     "W": [ "f_water_heater", "f_water_heater_family" ],
-                     "L": "f_floor_lamp" },
+      "furniture": { "F": "f_home_furnace", "W": [ "f_water_heater", "f_water_heater_family" ], "L": "f_floor_lamp" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
@@ -146,9 +146,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "F": "f_home_furnace",
-                     "W": [ "f_water_heater", "f_water_heater_family" ],
-                     "S": "f_utility_shelf" },
+      "furniture": { "F": "f_home_furnace", "W": [ "f_water_heater", "f_water_heater_family" ], "S": "f_utility_shelf" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
@@ -198,9 +196,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "F": "f_home_furnace",
-                     "W": [ "f_water_heater", "f_water_heater_family" ]
-                   },
+      "furniture": { "F": "f_home_furnace", "W": [ "f_water_heater", "f_water_heater_family" ] },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
@@ -252,9 +248,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "H": "f_home_furnace",
-                     "W": [ "f_water_heater", "f_water_heater_family" ],
-                     "z": "f_cardboard_box" },
+      "furniture": { "H": "f_home_furnace", "W": [ "f_water_heater", "f_water_heater_family" ], "z": "f_cardboard_box" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
