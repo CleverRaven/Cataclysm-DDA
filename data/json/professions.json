@@ -3355,6 +3355,23 @@
     }
   },
   {
+	"type": "profession",
+	"id": "jeweller",
+	"name": "Jeweller",
+	"description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+	"points": 2,
+	"skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
+	"proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
+	"items": {
+		"both": {
+			"items": [ "jeans", "socks", "boots", "longshirt", "wristwatch", "apron_leather", "chisel" ],
+			"entries": [ { "group": "charged_smart_phone" } ]
+		},
+		"male": [ "briefs" ],
+		"female": [ "bra", "panties" ]
+	}
+  },
+  {
     "type": "profession",
     "id": "clown",
     "name": "Clown",
