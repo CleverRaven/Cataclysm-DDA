@@ -65,7 +65,7 @@
 
 ### Techniques
 
-```JSON
+```C++
 {
   "id": "tec_debug_arpen",    // Unique ID. Must be one continuous word
   "name": "phasing strike",   // In-game name displayed
@@ -144,7 +144,7 @@ List of attack vectors is currently hardcoded, and contain:
 - `GRAPPLE` - Any technique that maintains contact with an opponent and squeezes (chock, headlock), bends (Krav Maga's Arm Breaker), or twists (arm twist) some part of the opponent. Can be used only if both hands/arms are not broken.
 
 ### Tech effects
-```JSON
+```C++
 "tech_effects": [
   {
     "id": "eff_expl",    // Unique ID. Must be one continuous word
@@ -160,7 +160,7 @@ List of attack vectors is currently hardcoded, and contain:
 
 ### Buffs
 
-```JSON
+```C++
 {
   "id": "debug_elem_resist",         // Unique ID. Must be one continuous word
   "name": "Elemental Resistance",    // In-game name displayed, would be shown in character menu
@@ -185,7 +185,7 @@ List of attack vectors is currently hardcoded, and contain:
 
 The bonuses arrays contain any number of bonus entries like this:
 
-```JSON
+```C++
 {
   "stat": "damage",
   "type": "bash",
