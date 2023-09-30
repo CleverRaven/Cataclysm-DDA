@@ -332,7 +332,7 @@
   },
   {
     "id": "mask_skull",
-    "//": "the mask_skull was here first so i'm just expanding it with mask variants."
+    "//": "the mask_skull was here first so i'm just expanding it with mask variants.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "skull mask" },
