@@ -113,7 +113,7 @@
       { "item": "haori", "prob": 1 },
       { "item": "trenchcoat_steampunk", "prob": 15 },
       { "item": "plaguedoctor_robes", "prob": 15 },
-      { "item": "nun_habit", "prob": 10 },
+      { "item": "nun_habit", "prob": 10 }
     ]
   },
   {
@@ -204,7 +204,7 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "nuns_wimple", "prob": 12 },
+      { "item": "nuns_wimple", "prob": 12 }
     ]
   },
   {
