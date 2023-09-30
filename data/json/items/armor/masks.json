@@ -370,7 +370,7 @@
       {
         "id": "unicorn_plastic_mask",
         "name": { "str": "plastic unicorn mask" },
-        "description": "It's a mask of a unicorn with a plastic piece sticking out on the head.",
+        "description": "It's a mask of a unicorn with a plastic piece sticking out as a horn.",
         "weight": 15,
         "append": true
       },
