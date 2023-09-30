@@ -1859,28 +1859,28 @@
     "variants": [
       {
         "id": "generic_witch_dress",
-        "name": { "str": "black witch dress" },
+        "name": { "str_sp": "black witch dress" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress",
-        "name": { "str": "green witch dress" },
+        "name": { "str_sp": "green witch dress" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress",
-        "name": { "str": "red witch dress" },
+        "name": { "str_sp": "red witch dress" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress",
-        "name": { "str": "purple witch dress" },
+        "name": { "str_sp": "purple witch dress" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -1921,28 +1921,28 @@
     "variants": [
       {
         "id": "generic_witch_dress_long",
-        "name": { "str": "long black witch dress" },
+        "name": { "str_sp": "long black witch dress" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress_long",
-        "name": { "str": "long green witch dress" },
+        "name": { "str_sp": "long green witch dress" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress_long",
-        "name": { "str": "long red witch dress" },
+        "name": { "str_sp": "long red witch dress" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress_long",
-        "name": { "str": "long purple witch dress" },
+        "name": { "str_sp": "long purple witch dress" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -1986,28 +1986,28 @@
     "variants": [
       {
         "id": "generic_witch_dress_short",
-        "name": { "str": "short black witch dress" },
+        "name": { "str_sp": "short black witch dress" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress_short",
-        "name": { "str": "short green witch dress" },
+        "name": { "str_sp": "short green witch dress" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress_short",
-        "name": { "str": "short red witch dress" },
+        "name": { "str_sp": "short red witch dress" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress_short",
-        "name": { "str": "short purple witch dress" },
+        "name": { "str_sp": "short purple witch dress" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
