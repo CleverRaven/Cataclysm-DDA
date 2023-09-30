@@ -506,7 +506,7 @@
     "looks_like": "broken_molebot",
     "type": "TOOL",
     "name": { "str": "inactive demining bot" },
-    "description": "An inactive demining robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the demining bot will respond to future commands.",
+    "description": "An inactive demining robot.  Using this item involves placing it on the ground and turning it on.",
     "weight": "81500 g",
     "volume": "62500 ml",
     "price": 25000,
