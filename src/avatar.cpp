@@ -160,11 +160,13 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
-void avatar::control_npc( npc &np, const bool debug )
+void avatar::control_npc( npc &np, const bool debug, const bool ally_check )
 {
-    if( !np.is_player_ally() ) {
-        debugmsg( "control_npc() called on non-allied npc %s", np.name );
-        return;
+    if( ally_check ) {
+        if( !np.is_player_ally() ) {
+            debugmsg( "control_npc() called on non-allied npc %s", np.name );
+            return;
+        }
     }
     character_id new_character = np.getID();
     const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {

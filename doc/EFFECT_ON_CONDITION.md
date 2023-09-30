@@ -2402,6 +2402,7 @@ Spawn some NPC near you or another NPC
 | "lifespan" | optional | int, duration, [variable object](##variable-object) or value between two | if used, NPC would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](##variable-object) | if used, the NPC would spawn from this location instead of you or NPC | 
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](##variable-object) | if you see NPC or NPCs that was spawned, related message would be printed | 
+| "transfer_control" | optional | boolean | default false; if true transfers control randomly to one of the spawned NPCs |
 | "true_eocs", "false_eocs" | optional | eocs_array | if at least 1 monster was spawned, all EoCs from `true_eocs` is called, otherwise all EoCs from `false_eocs` is called | 
 
 ##### Examples
