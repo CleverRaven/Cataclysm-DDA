@@ -1903,7 +1903,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, destination ) &&
-        on_ground && !here.has_vehicle_floor( p ) ) {
+        on_ground && !here.has_vehicle_floor( destination ) ) {
         add_effect( effect_bouldering, 1_turns, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -1915,7 +1915,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         remove_effect( effect_no_sight );
     }
 
-    if( !here.has_vehicle_floor( p ) ) {
+    if( !here.has_vehicle_floor( destination ) ) {
         if( type->size != creature_size::tiny && on_ground ) {
             const int sharp_damage = rng( 1, 10 );
             const int rough_damage = rng( 1, 2 );
