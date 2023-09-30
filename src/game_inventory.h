@@ -47,6 +47,10 @@ item_location titled_filter_menu( const item_filter &filter, avatar &you,
                                   const std::string &title, int radius = -1, const std::string &none_message = "" );
 item_location titled_filter_menu( const item_location_filter &filter, avatar &you,
                                   const std::string &title, int radius = -1, const std::string &none_message = "" );
+item_location titled_filter_menu( const item_location_filter &filter, Character &you,
+                                  const std::string &title, int radius = -1, const std::string &none_message = "" );
+drop_locations titled_multi_filter_menu( const item_location_filter &filter, Character &you,
+        const std::string &title, int radius = -1, const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus
