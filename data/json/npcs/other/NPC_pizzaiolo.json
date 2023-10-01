@@ -87,7 +87,7 @@
     "id": "MISSION_pizzaiolo_1",
     "type": "mission_definition",
     "name": { "str": "Angry pizzaiolo" },
-    "description": "Find some gasoline and then travel to the destination together with pizzaiolo.",
+    "description": "Bring the pizzaiolo to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring atleast 200 units of gasoline</color>.  After you got there, talk to the pizzaiolo to start burning the house.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 10000,

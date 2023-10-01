@@ -3773,7 +3773,7 @@
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
       "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
-      "female": [ "skirt_long", "dress_shirt", "purse", "bra", "panties" ]
+      "female": [ "nun_wimple", "nun_habit", "dress_shirt", "purse", "bra", "panties" ]
     }
   },
   {
