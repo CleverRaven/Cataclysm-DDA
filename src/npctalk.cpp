@@ -4744,11 +4744,11 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
                     run_eoc( target, false_eocs );
                 }
             } else if( option.evaluate( d ) == "manual_mult" ) {
-                drop_locations selected = game_menus::inv::titled_multi_filter_menu( filter, *guy,
-                                          title.evaluate( d ) );
+                const drop_locations &selected = game_menus::inv::titled_multi_filter_menu( filter, *guy,
+                                                 title.evaluate( d ) );
                 for( item_location target : true_items ) {
                     bool true_eoc = false;
-                    for( drop_location dloc : selected ) {
+                    for( const drop_location &dloc : selected ) {
                         if( target == dloc.first ) {
                             true_eoc = true;
                             break;
