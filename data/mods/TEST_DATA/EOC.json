@@ -479,6 +479,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_character_wields_item_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "compare_string": [ "test_knife_combat", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_wears_item_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "backpack", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wears_item" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wears_item" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_increment_var_var",
     "//": "tests adding a variable, that's in another variable",
     "effect": [
