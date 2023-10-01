@@ -73,7 +73,8 @@
     "id": "drugs_analgesic",
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
-    "distribution": [
+    "subtype": "distribution",
+    "entries": [
       {
         "item": "aspirin",
         "count-min": 5,
@@ -163,7 +164,8 @@
     "id": "drugs_misc",
     "type": "item_group",
     "//": "Drugs not contained within any other category",
-    "distribution": [
+    "subtype": "distribution",
+    "entries": [
       { "item": "bfipowder", "count-min": 5, "count-max": 60, "container-item": "bottle_plastic", "prob": 100 },
       { "item": "dayquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
       { "item": "nyquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
@@ -185,7 +187,8 @@
     "id": "drugs_rare",
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
-    "distribution": [
+    "subtype": "distribution",
+    "entries": [
       {
         "item": "adderall",
         "count-min": 15,
