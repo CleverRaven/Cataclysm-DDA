@@ -230,7 +230,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_mother",
     "dynamic_line": [
-      "She sure was, helped me through some very hard times in my life.  I used to be bullied in middle school, whenever I'd get beat up, she'd always help clean me up and tell me I'd be alright.  She had this recipe for peach casserole too, best one in the world.  It was hard for me when she passed, but I found some solice right here in this Church.  We'd always been religious, but this one just clicked for me, ya know?"
+      "She sure was, helped me through some very hard times in my life.  I used to be bullied in middle school, whenever I'd get beat up, she'd always help clean me up and tell me I'd be alright.  She had this recipe for peach casserole too, best one in the world.  It was hard for me when she passed, but I found some solace right here in this Church.  We'd always been religious, but this one just clicked for me, ya know?"
     ],
     "responses": [
       { "text": "Is that why you joined the Church?", "topic": "TALK_GODCO_guard_food_church" },
@@ -255,7 +255,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_church",
     "dynamic_line": [
-      "Yeah, her dyin' was hard on me.  I wound up goin' here one day, and I felt something come over me, like I belonged here.  I haven't left since, and I've been able to move on with them."
+      "Yeah, her death was hard on me.  I wound up goin' here one day, and I felt something come over me, like I belonged here.  I haven't left since, and I've been able to move on with them."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
