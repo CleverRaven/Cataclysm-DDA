@@ -400,7 +400,7 @@
     "type": "terrain",
     "id": "t_card_science_visitor",
     "name": "Facility entrance card reader",
-    "description": "A smartcard reader.  It sports the stylized symbol of an atom inside a flask that is universally known to indicate SCIENCE.  You could insert a visitor's pass into it to unlock the gates.",
+    "description": "A smartcard reader.  It sports the stylized symbol of an atom inside a flask that is universally known to indicate SCIENCE.  You could swipe a visitor's pass near it to unlock the gates.",
     "//": "Entrance card for a lab.  Low security access.",
     "symbol": "6",
     "color": "cyan",
@@ -409,13 +409,13 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_VISITOR" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": true,
       "despawn_monsters": true,
       "radius": 3,
       "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
       "query": true,
-      "query_msg": "Are you sure you want to open this door? It looks like you might not get the card back.",
+      "query_msg": "Are you sure you want to open this door?",
       "success_msg": "You opened the door!",
       "redundant_msg": "The door is already open."
     }
@@ -524,7 +524,7 @@
     "type": "terrain",
     "id": "t_card_science_transport_1",
     "name": "Freight hauler access card reader",
-    "description": "A smartcard reader.  It sports the stylized symbol of an atom and a truck.  You could insert a transporter's badge into it to unlock the gates.",
+    "description": "A smartcard reader.  It sports the stylized symbol of an atom and a truck.  You could swipe a transporter's badge near it to unlock the gates.",
     "//": "Entrance card for a lab.  Low security access.",
     "symbol": "6",
     "color": "cyan",
@@ -533,13 +533,13 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_TRANSPORT_1" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": false,
       "despawn_monsters": false,
       "radius": 7,
       "terrain_changes": { "t_door_metal_locked": "t_thconc_floor" },
       "query": true,
-      "query_msg": "Are you sure you want to open this gate? It looks like you might not get the card back.",
+      "query_msg": "Are you sure you want to open this gate?",
       "success_msg": "You opened the gate!",
       "redundant_msg": "The gate is already open."
     }
