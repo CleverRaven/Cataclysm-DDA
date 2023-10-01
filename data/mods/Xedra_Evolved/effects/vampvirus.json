@@ -21,6 +21,7 @@
               { "u_lose_trait": "VAMPIRE" },
               { "u_lose_trait": "EYEGLEAM" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
+              { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "COMMUNE_NIGHT" },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
@@ -148,7 +149,7 @@
               "condition": { "u_has_trait": "VAMPIRE" },
               "effect": [
                 {
-                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD", "COMMUNE_NIGHT" ],
+                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD", "BLOODBANK", "COMMUNE_NIGHT" ],
                   "type": "mutation",
                   "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]
