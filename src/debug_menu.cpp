@@ -1987,8 +1987,9 @@ static void character_edit_menu()
                 you.worn.wear_item( you, to_wear, false, false );
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
-                get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item()->typeId() );
+                item_location loc = you.get_wielded_item();
+                cata::event e = cata::event::make<event_type::character_wields_item>( you.getID(), loc->typeId() );
+                get_event_bus().send_with_talker( &you, &loc, e );
             }
         }
         break;
