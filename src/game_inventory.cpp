@@ -314,17 +314,10 @@ void game_menus::inv::common( item_location &loc, avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-item_location game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
+item_location game_menus::inv::titled_filter_menu( const item_filter &filter, Character &you,
         const std::string &title, int radius, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
-                         title, radius, none_message );
-}
-
-item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
-        const std::string &title, int radius, const std::string &none_message )
-{
-    return inv_internal( you, inventory_filter_preset( filter ),
                          title, radius, none_message );
 }
 
@@ -340,7 +333,7 @@ drop_locations game_menus::inv::titled_multi_filter_menu( const item_location_fi
     return inv_internal_multi( you, inventory_filter_preset( filter ), title, radius, none_message );
 }
 
-item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
+item_location game_menus::inv::titled_menu( Character &you, const std::string &title,
         const std::string &none_message )
 {
     const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
