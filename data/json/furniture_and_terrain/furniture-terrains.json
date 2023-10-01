@@ -851,6 +851,7 @@
     "move_cost_mod": 6,
     "max_volume": "750 L",
     "required_str": -1,
+    "crafting_pseudo_item": "fake_sharp_metal_wreckage",
     "flags": [
       "TRANSPARENT",
       "UNSTABLE",

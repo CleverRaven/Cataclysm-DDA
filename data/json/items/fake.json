@@ -97,6 +97,13 @@
     "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ]
   },
   {
+    "id": "fake_sharp_metal_wreckage",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "sharp piece of wreckage" },
+    "qualities": [ [ "CUT", 1 ] ]
+  },
+  {
     "id": "boulder_anvil",
     "type": "TOOL",
     "copy-from": "fake_item",
