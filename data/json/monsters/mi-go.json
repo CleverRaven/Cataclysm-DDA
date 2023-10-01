@@ -148,8 +148,10 @@
         "id": "mi-go_capture_creature_spell",
         "type": "spell",
         "spell_data": { "id": "mi-go_capture_creature" },
-        "cooldown": 50,
-        "monster_message": "The mi-go attempts to restrain you!"
+        "//": "Only target characters with this attack",
+        "condition": { "or": [ "npc_male", "npc_female" ] },
+        "cooldown": 10,
+        "monster_message": "The <Monster Display Name> attempts to restrain <Target name>!"
       }
     ],
     "flags": [
