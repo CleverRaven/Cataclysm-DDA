@@ -46,7 +46,8 @@
       { "u_learn_recipe": "practice_pyrokinetic_flamethrower" },
       { "u_learn_recipe": "practice_pyrokinetic_aura" },
       { "u_learn_recipe": "practice_pyrokinetic_flame_immunity" },
-      { "u_learn_recipe": "practice_pyrokinetic_blast" }
+      { "u_learn_recipe": "practice_pyrokinetic_blast" },
+      { "u_learn_recipe": "practice_pyrokinetic_aoe_blast" }
     ]
   },
   {
