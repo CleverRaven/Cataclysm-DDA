@@ -568,7 +568,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "knockback_dist": 3,
-    "powerful_knockback": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
     "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ],
     "attack_vectors": [ "FOOT" ]
