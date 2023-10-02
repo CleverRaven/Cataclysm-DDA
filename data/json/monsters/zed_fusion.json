@@ -174,7 +174,7 @@
     "harvest": "exempt",
     "grab_strength": 100,
     "special_attacks": [ [ "FLESH_TENDRIL", 1 ], { "id": "grab" }, { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 100 } } ],
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 10, "cut": 20, "bullet": 16, "electric": 5 }
   },
@@ -206,7 +206,7 @@
     "special_attacks": [ [ "SUICIDE", 20 ] ],
     "death_drops": "default_zombie_items",
     "upgrades": { "half_life": 24, "into": "mon_zombie_gasbag_crawler" },
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
     "armor": { "electric": 1 }
   },
@@ -238,7 +238,7 @@
     "vision_night": 50,
     "harvest": "exempt",
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "scratch", 5 ] ],
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ],
     "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
@@ -281,7 +281,7 @@
       { "type": "leap", "cooldown": 15, "max_range": 2, "allow_no_target": true },
       [ "scratch", 5 ]
     ],
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ],
     "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
@@ -311,7 +311,7 @@
     "bleed_rate": 50,
     "vision_day": 1,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 3, "allow_no_target": true }, [ "scratch", 5 ] ],
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ],
     "armor": { "bash": 2, "cut": 10, "bullet": 10, "electric": 2 }
   },
@@ -342,7 +342,7 @@
     "vision_day": 2,
     "vision_night": 2,
     "harvest": "exempt",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "//grab": "High weight ratio since it's not *really* 81kg",
     "grab_strength": 35,
     "special_attacks": [

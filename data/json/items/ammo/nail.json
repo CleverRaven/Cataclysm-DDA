@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": { "str": "flechette" },
     "copy-from": "nail",
-    "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon, or used for crafting ammunition",
+    "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon, or used for crafting ammunition.",
     "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",

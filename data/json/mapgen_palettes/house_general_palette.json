@@ -89,7 +89,7 @@
       "d": "f_dresser",
       "e": "f_pool_table",
       "f": "f_table",
-      "g": "f_water_heater",
+      "g": [ "f_water_heater", "f_water_heater_family" ],
       "h": "f_chair",
       "i": "f_bench",
       "j": "f_bench",

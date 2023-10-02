@@ -737,6 +737,7 @@ deliriant
 delsihous
 demagnetized
 demihuman
+demining
 demisexuality
 demoed
 denarius
@@ -845,6 +846,8 @@ dreamdrossed
 dreamforged
 dreamsmith
 dreamstuff
+dress
+dresses
 driers
 drivetrain
 dromaeosaurid
@@ -1329,6 +1332,7 @@ hdd
 headbutts
 headin
 headwear
+headwrap
 healthiness
 heartiness
 heartlike
@@ -3354,6 +3358,8 @@ wielders
 wieldier
 willin
 willowbark
+wimple
+wimples
 windowframe
 windproof
 winglike

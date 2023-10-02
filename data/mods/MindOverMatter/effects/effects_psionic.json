@@ -788,8 +788,10 @@
     "desc": [ "You are completely immune to fire." ],
     "apply_message": "",
     "rating": "good",
-    "max_duration": "10 minutes",
-    "show_in_info": false,
+    "max_duration": "30 minutes",
+    "max_intensity": 95,
+    "dur_add_perc": 10,
+    "int_dur_factor": "19 s",
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE" ]
   },

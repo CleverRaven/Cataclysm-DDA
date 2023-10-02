@@ -294,6 +294,7 @@
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lamellar",
+    "category": "armor",
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 4,

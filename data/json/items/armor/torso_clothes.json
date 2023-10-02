@@ -1832,7 +1832,7 @@
     "id": "witch_dress",
     "type": "ARMOR",
     "name": { "str": "witch dress", "str_pl": "witch dresses" },
-    "description": { "str": "A black dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween." },
+    "description": { "str": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween." },
     "weight": "258 g",
     "volume": "1500 ml",
     "price": 14000,
@@ -1854,13 +1854,44 @@
         "encumbrance": 2
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 90 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_witch_dress",
+        "name": { "str_sp": "black witch dress" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "green_witch_dress",
+        "name": { "str_sp": "green witch dress" },
+        "description": "It's colored dark green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "red_witch_dress",
+        "name": { "str_sp": "red witch dress" },
+        "description": "It's colored dark red.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "purple_witch_dress",
+        "name": { "str_sp": "purple witch dress" },
+        "description": "It's colored dark purple.",
+        "weight": 25,
+        "append": true
+      }
     ]
   },
   {
     "id": "witch_dress_long",
     "type": "ARMOR",
     "name": { "str": "long witch dress", "str_pl": "long witch dresses" },
-    "description": "A long black dress with sleeves, typical of a witch.  It includes a pouch for storing potions and other magical items.",
+    "description": "A long dress with sleeves, typical of a witch.  It includes a pouch for storing potions and other magical items.",
     "weight": "700 g",
     "volume": "3750 ml",
     "price": 18000,
@@ -1885,13 +1916,44 @@
         "max_item_length": "13 cm",
         "moves": 100
       }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_witch_dress_long",
+        "name": { "str_sp": "long black witch dress" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "green_witch_dress_long",
+        "name": { "str_sp": "long green witch dress" },
+        "description": "It's colored dark green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "red_witch_dress_long",
+        "name": { "str_sp": "long red witch dress" },
+        "description": "It's colored dark red.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "purple_witch_dress_long",
+        "name": { "str_sp": "long purple witch dress" },
+        "description": "It's colored dark purple.",
+        "weight": 25,
+        "append": true
+      }
     ]
   },
   {
     "id": "witch_dress_short",
     "type": "ARMOR",
     "name": { "str": "short witch dress", "str_pl": "short witch dresses" },
-    "description": { "str": "A short black dress typically used by witches." },
+    "description": { "str": "A short dress typically used by witches." },
     "weight": "200 g",
     "volume": "1500 ml",
     "price": 12000,
@@ -1919,6 +1981,37 @@
         "encumbrance": 4
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_witch_dress_short",
+        "name": { "str_sp": "short black witch dress" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "green_witch_dress_short",
+        "name": { "str_sp": "short green witch dress" },
+        "description": "It's colored dark green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "red_witch_dress_short",
+        "name": { "str_sp": "short red witch dress" },
+        "description": "It's colored dark red.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "purple_witch_dress_short",
+        "name": { "str_sp": "short purple witch dress" },
+        "description": "It's colored dark purple.",
+        "weight": 25,
+        "append": true
+      }
     ]
   },
   {
