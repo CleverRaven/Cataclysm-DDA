@@ -45,14 +45,38 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_MAKE_FIRE",
+    "name": { "str": "Enkindle" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to set something nearby on fire.",
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_make_fire", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_DASH_BOOM",
     "name": { "str": "Fiery Charge" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to rush forward and cause an explosion at the place they land.",
+    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_dash_boom_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_FLAME_PUNCH",
+    "name": { "str": "Blazing Blow" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to punch a target with a fiery fist, causing damage and hurling them back.",
+    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_flame_punch_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -67,22 +91,85 @@
   },
   {
     "type": "mutation",
-    "id": "SALAMANDER_FIRE_IMMUNE",
-    "name": { "str": "Inured to Flame" },
-    "points": 9,
-    "visibility": 0,
+    "id": "SALAMANDER_EYES",
+    "name": { "str": "Salamander Eyes" },
+    "points": 1,
+    "visibility": 2,
     "ugliness": 0,
-    "prereqs": [ "SALAMANDER_SKIN_3" ],
-    "description": "The Salamander is utterly immune to heat and flame of any kind.",
+    "description": "Upon gaining this ability the Salamander's eyes begin reflecting their mood with warm yellows and deep reds when happy and blazing oranges, blues, and whites when angry.  Glare no longer impacts them and they can always see exactly what temperature it is.",
+    "leads_to": [ "SALAMANDER_HEAT_EYES" ],
+    "category": [ "SALAMANDER" ],
+    "integrated_armor": [ "integrated_salamander_eyes" ],
+    "flags": [ "THERMOMETER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_HEAT_EYES",
+    "name": { "str": "Heat Sight" },
+    "points": 3,
+    "description": "With their new eyes, the Salamander can see heat and pick out others in darkness.",
+    "prereqs": [ "SALAMANDER_EYES" ],
+    "changes_to": [ "SALAMANDER_HEAT_EYES2" ],
+    "category": [ "SALAMANDER" ],
+    "flags": [ "INFRARED" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_HEAT_EYES2",
+    "name": { "str": "Reading the Heartfires" },
+    "points": 5,
+    "description": "The Salamander's ability to see heat has sharpened greatly, and they can pick out subtle change in a person's skin caused by blood flow.  This makes persuasion and lying easier.",
+    "prereqs": [ "SALAMANDER_EYES" ],
+    "category": [ "SALAMANDER" ],
+    "social_modifiers": { "persuade": 10, "lie": 10 },
+    "flags": [ "INFRARED" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SLEEP_LESS",
+    "name": { "str": "The Campfire Stands Watch" },
+    "points": 2,
+    "description": "The Salamander needs less sleep than a human.  However, they will also need to eat slightly more.",
+    "changes_to": [ "SALAMANDER_SLEEP_LESS2" ],
+    "types": [ "SLEEP" ],
+    "category": [ "SALAMANDER" ],
+    "fatigue_modifier": -0.25,
+    "fatigue_regen_modifier": 0.25,
+    "metabolism_modifier": 0.33,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SLEEP_LESS2",
+    "name": { "str": "The Bonfire Blazes Until the Revelers Have Gone" },
+    "points": 5,
+    "description": "The Salamander needs much less sleep than a human.  However, they will also need to eat significantly more.",
+    "prereqs": [ "SALAMANDER_SLEEP_LESS" ],
+    "changes_to": [ "SALAMANDER_SLEEP_LESS3" ],
+    "types": [ "SLEEP" ],
+    "category": [ "SALAMANDER" ],
+    "fatigue_modifier": -0.5,
+    "fatigue_regen_modifier": 0.5,
+    "metabolism_modifier": 0.66,
+    "stamina_regen_modifier": 0.2
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SLEEP_LESS3",
+    "name": { "str": "The Watchfire Burns Throughout the Night" },
+    "points": 10,
+    "description": "Like a blazing signal fire, a Salamander never stops shining.  They never need to sleep if they do not want to, and when they do, they need much less sleep than normal.  However, they require twice as much food as a human.",
+    "prereqs": [ "SALAMANDER_SLEEP_LESS2" ],
+    "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ]
-      }
-    ],
-    "flags": [ "HEAT_IMMUNE" ]
+    "fatigue_modifier": -0.5,
+    "fatigue_regen_modifier": 0.5,
+    "metabolism_modifier": 1,
+    "stamina_regen_modifier": 0.3,
+    "activated_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
+    "processed_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
+    "time": "6 h"
   },
   {
     "type": "mutation",
@@ -91,10 +178,33 @@
     "points": 6,
     "description": "Accursed water.  Its touch dampens your flames, and you will no longer have anything to do with it.  You do not need to drink.",
     "types": [ "THIRST" ],
-    "prereqs": "SALAMANDER_SKIN_2",
+    "prereqs": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
     "flags": [ "NO_THIRST" ],
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_FIRE_IMMUNE",
+    "name": { "str": "Inured to Flame" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SALAMANDER_SKIN_3" ],
+    "description": "A creature born and bred of fire, the Salamander is utterly immune to heat and flame of any kind.  However, they will take additional damage from cold.",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
+          { "value": "ARMOR_HEAT", "add": -1000 },
+          { "value": "ARMOR_COLD", "multiply": 0.5 }
+        ]
+      }
+    ],
+    "flags": [ "HEAT_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -106,6 +216,52 @@
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "spells_learned": [ [ "salamander_fire_fly", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SUMMON_WINGS",
+    "name": { "str": "On Wings of Flame" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "With an act of will, you can extend wings of flame from your back.  These aetherial wings are not hindered by clothing or armor, but also do not have enough substance to allow you to fly.  However, they can break a fall or be used in combat.",
+    "prereqs": "SALAMANDER_FIRE_IMMUNE",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "active": true,
+    "transform": {
+      "target": "SALAMANDER_SUMMON_WINGS_ON",
+      "msg_transform": "Flaming wings extend from your back!",
+      "active": true,
+      "moves": 50
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SUMMON_WINGS_ON",
+    "name": { "str": "On Wings of Flame (active)" },
+    "points": 7,
+    "visibility": 10,
+    "ugliness": 0,
+    "description": "You are extending wings of aetherial flame from your back.  You can attack enemies with them and will not take damage from falls.",
+    "category": [ "SALAMANDER" ],
+    "active": true,
+    "valid": false,
+    "enchantments": [ "ench_salamander_wings_flame" ],
+    "flags": [ "WINGS_2" ],
+    "//": "Damage taken from Spiked Tail",
+    "attacks": {
+      "attack_text_u": "You buffet %s with your fiery wings!",
+      "attack_text_npc": "%1$s buffets %2$s with their fiery wings!",
+      "chance": 20,
+      "base_damage": { "damage_type": "heat", "amount": 20 }
+    },
+    "transform": {
+      "target": "SALAMANDER_SUMMON_WINGS",
+      "msg_transform": "The wings on your back gutter and die.",
+      "active": false,
+      "moves": 50
+    }
   },
   {
     "type": "mutation",
