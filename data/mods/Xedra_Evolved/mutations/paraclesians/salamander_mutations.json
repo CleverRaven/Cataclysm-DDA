@@ -290,7 +290,7 @@
     "id": "SALAMANDER_MONCAMS",
     "name": { "str": "Within the Firelight" },
     "points": 2,
-    "description": "As a distant fire reveals that which is nearby, the Salamander can see what surrounds their kin. Gain moncams on Salamander summons.",
+    "description": "As a distant fire reveals that which is nearby, the Salamander can see what surrounds their kin. The Salamander may see through the eyes of any creatures they summon.",
     "prereqs": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
     "prereqs2": [ "SALAMANDER_HEAT_EYES", "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
