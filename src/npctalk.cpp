@@ -146,26 +146,26 @@ struct sub_effect_parser {
     }
 
     bool check_alpha( const JsonObject &jo ) const {
-        if( (arg & jarg::member) && jo.has_member( key_alpha ) ) {
+        if( ( arg & jarg::member ) && jo.has_member( key_alpha ) ) {
             return true;
-        } else if( (arg & jarg::object) && jo.has_object( key_alpha ) ) {
+        } else if( ( arg & jarg::object ) && jo.has_object( key_alpha ) ) {
             return true;
-        }if( (arg & jarg::string) && jo.has_string( key_alpha ) ) {
+        } else if( ( arg & jarg::string ) && jo.has_string( key_alpha ) ) {
             return true;
-        }if( (arg & jarg::array) && jo.has_array( key_alpha ) ) {
+        } else if( ( arg & jarg::array ) && jo.has_array( key_alpha ) ) {
             return true;
         }
         return false;
     }
 
     bool check_beta( const JsonObject &jo ) const {
-        if( (arg & jarg::member) && jo.has_member( key_beta ) ) {
+        if( ( arg & jarg::member ) && jo.has_member( key_beta ) ) {
             return true;
-        } else if( (arg & jarg::object) && jo.has_object( key_beta ) ) {
+        } else if( ( arg & jarg::object ) && jo.has_object( key_beta ) ) {
             return true;
-        }if( (arg & jarg::string) && jo.has_string( key_beta ) ) {
+        } else if( ( arg & jarg::string ) && jo.has_string( key_beta ) ) {
             return true;
-        }if( (arg & jarg::array) && jo.has_array( key_beta ) ) {
+        } else if( ( arg & jarg::array ) && jo.has_array( key_beta ) ) {
             return true;
         }
         return false;
@@ -2661,9 +2661,11 @@ talk_effect_fun_t::talk_effect_fun_t( const std::function<void( dialogue const &
     };
 }
 
-void talk_effect_fun_t::set_companion_mission( const JsonObject &, std::string_view role_id )
+void talk_effect_fun_t::set_companion_mission( const JsonObject &jo, std::string_view member )
 {
-    function = [role_id]( dialogue const & d ) {
+    str_or_var id = get_str_or_var( jo.get_member( member ), member, true );
+    function = [id]( dialogue const & d ) {
+        std::string role_id = id.evaluate( d );
         d.actor( true )->set_companion_mission( role_id );
     };
 }

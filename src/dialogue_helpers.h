@@ -29,7 +29,7 @@ struct talk_effect_fun_t {
         explicit talk_effect_fun_t( const talkfunction_ptr & );
         explicit talk_effect_fun_t( const std::function<void( npc & )> & );
         explicit talk_effect_fun_t( const std::function<void( dialogue const &d )> & );
-        void set_companion_mission( const JsonObject &, std::string_view role_id );
+        void set_companion_mission( const JsonObject &jo, std::string_view role_id );
         void set_add_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_remove_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );

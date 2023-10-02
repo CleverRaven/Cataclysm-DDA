@@ -547,7 +547,7 @@ void talker_npc::add_mission( const mission_type_id &mission_id )
     me_npc->chatbin.missions_assigned.push_back( miss );
 }
 
-void talker_npc::set_companion_mission( std::string_view role_id )
+void talker_npc::set_companion_mission( std::string &role_id )
 {
     me_npc->companion_mission_role_id = role_id;
     talk_function::companion_mission( *me_npc );

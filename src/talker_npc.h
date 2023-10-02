@@ -60,7 +60,7 @@ class talker_npc : public talker_cloner<talker_npc, talker_character>
         mission *selected_mission() const override;
         void select_mission( mission *selected ) override;
         void add_mission( const mission_type_id &mission_id ) override;
-        void set_companion_mission( std::string_view role_id ) override;
+        void set_companion_mission( std::string &role_id ) override;
 
         // factions and alliances
         void set_fac( const faction_id &new_fac_name ) override;
