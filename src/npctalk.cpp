@@ -122,7 +122,7 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
-static enum class jarg {
+enum class jarg {
     member = 0,
     object = 1 << 0,
     string = 1 << 1,
@@ -3077,7 +3077,7 @@ void talk_effect_fun_t::set_change_faction_rep( const JsonObject &jo, const std:
 void talk_effect_fun_t::set_add_debt( const JsonObject &jo, const std::string &member )
 {
     std::vector<trial_mod> debt_modifiers;
-    for( JsonArray jmod : jo.get_array( "add_debt" ) ) {
+    for( JsonArray jmod : jo.get_array( member ) ) {
         trial_mod this_modifier;
         this_modifier.first = jmod.next_string();
         this_modifier.second = jmod.next_int();
