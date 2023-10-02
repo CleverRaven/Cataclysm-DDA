@@ -1003,7 +1003,7 @@
   {
     "type": "COMESTIBLE",
     "id": "young_leaves",
-    "name": { "str": "handful of young leaves", "str_pl": "handful of young leaves" },
+    "name": { "str": "handful of young leaves", "str_pl": "handfuls of young leaves" },
     "weight": "20 g",
     "flags": [ "FREEZERBURN", "RAW" ],
     "color": "light_green",
