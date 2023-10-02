@@ -1,17 +1,25 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_REMOVE_STUN",
+    "effect": [ { "u_add_effect": "effect_salamander_remove_stun", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_GOBLIN_FRUIT",
-    "//": "I don't believe EoCs can detect if there is a fire nearby--once they can, that should be added in.",
+    "//": "I don't believe EoCs can detect if there is a fire nearby--once they can, that should be added in rather than detecting heat fields.",
     "condition": {
       "or": [
-        { "u_has_part_temp": 5500, "bodypart": "torso" },
         { "u_has_item": "torch_lit" },
         { "u_has_item": "candle_lit" },
         { "u_has_item": "oil_lamp_on" },
         { "u_has_item": "oil_lamp_clay_on" },
         { "u_has_item": "cigar_lit" },
         { "u_has_item": "cig_lit" },
+        { "u_is_in_field": "fd_hot_air1" },
+        { "u_is_in_field": "fd_hot_air2" },
+        { "u_is_in_field": "fd_hot_air3" },
+        { "u_is_in_field": "fd_hot_air4" },
         { "u_is_in_field": "fd_fire" }
       ]
     },
