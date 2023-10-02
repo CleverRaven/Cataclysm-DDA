@@ -2726,7 +2726,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     return []( dialogue const &, double ) {};
 }
 
-void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_view member,
+void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member,
                                         bool no_result )
 {
     JsonArray objects = jo.get_array( member );
