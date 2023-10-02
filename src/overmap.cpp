@@ -2888,21 +2888,38 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         return;
     }
 
-    oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
+    oter_id &current_oter = layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
+    const oter_type_str_id &current_type_id = current_oter->get_type_id();
+    const oter_type_str_id &incoming_type_id = id->get_type_id();
+    const bool current_type_same = current_type_id == incoming_type_id;
+
+    // Mapgen refinement can push multiple different roads over each other.
+    // Roads require a predecessor. A road pushed over a road might cause a
+    // road to be a predecessor to another road. That causes too many spawns
+    // to happen. So when pushing a predecessor, if the predecessor to-be-pushed
+    // is linear and the previous predecessor is linear, overwrite it.
+    // This way only the 'last' rotation/variation generated is kept.
     if( id->has_flag( oter_flags::requires_predecessor ) ) {
-        // Stops linear fallback_predecessor maps (roads etc) spawning over themselves
         std::vector<oter_id> &om_predecessors = predecessors_[p];
-        if( om_predecessors.empty() || !val->is_linear() ) {
-            om_predecessors.push_back( val );
-        } else {
-            // Collapse and keep the last linear oter of matching type
+        if( om_predecessors.empty() || ( !current_oter->is_linear() && !current_type_same ) ) {
+            // If we need a predecessor, we must have a predecessor no matter what.
+            // Or, if the oter to-be-pushed is not linear, push it only if the incoming oter is different.
+            om_predecessors.push_back( current_oter );
+        } else if( !current_type_same ) {
+            // Current oter is linear, incoming oter is different from current.
+            // If the last predecessor is the same type as the current type, overwrite.
+            // Else push the current type.
             oter_id &last_predecessor = om_predecessors.back();
-            if( last_predecessor->get_type_id() == val->get_type_id() ) {
-                last_predecessor = val;
+            if( last_predecessor->get_type_id() == current_type_id ) {
+                last_predecessor = current_oter;
+            } else {
+                om_predecessors.push_back( current_oter );
             }
         }
+        // We had a predecessor, and it was the same type as the incoming one
+        // Don't push another copy.
     }
-    val = id;
+    current_oter = id;
 }
 
 const oter_id &overmap::ter( const tripoint_om_omt &p ) const
