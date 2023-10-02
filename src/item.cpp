@@ -631,6 +631,10 @@ item &item::convert( const itype_id &new_type, Character *carrier )
     temp.update_modified_pockets();
     temp.contents.combine( contents, true );
     contents = temp.contents;
+    current_phase = new_type->phase;
+    if( count_by_charges() != new_type->count_by_charges() ) {
+        charges = new_type->charges_default();
+    }
 
     if( temp.type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
