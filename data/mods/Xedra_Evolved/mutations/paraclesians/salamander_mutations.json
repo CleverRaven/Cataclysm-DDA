@@ -24,7 +24,8 @@
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
     "weakness_to_water": 1,
-    "integrated_armor": [ "integrated_coal_skin" ]
+    "integrated_armor": [ "integrated_coal_skin" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -36,7 +37,7 @@
     "mixed_effect": true,
     "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
     "types": [ "SKIN" ],
-    "flags": [ "HEAT_IMMUNE" ],
+    "flags": [ "HEAT_IMMUNE", "TOUGH_FEET" ],
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
