@@ -832,7 +832,6 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "rotation": 90, "chance": 75 } ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 2 ], "chance": 80, "repeat": [ 1, 2 ] } ]
     }
   },
