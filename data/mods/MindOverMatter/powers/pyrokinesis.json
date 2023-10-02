@@ -187,7 +187,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7.5,
-    "learn_spells": { "pyrokinetic_call_flames": 5, "pyrokinetic_cloak": 7, "pyrokinetic_aura": 15 }
+    "learn_spells": { "pyrokinetic_call_flames": 5, "pyrokinetic_cloak": 7, "pyrokinetic_aura": 15, "pyrokinetic_flame_immunity": 20 }
   },
   {
     "id": "pyro_quell_flames_1",
@@ -272,7 +272,7 @@
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -11,
-    "learn_spells": { "pyrokinetic_thermogenesis": 8, "pyrokinetic_aura": 9, "pyrokinetic_eruption": 12 }
+    "learn_spells": { "pyrokinetic_thermogenesis": 8, "pyrokinetic_aura": 9, "pyrokinetic_eruption": 12, "pyrokinetic_flame_immunity": 15 }
   },
   {
     "id": "pyrokinetic_flamethrower",
@@ -532,6 +532,42 @@
     "energy_increment": -225,
     "base_casting_time": 125,
     "final_casting_time": 50,
+    "casting_time_increment": -6.5,
+    "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_flame_immunity": 15 }
+  },
+  {
+    "id": "pyrokinetic_flame_immunity",
+    "type": "SPELL",
+    "name": "[Ψ]Flameshield",
+    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.",
+    "message": "The nearby air loses any heat.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_pyrokinetic_flame_immunity",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 600) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_flame_immunity') * 600) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6750,
+    "final_energy_cost": 3500,
+    "energy_increment": -255,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
     "casting_time_increment": -6.5,
     "learn_spells": { "pyrokinetic_thermogenesis": 6, "pyrokinetic_aoe_blast": 12 }
   },
