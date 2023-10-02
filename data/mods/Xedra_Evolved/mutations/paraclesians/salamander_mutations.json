@@ -220,6 +220,7 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  However, cold weather produces a corresponding slowing effect.",
     "category": [ "SALAMANDER" ],
+    "//": "Temperature below is weather only, not local ambient air temperature, hence the field detection.  If local temperature is added, change to that.",
     "triggers": [
       [
         {
@@ -253,7 +254,7 @@
     "visibility": 0,
     "ugliness": 0,
     "valid": false,
-    "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather. The heat is speeding your healing.",
+    "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  The heat is speeding your healing.",
     "category": [ "SALAMANDER" ],
     "healing_awake": 0.44,
     "healing_multiplier": 1.5,
@@ -290,7 +291,7 @@
     "id": "SALAMANDER_MONCAMS",
     "name": { "str": "Within the Firelight" },
     "points": 2,
-    "description": "As a distant fire reveals that which is nearby, the Salamander can see what surrounds their kin. The Salamander may see through the eyes of any creatures they summon.",
+    "description": "As a distant fire reveals that which is nearby, the Salamander can see what surrounds their kin.  The Salamander may see through the eyes of any creatures they summon.",
     "prereqs": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
     "prereqs2": [ "SALAMANDER_HEAT_EYES", "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
@@ -415,7 +416,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SALAMANDER_DEX_BONUS_2" ],
-    "description": "The Salamander can move even faster than a racing prairie fire. -10% move and attack speed.",
+    "description": "The Salamander can move even faster than a racing prairie fire.  -10% move and attack speed.",
     "category": [ "SALAMANDER" ],
     "enchantments": [ "ench_salamander_reduced_move" ]
   },
