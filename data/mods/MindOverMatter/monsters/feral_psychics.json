@@ -782,8 +782,7 @@
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 10,
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
-      },
-      [ "FEAR_PARALYZE", 15 ]
+      }
     ],
     "flags": [
       "SEES",
@@ -850,8 +849,7 @@
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
         "cooldown": 10,
         "monster_message": "%1$s stares at %3$s!"
-      },
-      [ "FEAR_PARALYZE", 10 ]
+      }
     ],
     "flags": [
       "SEES",
