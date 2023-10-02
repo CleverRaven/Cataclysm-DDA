@@ -123,15 +123,58 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 enum class jarg {
-    member = 0,
-    object = 1 << 0,
-    string = 1 << 1,
-    array = 1 << 2
+    member = 1,
+    object = 1 << 1,
+    string = 1 << 2,
+    array = 1 << 3
 };
 
 template<>
 struct enum_traits<jarg> {
     static constexpr bool is_flag_enum = true;
+};
+
+struct sub_effect_parser {
+    using f_t = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view );
+    using f_t_beta = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view, bool );
+
+    sub_effect_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
+        arg( arg_ ), f( f_ ) {}
+    sub_effect_parser( std::string_view key_alpha_, std::string_view key_beta_, jarg arg_,
+                       f_t_beta f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), arg( arg_ ), f_beta( f_ ) {
+        has_beta = true;
+    }
+
+    bool check_alpha( const JsonObject &jo ) const {
+        switch( arg ) {
+            // *INDENT-OFF*
+            case jarg::member: return jo.has_member( key_alpha );
+            case jarg::object: return jo.has_object( key_alpha );
+            case jarg::string: return jo.has_string( key_alpha );
+            case jarg::array: return jo.has_array( key_alpha );
+            default: return false;
+            // *INDENT-ON*
+        }
+    }
+
+    bool check_beta( const JsonObject &jo ) const {
+        switch( arg ) {
+            // *INDENT-OFF*
+            case jarg::member: return jo.has_member( key_beta );
+            case jarg::object: return jo.has_object( key_beta );
+            case jarg::string: return jo.has_string( key_beta );
+            case jarg::array: return jo.has_array( key_beta );
+            default: return false;
+            // *INDENT-ON*
+        }
+    }
+
+    bool has_beta = false;
+    std::string_view key_alpha;
+    std::string_view key_beta;
+    jarg arg;
+    f_t f;
+    f_t_beta f_beta;
 };
 
 struct item_search_data {
@@ -5482,49 +5525,6 @@ talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_na
         next_topic = talk_topic( jo.get_string( "topic" ) );
     }
 }
-
-struct sub_effect_parser {
-    using f_t = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view );
-    using f_t_beta = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view, bool );
-
-    sub_effect_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
-        arg( arg_ ), f( f_ ) {}
-    sub_effect_parser( std::string_view key_alpha_, std::string_view key_beta_, jarg arg_,
-                       f_t_beta f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), arg( arg_ ), f_beta( f_ ) {
-        has_beta = true;
-    }
-
-    bool check_alpha( const JsonObject &jo ) const {
-        switch( arg ) {
-            // *INDENT-OFF*
-            case jarg::member: return jo.has_member( key_alpha );
-            case jarg::object: return jo.has_object( key_alpha );
-            case jarg::string: return jo.has_string( key_alpha );
-            case jarg::array: return jo.has_array( key_alpha );
-            default: return false;
-            // *INDENT-ON*
-        }
-    }
-
-    bool check_beta( const JsonObject &jo ) const {
-        switch( arg ) {
-            // *INDENT-OFF*
-            case jarg::member: return jo.has_member( key_beta );
-            case jarg::object: return jo.has_object( key_beta );
-            case jarg::string: return jo.has_string( key_beta );
-            case jarg::array: return jo.has_array( key_beta );
-            default: return false;
-            // *INDENT-ON*
-        }
-    }
-
-    bool has_beta = false;
-    std::string_view key_alpha;
-    std::string_view key_beta;
-    jarg arg;
-    f_t f;
-    f_t_beta f_beta;
-};
 
 static const
 std::vector<sub_effect_parser>
