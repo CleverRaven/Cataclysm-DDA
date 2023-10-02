@@ -85,14 +85,14 @@ std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
 
 } // namespace
 
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val )
 {
     if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
                           jo.has_array( "possible_values" ) ) ) {
-        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
+        jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
-    const std::string &var_basename = jo.get_string( member );
+    const std::string &var_basename = jo.get_string( std::string( member ) );
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
     default_val = get_dbl_or_var( jo, "default", false );
@@ -107,19 +107,18 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
             + var_context ) + "_" + var_basename;
 }
 
-std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value )
 {
     if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
                           jo.has_array( "possible_values" ) ) ) {
-        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
+        jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
-    const std::string &var_basename = jo.get_string( member );
+    const std::string &var_basename = jo.get_string( std::string( member ) );
     return var_basename;
 }
 
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
-                                     bool required,
+dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member, bool required,
                                      double default_val )
 {
     dbl_or_var_part ret_val;
@@ -139,14 +138,14 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &mem
             ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
-        jv.throw_error( "No valid value for " + member );
+        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
         ret_val.dbl_val = default_val;
     }
     return ret_val;
 }
 
-dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required,
+dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required,
                            double default_val )
 {
     dbl_or_var ret_val;
@@ -221,8 +220,8 @@ duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &me
     return ret_val;
 }
 
-str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required,
-                           const std::string &default_val )
+str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required,
+                           std::string_view default_val )
 {
     str_or_var ret_val;
     if( jv.test_string() ) {
@@ -237,7 +236,7 @@ str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool 
             ret_val.default_val = default_val;
         }
     } else if( required ) {
-        jv.throw_error( "No valid value for " + member );
+        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
         ret_val.str_val = default_val;
     }
@@ -2726,7 +2725,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     return []( dialogue const &, double ) {};
 }
 
-void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, std::string_view member,
                                         bool no_result )
 {
     JsonArray objects = jo.get_array( member );
@@ -2896,7 +2895,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
     }
 }
 
-void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_math( const JsonObject &jo, std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member, eoc_math::type_t::assign );

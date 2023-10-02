@@ -428,7 +428,7 @@ class talker
         virtual void select_mission( mission * ) {
         }
         virtual void add_mission( const mission_type_id & ) {}
-        virtual void set_companion_mission( const std::string & ) {}
+        virtual void set_companion_mission( std::string_view ) {}
 
         // factions and alliances
         virtual faction *get_faction() const {

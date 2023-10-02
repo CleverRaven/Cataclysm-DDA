@@ -58,13 +58,13 @@ const std::unordered_set<std::string> complex_conds = { {
 };
 } // namespace dialogue_data
 
-str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
-                           const std::string &default_val = "" );
+str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
+                           std::string_view default_val = "" );
 translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
         bool required = true, const translation &default_val = {} );
-dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
+dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
+dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member,
                                      bool required = true,
                                      double default_val = 0.0 );
 duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member,
@@ -79,9 +79,9 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
                       const std::string &value );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       double value );
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val );
-std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,

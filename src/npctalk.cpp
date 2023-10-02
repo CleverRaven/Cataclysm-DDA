@@ -2616,14 +2616,14 @@ talk_effect_fun_t::talk_effect_fun_t( const std::function<void( dialogue const &
     };
 }
 
-void talk_effect_fun_t::set_companion_mission( const JsonObject &, const std::string &role_id )
+void talk_effect_fun_t::set_companion_mission( const JsonObject &, std::string_view role_id )
 {
     function = [role_id]( dialogue const & d ) {
         d.actor( true )->set_companion_mission( role_id );
     };
 }
 
-void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_effect( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var new_effect = get_str_or_var( jo.get_member( member ), member, true );
@@ -2661,7 +2661,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var old_effect = get_str_or_var( jo.get_member( member ), member, true );
@@ -2670,7 +2670,7 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_trait( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
@@ -2679,7 +2679,7 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &
     };
 }
 
-void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
@@ -2688,7 +2688,7 @@ void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::str
     };
 }
 
-void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
@@ -2697,7 +2697,7 @@ void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var old_trait = get_str_or_var( jo.get_member( member ), member, true );
@@ -2706,7 +2706,7 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_learn_martial_art( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_learn_martial_art( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var ma_to_learn = get_str_or_var( jo.get_member( member ), member, true );
@@ -2715,7 +2715,7 @@ void talk_effect_fun_t::set_learn_martial_art( const JsonObject &jo, const std::
     };
 }
 
-void talk_effect_fun_t::set_forget_martial_art( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_forget_martial_art( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var ma_to_forget = get_str_or_var( jo.get_member( member ), member, true );
@@ -2724,7 +2724,7 @@ void talk_effect_fun_t::set_forget_martial_art( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_mutate( const JsonObject &jo, std::string_view member,
                                     bool is_npc )
 {
     dbl_or_var highest_cat = get_dbl_or_var( jo, member, true, 0 );
@@ -2734,7 +2734,7 @@ void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &mem
     };
 }
 
-void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
@@ -2744,7 +2744,7 @@ void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var new_bionic = get_str_or_var( jo.get_member( member ), member, true );
@@ -2753,7 +2753,7 @@ void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var old_bionic = get_str_or_var( jo.get_member( member ), member, true );
@@ -2762,7 +2762,7 @@ void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, const std::string
     };
 }
 
-void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     dbl_or_var empty;
@@ -2786,7 +2786,7 @@ void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_remove_var( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_var( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     dbl_or_var empty;
@@ -2796,7 +2796,7 @@ void talk_effect_fun_t::set_remove_var( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     dbl_or_var empty;
@@ -2816,7 +2816,7 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
     };
 }
 
-static void receive_item( itype_id &item_name, int count, const std::string &container_name,
+static void receive_item( itype_id &item_name, int count, std::string_view container_name,
                           const dialogue &d, bool use_item_group, bool suppress_message )
 {
     item new_item;
@@ -2848,7 +2848,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
             }
         }
     } else {
-        item container( container_name, calendar::turn );
+        item container( std::string( container_name ), calendar::turn );
         new_item.charges = count;
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
@@ -2860,7 +2860,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
     }
 }
 
-void talk_effect_fun_t::set_u_spawn_item( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_spawn_item( const JsonObject &jo, std::string_view member )
 {
     str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
     str_or_var container_name;
@@ -2888,7 +2888,7 @@ void talk_effect_fun_t::set_u_spawn_item( const JsonObject &jo, const std::strin
                                  itype_id( item_name.evaluate( d ) ) );
 }
 
-void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view member )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2923,7 +2923,7 @@ void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_u_sell_item( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_sell_item( const JsonObject &jo, std::string_view member )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2969,7 +2969,7 @@ void talk_effect_fun_t::set_u_sell_item( const JsonObject &jo, const std::string
     };
 }
 
-void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_consume_item( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
@@ -3024,7 +3024,7 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
@@ -3036,7 +3036,7 @@ void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_u_spend_cash( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_spend_cash( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var amount = get_dbl_or_var( jo, member );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
@@ -3050,7 +3050,7 @@ void talk_effect_fun_t::set_u_spend_cash( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_npc_change_faction( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_change_faction( const JsonObject &jo, std::string_view member )
 {
     str_or_var faction_name = get_str_or_var( jo.get_member( member ), member, true );
     function = [faction_name]( dialogue const & d ) {
@@ -3058,7 +3058,7 @@ void talk_effect_fun_t::set_npc_change_faction( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_npc_change_class( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_change_class( const JsonObject &jo, std::string_view member )
 {
     str_or_var class_name = get_str_or_var( jo.get_member( member ), member, true );
     function = [class_name]( dialogue const & d ) {
@@ -3066,7 +3066,7 @@ void talk_effect_fun_t::set_npc_change_class( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_change_faction_rep( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_change_faction_rep( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var rep_change = get_dbl_or_var( jo, member );
     function = [rep_change]( dialogue & d ) {
@@ -3074,7 +3074,7 @@ void talk_effect_fun_t::set_change_faction_rep( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_add_debt( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_add_debt( const JsonObject &jo, std::string_view member )
 {
     std::vector<trial_mod> debt_modifiers;
     for( JsonArray jmod : jo.get_array( member ) ) {
@@ -3096,7 +3096,7 @@ void talk_effect_fun_t::set_add_debt( const JsonObject &jo, const std::string &m
     };
 }
 
-void talk_effect_fun_t::set_toggle_npc_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_toggle_npc_rule( const JsonObject &jo, std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3104,7 +3104,7 @@ void talk_effect_fun_t::set_toggle_npc_rule( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_set_npc_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_set_npc_rule( const JsonObject &jo, std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3112,7 +3112,7 @@ void talk_effect_fun_t::set_set_npc_rule( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_clear_npc_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_clear_npc_rule( const JsonObject &jo, std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3121,7 +3121,7 @@ void talk_effect_fun_t::set_clear_npc_rule( const JsonObject &jo, const std::str
 }
 
 void talk_effect_fun_t::set_npc_engagement_rule( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3129,7 +3129,7 @@ void talk_effect_fun_t::set_npc_engagement_rule( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_npc_aim_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_aim_rule( const JsonObject &jo, std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3138,7 +3138,7 @@ void talk_effect_fun_t::set_npc_aim_rule( const JsonObject &jo, const std::strin
 }
 
 void talk_effect_fun_t::set_npc_cbm_reserve_rule( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3147,7 +3147,7 @@ void talk_effect_fun_t::set_npc_cbm_reserve_rule( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_npc_cbm_recharge_rule( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     function = [rule]( dialogue const & d ) {
@@ -3155,7 +3155,7 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 0 );
@@ -3340,7 +3340,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
 }
 
 void talk_effect_fun_t::set_location_variable_adjust( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     dbl_or_var dov_z_adjust = get_dbl_or_var( jo, "z_adjust", false, 0 );
     dbl_or_var dov_x_adjust = get_dbl_or_var( jo, "x_adjust", false, 0 );
@@ -3380,7 +3380,7 @@ void talk_effect_fun_t::set_location_variable_adjust( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var transform = get_str_or_var( jo.get_member( "ter_furn_transform" ),
@@ -3426,7 +3426,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_transform_line( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_transform_line( const JsonObject &jo, std::string_view member )
 {
     str_or_var transform = get_str_or_var( jo.get_member( member ), member, true );
     var_info first = read_var_info( jo.get_object( "first" ) );
@@ -3442,7 +3442,7 @@ void talk_effect_fun_t::set_transform_line( const JsonObject &jo, const std::str
     };
 }
 
-void talk_effect_fun_t::set_place_override( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_place_override( const JsonObject &jo, std::string_view member )
 {
     str_or_var new_place = get_str_or_var( jo.get_member( member ), member );
     duration_or_var dov_length = get_duration_or_var( jo, "length", true );
@@ -3460,7 +3460,7 @@ void talk_effect_fun_t::set_place_override( const JsonObject &jo, const std::str
     };
 }
 
-void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, std::string_view member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<str_or_var> update_ids;
@@ -3515,7 +3515,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, std::string_view member )
 {
     str_or_var key = get_str_or_var( jo.get_member( member ), member, true );
     duration_or_var time_in_future = get_duration_or_var( jo, "time_in_future", false,
@@ -3525,7 +3525,7 @@ void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, std::string_view member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
     str_or_var key;
@@ -3560,7 +3560,7 @@ void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
@@ -3591,7 +3591,7 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &m
     };
 }
 
-void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
@@ -3610,7 +3610,7 @@ void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &
     };
 }
 
-void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     dbl_or_var dov_quantity;
@@ -3690,7 +3690,7 @@ void talk_effect_fun_t::set_npc_gets_item( bool to_use )
     };
 }
 
-void talk_effect_fun_t::set_add_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_add_mission( const JsonObject &jo, std::string_view member )
 {
     str_or_var mission_id = get_str_or_var( jo.get_member( member ), member, true );
     function = [mission_id]( dialogue const & d ) {
@@ -3703,7 +3703,7 @@ const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewar
     return likely_rewards;
 }
 
-void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, std::string_view member )
 {
     str_or_var monster_type_id = get_str_or_var( jo.get_member( member ), member, true );
     dbl_or_var cost = get_dbl_or_var( jo, "cost", false, 0 );
@@ -3730,7 +3730,7 @@ void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_learn_recipe( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_learn_recipe( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var learned_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
@@ -3740,7 +3740,7 @@ void talk_effect_fun_t::set_learn_recipe( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_forget_recipe( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_forget_recipe( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var forgotten_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
@@ -3750,7 +3750,7 @@ void talk_effect_fun_t::set_forget_recipe( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_npc_first_topic( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_first_topic( const JsonObject &jo, std::string_view member )
 {
     str_or_var chat_topic = get_str_or_var( jo.get_member( member ), member, true );
     function = [chat_topic]( dialogue const & d ) {
@@ -3758,7 +3758,7 @@ void talk_effect_fun_t::set_npc_first_topic( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_message( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     str_or_var message = get_str_or_var( jo.get_member( member ), member );
@@ -3876,7 +3876,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     duration_or_var dov = get_duration_or_var( jo, "duration", true );
@@ -3889,7 +3889,7 @@ void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_wet( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -3901,7 +3901,7 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, std::string_view member )
 {
     std::vector<effect_on_condition_id> true_eocs;
     std::vector<effect_on_condition_id> false_eocs;
@@ -3940,7 +3940,7 @@ void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_take_control( const JsonObject &jo, const std::string & )
+void talk_effect_fun_t::set_take_control( const JsonObject &jo, std::string_view )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -3962,7 +3962,7 @@ void talk_effect_fun_t::set_take_control_menu()
     };
 }
 
-void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, std::string_view member )
 {
     str_or_var variant = get_str_or_var( jo.get_member( member ), member, true );
     str_or_var id = get_str_or_var( jo.get_member( "id" ), "id", true );
@@ -3996,7 +3996,7 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, std::string_view member )
 {
     str_or_var achieve = get_str_or_var( jo.get_member( member ), member, true );
     function = [achieve]( dialogue const & d ) {
@@ -4015,7 +4015,7 @@ void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     dbl_or_var dov_amount = get_dbl_or_var( jo, member );
@@ -4027,7 +4027,7 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string
     };
 }
 
-void talk_effect_fun_t::set_hp( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
                                 bool is_npc )
 {
     dbl_or_var new_hp = get_dbl_or_var( jo, member, true );
@@ -4060,7 +4060,7 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, const std::string &member,
     };
 }
 
-void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     fake_spell fake;
@@ -4098,7 +4098,7 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_attack( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_attack( const JsonObject &jo, std::string_view member,
                                     bool is_npc )
 {
     str_or_var force_technique = get_str_or_var( jo.get_member( member ), member, true );
@@ -4143,7 +4143,7 @@ void talk_effect_fun_t::set_next_weather()
     };
 }
 
-void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, std::string_view member )
 {
     std::vector<str_or_var> values;
     if( jo.has_array( member ) ) {
@@ -4161,7 +4161,7 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::str
     };
 }
 
-void talk_effect_fun_t::set_set_condition( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_set_condition( const JsonObject &jo, std::string_view member )
 {
     str_or_var value;
     value = get_str_or_var( jo.get_member( member ), member );
@@ -4173,7 +4173,7 @@ void talk_effect_fun_t::set_set_condition( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, std::string_view member )
 {
     str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
     function = [mission_name]( dialogue const & d ) {
@@ -4185,7 +4185,7 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
     };
 }
 
-void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, std::string_view member )
 {
     str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
     bool success = false;
@@ -4216,7 +4216,7 @@ void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::str
 }
 
 void talk_effect_fun_t::set_remove_active_mission( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
     function = [mission_name]( dialogue const & d ) {
@@ -4232,7 +4232,7 @@ void talk_effect_fun_t::set_remove_active_mission( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, std::string_view member )
 {
     std::vector<std::string> mission_names;
 
@@ -4241,7 +4241,7 @@ void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::stri
             mission_names.push_back( mission_name );
         }
     } else if( jo.has_string( member ) ) {
-        mission_names.push_back( jo.get_string( member ) );
+        mission_names.push_back( jo.get_string( std::string( member ) ) );
     } else {
         jo.throw_error( "Invalid input for set_offer_mission" );
     }
@@ -4258,7 +4258,7 @@ void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_set_flag( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_set_flag( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
@@ -4275,7 +4275,7 @@ void talk_effect_fun_t::set_set_flag( const JsonObject &jo, const std::string &m
     };
 }
 
-void talk_effect_fun_t::set_unset_flag( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_unset_flag( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
@@ -4292,7 +4292,7 @@ void talk_effect_fun_t::set_unset_flag( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_activate( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_activate( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     str_or_var method = get_str_or_var( jo.get_member( member ), member, true );
@@ -4330,7 +4330,7 @@ void talk_effect_fun_t::set_activate( const JsonObject &jo, const std::string &m
     };
 }
 
-void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
@@ -4397,7 +4397,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
@@ -4411,7 +4411,7 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string &m
     };
 }
 
-void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
 
@@ -4442,7 +4442,7 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_view member )
 {
     std::vector<str_or_var> eocs;
     for( const JsonValue &jv : jo.get_array( member ) ) {
@@ -4580,7 +4580,7 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
 
@@ -4617,7 +4617,7 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::strin
 }
 
 void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
-        const std::string &member, bool is_npc )
+        std::string_view member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     std::vector<str_or_var> unique_ids;
@@ -4678,7 +4678,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
-        const std::string &member, bool is_npc )
+        std::string_view member, bool is_npc )
 {
     str_or_var option = get_str_or_var( jo.get_member( member ), member );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
@@ -4792,7 +4792,7 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
@@ -4821,7 +4821,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_queue_eoc_with( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_queue_eoc_with( const JsonObject &jo, std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
 
@@ -4861,7 +4861,7 @@ void talk_effect_fun_t::set_queue_eoc_with( const JsonObject &jo, const std::str
 }
 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     std::vector<std::pair<effect_on_condition_id, std::function<double( dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
@@ -4882,7 +4882,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_switch( const JsonObject &jo, std::string_view member )
 {
     std::function<double( dialogue &/* d */ )> eoc_switch = jo.has_string( member ) ?
             conditional_t::get_get_dbl( jo.get_string( member.data() ), jo ) :
@@ -4908,7 +4908,7 @@ void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string &mem
 }
 
 void talk_effect_fun_t::set_roll_remainder( const JsonObject &jo,
-        const std::string &member, bool is_npc )
+        std::string_view member, bool is_npc )
 {
     std::vector<str_or_var> list;
     for( JsonValue jv : jo.get_array( member ) ) {
@@ -4984,7 +4984,7 @@ void talk_effect_fun_t::set_roll_remainder( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_morale( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var new_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -5004,7 +5004,7 @@ void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var old_morale = get_str_or_var( jo.get_member( member ), member, true );
@@ -5013,7 +5013,7 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
     };
 }
 
-void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     function = [dov]( dialogue & d ) {
@@ -5022,7 +5022,7 @@ void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::
 }
 
 void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     function = [dov]( dialogue & d ) {
@@ -5031,7 +5031,7 @@ void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member, true );
     duration_or_var dov_length = get_duration_or_var( jo, "length", false, 0_seconds );
@@ -5049,7 +5049,7 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, std::string_view member )
 {
     JsonObject jobj = jo.get_object( member );
     int allowance = 0;
@@ -5079,7 +5079,7 @@ void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::str
     };
 }
 
-void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
@@ -5199,7 +5199,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     str_or_var sov_npc_class = get_str_or_var( jo.get_member( member ), member );
@@ -5310,7 +5310,7 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
     };
 }
 
-void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_field( const JsonObject &jo, std::string_view member,
                                    bool is_npc )
 {
     str_or_var new_field = get_str_or_var( jo.get_member( member ), member, true );
@@ -5347,7 +5347,7 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
@@ -5483,157 +5483,170 @@ talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_na
     }
 }
 
-static const
-std::vector<std::tuple<std::string, std::string, jarg, void ( talk_effect_fun_t::* )( const JsonObject &, const std::string &, bool )>>
-un_parsers = {
-    std::make_tuple( "u_add_effect", "npc_add_effect", jarg::member, &talk_effect_fun_t::set_add_effect ),
-    std::make_tuple( "u_lose_effect", "npc_lose_effect", jarg::member, &talk_effect_fun_t::set_remove_effect ),
-    std::make_tuple( "u_add_var", "npc_add_var", jarg::string, &talk_effect_fun_t::set_add_var ),
-    std::make_tuple( "u_lose_var", "npc_lose_var", jarg::string, &talk_effect_fun_t::set_remove_var ),
-    std::make_tuple( "u_adjust_var", "npc_adjust_var", jarg::string, &talk_effect_fun_t::set_adjust_var ),
-    std::make_tuple( "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun_t::set_add_trait ),
-    std::make_tuple( "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun_t::set_remove_trait ),
-    std::make_tuple( "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun_t::set_deactivate_trait ),
-    std::make_tuple( "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun_t::set_activate_trait ),
-    std::make_tuple( "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun_t::set_mutate ),
-    std::make_tuple( "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category ),
-    std::make_tuple( "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art ),
-    std::make_tuple( "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art ),
-    std::make_tuple( "u_set_hp", "npc_set_hp", jarg::member | jarg::array, &talk_effect_fun_t::set_hp ),
-    std::make_tuple( "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable ),
-    std::make_tuple( "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun_t::set_transform_radius ),
-    std::make_tuple( "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun_t::set_npc_goal ),
-    std::make_tuple( "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun_t::set_guard_pos ),
-    std::make_tuple( "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun_t::set_learn_recipe ),
-    std::make_tuple( "u_forget_recipe", "npc_forget_recipe", jarg::member, &talk_effect_fun_t::set_forget_recipe ),
-    std::make_tuple( "u_message", "npc_message", jarg::member, &talk_effect_fun_t::set_message ),
-    std::make_tuple( "u_add_wet", "npc_add_wet", jarg::member | jarg::array, &talk_effect_fun_t::set_add_wet ),
-    std::make_tuple( "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun_t::set_assign_activity ),
-    std::make_tuple( "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun_t::set_make_sound ),
-    std::make_tuple( "u_run_npc_eocs", "npc_run_npc_eocs", jarg::array, &talk_effect_fun_t::set_run_npc_eocs ),
-    std::make_tuple( "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun_t::set_run_inv_eocs ),
-    std::make_tuple( "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun_t::set_roll_remainder ),
-    std::make_tuple( "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun_t::set_mod_healthy ),
-    std::make_tuple( "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun_t::set_add_morale ),
-    std::make_tuple( "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun_t::set_lose_morale ),
-    std::make_tuple( "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun_t::set_add_bionic ),
-    std::make_tuple( "u_lose_bionic", "npc_lose_bionic", jarg::member, &talk_effect_fun_t::set_lose_bionic ),
-    std::make_tuple( "u_attack", "npc_attack", jarg::member, &talk_effect_fun_t::set_attack ),
-    std::make_tuple( "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun_t::set_spawn_monster ),
-    std::make_tuple( "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun_t::set_spawn_npc ),
-    std::make_tuple( "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun_t::set_field ),
-    std::make_tuple( "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun_t::set_teleport ),
-    std::make_tuple( "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun_t::set_set_flag ),
-    std::make_tuple( "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun_t::set_unset_flag ),
-    std::make_tuple( "u_activate", "npc_activate", jarg::member, &talk_effect_fun_t::set_activate ),
-    std::make_tuple( "arithmetic", "arithmetic", jarg::array, &talk_effect_fun_t::set_arithmetic ),
-    std::make_tuple( "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun_t::set_consume_item ),
-    std::make_tuple( "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun_t::set_remove_item_with ),
-    std::make_tuple( "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun_t::set_bulk_trade_accept ),
-    std::make_tuple( "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun_t::set_bulk_trade_accept ),
-    std::make_tuple( "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun_t::set_cast_spell ),
+struct sub_effect_parser {
+    using f_t = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view );
+    using f_t_beta = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view, bool );
+
+    sub_effect_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
+        arg( arg_ ), f( f_ ) {}
+    sub_effect_parser( std::string_view key_alpha_, std::string_view key_beta_, jarg arg_,
+                       f_t_beta f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), arg( arg_ ), f_beta( f_ ) {
+        has_beta = true;
+    }
+
+    bool check_alpha( const JsonObject &jo ) const {
+        switch( arg ) {
+            // *INDENT-OFF*
+            case jarg::member: return jo.has_member( key_alpha );
+            case jarg::object: return jo.has_object( key_alpha );
+            case jarg::string: return jo.has_string( key_alpha );
+            case jarg::array: return jo.has_array( key_alpha );
+            default: return false;
+            // *INDENT-ON*
+        }
+    }
+
+    bool check_beta( const JsonObject &jo ) const {
+        switch( arg ) {
+            // *INDENT-OFF*
+            case jarg::member: return jo.has_member( key_beta );
+            case jarg::object: return jo.has_object( key_beta );
+            case jarg::string: return jo.has_string( key_beta );
+            case jarg::array: return jo.has_array( key_beta );
+            default: return false;
+            // *INDENT-ON*
+        }
+    }
+
+    bool has_beta = false;
+    std::string_view key_alpha;
+    std::string_view key_beta;
+    jarg arg;
+    f_t f;
+    f_t_beta f_beta;
 };
 
 static const
-std::vector<std::tuple<std::string, jarg, void ( talk_effect_fun_t::* )( const JsonObject &, const std::string & )>>
+std::vector<sub_effect_parser>
 parsers = {
-    std::make_tuple( "companion_mission", jarg::string, &talk_effect_fun_t::set_companion_mission ),
-    std::make_tuple( "u_spend_cash", jarg::member | jarg::array, &talk_effect_fun_t::set_u_spend_cash ),
-    std::make_tuple( "npc_change_faction", jarg::member, &talk_effect_fun_t::set_npc_change_faction ),
-    std::make_tuple( "npc_change_class", jarg::member, &talk_effect_fun_t::set_npc_change_class ),
-    std::make_tuple( "u_faction_rep", jarg::member | jarg::array, &talk_effect_fun_t::set_change_faction_rep ),
-    std::make_tuple( "add_mission", jarg::member, &talk_effect_fun_t::set_add_mission ),
-    std::make_tuple( "u_sell_item", jarg::member, &talk_effect_fun_t::set_u_sell_item ),
-    std::make_tuple( "u_buy_item", jarg::member, &talk_effect_fun_t::set_u_buy_item ),
-    std::make_tuple( "u_spawn_item", jarg::member, &talk_effect_fun_t::set_u_spawn_item ),
-    std::make_tuple( "toggle_npc_rule", jarg::member, &talk_effect_fun_t::set_toggle_npc_rule ),
-    std::make_tuple( "set_npc_rule", jarg::member, &talk_effect_fun_t::set_set_npc_rule ),
-    std::make_tuple( "clear_npc_rule", jarg::member, &talk_effect_fun_t::set_clear_npc_rule ),
-    std::make_tuple( "set_npc_engagement_rule", jarg::member, &talk_effect_fun_t::set_npc_engagement_rule ),
-    std::make_tuple( "set_npc_aim_rule", jarg::member, &talk_effect_fun_t::set_npc_aim_rule ),
-    std::make_tuple( "set_npc_cbm_reserve_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_reserve_rule ),
-    std::make_tuple( "set_npc_cbm_recharge_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_recharge_rule ),
-    std::make_tuple( "mapgen_update", jarg::member, &talk_effect_fun_t::set_mapgen_update ),
-    std::make_tuple( "alter_timed_events", jarg::member, &talk_effect_fun_t::set_alter_timed_events ),
-    std::make_tuple( "revert_location", jarg::member, &talk_effect_fun_t::set_revert_location ),
-    std::make_tuple( "place_override", jarg::member, &talk_effect_fun_t::set_place_override ),
-    std::make_tuple( "transform_line", jarg::member, &talk_effect_fun_t::set_transform_line ),
-    std::make_tuple( "location_variable_adjust", jarg::member, &talk_effect_fun_t::set_location_variable_adjust ),
-    std::make_tuple( "u_buy_monster", jarg::member, &talk_effect_fun_t::set_u_buy_monster ),
-    std::make_tuple( "u_add_faction_trust", jarg::member | jarg::array, &talk_effect_fun_t::set_add_faction_trust ),
-    std::make_tuple( "u_lose_faction_trust", jarg::member | jarg::array, &talk_effect_fun_t::set_lose_faction_trust ),
-    std::make_tuple( "npc_first_topic", jarg::member, &talk_effect_fun_t::set_npc_first_topic ),
-    std::make_tuple( "sound_effect", jarg::member, &talk_effect_fun_t::set_sound_effect ),
-    std::make_tuple( "give_achievement", jarg::member, &talk_effect_fun_t::set_give_achievment ),
-    std::make_tuple( "assign_mission", jarg::member, &talk_effect_fun_t::set_assign_mission ),
-    std::make_tuple( "finish_mission", jarg::member, &talk_effect_fun_t::set_finish_mission ),
-    std::make_tuple( "remove_active_mission", jarg::member, &talk_effect_fun_t::set_remove_active_mission ),
-    std::make_tuple( "offer_mission", jarg::array | jarg::string, &talk_effect_fun_t::set_offer_mission ),
-    std::make_tuple( "run_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_run_eocs ),
-    std::make_tuple( "run_eoc_until", jarg::member, &talk_effect_fun_t::set_run_eoc_until ),
-    std::make_tuple( "run_eoc_with", jarg::member, &talk_effect_fun_t::set_run_eoc_with ),
-    std::make_tuple( "run_eoc_selector", jarg::member, &talk_effect_fun_t::set_run_eoc_selector ),
-    std::make_tuple( "queue_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_queue_eocs ),
-    std::make_tuple( "queue_eoc_with", jarg::member, &talk_effect_fun_t::set_queue_eoc_with ),
-    std::make_tuple( "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs ),
-    std::make_tuple( "switch", jarg::member, &talk_effect_fun_t::set_switch ),
-    std::make_tuple( "math", jarg::array, &talk_effect_fun_t::set_math ),
-    std::make_tuple( "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level ),
-    std::make_tuple( "give_equipment", jarg::object, &talk_effect_fun_t::set_give_equipment ),
-    std::make_tuple( "set_string_var", jarg::member | jarg::array, &talk_effect_fun_t::set_set_string_var ),
-    std::make_tuple( "set_condition", jarg::member, &talk_effect_fun_t::set_set_condition ),
-    std::make_tuple( "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue ),
-    std::make_tuple( "take_control", jarg::member, &talk_effect_fun_t::set_take_control ),
-    std::make_tuple( "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt ),
+    {"u_add_effect", "npc_add_effect", jarg::member, &talk_effect_fun_t::set_add_effect },
+    { "u_lose_effect", "npc_lose_effect", jarg::member, &talk_effect_fun_t::set_remove_effect },
+    { "u_add_var", "npc_add_var", jarg::string, &talk_effect_fun_t::set_add_var },
+    { "u_lose_var", "npc_lose_var", jarg::string, &talk_effect_fun_t::set_remove_var },
+    { "u_adjust_var", "npc_adjust_var", jarg::string, &talk_effect_fun_t::set_adjust_var },
+    { "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun_t::set_add_trait },
+    { "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun_t::set_remove_trait },
+    { "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun_t::set_deactivate_trait },
+    { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun_t::set_activate_trait },
+    { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun_t::set_mutate },
+    { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category },
+    { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art },
+    { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art },
+    { "u_set_hp", "npc_set_hp", jarg::member | jarg::array, &talk_effect_fun_t::set_hp },
+    { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable },
+    { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun_t::set_transform_radius },
+    { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun_t::set_npc_goal },
+    { "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun_t::set_guard_pos },
+    { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun_t::set_learn_recipe },
+    { "u_forget_recipe", "npc_forget_recipe", jarg::member, &talk_effect_fun_t::set_forget_recipe },
+    { "u_message", "npc_message", jarg::member, &talk_effect_fun_t::set_message },
+    { "u_add_wet", "npc_add_wet", jarg::member | jarg::array, &talk_effect_fun_t::set_add_wet },
+    { "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun_t::set_assign_activity },
+    { "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun_t::set_make_sound },
+    { "u_run_npc_eocs", "npc_run_npc_eocs", jarg::array, &talk_effect_fun_t::set_run_npc_eocs },
+    { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun_t::set_run_inv_eocs },
+    { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun_t::set_roll_remainder },
+    { "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun_t::set_mod_healthy },
+    { "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun_t::set_add_morale },
+    { "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun_t::set_lose_morale },
+    { "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun_t::set_add_bionic },
+    { "u_lose_bionic", "npc_lose_bionic", jarg::member, &talk_effect_fun_t::set_lose_bionic },
+    { "u_attack", "npc_attack", jarg::member, &talk_effect_fun_t::set_attack },
+    { "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun_t::set_spawn_monster },
+    { "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun_t::set_spawn_npc },
+    { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun_t::set_field },
+    { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun_t::set_teleport },
+    { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun_t::set_set_flag },
+    { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun_t::set_unset_flag },
+    { "u_activate", "npc_activate", jarg::member, &talk_effect_fun_t::set_activate },
+    { "arithmetic", "arithmetic", jarg::array, &talk_effect_fun_t::set_arithmetic },
+    { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun_t::set_consume_item },
+    { "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun_t::set_remove_item_with },
+    { "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun_t::set_bulk_trade_accept },
+    { "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun_t::set_bulk_trade_accept },
+    { "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun_t::set_cast_spell },
+    { "companion_mission", jarg::string, &talk_effect_fun_t::set_companion_mission },
+    { "u_spend_cash", jarg::member | jarg::array, &talk_effect_fun_t::set_u_spend_cash },
+    { "npc_change_faction", jarg::member, &talk_effect_fun_t::set_npc_change_faction },
+    { "npc_change_class", jarg::member, &talk_effect_fun_t::set_npc_change_class },
+    { "u_faction_rep", jarg::member | jarg::array, &talk_effect_fun_t::set_change_faction_rep },
+    { "add_mission", jarg::member, &talk_effect_fun_t::set_add_mission },
+    { "u_sell_item", jarg::member, &talk_effect_fun_t::set_u_sell_item },
+    { "u_buy_item", jarg::member, &talk_effect_fun_t::set_u_buy_item },
+    { "u_spawn_item", jarg::member, &talk_effect_fun_t::set_u_spawn_item },
+    { "toggle_npc_rule", jarg::member, &talk_effect_fun_t::set_toggle_npc_rule },
+    { "set_npc_rule", jarg::member, &talk_effect_fun_t::set_set_npc_rule },
+    { "clear_npc_rule", jarg::member, &talk_effect_fun_t::set_clear_npc_rule },
+    { "set_npc_engagement_rule", jarg::member, &talk_effect_fun_t::set_npc_engagement_rule },
+    { "set_npc_aim_rule", jarg::member, &talk_effect_fun_t::set_npc_aim_rule },
+    { "set_npc_cbm_reserve_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_reserve_rule },
+    { "set_npc_cbm_recharge_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_recharge_rule },
+    { "mapgen_update", jarg::member, &talk_effect_fun_t::set_mapgen_update },
+    { "alter_timed_events", jarg::member, &talk_effect_fun_t::set_alter_timed_events },
+    { "revert_location", jarg::member, &talk_effect_fun_t::set_revert_location },
+    { "place_override", jarg::member, &talk_effect_fun_t::set_place_override },
+    { "transform_line", jarg::member, &talk_effect_fun_t::set_transform_line },
+    { "location_variable_adjust", jarg::member, &talk_effect_fun_t::set_location_variable_adjust },
+    { "u_buy_monster", jarg::member, &talk_effect_fun_t::set_u_buy_monster },
+    { "u_add_faction_trust", jarg::member | jarg::array, &talk_effect_fun_t::set_add_faction_trust },
+    { "u_lose_faction_trust", jarg::member | jarg::array, &talk_effect_fun_t::set_lose_faction_trust },
+    { "npc_first_topic", jarg::member, &talk_effect_fun_t::set_npc_first_topic },
+    { "sound_effect", jarg::member, &talk_effect_fun_t::set_sound_effect },
+    { "give_achievement", jarg::member, &talk_effect_fun_t::set_give_achievment },
+    { "assign_mission", jarg::member, &talk_effect_fun_t::set_assign_mission },
+    { "finish_mission", jarg::member, &talk_effect_fun_t::set_finish_mission },
+    { "remove_active_mission", jarg::member, &talk_effect_fun_t::set_remove_active_mission },
+    { "offer_mission", jarg::array | jarg::string, &talk_effect_fun_t::set_offer_mission },
+    { "run_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_run_eocs },
+    { "run_eoc_until", jarg::member, &talk_effect_fun_t::set_run_eoc_until },
+    { "run_eoc_with", jarg::member, &talk_effect_fun_t::set_run_eoc_with },
+    { "run_eoc_selector", jarg::member, &talk_effect_fun_t::set_run_eoc_selector },
+    { "queue_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_queue_eocs },
+    { "queue_eoc_with", jarg::member, &talk_effect_fun_t::set_queue_eoc_with },
+    { "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs },
+    { "switch", jarg::member, &talk_effect_fun_t::set_switch },
+    { "math", jarg::array, &talk_effect_fun_t::set_math },
+    { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level },
+    { "give_equipment", jarg::object, &talk_effect_fun_t::set_give_equipment },
+    { "set_string_var", jarg::member | jarg::array, &talk_effect_fun_t::set_set_string_var },
+    { "set_condition", jarg::member, &talk_effect_fun_t::set_set_condition },
+    { "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue },
+    { "take_control", jarg::member, &talk_effect_fun_t::set_take_control },
+    { "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt },
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
     bool handled = false;
     talk_effect_fun_t subeffect_fun;
-    const auto check = []( jarg a, const JsonObject & jo, const std::string & key ) {
-        if( ( a & jarg::member ) && jo.has_member( key ) ) {
-            return true;
-        } else if( ( a & jarg::object ) && jo.has_object( key ) ) {
-            return true;
-        } else if( ( a & jarg::string ) && jo.has_string( key ) ) {
-            return true;
-        } else if( ( a & jarg::array ) && jo.has_array( key ) ) {
-            return true;
-        }
-        return false;
-    };
-    for( const auto &p : parsers ) {
-        const std::string &key = std::get<0>( p );
-        jarg a = std::get<1>( p );
-        const auto setter = std::get<2>( p );
-        if( check( a, jo, key ) ) {
-            ( subeffect_fun.*setter )( jo, key );
-            handled = true;
-            break;
-        }
-    }
-    if( !handled ) {
-        for( const auto &p : un_parsers ) {
-            const std::string &alpha_key = std::get<0>( p );
-            const std::string &beta_key = std::get<1>( p );
-            jarg a = std::get<2>( p );
-            const auto setter = std::get<3>( p );
-            if( check( a, jo, alpha_key ) ) {
-                ( subeffect_fun.*setter )( jo, alpha_key, false );
-                handled = true;
-                break;
-            } else if( check( a, jo, beta_key ) ) {
-                ( subeffect_fun.*setter )( jo, beta_key, true );
-                handled = true;
-                break;
+    for( const sub_effect_parser &p : parsers ) {
+        if( p.has_beta ) {
+            if( p.check_alpha( jo ) ) {
+                ( subeffect_fun.*p.f_beta )( jo, p.key_alpha, false );
+                set_effect( subeffect_fun );
+                return;
+            } else if( p.check_beta( jo ) ) {
+                ( subeffect_fun.*p.f_beta )( jo, p.key_beta, true );
+                set_effect( subeffect_fun );
+                return;
             }
+        } else if( p.check_alpha( jo ) ) {
+            ( subeffect_fun.*p.f )( jo, p.key_alpha );
+            set_effect( subeffect_fun );
+            return;
         }
     }
-    if( !handled ) {
-        jo.throw_error( "invalid sub effect syntax: " + jo.str() );
-    }
-    set_effect( subeffect_fun );
+    jo.throw_error( "invalid sub effect syntax: " + jo.str() );
 }
 
 void talk_effect_t::parse_string_effect( const std::string &effect_id, const JsonObject &jo )
