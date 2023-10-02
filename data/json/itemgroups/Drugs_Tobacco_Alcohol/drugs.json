@@ -372,5 +372,33 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "morphine_bottle_plastic_pill_prescription_4",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "morphine", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "weak_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "weak_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bfipowder_bottle_plastic_small_4",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "bfipowder", "container-item": "null", "count": 4 } ]
   }
 ]
