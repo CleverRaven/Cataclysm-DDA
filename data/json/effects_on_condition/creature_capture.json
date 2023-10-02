@@ -2,14 +2,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mi-go_capture_creature",
-    "condition": { "one_in_chance": { "math": [ "floor( max( 100 / clamp( 0, 0.1 * u_val('fatigue') + 10, 100 ), 100 / clamp( 0, 100 - 12.1428 * u_val('strength'), 100 ) ) )" ] } },
+    "condition": { "x_in_y_chance": { "x": { "math": [ "max( clamp( 0, 0.1 * u_val('fatigue') + 10, 100 ), clamp( 0, 100 - 12.1428 * u_val('strength'), 100 ) )" ] }, "y": 100 } },
     "effect": [
       { "mapgen_update": "mi-go_camp_spawn" },
-      { "u_add_var": "u_captive", "type": "timer", "context": "creature_capture", "value": "yes" },
-      { "u_add_var": "u_schedule_death", "value": "172800" },
+      { "u_add_var": "u_captive_death_timer", "type": "timer", "context": "creature_capture", "value": "172800" },
       { "run_eocs": "EOC_mount_rescue_op" }
     ],
-    "false_effect": [ { "u_message": "You resist the mi-go's restrain attempts." } ]
+    "false_effect": [ { "u_message": "You are able to resist the mi-go's restrain attempts." } ]
   },
   {
     "type": "effect_on_condition",

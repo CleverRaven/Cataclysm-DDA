@@ -151,7 +151,7 @@
         "//": "Only target characters with this attack",
         "condition": { "or": [ "npc_male", "npc_female" ] },
         "cooldown": 10,
-        "monster_message": "The <Monster Display Name> attempts to restrain <Target name>!"
+        "monster_message": "The mi-go slaver attempts to restrain you!"
       }
     ],
     "flags": [
