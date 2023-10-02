@@ -1216,8 +1216,6 @@
     "looks_like": "f_standing_tank",
     "move_cost": 0,
     "coverage": 85,
-    "examine_action": "keg",
-    "keg_capacity": 800,
     "bash": {
       "str_min": 20,
       "str_max": 80,
