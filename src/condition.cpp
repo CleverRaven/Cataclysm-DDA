@@ -2896,7 +2896,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
     }
 }
 
-void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string &member )
 {
     eoc_math math;
     math.from_json( jo, member, eoc_math::type_t::assign );

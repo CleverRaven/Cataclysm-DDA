@@ -50,19 +50,19 @@ struct talk_effect_fun_t {
         void set_remove_active_mission( const JsonObject &jo, const std::string &member );
         void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_run_eocs( const JsonObject &jo, std::string_view member );
-        void set_run_eoc_with( const JsonObject &jo, std::string_view member );
-        void set_run_eoc_until( const JsonObject &jo, std::string_view member );
+        void set_run_eocs( const JsonObject &jo, const std::string &member );
+        void set_run_eoc_with( const JsonObject &jo, const std::string &member );
+        void set_run_eoc_until( const JsonObject &jo, const std::string &member );
         void set_run_eoc_selector( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_inv_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_queue_eocs( const JsonObject &jo, std::string_view member );
-        void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
-        void set_switch( const JsonObject &jo, std::string_view member );
+        void set_queue_eocs( const JsonObject &jo, const std::string &member );
+        void set_queue_eoc_with( const JsonObject &jo, const std::string &member );
+        void set_switch( const JsonObject &jo, const std::string &member );
         void set_roll_remainder( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_weighted_list_eocs( const JsonObject &jo, std::string_view member );
+        void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_cast_spell( const JsonObject &jo, std::string_view member, bool is_npc,
+        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc,
                              bool targeted = false );
         void set_attack( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_die( bool is_npc );
@@ -92,7 +92,7 @@ struct talk_effect_fun_t {
         void set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member );
         void set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_location_variable_adjust( const JsonObject &jo, std::string_view member );
+        void set_location_variable_adjust( const JsonObject &jo, const std::string &member );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_line( const JsonObject &jo, const std::string &member );
         void set_place_override( const JsonObject &jo, const std::string &member );
@@ -100,7 +100,7 @@ struct talk_effect_fun_t {
         void set_alter_timed_events( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_destination( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_revert_location( const JsonObject &jo, const std::string_view &member );
+        void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_guard_pos( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_bulk_trade_accept( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
@@ -115,7 +115,7 @@ struct talk_effect_fun_t {
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
         void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member, bool no_result );
-        void set_math( const JsonObject &jo, std::string_view member );
+        void set_math( const JsonObject &jo, const std::string &member );
         void set_set_string_var( const JsonObject &jo, const std::string &member );
         void set_set_condition( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
@@ -123,9 +123,9 @@ struct talk_effect_fun_t {
         void set_spawn_npc( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_give_equipment( const JsonObject &jo, std::string_view member );
-        void set_open_dialogue( const JsonObject &jo, std::string_view member );
-        void set_take_control( const JsonObject &jo );
+        void set_give_equipment( const JsonObject &jo, const std::string &member );
+        void set_open_dialogue( const JsonObject &jo, const std::string &member );
+        void set_take_control( const JsonObject &jo, const std::string & );
         void set_take_control_menu();
         void set_set_flag( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_unset_flag( const JsonObject &jo, const std::string &member, bool is_npc );
