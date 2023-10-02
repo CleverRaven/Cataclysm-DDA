@@ -122,6 +122,18 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
+static enum class jarg {
+    member = 0,
+    object = 1 << 0,
+    string = 1 << 1,
+    array = 1 << 2
+};
+
+template<>
+struct enum_traits<jarg> {
+    static constexpr bool is_flag_enum = true;
+};
+
 struct item_search_data {
     itype_id id;
     item_category_id category;
@@ -5472,132 +5484,130 @@ talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_na
 }
 
 static const
-std::vector<std::tuple<std::string, std::string, bool ( JsonObject::* )( std::string_view ) const, void ( talk_effect_fun_t::* )( const JsonObject &, const std::string &, bool )>>
+std::vector<std::tuple<std::string, std::string, jarg, void ( talk_effect_fun_t::* )( const JsonObject &, const std::string &, bool )>>
 un_parsers = {
-    std::make_tuple( "u_add_effect", "npc_add_effect", &JsonObject::has_member, &talk_effect_fun_t::set_add_effect ),
-    std::make_tuple( "u_lose_effect", "npc_lose_effect", &JsonObject::has_member, &talk_effect_fun_t::set_remove_effect ),
-    std::make_tuple( "u_add_var", "npc_add_var", &JsonObject::has_string, &talk_effect_fun_t::set_add_var ),
-    std::make_tuple( "u_lose_var", "npc_lose_var", &JsonObject::has_string, &talk_effect_fun_t::set_remove_var ),
-    std::make_tuple( "u_adjust_var", "npc_adjust_var", &JsonObject::has_string, &talk_effect_fun_t::set_adjust_var ),
-    std::make_tuple( "u_add_trait", "npc_add_trait", &JsonObject::has_member, &talk_effect_fun_t::set_add_trait ),
-    std::make_tuple( "u_lose_trait", "npc_lose_trait", &JsonObject::has_member, &talk_effect_fun_t::set_remove_trait ),
-    std::make_tuple( "u_deactivate_trait", "npc_deactivate_trait", &JsonObject::has_member, &talk_effect_fun_t::set_deactivate_trait ),
-    std::make_tuple( "u_activate_trait", "npc_activate_trait", &JsonObject::has_member, &talk_effect_fun_t::set_activate_trait ),
-    std::make_tuple( "u_mutate", "npc_mutate", &JsonObject::has_member, &talk_effect_fun_t::set_mutate ),
-    std::make_tuple( "u_mutate", "npc_mutate", &JsonObject::has_array, &talk_effect_fun_t::set_mutate ),
-    std::make_tuple( "u_mutate_category", "npc_mutate_category", &JsonObject::has_member, &talk_effect_fun_t::set_mutate_category ),
-    std::make_tuple( "u_learn_martial_art", "npc_learn_martial_art", &JsonObject::has_member, &talk_effect_fun_t::set_learn_martial_art ),
-    std::make_tuple( "u_forget_martial_art", "npc_forget_martial_art", &JsonObject::has_member, &talk_effect_fun_t::set_forget_martial_art ),
-    std::make_tuple( "u_set_hp", "npc_set_hp", &JsonObject::has_member, &talk_effect_fun_t::set_hp ),
-    std::make_tuple( "u_set_hp", "npc_set_hp", &JsonObject::has_array, &talk_effect_fun_t::set_hp ),
-    std::make_tuple( "u_location_variable", "npc_location_variable", &JsonObject::has_object, &talk_effect_fun_t::set_location_variable ),
-    std::make_tuple( "u_transform_radius", "npc_transform_radius", &JsonObject::has_member, &talk_effect_fun_t::set_transform_radius ),
-    std::make_tuple( "u_transform_radius", "npc_transform_radius", &JsonObject::has_array, &talk_effect_fun_t::set_transform_radius ),
-    std::make_tuple( "u_set_goal", "npc_set_goal", &JsonObject::has_member, &talk_effect_fun_t::set_npc_goal ),
-    std::make_tuple( "u_set_guard_pos", "npc_set_guard_pos", &JsonObject::has_member, &talk_effect_fun_t::set_guard_pos ),
-    std::make_tuple( "u_learn_recipe", "npc_learn_recipe", &JsonObject::has_member, &talk_effect_fun_t::set_learn_recipe ),
-    std::make_tuple( "u_forget_recipe", "npc_forget_recipe", &JsonObject::has_member, &talk_effect_fun_t::set_forget_recipe ),
-    std::make_tuple( "u_message", "npc_message", &JsonObject::has_member, &talk_effect_fun_t::set_message ),
-    std::make_tuple( "u_add_wet", "npc_add_wet", &JsonObject::has_member, &talk_effect_fun_t::set_add_wet ),
-    std::make_tuple( "u_add_wet", "npc_add_wet", &JsonObject::has_array, &talk_effect_fun_t::set_add_wet ),
-    std::make_tuple( "u_assign_activity", "npc_assign_activity", &JsonObject::has_member, &talk_effect_fun_t::set_assign_activity ),
-    std::make_tuple( "u_make_sound", "npc_make_sound", &JsonObject::has_member, &talk_effect_fun_t::set_make_sound ),
-    std::make_tuple( "u_run_npc_eocs", "npc_run_npc_eocs", &JsonObject::has_array, &talk_effect_fun_t::set_run_npc_eocs ),
-    std::make_tuple( "u_run_inv_eocs", "npc_run_inv_eocs", &JsonObject::has_member, &talk_effect_fun_t::set_run_inv_eocs ),
-    std::make_tuple( "u_roll_remainder", "npc_roll_remainder", &JsonObject::has_member, &talk_effect_fun_t::set_roll_remainder ),
-    std::make_tuple( "u_mod_healthy", "npc_mod_healthy", &JsonObject::has_array, &talk_effect_fun_t::set_mod_healthy ),
-    std::make_tuple( "u_mod_healthy", "npc_mod_healthy", &JsonObject::has_member, &talk_effect_fun_t::set_mod_healthy ),
-    std::make_tuple( "u_add_morale", "npc_add_morale", &JsonObject::has_member, &talk_effect_fun_t::set_add_morale ),
-    std::make_tuple( "u_lose_morale", "npc_lose_morale", &JsonObject::has_member, &talk_effect_fun_t::set_lose_morale ),
-    std::make_tuple( "u_add_bionic", "npc_add_bionic", &JsonObject::has_member, &talk_effect_fun_t::set_add_bionic ),
-    std::make_tuple( "u_lose_bionic", "npc_lose_bionic", &JsonObject::has_member, &talk_effect_fun_t::set_lose_bionic ),
-    std::make_tuple( "u_attack", "npc_attack", &JsonObject::has_member, &talk_effect_fun_t::set_attack ),
-    std::make_tuple( "u_spawn_monster", "npc_spawn_monster", &JsonObject::has_member, &talk_effect_fun_t::set_spawn_monster ),
-    std::make_tuple( "u_spawn_npc", "npc_spawn_npc", &JsonObject::has_member, &talk_effect_fun_t::set_spawn_npc ),
-    std::make_tuple( "u_set_field", "npc_set_field", &JsonObject::has_member, &talk_effect_fun_t::set_field ),
-    std::make_tuple( "u_teleport", "npc_teleport", &JsonObject::has_object, &talk_effect_fun_t::set_teleport ),
-    std::make_tuple( "u_set_flag", "npc_set_flag", &JsonObject::has_member, &talk_effect_fun_t::set_set_flag ),
-    std::make_tuple( "u_unset_flag", "npc_unset_flag", &JsonObject::has_member, &talk_effect_fun_t::set_unset_flag ),
-    std::make_tuple( "u_activate", "npc_activate", &JsonObject::has_member, &talk_effect_fun_t::set_activate ),
-    std::make_tuple( "arithmetic", "arithmetic", &JsonObject::has_array, &talk_effect_fun_t::set_arithmetic ),
-    std::make_tuple( "u_consume_item", "npc_consume_item", &JsonObject::has_member, &talk_effect_fun_t::set_consume_item ),
-    std::make_tuple( "u_remove_item_with", "npc_remove_item_with", &JsonObject::has_member, &talk_effect_fun_t::set_remove_item_with ),
-    std::make_tuple( "u_bulk_trade_accept", "npc_bulk_trade_accept", &JsonObject::has_member, &talk_effect_fun_t::set_bulk_trade_accept ),
-    std::make_tuple( "u_bulk_donate", "npc_bulk_donate", &JsonObject::has_member, &talk_effect_fun_t::set_bulk_trade_accept ),
-    std::make_tuple( "u_cast_spell", "npc_cast_spell", &JsonObject::has_member, &talk_effect_fun_t::set_cast_spell ),
+    std::make_tuple( "u_add_effect", "npc_add_effect", jarg::member, &talk_effect_fun_t::set_add_effect ),
+    std::make_tuple( "u_lose_effect", "npc_lose_effect", jarg::member, &talk_effect_fun_t::set_remove_effect ),
+    std::make_tuple( "u_add_var", "npc_add_var", jarg::string, &talk_effect_fun_t::set_add_var ),
+    std::make_tuple( "u_lose_var", "npc_lose_var", jarg::string, &talk_effect_fun_t::set_remove_var ),
+    std::make_tuple( "u_adjust_var", "npc_adjust_var", jarg::string, &talk_effect_fun_t::set_adjust_var ),
+    std::make_tuple( "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun_t::set_add_trait ),
+    std::make_tuple( "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun_t::set_remove_trait ),
+    std::make_tuple( "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun_t::set_deactivate_trait ),
+    std::make_tuple( "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun_t::set_activate_trait ),
+    std::make_tuple( "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun_t::set_mutate ),
+    std::make_tuple( "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category ),
+    std::make_tuple( "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art ),
+    std::make_tuple( "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art ),
+    std::make_tuple( "u_set_hp", "npc_set_hp", jarg::member | jarg::array, &talk_effect_fun_t::set_hp ),
+    std::make_tuple( "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable ),
+    std::make_tuple( "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun_t::set_transform_radius ),
+    std::make_tuple( "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun_t::set_npc_goal ),
+    std::make_tuple( "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun_t::set_guard_pos ),
+    std::make_tuple( "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun_t::set_learn_recipe ),
+    std::make_tuple( "u_forget_recipe", "npc_forget_recipe", jarg::member, &talk_effect_fun_t::set_forget_recipe ),
+    std::make_tuple( "u_message", "npc_message", jarg::member, &talk_effect_fun_t::set_message ),
+    std::make_tuple( "u_add_wet", "npc_add_wet", jarg::member | jarg::array, &talk_effect_fun_t::set_add_wet ),
+    std::make_tuple( "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun_t::set_assign_activity ),
+    std::make_tuple( "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun_t::set_make_sound ),
+    std::make_tuple( "u_run_npc_eocs", "npc_run_npc_eocs", jarg::array, &talk_effect_fun_t::set_run_npc_eocs ),
+    std::make_tuple( "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun_t::set_run_inv_eocs ),
+    std::make_tuple( "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun_t::set_roll_remainder ),
+    std::make_tuple( "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun_t::set_mod_healthy ),
+    std::make_tuple( "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun_t::set_add_morale ),
+    std::make_tuple( "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun_t::set_lose_morale ),
+    std::make_tuple( "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun_t::set_add_bionic ),
+    std::make_tuple( "u_lose_bionic", "npc_lose_bionic", jarg::member, &talk_effect_fun_t::set_lose_bionic ),
+    std::make_tuple( "u_attack", "npc_attack", jarg::member, &talk_effect_fun_t::set_attack ),
+    std::make_tuple( "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun_t::set_spawn_monster ),
+    std::make_tuple( "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun_t::set_spawn_npc ),
+    std::make_tuple( "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun_t::set_field ),
+    std::make_tuple( "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun_t::set_teleport ),
+    std::make_tuple( "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun_t::set_set_flag ),
+    std::make_tuple( "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun_t::set_unset_flag ),
+    std::make_tuple( "u_activate", "npc_activate", jarg::member, &talk_effect_fun_t::set_activate ),
+    std::make_tuple( "arithmetic", "arithmetic", jarg::array, &talk_effect_fun_t::set_arithmetic ),
+    std::make_tuple( "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun_t::set_consume_item ),
+    std::make_tuple( "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun_t::set_remove_item_with ),
+    std::make_tuple( "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun_t::set_bulk_trade_accept ),
+    std::make_tuple( "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun_t::set_bulk_trade_accept ),
+    std::make_tuple( "u_cast_spell", "npc_cast_spell", jarg::member, &talk_effect_fun_t::set_cast_spell ),
 };
 
 static const
-std::vector<std::tuple<std::string, bool ( JsonObject::* )( std::string_view ) const, void ( talk_effect_fun_t::* )( const JsonObject &, const std::string & )>>
+std::vector<std::tuple<std::string, jarg, void ( talk_effect_fun_t::* )( const JsonObject &, const std::string & )>>
 parsers = {
-    std::make_tuple( "companion_mission", &JsonObject::has_string, &talk_effect_fun_t::set_companion_mission ),
-    std::make_tuple( "u_spend_cash", &JsonObject::has_member, &talk_effect_fun_t::set_u_spend_cash ),
-    std::make_tuple( "u_spend_cash", &JsonObject::has_array, &talk_effect_fun_t::set_u_spend_cash ),
-    std::make_tuple( "npc_change_faction", &JsonObject::has_member, &talk_effect_fun_t::set_npc_change_faction ),
-    std::make_tuple( "npc_change_class", &JsonObject::has_member, &talk_effect_fun_t::set_npc_change_class ),
-    std::make_tuple( "u_faction_rep", &JsonObject::has_member, &talk_effect_fun_t::set_change_faction_rep ),
-    std::make_tuple( "u_faction_rep", &JsonObject::has_array, &talk_effect_fun_t::set_change_faction_rep ),
-    std::make_tuple( "add_mission", &JsonObject::has_member, &talk_effect_fun_t::set_add_mission ),
-    std::make_tuple( "u_sell_item", &JsonObject::has_member, &talk_effect_fun_t::set_u_sell_item ),
-    std::make_tuple( "u_buy_item", &JsonObject::has_member, &talk_effect_fun_t::set_u_buy_item ),
-    std::make_tuple( "u_spawn_item", &JsonObject::has_member, &talk_effect_fun_t::set_u_spawn_item ),
-    std::make_tuple( "toggle_npc_rule", &JsonObject::has_member, &talk_effect_fun_t::set_toggle_npc_rule ),
-    std::make_tuple( "set_npc_rule", &JsonObject::has_member, &talk_effect_fun_t::set_set_npc_rule ),
-    std::make_tuple( "clear_npc_rule", &JsonObject::has_member, &talk_effect_fun_t::set_clear_npc_rule ),
-    std::make_tuple( "set_npc_engagement_rule", &JsonObject::has_member, &talk_effect_fun_t::set_npc_engagement_rule ),
-    std::make_tuple( "set_npc_aim_rule", &JsonObject::has_member, &talk_effect_fun_t::set_npc_aim_rule ),
-    std::make_tuple( "set_npc_cbm_reserve_rule", &JsonObject::has_member, &talk_effect_fun_t::set_npc_cbm_reserve_rule ),
-    std::make_tuple( "set_npc_cbm_recharge_rule", &JsonObject::has_member, &talk_effect_fun_t::set_npc_cbm_recharge_rule ),
-    std::make_tuple( "mapgen_update", &JsonObject::has_member, &talk_effect_fun_t::set_mapgen_update ),
-    std::make_tuple( "alter_timed_events", &JsonObject::has_member, &talk_effect_fun_t::set_alter_timed_events ),
-    std::make_tuple( "revert_location", &JsonObject::has_member, &talk_effect_fun_t::set_revert_location ),
-    std::make_tuple( "place_override", &JsonObject::has_member, &talk_effect_fun_t::set_place_override ),
-    std::make_tuple( "transform_line", &JsonObject::has_member, &talk_effect_fun_t::set_transform_line ),
-    std::make_tuple( "location_variable_adjust", &JsonObject::has_member, &talk_effect_fun_t::set_location_variable_adjust ),
-    std::make_tuple( "u_buy_monster", &JsonObject::has_member, &talk_effect_fun_t::set_u_buy_monster ),
-    std::make_tuple( "u_add_faction_trust", &JsonObject::has_member, &talk_effect_fun_t::set_add_faction_trust ),
-    std::make_tuple( "u_add_faction_trust", &JsonObject::has_array, &talk_effect_fun_t::set_add_faction_trust ),
-    std::make_tuple( "u_lose_faction_trust", &JsonObject::has_member, &talk_effect_fun_t::set_lose_faction_trust ),
-    std::make_tuple( "u_lose_faction_trust", &JsonObject::has_array, &talk_effect_fun_t::set_lose_faction_trust ),
-    std::make_tuple( "npc_first_topic", &JsonObject::has_member, &talk_effect_fun_t::set_npc_first_topic ),
-    std::make_tuple( "sound_effect", &JsonObject::has_member, &talk_effect_fun_t::set_sound_effect ),
-    std::make_tuple( "give_achievement", &JsonObject::has_member, &talk_effect_fun_t::set_give_achievment ),
-    std::make_tuple( "assign_mission", &JsonObject::has_member, &talk_effect_fun_t::set_assign_mission ),
-    std::make_tuple( "finish_mission", &JsonObject::has_member, &talk_effect_fun_t::set_finish_mission ),
-    std::make_tuple( "remove_active_mission", &JsonObject::has_member, &talk_effect_fun_t::set_remove_active_mission ),
-    std::make_tuple( "offer_mission", &JsonObject::has_array, &talk_effect_fun_t::set_offer_mission ),
-    std::make_tuple( "offer_mission", &JsonObject::has_string, &talk_effect_fun_t::set_offer_mission ),
-    std::make_tuple( "run_eocs", &JsonObject::has_member, &talk_effect_fun_t::set_run_eocs ),
-    std::make_tuple( "run_eocs", &JsonObject::has_array, &talk_effect_fun_t::set_run_eocs ),
-    std::make_tuple( "run_eoc_until", &JsonObject::has_member, &talk_effect_fun_t::set_run_eoc_until ),
-    std::make_tuple( "run_eoc_with", &JsonObject::has_member, &talk_effect_fun_t::set_run_eoc_with ),
-    std::make_tuple( "run_eoc_selector", &JsonObject::has_member, &talk_effect_fun_t::set_run_eoc_selector ),
-    std::make_tuple( "queue_eocs", &JsonObject::has_member, &talk_effect_fun_t::set_queue_eocs ),
-    std::make_tuple( "queue_eocs", &JsonObject::has_array, &talk_effect_fun_t::set_queue_eocs ),
-    std::make_tuple( "queue_eoc_with", &JsonObject::has_member, &talk_effect_fun_t::set_queue_eoc_with ),
-    std::make_tuple( "weighted_list_eocs", &JsonObject::has_array, &talk_effect_fun_t::set_weighted_list_eocs ),
-    std::make_tuple( "switch", &JsonObject::has_member, &talk_effect_fun_t::set_switch ),
-    std::make_tuple( "math", &JsonObject::has_array, &talk_effect_fun_t::set_math ),
-    std::make_tuple( "custom_light_level", &JsonObject::has_member, &talk_effect_fun_t::set_custom_light_level ),
-    std::make_tuple( "custom_light_level", &JsonObject::has_array, &talk_effect_fun_t::set_custom_light_level ),
-    std::make_tuple( "give_equipment", &JsonObject::has_object, &talk_effect_fun_t::set_give_equipment ),
-    std::make_tuple( "set_string_var", &JsonObject::has_member, &talk_effect_fun_t::set_set_string_var ),
-    std::make_tuple( "set_string_var", &JsonObject::has_array, &talk_effect_fun_t::set_set_string_var ),
-    std::make_tuple( "set_condition", &JsonObject::has_member, &talk_effect_fun_t::set_set_condition ),
-    std::make_tuple( "open_dialogue", &JsonObject::has_member, &talk_effect_fun_t::set_open_dialogue ),
-    std::make_tuple( "take_control", &JsonObject::has_member, &talk_effect_fun_t::set_take_control ),
-    std::make_tuple( "add_debt", &JsonObject::has_array, &talk_effect_fun_t::set_add_debt ),
+    std::make_tuple( "companion_mission", jarg::string, &talk_effect_fun_t::set_companion_mission ),
+    std::make_tuple( "u_spend_cash", jarg::member | jarg::array, &talk_effect_fun_t::set_u_spend_cash ),
+    std::make_tuple( "npc_change_faction", jarg::member, &talk_effect_fun_t::set_npc_change_faction ),
+    std::make_tuple( "npc_change_class", jarg::member, &talk_effect_fun_t::set_npc_change_class ),
+    std::make_tuple( "u_faction_rep", jarg::member | jarg::array, &talk_effect_fun_t::set_change_faction_rep ),
+    std::make_tuple( "add_mission", jarg::member, &talk_effect_fun_t::set_add_mission ),
+    std::make_tuple( "u_sell_item", jarg::member, &talk_effect_fun_t::set_u_sell_item ),
+    std::make_tuple( "u_buy_item", jarg::member, &talk_effect_fun_t::set_u_buy_item ),
+    std::make_tuple( "u_spawn_item", jarg::member, &talk_effect_fun_t::set_u_spawn_item ),
+    std::make_tuple( "toggle_npc_rule", jarg::member, &talk_effect_fun_t::set_toggle_npc_rule ),
+    std::make_tuple( "set_npc_rule", jarg::member, &talk_effect_fun_t::set_set_npc_rule ),
+    std::make_tuple( "clear_npc_rule", jarg::member, &talk_effect_fun_t::set_clear_npc_rule ),
+    std::make_tuple( "set_npc_engagement_rule", jarg::member, &talk_effect_fun_t::set_npc_engagement_rule ),
+    std::make_tuple( "set_npc_aim_rule", jarg::member, &talk_effect_fun_t::set_npc_aim_rule ),
+    std::make_tuple( "set_npc_cbm_reserve_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_reserve_rule ),
+    std::make_tuple( "set_npc_cbm_recharge_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_recharge_rule ),
+    std::make_tuple( "mapgen_update", jarg::member, &talk_effect_fun_t::set_mapgen_update ),
+    std::make_tuple( "alter_timed_events", jarg::member, &talk_effect_fun_t::set_alter_timed_events ),
+    std::make_tuple( "revert_location", jarg::member, &talk_effect_fun_t::set_revert_location ),
+    std::make_tuple( "place_override", jarg::member, &talk_effect_fun_t::set_place_override ),
+    std::make_tuple( "transform_line", jarg::member, &talk_effect_fun_t::set_transform_line ),
+    std::make_tuple( "location_variable_adjust", jarg::member, &talk_effect_fun_t::set_location_variable_adjust ),
+    std::make_tuple( "u_buy_monster", jarg::member, &talk_effect_fun_t::set_u_buy_monster ),
+    std::make_tuple( "u_add_faction_trust", jarg::member | jarg::array, &talk_effect_fun_t::set_add_faction_trust ),
+    std::make_tuple( "u_lose_faction_trust", jarg::member | jarg::array, &talk_effect_fun_t::set_lose_faction_trust ),
+    std::make_tuple( "npc_first_topic", jarg::member, &talk_effect_fun_t::set_npc_first_topic ),
+    std::make_tuple( "sound_effect", jarg::member, &talk_effect_fun_t::set_sound_effect ),
+    std::make_tuple( "give_achievement", jarg::member, &talk_effect_fun_t::set_give_achievment ),
+    std::make_tuple( "assign_mission", jarg::member, &talk_effect_fun_t::set_assign_mission ),
+    std::make_tuple( "finish_mission", jarg::member, &talk_effect_fun_t::set_finish_mission ),
+    std::make_tuple( "remove_active_mission", jarg::member, &talk_effect_fun_t::set_remove_active_mission ),
+    std::make_tuple( "offer_mission", jarg::array | jarg::string, &talk_effect_fun_t::set_offer_mission ),
+    std::make_tuple( "run_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_run_eocs ),
+    std::make_tuple( "run_eoc_until", jarg::member, &talk_effect_fun_t::set_run_eoc_until ),
+    std::make_tuple( "run_eoc_with", jarg::member, &talk_effect_fun_t::set_run_eoc_with ),
+    std::make_tuple( "run_eoc_selector", jarg::member, &talk_effect_fun_t::set_run_eoc_selector ),
+    std::make_tuple( "queue_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_queue_eocs ),
+    std::make_tuple( "queue_eoc_with", jarg::member, &talk_effect_fun_t::set_queue_eoc_with ),
+    std::make_tuple( "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs ),
+    std::make_tuple( "switch", jarg::member, &talk_effect_fun_t::set_switch ),
+    std::make_tuple( "math", jarg::array, &talk_effect_fun_t::set_math ),
+    std::make_tuple( "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level ),
+    std::make_tuple( "give_equipment", jarg::object, &talk_effect_fun_t::set_give_equipment ),
+    std::make_tuple( "set_string_var", jarg::member | jarg::array, &talk_effect_fun_t::set_set_string_var ),
+    std::make_tuple( "set_condition", jarg::member, &talk_effect_fun_t::set_set_condition ),
+    std::make_tuple( "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue ),
+    std::make_tuple( "take_control", jarg::member, &talk_effect_fun_t::set_take_control ),
+    std::make_tuple( "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt ),
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
     bool handled = false;
     talk_effect_fun_t subeffect_fun;
+    const auto check = []( jarg a, const JsonObject & jo, const std::string & key ) {
+        if( ( a & jarg::member ) && jo.has_member( key ) ) {
+            return true;
+        } else if( ( a & jarg::object ) && jo.has_object( key ) ) {
+            return true;
+        } else if( ( a & jarg::string ) && jo.has_string( key ) ) {
+            return true;
+        } else if( ( a & jarg::array ) && jo.has_array( key ) ) {
+            return true;
+        }
+        return false;
+    };
     for( const auto &p : parsers ) {
         const std::string &key = std::get<0>( p );
-        const auto cond = std::get<1>( p );
+        jarg a = std::get<1>( p );
         const auto setter = std::get<2>( p );
-        if( ( jo.*cond )( key ) ) {
+        if( check( a, jo, key ) ) {
             ( subeffect_fun.*setter )( jo, key );
             handled = true;
             break;
@@ -5607,13 +5617,13 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         for( const auto &p : un_parsers ) {
             const std::string &alpha_key = std::get<0>( p );
             const std::string &beta_key = std::get<1>( p );
-            const auto cond = std::get<2>( p );
+            jarg a = std::get<2>( p );
             const auto setter = std::get<3>( p );
-            if( ( jo.*cond )( alpha_key ) ) {
+            if( check( a, jo, alpha_key ) ) {
                 ( subeffect_fun.*setter )( jo, alpha_key, false );
                 handled = true;
                 break;
-            } else if( ( jo.*cond )( beta_key ) ) {
+            } else if( check( a, jo, beta_key ) ) {
                 ( subeffect_fun.*setter )( jo, beta_key, true );
                 handled = true;
                 break;
