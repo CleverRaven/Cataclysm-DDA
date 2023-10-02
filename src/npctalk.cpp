@@ -2604,7 +2604,7 @@ talk_effect_fun_t::talk_effect_fun_t( const std::function<void( dialogue const &
     };
 }
 
-void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
+void talk_effect_fun_t::set_companion_mission( const JsonObject &, const std::string &role_id )
 {
     function = [role_id]( dialogue const & d ) {
         d.actor( true )->set_companion_mission( role_id );
@@ -3062,8 +3062,15 @@ void talk_effect_fun_t::set_change_faction_rep( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> &debt_modifiers )
+void talk_effect_fun_t::set_add_debt( const JsonObject &jo, const std::string &member )
 {
+    std::vector<trial_mod> debt_modifiers;
+    for( JsonArray jmod : jo.get_array( "add_debt" ) ) {
+        trial_mod this_modifier;
+        this_modifier.first = jmod.next_string();
+        this_modifier.second = jmod.next_int();
+        debt_modifiers.push_back( this_modifier );
+    }
     function = [debt_modifiers]( dialogue const & d ) {
         int debt = 0;
         for( const trial_mod &this_mod : debt_modifiers ) {
@@ -4042,12 +4049,16 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, const std::string &member,
 }
 
 void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
-                                        bool is_npc, bool targeted )
+                                        bool is_npc )
 {
     fake_spell fake;
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     mandatory( jo, false, member, fake );
+    bool targeted = false;
+    if( jo.has_bool( "targeted" ) ) {
+        targeted = jo.get_bool( "targeted" );
+    }
     function = [is_npc, fake, targeted, true_eocs, false_eocs]( dialogue const & d ) {
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
@@ -5513,6 +5524,7 @@ un_parsers = {
     std::make_tuple( "u_remove_item_with", "npc_remove_item_with", &JsonObject::has_member, &talk_effect_fun_t::set_remove_item_with ),
     std::make_tuple( "u_bulk_trade_accept", "npc_bulk_trade_accept", &JsonObject::has_member, &talk_effect_fun_t::set_bulk_trade_accept ),
     std::make_tuple( "u_bulk_donate", "npc_bulk_donate", &JsonObject::has_member, &talk_effect_fun_t::set_bulk_trade_accept ),
+    std::make_tuple( "u_cast_spell", "npc_cast_spell", &JsonObject::has_member, &talk_effect_fun_t::set_cast_spell ),
 };
 
 static const
@@ -5574,66 +5586,42 @@ parsers = {
     std::make_tuple( "set_condition", &JsonObject::has_member, &talk_effect_fun_t::set_set_condition ),
     std::make_tuple( "open_dialogue", &JsonObject::has_member, &talk_effect_fun_t::set_open_dialogue ),
     std::make_tuple( "take_control", &JsonObject::has_member, &talk_effect_fun_t::set_take_control ),
+    std::make_tuple( "add_debt", &JsonObject::has_array, &talk_effect_fun_t::set_add_debt ),
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
-    bool handled = true;
+    bool handled = false;
     talk_effect_fun_t subeffect_fun;
-    const bool is_npc = true;
-    if( jo.has_array( "add_debt" ) ) {
-        std::vector<trial_mod> debt_modifiers;
-        for( JsonArray jmod : jo.get_array( "add_debt" ) ) {
-            trial_mod this_modifier;
-            this_modifier.first = jmod.next_string();
-            this_modifier.second = jmod.next_int();
-            debt_modifiers.push_back( this_modifier );
+    for( const auto &p : parsers ) {
+        const std::string &key = std::get<0>( p );
+        const auto cond = std::get<1>( p );
+        const auto setter = std::get<2>( p );
+        if( ( jo.*cond )( key ) ) {
+            ( subeffect_fun.*setter )( jo, key );
+            handled = true;
+            break;
         }
-        subeffect_fun.set_add_debt( debt_modifiers );
-    } else if( jo.has_member( "u_cast_spell" ) ) {
-        bool targeted = false;
-        if( jo.has_bool( "targeted" ) ) {
-            targeted = jo.get_bool( "targeted" );
-        }
-        subeffect_fun.set_cast_spell( jo, "u_cast_spell", false, targeted );
-    } else if( jo.has_member( "npc_cast_spell" ) ) {
-        bool targeted = false;
-        if( jo.has_bool( "targeted" ) ) {
-            targeted = jo.get_bool( "targeted" );
-        }
-        subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
-    } else {
-        handled = false;
-        for( const auto &p : parsers ) {
-            const std::string &key = std::get<0>( p );
-            const auto cond = std::get<1>( p );
-            const auto setter = std::get<2>( p );
-            if( ( jo.*cond )( key ) ) {
-                ( subeffect_fun.*setter )( jo, alpha_key );
+    }
+    if( !handled ) {
+        for( const auto &p : un_parsers ) {
+            const std::string &alpha_key = std::get<0>( p );
+            const std::string &beta_key = std::get<1>( p );
+            const auto cond = std::get<2>( p );
+            const auto setter = std::get<3>( p );
+            if( ( jo.*cond )( alpha_key ) ) {
+                ( subeffect_fun.*setter )( jo, alpha_key, false );
+                handled = true;
+                break;
+            } else if( ( jo.*cond )( beta_key ) ) {
+                ( subeffect_fun.*setter )( jo, beta_key, true );
                 handled = true;
                 break;
             }
         }
-        if( !handled ) {
-            for( const auto &p : un_parsers ) {
-                const std::string &alpha_key = std::get<0>( p );
-                const std::string &beta_key = std::get<1>( p );
-                const auto cond = std::get<2>( p );
-                const auto setter = std::get<3>( p );
-                if( ( jo.*cond )( alpha_key ) ) {
-                    ( subeffect_fun.*setter )( jo, alpha_key, false );
-                    handled = true;
-                    break;
-                } else if( ( jo.*cond )( beta_key ) ) {
-                    ( subeffect_fun.*setter )( jo, beta_key, true );
-                    handled = true;
-                    break;
-                }
-            }
-        }
-        if( !handled ) {
-            jo.throw_error( "invalid sub effect syntax: " + jo.str() );
-        }
+    }
+    if( !handled ) {
+        jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
     set_effect( subeffect_fun );
 }
