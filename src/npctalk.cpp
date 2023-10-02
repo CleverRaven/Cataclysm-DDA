@@ -146,27 +146,29 @@ struct sub_effect_parser {
     }
 
     bool check_alpha( const JsonObject &jo ) const {
-        switch( arg ) {
-            // *INDENT-OFF*
-            case jarg::member: return jo.has_member( key_alpha );
-            case jarg::object: return jo.has_object( key_alpha );
-            case jarg::string: return jo.has_string( key_alpha );
-            case jarg::array: return jo.has_array( key_alpha );
-            default: return false;
-            // *INDENT-ON*
+        if( (arg & jarg::member) && jo.has_member( key_alpha ) ) {
+            return true;
+        } else if( (arg & jarg::object) && jo.has_object( key_alpha ) ) {
+            return true;
+        }if( (arg & jarg::string) && jo.has_string( key_alpha ) ) {
+            return true;
+        }if( (arg & jarg::array) && jo.has_array( key_alpha ) ) {
+            return true;
         }
+        return false;
     }
 
     bool check_beta( const JsonObject &jo ) const {
-        switch( arg ) {
-            // *INDENT-OFF*
-            case jarg::member: return jo.has_member( key_beta );
-            case jarg::object: return jo.has_object( key_beta );
-            case jarg::string: return jo.has_string( key_beta );
-            case jarg::array: return jo.has_array( key_beta );
-            default: return false;
-            // *INDENT-ON*
+        if( (arg & jarg::member) && jo.has_member( key_beta ) ) {
+            return true;
+        } else if( (arg & jarg::object) && jo.has_object( key_beta ) ) {
+            return true;
+        }if( (arg & jarg::string) && jo.has_string( key_beta ) ) {
+            return true;
+        }if( (arg & jarg::array) && jo.has_array( key_beta ) ) {
+            return true;
         }
+        return false;
     }
 
     bool has_beta = false;
@@ -5627,7 +5629,6 @@ parsers = {
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
-    bool handled = false;
     talk_effect_fun_t subeffect_fun;
     for( const sub_effect_parser &p : parsers ) {
         if( p.has_beta ) {
