@@ -1,0 +1,67 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_laststand",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ##################   ",
+        "   ##################   ",
+        "   ##################   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ##################   ",
+        "   ##################   ",
+        "   ##################   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "furniture": {
+        "#": [
+          [ "f_barricade_road", 10 ],
+          [ "f_sandbag_half", 10 ],
+          [ "f_earthbag_half", 10 ],
+          [ "f_gravelbag_half", 10 ],
+          [ "f_table", 10 ],
+          "f_55gal_firebarrel",
+          "f_30gal_firebarrel",
+          "f_pallet_brick",
+          "f_pallet_cement",
+          "f_stack_plank",
+          "f_metal_table",
+          "f_bench",
+          "f_armchair",
+          "f_chair",
+          "f_rack",
+          "f_locker",
+          "f_displaycase",
+          "f_recycle_bin",
+          "f_trashcan",
+          "f_metal_trashcan",
+          "f_rubble",
+          "f_wreckage",
+          [ "f_null", 100 ]
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_civilian_police", "x": [ 6, 17 ], "y": [ 6, 16 ], "chance": 30, "repeat": [ 3, 10 ] },
+        { "monster": "mon_civilian_zombiefighter", "x": [ 6, 17 ], "y": [ 6, 16 ], "chance": 60, "repeat": [ 8, 13 ] }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
