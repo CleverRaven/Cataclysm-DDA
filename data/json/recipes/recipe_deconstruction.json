@@ -7285,7 +7285,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "result": "manhole_cover",
