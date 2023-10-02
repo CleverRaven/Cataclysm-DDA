@@ -243,7 +243,7 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     return ret_val;
 }
 
-translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required, const translation &default_val )
 {
     translation_or_var ret_val;
@@ -260,7 +260,7 @@ translation_or_var get_translation_or_var( const JsonValue &jv, const std::strin
             ret_val.default_val = default_val;
         }
     } else if( required ) {
-        jv.throw_error( "No valid value for " + member );
+        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
         ret_val.str_val = default_val;
     }
@@ -435,8 +435,7 @@ void finalize_conditions()
     }
 }
 
-void conditional_t::set_has_any_trait( const JsonObject &jo, const std::string &member,
-                                       bool is_npc )
+void conditional_t::set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     std::vector<str_or_var> traits_to_check;
     for( JsonValue jv : jo.get_array( member ) ) {
@@ -453,7 +452,7 @@ void conditional_t::set_has_any_trait( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_has_trait( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
     condition = [trait_to_check, is_npc]( dialogue const & d ) {
@@ -461,7 +460,7 @@ void conditional_t::set_has_trait( const JsonObject &jo, const std::string &memb
     };
 }
 
-void conditional_t::set_has_visible_trait( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_visible_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
@@ -477,7 +476,7 @@ void conditional_t::set_has_visible_trait( const JsonObject &jo, const std::stri
     };
 }
 
-void conditional_t::set_has_martial_art( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_martial_art( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
@@ -486,7 +485,7 @@ void conditional_t::set_has_martial_art( const JsonObject &jo, const std::string
     };
 }
 
-void conditional_t::set_has_flag( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_flag( const JsonObject &jo, std::string_view member,
                                   bool is_npc )
 {
     str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
@@ -499,7 +498,7 @@ void conditional_t::set_has_flag( const JsonObject &jo, const std::string &membe
     };
 }
 
-void conditional_t::set_has_species( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_species( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     str_or_var species_to_check = get_str_or_var( jo.get_member( member ), member, true );
@@ -509,7 +508,7 @@ void conditional_t::set_has_species( const JsonObject &jo, const std::string &me
     };
 }
 
-void conditional_t::set_bodytype( const JsonObject &jo, const std::string &member,
+void conditional_t::set_bodytype( const JsonObject &jo, std::string_view member,
                                   bool is_npc )
 {
     str_or_var bt_to_check = get_str_or_var( jo.get_member( member ), member, true );
@@ -533,7 +532,7 @@ void conditional_t::set_is_riding( bool is_npc )
     };
 }
 
-void conditional_t::set_npc_has_class( const JsonObject &jo, const std::string &member,
+void conditional_t::set_npc_has_class( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     str_or_var class_to_check = get_str_or_var( jo.get_member( member ), member, true );
@@ -542,7 +541,7 @@ void conditional_t::set_npc_has_class( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_u_has_mission( const JsonObject &jo, const std::string &member )
+void conditional_t::set_u_has_mission( const JsonObject &jo, std::string_view member )
 {
     str_or_var u_mission = get_str_or_var( jo.get_member( member ), member, true );
     condition = [u_mission]( dialogue const & d ) {
@@ -556,7 +555,7 @@ void conditional_t::set_u_has_mission( const JsonObject &jo, const std::string &
 }
 
 void conditional_t::set_u_monsters_in_direction( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     str_or_var dir = get_str_or_var( jo.get_member( member ), member, true );
     condition = [dir]( dialogue const & d ) {
@@ -568,7 +567,7 @@ void conditional_t::set_u_monsters_in_direction( const JsonObject &jo,
     };
 }
 
-void conditional_t::set_u_safe_mode_trigger( const JsonObject &jo, const std::string &member )
+void conditional_t::set_u_safe_mode_trigger( const JsonObject &jo, std::string_view member )
 {
     str_or_var dir = get_str_or_var( jo.get_member( member ), member, true );
     condition = [dir]( dialogue const & d ) {
@@ -579,7 +578,7 @@ void conditional_t::set_u_safe_mode_trigger( const JsonObject &jo, const std::st
     };
 }
 
-void conditional_t::set_has_strength( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_strength( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -588,7 +587,7 @@ void conditional_t::set_has_strength( const JsonObject &jo, const std::string &m
     };
 }
 
-void conditional_t::set_has_dexterity( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_dexterity( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -597,7 +596,7 @@ void conditional_t::set_has_dexterity( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_has_intelligence( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_intelligence( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -606,7 +605,7 @@ void conditional_t::set_has_intelligence( const JsonObject &jo, const std::strin
     };
 }
 
-void conditional_t::set_has_perception( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_perception( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -615,7 +614,7 @@ void conditional_t::set_has_perception( const JsonObject &jo, const std::string 
     };
 }
 
-void conditional_t::set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_has_hp( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     std::optional<bodypart_id> bp;
@@ -626,7 +625,7 @@ void conditional_t::set_has_hp( const JsonObject &jo, const std::string &member,
     };
 }
 
-void conditional_t::set_has_part_temp( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_part_temp( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -638,7 +637,7 @@ void conditional_t::set_has_part_temp( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_is_wearing( const JsonObject &jo, const std::string &member,
+void conditional_t::set_is_wearing( const JsonObject &jo, std::string_view member,
                                     bool is_npc )
 {
     str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
@@ -647,7 +646,7 @@ void conditional_t::set_is_wearing( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_has_item( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_has_item( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
     condition = [item_id, is_npc]( dialogue const & d ) {
@@ -688,7 +687,7 @@ void conditional_t::set_has_items( const JsonObject &jo, const std::string_view 
     }
 }
 
-void conditional_t::set_has_item_with_flag( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_item_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
@@ -697,7 +696,7 @@ void conditional_t::set_has_item_with_flag( const JsonObject &jo, const std::str
     };
 }
 
-void conditional_t::set_has_item_category( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_item_category( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var category_id = get_str_or_var( jo.get_member( member ), member, true );
@@ -719,7 +718,7 @@ void conditional_t::set_has_item_category( const JsonObject &jo, const std::stri
     };
 }
 
-void conditional_t::set_has_bionics( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_bionics( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     str_or_var bionics_id = get_str_or_var( jo.get_member( member ), member, true );
@@ -732,7 +731,7 @@ void conditional_t::set_has_bionics( const JsonObject &jo, const std::string &me
     };
 }
 
-void conditional_t::set_has_effect( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_effect( const JsonObject &jo, std::string_view member,
                                     bool is_npc )
 {
     str_or_var effect_id = get_str_or_var( jo.get_member( member ), member, true );
@@ -751,7 +750,7 @@ void conditional_t::set_has_effect( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_need( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_need( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var need = get_str_or_var( jo.get_member( member ), member, true );
     dbl_or_var dov;
@@ -775,7 +774,7 @@ void conditional_t::set_need( const JsonObject &jo, const std::string &member, b
     };
 }
 
-void conditional_t::set_at_om_location( const JsonObject &jo, const std::string &member,
+void conditional_t::set_at_om_location( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
@@ -800,7 +799,7 @@ void conditional_t::set_at_om_location( const JsonObject &jo, const std::string 
     };
 }
 
-void conditional_t::set_near_om_location( const JsonObject &jo, const std::string &member,
+void conditional_t::set_near_om_location( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
@@ -836,7 +835,7 @@ void conditional_t::set_near_om_location( const JsonObject &jo, const std::strin
     };
 }
 
-void conditional_t::set_has_var( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_has_var( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     dbl_or_var empty;
     const std::string var_name = get_talk_varname( jo, member, false, empty );
@@ -859,7 +858,7 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     };
 }
 
-void conditional_t::set_expects_vars( const JsonObject &jo, const std::string &member )
+void conditional_t::set_expects_vars( const JsonObject &jo, std::string_view member )
 {
     std::vector<str_or_var> to_check;
     if( jo.has_array( member ) ) {
@@ -883,7 +882,7 @@ void conditional_t::set_expects_vars( const JsonObject &jo, const std::string &m
     };
 }
 
-void conditional_t::set_compare_var( const JsonObject &jo, const std::string &member,
+void conditional_t::set_compare_var( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     dbl_or_var empty;
@@ -922,7 +921,7 @@ void conditional_t::set_compare_var( const JsonObject &jo, const std::string &me
     };
 }
 
-void conditional_t::set_compare_time_since_var( const JsonObject &jo, const std::string &member,
+void conditional_t::set_compare_time_since_var( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     dbl_or_var empty;
@@ -964,7 +963,7 @@ void conditional_t::set_compare_time_since_var( const JsonObject &jo, const std:
     };
 }
 
-void conditional_t::set_npc_role_nearby( const JsonObject &jo, const std::string &member )
+void conditional_t::set_npc_role_nearby( const JsonObject &jo, std::string_view member )
 {
     str_or_var role = get_str_or_var( jo.get_member( member ), member, true );
     condition = [role]( dialogue const & d ) {
@@ -977,7 +976,7 @@ void conditional_t::set_npc_role_nearby( const JsonObject &jo, const std::string
     };
 }
 
-void conditional_t::set_npc_allies( const JsonObject &jo, const std::string &member )
+void conditional_t::set_npc_allies( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -985,7 +984,7 @@ void conditional_t::set_npc_allies( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_npc_allies_global( const JsonObject &jo, const std::string &member )
+void conditional_t::set_npc_allies_global( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -999,7 +998,7 @@ void conditional_t::set_npc_allies_global( const JsonObject &jo, const std::stri
     };
 }
 
-void conditional_t::set_u_has_cash( const JsonObject &jo, const std::string &member )
+void conditional_t::set_u_has_cash( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -1007,7 +1006,7 @@ void conditional_t::set_u_has_cash( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_u_are_owed( const JsonObject &jo, const std::string &member )
+void conditional_t::set_u_are_owed( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -1015,7 +1014,7 @@ void conditional_t::set_u_are_owed( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_npc_aim_rule( const JsonObject &jo, const std::string &member,
+void conditional_t::set_npc_aim_rule( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
@@ -1024,7 +1023,7 @@ void conditional_t::set_npc_aim_rule( const JsonObject &jo, const std::string &m
     };
 }
 
-void conditional_t::set_npc_engagement_rule( const JsonObject &jo, const std::string &member,
+void conditional_t::set_npc_engagement_rule( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
@@ -1033,7 +1032,7 @@ void conditional_t::set_npc_engagement_rule( const JsonObject &jo, const std::st
     };
 }
 
-void conditional_t::set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member,
+void conditional_t::set_npc_cbm_reserve_rule( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
@@ -1042,7 +1041,7 @@ void conditional_t::set_npc_cbm_reserve_rule( const JsonObject &jo, const std::s
     };
 }
 
-void conditional_t::set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member,
+void conditional_t::set_npc_cbm_recharge_rule( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
@@ -1051,7 +1050,7 @@ void conditional_t::set_npc_cbm_recharge_rule( const JsonObject &jo, const std::
     };
 }
 
-void conditional_t::set_npc_rule( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_npc_rule( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     condition = [rule, is_npc]( dialogue const & d ) {
@@ -1059,7 +1058,7 @@ void conditional_t::set_npc_rule( const JsonObject &jo, const std::string &membe
     };
 }
 
-void conditional_t::set_npc_override( const JsonObject &jo, const std::string &member,
+void conditional_t::set_npc_override( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
@@ -1068,7 +1067,7 @@ void conditional_t::set_npc_override( const JsonObject &jo, const std::string &m
     };
 }
 
-void conditional_t::set_days_since( const JsonObject &jo, const std::string &member )
+void conditional_t::set_days_since( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -1076,7 +1075,7 @@ void conditional_t::set_days_since( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_is_season( const JsonObject &jo, const std::string &member )
+void conditional_t::set_is_season( const JsonObject &jo, std::string_view member )
 {
     str_or_var season_name = get_str_or_var( jo.get_member( member ), member, true );
     condition = [season_name]( dialogue const & d ) {
@@ -1088,7 +1087,7 @@ void conditional_t::set_is_season( const JsonObject &jo, const std::string &memb
     };
 }
 
-void conditional_t::set_mission_goal( const JsonObject &jo, const std::string &member,
+void conditional_t::set_mission_goal( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     str_or_var mission_goal_str = get_str_or_var( jo.get_member( member ), member, true );
@@ -1301,7 +1300,7 @@ void conditional_t::set_is_underwater( bool is_npc )
     };
 }
 
-void conditional_t::set_one_in_chance( const JsonObject &jo, const std::string &member )
+void conditional_t::set_one_in_chance( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -1309,7 +1308,7 @@ void conditional_t::set_one_in_chance( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_query( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_query( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
     bool default_val = jo.get_bool( "default" );
@@ -1335,7 +1334,7 @@ void conditional_t::set_x_in_y_chance( const JsonObject &jo, const std::string_v
     };
 }
 
-void conditional_t::set_is_weather( const JsonObject &jo, const std::string &member )
+void conditional_t::set_is_weather( const JsonObject &jo, std::string_view member )
 {
     str_or_var weather = get_str_or_var( jo.get_member( member ), member, true );
     condition = [weather]( dialogue const & d ) {
@@ -1343,7 +1342,7 @@ void conditional_t::set_is_weather( const JsonObject &jo, const std::string &mem
     };
 }
 
-void conditional_t::set_mod_is_loaded( const JsonObject &jo, const std::string &member )
+void conditional_t::set_mod_is_loaded( const JsonObject &jo, std::string_view member )
 {
     str_or_var compared_mod = get_str_or_var( jo.get_member( member ), member, true );
     condition = [compared_mod]( dialogue const & d ) {
@@ -1357,7 +1356,7 @@ void conditional_t::set_mod_is_loaded( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_has_faction_trust( const JsonObject &jo, const std::string &member )
+void conditional_t::set_has_faction_trust( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     condition = [dov]( dialogue & d ) {
@@ -1420,7 +1419,7 @@ static tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialog
     return tripoint_abs_ms();
 }
 
-void conditional_t::set_compare_string( const JsonObject &jo, const std::string &member )
+void conditional_t::set_compare_string( const JsonObject &jo, std::string_view member )
 {
     str_or_var first;
     str_or_var second;
@@ -1449,7 +1448,7 @@ void conditional_t::set_compare_string( const JsonObject &jo, const std::string 
     };
 }
 
-void conditional_t::set_get_condition( const JsonObject &jo, const std::string &member )
+void conditional_t::set_get_condition( const JsonObject &jo, std::string_view member )
 {
     str_or_var conditionalToGet = get_str_or_var( jo.get_member( member ), member, true );
     condition = [conditionalToGet]( dialogue & d ) {
@@ -1457,7 +1456,7 @@ void conditional_t::set_get_condition( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_get_option( const JsonObject &jo, const std::string &member )
+void conditional_t::set_get_option( const JsonObject &jo, std::string_view member )
 {
     str_or_var optionToGet = get_str_or_var( jo.get_member( member ), member, true );
     condition = [optionToGet]( dialogue & d ) {
@@ -3070,7 +3069,7 @@ void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_
     };
 }
 
-void conditional_t::set_u_know_recipe( const JsonObject &jo, const std::string &member )
+void conditional_t::set_u_know_recipe( const JsonObject &jo, std::string_view member )
 {
     str_or_var known_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
     condition = [known_recipe_id]( dialogue & d ) {
@@ -3092,7 +3091,7 @@ void conditional_t::set_mission_has_generic_rewards()
     };
 }
 
-void conditional_t::set_has_worn_with_flag( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_worn_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
@@ -3104,7 +3103,7 @@ void conditional_t::set_has_worn_with_flag( const JsonObject &jo, const std::str
     };
 }
 
-void conditional_t::set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_wielded_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
@@ -3114,7 +3113,7 @@ void conditional_t::set_has_wielded_with_flag( const JsonObject &jo, const std::
 }
 
 void conditional_t::set_has_wielded_with_weapon_category( const JsonObject &jo,
-        const std::string &member,
+        std::string_view member,
         bool is_npc )
 {
     str_or_var w_cat = get_str_or_var( jo.get_member( member ), member, true );
@@ -3137,7 +3136,7 @@ void conditional_t::set_is_deaf( bool is_npc )
     };
 }
 
-void conditional_t::set_is_on_terrain( const JsonObject &jo, const std::string &member,
+void conditional_t::set_is_on_terrain( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -3147,7 +3146,7 @@ void conditional_t::set_is_on_terrain( const JsonObject &jo, const std::string &
     };
 }
 
-void conditional_t::set_is_on_terrain_with_flag( const JsonObject &jo, const std::string &member,
+void conditional_t::set_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -3157,7 +3156,7 @@ void conditional_t::set_is_on_terrain_with_flag( const JsonObject &jo, const std
     };
 }
 
-void conditional_t::set_is_in_field( const JsonObject &jo, const std::string &member,
+void conditional_t::set_is_in_field( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     str_or_var field_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -3174,7 +3173,7 @@ void conditional_t::set_is_in_field( const JsonObject &jo, const std::string &me
     };
 }
 
-void conditional_t::set_has_move_mode( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view member,
                                        bool is_npc )
 {
     str_or_var mode = get_str_or_var( jo.get_member( member ), member, true );

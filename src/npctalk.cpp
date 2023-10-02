@@ -145,27 +145,12 @@ struct sub_effect_parser {
         has_beta = true;
     }
 
-    bool check_alpha( const JsonObject &jo ) const {
-        if( ( arg & jarg::member ) && jo.has_member( key_alpha ) ) {
-            return true;
-        } else if( ( arg & jarg::object ) && jo.has_object( key_alpha ) ) {
-            return true;
-        } else if( ( arg & jarg::string ) && jo.has_string( key_alpha ) ) {
-            return true;
-        } else if( ( arg & jarg::array ) && jo.has_array( key_alpha ) ) {
-            return true;
-        }
-        return false;
-    }
-
-    bool check_beta( const JsonObject &jo ) const {
-        if( ( arg & jarg::member ) && jo.has_member( key_beta ) ) {
-            return true;
-        } else if( ( arg & jarg::object ) && jo.has_object( key_beta ) ) {
-            return true;
-        } else if( ( arg & jarg::string ) && jo.has_string( key_beta ) ) {
-            return true;
-        } else if( ( arg & jarg::array ) && jo.has_array( key_beta ) ) {
+    bool check( const JsonObject &jo, bool beta = false ) const {
+        std::string_view key = beta ? key_beta : key_alpha;
+        if( ( ( arg & jarg::member ) && jo.has_member( key ) ) ||
+            ( ( arg & jarg::object ) && jo.has_object( key ) ) ||
+            ( ( arg & jarg::string ) && jo.has_string( key ) ) ||
+            ( ( arg & jarg::array ) && jo.has_array( key ) ) ) {
             return true;
         }
         return false;
@@ -5634,16 +5619,16 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     talk_effect_fun_t subeffect_fun;
     for( const sub_effect_parser &p : parsers ) {
         if( p.has_beta ) {
-            if( p.check_alpha( jo ) ) {
+            if( p.check( jo ) ) {
                 ( subeffect_fun.*p.f_beta )( jo, p.key_alpha, false );
                 set_effect( subeffect_fun );
                 return;
-            } else if( p.check_beta( jo ) ) {
+            } else if( p.check( jo, true ) ) {
                 ( subeffect_fun.*p.f_beta )( jo, p.key_beta, true );
                 set_effect( subeffect_fun );
                 return;
             }
-        } else if( p.check_alpha( jo ) ) {
+        } else if( p.check( jo ) ) {
             ( subeffect_fun.*p.f )( jo, p.key_alpha );
             set_effect( subeffect_fun );
             return;
