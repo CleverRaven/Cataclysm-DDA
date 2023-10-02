@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Drop Actions](#drop-actions)
     - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
