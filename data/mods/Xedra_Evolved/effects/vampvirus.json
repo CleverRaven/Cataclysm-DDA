@@ -149,7 +149,7 @@
               "condition": { "u_has_trait": "VAMPIRE" },
               "effect": [
                 {
-                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD", "BLOODBANK", "COMMUNE_NIGHT" ],
+                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD", "COMMUNE_NIGHT" ],
                   "type": "mutation",
                   "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]

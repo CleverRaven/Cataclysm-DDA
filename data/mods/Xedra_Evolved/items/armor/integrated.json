@@ -560,7 +560,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "5500 g",
         "material_restriction": [ "hblood" ],
         "moves": 120,
