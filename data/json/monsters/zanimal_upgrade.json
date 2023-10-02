@@ -155,7 +155,7 @@
     "weight": "150 kg",
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
-    "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "special_attacks": [ { "id": "impale" } ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
@@ -358,7 +358,7 @@
     "color": "blue_white",
     "dodge": 3,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES" ]
   },
   {

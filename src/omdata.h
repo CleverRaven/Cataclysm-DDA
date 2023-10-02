@@ -537,6 +537,9 @@ class overmap_special
             return flags_;
         }
         bool has_flag( const std::string & ) const;
+        int get_priority() const {
+            return priority_;
+        }
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
@@ -578,6 +581,7 @@ class overmap_special
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;
+        int priority_ = 0;
 
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<string_id<overmap_location>> default_locations_;

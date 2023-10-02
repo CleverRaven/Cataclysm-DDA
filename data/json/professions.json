@@ -3356,6 +3356,23 @@
   },
   {
     "type": "profession",
+    "id": "jeweler",
+    "name": "Jeweler",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "points": 2,
+    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "socks", "boots", "longshirt", "wristwatch", "apron_leather", "chisel" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "clown",
     "name": "Clown",
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There are precious few balloon animals in your future now.",
@@ -3773,7 +3790,7 @@
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
       "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
-      "female": [ "skirt_long", "dress_shirt", "purse", "bra", "panties" ]
+      "female": [ "nun_wimple", "nun_habit", "dress_shirt", "purse", "bra", "panties" ]
     }
   },
   {
