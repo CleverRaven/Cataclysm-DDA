@@ -13365,7 +13365,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     if( !seems_perfectly_safe ) {
         std::string hint_fall_damage;
         if( damage_estimate >= 100 ) {
-            hint_fall_damage = _( "Falling <color_pink>would kill you</color>" );
+            hint_fall_damage = _( "Falling <color_pink>would kill you</color>." );
         } else if( damage_estimate >= 60 ) {
             hint_fall_damage = _( "Falling <color_pink>could cripple or kill you</color>." );
         } else if( damage_estimate >= 30 ) {
