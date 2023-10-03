@@ -2547,7 +2547,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 here.creature_on_trap( *mounted_creature );
             }
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
+            !here.has_vehicle_floor( pos_bub() ) ) {
             add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );

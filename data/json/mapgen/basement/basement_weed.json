@@ -89,7 +89,7 @@
         "R": "f_rack",
         "A": "f_air_filter",
         "C": "f_air_conditioner",
-        "H": "f_water_heater",
+        "H": [ "f_water_heater", "f_water_heater_family" ],
         "W": [ "f_water_purifier", "f_home_furnace" ],
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf"

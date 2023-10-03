@@ -238,7 +238,7 @@
     "id": "integrated_arvore_claws",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "jagged  wooden claws" },
+    "name": { "str_sp": "jagged wooden claws" },
     "description": "Your hands and fingers have transformed into jagged wooden claws.",
     "weight": "300 g",
     "volume": "500 ml",

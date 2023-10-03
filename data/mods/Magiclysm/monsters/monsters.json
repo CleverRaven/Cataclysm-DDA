@@ -593,7 +593,7 @@
     "vision_night": 14,
     "special_attacks": [ { "type": "leap", "cooldown": 3, "max_range": 2, "allow_no_target": true }, { "id": "cut_throat" } ],
     "material": [ "iflesh" ],
-    "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "ATTACKMON", "STUN_IMMUNE", "SWARMS" ],
     "//1": "has no HIT_AND_RUN cause they start to be too dumb",
     "armor": { "bash": 0, "cut": 0, "bullet": 0 }
@@ -623,7 +623,7 @@
     "vision_night": 6,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 }, "cooldown": 1 } ],
     "material": [ "veggy" ],
-    "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
     "//1": "PACIFIST because #55528",
     "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ],
     "armor": { "bash": 20, "cut": 20, "bullet": 20 }
@@ -717,7 +717,7 @@
       }
     ],
     "harvest": "exempt",
-    "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",

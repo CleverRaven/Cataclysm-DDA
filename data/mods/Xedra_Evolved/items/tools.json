@@ -34,32 +34,13 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "canvas",
           "fae_fur"
         ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
         "move_cost": 800
-      },
-      {
-        "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "lycra",
-          "nylon",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "kevlar_rigid",
-          "fae_fur"
-        ],
-        "skill": "tailor"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

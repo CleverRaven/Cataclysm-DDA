@@ -40,7 +40,7 @@
       { "u_add_effect": "effect_biokin_physical", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -97,7 +97,7 @@
       { "u_add_effect": "effect_clair_clear_sight", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -156,7 +156,7 @@
       { "u_add_effect": "effect_pyrokinetic_aura", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -213,7 +213,7 @@
       { "u_add_effect": "effect_telekinetic_armor", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -270,7 +270,7 @@
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -329,7 +329,7 @@
       },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -386,7 +386,7 @@
       { "u_add_effect": "effect_vita_health", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -922,7 +922,7 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -955,7 +955,7 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -989,7 +989,7 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -1022,7 +1022,7 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -1054,7 +1054,7 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -1087,7 +1087,7 @@
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -1119,7 +1119,7 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(100 - (100 * (e ^ (awakening_countup / -3) ) ) )" ] }
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
     ],
     "false_effect": [
       {
