@@ -2212,23 +2212,26 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
             break;
         }
         case FILTERED: {
-            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
-            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO ); // |^
-            const std::string tab_name = _( "Searched" );
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );  // ─
+            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO );  // ┌
+            std::string tab_name = _( "Searched" );
+            if( filtered_unread ) {
+                tab_name += " ";  // space for green "+"
+            }
             draw_tab( w, 2, tab_name, true );
             if( filtered_unread ) {
-                mvwprintz( w, point( 3 + utf8_width( tab_name ), 1 ), c_light_green, "⁺" );
+                mvwprintz( w, point( 2 + utf8_width( tab_name ), 1 ), c_light_green, "⁺" );
             }
             break;
         }
         case BATCH:
-            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
-            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO ); // |^
+            mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );  // ─
+            mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO );  // ┌
             draw_tab( w, 2, _( "Batch" ), true );
             break;
     }
-    //draw_tabs will produce a border ending with // ^| but that's inappropriate here, so clean it up
-    mvwputch( w, point( getmaxx( w ) - 1, 2 ), BORDER_COLOR, LINE_OXOX ); //_
+    //draw_tabs will produce a border ending with ┐ but that's inappropriate here, so clean it up
+    mvwputch( w, point( getmaxx( w ) - 1, 2 ), BORDER_COLOR, LINE_OXOX );  // ─
     wnoutrefresh( w );
     return tab_map;
 }
