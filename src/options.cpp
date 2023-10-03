@@ -2128,6 +2128,13 @@ void options_manager::add_options_interface()
         { { "prefix", to_translation( "Prefix" ) }, { "suffix", to_translation( "Suffix" ) } },
         "right"
            );
+
+        add( "UNLOADED_ITEM_CONTAINER", page_id, to_translation( "Container for unloaded items" ),
+        to_translation( "Auto: automatically select container for unloaded items.  Manual: manually select container for unloaded items." ), {
+            { "auto", to_translation( "Auto" ) },
+            { "manual", to_translation( "Manual" ) }
+        },
+        "auto" );
     } );
 
     add_empty_line();

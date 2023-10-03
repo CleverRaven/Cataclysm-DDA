@@ -11060,6 +11060,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
         int moves = 0;
         item *prev_contained = nullptr;
+        drop_locations locs;
+        bool auto_contain = get_option<std::string>( "UNLOADED_ITEM_CONTAINER" ) == "auto";
 
         for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
@@ -11068,16 +11070,25 @@ bool Character::unload( item_location &loc, bool bypass_activity )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
-                if( prev_contained && prev_contained->stacks_with( *contained ) ) {
-                    moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                if( auto_contain ) {
+                    if( prev_contained && prev_contained->stacks_with( *contained ) ) {
+                        moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                    } else {
+                        moves += this->item_handling_cost( *contained );
+                    }
+                    prev_contained = contained;
                 } else {
-                    moves += this->item_handling_cost( *contained );
+                    const int count = contained->count_by_charges() ? contained->charges : 1;
+                    locs.emplace_back( item_location( loc, contained ), count );
                 }
-                prev_contained = contained;
             }
-
         }
-        assign_activity( unload_activity_actor( moves, loc ) );
+
+        if( auto_contain ) {
+            assign_activity( unload_activity_actor( moves, loc ) );
+        } else {
+            g->insert_item( &locs );
+        }
 
         return true;
     }
