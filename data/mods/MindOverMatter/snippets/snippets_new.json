@@ -164,7 +164,7 @@
       {
         "name": "The VERDANT HAND combat protocols",
         "id": "lab_file_biokinesis_06",
-        "text": "They demanded that I include that title on this report even though it's pretentious as hell.  This isn't some superweapon that will change the face of modern warfare, it's just a better form of hand-to-hand combat.  They can't dodge bullets.  They can't punch through brick walls.  They can't do that movie thing where the hero hits a bad guy and the bad guy goes flying twenty feet.  They're just faster and stronger and hit harder, all good things but they aren't going to beat someone with a gun.  There's a reason we invented guns and why functional martial arts training is about defending yourself and getting away, not about going on the offense.\n\nSo is it worth training people?  That's the wrong question.  This isn't a codified martial art, it's just using dimensional metaphysics to enhance existing methods of combat.  A VERDANT HAND candidate will be better at Muay Thai than anyone who hasn't gone through BURNT NOVEMBER but they still need the actual martial arts training.  This is just another tool.  I'm not sure why there's so much focus on this, be honest.  With the cost of retrieving materials, surely we could spend that money better elsewhere."
+        "text": "They demanded that I include that title on this report even though it's pretentious as hell.  This isn't some superweapon that will change the face of modern warfare, it's just a better form of hand-to-hand combat.  They can't dodge bullets.  They can't punch through brick walls.  They can't do that movie thing where the hero hits a bad guy and the bad guy goes flying twenty feet.  They're just faster and stronger and hit harder, all good things, but they aren't going to beat someone with a gun.  There's a reason we invented guns and why functional martial arts training is about defending yourself and getting away, not about going on the offense.\n\nSo is it worth training people?  That's the wrong question.  This isn't a codified martial art, it's just using dimensional metaphysics to enhance existing methods of combat.  A VERDANT HAND candidate will be better at Muay Thai than anyone who hasn't gone through BURNT NOVEMBER but they still need the actual martial arts training.  This is just another tool.  I'm not sure why there's so much focus on this, to be honest.  With the cost of retrieving materials, surely we could spend that money better elsewhere.  Modern warfare does not rely on single superheroes winning battles."
       }
     ]
   },
@@ -202,8 +202,25 @@
   },
   {
     "type": "snippet",
+    "category": "lab_file_clairsentience",
+    "//": "Phavian designation for clairsentience study is NOBLE HORIZON",
+    "text": [
+      {
+        "name": "Notes scribbled on notebook paper",
+        "id": "lab_file_clairsentience_01",
+        "text": "I'm looking up at the sky.  I can see the same constellations on Earth, but they're shimmering somehow, like there's a haze or a fog or something between us.  Then, the stars start to slowly go out.  Not in a wave, but randomly--one here, one there, faster and faster until the entire sky was dark.  Then the moon went out and everything was total blackness.\n\nI'm standing on the edge of a cliff.  Below me is the churning sea, the waters black under the stormclouds.  The sea rises slowly as rain falls in sheets, lightning striking the waters.  They break over the edge of the cliff, then over my head.  All is blackness.\n\nI am standing in a forest.  The trees rustle all around me and the birds sing, and then clouds pass over the sun.  The sun dims and then starts to go black.  It's an eclipse.  The light fades and all the birdsong dies.  I stand in pitch blackness with the rustle of leaves around me."
+      },
+      {
+        "name": "testing report I2-8129",
+        "id": "lab_file_clairsentience_02",
+        "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs. diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON candidates perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_file_telekinesis",
-    "//": "Phavian designation for telekineic study for use in combat is ONYX LIGHTNING",
+    "//": "Phavian designation for telekinetic study for use in combat is ONYX LIGHTNING",
     "text": [
       {
         "name": "It's all just motion",
