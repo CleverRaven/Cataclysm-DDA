@@ -8337,7 +8337,7 @@
     "post_terrain": "t_brick_oven",
     "activity_level": "MODERATE_EXERCISE"
   },
-    {
+  {
     "type": "construction",
     "id": "constr_mound_shallow",
     "skill": "survival",
@@ -8531,7 +8531,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "clay_lump", 4000 ] ] ],
     "dark_craftable": true,
-	    "pre_special": "check_empty",
+    "pre_special": "check_empty",
     "post_terrain": "f_clay_mound_short",
     "do_turn_special": "do_turn_shovel",
     "activity_level": "EXTRA_EXERCISE"
