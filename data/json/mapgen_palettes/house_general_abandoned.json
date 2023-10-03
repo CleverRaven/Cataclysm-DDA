@@ -75,7 +75,7 @@
       "d": "f_null",
       "e": "f_null",
       "f": "f_null",
-      "g": "f_water_heater",
+      "g": [ [ "f_water_heater", 5 ], [ "f_water_heater_family", 5 ], [ "f_null", 90 ] ],
       "h": [ [ "f_chair", 5 ], [ "f_null", 95 ] ],
       "i": "f_null",
       "j": "f_null",

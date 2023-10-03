@@ -115,7 +115,7 @@
   {
     "id": "mon_molebot",
     "type": "MONSTER",
-    "name": { "str": "miner bot" },
+    "name": { "str": "demining bot" },
     "description": "A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
     "default_faction": "utility_bot",
     "bodytype": "snake",

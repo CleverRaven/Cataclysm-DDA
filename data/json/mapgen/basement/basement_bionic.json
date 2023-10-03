@@ -48,7 +48,7 @@
         "?": "f_autodoc",
         "/": "f_autodoc_couch",
         "F": "f_home_furnace",
-        "W": "f_water_heater"
+        "W": "f_water_heater_family"
       },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_loot": [
@@ -122,7 +122,7 @@
         "_": "f_bench",
         "L": "f_locker",
         "F": "f_home_furnace",
-        "W": "f_water_heater"
+        "W": "f_water_heater_family"
       },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_loot": [

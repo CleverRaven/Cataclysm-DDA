@@ -911,6 +911,7 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
 }
 
 struct stats_test_subscriber : public event_subscriber {
+    using event_subscriber::notify;
     void notify( const cata::event &e ) override {
         if( e.type() == event_type::player_gets_achievement ||
             e.type() == event_type::player_fails_conduct ) {

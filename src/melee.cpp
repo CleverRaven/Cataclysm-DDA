@@ -1823,7 +1823,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
             }
         }
 
-        if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
+        if( technique.stun_dur > 0 ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
         }
 

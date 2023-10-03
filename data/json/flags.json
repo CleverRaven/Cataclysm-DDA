@@ -1960,10 +1960,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NON-FOULING",
-    "type": "json_flag"
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag"
   },

@@ -20,7 +20,7 @@
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
         "DYNAMIC_LINKING": "False", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "False",
+        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
     },
@@ -32,7 +32,7 @@
       "generator": "Ninja Multi-Config",
       "cacheVariables": {
         "DYNAMIC_LINKING": "True", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "False",
+        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
     },
@@ -60,6 +60,16 @@
     {
       "name": "linux-tiles-sounds-x64-vcpkg",
       "configurePreset": "linux-tiles-sounds-x64-vcpkg"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-tiles-sounds-x64-msvc",
+      "configurePreset": "windows-tiles-sounds-x64-msvc"
+    },
+    {
+      "name": "linux-tiles-sounds-x64",
+      "configurePreset": "linux-tiles-sounds-x64"
     }
   ]
 }

@@ -37,7 +37,7 @@ class kill_tracker : public event_subscriber
         std::string get_kills_text() const;
 
         void clear();
-
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
