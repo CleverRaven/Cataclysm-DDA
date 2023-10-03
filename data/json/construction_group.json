@@ -1441,6 +1441,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_anvil_bronze",
+    "name": "Place Bronze Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_heavy",
+    "name": "Place Heavy Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_crude",
+    "name": "Place Crude Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
