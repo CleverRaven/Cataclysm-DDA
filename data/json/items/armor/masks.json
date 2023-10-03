@@ -539,14 +539,14 @@
     "variants": [
       {
         "id": "brown_mask_plague",
-        "name": { "str": "brown mask plague" },
+        "name": { "str": "brown plague mask" },
         "description": "It's colored brown.",
         "weight": 25,
         "append": true
       },
       {
         "id": "white_mask_plague",
-        "name": { "str": "white mask plague" },
+        "name": { "str": "white plague mask" },
         "description": "It's a simple white color.",
         "color": "blue",
         "weight": 25,
@@ -554,7 +554,7 @@
       },
       {
         "id": "black_mask_plague",
-        "name": { "str": "black mask plague" },
+        "name": { "str": "black plague mask" },
         "description": "It's colored black.",
         "color": "dark_gray",
         "weight": 25,

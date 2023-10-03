@@ -2,7 +2,7 @@
   {
     "id": "BGSS_EVACUEE_5_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "My Evac shelter got swarmed by some of those bees, the ones the size of dogs.  I took out a few with a plank, but pretty quick I realized it was either head for the hills or get stuck like a pig.  The rest is history.",
+    "dynamic_line": "My evac shelter got swarmed by some of those bees, the ones the size of dogs.  I took out a few with a plank, but pretty quick I realized it was either head for the hills or get stuck like a pig.  The rest is history.",
     "//": "TK: In a future iteration, this evacuee might give you directions to a hive.",
     "responses": [
       { "text": "Giant bees?  Tell me more.", "topic": "BGSS_EVACUEE_5_BEES" },
