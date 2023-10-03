@@ -861,6 +861,11 @@ int talker_character_const::get_bmi_permil() const
     return std::round( me_chr_const->get_bmi_fat() * 1000.0f );
 }
 
+int talker_character_const::get_weight() const
+{
+    return units::to_milligram( me_chr_const->get_weight() );
+}
+
 void talker_character::set_height( int amount )
 {
     me_chr->set_base_height( amount );

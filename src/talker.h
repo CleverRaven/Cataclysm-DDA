@@ -628,6 +628,12 @@ class talker
         virtual int get_height() const {
             return 0;
         }
+        virtual int get_volume() const {
+            return 0;
+        }
+        virtual int get_weight() const {
+            return 0;
+        }
         virtual void set_npc_trust( int ) {}
         virtual int get_npc_trust() const {
             return 0;

@@ -89,6 +89,18 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
     return me_it_const->get_item()->max_damage();
 }
 
+int talker_item_const::get_volume() const
+{
+
+    return units::to_milliliter( me_it_const->get_item()->volume() );
+}
+
+int talker_item_const::get_weight() const
+{
+
+    return units::to_milligram( me_it_const->get_item()->weight() );
+}
+
 void talker_item::set_value( const std::string &var_name, const std::string &value )
 {
     me_it->get_item()->set_var( var_name, value );

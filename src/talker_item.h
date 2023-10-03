@@ -45,6 +45,9 @@ class talker_item_const: public talker_cloner<talker_item_const>
 
         int get_cur_hp( const bodypart_id & ) const override;
         int get_hp_max( const bodypart_id & ) const override;
+
+        int get_volume() const override;
+        int get_weight() const override;
     protected:
         talker_item_const() = default;
         const item_location *me_it_const;
