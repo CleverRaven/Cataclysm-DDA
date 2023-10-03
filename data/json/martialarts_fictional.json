@@ -515,7 +515,7 @@
     "type": "technique",
     "id": "tec_venom_snake_bite",
     "name": "Viper Bite",
-    "messages": [ "You lash out at %s with a Viper Bite!", "<npcname> lash out at %s with a Viper Bite!" ],
+    "messages": [ "You lash out at %s with a Viper Bite!", "<npcname> lashes out at %s with a Viper Bite!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
