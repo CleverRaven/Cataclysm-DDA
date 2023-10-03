@@ -4286,7 +4286,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
     drop_locations items_remain;
     if( reopen_menu && !success ) {
-        std::copy( items.begin(), items.end(), std::back_inserter( items_remain ) );
+        items_remain.insert( items_remain.end(), items.begin(), items.end() );
     }
 
     items.pop_front();
