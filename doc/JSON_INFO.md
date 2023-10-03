@@ -2971,6 +2971,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // To be a fuel an item needs to be made of only one material,
                               // this material has to produce energy, *ie* have a `data_fuel` entry,
                               // and it needs to have consumable charges.
+"displacement": 280           // engine displacement, meaasured in cubic centimeters (cm3)
 ```
 
 #### The following optional fields are specific to WHEELs.
@@ -2983,6 +2984,8 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "rolling_resistance": 1.0,    // The "squishiness" of the wheel, per SAE standards.  Wheel rolling
                               // resistance increases vehicle drag linearly as vehicle weight
                               // and speed increase.
+"diameter": 8,                // diameter of wheel (in inches)
+"width": 4,                   // width of the wheel (in inches)
 ```
 
 `wheel_terrain_modifiers` field provides a way to modify wheel traction according to the flags set on terrain tile under each wheel.
@@ -3178,6 +3181,9 @@ Weakpoints only match if they share the same id, so it's important to define the
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "stackable": true,                           // This item can be stacked together, similarly to `charges`
 "degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
+"solar_efficiency": 0.3,                     // Efficiency of solar energy conversion for solarpacks; require SOLARPACK_ON to generate electricity; default 0
+"source_monster": "mon_zombie",               // This item is corpse of this monster (so it has weight and volume of this monster), and revive into this monster; require COPRSE flag
+"thrown_damage": [ { "damage_type": "bash", "amount": 15 } ], // Damage, that would be dealt when you throw this item; lack of this field fall back to use melee damage, including player's str bonus applied to melee attack
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
@@ -3591,11 +3597,22 @@ Books can be defined like this:
                       // additional some book specific entries:
 "max_level" : 5,      // Maximum skill level this book will train to
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"time" : "35 m",          // Time a single read session takes. An integer will be read in minutes or a time string can be used.
+"time" : "35 m",      // Time a single read session takes. An integer will be read in minutes or a time string can be used.
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
-"required_level" : 2  // Minimum skill level required to learn
+"required_level" : 2,  // Minimum skill level required to learn
+"martial_art": "style_mma", // Martial art learned from this book; incompatible with `skill`
+"proficiencies": [    // Having this book mitigate lack of proficiency, required for crafting 
+  { 
+    "proficiency": "prof_fermenting", // id of proficiency
+    "time_factor": 0.1,               // slowdown for using this book proficiency - slowdown from lack of proficiency is multiplied on this value, so for `0.75`, if recipe adds 10 hours for lack of proficiency,  with book it would be [ 10 * ( 1 - 0.75 ) = ] 2.5 hours; multiple books stacks, but in logarithmic way, meaning having more books of the same proficiency is better than having one book, but never would be better than learning the proficiency
+    "fail_factor": 0.25               // works same as `time_factor`
+  },
+  { "proficiency": "prof_brewing", "time_factor": 0.25, "fail_factor": 0.5 },
+  { "proficiency": "prof_winemaking", "time_factor": 0.1, "fail_factor": 0.25 }
+],
+
 ```
 It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
 
@@ -3988,7 +4005,12 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
 "power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
+"revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
+"variables": {
+  "vehicle_name": "Wheelchair",         // this tool is a foldable vehicle, that could bypass the default foldability rules; this is the name of the vehicle that would be unfolded 
+  "folded_parts": "folded_parts_syntax" // this is the parts that this vehice has -it uses it's own syntax, different from `"type": "vehicle"`, so better to read the examples in `unfoldable.json`
+}
 ```
 
 
@@ -4018,7 +4040,7 @@ Currently only vats can only accept and produce liquid items.
 ```C++
 "brewable" : {
     "time": 3600, // A time duration: how long the fermentation will take.
-    "result": { "beer": 1, "yeast": 10 } // Ids with a multiplier for the amount of results per charge of the brewable items.
+    "results": { "beer": 1, "yeast": 10 } // Ids with a multiplier for the amount of results per charge of the brewable items.
 }
 ```
 
@@ -4206,7 +4228,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
-    "moves": 50 // Number of moves required in the process, default value is 100.
+    "moves": 50, // Number of moves required in the process, default value is 100.
+    "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ] // what and how much vitamin is given by this drug
 },
 "use_action": {
     "type": "place_monster", // place a turret / manhack / whatever monster on the map
@@ -4365,6 +4388,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
     "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
+    "disinfectant_power": 4,// quality of disinfection - antiseptic is 4, alcohol wipe is 2; float
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
@@ -4433,7 +4457,19 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 ```
 
-  ### Tick Actions
+### Drop Actions
+
+Similar to use_action, this drop_actions would be triggered when you throw the item
+
+```c++
+"drop_action": {                  
+  "type": "emit_actor",           // allow to emit a specific field when thrown
+  "emits": [ "emit_acid_drop" ],  // id of emit to spread
+  "scale_qty": true               // if true, throwing more than one charge of item with emit_actor increases the size of emission
+  }
+```
+
+### Tick Actions
 
 `"tick_action"` of active tools is executed once on every turn. This action can be any use action or iuse but some of them may not work properly when not executed by player.
 

@@ -839,6 +839,21 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity finished" );
+
+    // character_wields_item
+    item weapon_item( itype_test_knife_combat );
+    get_avatar().wield( weapon_item );
+    item_location weapon = get_avatar().get_wielded_item();
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+    CHECK( weapon->get_var( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+
+    // character_wears_item
+    std::list<item>::iterator armor = *get_avatar().worn.wear_item( get_avatar(),
+                                      item( itype_backpack ), false, true, true );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+    CHECK( armor->get_var( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )

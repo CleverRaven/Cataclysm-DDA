@@ -490,7 +490,7 @@
       "A": "f_glass_cabinet",
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "[": "f_home_furnace",
-      "]": "f_water_heater",
+      "]": [ "f_water_heater", "f_water_heater_family" ],
       "0": "f_standing_tank",
       "!": "f_server",
       "{": "f_small_satelitte_dish",
