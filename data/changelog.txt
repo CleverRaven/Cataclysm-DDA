@@ -50,8 +50,6 @@ Add overheat mechanics to energy guns.
 Sound-triggered traps
 Item transformation can now pick variant items to transform into
 You can now collect grappling hooks and ladders from the ledge above.
-Make vehicle parts install components salvageable, e.g. nuts and bolts
-[EOC] Port some functions to item talker
 Adds priority parameter for special placement
 
 
@@ -91,15 +89,6 @@ JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
 Vehicles now contain heater, and some contain AC
-Add a new profession, Para-Amputee
-Zombies will drop full sets of costumes while in Halloween!
-Simon can talk about his family.
-Scarf Headwraps
-decorative flora additions
-More Halloween items
-Add 3 fundamental techs to Muay Thai, slight tweaks for balance and consistency.
-Make it obvious when TCL badges are destroyed or not
-Improved Soil Storage
 
 
 ## Interface:
@@ -174,12 +163,6 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
-Rebalance Fountain of Flames
-[Aftershock]Adjustment of overgenerated facilities
-Addiction snippets for Xedra Evolved
-Add more Arvore Paraclesian mutations
-add Hellfire pyrokinetic power
-Jmathify awakenings
 
 
 ## Balance:
@@ -215,17 +198,6 @@ Climbing down stepladders is now safe; climbing down ledges tells you how risky 
 Add NO_SPELLCASTING flag to Stunned effect
 Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
-the scrap trader sells nuts and bolts
-Normal SD cards don't give secret recipes
-Made traders not buy worthless scraps
-Give the pipe and makeshift crowbar better techs
-Your awake healing speed now varies with how much(or little) you are resting
-Rebalance & expand climbing down with ropes, ladders, vehicles, downspouts & bug/plant mutations.
-Wetsuit and diving gear rework by randomtyper
-Deconstructing a water heater yields a 100L tank instead of 60L (plus the usual bits and bobs).
-Adjust Grim Reaper Scythe
-Remove armor penetration from shotgun flechettes, clarify descriptions
-Remove ability to weld with gas masks
 Allow metal wreckage to be used for cutting
 
 
@@ -303,24 +275,7 @@ Monsters can go down ramps
 Don't teleport items to the ground if the vehicle storage destination is full
 Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
-Add BIOLOGICALPROOF flag to biological damage immunity
-Prevent Web Diver mutation from burying the player underground.
-Fix visibility not updating properly when moving, peeking, and autodriving
-Fix Extended Stride being unlearnable
-Add BIOLOGICALPROOF documentation
-Underwater monsters attack by passing through boats
-Fix Cloak of Frog permanently frogging you
-Fixed stream_mutable generation failure
-Audit of check_skill_level usage vs check_knowledge_level.
-Biokinesis duration fixes
-Fix overload of zeds and vehicles with older saves
-Add ROOTS2 and ROOTS3 flags so Mycorrhizal Communion works properly
-nitrogen and hydrogen tanks spawn with charges
-Set limited duration for zombie null psi-nullification field
-Add missing floor tile under table to farm with stills
 Use correct actor in bulk trade messages
-Prevent segfault when asking the scrap trader when they'll restock
-Fix MREs spawning opened
 
 
 ## Performance:
