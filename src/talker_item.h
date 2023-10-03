@@ -68,6 +68,7 @@ class talker_item: public talker_cloner<talker_item, talker_item_const>
         void remove_value( const std::string & ) override;
 
         void set_all_parts_hp_cur( int ) const override;
+        void die() override;
 
     protected:
         talker_item() = default;

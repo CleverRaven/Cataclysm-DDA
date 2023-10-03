@@ -103,3 +103,9 @@ void talker_item::set_all_parts_hp_cur( int set ) const
 {
     me_it->get_item()->set_damage( me_it->get_item()->max_damage() - set );
 }
+
+void talker_item::die()
+{
+    popup( "talker_item::die" );
+    me_it->remove_item();
+}
