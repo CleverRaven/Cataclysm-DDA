@@ -555,7 +555,7 @@
     "material": [ "flesh" ],
     "symbol": "x",
     "color": "magenta",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRAIDER_AVOID" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRADER_AVOID" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
