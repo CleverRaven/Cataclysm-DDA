@@ -318,7 +318,7 @@
     "player_display": false,
     "description": "Dummy mutation that keeps you from wearing prosthetics.",
     "changes_to": [ "NO_LEFT_LEG" ],
-    "restricts_gear": [ "leg_stub_l" ]              
+    "restricts_gear": [ "leg_stub_l" ]
   },
   {
     "type": "mutation",
@@ -330,7 +330,7 @@
     "player_display": false,
     "description": "Dummy mutation that keeps you from wearing prosthetics.",
     "changes_to": [ "NO_RIGHT_LEG" ],
-    "restricts_gear": [ "leg_stub_r" ]              
+    "restricts_gear": [ "leg_stub_r" ]
   },
   {
     "type": "mutation",
@@ -369,7 +369,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your right leg.",
     "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],     
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
     "enchantments": [ "ENCH_RIGHT_PROSTHETIC" ]
   },
   {
@@ -381,7 +381,7 @@
     "purifiable": false,
     "description": "You have a prosthetic on your left leg.",
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
-    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],     
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
     "enchantments": [ "ENCH_LEFT_PROSTHETIC" ]
   },
   {
