@@ -146,7 +146,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them. You're not sure where the blood goes but with a thought you can use these deposits.",
+    "points": 0,
+    "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them.  You're not sure where the blood goes but with a thought you can use these deposits.",
     "integrated_armor": [ "integrated_bloodbank" ]
   },
   {
