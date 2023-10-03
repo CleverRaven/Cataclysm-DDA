@@ -131,6 +131,7 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
         int get_eff_per() const override;
+        void witness_thievery( item *it ) override;
 
         float get_mountable_weight_ratio() const;
 
