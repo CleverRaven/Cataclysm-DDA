@@ -19,7 +19,7 @@
     "id": "alcohol_wipes",
     "type": "GENERIC",
     "category": "drugs",
-    "name": { "str_sp": "alcohol wipe" },
+    "name": { "str": "alcohol wipe" },
     "description": "A wet wipe saturated with alcohol and stored in a sterile package.  Used for personal hygiene or disinfecting small wounds.",
     "weight": "5 g",
     "volume": "1 ml",
