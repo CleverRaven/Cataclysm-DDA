@@ -1556,13 +1556,13 @@
     "description": "A mound of dirt almost as tall as a building!",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
-    "deconstruct": { "items": [ { "item": "material_soil", "count": 400 } ], "furn_set": "f_dirtmound_pile" },
+    "deconstruct": { "items": [ { "item": "material_soil", "count": 200 } ], "furn_set": "f_dirtmound_pile" },
     "bash": {
       "str_min": 50,
       "str_max": 100,
       "sound": "thump!",
       "sound_fail": "thud!",
-      "items": [ { "item": "material_soil", "count": [ 340, 400 ] } ],
+      "items": [ { "item": "material_soil", "count": [ 170, 200 ] } ],
       "furn_set": "f_dirtmound_pile"
     }
   },
