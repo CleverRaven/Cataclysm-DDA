@@ -299,15 +299,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "m1911_10_magazines_reloaded",
-    "entries": [
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "quiver_modern_archer",
     "entries": [
       { "item": "arrow_cf", "count": 16 },
