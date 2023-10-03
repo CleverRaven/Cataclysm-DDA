@@ -11087,7 +11087,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         if( auto_contain ) {
             assign_activity( unload_activity_actor( moves, loc ) );
         } else {
-            g->insert_item( &locs );
+            g->insert_item( locs );
         }
 
         return true;
