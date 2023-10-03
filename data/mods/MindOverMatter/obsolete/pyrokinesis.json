@@ -1,0 +1,55 @@
+[
+  {
+    "id": "pyro_quell_flames_1",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Heat 1",
+    "description": "The second part of Quell Fire that has a higher intensity in the center.  If you have it, you debugged it in.",
+    "valid_targets": [ "ground" ],
+    "spell_class": "PYROKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.25) + 0) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_aoe": 50,
+    "field_id": "fd_extinguisher",
+    "min_field_intensity": 2,
+    "max_field_intensity": 3,
+    "field_chance": 1
+  },
+  {
+    "id": "pyro_quell_flames_2",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Heat 2",
+    "description": "The part of Quell Fire that removes heat.  If you have it, you debugged it in.",
+    "valid_targets": [ "ground" ],
+    "spell_class": "PYROKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "remove_field",
+    "effect_str": "fd_hot_air3",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_aoe": 0
+  },
+  {
+    "id": "pyro_quell_flames_3",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Heat 3",
+    "description": "The part of Quell Fire that removes heat.  If you have it, you debugged it in.",
+    "valid_targets": [ "ground" ],
+    "spell_class": "PYROKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "remove_field",
+    "effect_str": "fd_hot_air4",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_aoe": 0
+  }
+]

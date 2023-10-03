@@ -38,6 +38,7 @@
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab" }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
+    "death_function": { "effect": { "id": "delete_nullifying_fields_monster", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_BLANK_UPGRADE" },
@@ -136,6 +137,7 @@
       }
     ],
     "death_drops": "default_zombie_death_drops",
+    "death_function": { "effect": { "id": "delete_nullifying_fields_monster", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 45, "into": "mon_zombie_psi_void" },
     "fungalize_into": "mon_zombie_fungus",
@@ -236,8 +238,8 @@
       }
     ],
     "death_drops": "default_zombie_death_drops",
+    "death_function": { "effect": { "id": "delete_nullifying_fields_monster", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 45, "into": "mon_zombie_psi_void" },
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
