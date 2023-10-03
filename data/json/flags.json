@@ -2331,5 +2331,15 @@
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
+  },
+  {
+    "id": "ROOTS2",
+    "type": "json_flag",
+    "info": "The character has roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "ROOTS3",
+    "type": "json_flag",
+    "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
   }
 ]

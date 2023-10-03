@@ -3266,5 +3266,97 @@
     "warmth": 50,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "SOFT" ]
+  },
+  {
+    "id": "trenchcoat_steampunk",
+    "type": "ARMOR",
+    "name": { "str": "steampunk trenchcoat" },
+    "description": "A thick black leather steampunk themed trenchcoat.  Unlike a regular trenchcoat, this one has no pockets.",
+    "weight": "1967 g",
+    "volume": "5250 ml",
+    "price": 24500,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "trenchcoat",
+    "color": "black",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+  },
+  {
+    "id": "plaguedoctor_robe",
+    "type": "ARMOR",
+    "name": { "str": "plague robe" },
+    "description": "A dark robbed cassock worn by plague doctors.",
+    "weight": "1300 g",
+    "volume": "5 L",
+    "price": 800,
+    "price_postapoc": 60,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cassock",
+    "color": "dark_gray",
+    "warmth": 24,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 12 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 12,
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 12 }
+    ]
+  },
+  {
+    "id": "nun_habit",
+    "type": "ARMOR",
+    "name": { "str": "nun habit" },
+    "description": "A dark piece of clerical clothing.  Typically worn by Christian nuns.",
+    "weight": "1200 g",
+    "volume": "5 L",
+    "price": 1000,
+    "price_postapoc": 80,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 10 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+    ]
   }
 ]

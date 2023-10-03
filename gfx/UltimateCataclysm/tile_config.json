@@ -11090,7 +11090,7 @@
         { "id": "f_fireplace", "fg": 7232 },
         { "id": "f_floor_lamp", "fg": 7233 },
         { "id": "f_fridge", "rotates": true, "fg": [ 7236, 7237, 7235, 7234 ] },
-        { "id": "t_gas_pump", "fg": 7238, "bg": 7415 },
+        { "id": "t_gas_pump", "fg": 7238, "bg": 7416 },
         { "id": "f_gas_pump", "fg": 7238 },
         { "id": "f_glass_cabinet", "fg": 7239 },
         { "id": "f_glass_fridge", "fg": 7240 },
@@ -11122,9 +11122,9 @@
         { "id": "f_home_furnace", "fg": 7260 },
         { "id": "f_locker", "fg": 7262 },
         { "id": "f_machinery_old", "fg": 7269 },
-        { "id": "t_machinery_old", "fg": 7269, "bg": 7406 },
+        { "id": "t_machinery_old", "fg": 7269, "bg": 7407 },
         { "id": "f_machinery_electronic", "fg": 7263 },
-        { "id": "t_machinery_electronic", "fg": 7263, "bg": 7406 },
+        { "id": "t_machinery_electronic", "fg": 7263, "bg": 7407 },
         {
           "id": "f_machinery_heavy",
           "fg": [ { "weight": 20, "sprite": 7264 }, { "weight": 150, "sprite": 7265 }, { "weight": 100, "sprite": 7266 } ]
@@ -11132,13 +11132,13 @@
         {
           "id": "t_machinery_heavy",
           "fg": [ { "weight": 20, "sprite": 7264 }, { "weight": 150, "sprite": 7265 }, { "weight": 100, "sprite": 7266 } ],
-          "bg": 7406
+          "bg": 7407
         },
         { "id": "f_machinery_light", "fg": [ { "weight": 100, "sprite": 7268 }, { "weight": 100, "sprite": 7267 } ] },
         {
           "id": "t_machinery_light",
           "fg": [ { "weight": 100, "sprite": 7268 }, { "weight": 100, "sprite": 7267 } ],
-          "bg": 7406
+          "bg": 7407
         },
         { "id": "f_mannequin", "fg": 7270 },
         { "id": "f_alien_tendril", "fg": 7274 },
@@ -11173,66 +11173,66 @@
         { "id": "f_washer", "fg": 7302 },
         { "id": "f_water_heater", "fg": 7303 },
         { "id": "f_water_pump", "fg": 7304 },
-        { "id": "t_water_pump", "fg": 7304, "bg": 7406 },
+        { "id": "t_water_pump", "fg": 7304, "bg": 7407 },
         { "id": "f_wind_mill", "fg": 7305 },
         { "id": "f_woodstove", "fg": 7306 },
         { "id": "f_workbench", "fg": 7307 },
-        { "id": "mon_mech_combat", "fg": 7318, "bg": 7322 },
-        { "id": "mon_mech_recon", "fg": 7319, "bg": 7322 },
+        { "id": "mon_mech_combat", "fg": 7319, "bg": 7323 },
+        { "id": "mon_mech_recon", "fg": 7320, "bg": 7323 },
         {
           "id": "mon_exodii_worker",
           "fg": [
-            { "weight": 15, "sprite": 7323 },
             { "weight": 15, "sprite": 7324 },
-            { "weight": 10, "sprite": 7325 },
-            { "weight": 10, "sprite": 7326 }
+            { "weight": 15, "sprite": 7325 },
+            { "weight": 10, "sprite": 7326 },
+            { "weight": 10, "sprite": 7327 }
           ],
-          "bg": 7327
+          "bg": 7328
         },
-        { "id": "mon_turret_searchlight", "fg": 7329, "bg": 7322 },
-        { "id": "mon_afs_headless_horror", "fg": 7330, "bg": 7322 },
-        { "id": "mon_biollante", "fg": 7331, "bg": 7322 },
-        { "id": "mon_dispatch", "fg": 7332, "bg": 7322 },
-        { "id": "mon_dispatch_military", "fg": 7333, "bg": 7322 },
-        { "id": "mon_fungal_tendril", "fg": 7334, "bg": 7322 },
-        { "id": "mon_fungaloid", "fg": 7335, "bg": 7322 },
-        { "id": "mon_laserturret", "fg": 7336, "bg": 7322 },
-        { "id": "mon_mosquito_giant", "fg": 7337, "bg": 7322 },
-        { "id": "mon_robofac_laserturret_mk1", "fg": 7338, "bg": 7322 },
-        { "id": "mon_skeleton_master", "fg": 7339, "bg": 7322 },
-        { "id": "mon_triffid_flower", "fg": 7340, "bg": 7322 },
-        { "id": "mon_turret", "fg": 7341, "bg": 7322 },
-        { "id": "mon_turret_speaker", "fg": 7342, "bg": 7322 },
-        { "id": "mon_zombie_fungus", "fg": 7343, "bg": 7322 },
-        { "id": "mon_zombie_gasbag_fungus", "fg": 7344, "bg": 7322 },
-        { "id": "mon_zombie_necro", "fg": 7347, "bg": 7322 },
-        { "id": "mon_zombie_master", "fg": 7346, "bg": 7322 },
-        { "id": [ "corpse_mon_zombie_necro", "corpse_mon_zombie_master" ], "fg": 7345 },
+        { "id": "mon_turret_searchlight", "fg": 7330, "bg": 7323 },
+        { "id": "mon_afs_headless_horror", "fg": 7331, "bg": 7323 },
+        { "id": "mon_biollante", "fg": 7332, "bg": 7323 },
+        { "id": "mon_dispatch", "fg": 7333, "bg": 7323 },
+        { "id": "mon_dispatch_military", "fg": 7334, "bg": 7323 },
+        { "id": "mon_fungal_tendril", "fg": 7335, "bg": 7323 },
+        { "id": "mon_fungaloid", "fg": 7336, "bg": 7323 },
+        { "id": "mon_laserturret", "fg": 7337, "bg": 7323 },
+        { "id": "mon_mosquito_giant", "fg": 7338, "bg": 7323 },
+        { "id": "mon_robofac_laserturret_mk1", "fg": 7339, "bg": 7323 },
+        { "id": "mon_skeleton_master", "fg": 7340, "bg": 7323 },
+        { "id": "mon_triffid_flower", "fg": 7341, "bg": 7323 },
+        { "id": "mon_turret", "fg": 7342, "bg": 7323 },
+        { "id": "mon_turret_speaker", "fg": 7343, "bg": 7323 },
+        { "id": "mon_zombie_fungus", "fg": 7344, "bg": 7323 },
+        { "id": "mon_zombie_gasbag_fungus", "fg": 7345, "bg": 7323 },
+        { "id": "mon_zombie_necro", "fg": 7348, "bg": 7323 },
+        { "id": "mon_zombie_master", "fg": 7347, "bg": 7323 },
+        { "id": [ "corpse_mon_zombie_necro", "corpse_mon_zombie_master" ], "fg": 7346 },
         {
           "id": "mon_triffid",
-          "fg": [ { "weight": 100, "sprite": 7352 }, { "weight": 50, "sprite": 7353 } ],
-          "bg": 7322
+          "fg": [ { "weight": 100, "sprite": 7353 }, { "weight": 50, "sprite": 7354 } ],
+          "bg": 7323
         },
-        { "id": "mon_triffid_sprig", "fg": 7354, "bg": 7322 },
-        { "id": "mon_triffid_young", "fg": 7355, "bg": 7322 },
-        { "id": "overlay_wielded_long_pole", "fg": 7361 },
-        { "id": "overlay_wielded_pike_copper", "fg": 7362 },
-        { "id": "overlay_wielded_pike", "fg": 7363 },
-        { "id": "overlay_wielded_pike_wood", "fg": 7364 },
-        { "id": "overlay_female_wielded_wood_panel", "fg": 7365 },
-        { "id": "overlay_male_wielded_wood_panel", "fg": 7366 },
-        { "id": "overlay_female_wielded_wood_sheet", "fg": 7367 },
-        { "id": "overlay_male_wielded_wood_sheet", "fg": 7368 },
-        { "id": [ "lake_water_cube", "lake_bed" ], "fg": 7578 },
-        { "id": "airliner_2b_1", "fg": 7373, "bg": 7370, "rotates": false },
-        { "id": "airliner_2b", "fg": 7372, "bg": 7374 },
-        { "id": "lighthouse_ground", "fg": 7375, "bg": 7371 },
-        { "id": "lighthouse_z1", "fg": 7376, "bg": 7370 },
-        { "id": "park", "fg": 7377, "bg": 7369 },
+        { "id": "mon_triffid_sprig", "fg": 7355, "bg": 7323 },
+        { "id": "mon_triffid_young", "fg": 7356, "bg": 7323 },
+        { "id": "overlay_wielded_long_pole", "fg": 7362 },
+        { "id": "overlay_wielded_pike_copper", "fg": 7363 },
+        { "id": "overlay_wielded_pike", "fg": 7364 },
+        { "id": "overlay_wielded_pike_wood", "fg": 7365 },
+        { "id": "overlay_female_wielded_wood_panel", "fg": 7366 },
+        { "id": "overlay_male_wielded_wood_panel", "fg": 7367 },
+        { "id": "overlay_female_wielded_wood_sheet", "fg": 7368 },
+        { "id": "overlay_male_wielded_wood_sheet", "fg": 7369 },
+        { "id": [ "lake_water_cube", "lake_bed" ], "fg": 7579 },
+        { "id": "airliner_2b_1", "fg": 7374, "bg": 7371, "rotates": false },
+        { "id": "airliner_2b", "fg": 7373, "bg": 7375 },
+        { "id": "lighthouse_ground", "fg": 7376, "bg": 7372 },
+        { "id": "lighthouse_z1", "fg": 7377, "bg": 7371 },
+        { "id": "park", "fg": 7378, "bg": 7370 },
         {
           "id": [ "horse_farm_isherwood_13", "horse_farm_13", "farm_dairy_twd_4", "farm_stills_3" ],
-          "fg": [ 7379, 7378, 7380, 7381 ],
-          "bg": 7369,
+          "fg": [ 7380, 7379, 7381, 7382 ],
+          "bg": 7370,
           "rotates": true
         },
         {
@@ -11246,73 +11246,73 @@
             "farm_stills_3_2nd",
             "farm_stills_3_roof"
           ],
-          "fg": [ 7379, 7378, 7380, 7381 ],
-          "bg": 7370,
+          "fg": [ 7380, 7379, 7381, 7382 ],
+          "bg": 7371,
           "rotates": true
         },
         {
           "id": [ "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_nacelle", "wind_turbine_roof" ],
-          "fg": [ 7383, 7382, 7384, 7385 ],
-          "bg": 7370,
+          "fg": [ 7384, 7383, 7385, 7386 ],
+          "bg": 7371,
           "rotates": true
         },
-        { "id": "wind_turbine_ground", "fg": [ 7383, 7382, 7384, 7385 ], "bg": 7369, "rotates": true },
-        { "id": "t_dirtfloor_olight", "fg": 7421, "bg": 7407 },
-        { "id": "t_floor_olight", "fg": 7421, "bg": 7408 },
-        { "id": "t_thconc_floor_olight", "fg": 7421, "bg": 7417 },
-        { "id": "t_metal_floor_olight", "fg": 7421, "bg": 7414 },
-        { "id": "t_thconc_y_olight", "fg": 7421, "bg": 7418 },
-        { "id": "t_strconc_floor_olight", "fg": 7421, "bg": 7416 },
-        { "id": "t_linoleum_whitefloor_olight", "fg": 7421, "bg": 7413 },
-        { "id": "t_linoleum_gray_floor_olight", "fg": 7421, "bg": 7412 },
-        { "id": "t_atm", "fg": 7422, "bg": 7406 },
-        { "id": [ "t_backboard", "t_backboard_in" ], "fg": 7423, "bg": 7415 },
-        { "id": "t_bamboo_dead", "fg": 7424, "bg": 7411 },
-        { "id": "t_bamboo_dead_season_summer", "fg": 7424, "bg": 7410 },
-        { "id": "t_bamboo_dead_season_autumn", "fg": 7424, "bg": 7409 },
-        { "id": "t_bamboo_dead_season_winter", "fg": 7425, "bg": 7405 },
-        { "id": "t_bamboo_tall", "fg": 7426, "bg": 7411 },
-        { "id": "t_bamboo_tall_season_summer", "fg": 7426, "bg": 7410 },
-        { "id": "t_bamboo_tall_season_autumn", "fg": 7426, "bg": 7409 },
-        { "id": "t_bamboo_tall_season_winter", "fg": 7427, "bg": 7405 },
-        { "id": [ "t_barndoor", "t_palisade_pulley" ], "fg": 7428, "bg": 7403 },
-        { "id": "t_column", "fg": 7429, "bg": 7406 },
-        { "id": "t_crossbuck_metal", "fg": 7431, "bg": 7403 },
-        { "id": "t_crossbuck_metal_season_winter", "fg": 7431, "bg": 7405 },
-        { "id": "t_crossbuck_wood", "fg": 7432, "bg": 7403 },
-        { "id": "t_crossbuck_wood_season_winter", "fg": 7432, "bg": 7405 },
-        { "id": "t_grass_alien", "fg": 7433, "bg": 7411 },
-        { "id": "t_grass_alien_season_summer", "fg": 7433, "bg": 7410 },
-        { "id": "t_grass_alien_season_autumn", "fg": 7433, "bg": 7409 },
-        { "id": "t_grass_alien_season_winter", "fg": 7433, "bg": 7404 },
+        { "id": "wind_turbine_ground", "fg": [ 7384, 7383, 7385, 7386 ], "bg": 7370, "rotates": true },
+        { "id": "t_dirtfloor_olight", "fg": 7422, "bg": 7408 },
+        { "id": "t_floor_olight", "fg": 7422, "bg": 7409 },
+        { "id": "t_thconc_floor_olight", "fg": 7422, "bg": 7418 },
+        { "id": "t_metal_floor_olight", "fg": 7422, "bg": 7415 },
+        { "id": "t_thconc_y_olight", "fg": 7422, "bg": 7419 },
+        { "id": "t_strconc_floor_olight", "fg": 7422, "bg": 7417 },
+        { "id": "t_linoleum_whitefloor_olight", "fg": 7422, "bg": 7414 },
+        { "id": "t_linoleum_gray_floor_olight", "fg": 7422, "bg": 7413 },
+        { "id": "t_atm", "fg": 7423, "bg": 7407 },
+        { "id": [ "t_backboard", "t_backboard_in" ], "fg": 7424, "bg": 7416 },
+        { "id": "t_bamboo_dead", "fg": 7425, "bg": 7412 },
+        { "id": "t_bamboo_dead_season_summer", "fg": 7425, "bg": 7411 },
+        { "id": "t_bamboo_dead_season_autumn", "fg": 7425, "bg": 7410 },
+        { "id": "t_bamboo_dead_season_winter", "fg": 7426, "bg": 7406 },
+        { "id": "t_bamboo_tall", "fg": 7427, "bg": 7412 },
+        { "id": "t_bamboo_tall_season_summer", "fg": 7427, "bg": 7411 },
+        { "id": "t_bamboo_tall_season_autumn", "fg": 7427, "bg": 7410 },
+        { "id": "t_bamboo_tall_season_winter", "fg": 7428, "bg": 7406 },
+        { "id": [ "t_barndoor", "t_palisade_pulley" ], "fg": 7429, "bg": 7404 },
+        { "id": "t_column", "fg": 7430, "bg": 7407 },
+        { "id": "t_crossbuck_metal", "fg": 7432, "bg": 7404 },
+        { "id": "t_crossbuck_metal_season_winter", "fg": 7432, "bg": 7406 },
+        { "id": "t_crossbuck_wood", "fg": 7433, "bg": 7404 },
+        { "id": "t_crossbuck_wood_season_winter", "fg": 7433, "bg": 7406 },
+        { "id": "t_grass_alien", "fg": 7434, "bg": 7412 },
+        { "id": "t_grass_alien_season_summer", "fg": 7434, "bg": 7411 },
+        { "id": "t_grass_alien_season_autumn", "fg": 7434, "bg": 7410 },
+        { "id": "t_grass_alien_season_winter", "fg": 7434, "bg": 7405 },
         {
           "id": "t_grass_long",
           "multitile": true,
-          "fg": 7452,
-          "bg": 7411,
+          "fg": 7453,
+          "bg": 7412,
           "additional_tiles": [
             {
               "id": "center",
-              "bg": 7411,
+              "bg": 7412,
               "fg": [
-                { "weight": 100, "sprite": 7434 },
                 { "weight": 100, "sprite": 7435 },
                 { "weight": 100, "sprite": 7436 },
-                { "weight": 100, "sprite": 7437 }
+                { "weight": 100, "sprite": 7437 },
+                { "weight": 100, "sprite": 7438 }
               ]
             },
-            { "id": "corner", "bg": 7411, "fg": [ 7439, 7441, 7440, 7438 ] },
-            { "id": "t_connection", "bg": 7411, "fg": [ 7449, 7451, 7450, 7448 ] },
-            { "id": "edge", "bg": 7411, "fg": [ 7443, 7442 ] },
-            { "id": "end_piece", "bg": 7411, "fg": [ 7445, 7447, 7446, 7444 ] },
+            { "id": "corner", "bg": 7412, "fg": [ 7440, 7442, 7441, 7439 ] },
+            { "id": "t_connection", "bg": 7412, "fg": [ 7450, 7452, 7451, 7449 ] },
+            { "id": "edge", "bg": 7412, "fg": [ 7444, 7443 ] },
+            { "id": "end_piece", "bg": 7412, "fg": [ 7446, 7448, 7447, 7445 ] },
             {
               "id": "unconnected",
-              "bg": 7411,
+              "bg": 7412,
               "fg": [
-                { "weight": 100, "sprite": 7452 },
                 { "weight": 100, "sprite": 7453 },
                 { "weight": 100, "sprite": 7454 },
-                { "weight": 100, "sprite": 7455 }
+                { "weight": 100, "sprite": 7455 },
+                { "weight": 100, "sprite": 7456 }
               ]
             }
           ]
@@ -11320,31 +11320,31 @@
         {
           "id": "t_grass_long_season_summer",
           "multitile": true,
-          "fg": 7496,
-          "bg": 7410,
+          "fg": 7497,
+          "bg": 7411,
           "additional_tiles": [
             {
               "id": "center",
-              "bg": 7410,
+              "bg": 7411,
               "fg": [
-                { "weight": 100, "sprite": 7478 },
                 { "weight": 100, "sprite": 7479 },
                 { "weight": 100, "sprite": 7480 },
-                { "weight": 100, "sprite": 7481 }
+                { "weight": 100, "sprite": 7481 },
+                { "weight": 100, "sprite": 7482 }
               ]
             },
-            { "id": "corner", "bg": 7410, "fg": [ 7483, 7485, 7484, 7482 ] },
-            { "id": "t_connection", "bg": 7410, "fg": [ 7493, 7495, 7494, 7492 ] },
-            { "id": "edge", "bg": 7410, "fg": [ 7487, 7486 ] },
-            { "id": "end_piece", "bg": 7410, "fg": [ 7489, 7491, 7490, 7488 ] },
+            { "id": "corner", "bg": 7411, "fg": [ 7484, 7486, 7485, 7483 ] },
+            { "id": "t_connection", "bg": 7411, "fg": [ 7494, 7496, 7495, 7493 ] },
+            { "id": "edge", "bg": 7411, "fg": [ 7488, 7487 ] },
+            { "id": "end_piece", "bg": 7411, "fg": [ 7490, 7492, 7491, 7489 ] },
             {
               "id": "unconnected",
-              "bg": 7410,
+              "bg": 7411,
               "fg": [
-                { "weight": 100, "sprite": 7496 },
                 { "weight": 100, "sprite": 7497 },
                 { "weight": 100, "sprite": 7498 },
-                { "weight": 100, "sprite": 7499 }
+                { "weight": 100, "sprite": 7499 },
+                { "weight": 100, "sprite": 7500 }
               ]
             }
           ]
@@ -11352,64 +11352,64 @@
         {
           "id": "t_grass_long_season_autumn",
           "multitile": true,
-          "fg": 7474,
-          "bg": 7409,
+          "fg": 7475,
+          "bg": 7410,
           "additional_tiles": [
             {
               "id": "center",
-              "bg": 7409,
+              "bg": 7410,
               "fg": [
-                { "weight": 100, "sprite": 7456 },
                 { "weight": 100, "sprite": 7457 },
                 { "weight": 100, "sprite": 7458 },
-                { "weight": 100, "sprite": 7459 }
+                { "weight": 100, "sprite": 7459 },
+                { "weight": 100, "sprite": 7460 }
               ]
             },
-            { "id": "corner", "bg": 7409, "fg": [ 7461, 7463, 7462, 7460 ] },
-            { "id": "t_connection", "bg": 7409, "fg": [ 7471, 7473, 7472, 7470 ] },
-            { "id": "edge", "bg": 7409, "fg": [ 7465, 7464 ] },
-            { "id": "end_piece", "bg": 7409, "fg": [ 7467, 7469, 7468, 7466 ] },
+            { "id": "corner", "bg": 7410, "fg": [ 7462, 7464, 7463, 7461 ] },
+            { "id": "t_connection", "bg": 7410, "fg": [ 7472, 7474, 7473, 7471 ] },
+            { "id": "edge", "bg": 7410, "fg": [ 7466, 7465 ] },
+            { "id": "end_piece", "bg": 7410, "fg": [ 7468, 7470, 7469, 7467 ] },
             {
               "id": "unconnected",
-              "bg": 7409,
+              "bg": 7410,
               "fg": [
-                { "weight": 100, "sprite": 7474 },
                 { "weight": 100, "sprite": 7475 },
                 { "weight": 100, "sprite": 7476 },
-                { "weight": 100, "sprite": 7477 }
+                { "weight": 100, "sprite": 7477 },
+                { "weight": 100, "sprite": 7478 }
               ]
             }
           ]
         },
-        { "id": "t_grass_long_season_winter", "fg": 7404 },
+        { "id": "t_grass_long_season_winter", "fg": 7405 },
         {
           "id": "t_grass_tall",
           "multitile": true,
-          "fg": 7518,
-          "bg": 7411,
+          "fg": 7519,
+          "bg": 7412,
           "additional_tiles": [
             {
               "id": "center",
-              "bg": 7411,
+              "bg": 7412,
               "fg": [
-                { "weight": 100, "sprite": 7500 },
                 { "weight": 100, "sprite": 7501 },
                 { "weight": 100, "sprite": 7502 },
-                { "weight": 100, "sprite": 7503 }
+                { "weight": 100, "sprite": 7503 },
+                { "weight": 100, "sprite": 7504 }
               ]
             },
-            { "id": "corner", "bg": 7411, "fg": [ 7505, 7507, 7506, 7504 ] },
-            { "id": "t_connection", "bg": 7411, "fg": [ 7515, 7517, 7516, 7514 ] },
-            { "id": "edge", "bg": 7411, "fg": [ 7509, 7508 ] },
-            { "id": "end_piece", "bg": 7411, "fg": [ 7511, 7513, 7512, 7510 ] },
+            { "id": "corner", "bg": 7412, "fg": [ 7506, 7508, 7507, 7505 ] },
+            { "id": "t_connection", "bg": 7412, "fg": [ 7516, 7518, 7517, 7515 ] },
+            { "id": "edge", "bg": 7412, "fg": [ 7510, 7509 ] },
+            { "id": "end_piece", "bg": 7412, "fg": [ 7512, 7514, 7513, 7511 ] },
             {
               "id": "unconnected",
-              "bg": 7411,
+              "bg": 7412,
               "fg": [
-                { "weight": 100, "sprite": 7518 },
                 { "weight": 100, "sprite": 7519 },
                 { "weight": 100, "sprite": 7520 },
-                { "weight": 100, "sprite": 7521 }
+                { "weight": 100, "sprite": 7521 },
+                { "weight": 100, "sprite": 7522 }
               ]
             }
           ]
@@ -11417,31 +11417,31 @@
         {
           "id": "t_grass_tall_season_summer",
           "multitile": true,
-          "fg": 7562,
-          "bg": 7410,
+          "fg": 7563,
+          "bg": 7411,
           "additional_tiles": [
             {
               "id": "center",
-              "bg": 7410,
+              "bg": 7411,
               "fg": [
-                { "weight": 100, "sprite": 7544 },
                 { "weight": 100, "sprite": 7545 },
                 { "weight": 100, "sprite": 7546 },
-                { "weight": 100, "sprite": 7547 }
+                { "weight": 100, "sprite": 7547 },
+                { "weight": 100, "sprite": 7548 }
               ]
             },
-            { "id": "corner", "bg": 7410, "fg": [ 7549, 7551, 7550, 7548 ] },
-            { "id": "t_connection", "bg": 7410, "fg": [ 7559, 7561, 7560, 7558 ] },
-            { "id": "edge", "bg": 7410, "fg": [ 7553, 7552 ] },
-            { "id": "end_piece", "bg": 7410, "fg": [ 7555, 7557, 7556, 7554 ] },
+            { "id": "corner", "bg": 7411, "fg": [ 7550, 7552, 7551, 7549 ] },
+            { "id": "t_connection", "bg": 7411, "fg": [ 7560, 7562, 7561, 7559 ] },
+            { "id": "edge", "bg": 7411, "fg": [ 7554, 7553 ] },
+            { "id": "end_piece", "bg": 7411, "fg": [ 7556, 7558, 7557, 7555 ] },
             {
               "id": "unconnected",
-              "bg": 7410,
+              "bg": 7411,
               "fg": [
-                { "weight": 100, "sprite": 7562 },
                 { "weight": 100, "sprite": 7563 },
                 { "weight": 100, "sprite": 7564 },
-                { "weight": 100, "sprite": 7565 }
+                { "weight": 100, "sprite": 7565 },
+                { "weight": 100, "sprite": 7566 }
               ]
             }
           ]
@@ -11449,101 +11449,101 @@
         {
           "id": "t_grass_tall_season_autumn",
           "multitile": true,
-          "fg": 7540,
-          "bg": 7409,
+          "fg": 7541,
+          "bg": 7410,
           "additional_tiles": [
             {
               "id": "center",
-              "bg": 7409,
+              "bg": 7410,
               "fg": [
-                { "weight": 100, "sprite": 7522 },
                 { "weight": 100, "sprite": 7523 },
                 { "weight": 100, "sprite": 7524 },
-                { "weight": 100, "sprite": 7525 }
+                { "weight": 100, "sprite": 7525 },
+                { "weight": 100, "sprite": 7526 }
               ]
             },
-            { "id": "corner", "bg": 7409, "fg": [ 7527, 7529, 7528, 7526 ] },
-            { "id": "t_connection", "bg": 7409, "fg": [ 7537, 7539, 7538, 7536 ] },
-            { "id": "edge", "bg": 7409, "fg": [ 7531, 7530 ] },
-            { "id": "end_piece", "bg": 7409, "fg": [ 7533, 7535, 7534, 7532 ] },
+            { "id": "corner", "bg": 7410, "fg": [ 7528, 7530, 7529, 7527 ] },
+            { "id": "t_connection", "bg": 7410, "fg": [ 7538, 7540, 7539, 7537 ] },
+            { "id": "edge", "bg": 7410, "fg": [ 7532, 7531 ] },
+            { "id": "end_piece", "bg": 7410, "fg": [ 7534, 7536, 7535, 7533 ] },
             {
               "id": "unconnected",
-              "bg": 7409,
+              "bg": 7410,
               "fg": [
-                { "weight": 100, "sprite": 7540 },
                 { "weight": 100, "sprite": 7541 },
                 { "weight": 100, "sprite": 7542 },
-                { "weight": 100, "sprite": 7543 }
+                { "weight": 100, "sprite": 7543 },
+                { "weight": 100, "sprite": 7544 }
               ]
             }
           ]
         },
-        { "id": "t_grass_tall_season_winter", "fg": 7404 },
-        { "id": "t_gutter_downspout", "fg": 7566, "bg": 7411 },
-        { "id": "t_gutter_downspout_season_autumn", "fg": 7566, "bg": 7409 },
-        { "id": "t_gutter_downspout_season_summer", "fg": 7566, "bg": 7410 },
-        { "id": "t_gutter_downspout_season_winter", "fg": 7566, "bg": 7405 },
-        { "id": "t_little_column", "fg": 7567, "bg": 7406 },
-        { "id": "t_palisade_gate_o", "fg": 7568, "bg": 7411 },
-        { "id": "t_palisade_gate_o_season_summer", "fg": 7568, "bg": 7410 },
-        { "id": "t_palisade_gate_o_season_autumn", "fg": 7568, "bg": 7409 },
-        { "id": "t_palisade_gate_o_season_winter", "fg": 7568, "bg": 7405 },
-        { "id": "t_privacy_fencegate_o", "fg": 7569, "bg": 7411 },
-        { "id": "t_privacy_fencegate_o_season_summer", "fg": 7569, "bg": 7410 },
-        { "id": "t_privacy_fencegate_o_season_autumn", "fg": 7569, "bg": 7409 },
-        { "id": "t_privacy_fencegate_o_season_winter", "fg": 7569, "bg": 7405 },
-        { "id": "t_railroad_crossing_signal", "fg": 7571, "bg": 7403 },
-        { "id": "t_railroad_crossing_signal_season_winter", "fg": 7571, "bg": 7405 },
-        { "id": "t_sai_box", "fg": 7572, "bg": 7406 },
-        { "id": "t_sai_box_damaged", "fg": 7573, "bg": 7406 },
-        { "id": "t_screen_door_o", "fg": 7574, "bg": 7408 },
-        { "id": "t_stairs_up", "fg": 7575 },
-        { "id": "t_wood_stairs_up", "fg": 7576 },
-        { "id": "t_utility_light", "fg": 7577 },
-        { "id": "t_water_cube", "fg": 7578 },
+        { "id": "t_grass_tall_season_winter", "fg": 7405 },
+        { "id": "t_gutter_downspout", "fg": 7567, "bg": 7412 },
+        { "id": "t_gutter_downspout_season_autumn", "fg": 7567, "bg": 7410 },
+        { "id": "t_gutter_downspout_season_summer", "fg": 7567, "bg": 7411 },
+        { "id": "t_gutter_downspout_season_winter", "fg": 7567, "bg": 7406 },
+        { "id": "t_little_column", "fg": 7568, "bg": 7407 },
+        { "id": "t_palisade_gate_o", "fg": 7569, "bg": 7412 },
+        { "id": "t_palisade_gate_o_season_summer", "fg": 7569, "bg": 7411 },
+        { "id": "t_palisade_gate_o_season_autumn", "fg": 7569, "bg": 7410 },
+        { "id": "t_palisade_gate_o_season_winter", "fg": 7569, "bg": 7406 },
+        { "id": "t_privacy_fencegate_o", "fg": 7570, "bg": 7412 },
+        { "id": "t_privacy_fencegate_o_season_summer", "fg": 7570, "bg": 7411 },
+        { "id": "t_privacy_fencegate_o_season_autumn", "fg": 7570, "bg": 7410 },
+        { "id": "t_privacy_fencegate_o_season_winter", "fg": 7570, "bg": 7406 },
+        { "id": "t_railroad_crossing_signal", "fg": 7572, "bg": 7404 },
+        { "id": "t_railroad_crossing_signal_season_winter", "fg": 7572, "bg": 7406 },
+        { "id": "t_sai_box", "fg": 7573, "bg": 7407 },
+        { "id": "t_sai_box_damaged", "fg": 7574, "bg": 7407 },
+        { "id": "t_screen_door_o", "fg": 7575, "bg": 7409 },
+        { "id": "t_stairs_up", "fg": 7576 },
+        { "id": "t_wood_stairs_up", "fg": 7577 },
+        { "id": "t_utility_light", "fg": 7578 },
+        { "id": "t_water_cube", "fg": 7579 },
         {
           "id": [ "vp_door_rear", "vp_door_horizontal_rear" ],
-          "fg": [ 7604, 7593, 7607, 7587 ],
+          "fg": [ 7605, 7594, 7608, 7588 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7605, 7590, 7606, 7588 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7605, 7590, 7606, 7588 ] }
+            { "id": "open", "fg": [ 7606, 7591, 7607, 7589 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7606, 7591, 7607, 7589 ] }
           ]
         },
         {
           "id": [ "vp_door_front", "vp_door_horizontal_front" ],
-          "fg": [ 7607, 7587, 7604, 7593 ],
+          "fg": [ 7608, 7588, 7605, 7594 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7606, 7588, 7605, 7590 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7606, 7588, 7605, 7590 ] }
+            { "id": "open", "fg": [ 7607, 7589, 7606, 7591 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7607, 7589, 7606, 7591 ] }
           ]
         },
         {
           "id": [ "vp_door_opaque_rear", "vp_door_opaque_horizontal_rear" ],
-          "fg": [ 7602, 7593, 7603, 7587 ],
+          "fg": [ 7603, 7594, 7604, 7588 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7605, 7598, 7606, 7597 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7605, 7598, 7606, 7597 ] }
+            { "id": "open", "fg": [ 7606, 7599, 7607, 7598 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7606, 7599, 7607, 7598 ] }
           ]
         },
         {
           "id": [ "vp_door_opaque_front", "vp_door_opaque_horizontal_front" ],
-          "fg": [ 7603, 7587, 7602, 7593 ],
+          "fg": [ 7604, 7588, 7603, 7594 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7606, 7597, 7605, 7598 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7606, 7597, 7605, 7598 ] }
+            { "id": "open", "fg": [ 7607, 7598, 7606, 7599 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7607, 7598, 7606, 7599 ] }
           ]
         },
         {
           "id": "vp_door_sliding",
-          "fg": [ 7593, 7603, 7587, 7601 ],
+          "fg": [ 7594, 7604, 7588, 7602 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7630, 7631, 7632, 7633 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7630, 7631, 7632, 7633 ] }
+            { "id": "open", "fg": [ 7631, 7632, 7633, 7634 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7631, 7632, 7633, 7634 ] }
           ]
         },
         {
@@ -11555,11 +11555,11 @@
             "vp_door_full_sw",
             "vp_door_full_rear_left"
           ],
-          "fg": [ 7587, 7594, 7593, 7592 ],
+          "fg": [ 7588, 7595, 7594, 7593 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7588, 7591, 7590, 7589 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7588, 7591, 7590, 7589 ] }
+            { "id": "open", "fg": [ 7589, 7592, 7591, 7590 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7589, 7592, 7591, 7590 ] }
           ]
         },
         {
@@ -11571,161 +11571,161 @@
             "vp_door_full_se",
             "vp_door_full_rear_right"
           ],
-          "fg": [ 7593, 7607, 7587, 7596 ],
+          "fg": [ 7594, 7608, 7588, 7597 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7590, 7606, 7588, 7595 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7590, 7606, 7588, 7595 ] }
+            { "id": "open", "fg": [ 7591, 7607, 7589, 7596 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7591, 7607, 7589, 7596 ] }
           ]
         },
         {
           "id": "vp_door_opaque_full_left",
-          "fg": [ 7587, 7600, 7593, 7599 ],
+          "fg": [ 7588, 7601, 7594, 7600 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7597, 7591, 7598, 7589 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7597, 7591, 7598, 7589 ] }
+            { "id": "open", "fg": [ 7598, 7592, 7599, 7590 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7598, 7592, 7599, 7590 ] }
           ]
         },
         {
           "id": "vp_door_opaque_full_right",
-          "fg": [ 7593, 7603, 7587, 7601 ],
+          "fg": [ 7594, 7604, 7588, 7602 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7598, 7606, 7597, 7595 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7598, 7606, 7597, 7595 ] }
+            { "id": "open", "fg": [ 7599, 7607, 7598, 7596 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7599, 7607, 7598, 7596 ] }
           ]
         },
         {
           "id": [ "vp_door", "vp_door_internal", "vp_door_opaque" ],
-          "fg": [ 7615, 7619, 7617, 7614 ],
+          "fg": [ 7616, 7620, 7618, 7615 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7616, 7613, 7618, 7612 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 7616, 7613, 7618, 7612 ] }
+            { "id": "open", "fg": [ 7617, 7614, 7619, 7613 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 7617, 7614, 7619, 7613 ] }
           ]
         },
         {
           "id": "vp_door_internal_front",
-          "fg": [ 7603, 7587, 7611, 7593 ],
+          "fg": [ 7604, 7588, 7612, 7594 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7606, 7610, 7609, 7608 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 7606, 7610, 7609, 7608 ] }
+            { "id": "open", "fg": [ 7607, 7611, 7610, 7609 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 7607, 7611, 7610, 7609 ] }
           ]
         },
         {
           "id": "vp_door_shutter",
-          "fg": [ 7622, 7620, 7621, 7623 ],
+          "fg": [ 7623, 7621, 7622, 7624 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7627, 7625, 7626, 7628 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 7627, 7625, 7626, 7628 ] }
+            { "id": "open", "fg": [ 7628, 7626, 7627, 7629 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 7628, 7626, 7627, 7629 ] }
           ]
         },
         {
           "id": "vp_door_shutter_left",
-          "fg": [ 7623, 7624, 7620, 7621 ],
+          "fg": [ 7624, 7625, 7621, 7622 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7628, 7629, 7625, 7626 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 7628, 7629, 7625, 7626 ] }
+            { "id": "open", "fg": [ 7629, 7630, 7626, 7627 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 7629, 7630, 7626, 7627 ] }
           ]
         },
         {
           "id": "vp_door_shutter_right",
-          "fg": [ 7620, 7621, 7623, 7624 ],
+          "fg": [ 7621, 7622, 7624, 7625 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7625, 7626, 7628, 7629 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 7625, 7626, 7628, 7629 ] }
+            { "id": "open", "fg": [ 7626, 7627, 7629, 7630 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 7626, 7627, 7629, 7630 ] }
           ]
         },
         {
           "id": "vp_frame_handle",
-          "fg": [ 7635, 7637, 7636, 7634 ],
+          "fg": [ 7636, 7638, 7637, 7635 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7635, 7637, 7636, 7634 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7636, 7638, 7637, 7635 ] } ]
         },
         {
           "id": "vp_stowboard_ne",
-          "fg": [ 7644, 7647, 7646, 7645 ],
+          "fg": [ 7645, 7648, 7647, 7646 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7644, 7647, 7646, 7645 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7645, 7648, 7647, 7646 ] } ]
         },
         {
           "id": "vp_stowboard_nw",
-          "fg": [ 7647, 7649, 7648, 7644 ],
+          "fg": [ 7648, 7650, 7649, 7645 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7647, 7649, 7648, 7644 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7648, 7650, 7649, 7645 ] } ]
         },
         {
           "id": "vp_stowboard_se",
-          "fg": [ 7650, 7644, 7647, 7651 ],
+          "fg": [ 7651, 7645, 7648, 7652 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7650, 7644, 7647, 7651 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7651, 7645, 7648, 7652 ] } ]
         },
         {
           "id": "vp_stowboard_sw",
-          "fg": [ 7652, 7653, 7644, 7647 ],
+          "fg": [ 7653, 7654, 7645, 7648 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7652, 7653, 7644, 7647 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7653, 7654, 7645, 7648 ] } ]
         },
         {
           "id": "vp_stowboard_vertical_left",
-          "fg": [ 7641, 7654, 7639, 7638 ],
+          "fg": [ 7642, 7655, 7640, 7639 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7641, 7654, 7639, 7638 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7642, 7655, 7640, 7639 ] } ]
         },
         {
           "id": "vp_stowboard_vertical_right",
-          "fg": [ 7639, 7638, 7641, 7654 ],
+          "fg": [ 7640, 7639, 7642, 7655 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7639, 7638, 7641, 7654 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7640, 7639, 7642, 7655 ] } ]
         },
         {
           "id": [ "vp_stowboard_horizontal", "vp_stowboard_horizontal_2" ],
-          "fg": [ 7638, 7643, 7638, 7655 ],
+          "fg": [ 7639, 7644, 7639, 7656 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7638, 7643, 7638, 7655 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7639, 7644, 7639, 7656 ] } ]
         },
         {
           "id": "vp_stowboard_horizontal_front",
-          "fg": [ 7638, 7641, 7640, 7639 ],
+          "fg": [ 7639, 7642, 7641, 7640 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7638, 7641, 7640, 7639 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7639, 7642, 7641, 7640 ] } ]
         },
         {
           "id": "vp_stowboard_horizontal_rear",
-          "fg": [ 7642, 7639, 7638, 7641 ],
+          "fg": [ 7643, 7640, 7639, 7642 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7642, 7639, 7638, 7641 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7643, 7640, 7639, 7642 ] } ]
         },
         {
           "id": [ "vp_stowboard_vertical", "vp_stowboard_vertical_2" ],
-          "fg": [ 7655, 7638, 7655, 7638 ],
+          "fg": [ 7656, 7639, 7656, 7639 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7655, 7638, 7655, 7638 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7656, 7639, 7656, 7639 ] } ]
         },
         {
           "id": "vp_stowboard_wheel_left",
-          "fg": [ 7641, 7656, 7639, 7638 ],
+          "fg": [ 7642, 7657, 7640, 7639 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7641, 7656, 7639, 7638 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7642, 7657, 7640, 7639 ] } ]
         },
         {
           "id": "vp_stowboard_wheel_right",
-          "fg": [ 7639, 7638, 7641, 7656 ],
+          "fg": [ 7640, 7639, 7642, 7657 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7639, 7638, 7641, 7656 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 7640, 7639, 7642, 7657 ] } ]
         },
         {
           "id": "vp_door_trunk",
-          "fg": [ 7657, 7664, 7663, 7662 ],
+          "fg": [ 7658, 7665, 7664, 7663 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 7658, 7661, 7660, 7659 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 7658, 7661, 7660, 7659 ] }
+            { "id": "open", "fg": [ 7659, 7662, 7661, 7660 ] },
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 7659, 7662, 7661, 7660 ] }
           ]
         },
         { "id": "f_training_dummy_heavy", "fg": 7104 },
@@ -11754,53 +11754,54 @@
         { "id": "f_wooden_flagpole", "fg": 7309 },
         { "id": "f_street_light", "fg": 7310 },
         { "id": "f_traffic_light", "fg": 7311 },
-        { "id": "desk_laptop", "fg": 7312 },
-        { "id": "fireplace_log", "fg": 7313 },
-        { "id": "oven_pan_1", "fg": 7314 },
-        { "id": "oven_pan_2", "fg": 7315 },
-        { "id": "f_glow_boulder", "fg": 7316 },
-        { "id": "f_magic_bench", "fg": 7317 },
-        { "id": "rid_mon_mech_combat", "fg": 7320 },
-        { "id": "rid_mon_mech_recon", "fg": 7321 },
-        { "id": "mon_gracke", "fg": 7328 },
-        { "id": "mon_zombie_necro_boomer", "fg": 7348 },
-        { "id": "mon_zombie_soldier_blackops_1", "fg": 7349 },
-        { "id": "mon_memory", "fg": 7350 },
-        { "id": "mon_robofac_prototype", "fg": 7351 },
-        { "id": "overlay_effect_playing_instrument", "fg": 7356 },
-        { "id": "overlay_wielded_mattress", "fg": 7357 },
-        { "id": "overlay_wielded_down_mattress", "fg": 7358 },
-        { "id": "overlay_wielded_fishing_rod_basic", "fg": 7359 },
-        { "id": "overlay_wielded_fishing_rod_professional", "fg": 7360 },
-        { "id": "f_bullettrailer_cabinet", "fg": 7386 },
-        { "id": "f_bullettrailer_desk", "fg": 7387 },
-        { "id": "f_bullettrailer_innerdoor", "fg": 7388 },
-        { "id": "f_bullettrailer_innerdoor_o", "fg": 7389 },
-        { "id": "f_bullettrailer_sink", "fg": 7390 },
-        { "id": "t_bullettrailer_ewall", "fg": 7391 },
-        { "id": "t_bullettrailer_nwall", "fg": 7392 },
-        { "id": "t_bullettrailer_nwall_eastcorner", "fg": 7393 },
-        { "id": "t_bullettrailer_nwall_westcorner", "fg": 7394 },
-        { "id": "t_bullettrailer_nwall_window", "fg": 7395 },
-        { "id": "t_bullettrailer_swall", "fg": 7396 },
-        { "id": "t_bullettrailer_swall_door", "fg": 7397 },
-        { "id": "t_bullettrailer_swall_door_o", "fg": 7398 },
-        { "id": "t_bullettrailer_swall_eastcorner", "fg": 7399 },
-        { "id": "t_bullettrailer_swall_westcorner", "fg": 7400 },
-        { "id": "t_bullettrailer_swall_wheel", "fg": 7401 },
-        { "id": "t_bullettrailer_swall_window", "fg": 7402 },
-        { "id": "t_ladder_up", "fg": 7419 },
-        { "id": "t_ladder_up_down", "fg": 7420 },
-        { "id": "t_column_halfway", "fg": 7430 },
-        { "id": "t_radio_tower", "fg": 7570 },
-        { "id": "t_window_stained_blue", "fg": 7579 },
-        { "id": "t_window_stained_green", "fg": 7580 },
-        { "id": "t_window_stained_red", "fg": 7581 },
-        { "id": "t_wood_stairs_up_half", "fg": 7582 },
-        { "id": "crack_glass_center_tall", "fg": 7583 },
-        { "id": "crack_glass_left_tall", "fg": 7584 },
-        { "id": "crack_glass_right_tall", "fg": 7585 },
-        { "id": "vp_travois", "fg": 7665 }
+        { "id": "wind_turbine", "fg": 7312 },
+        { "id": "desk_laptop", "fg": 7313 },
+        { "id": "fireplace_log", "fg": 7314 },
+        { "id": "oven_pan_1", "fg": 7315 },
+        { "id": "oven_pan_2", "fg": 7316 },
+        { "id": "f_glow_boulder", "fg": 7317 },
+        { "id": "f_magic_bench", "fg": 7318 },
+        { "id": "rid_mon_mech_combat", "fg": 7321 },
+        { "id": "rid_mon_mech_recon", "fg": 7322 },
+        { "id": "mon_gracke", "fg": 7329 },
+        { "id": "mon_zombie_necro_boomer", "fg": 7349 },
+        { "id": "mon_zombie_soldier_blackops_1", "fg": 7350 },
+        { "id": "mon_memory", "fg": 7351 },
+        { "id": "mon_robofac_prototype", "fg": 7352 },
+        { "id": "overlay_effect_playing_instrument", "fg": 7357 },
+        { "id": "overlay_wielded_mattress", "fg": 7358 },
+        { "id": "overlay_wielded_down_mattress", "fg": 7359 },
+        { "id": "overlay_wielded_fishing_rod_basic", "fg": 7360 },
+        { "id": "overlay_wielded_fishing_rod_professional", "fg": 7361 },
+        { "id": "f_bullettrailer_cabinet", "fg": 7387 },
+        { "id": "f_bullettrailer_desk", "fg": 7388 },
+        { "id": "f_bullettrailer_innerdoor", "fg": 7389 },
+        { "id": "f_bullettrailer_innerdoor_o", "fg": 7390 },
+        { "id": "f_bullettrailer_sink", "fg": 7391 },
+        { "id": "t_bullettrailer_ewall", "fg": 7392 },
+        { "id": "t_bullettrailer_nwall", "fg": 7393 },
+        { "id": "t_bullettrailer_nwall_eastcorner", "fg": 7394 },
+        { "id": "t_bullettrailer_nwall_westcorner", "fg": 7395 },
+        { "id": "t_bullettrailer_nwall_window", "fg": 7396 },
+        { "id": "t_bullettrailer_swall", "fg": 7397 },
+        { "id": "t_bullettrailer_swall_door", "fg": 7398 },
+        { "id": "t_bullettrailer_swall_door_o", "fg": 7399 },
+        { "id": "t_bullettrailer_swall_eastcorner", "fg": 7400 },
+        { "id": "t_bullettrailer_swall_westcorner", "fg": 7401 },
+        { "id": "t_bullettrailer_swall_wheel", "fg": 7402 },
+        { "id": "t_bullettrailer_swall_window", "fg": 7403 },
+        { "id": "t_ladder_up", "fg": 7420 },
+        { "id": "t_ladder_up_down", "fg": 7421 },
+        { "id": "t_column_halfway", "fg": 7431 },
+        { "id": "t_radio_tower", "fg": 7571 },
+        { "id": "t_window_stained_blue", "fg": 7580 },
+        { "id": "t_window_stained_green", "fg": 7581 },
+        { "id": "t_window_stained_red", "fg": 7582 },
+        { "id": "t_wood_stairs_up_half", "fg": 7583 },
+        { "id": "crack_glass_center_tall", "fg": 7584 },
+        { "id": "crack_glass_left_tall", "fg": 7585 },
+        { "id": "crack_glass_right_tall", "fg": 7586 },
+        { "id": "vp_travois", "fg": 7666 }
       ]
     },
     {
@@ -12034,8 +12035,8 @@
         { "id": "overlay_male_wielded_naginata_inferior", "fg": 8159 },
         { "id": "overlay_wielded_nodachi_inferior", "fg": 8668 },
         { "id": "overlay_wielded_nodachi_fake", "fg": 8668 },
-        { "id": "overlay_wielded_pike_fake", "fg": 7363 },
-        { "id": "overlay_wielded_pike_inferior", "fg": 7363 },
+        { "id": "overlay_wielded_pike_fake", "fg": 7364 },
+        { "id": "overlay_wielded_pike_inferior", "fg": 7364 },
         { "id": "overlay_wielded_rapier_fake", "fg": 8696 },
         { "id": "overlay_wielded_tanto_inferior", "fg": 8812 },
         { "id": "overlay_wielded_tanto_fake", "fg": 8812 },
@@ -13170,7 +13171,7 @@
         { "id": "overlay_female_worn_welding_mask_crude", "fg": 9455 },
         { "id": "overlay_male_worn_welding_mask_crude", "fg": 9456 },
         { "id": "overlay_female_worn_welding_mask_crude_raised", "fg": 9457 },
-        { "id": "overlay_male_worn_welding_mask_crude_raised", "fg": 9971 },
+        { "id": "overlay_male_worn_welding_mask_crude_raised", "fg": 9972 },
         { "id": "overlay_female_worn_welding_mask", "fg": 9458 },
         { "id": "overlay_male_worn_welding_mask", "fg": 9459 },
         { "id": "overlay_female_worn_welding_mask_raised", "fg": 9460 },
@@ -14427,10 +14428,10 @@
       "sprite_offset_x": 0,
       "sprite_offset_y": -16,
       "tiles": [
-        { "id": "npc_female", "fg": 9964, "bg": 9799 },
-        { "id": "npc_male", "fg": 9965, "bg": 9799 },
-        { "id": "player_female", "fg": 9964, "bg": 9799 },
-        { "id": "player_male", "fg": 9965, "bg": 9799 },
+        { "id": "npc_female", "fg": 9965, "bg": 9799 },
+        { "id": "npc_male", "fg": 9966, "bg": 9799 },
+        { "id": "player_female", "fg": 9965, "bg": 9799 },
+        { "id": "player_male", "fg": 9966, "bg": 9799 },
         {
           "id": "f_counter_gate_o",
           "fg": 9764,
@@ -14444,7 +14445,7 @@
           ]
         },
         { "id": [ "f_rope_up", "t_rope_up" ], "fg": 9778 },
-        { "id": [ "overlay_worn_wizard_hat_costume", "overlay_worn_wizard_hat" ], "fg": 9975 },
+        { "id": [ "overlay_worn_wizard_hat_costume", "overlay_worn_wizard_hat" ], "fg": 9976 },
         { "id": "mon_zombie_phase_skulker", "fg": 9781, "bg": 9799 },
         { "id": "mon_zombie_phase_shrike", "fg": 9780, "bg": 9799 },
         { "id": "mon_broken_cyborg", "fg": 9782, "bg": 9799 },
@@ -14482,225 +14483,226 @@
         { "id": "mon_feral_labsecurity_9mm", "fg": 9804, "bg": 9799 },
         { "id": "mon_feral_labsecurity_flashlight", "fg": 9805, "bg": 9799 },
         { "id": "mon_feral_scientist_scalpel", "fg": 9808, "bg": 9799 },
+        { "id": "mon_feral_cop", "fg": 9809, "bg": 9799 },
         {
           "id": "mon_feral_armored_battleaxe",
-          "fg": [ { "weight": 1, "sprite": 9809 }, { "weight": 1, "sprite": 9810 } ],
+          "fg": [ { "weight": 1, "sprite": 9810 }, { "weight": 1, "sprite": 9811 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_armored_mace",
-          "fg": [ { "weight": 1, "sprite": 9811 }, { "weight": 1, "sprite": 9812 } ],
+          "fg": [ { "weight": 1, "sprite": 9812 }, { "weight": 1, "sprite": 9813 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_fancy_crossbow",
-          "fg": [ { "weight": 1, "sprite": 9813 }, { "weight": 1, "sprite": 9814 } ],
+          "fg": [ { "weight": 1, "sprite": 9814 }, { "weight": 1, "sprite": 9815 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_fancy_rapier",
-          "fg": [ { "weight": 1, "sprite": 9815 }, { "weight": 1, "sprite": 9816 } ],
+          "fg": [ { "weight": 1, "sprite": 9816 }, { "weight": 1, "sprite": 9817 } ],
           "bg": 9799
         },
-        { "id": "mon_feral_fancy_rapier_fake", "fg": 9817, "bg": 9799 },
-        { "id": "mon_feral_human_axe_fungal_corpse", "fg": 9818, "bg": 9799 },
-        { "id": "mon_feral_human_crowbar_fungal_corpse", "fg": 9820, "bg": 9799 },
-        { "id": "mon_feral_human_pipe_fungal_corpse", "fg": 9822, "bg": 9799 },
-        { "id": "mon_feral_human_axe_fungal_infected", "fg": 9819, "bg": 9799 },
-        { "id": "mon_feral_human_crowbar_fungal_infected", "fg": 9821, "bg": 9799 },
-        { "id": "mon_feral_human_pipe_fungal_infected", "fg": 9823, "bg": 9799 },
+        { "id": "mon_feral_fancy_rapier_fake", "fg": 9818, "bg": 9799 },
+        { "id": "mon_feral_human_axe_fungal_corpse", "fg": 9819, "bg": 9799 },
+        { "id": "mon_feral_human_crowbar_fungal_corpse", "fg": 9821, "bg": 9799 },
+        { "id": "mon_feral_human_pipe_fungal_corpse", "fg": 9823, "bg": 9799 },
+        { "id": "mon_feral_human_axe_fungal_infected", "fg": 9820, "bg": 9799 },
+        { "id": "mon_feral_human_crowbar_fungal_infected", "fg": 9822, "bg": 9799 },
+        { "id": "mon_feral_human_pipe_fungal_infected", "fg": 9824, "bg": 9799 },
         {
           "id": "mon_feral_human_tool",
-          "fg": [ { "weight": 1, "sprite": 9824 }, { "weight": 1, "sprite": 9825 } ],
+          "fg": [ { "weight": 1, "sprite": 9825 }, { "weight": 1, "sprite": 9826 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_maid_broom",
-          "fg": [ { "weight": 1, "sprite": 9826 }, { "weight": 1, "sprite": 9827 } ],
+          "fg": [ { "weight": 1, "sprite": 9827 }, { "weight": 1, "sprite": 9828 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_maid_candlestick",
-          "fg": [ { "weight": 1, "sprite": 9828 }, { "weight": 1, "sprite": 9829 } ],
+          "fg": [ { "weight": 1, "sprite": 9829 }, { "weight": 1, "sprite": 9830 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_maid_knife",
-          "fg": [ { "weight": 1, "sprite": 9830 }, { "weight": 1, "sprite": 9831 } ],
+          "fg": [ { "weight": 1, "sprite": 9831 }, { "weight": 1, "sprite": 9832 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_militia",
-          "fg": [ { "weight": 1, "sprite": 9832 }, { "weight": 1, "sprite": 9833 } ],
+          "fg": [ { "weight": 1, "sprite": 9833 }, { "weight": 1, "sprite": 9834 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_prepper",
-          "fg": [ { "weight": 1, "sprite": 9834 }, { "weight": 1, "sprite": 9835 } ],
+          "fg": [ { "weight": 1, "sprite": 9835 }, { "weight": 1, "sprite": 9836 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_sapien_spear",
-          "fg": [ { "weight": 1, "sprite": 9836 }, { "weight": 1, "sprite": 9837 } ],
+          "fg": [ { "weight": 1, "sprite": 9837 }, { "weight": 1, "sprite": 9838 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_soldier",
-          "fg": [ { "weight": 1, "sprite": 9838 }, { "weight": 1, "sprite": 9839 } ],
+          "fg": [ { "weight": 1, "sprite": 9839 }, { "weight": 1, "sprite": 9840 } ],
           "bg": 9799
         },
         {
           "id": "mon_feral_survivalist",
-          "fg": [ { "weight": 1, "sprite": 9840 }, { "weight": 1, "sprite": 9841 } ],
+          "fg": [ { "weight": 1, "sprite": 9841 }, { "weight": 1, "sprite": 9842 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_grabber", "fg": 9842, "bg": 9799 },
-        { "id": "mon_zombie_kevlar_1", "fg": 9843, "bg": 9799 },
-        { "id": "mon_bee", "fg": 9844, "bg": 9799 },
-        { "id": "mon_blank", "fg": 9845, "bg": 9799 },
-        { "id": "mon_boomer", "fg": 9846, "bg": 9799 },
-        { "id": "mon_boomer_claymore", "fg": 9847, "bg": 9799 },
-        { "id": "mon_charred_nightmare", "fg": 9848, "bg": 9799 },
-        { "id": "mon_cougar", "fg": 9849, "bg": 9799 },
-        { "id": "mon_dementia", "fg": 9850, "bg": 9799 },
-        { "id": "mon_dermatik", "fg": 9851, "bg": 9799 },
-        { "id": "mon_dragonfly_giant", "fg": 9852, "bg": 9799 },
-        { "id": "mon_dragonfly_mega", "fg": 9853, "bg": 9799 },
-        { "id": "mon_flesh_golem", "fg": 9854, "bg": 9799 },
-        { "id": "mon_fleshy_shambler", "fg": 9855, "bg": 9799 },
-        { "id": "mon_fly", "fg": 9856, "bg": 9799 },
-        { "id": "mon_gozu", "fg": 9857, "bg": 9799 },
-        { "id": "mon_hallu_mannequin", "fg": 9858, "bg": 9799 },
-        { "id": "mon_mannequin_decoy", "fg": 9858, "bg": 9799 },
-        { "id": "mon_hallu_mom", "fg": 9859, "bg": 9799 },
-        { "id": "mon_hologram", "fg": 9860, "bg": 9799 },
+        { "id": "mon_zombie_grabber", "fg": 9843, "bg": 9799 },
+        { "id": "mon_zombie_kevlar_1", "fg": 9844, "bg": 9799 },
+        { "id": "mon_bee", "fg": 9845, "bg": 9799 },
+        { "id": "mon_blank", "fg": 9846, "bg": 9799 },
+        { "id": "mon_boomer", "fg": 9847, "bg": 9799 },
+        { "id": "mon_boomer_claymore", "fg": 9848, "bg": 9799 },
+        { "id": "mon_charred_nightmare", "fg": 9849, "bg": 9799 },
+        { "id": "mon_cougar", "fg": 9850, "bg": 9799 },
+        { "id": "mon_dementia", "fg": 9851, "bg": 9799 },
+        { "id": "mon_dermatik", "fg": 9852, "bg": 9799 },
+        { "id": "mon_dragonfly_giant", "fg": 9853, "bg": 9799 },
+        { "id": "mon_dragonfly_mega", "fg": 9854, "bg": 9799 },
+        { "id": "mon_flesh_golem", "fg": 9855, "bg": 9799 },
+        { "id": "mon_fleshy_shambler", "fg": 9856, "bg": 9799 },
+        { "id": "mon_fly", "fg": 9857, "bg": 9799 },
+        { "id": "mon_gozu", "fg": 9858, "bg": 9799 },
+        { "id": "mon_hallu_mannequin", "fg": 9859, "bg": 9799 },
+        { "id": "mon_mannequin_decoy", "fg": 9859, "bg": 9799 },
+        { "id": "mon_hallu_mom", "fg": 9860, "bg": 9799 },
+        { "id": "mon_hologram", "fg": 9861, "bg": 9799 },
         {
           "id": "mon_hunting_horror",
-          "fg": [ { "weight": 1, "sprite": 9861 }, { "weight": 1, "sprite": 9862 }, { "weight": 1, "sprite": 9863 } ],
+          "fg": [ { "weight": 1, "sprite": 9862 }, { "weight": 1, "sprite": 9863 }, { "weight": 1, "sprite": 9864 } ],
           "bg": 9799
         },
-        { "id": "mon_marloss_zealot_f", "fg": 9864, "bg": 9799 },
-        { "id": "mon_marloss_zealot_m", "fg": 9865, "bg": 9799 },
-        { "id": "mon_mutant_experimental", "fg": 9866, "bg": 9799 },
-        { "id": "mon_riotbot", "fg": 9867, "bg": 9799 },
-        { "id": "mon_skeleton", "fg": 9868, "bg": 9799 },
-        { "id": "mon_skeleton_brute", "fg": 9869, "bg": 9799 },
+        { "id": "mon_marloss_zealot_f", "fg": 9865, "bg": 9799 },
+        { "id": "mon_marloss_zealot_m", "fg": 9866, "bg": 9799 },
+        { "id": "mon_mutant_experimental", "fg": 9867, "bg": 9799 },
+        { "id": "mon_riotbot", "fg": 9868, "bg": 9799 },
+        { "id": "mon_skeleton", "fg": 9869, "bg": 9799 },
+        { "id": "mon_skeleton_brute", "fg": 9870, "bg": 9799 },
         { "id": [ "corpse_mon_skeleton", "corpse_mon_skeleton_brute" ], "fg": 3798 },
-        { "id": "mon_zombie_acidic", "fg": 9870, "bg": 9799 },
-        { "id": "mon_zombie_corrosive", "fg": 9871, "bg": 9799 },
-        { "id": "mon_zombie_spitter", "fg": 9872, "bg": 9799 },
-        { "id": "mon_zombie_bio_op", "fg": 9873, "bg": 9799 },
-        { "id": "mon_zombie_bio_op2", "fg": 9874, "bg": 9799 },
+        { "id": "mon_zombie_acidic", "fg": 9871, "bg": 9799 },
+        { "id": "mon_zombie_corrosive", "fg": 9872, "bg": 9799 },
+        { "id": "mon_zombie_spitter", "fg": 9873, "bg": 9799 },
+        { "id": "mon_zombie_bio_op", "fg": 9874, "bg": 9799 },
+        { "id": "mon_zombie_bio_op2", "fg": 9875, "bg": 9799 },
         {
           "id": "mon_zombie_brute",
           "fg": [
-            { "weight": 100, "sprite": 9875 },
             { "weight": 100, "sprite": 9876 },
-            { "weight": 50, "sprite": 9877 },
-            { "weight": 50, "sprite": 9878 }
+            { "weight": 100, "sprite": 9877 },
+            { "weight": 50, "sprite": 9878 },
+            { "weight": 50, "sprite": 9879 }
           ],
           "bg": 9798
         },
-        { "id": "mon_zombie_ears", "fg": 9879, "bg": 9799 },
+        { "id": "mon_zombie_ears", "fg": 9880, "bg": 9799 },
         {
           "id": "mon_zombie_fat",
-          "fg": [ { "weight": 1, "sprite": 9880 }, { "weight": 1, "sprite": 9881 } ],
+          "fg": [ { "weight": 1, "sprite": 9881 }, { "weight": 1, "sprite": 9882 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_fiend", "fg": 9882, "bg": 9799 },
+        { "id": "mon_zombie_fiend", "fg": 9883, "bg": 9799 },
         {
           "id": "mon_zombie_gasbag",
-          "fg": [ { "weight": 1, "sprite": 9883 }, { "weight": 1, "sprite": 9884 } ],
+          "fg": [ { "weight": 1, "sprite": 9884 }, { "weight": 1, "sprite": 9885 } ],
           "bg": 9799
         },
         {
           "id": "mon_zombie_grappler",
-          "fg": [ { "weight": 1, "sprite": 9885 }, { "weight": 1, "sprite": 9886 } ],
+          "fg": [ { "weight": 1, "sprite": 9886 }, { "weight": 1, "sprite": 9887 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_hammer_hands", "fg": 9887, "bg": 9798 },
+        { "id": "mon_zombie_hammer_hands", "fg": 9888, "bg": 9798 },
         {
           "id": "mon_zombie_brainless",
-          "fg": [ { "weight": 100, "sprite": 9889 }, { "weight": 100, "sprite": 9890 } ],
+          "fg": [ { "weight": 100, "sprite": 9890 }, { "weight": 100, "sprite": 9891 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_hunter", "fg": 9891, "bg": 9799 },
-        { "id": "mon_zombie_predator", "fg": 9892, "bg": 9799 },
+        { "id": "mon_zombie_hunter", "fg": 9892, "bg": 9799 },
+        { "id": "mon_zombie_predator", "fg": 9893, "bg": 9799 },
         {
           "id": "mon_zombie_mancroc",
-          "fg": [ { "weight": 100, "sprite": 9893 }, { "weight": 100, "sprite": 9894 } ],
+          "fg": [ { "weight": 100, "sprite": 9894 }, { "weight": 100, "sprite": 9895 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_plated", "fg": 9895, "bg": 9798 },
-        { "id": "mon_zombie_relax_gasbag", "fg": 9896, "bg": 9799 },
+        { "id": "mon_zombie_plated", "fg": 9896, "bg": 9798 },
+        { "id": "mon_zombie_relax_gasbag", "fg": 9897, "bg": 9799 },
         {
           "id": "mon_zombie_resort_dancer",
-          "fg": [ { "weight": 1, "sprite": 9897 }, { "weight": 1, "sprite": 9898 } ],
+          "fg": [ { "weight": 1, "sprite": 9898 }, { "weight": 1, "sprite": 9899 } ],
           "bg": 9799
         },
         {
           "id": "mon_zombie_resort_staff",
-          "fg": [ { "weight": 1, "sprite": 9899 }, { "weight": 1, "sprite": 9900 } ],
+          "fg": [ { "weight": 1, "sprite": 9900 }, { "weight": 1, "sprite": 9901 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_runner", "fg": 9901, "bg": 9799 },
-        { "id": "mon_zombie_rust", "fg": 9902, "bg": 9799 },
-        { "id": "mon_zombie_scorched", "fg": 9903, "bg": 9799 },
-        { "id": "mon_zombie_shell", "fg": 9905, "bg": 9799 },
-        { "id": "mon_zombie_skull", "fg": 9906, "bg": 9799 },
+        { "id": "mon_zombie_runner", "fg": 9902, "bg": 9799 },
+        { "id": "mon_zombie_rust", "fg": 9903, "bg": 9799 },
+        { "id": "mon_zombie_scorched", "fg": 9904, "bg": 9799 },
+        { "id": "mon_zombie_shell", "fg": 9906, "bg": 9799 },
+        { "id": "mon_zombie_skull", "fg": 9907, "bg": 9799 },
         {
           "id": "mon_zombie_soldier",
-          "fg": [ { "weight": 100, "sprite": 9912 }, { "weight": 100, "sprite": 9913 } ],
+          "fg": [ { "weight": 100, "sprite": 9913 }, { "weight": 100, "sprite": 9914 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_military_pilot", "fg": 9911, "bg": 9799 },
-        { "id": [ "corpse_mon_zombie_soldier", "corpse_mon_zombie_military_pilot" ], "fg": 9907 },
-        { "id": "mon_zombie_milbase_personnel", "fg": 9910, "bg": 9799 },
-        { "id": "mon_zombie_marine", "fg": 9909, "bg": 9799 },
-        { "id": "mon_zombie_static", "fg": 9914, "bg": 9799 },
-        { "id": "mon_zombie_survivor", "fg": 9915, "bg": 9799 },
-        { "id": "mon_zombie_survivor_elite", "fg": 9916, "bg": 9799 },
+        { "id": "mon_zombie_military_pilot", "fg": 9912, "bg": 9799 },
+        { "id": [ "corpse_mon_zombie_soldier", "corpse_mon_zombie_military_pilot" ], "fg": 9908 },
+        { "id": "mon_zombie_milbase_personnel", "fg": 9911, "bg": 9799 },
+        { "id": "mon_zombie_marine", "fg": 9910, "bg": 9799 },
+        { "id": "mon_zombie_static", "fg": 9915, "bg": 9799 },
+        { "id": "mon_zombie_survivor", "fg": 9916, "bg": 9799 },
+        { "id": "mon_zombie_survivor_elite", "fg": 9917, "bg": 9799 },
         {
           "id": [ "mon_zombie_swimmer_base", "mon_zombie_swimmer" ],
           "fg": [
-            { "weight": 200, "sprite": 9918 },
             { "weight": 200, "sprite": 9919 },
             { "weight": 200, "sprite": 9920 },
             { "weight": 200, "sprite": 9921 },
             { "weight": 200, "sprite": 9922 },
-            { "weight": 1, "sprite": 9917 }
+            { "weight": 200, "sprite": 9923 },
+            { "weight": 1, "sprite": 9918 }
           ],
           "bg": 9799
         },
-        { "id": "mon_zombie_tear_gasbag", "fg": 9923, "bg": 9799 },
+        { "id": "mon_zombie_tear_gasbag", "fg": 9924, "bg": 9799 },
         {
           "id": "mon_zombie",
           "fg": [
-            { "weight": 100, "sprite": 9930 },
-            { "weight": 150, "sprite": 9931 },
-            { "weight": 100, "sprite": 9932 },
+            { "weight": 100, "sprite": 9931 },
+            { "weight": 150, "sprite": 9932 },
             { "weight": 100, "sprite": 9933 },
-            { "weight": 150, "sprite": 9934 }
+            { "weight": 100, "sprite": 9934 },
+            { "weight": 150, "sprite": 9935 }
           ],
           "bg": 9799
         },
-        { "id": "mon_zombie_hazmat", "fg": 9937, "bg": 9799 },
-        { "id": "mon_zombie_fireman", "fg": 9936, "bg": 9799 },
+        { "id": "mon_zombie_hazmat", "fg": 9938, "bg": 9799 },
+        { "id": "mon_zombie_fireman", "fg": 9937, "bg": 9799 },
         {
           "id": "mon_zombie_scientist",
-          "fg": [ { "weight": 1, "sprite": 9939 }, { "weight": 1, "sprite": 9940 } ],
+          "fg": [ { "weight": 1, "sprite": 9940 }, { "weight": 1, "sprite": 9941 } ],
           "bg": 9799
         },
-        { "id": "mon_zombie_cop", "fg": 9935, "bg": 9799 },
-        { "id": "mon_zombie_labsecurity", "fg": 9938, "bg": 9799 },
+        { "id": "mon_zombie_cop", "fg": 9936, "bg": 9799 },
+        { "id": "mon_zombie_labsecurity", "fg": 9939, "bg": 9799 },
         {
           "id": "mon_zombie_tough",
-          "fg": [ { "weight": 1, "sprite": 9943 }, { "weight": 1, "sprite": 9944 } ],
+          "fg": [ { "weight": 1, "sprite": 9944 }, { "weight": 1, "sprite": 9945 } ],
           "bg": 9799
         },
         {
           "id": "mon_zombie_technician",
-          "fg": [ { "weight": 1, "sprite": 9941 }, { "weight": 1, "sprite": 9942 } ],
+          "fg": [ { "weight": 1, "sprite": 9942 }, { "weight": 1, "sprite": 9943 } ],
           "bg": 9799
         },
         {
@@ -14739,11 +14741,11 @@
             "corpse_mon_zombie_prisoner",
             "corpse_mon_zombie_winged"
           ],
-          "fg": 9924
+          "fg": 9925
         },
-        { "id": "corpse_mon_zombie_scientist", "fg": 9926 },
-        { "id": [ "corpse_mon_zombie_technician", "corpse_mon_zombie_hazmat" ], "fg": 9927 },
-        { "id": [ "corpse_mon_zombie_cop", "corpse_mon_zombie_labsecurity" ], "fg": 9925 },
+        { "id": "corpse_mon_zombie_scientist", "fg": 9927 },
+        { "id": [ "corpse_mon_zombie_technician", "corpse_mon_zombie_hazmat" ], "fg": 9928 },
+        { "id": [ "corpse_mon_zombie_cop", "corpse_mon_zombie_labsecurity" ], "fg": 9926 },
         {
           "id": [
             "corpse_mon_zombie_tough",
@@ -14759,432 +14761,432 @@
             "corpse_mon_zombie_soldier_blackops_2",
             "corpse_mon_zombie_soldier_blackops_1"
           ],
-          "fg": 9928
+          "fg": 9929
         },
-        { "id": "mon_zombie_winged", "fg": 9945, "bg": 9799 },
-        { "id": "mon_zougar", "fg": 9946, "bg": 9799 },
-        { "id": "mon_zougar_hunter", "fg": 9947, "bg": 9799 },
-        { "id": "mon_copbot", "fg": 9949, "bg": 9799 },
-        { "id": "mon_zombie_screecher", "fg": 9950, "bg": 9799 },
-        { "id": "mon_zombie_shrieker", "fg": 9951, "bg": 9799 },
-        { "id": "mon_zombie_swat", "fg": 9952, "bg": 9799 },
-        { "id": "mon_zombie_thorny", "fg": 9953, "bg": 9799 },
-        { "id": "mon_zombie_flamer", "fg": 9954, "bg": 9799 },
+        { "id": "mon_zombie_winged", "fg": 9946, "bg": 9799 },
+        { "id": "mon_zougar", "fg": 9947, "bg": 9799 },
+        { "id": "mon_zougar_hunter", "fg": 9948, "bg": 9799 },
+        { "id": "mon_copbot", "fg": 9950, "bg": 9799 },
+        { "id": "mon_zombie_screecher", "fg": 9951, "bg": 9799 },
+        { "id": "mon_zombie_shrieker", "fg": 9952, "bg": 9799 },
+        { "id": "mon_zombie_swat", "fg": 9953, "bg": 9799 },
+        { "id": "mon_zombie_thorny", "fg": 9954, "bg": 9799 },
+        { "id": "mon_zombie_flamer", "fg": 9955, "bg": 9799 },
         {
           "id": "mon_zombie_prisoner",
-          "fg": [ { "weight": 1, "sprite": 9955 }, { "weight": 1, "sprite": 9956 }, { "weight": 1, "sprite": 9957 } ],
+          "fg": [ { "weight": 1, "sprite": 9956 }, { "weight": 1, "sprite": 9957 }, { "weight": 1, "sprite": 9958 } ],
           "bg": 9799
         },
-        { "id": "overlay_female_mutation_SKIN_MEDIUM", "fg": 9964 },
-        { "id": "overlay_male_mutation_SKIN_MEDIUM", "fg": 9965 },
-        { "id": "overlay_female_wielded_teleumbrella", "fg": 9967 },
-        { "id": "overlay_male_wielded_teleumbrella", "fg": 9968 },
-        { "id": "overlay_female_wielded_umbrella", "fg": 9967 },
-        { "id": "overlay_male_wielded_umbrella", "fg": 9968 },
-        { "id": "overlay_male_worn_welding_mask_raised", "fg": 9972 },
-        { "id": "overlay_female_worn_mossberg_500", "fg": 9973 },
-        { "id": "overlay_male_worn_mossberg_500", "fg": 9974 },
-        { "id": [ "tr_shotgun_2", "tr_shotgun_1", "tr_shotgun_2_1" ], "fg": 9976 },
+        { "id": "overlay_female_mutation_SKIN_MEDIUM", "fg": 9965 },
+        { "id": "overlay_male_mutation_SKIN_MEDIUM", "fg": 9966 },
+        { "id": "overlay_female_wielded_teleumbrella", "fg": 9968 },
+        { "id": "overlay_male_wielded_teleumbrella", "fg": 9969 },
+        { "id": "overlay_female_wielded_umbrella", "fg": 9968 },
+        { "id": "overlay_male_wielded_umbrella", "fg": 9969 },
+        { "id": "overlay_male_worn_welding_mask_raised", "fg": 9973 },
+        { "id": "overlay_female_worn_mossberg_500", "fg": 9974 },
+        { "id": "overlay_male_worn_mossberg_500", "fg": 9975 },
+        { "id": [ "tr_shotgun_2", "tr_shotgun_1", "tr_shotgun_2_1" ], "fg": 9977 },
         {
           "id": "vp_board_ne",
-          "fg": [ 9984, 9987, 9986, 9985 ],
+          "fg": [ 9985, 9988, 9987, 9986 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9984, 9987, 9986, 9985 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9985, 9988, 9987, 9986 ] } ]
         },
         {
           "id": "vp_board_nw",
-          "fg": [ 9987, 9989, 9988, 9984 ],
+          "fg": [ 9988, 9990, 9989, 9985 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9987, 9989, 9988, 9984 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9988, 9990, 9989, 9985 ] } ]
         },
         {
           "id": "vp_board_se",
-          "fg": [ 9990, 9984, 9987, 9989 ],
+          "fg": [ 9991, 9985, 9988, 9990 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9990, 9984, 9987, 9989 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9991, 9985, 9988, 9990 ] } ]
         },
         {
           "id": "vp_board_sw",
-          "fg": [ 9991, 9985, 9984, 9987 ],
+          "fg": [ 9992, 9986, 9985, 9988 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9991, 9985, 9984, 9987 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9992, 9986, 9985, 9988 ] } ]
         },
         {
           "id": "vp_board_vertical_left",
-          "fg": [ 9980, 9992, 9978, 9982 ],
+          "fg": [ 9981, 9993, 9979, 9983 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9980, 9992, 9978, 9982 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9981, 9993, 9979, 9983 ] } ]
         },
         {
           "id": "vp_board_vertical_right",
-          "fg": [ 9978, 9982, 9980, 9992 ],
+          "fg": [ 9979, 9983, 9981, 9993 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9978, 9982, 9980, 9992 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9979, 9983, 9981, 9993 ] } ]
         },
         {
           "id": "vp_board_wheel_left",
-          "fg": [ 9980, 9994, 9978, 9982 ],
+          "fg": [ 9981, 9995, 9979, 9983 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9980, 9994, 9978, 9982 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9981, 9995, 9979, 9983 ] } ]
         },
         {
           "id": "vp_board_wheel_right",
-          "fg": [ 9978, 9982, 9980, 9994 ],
+          "fg": [ 9979, 9983, 9981, 9995 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9978, 9982, 9980, 9994 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9979, 9983, 9981, 9995 ] } ]
         },
         {
           "id": [ "vp_board", "vp_board_horizontal", "vp_board_horizontal_2" ],
-          "fg": [ 9977, 9983, 9977, 9993 ],
+          "fg": [ 9978, 9984, 9978, 9994 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9977, 9983, 9977, 9993 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9978, 9984, 9978, 9994 ] } ]
         },
         {
           "id": "vp_board_horizontal_front",
-          "fg": [ 9977, 9980, 9979, 9978 ],
+          "fg": [ 9978, 9981, 9980, 9979 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9982, 9980, 9979, 9978 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9983, 9981, 9980, 9979 ] } ]
         },
         {
           "id": "vp_board_horizontal_rear",
-          "fg": [ 9981, 9978, 9982, 9980 ],
+          "fg": [ 9982, 9979, 9983, 9981 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9981, 9978, 9982, 9980 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9982, 9979, 9983, 9981 ] } ]
         },
         {
           "id": [ "vp_board_vertical", "vp_board_vertical_2" ],
-          "fg": [ 9993, 9982, 9993, 9982 ],
+          "fg": [ 9994, 9983, 9994, 9983 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9993, 9982, 9993, 9982 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9994, 9983, 9994, 9983 ] } ]
         },
         {
           "id": "vp_board_ne_edge",
-          "fg": [ 9984, 9996, 9986, 9995 ],
+          "fg": [ 9985, 9997, 9987, 9996 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9984, 9996, 9986, 9995 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9985, 9997, 9987, 9996 ] } ]
         },
         {
           "id": "vp_board_nw_edge",
-          "fg": [ 9987, 9998, 9988, 9997 ],
+          "fg": [ 9988, 9999, 9989, 9998 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9987, 9998, 9988, 9997 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 9988, 9999, 9989, 9998 ] } ]
         },
         {
           "id": "vp_clothboard_ne",
-          "fg": [ 10004, 10007, 10006, 10005 ],
+          "fg": [ 10005, 10008, 10007, 10006 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10004, 10007, 10006, 10005 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10005, 10008, 10007, 10006 ] } ]
         },
         {
           "id": "vp_clothboard_nw",
-          "fg": [ 10007, 10009, 10008, 10004 ],
+          "fg": [ 10008, 10010, 10009, 10005 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10007, 10009, 10008, 10004 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10008, 10010, 10009, 10005 ] } ]
         },
         {
           "id": "vp_clothboard_se",
-          "fg": [ 10010, 10012, 10007, 10011 ],
+          "fg": [ 10011, 10013, 10008, 10012 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10010, 10012, 10007, 10011 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10011, 10013, 10008, 10012 ] } ]
         },
         {
           "id": "vp_clothboard_sw",
-          "fg": [ 10013, 10015, 10004, 10014 ],
+          "fg": [ 10014, 10016, 10005, 10015 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10013, 10015, 10004, 10014 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10014, 10016, 10005, 10015 ] } ]
         },
         {
           "id": "vp_clothboard_vertical_left",
-          "fg": [ 10001, 10016, 9999, 10003 ],
+          "fg": [ 10002, 10017, 10000, 10004 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10001, 10016, 9999, 10003 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10002, 10017, 10000, 10004 ] } ]
         },
         {
           "id": "vp_clothboard_vertical_right",
-          "fg": [ 9999, 10003, 10001, 10016 ],
+          "fg": [ 10000, 10004, 10002, 10017 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9999, 10003, 10001, 10016 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10000, 10004, 10002, 10017 ] } ]
         },
         {
           "id": "vp_clothboard_wheel_left",
-          "fg": [ 10001, 10018, 9999, 10003 ],
+          "fg": [ 10002, 10019, 10000, 10004 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10001, 10018, 9999, 10003 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10002, 10019, 10000, 10004 ] } ]
         },
         {
           "id": "vp_clothboard_wheel_right",
-          "fg": [ 9999, 10003, 10001, 10018 ],
+          "fg": [ 10000, 10004, 10002, 10019 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 9999, 10003, 10001, 10018 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10000, 10004, 10002, 10019 ] } ]
         },
         {
           "id": [ "vp_clothboard", "vp_clothboard_horizontal", "vp_clothboard_horizontal_2" ],
-          "fg": [ 10003, 10017, 10003, 10017 ],
+          "fg": [ 10004, 10018, 10004, 10018 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10003, 10017, 10003, 10017 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10004, 10018, 10004, 10018 ] } ]
         },
         {
           "id": "vp_clothboard_horizontal_front",
-          "fg": [ 10003, 10001, 10000, 9999 ],
+          "fg": [ 10004, 10002, 10001, 10000 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10003, 10001, 10000, 9999 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10004, 10002, 10001, 10000 ] } ]
         },
         {
           "id": "vp_clothboard_horizontal_rear",
-          "fg": [ 10002, 9999, 10003, 10001 ],
+          "fg": [ 10003, 10000, 10004, 10002 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10002, 9999, 10003, 10001 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10003, 10000, 10004, 10002 ] } ]
         },
         {
           "id": [ "vp_clothboard_vertical", "vp_clothboard_vertical_2" ],
-          "fg": [ 10017, 10003, 10017, 10003 ],
+          "fg": [ 10018, 10004, 10018, 10004 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10017, 10003, 10017, 10003 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10018, 10004, 10018, 10004 ] } ]
         },
         {
           "id": "vp_clothboard_ne_edge",
-          "fg": [ 10004, 10020, 10006, 10019 ],
+          "fg": [ 10005, 10021, 10007, 10020 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10004, 10020, 10006, 10019 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10005, 10021, 10007, 10020 ] } ]
         },
         {
           "id": "vp_clothboard_nw_edge",
-          "fg": [ 10007, 10022, 10008, 10021 ],
+          "fg": [ 10008, 10023, 10009, 10022 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10007, 10022, 10008, 10021 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10008, 10023, 10009, 10022 ] } ]
         },
         {
           "id": "vp_clothboard_se_edge",
-          "fg": [ 10010, 10024, 10007, 10023 ],
+          "fg": [ 10011, 10025, 10008, 10024 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10010, 10024, 10007, 10023 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10011, 10025, 10008, 10024 ] } ]
         },
         {
           "id": "vp_clothboard_sw_edge",
-          "fg": [ 10013, 10026, 10004, 10025 ],
+          "fg": [ 10014, 10027, 10005, 10026 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10013, 10026, 10004, 10025 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10014, 10027, 10005, 10026 ] } ]
         },
         {
           "id": [ "vp_door_left", "vp_door_vertical_left" ],
-          "fg": [ 10031, 10034, 10033, 10032 ],
+          "fg": [ 10032, 10035, 10034, 10033 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10040, 10042, 10041, 10039 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10040, 10042, 10041, 10039 ] }
+            { "id": "open", "fg": [ 10041, 10043, 10042, 10040 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10041, 10043, 10042, 10040 ] }
           ]
         },
         {
           "id": "vp_door_nw",
-          "fg": [ 10051, 10058, 10057, 10056 ],
+          "fg": [ 10052, 10059, 10058, 10057 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10052, 10055, 10054, 10053 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10040, 10042, 10041, 10039 ] }
+            { "id": "open", "fg": [ 10053, 10056, 10055, 10054 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10041, 10043, 10042, 10040 ] }
           ]
         },
         {
           "id": "vp_door_front_left",
-          "fg": [ 10103, 10110, 10109, 10108 ],
+          "fg": [ 10104, 10111, 10110, 10109 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10104, 10107, 10106, 10105 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10104, 10107, 10106, 10105 ] }
+            { "id": "open", "fg": [ 10105, 10108, 10107, 10106 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10105, 10108, 10107, 10106 ] }
           ]
         },
         {
           "id": [ "vp_door_sw", "vp_door_rear_left" ],
-          "fg": [ 10087, 10094, 10093, 10092 ],
+          "fg": [ 10088, 10095, 10094, 10093 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10088, 10091, 10090, 10089 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10040, 10042, 10041, 10039 ] }
+            { "id": "open", "fg": [ 10089, 10092, 10091, 10090 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10041, 10043, 10042, 10040 ] }
           ]
         },
         {
           "id": [ "vp_door_right", "vp_door_vertical_right" ],
-          "fg": [ 10035, 10038, 10037, 10036 ],
+          "fg": [ 10036, 10039, 10038, 10037 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10076, 10078, 10077, 10075 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10076, 10078, 10077, 10075 ] }
+            { "id": "open", "fg": [ 10077, 10079, 10078, 10076 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10077, 10079, 10078, 10076 ] }
           ]
         },
         {
           "id": "vp_door_ne",
-          "fg": [ 10043, 10050, 10049, 10048 ],
+          "fg": [ 10044, 10051, 10050, 10049 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10044, 10047, 10046, 10045 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10076, 10078, 10077, 10075 ] }
+            { "id": "open", "fg": [ 10045, 10048, 10047, 10046 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10077, 10079, 10078, 10076 ] }
           ]
         },
         {
           "id": "vp_door_front_right",
-          "fg": [ 10095, 10102, 10101, 10100 ],
+          "fg": [ 10096, 10103, 10102, 10101 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10096, 10099, 10098, 10097 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10096, 10099, 10098, 10097 ] }
+            { "id": "open", "fg": [ 10097, 10100, 10099, 10098 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10097, 10100, 10099, 10098 ] }
           ]
         },
         {
           "id": [ "vp_door_se", "vp_door_rear_right" ],
-          "fg": [ 10079, 10086, 10085, 10084 ],
+          "fg": [ 10080, 10087, 10086, 10085 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10080, 10083, 10082, 10081 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10076, 10078, 10077, 10075 ] }
+            { "id": "open", "fg": [ 10081, 10084, 10083, 10082 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10077, 10079, 10078, 10076 ] }
           ]
         },
         {
           "id": "vp_door_opaque_left",
-          "fg": [ 10064, 10066, 10065, 10063 ],
+          "fg": [ 10065, 10067, 10066, 10064 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10060, 10062, 10061, 10059 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10060, 10062, 10061, 10059 ] }
+            { "id": "open", "fg": [ 10061, 10063, 10062, 10060 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10061, 10063, 10062, 10060 ] }
           ]
         },
         {
           "id": "vp_door_opaque_right",
-          "fg": [ 10072, 10074, 10073, 10071 ],
+          "fg": [ 10073, 10075, 10074, 10072 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10068, 10070, 10069, 10067 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10068, 10070, 10069, 10067 ] }
+            { "id": "open", "fg": [ 10069, 10071, 10070, 10068 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10069, 10071, 10070, 10068 ] }
           ]
         },
         {
           "id": "vp_halfboard_ne",
-          "fg": [ 10131, 10134, 10133, 10132 ],
+          "fg": [ 10132, 10135, 10134, 10133 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10131, 10134, 10133, 10132 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10132, 10135, 10134, 10133 ] } ]
         },
         {
           "id": "vp_halfboard_nw",
-          "fg": [ 10135, 10138, 10137, 10136 ],
+          "fg": [ 10136, 10139, 10138, 10137 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10135, 10138, 10137, 10136 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10136, 10139, 10138, 10137 ] } ]
         },
         {
           "id": "vp_halfboard_se",
-          "fg": [ 10139, 10142, 10141, 10140 ],
+          "fg": [ 10140, 10143, 10142, 10141 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10139, 10142, 10141, 10140 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10140, 10143, 10142, 10141 ] } ]
         },
         {
           "id": "vp_halfboard_sw",
-          "fg": [ 10143, 10146, 10145, 10144 ],
+          "fg": [ 10144, 10147, 10146, 10145 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10143, 10146, 10145, 10144 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10144, 10147, 10146, 10145 ] } ]
         },
         {
           "id": [ "vp_halfboard_vertical_left", "vp_halfboard_vertical_2_left" ],
-          "fg": [ 10147, 10149, 10150, 10148 ],
+          "fg": [ 10148, 10150, 10151, 10149 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10147, 10149, 10150, 10148 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10148, 10150, 10151, 10149 ] } ]
         },
         {
           "id": [ "vp_halfboard_vertical_right", "vp_halfboard_vertical_2_right" ],
-          "fg": [ 10150, 10148, 10147, 10149 ],
+          "fg": [ 10151, 10149, 10148, 10150 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10150, 10148, 10147, 10149 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10151, 10149, 10148, 10150 ] } ]
         },
         {
           "id": "vp_halfboard_vertical_t_left",
-          "fg": [ 10154, 10156, 10155, 10153 ],
+          "fg": [ 10155, 10157, 10156, 10154 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10154, 10156, 10155, 10153 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10155, 10157, 10156, 10154 ] } ]
         },
         {
           "id": "vp_halfboard_vertical_t_right",
-          "fg": [ 10158, 10160, 10159, 10157 ],
+          "fg": [ 10159, 10161, 10160, 10158 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10158, 10160, 10159, 10157 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10159, 10161, 10160, 10158 ] } ]
         },
         {
           "id": [ "vp_halfboard_horizontal", "vp_halfboard_horizontal_2" ],
-          "fg": [ 10128, 10130, 10129, 10127 ],
+          "fg": [ 10129, 10131, 10130, 10128 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10128, 10130, 10129, 10127 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10129, 10131, 10130, 10128 ] } ]
         },
         {
           "id": [ "vp_halfboard_horizontal_front", "vp_halfboard_horizontal_2_front", "vp_halfboard_cover" ],
-          "fg": [ 10119, 10122, 10121, 10120 ],
+          "fg": [ 10120, 10123, 10122, 10121 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10119, 10122, 10121, 10120 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10120, 10123, 10122, 10121 ] } ]
         },
         {
           "id": "vp_halfboard_horizontal_rear",
-          "fg": [ 10123, 10126, 10125, 10124 ],
+          "fg": [ 10124, 10127, 10126, 10125 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10123, 10126, 10125, 10124 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10124, 10127, 10126, 10125 ] } ]
         },
         {
           "id": [ "vp_halfboard_vertical", "vp_halfboard_vertical_2" ],
-          "fg": [ 10152, 10151, 10152, 10151 ],
+          "fg": [ 10153, 10152, 10153, 10152 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10152, 10151, 10152, 10151 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10153, 10152, 10153, 10152 ] } ]
         },
         {
           "id": "vp_halfboard_cover_left",
-          "fg": [ 10111, 10114, 10113, 10112 ],
+          "fg": [ 10112, 10115, 10114, 10113 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10111, 10114, 10113, 10112 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10112, 10115, 10114, 10113 ] } ]
         },
         {
           "id": "vp_halfboard_cover_right",
-          "fg": [ 10115, 10118, 10117, 10116 ],
+          "fg": [ 10116, 10119, 10118, 10117 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10115, 10118, 10117, 10116 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10116, 10119, 10118, 10117 ] } ]
         },
         {
           "id": "vp_halfboard_wheel_left",
-          "fg": [ 10161, 10164, 10163, 10162 ],
+          "fg": [ 10162, 10165, 10164, 10163 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10161, 10164, 10163, 10162 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10162, 10165, 10164, 10163 ] } ]
         },
         {
           "id": "vp_halfboard_wheel_right",
-          "fg": [ 10165, 10168, 10167, 10166 ],
+          "fg": [ 10166, 10169, 10168, 10167 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10165, 10168, 10167, 10166 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10166, 10169, 10168, 10167 ] } ]
         },
         {
           "id": "vp_hddoor_left",
-          "fg": [ 10170, 10172, 10171, 10169 ],
+          "fg": [ 10171, 10173, 10172, 10170 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10178, 10180, 10179, 10177 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10178, 10180, 10179, 10177 ] }
+            { "id": "open", "fg": [ 10179, 10181, 10180, 10178 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10179, 10181, 10180, 10178 ] }
           ]
         },
         {
           "id": "vp_hddoor_right",
-          "fg": [ 10174, 10176, 10175, 10173 ],
+          "fg": [ 10175, 10177, 10176, 10174 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10198, 10200, 10199, 10197 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10198, 10200, 10199, 10197 ] }
+            { "id": "open", "fg": [ 10199, 10201, 10200, 10198 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10199, 10201, 10200, 10198 ] }
           ]
         },
         {
           "id": "vp_hddoor_opaque_left",
-          "fg": [ 10186, 10188, 10187, 10185 ],
+          "fg": [ 10187, 10189, 10188, 10186 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10182, 10184, 10183, 10181 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10182, 10184, 10183, 10181 ] }
+            { "id": "open", "fg": [ 10183, 10185, 10184, 10182 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10183, 10185, 10184, 10182 ] }
           ]
         },
         {
           "id": "vp_hddoor_opaque_right",
-          "fg": [ 10194, 10196, 10195, 10193 ],
+          "fg": [ 10195, 10197, 10196, 10194 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10190, 10192, 10191, 10189 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10190, 10192, 10191, 10189 ] }
+            { "id": "open", "fg": [ 10191, 10193, 10192, 10190 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10191, 10193, 10192, 10190 ] }
           ]
         },
         {
@@ -15196,11 +15198,11 @@
             "vp_hddoor_full_sw",
             "vp_hddoor_full_rear_left"
           ],
-          "fg": [ 10170, 10172, 10171, 10169 ],
+          "fg": [ 10171, 10173, 10172, 10170 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10178, 10180, 10179, 10177 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10178, 10180, 10179, 10177 ] }
+            { "id": "open", "fg": [ 10179, 10181, 10180, 10178 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10179, 10181, 10180, 10178 ] }
           ]
         },
         {
@@ -15212,273 +15214,273 @@
             "vp_hddoor_full_se",
             "vp_hddoor_full_rear_right"
           ],
-          "fg": [ 10174, 10176, 10175, 10173 ],
+          "fg": [ 10175, 10177, 10176, 10174 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10198, 10200, 10199, 10197 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10198, 10200, 10199, 10197 ] }
+            { "id": "open", "fg": [ 10199, 10201, 10200, 10198 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10199, 10201, 10200, 10198 ] }
           ]
         },
         {
           "id": "vp_hddoor_opaque_full_left",
-          "fg": [ 10186, 10188, 10187, 10185 ],
+          "fg": [ 10187, 10189, 10188, 10186 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10182, 10184, 10183, 10181 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10182, 10184, 10183, 10181 ] }
+            { "id": "open", "fg": [ 10183, 10185, 10184, 10182 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10183, 10185, 10184, 10182 ] }
           ]
         },
         {
           "id": "vp_hddoor_opaque_full_right",
-          "fg": [ 10194, 10196, 10195, 10193 ],
+          "fg": [ 10195, 10197, 10196, 10194 ],
           "multitile": true,
           "additional_tiles": [
-            { "id": "open", "fg": [ 10190, 10192, 10191, 10189 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10190, 10192, 10191, 10189 ] }
+            { "id": "open", "fg": [ 10191, 10193, 10192, 10190 ] },
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10191, 10193, 10192, 10190 ] }
           ]
         },
         {
           "id": "vp_light_blue",
-          "fg": [ 10207, 10208 ],
+          "fg": [ 10208, 10209 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10030, "bg": [ 10207, 10208 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10031, "bg": [ 10208, 10209 ] } ]
         },
         {
           "id": "vp_light_red",
-          "fg": [ 10209, 10210 ],
+          "fg": [ 10210, 10211 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10030, "bg": [ 10209, 10210 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10031, "bg": [ 10210, 10211 ] } ]
         },
         {
           "id": [ "vp_floodlight", "vp_directed_floodlight" ],
-          "fg": [ 10204, 10206, 10205, 10203 ],
+          "fg": [ 10205, 10207, 10206, 10204 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10030, "bg": [ 10204, 10206, 10205, 10203 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10031, "bg": [ 10205, 10207, 10206, 10204 ] } ]
         },
         {
           "id": "vp_afs_roof_external_tank",
-          "fg": [ 10202, 10201 ],
+          "fg": [ 10203, 10202 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10030, "bg": [ 10202, 10201 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10031, "bg": [ 10203, 10202 ] } ]
         },
-        { "id": "vp_saddle_scooter", "fg": [ 10212, 10214, 10213, 10211 ], "rotates": true },
+        { "id": "vp_saddle_scooter", "fg": [ 10213, 10215, 10214, 10212 ], "rotates": true },
         {
           "id": [ "vp_seat_windshield_leather", "vp_reclining_seat_windshield_leather" ],
-          "fg": [ 10216, 10218, 10217, 10215 ],
+          "fg": [ 10217, 10219, 10218, 10216 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10216, 10218, 10217, 10215 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10217, 10219, 10218, 10216 ] } ]
         },
         {
           "id": [ "vp_seat_windshield", "vp_reclining_seat_windshield" ],
-          "fg": [ 10220, 10222, 10221, 10219 ],
+          "fg": [ 10221, 10223, 10222, 10220 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10220, 10222, 10221, 10219 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10221, 10223, 10222, 10220 ] } ]
         },
         {
           "id": "vp_solar_panel",
-          "fg": [ 10223, 10230 ],
+          "fg": [ 10224, 10231 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10027, "bg": [ 10223, 10230 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10028, "bg": [ 10224, 10231 ] } ]
         },
         {
           "id": "vp_reinforced_solar_panel",
-          "fg": [ 10228, 10229 ],
-          "bg": [ 10223, 10230 ],
+          "fg": [ 10229, 10230 ],
+          "bg": [ 10224, 10231 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10027, "bg": [ 10223, 10230 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10028, "bg": [ 10224, 10231 ] } ]
         },
         {
           "id": "vp_solar_panel_v2",
-          "fg": [ 10224, 10225 ],
+          "fg": [ 10225, 10226 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10027, "bg": [ 10224, 10225 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10028, "bg": [ 10225, 10226 ] } ]
         },
         {
           "id": "vp_reinforced_solar_panel_v2",
-          "fg": [ 10228, 10229 ],
-          "bg": [ 10224, 10225 ],
+          "fg": [ 10229, 10230 ],
+          "bg": [ 10225, 10226 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10027, "bg": [ 10224, 10225 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10028, "bg": [ 10225, 10226 ] } ]
         },
         {
           "id": "vp_solar_panel_v3",
-          "fg": [ 10226, 10227 ],
+          "fg": [ 10227, 10228 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10027, "bg": [ 10226, 10227 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10028, "bg": [ 10227, 10228 ] } ]
         },
         {
           "id": "vp_bed",
-          "fg": [ 10232, 10234, 10233, 10231 ],
+          "fg": [ 10233, 10235, 10234, 10232 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 10232, 10234, 10233, 10231 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 10233, 10235, 10234, 10232 ] } ]
         },
         {
           "id": "vp_omnicam",
-          "fg": [ 10235, 10236 ],
+          "fg": [ 10236, 10237 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 10030, "bg": [ 10235, 10236 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 10031, "bg": [ 10236, 10237 ] } ]
         },
         {
           "id": [ "vp_wheel_wide", "vp_wheel_wide_steerable", "vp_wheel_wide_or", "vp_wheel_wide_or_steerable" ],
-          "fg": [ 10238, 10237, 10238, 10237 ],
+          "fg": [ 10239, 10238, 10239, 10238 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 10238, 10237, 10238, 10237 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 11281, "bg": [ 10239, 10238, 10239, 10238 ] } ]
         },
         {
           "id": [ "vp_windshield", "vp_windshield_horizontal", "vp_windshield_horizontal_front", "vp_windshield_front_edge" ],
-          "fg": [ 10247, 10250, 10249, 10248 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10247, 10250, 10249, 10248 ] } ],
+          "fg": [ 10248, 10251, 10250, 10249 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10248, 10251, 10250, 10249 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_horizontal_rear",
-          "fg": [ 10264, 10265, 10264, 10263 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10264, 10265, 10264, 10263 ] } ],
+          "fg": [ 10265, 10266, 10265, 10264 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10265, 10266, 10265, 10264 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_nw",
-          "fg": [ 10259, 10262, 10261, 10260 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10259, 10262, 10261, 10260 ] } ],
+          "fg": [ 10260, 10263, 10262, 10261 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10260, 10263, 10262, 10261 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_ne",
-          "fg": [ 10255, 10258, 10257, 10256 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10255, 10258, 10257, 10256 ] } ],
+          "fg": [ 10256, 10259, 10258, 10257 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10256, 10259, 10258, 10257 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_sw",
-          "fg": [ 10251, 10254, 10266, 10252 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10251, 10254, 10266, 10252 ] } ],
+          "fg": [ 10252, 10255, 10267, 10253 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10252, 10255, 10267, 10253 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_se",
-          "fg": [ 10253, 10269, 10251, 10267 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10253, 10269, 10251, 10267 ] } ],
+          "fg": [ 10254, 10270, 10252, 10268 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10254, 10270, 10252, 10268 ] } ],
           "multitile": true
         },
         {
           "id": [ "vp_windshield_vertical_left", "vp_windshield_left" ],
-          "fg": [ 10251, 10254, 10253, 10252 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10251, 10254, 10253, 10252 ] } ],
+          "fg": [ 10252, 10255, 10254, 10253 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10252, 10255, 10254, 10253 ] } ],
           "multitile": true
         },
         {
           "id": [ "vp_windshield_vertical_right", "vp_windshield_right" ],
-          "fg": [ 10266, 10269, 10268, 10267 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10266, 10269, 10268, 10267 ] } ],
+          "fg": [ 10267, 10270, 10269, 10268 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10267, 10270, 10269, 10268 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_cover_left",
-          "fg": [ 10239, 10242, 10241, 10240 ],
+          "fg": [ 10240, 10243, 10242, 10241 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10239, 10242, 10241, 10240 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10240, 10243, 10242, 10241 ] } ]
         },
         {
           "id": "vp_windshield_cover_right",
-          "fg": [ 10243, 10246, 10245, 10244 ],
+          "fg": [ 10244, 10247, 10246, 10245 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10243, 10246, 10245, 10244 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10244, 10247, 10246, 10245 ] } ]
         },
         {
           "id": "vp_windshield_wheel_left",
-          "fg": [ 10271, 10274, 10273, 10272 ],
+          "fg": [ 10272, 10275, 10274, 10273 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10271, 10274, 10273, 10272 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10272, 10275, 10274, 10273 ] } ]
         },
         {
           "id": "vp_windshield_wheel_right",
-          "fg": [ 10275, 10278, 10277, 10276 ],
+          "fg": [ 10276, 10279, 10278, 10277 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10275, 10278, 10277, 10276 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 10276, 10279, 10278, 10277 ] } ]
         },
         {
           "id": "vp_windshield_vertical_2_left",
-          "fg": [ 10251, 10270, 10253, 10252 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10251, 10270, 10253, 10252 ] } ],
+          "fg": [ 10252, 10271, 10254, 10253 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10252, 10271, 10254, 10253 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_vertical_2_right",
-          "fg": [ 10266, 10269, 10268, 10270 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10029, 10029, 10029, 10029 ], "bg": [ 10266, 10269, 10268, 10270 ] } ],
+          "fg": [ 10267, 10270, 10269, 10271 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 10267, 10270, 10269, 10271 ] } ],
           "multitile": true
         },
         {
           "id": [ "vp_windshield_full", "vp_windshield_full_horizontal_rear" ],
-          "fg": [ 10281, 10279, 10280, 10282 ],
-          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10281, 10279, 10280, 10282 ] } ],
+          "fg": [ 10282, 10280, 10281, 10283 ],
+          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10282, 10280, 10281, 10283 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_full_horizontal_front",
-          "fg": [ 10280, 10282, 10281, 10279 ],
-          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10280, 10282, 10281, 10279 ] } ],
+          "fg": [ 10281, 10283, 10282, 10280 ],
+          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10281, 10283, 10282, 10280 ] } ],
           "multitile": true
         },
         {
           "id": [ "vp_windshield_full_vertical_left", "vp_windshield_full_left" ],
-          "fg": [ 10282, 10283, 10279, 10280 ],
-          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10282, 10283, 10279, 10280 ] } ],
+          "fg": [ 10283, 10284, 10280, 10281 ],
+          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10283, 10284, 10280, 10281 ] } ],
           "multitile": true
         },
         {
           "id": [ "vp_windshield_full_vertical_right", "vp_windshield_full_right" ],
-          "fg": [ 10279, 10280, 10282, 10283 ],
-          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10279, 10280, 10282, 10283 ] } ],
+          "fg": [ 10280, 10281, 10283, 10284 ],
+          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10280, 10281, 10283, 10284 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_full_wheel_left",
-          "fg": [ 10282, 10284, 10279, 10280 ],
-          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10282, 10284, 10279, 10280 ] } ],
+          "fg": [ 10283, 10285, 10280, 10281 ],
+          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10283, 10285, 10280, 10281 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_full_wheel_right",
-          "fg": [ 10279, 10280, 10282, 10284 ],
-          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10279, 10280, 10282, 10284 ] } ],
+          "fg": [ 10280, 10281, 10283, 10285 ],
+          "additional_tiles": [ { "id": "broken", "fg": 11280, "bg": [ 10280, 10281, 10283, 10285 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_horizontal_front_edge",
-          "fg": [ 10286, 10288, 10287, 10285 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10286, 10288, 10287, 10285 ] } ],
+          "fg": [ 10287, 10289, 10288, 10286 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10287, 10289, 10288, 10286 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_horizontal_rear_edge",
-          "fg": [ 10297, 10300, 10299, 10298 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10297, 10300, 10299, 10298 ] } ],
+          "fg": [ 10298, 10301, 10300, 10299 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10298, 10301, 10300, 10299 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_nw_edge",
-          "fg": [ 10294, 10296, 10295, 10293 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10294, 10296, 10295, 10293 ] } ],
+          "fg": [ 10295, 10297, 10296, 10294 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10295, 10297, 10296, 10294 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_ne_edge",
-          "fg": [ 10290, 10292, 10291, 10289 ],
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10290, 10292, 10291, 10289 ] } ],
+          "fg": [ 10291, 10293, 10292, 10290 ],
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10291, 10293, 10292, 10290 ] } ],
           "multitile": true
         },
         {
           "id": "vp_windshield_sw_edge",
-          "fg": [ 10143, 10146, 10145, 10144 ],
+          "fg": [ 10144, 10147, 10146, 10145 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10143, 10146, 10145, 10144 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10144, 10147, 10146, 10145 ] } ]
         },
         {
           "id": "vp_windshield_se_edge",
-          "fg": [ 10139, 10142, 10141, 10140 ],
+          "fg": [ 10140, 10143, 10142, 10141 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": [ 10027, 10027, 10027, 10027 ], "bg": [ 10139, 10142, 10141, 10140 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": [ 10028, 10028, 10028, 10028 ], "bg": [ 10140, 10143, 10142, 10141 ] } ]
         },
         { "id": "overlay_mutation_EXODII_BODY_1", "fg": 9760 },
         { "id": "f_clay_oven", "fg": 9761 },
@@ -15499,20 +15501,20 @@
         { "id": "f_hydraulic_press", "fg": 9777 },
         { "id": "f_winter_wreath", "fg": 9779 },
         { "id": "mon_shadow", "fg": 9784 },
-        { "id": "corpse_mon_zombie_brainless", "fg": 9888 },
-        { "id": "mon_zombie_shady", "fg": 9904 },
-        { "id": "mon_zombie_armored", "fg": 9908 },
-        { "id": "mon_beekeeper", "fg": 9929 },
-        { "id": "mon_zougar_shady", "fg": 9948 },
-        { "id": "overlay_effect_earphones", "fg": 9958 },
-        { "id": "overlay_effect_evil", "fg": 9959 },
-        { "id": "overlay_effect_sleep", "fg": 9960 },
-        { "id": "overlay_effect_teleglow", "fg": 9961 },
-        { "id": "overlay_female_mutation_HORNS_POINTED", "fg": 9962 },
-        { "id": "overlay_male_mutation_HORNS_POINTED", "fg": 9963 },
-        { "id": "overlay_wielded_woodgreatbow", "fg": 9966 },
-        { "id": "overlay_female_worn_helmet_riot_raised", "fg": 9969 },
-        { "id": "overlay_male_worn_helmet_riot_raised", "fg": 9970 }
+        { "id": "corpse_mon_zombie_brainless", "fg": 9889 },
+        { "id": "mon_zombie_shady", "fg": 9905 },
+        { "id": "mon_zombie_armored", "fg": 9909 },
+        { "id": "mon_beekeeper", "fg": 9930 },
+        { "id": "mon_zougar_shady", "fg": 9949 },
+        { "id": "overlay_effect_earphones", "fg": 9959 },
+        { "id": "overlay_effect_evil", "fg": 9960 },
+        { "id": "overlay_effect_sleep", "fg": 9961 },
+        { "id": "overlay_effect_teleglow", "fg": 9962 },
+        { "id": "overlay_female_mutation_HORNS_POINTED", "fg": 9963 },
+        { "id": "overlay_male_mutation_HORNS_POINTED", "fg": 9964 },
+        { "id": "overlay_wielded_woodgreatbow", "fg": 9967 },
+        { "id": "overlay_female_worn_helmet_riot_raised", "fg": 9970 },
+        { "id": "overlay_male_worn_helmet_riot_raised", "fg": 9971 }
       ]
     },
     {
@@ -18467,7 +18469,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11600, 11603, 11602, 11601 ] },
-            { "id": "broken", "fg": [ 7586, 7586, 7586, 7586 ], "bg": [ 11600, 11603, 11602, 11601 ] }
+            { "id": "broken", "fg": [ 7587, 7587, 7587, 7587 ], "bg": [ 11600, 11603, 11602, 11601 ] }
           ]
         },
         {
@@ -18512,7 +18514,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11638, 11641, 11640, 11639 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11638, 11641, 11640, 11639 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11638, 11641, 11640, 11639 ] }
           ]
         },
         {
@@ -18521,7 +18523,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11640, 11639, 11638, 11641 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11640, 11639, 11638, 11641 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11640, 11639, 11638, 11641 ] }
           ]
         },
         {
@@ -18530,7 +18532,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11638, 11655, 11640, 11639 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11638, 11641, 11640, 11639 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11638, 11641, 11640, 11639 ] }
           ]
         },
         {
@@ -18539,7 +18541,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11640, 11639, 11638, 11655 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11640, 11639, 11638, 11655 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11640, 11639, 11638, 11655 ] }
           ]
         },
         {
@@ -18548,7 +18550,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11636, 11640, 11639, 11638 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11636, 11640, 11639, 11638 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11636, 11640, 11639, 11638 ] }
           ]
         },
         {
@@ -18557,7 +18559,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11639, 11638, 11636, 11640 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11639, 11638, 11636, 11640 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11639, 11638, 11636, 11640 ] }
           ]
         },
         {
@@ -18566,7 +18568,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11647, 11650, 11649, 11648 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11647, 11650, 11649, 11648 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11647, 11650, 11649, 11648 ] }
           ]
         },
         {
@@ -18575,7 +18577,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11649, 11648, 11647, 11650 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11649, 11648, 11647, 11650 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11649, 11648, 11647, 11650 ] }
           ]
         },
         {
@@ -18584,7 +18586,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11647, 11653, 11649, 11648 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11647, 11653, 11649, 11648 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11647, 11653, 11649, 11648 ] }
           ]
         },
         {
@@ -18593,7 +18595,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11649, 11648, 11647, 11653 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11649, 11648, 11647, 11653 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11649, 11648, 11647, 11653 ] }
           ]
         },
         {
@@ -18602,7 +18604,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11646, 11649, 11648, 11647 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11646, 11649, 11648, 11647 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11646, 11649, 11648, 11647 ] }
           ]
         },
         {
@@ -18611,7 +18613,7 @@
           "multitile": true,
           "additional_tiles": [
             { "id": "open", "fg": [ 11648, 11647, 11646, 11649 ] },
-            { "id": "broken", "fg": [ 10030, 10030, 10030, 10030 ], "bg": [ 11648, 11647, 11646, 11649 ] }
+            { "id": "broken", "fg": [ 10031, 10031, 10031, 10031 ], "bg": [ 11648, 11647, 11646, 11649 ] }
           ]
         },
         {

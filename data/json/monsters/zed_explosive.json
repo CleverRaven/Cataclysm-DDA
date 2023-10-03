@@ -132,7 +132,11 @@
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" } ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_conflagration", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": {
+      "effect": { "id": "death_conflagration", "hit_self": true },
+      "message": "The %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [
       "SEES",
       "HEARS",
@@ -179,7 +183,7 @@
     "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }
@@ -213,7 +217,7 @@
     "emit_fields": [ { "emit_id": "emit_relax_gas_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_relax_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_relax_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }
@@ -247,7 +251,7 @@
     "emit_fields": [ { "emit_id": "emit_tear_gas_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_tearburst", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_tearburst", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }

@@ -1441,6 +1441,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_anvil_bronze",
+    "name": "Place Bronze Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_heavy",
+    "name": "Place Heavy Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_crude",
+    "name": "Place Crude Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
@@ -1808,6 +1823,11 @@
     "type": "construction_group",
     "id": "constr_excavate_forestfloor",
     "name": "Turn forest floor into dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "constr_dirtmound",
+    "name": "Build a Mound of Dirt"
   },
   {
     "type": "construction_group",
