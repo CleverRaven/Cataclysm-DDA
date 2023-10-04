@@ -1632,7 +1632,7 @@ std::string spell::list_targeted_species_names() const
 
 std::string spell::list_ignored_species_names() const
 {
-    if (type->ignored_species_ids.empty()) {
+    if( type->ignored_species_ids.empty() ) {
         return "";
     }
     std::vector<std::string> all_valid_species_names;
