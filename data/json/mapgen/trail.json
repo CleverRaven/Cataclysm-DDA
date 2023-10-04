@@ -141,6 +141,7 @@
     "method": "json",
     "nested_mapgen_id": "24x24_forest_trail_straight_forest",
     "object": {
+      "mapgensize": [ 24, 24 ],
       "place_nested": [
         {
           "chunks": [
@@ -150,8 +151,8 @@
             [ "24x24_forest_trail_straight_fallen_tree", 5 ],
             [ "24x24_forest_trail_straight_sett", 3 ],
             [ "24x24_forest_trail_straight_steep", 5 ],
-            [ "24x24_forest_trail_straight_mud", 5 ],
-            [ "24x24_forest_trail_straight_mud_split", 5 ]
+            [ "24x24_forest_trail_straight_mud", 3 ],
+            [ "24x24_forest_trail_straight_mud_split", 3 ]
           ],
           "x": 0,
           "y": 0
@@ -164,6 +165,7 @@
     "method": "json",
     "nested_mapgen_id": "24x24_forest_trail_straight_swamp",
     "object": {
+      "mapgensize": [ 24, 24 ],
       "place_nested": [
         {
           "chunks": [
