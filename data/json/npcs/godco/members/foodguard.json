@@ -60,36 +60,6 @@
         "topic": "TALK_GODCO_guard_food_idlechat"
       },
       {
-        "text": "Could I borrow something from the stock?",
-        "condition": {
-          "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
-          ]
-        },
-        "topic": "TALK_GODCO_guard_food_borrow"
-      },
-      {
-        "text": "Has anyone stolen from here?",
-        "condition": {
-          "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
-          ]
-        },
-        "topic": "TALK_GODCO_guard_food_theft"
-      },
-      {
-        "text": "How much food do you have?",
-        "condition": {
-          "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
-          ]
-        },
-        "topic": "TALK_GODCO_guard_food_stock"
-      },
-      {
         "text": "I'll see you around.",
         "condition": {
           "and": [
@@ -113,6 +83,7 @@
     "responses": [
       { "text": "Could you tell me a bit about yourself?", "topic": "TALK_GODCO_guard_food_about_self" },
       { "text": "Could I borrow something from the stock?", "topic": "TALK_GODCO_guard_food_borrow" },
+      { "text": "Would you be willing to buy any food?", "topic": "TALK_GODCO_guard_food_buy" },
       { "text": "Has anyone stolen from here?", "topic": "TALK_GODCO_guard_food_theft" },
       { "text": "How much food do you have?", "topic": "TALK_GODCO_guard_food_stock" },
       { "text": "Good luck with that.", "topic": "TALK_DONE" }
@@ -259,6 +230,122 @@
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_buy",
+    "dynamic_line": "Sure, I'd be willing to purchase some.  I'll have to work up the money with Helena, but I'm sure we've got it.  I'd prefer canned, preserved, and irradiated goods.  How much are you talkin'?",
+    "repeat_responses": {
+      "for_item": [
+        "jerky",
+        "meat_smoked",
+        "fish_smoked",
+        "dry_meat",
+        "dry_veggy",
+        "dry_fruit",
+        "dry_fish",
+        "dry_lobster",
+        "dry_corn",
+        "salted_fish",
+        "cooking_oil",
+        "cooking_oil2",
+        "cornmeal",
+        "flour",
+        "fruit_wine",
+        "beer",
+        "sugar",
+        "salt",
+        "vinegar",
+        "kompot",
+        "freeze_dried_meal",
+        "offal_canned",
+        "can_coconut",
+        "con_milk",
+        "milk_evap",
+        "sauce_red",
+        "can_peach",
+        "apple_canned",
+        "fish_canned",
+        "lobster_canned",
+        "can_sardine",
+        "can_tuna",
+        "can_salmon",
+        "can_clams",
+        "can_chicken",
+        "can_corn",
+        "meat_canned",
+        "confit_meat",
+        "can_tomato",
+        "broth",
+        "broth_bone",
+        "soup_veggy",
+        "soup_meat",
+        "soup_fish",
+        "soup_lobsterstew",
+        "curry_veggy",
+        "curry_meat",
+        "soup_woods",
+        "soup_chicken",
+        "soup_mushroom",
+        "soup_tomato",
+        "soup_dumplings",
+        "soup_cullenskink",
+        "cooked_pumpkin",
+        "veggy_canned",
+        "irradiated_rose_hips",
+        "irradiated_elderberries",
+        "irradiated_mulberries",
+        "irradiated_huckleberries",
+        "irradiated_raspberries",
+        "irradiated_strawberries",
+        "irradiated_blueberries",
+        "irradiated_apple",
+        "irradiated_banana",
+        "irradiated_orange",
+        "irradiated_lemon",
+        "irradiated_grapefruit",
+        "irradiated_pear",
+        "irradiated_cherries",
+        "irradiated_plums",
+        "irradiated_grapes",
+        "irradiated_pineapple",
+        "irradiated_peach",
+        "irradiated_watermelon",
+        "irradiated_melon",
+        "irradiated_blackberries",
+        "irradiated_mango",
+        "irradiated_pomegranate",
+        "irradiated_papaya",
+        "irradiated_guayaba",
+        "irradiated_maracuya",
+        "irradiated_kiwi",
+        "irradiated_lulo",
+        "irradiated_plantain",
+        "irradiated_apricot",
+        "irradiated_lettuce",
+        "irradiated_cabbage",
+        "irradiated_tomato",
+        "irradiated_broccoli",
+        "irradiated_zucchini",
+        "irradiated_onion",
+        "irradiated_carrot",
+        "irradiated_corn",
+        "irradiated_pumpkin",
+        "irradiated_potato",
+        "irradiated_cucumber",
+        "irradiated_celery",
+        "irradiated_rhubarb",
+        "irradiated_eggplant"
+      ],
+      "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      {
+        "text": "I don't have anything right now.  Let's talk about something else.",
+        "topic": "TALK_GODCO_guard_food_idlechat"
+      },
       { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
     ]
   }
