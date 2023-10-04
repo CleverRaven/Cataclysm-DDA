@@ -1,0 +1,14 @@
+[
+   {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "mixed_alcohol_strong",
+    "id_suffix": "from_water",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+  }
+]
