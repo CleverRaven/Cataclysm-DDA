@@ -1027,7 +1027,7 @@ void monster::move()
     if( try_to_move ) {
         // Move using vision by follow smells and sounds
         bool move_without_target = false;
-        if( is_wandering() && has_intelligent() && can_see() ) {
+        if( is_wandering() && has_intelligence() && can_see() ) {
             if( has_flag( mon_flag_SMELLS ) ) {
                 unset_dest();
                 tripoint tmp = scent_move();

@@ -1300,7 +1300,7 @@ bool monster::is_pet_follow() const
     return is_pet() && !has_flag( mon_flag_PET_WONT_FOLLOW );
 }
 
-bool monster::has_intelligent() const
+bool monster::has_intelligence() const
 {
     return has_flag( mon_flag_PATH_AVOID_FALL ) ||
            has_flag( mon_flag_PATH_AVOID_FIRE ) ||
