@@ -8775,7 +8775,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
     "components": [ [ [ "stick", 400 ] ] ],
-    "difficulty": 0,
     "dark_craftable": true,
     "pre_special": "check_empty",
     "post_terrain": "f_stick_stack_short",
