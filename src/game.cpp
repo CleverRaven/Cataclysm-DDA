@@ -9090,12 +9090,17 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
 void game::insert_item( drop_locations &locs )
 {
+    if( !locs.front().first ) {
+        return;
+    }
+    std::string title = string_format( _( "%s: %s and %d items" ), _( "Insert item" ),
+                                       locs.front().first->tname(), locs.size() - 1 );
     item_location item_loc = inv_map_splice( [ &, locs]( const item_location & it ) {
-        if( locs.front().first && locs.front().first.parent_item() == it ) {
+        if( locs.front().first.parent_item() == it ) {
             return false;
         }
         return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
-    }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );
+    }, title, 1, _( "You have no container to insert items." ) );
 
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );

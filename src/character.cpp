@@ -11093,7 +11093,7 @@ bool Character::unload( item_location &loc, item_location &new_container, bool b
         if( new_container == item_location::nowhere ) {
             assign_activity( unload_activity_actor( moves, loc ) );
         } else if( !locs.empty() ) {
-            assign_activity( insert_item_activity_actor( new_container, locs ) );
+            assign_activity( insert_item_activity_actor( new_container, locs, true ) );
         }
 
         return true;
