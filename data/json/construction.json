@@ -8712,7 +8712,7 @@
     "dark_craftable": true,
     "pre_terrain": "f_log_stack_short",
     "post_terrain": "f_log_stack_mid",
-    "activity_level": "EXTRA_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
