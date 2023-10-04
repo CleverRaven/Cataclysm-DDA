@@ -8713,7 +8713,7 @@
     "pre_terrain": "f_log_stack_short",
     "post_terrain": "f_log_stack_mid",
     "activity_level": "EXTRA_EXERCISE",
-    "difficulty":0
+    "difficulty": 0
   },
   {
     "type": "construction",
@@ -8751,7 +8751,8 @@
     "dark_craftable": true,
     "pre_terrain": "f_plank_stack_short",
     "post_terrain": "f_plank_stack_mid",
-    "activity_level": "EXTRA_EXERCISE"
+    "activity_level": "EXTRA_EXERCISE",
+    "difficulty": 0
   },
   {
     "type": "construction",
@@ -8790,7 +8791,8 @@
     "dark_craftable": true,
     "pre_terrain": "f_stick_stack_short",
     "post_terrain": "f_stick_stack_mid",
-    "activity_level": "EXTRA_EXERCISE"
+    "activity_level": "EXTRA_EXERCISE",
+    "difficulty": 0
   },
   {
     "type": "construction",
@@ -8828,7 +8830,8 @@
     "dark_craftable": true,
     "pre_terrain": "f_stick_long_stack_short",
     "post_terrain": "f_stick_long_stack_mid",
-    "activity_level": "EXTRA_EXERCISE"
+    "activity_level": "EXTRA_EXERCISE",
+    "difficulty": 0
   },
   {
     "type": "construction",
@@ -8866,7 +8869,8 @@
     "dark_craftable": true,
     "pre_terrain": "f_rebar_stack_short",
     "post_terrain": "f_rebar_stack_mid",
-    "activity_level": "EXTRA_EXERCISE"
+    "activity_level": "EXTRA_EXERCISE",
+    "difficulty": 0
   },
   {
     "type": "construction",
@@ -8905,7 +8909,8 @@
     "dark_craftable": true,
     "pre_terrain": "f_pipe_stack_short",
     "post_terrain": "f_pipe_stack_mid",
-    "activity_level": "EXTRA_EXERCISE"
+    "activity_level": "EXTRA_EXERCISE",
+    "difficulty": 0
   },
   {
     "type": "construction",
