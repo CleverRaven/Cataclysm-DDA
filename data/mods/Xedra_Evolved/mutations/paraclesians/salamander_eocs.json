@@ -45,6 +45,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_WATER_TO_BOOZE",
+    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_BOOZE" },
+    "effect": [ { "u_learn_recipe": "mixed_alcohol_strong_from_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_REBORN_IN_FLAMES",
     "eoc_type": "PREVENT_DEATH",
     "condition": {
@@ -91,5 +97,26 @@
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
     "effect": [ { "math": [ "u_val('fatigue')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FIRE_FOOSTEPS",
+    "condition": { "math": [ "u_val('mana')", ">=", "5" ] },
+    "effect": [  
+      { "math": [ "u_val('mana')", "-=", "5" ] },
+      {        
+        "u_location_variable": { "global_val": "salamander_fire_footsteps_location" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "outdoor_only": false
+      },
+      { 
+        "u_transform_radius": 0, 
+        "target_var": { "global_val": "salamander_fire_footsteps_location" },
+        "ter_furn_transform": "ter_salamander_fire_drop", 
+        "time_in_future":  [ "1 seconds", "1 seconds" ],
+      } 
+    ],
+    "false_effect": [ { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" } ]
   }
 ]
