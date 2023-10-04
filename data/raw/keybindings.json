@@ -4352,6 +4352,55 @@
   },
   {
     "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_STATS_TAB",
+    "name": "Select stats tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_ENCUMBRANCE_TAB",
+    "name": "Select encumbrance tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_SKILLS_TAB",
+    "name": "Select skills tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_TRAITS_TAB",
+    "name": "Select traits tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F4" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_BIONICS_TAB",
+    "name": "Select bionics tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F5" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_EFFECTS_TAB",
+    "name": "Select effects tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F6" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_PROFICIENCIES_TAB",
+    "name": "Select proficiencies tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F7" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
