@@ -214,6 +214,8 @@ bool monster::know_danger_at( const tripoint &p ) const
     bool avoid_fall = has_flag( mon_flag_PATH_AVOID_FALL );
     bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER_1 );
     bool avoid_complex = has_flag( mon_flag_PATH_AVOID_DANGER_2 );
+    bool avoid_sharp = get_pathfinding_settings().avoid_sharp;
+    bool avoid_traps = get_pathfinding_settings().avoid_traps;
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -222,15 +224,18 @@ bool monster::know_danger_at( const tripoint &p ) const
      */
     if( avoid_complex ) {
         avoid_simple = true;
+        avoid_traps = true;
     }
     if( avoid_simple ) {
         avoid_fire = true;
         avoid_fall = true;
+        avoid_sharp = true;
     }
 
     // technically this will shortcut in evaluation from fire or fall
     // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
+    if( avoid_fire || avoid_fall || avoid_simple ||
+        avoid_complex || avoid_traps || avoid_sharp ) {
         const ter_id target = here.ter( p );
         if( !here.has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
@@ -254,28 +259,27 @@ bool monster::know_danger_at( const tripoint &p ) const
             // Some things are only avoided if we're not attacking
             if( attitude( &get_player_character() ) != MATT_ATTACK ) {
                 // Sharp terrain is ignored while attacking
-                if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
+                if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
                     !( type->size == creature_size::tiny || flies() ||
                        get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
                     return false;
                 }
             }
+
+            // Don't step on any traps (if we can see)
+            const trap &target_trap = here.tr_at( p );
+            if( avoid_traps && has_flag( mon_flag_SEES ) &&
+                !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
+                return false;
+            }
         }
 
         const field &target_field = here.field_at( p );
-
         // Higher awareness is needed for identifying these as threats.
         if( avoid_complex ) {
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
                 return false;
-            }
-            if( !here.has_vehicle_floor( p ) ) {
-                // Don't step on any traps (if we can see)
-                const trap &target_trap = here.tr_at( p );
-                if( has_flag( mon_flag_SEES ) && !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
-                    return false;
-                }
             }
         }
 
@@ -1016,11 +1020,34 @@ void monster::move()
             }
         }
     }
+
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
-    const tripoint local_dest = here.getlocal( get_dest() );
+    tripoint local_dest = here.getlocal( get_dest() );
     if( try_to_move ) {
-        if( !is_wandering() ) {
+        // Move using vision by follow smells and sounds
+        bool move_without_target = false;
+        if( is_wandering() && has_intelligence() && can_see() ) {
+            if( has_flag( mon_flag_SMELLS ) ) {
+                unset_dest();
+                tripoint tmp = scent_move();
+                if( tmp.x != -1 ) {
+                    local_dest = tmp;
+                    move_without_target = true;
+                    add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell using vision", name() );
+                }
+            }
+            if( !move_without_target && wandf > 0 && friendly == 0 ) {
+                unset_dest();
+                if( wander_pos != get_location() ) {
+                    local_dest = here.getlocal( wander_pos );
+                    move_without_target = true;
+                    add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound using vision", name() );
+                }
+            }
+        }
+
+        if( !is_wandering() || move_without_target ) {
             while( !path.empty() && path.front() == pos() ) {
                 path.erase( path.begin() );
             }
@@ -1052,6 +1079,7 @@ void monster::move()
         if( tmp.x != -1 ) {
             destination = tmp;
             moved = true;
+            add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell to not use vision", name() );
         }
     }
     if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
@@ -1059,6 +1087,7 @@ void monster::move()
         if( wander_pos != get_location() ) {
             destination = here.getlocal( wander_pos );
             moved = true;
+            add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound to not use vision", name() );
         }
     }
 
