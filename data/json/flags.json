@@ -588,6 +588,11 @@
     "type": "json_flag"
   },
   {
+    "id": "LEG_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the legs, and can only be used as a replacement limb."
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "//": "Outer garment layer.",
@@ -1952,10 +1957,6 @@
   },
   {
     "id": "NOGIB",
-    "type": "json_flag"
-  },
-  {
-    "id": "NON-FOULING",
     "type": "json_flag"
   },
   {

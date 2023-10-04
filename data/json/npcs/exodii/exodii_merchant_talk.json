@@ -748,7 +748,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
+        "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.",
         {
           "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",

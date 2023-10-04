@@ -186,6 +186,7 @@ struct fake_spell {
 class spell_events : public event_subscriber
 {
     public:
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 };
 
