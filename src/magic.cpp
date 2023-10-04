@@ -1459,9 +1459,9 @@ bool spell::ignore_by_species_id( const tripoint &p ) const
         return true;
     }
     bool valid = true;
-    if (monster* const target = get_creature_tracker().creature_at<monster>(p)) {
-        for (const species_id& spid : type->ignored_species_ids) {
-            if (target->type->in_species(spid)) {
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
+        for( const species_id &spid : type->ignored_species_ids ) {
+            if( target->type->in_species( spid ) ) {
                 valid = false;
             }
         }
