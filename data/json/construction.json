@@ -8903,7 +8903,6 @@
     "id": "constr_pipe_bulk_mid",
     "group": "pipe_bulk",
     "category": "BULK",
-    "difficulty": 0,
     "time": "15 m",
     "components": [ [ [ "pipe", 200 ] ] ],
     "dark_craftable": true,
