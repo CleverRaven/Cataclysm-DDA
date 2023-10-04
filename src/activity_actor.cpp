@@ -4319,6 +4319,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "handler", handler );
     jsout.member( "all_pockets_rigid", all_pockets_rigid );
+    jsout.member( "reopen_menu", reopen_menu );
 
     jsout.end_object();
 }
@@ -4333,6 +4334,7 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     data.read( "items", actor.items );
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
+    data.read( "reopen_menu", actor.reopen_menu );
 
     return actor.clone();
 }

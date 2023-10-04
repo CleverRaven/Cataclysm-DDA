@@ -1259,7 +1259,6 @@ class insert_item_activity_actor : public activity_actor
     private:
         item_location holster;
         drop_locations items;
-        drop_locations items_failed;
         contents_change_handler handler;
         bool all_pockets_rigid;
         bool reopen_menu;
