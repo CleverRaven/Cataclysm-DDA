@@ -1,0 +1,42 @@
+[
+  {
+    "id": "right_leg_prosthetic",
+    "type": "ARMOR",
+    "name": { "str_sp": "prosthetic right leg" },
+    "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced makes it look exactly like the original.  This one is for the right leg.",
+    "weight": "3629 g",
+    "volume": "10 L",
+    "longest_side": "122 cm",
+    "price": 500000,
+    "price_postapoc": 20000,
+    "to_hit": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "|",
+    "color": "brown",
+    "warmth": 15,
+    "material_thickness": 1,
+    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_r" ] } ]
+  },
+  {
+    "id": "left_leg_prosthetic",
+    "type": "ARMOR",
+    "name": { "str_sp": "prosthetic left leg" },
+    "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the left leg.",
+    "weight": "3629 g",
+    "volume": "10 L",
+    "longest_side": "122 cm",
+    "price": 500000,
+    "price_postapoc": 20000,
+    "to_hit": 1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "|",
+    "color": "brown",
+    "warmth": 15,
+    "material_thickness": 1,
+    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_l" ] } ]
+  }
+]

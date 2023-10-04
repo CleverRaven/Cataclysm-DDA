@@ -26,5 +26,98 @@
     "recurrence": [ "2 hour", "24 hours" ],
     "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_RIGHT_WEAR",
+    "condition": { "and": [ { "u_has_trait": "NO_RIGHT_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } ] },
+    "effect": [
+      { "u_lose_trait": "NO_RIGHT_LEG" },
+      { "u_add_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_RIGHT_REMOVE",
+    "recurrence": 5,
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } },
+        { "u_has_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "NO_RIGHT_LEG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_LEFT_WEAR",
+    "condition": { "and": [ { "u_has_trait": "NO_LEFT_LEG" }, { "u_has_trait": "LEFT_PROSTHETIC_LEG" } ] },
+    "effect": [
+      { "u_lose_trait": "NO_LEFT_LEG" },
+      { "u_add_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_LEFT_REMOVE",
+    "recurrence": 5,
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } },
+        { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "NO_LEFT_LEG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUMMY_LIMB_LEFT_LEG_ADD",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "not": { "u_has_trait": "NO_LEFT_LEG" } }, { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } } ] },
+    "deactivate_condition": {
+      "or": [ { "u_has_trait": "NO_LEFT_LEG" }, { "u_has_trait": "LEFT_PROSTHETIC_LEG" }, { "u_has_trait": "HAS_LEFT_LEG" } ]
+    },
+    "effect": [ { "u_add_trait": "HAS_LEFT_LEG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUMMY_LIMB_RIGHT_LEG_ADD",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "not": { "u_has_trait": "NO_RIGHT_LEG" } }, { "not": { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } } ] },
+    "deactivate_condition": {
+      "or": [ { "u_has_trait": "NO_RIGHT_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" }, { "u_has_trait": "HAS_RIGHT_LEG" } ]
+    },
+    "effect": [ { "u_add_trait": "HAS_RIGHT_LEG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROSTHETIC_LEG_HIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "or": [ { "u_has_trait": "LEFT_PROSTHETIC_LEG" }, { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "left_leg_prosthetic", "worn_only": true } ],
+        "true_eocs": [ "EOC_left_leg_hp_set" ]
+      },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "right_leg_prosthetic", "worn_only": true } ],
+        "true_eocs": [ "EOC_right_leg_hp_set" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_left_leg_hp_set",
+    "effect": [ { "math": [ "n_hp()", "=", "u_hp('leg_prosthetic_l') * n_hp_max('bp_null') / u_hp_max('leg_prosthetic_l')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_right_leg_hp_set",
+    "effect": [ { "math": [ "n_hp()", "=", "u_hp('leg_prosthetic_r') * n_hp_max('bp_null') / u_hp_max('leg_prosthetic_r')" ] } ]
   }
 ]
