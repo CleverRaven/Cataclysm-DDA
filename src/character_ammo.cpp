@@ -541,7 +541,8 @@ hint_rating Character::rate_action_unload( const item &it ) const
 
 hint_rating Character::rate_action_insert( const item_location &loc ) const
 {
-    if( loc->will_spill_if_unsealed() && loc.where() != item_location::type::map  && !is_wielding( *loc ) ) {
+    if( loc->will_spill_if_unsealed() && loc.where() != item_location::type::map  &&
+        !is_wielding( *loc ) ) {
         return hint_rating::cant;
     }
     return hint_rating::good;
