@@ -1640,9 +1640,9 @@ std::string spell::list_ignored_species_names() const
         all_valid_species_names.emplace_back( species_id.str() );
     }
     //remove repeat names
-    all_valid_species_names.erase(std::unique(all_valid_species_names.begin(),
-        all_valid_species_names.end()), all_valid_species_names.end());
-    std::string ret = enumerate_as_string(all_valid_species_names);
+    all_valid_species_names.erase( std::unique( all_valid_species_names.begin(),
+                                   all_valid_species_names.end() ), all_valid_species_names.end() );
+    std::string ret = enumerate_as_string( all_valid_species_names );
     return ret;
 }
 
