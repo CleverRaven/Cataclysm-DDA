@@ -236,7 +236,6 @@ class mapgendata
         bool has_predecessor() const;
         const oter_id &last_predecessor() const;
         void pop_last_predecessor();
-        void erase_linear_predecessor_duplicates();
 
         template<typename Result>
         Result get_arg( const std::string &name ) const {
