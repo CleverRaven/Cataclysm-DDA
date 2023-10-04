@@ -7,7 +7,11 @@
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
         {
-          "chunks": [ "24x24_forest_trail_curved_basic", "24x24_forest_trail_curved_shrubs", "24x24_forest_trail_curved_diag" ],
+          "chunks": [
+            [ "24x24_forest_trail_curved_basic", 1 ],
+            [ "24x24_forest_trail_curved_shrubs", 1 ],
+            [ "24x24_forest_trail_curved_diag", 2 ]
+          ],
           "x": 0,
           "y": 0
         }

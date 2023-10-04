@@ -6,16 +6,48 @@
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
+        { "chunks": [ "24x24_forest_trail_straight_forest" ], "x": 0, "y": 0, "predecessors": [ "forest", "forest_thick" ] },
+        { "chunks": [ "24x24_forest_trail_straight_swamp" ], "x": 0, "y": 0, "predecessors": [ "forest_water" ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_forest",
+    "object": {
+      "place_nested": [
         {
           "chunks": [
-            "24x24_forest_trail_straight_basic",
-            "24x24_forest_trail_straight_meander",
-            "24x24_forest_trail_straight_meander_1",
-            "24x24_forest_trail_straight_fallen_tree",
-            "24x24_forest_trail_straight_sett",
-            "24x24_forest_trail_straight_steep",
-            "24x24_forest_trail_straight_mud",
-            "24x24_forest_trail_straight_mud_split"
+            [ "24x24_forest_trail_straight_basic", 10 ],
+            [ "24x24_forest_trail_straight_meander", 20 ],
+            [ "24x24_forest_trail_straight_meander_1", 20 ],
+            [ "24x24_forest_trail_straight_fallen_tree", 5 ],
+            [ "24x24_forest_trail_straight_sett", 3 ],
+            [ "24x24_forest_trail_straight_steep", 5 ],
+            [ "24x24_forest_trail_straight_mud", 5 ],
+            [ "24x24_forest_trail_straight_mud_split", 5 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_swamp",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_forest_trail_straight_basic", 10 ],
+            [ "24x24_forest_trail_straight_meander", 20 ],
+            [ "24x24_forest_trail_straight_meander_1", 20 ],
+            [ "24x24_forest_trail_straight_fallen_tree", 5 ],
+            [ "24x24_forest_trail_straight_mud", 10 ],
+            [ "24x24_forest_trail_straight_mud_split", 10 ]
           ],
           "x": 0,
           "y": 0
