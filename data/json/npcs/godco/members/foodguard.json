@@ -342,7 +342,10 @@
       "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "I don't have anything right now.  Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      {
+        "text": "I don't have anything right now.  Let's talk about something else.",
+        "topic": "TALK_GODCO_guard_food_idlechat"
+      },
       { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
     ]
   }
