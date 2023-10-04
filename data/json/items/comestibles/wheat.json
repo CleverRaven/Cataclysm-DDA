@@ -252,7 +252,7 @@
     "type": "COMESTIBLE",
     "id": "cheese_grits",
     "name": { "str_sp": "cheese grits" },
-    "weight": "306 g",
+    "weight": "276 g",
     "color": "yellow",
     "comestible_type": "FOOD",
     "container": "box_small",
