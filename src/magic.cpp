@@ -1453,7 +1453,7 @@ bool spell::target_by_species_id( const tripoint &p ) const
     return valid;
 }
 
-bool spell::ignore_by_species_id(const tripoint& p) const
+bool spell::ignore_by_species_id( const tripoint &p ) const
 {
     if (type->ignored_species_ids.empty()) {
         return true;
