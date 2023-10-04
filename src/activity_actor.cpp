@@ -4284,19 +4284,11 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         success = true;
     }
 
-    drop_locations items_remain;
-    if( reopen_menu && !success ) {
-        std::copy( items.begin(), items.end(), std::back_inserter( items_remain ) );
-    }
-
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
         handler.handle_by( who );
         act.set_to_null();
-        if( !items_remain.empty() ) {
-            g->insert_item( items_remain );
-        }
         return;
     }
 

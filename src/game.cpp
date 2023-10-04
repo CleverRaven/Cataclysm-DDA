@@ -9102,25 +9102,6 @@ void game::insert_item()
     game_menus::inv::insert_items( u, item_loc );
 }
 
-void game::insert_item( drop_locations &locs )
-{
-    item_location item_loc = inv_map_splice( [ &, locs]( const item_location & it ) {
-        if( locs.front().first && locs.front().first.parent_item() == it ) {
-            return false;
-        }
-        return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
-    }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );
-
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    if( !locs.empty() ) {
-        u.assign_activity( insert_item_activity_actor( item_loc, locs, true ) );
-    }
-}
-
 void game::unload_container()
 {
     if( const std::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
