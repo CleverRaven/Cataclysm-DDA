@@ -67,6 +67,18 @@
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_dash_boom_spell", 1 ] ]
   },
+    {
+    "type": "mutation",
+    "id": "SALAMANDER_SMOKE_TELEPORT",
+    "name": { "str": "In a Puff of Smoke" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to vanish in a burst of smoke and reappear somewhere nearby.",
+    "prereqs": [ "SALAMANDER_DASH_BOOM" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_smoke_teleport_spell", 1 ] ]
+  },
   {
     "type": "mutation",
     "id": "SALAMANDER_FLAME_PUNCH",
@@ -148,8 +160,22 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to pluck a goblin fruit from the flames.",
+    "prereqs": [ "SALAMANDER_WATER_TO_BOOZE" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_WATER_TO_BOOZE",
+    "name": { "str": "Burning Water" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander can activate this trait to learn how to convert water into very strong alcohol.",
+    "prereqs": [ "SALAMANDER_EYES" ],
+    "category": [ "SALAMANDER" ],
+    "active": true,
+    "activated_eocs": [ "EOC_SALAMANDER_WATER_TO_BOOZE" ]
   },
   {
     "type": "mutation",
@@ -285,6 +311,20 @@
       ]
     ],
     "transform": { "target": "SALAMANDER_HEAT_HEAL", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_DROP_FIRE",
+    "name": { "str": "Searing Footsteps" },
+    "points": 6,
+    "description": "The Salamander can enhance their inner fire to the point where they leave fiery footprints everywhere they travel.  Activate this trait to leave a trail of fire in your wake at the cost of mana for every footstep.",
+    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs2": [ "SALAMANDER_SKIN_2" ],
+    "category": [ "SALAMANDER" ],
+    "activated_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
+    "processed_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
+    "time": "1 s",
+    "//": "This should have a mana cost here instead of within the EoC once that's possible.",
   },
   {
     "type": "mutation",
@@ -479,6 +519,30 @@
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "spells_learned": [ [ "salamander_fire_fly", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_MANA_BONUS",
+    "name": { "str": "Mana Bonfire" },
+    "points": 8,
+    "description": "The Salamander is a font of mana, like a well-fueled bonfire.  25% extra mana.",
+    "prereqs": [ "SALAMANDER_INT_BONUS" ]
+    "changes_to": "SALAMANDER_FAST_CAST",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "mana_multiplier": 1.25
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_FAST_CAST",
+    "name": { "str": "Crackling Mana Bonfire" },
+    "points": 10,
+    "description": "The Salamander's mana surges within them, ready to burst out at the slightly opportunity.  25% extra mana and -15% spell casting speed.",
+    "prereqs": [ "SALAMANDER_INT_BONUS" ]
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "mana_multiplier": 1.25,
+    "casting_time_multiplier": 0.85
   },
   {
     "type": "mutation",
