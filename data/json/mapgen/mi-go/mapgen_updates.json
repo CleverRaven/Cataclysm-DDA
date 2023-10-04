@@ -3,6 +3,26 @@
     "type": "mapgen",
     "update_mapgen_id": "mi-go_camp_spawn",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "mi-go_encampment1_room1" ], "x": 1, "y": 8 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "mi-go_encampment1_room1" ], "x": 0, "y": 2 },
+        { "chunks": [ "mi-go_encampment1_room2" ], "x": 4, "y": 1 },
+        { "chunks": [ "mi-go_encampment1_room3" ], "x": 11, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room4" ], "x": 12, "y": 0 },
+        { "chunks": [ "mi-go_encampment1_room5" ], "x": 18, "y": 1 },
+        { "chunks": [ "mi-go_encampment1_room6" ], "x": 28, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room7" ], "x": 0, "y": 8 },
+        { "chunks": [ "mi-go_encampment1_room8" ], "x": 7, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room9" ], "x": 15, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room9a" ], "x": 24, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room10" ], "x": 0, "y": 17 },
+        { "chunks": [ "mi-go_encampment1_room11" ], "x": 4, "y": 15 },
+        { "chunks": [ "mi-go_encampment1_room12" ], "x": 10, "y": 13 },
+        { "chunks": [ "mi-go_encampment1_room13" ], "x": 18, "y": 15 },
+        { "chunks": [ "mi-go_encampment1_room14" ], "x": 25, "y": 14 },
+        { "chunks": [ "mi-go_encampment1_room15" ], "x": 11, "y": 18 },
+        { "chunks": [ "mi-go_encampment1_room16" ], "x": 8, "y": 21 }
+      ]
+    }
   }
 ]
