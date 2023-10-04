@@ -201,15 +201,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "forest_trail_intersection",
-    "object": {
-      "predecessor_mapgen": "forest_thick",
-      "place_nested": [ { "chunks": [ "24x24_forest_trail_intersection" ], "x": 0, "y": 0 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_forest_trail_intersection",
     "object": {
       "mapgensize": [ 24, 24 ],
