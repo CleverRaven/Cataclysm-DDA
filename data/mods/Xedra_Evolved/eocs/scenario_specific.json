@@ -4,5 +4,57 @@
     "id": "scenario_once_bitten",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_paraclesian_birth",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "condition": { "u_has_trait": "IERDE" },
+    "effect": [ { "u_learn_recipe": "mutagen_earthkin" }, { "u_learn_recipe": "cthonic_poultice" } ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "scenario_paraclesian_birth2",
+          "condition": { "u_has_trait": "UNDINE" },
+          "effect": [ { "u_learn_recipe": "mutagen_waterkin" }, { "u_learn_recipe": "cerulean_poultice" } ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "scenario_paraclesian_birth3",
+                "condition": { "u_has_trait": "SALAMANDER" },
+                "effect": [ { "u_learn_recipe": "mutagen_flamekin" }, { "u_learn_recipe": "charred_sacrifice" } ],
+                "false_effect": {
+                  "run_eocs": [
+                    {
+                      "id": "scenario_paraclesian_birth4",
+                      "condition": { "u_has_trait": "SYLPH" },
+                      "effect": [ { "u_learn_recipe": "mutagen_airkin" }, { "u_learn_recipe": "ethereal_draught" } ],
+                      "false_effect": {
+                        "run_eocs": [
+                          {
+                            "id": "scenario_paraclesian_birth5",
+                            "condition": { "u_has_trait": "HOMULLUS" },
+                            "effect": [ { "u_learn_recipe": "mutagen_dollkin" }, { "u_learn_recipe": "doll_repair_paste" } ],
+                            "false_effect": {
+                              "run_eocs": [
+                                {
+                                  "id": "scenario_paraclesian_birth6",
+                                  "condition": { "u_has_trait": "ARVORE" },
+                                  "effect": [ { "u_learn_recipe": "mutagen_plantkin" }, { "u_learn_recipe": "verdant_poultice" } ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
   }
 ]

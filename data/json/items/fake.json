@@ -97,11 +97,39 @@
     "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ]
   },
   {
+    "id": "fake_sharp_metal_wreckage",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "sharp piece of wreckage" },
+    "qualities": [ [ "CUT", 1 ] ]
+  },
+  {
     "id": "boulder_anvil",
     "type": "TOOL",
     "copy-from": "fake_item",
     "name": { "str": "boulder anvil" },
     "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "id": "fake_anvil",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "anvil" },
+    "qualities": [ [ "ANVIL", 3 ] ]
+  },
+  {
+    "id": "fake_anvil_heavy",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "heavy anvil" },
+    "qualities": [ [ "ANVIL", 4 ] ]
+  },
+  {
+    "id": "fake_anvil_crude",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "anvil" },
+    "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
     "id": "fake_milling_item",

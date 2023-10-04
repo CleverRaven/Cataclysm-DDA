@@ -2646,6 +2646,17 @@ bool map::has_floor_or_support( const tripoint &p ) const
     return !valid_move( p, below, false, true );
 }
 
+bool map::has_vehicle_floor( const tripoint &p ) const
+{
+    const tripoint_bub_ms p_bub( p );
+    return has_vehicle_floor( p_bub );
+}
+bool map::has_vehicle_floor( const tripoint_bub_ms &p ) const
+{
+    return veh_at( p ).part_with_feature( "BOARDABLE", false ) ||
+           veh_at( p ).part_with_feature( "OBSTACLE", false );
+}
+
 void map::drop_everything( const tripoint &p )
 {
     if( has_floor_or_water( p ) ) {
@@ -9924,6 +9935,7 @@ void map::update_pathfinding_cache( int zlev ) const
                     const ter_t &terrain = tile.get_ter_t();
                     const furn_t &furniture = tile.get_furn_t();
                     const field &field = tile.get_field();
+                    const map &here = get_map();
                     int part;
                     const vehicle *veh = veh_at_internal( p, part );
 
@@ -9949,7 +9961,8 @@ void map::update_pathfinding_cache( int zlev ) const
                         }
                     }
 
-                    if( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) {
+                    if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
+                        !here.has_vehicle_floor( p ) ) {
                         cur_value |= PF_TRAP;
                     }
 
@@ -9960,7 +9973,7 @@ void map::update_pathfinding_cache( int zlev ) const
                         cur_value |= PF_UPDOWN;
                     }
 
-                    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) ) {
+                    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
                         cur_value |= PF_SHARP;
                     }
 

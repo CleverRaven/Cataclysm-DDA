@@ -136,9 +136,9 @@
     "type": "monstergroup",
     "name": "GROUP_DISTORTED_MICROLAB",
     "monsters": [
-      { "monster": "mon_feral_scientist_psychic", "freq": 20, "cost_multiplier": 1 },
-      { "monster": "mon_feral_human_porter3", "freq": 35, "cost_multiplier": 1 },
-      { "monster": "mon_nether_eater", "freq": 60, "cost_multiplier": 1 }
+      { "monster": "mon_feral_scientist_psychic", "weight": 20, "cost_multiplier": 1 },
+      { "monster": "mon_feral_human_porter3", "weight": 35, "cost_multiplier": 1 },
+      { "monster": "mon_nether_eater", "weight": 60, "cost_multiplier": 1 }
     ]
   },
   {

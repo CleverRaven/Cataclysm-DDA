@@ -62,6 +62,6 @@
     "type": "emit",
     "field": "fd_nullifying_field",
     "intensity": 3,
-    "qty": 80
+    "qty": 120
   }
 ]

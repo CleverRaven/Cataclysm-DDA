@@ -2,14 +2,22 @@
 
 #include <algorithm>
 
+#include "character.h"
 #include "debug.h"
 #include "event_subscriber.h"
+#include "talker.h"
 
 event_subscriber::~event_subscriber()
 {
     if( subscribed_to ) {
         subscribed_to->unsubscribe( this );
     }
+}
+
+void event_subscriber::notify( const cata::event &e, std::unique_ptr<talker>,
+                               std::unique_ptr<talker> )
+{
+    notify( e );
 }
 
 void event_subscriber::on_subscribe( event_bus *b )
@@ -57,5 +65,13 @@ void event_bus::send( const cata::event &e ) const
 {
     for( event_subscriber *s : subscribers ) {
         s->notify( e );
+    }
+}
+
+void event_bus::send_with_talker( Character *alpha, item_location *beta,
+                                  const cata::event &e ) const
+{
+    for( event_subscriber *s : subscribers ) {
+        s->notify( e, get_talker_for( alpha ), get_talker_for( beta ) );
     }
 }
