@@ -297,9 +297,9 @@ void spell_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "targeted_monster_species", targeted_species_ids,
               targeted_monster_species_reader );
 
-    const auto ignored_monster_species_reader = string_id_reader<::species_type>{};
-    optional(jo, was_loaded, "ignored_monster_species", ignored_species_ids,
-        ignored_monster_species_reader);
+    const auto ignored_monster_species_reader = string_id_reader<::species_type> {};
+    optional( jo, was_loaded, "ignored_monster_species", ignored_species_ids,
+              ignored_monster_species_reader );
 
 
 
