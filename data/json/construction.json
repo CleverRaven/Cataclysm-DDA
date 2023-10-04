@@ -8713,7 +8713,7 @@
     "pre_terrain": "f_log_stack_short",
     "post_terrain": "f_log_stack_mid",
     "activity_level": "EXTRA_EXERCISE",
-	"difficulty":0
+    "difficulty":0
   },
   {
     "type": "construction",
