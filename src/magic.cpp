@@ -1636,8 +1636,8 @@ std::string spell::list_ignored_species_names() const
         return "";
     }
     std::vector<std::string> all_valid_species_names;
-    for (const species_id& species_id : type->ignored_species_ids) {
-        all_valid_species_names.emplace_back(species_id.str());
+    for( const species_id &species_id : type->ignored_species_ids ) {
+        all_valid_species_names.emplace_back( species_id.str() );
     }
     //remove repeat names
     all_valid_species_names.erase(std::unique(all_valid_species_names.begin(),
