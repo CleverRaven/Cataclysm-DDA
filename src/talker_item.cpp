@@ -118,6 +118,5 @@ void talker_item::set_all_parts_hp_cur( int set ) const
 
 void talker_item::die()
 {
-    popup( "talker_item::die" );
     me_it->remove_item();
 }
