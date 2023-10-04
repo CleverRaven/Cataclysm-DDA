@@ -486,7 +486,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_variant", sound_variant, sound_variant_default );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
     json.member( "targeted_monster_species", targeted_species_ids, std::set<species_id> {} );
-    json.member( "ignored_monster_species", ignored_species_ids, std::set<species_id> {});
+    json.member( "ignored_monster_species", ignored_species_ids, std::set<species_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
