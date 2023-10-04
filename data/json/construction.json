@@ -8793,7 +8793,6 @@
     "components": [ [ [ "stick", 400 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "f_stick_stack_short",
-    "difficulty": 0,
     "post_terrain": "f_stick_stack_mid",
     "activity_level": "EXTRA_EXERCISE"
   },
@@ -8807,7 +8806,6 @@
     "components": [ [ [ "stick", 400 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "f_stick_stack_mid",
-    "difficulty": 0,
     "post_terrain": "f_stick_stack_tall",
     "activity_level": "EXTRA_EXERCISE"
   },
