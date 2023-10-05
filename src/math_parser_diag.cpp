@@ -367,21 +367,21 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
 std::function<double( dialogue & )> skill_exp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value skill_value( std::string{} );
-    diag_value raw_value( std::string{} );
+    diag_value raw_value( std::string( "false" ) );
     if( params.empty() ) {
         throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
                                      "skill_exp" ) );
-    } else {
-        skill_value = params[0];
-        if( params.size() > 1 ) {
-            raw_value = params[1];
-        }
+    } else if( params.size() > 1 ) {
+        raw_value = params[1];
     }
 
-    return[skill_value, raw_value, beta = is_beta( scope )]( dialogue const & d ) {
+    return[skill_value = params[0], raw_value, beta = is_beta( scope )]( dialogue const & d ) {
         skill_id skill( skill_value.str( d ) );
-        bool raw = raw_value.str( d ) == "true";
+        std::string raw_str = raw_value.str( d );
+        if( raw_str != "true" && raw_str != "false" ) {
+            throw std::invalid_argument( string_format( "Unknown parameter %s", raw_str ) );
+        }
+        bool raw = raw_str == "true";
         return d.actor( beta )->get_skill_exp( skill, raw );
     };
 }
@@ -389,21 +389,22 @@ std::function<double( dialogue & )> skill_exp_eval( char scope,
 std::function<void( dialogue &, double )> skill_exp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value skill_value = params[0];
-    diag_value raw_value( std::string{} );
+    diag_value raw_value( std::string( "false" ) );
     if( params.empty() ) {
         throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
                                      "skill_exp" ) );
-    } else {
-        if( params.size() > 1 ) {
-            raw_value = params[1];
-        }
+    } else if( params.size() > 1 ) {
+        raw_value = params[1];
     }
 
-    return [skill_value, raw_value, beta = is_beta( scope ) ]( dialogue const & d,
+    return [skill_value = params[0], raw_value, beta = is_beta( scope ) ]( dialogue const & d,
     double val ) {
         skill_id skill( skill_value.str( d ) );
-        bool raw = raw_value.str( d ) == "true";
+        std::string raw_str = raw_value.str( d );
+        if( raw_str != "true" && raw_str != "false" ) {
+            throw std::invalid_argument( string_format( "Unknown parameter %s", raw_str ) );
+        }
+        bool raw = raw_str == "true";
         return d.actor( beta )->set_skill_exp( skill, val, raw );
     };
 }
