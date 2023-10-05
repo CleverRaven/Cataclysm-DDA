@@ -329,6 +329,16 @@ void talker_character::set_skill_level( const skill_id &skill, int value )
     me_chr->set_skill_level( skill, value );
 }
 
+int talker_character_const::get_skill_exp( const skill_id &skill, bool raw ) const
+{
+    return me_chr_const->get_skill_level_object( skill ).exercise( raw );
+}
+
+void talker_character::set_skill_exp( const skill_id &skill, int value, bool raw )
+{
+    me_chr->get_skill_level_object( skill ).set_exercise( value, raw );
+}
+
 int talker_character_const::get_spell_level( const trait_id &spell_school ) const
 {
     int spell_level = -1;

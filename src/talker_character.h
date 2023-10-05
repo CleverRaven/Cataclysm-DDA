@@ -93,6 +93,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
         int get_skill_level( const skill_id & ) const override;
+        int get_skill_exp( const skill_id &skill, bool raw = false ) const override;
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
@@ -236,6 +237,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void activate_mutation( const trait_id &trait ) override;
         void deactivate_mutation( const trait_id &trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
+        void set_skill_exp( const skill_id &skill, int value, bool raw = false ) override;
         void learn_recipe( const recipe_id &recipe_to_learn ) override;
         void forget_recipe( const recipe_id &recipe_to_forget ) override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,

@@ -364,6 +364,54 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
     };
 }
 
+std::function<double( dialogue & )> skill_exp_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    diag_value skill_value( std::string{} );
+    diag_value raw_value( std::string{} );
+    if( params.empty() ) {
+        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
+                                     "skill_exp" ) );
+    } else {
+        skill_value = params[0];
+        if( params.size() > 1 ) {
+            raw_value = params[1];
+        }
+    }
+
+    return[skill_value, raw_value, beta = is_beta( scope )]( dialogue const & d ) {
+        skill_id skill( skill_value.str( d ) );
+        bool raw = raw_value.str( d ) == "true";
+        return d.actor( beta )->get_skill_exp( skill, raw );
+    };
+}
+
+std::function<void( dialogue &, double )> skill_exp_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    diag_value skill_value( std::string{} );
+    diag_value val_value( std::string{} );
+    diag_value raw_value( std::string{} );
+    if( params.size() < 2 ) {
+        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
+                                     "skill_exp" ) );
+    } else {
+        skill_value = params[0];
+        val_value = params[1];
+        if( params.size() > 2 ) {
+            raw_value = params[1];
+        }
+    }
+
+    return [skill_value, val_value, raw_value, beta = is_beta( scope ),
+                 sid = params[0] ]( dialogue const & d, double val ) {
+        skill_id skill( skill_value.str( d ) );
+        int value = val_value.dbl( d );
+        bool raw = raw_value.str( d ) == "true";
+        return d.actor( beta )->set_skill_exp( skill, val, raw );
+    };
+}
+
 std::function<double( dialogue & )> spell_exp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
