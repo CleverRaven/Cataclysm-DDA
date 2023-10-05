@@ -105,18 +105,87 @@
     "effect": [
       { "math": [ "u_val('mana')", "-=", "5" ] },
       {
-        "u_location_variable": { "global_val": "salamander_fire_footsteps_location" },
-        "min_radius": 0,
-        "max_radius": 0,
-        "outdoor_only": false
-      },
-      {
         "u_transform_radius": 0,
         "target_var": { "global_val": "salamander_fire_footsteps_location" },
-        "ter_furn_transform": "ter_salamander_fire_drop",
-        "time_in_future": [ "1 seconds", "1 seconds" ]
-      }
+        "ter_furn_transform": "ter_salamander_fire_drop"
+      },
+      { "u_location_variable": { "global_val": "salamander_fire_footsteps_location" }, "outdoor_only": false }
     ],
     "false_effect": [ { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ON",
+    "effect": [
+      { "u_add_effect": "effect_salamander_smoke_form", "duration": "PERMANENT" },
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_OFF",
+    "effect": [
+      { "u_lose_effect": "effect_salamander_smoke_form" },
+      { "u_lose_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_add_effect": "effect_salamander_smoke_immunity", "duration": "15 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND",
+    "condition": {
+      "or": [
+        { "u_is_in_field": "fd_hot_air1" },
+        { "u_is_in_field": "fd_hot_air2" },
+        { "u_is_in_field": "fd_hot_air3" },
+        { "u_is_in_field": "fd_hot_air4" },
+        { "u_is_in_field": "fd_fire" },
+        { "u_is_in_field": "fd_salamander_heat" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK" ] } ],
+    "false_effect": [ { "u_message": "You must be in warm air to ascend!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_location_variable": { "u_val": "salamander_smoke_form_ascend" }, "z_adjust": 2, "outdoor_only": true },
+      { "u_message": "You soar upward on the rising smoke", "type": "good" },
+      { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
+    ],
+    "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]
+  },
+  {
+    "id": "salamander_quell_flames",
+    "type": "SPELL",
+    "name": "Quell Fire",
+    "description": "As you can create fire, you can also extinguish it.",
+    "message": "You disperse the flames harmlessly.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_salamander_fire_drop",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: salamander_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: salamander_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_aoe": 50,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 500,
+    "energy_increment": -150,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7.5
   }
 ]

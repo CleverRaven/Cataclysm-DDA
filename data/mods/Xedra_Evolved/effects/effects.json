@@ -787,6 +787,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_smoke_immunity",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_remove_stun",
     "name": [ "" ],
     "desc": [ "" ],
@@ -871,6 +880,36 @@
     "id": "effect_salamander_prevented_death",
     "name": [ "Arisen" ],
     "desc": [ "Like the phoenix, you have been reborn." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_smoke_form",
+    "name": [ "Smoke Form" ],
+    "desc": [ "You have transformed yourself into a cloud of smoke." ],
+    "apply_message": "Your body falls apart into billowing smoke!",
+    "remove_message": "You reconstruct yourself from the smoke.",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ],
+    "enchantments": [
+      { "emitter": "emit_smoke_blast" },
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": -1.0 }, { "value": "RANGED_DAMAGE", "multiply": -1.0 } ] }
+    ],
+    "flags": [
+      "INVISIBLE",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "DEAF",
+      "FEATHER_FALL",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "STAB_IMMUNE",
+      "CUT_IMMUNE",
+      "BULLET_IMMUNE",
+      "BASH_IMMUNE",
+      "ACID_IMMUNE",
+      "BIO_IMMUNE"
+    ],
+    "//": "Deliberately vulnerable to electricity damage."
   },
   {
     "type": "effect_type",

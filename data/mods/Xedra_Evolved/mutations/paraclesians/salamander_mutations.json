@@ -321,6 +321,8 @@
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "prereqs2": [ "SALAMANDER_SKIN_2" ],
     "category": [ "SALAMANDER" ],
+    "active": true,
+    "activated_is_setup": true,
     "activated_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
     "processed_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
     "time": "1 s",
@@ -599,5 +601,35 @@
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SMOKE_FORM",
+    "name": { "str": "Form of Billowing Smoke" },
+    "points": 8,
+    "description": "You may transform into smoke.  You will have only a dim awareness of your surroundings, but can freely move including through the air and will be nearly immune to attack.  You will be unable to attack yourself, however.",
+    "prereqs": [ "SALAMANDER_FIRE_IMMUNE" ],
+    "prereqs2": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ON" ],
+    "time": 10,
+    "kcal": true,
+    "cost": 1,
+    "deactivated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_OFF" ],
+    "//": "This should have a per-turn mana cost once that's possible."
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SMOKE_FORM_ASCEND",
+    "name": { "str": "Smoke Form Ascension" },
+    "points": 10,
+    "description": "While in hot air or a fire, you may ascend upwards",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "active": true,
+    "activated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ASCEND" ]
   }
 ]
