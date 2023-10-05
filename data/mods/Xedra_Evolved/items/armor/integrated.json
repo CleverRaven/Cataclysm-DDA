@@ -128,7 +128,7 @@
     "id": "integrated_vegital_cuticle",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "vegital cuticle" },
+    "name": { "str": "vegetal cuticle" },
     "description": "A pliable but hefty layer of living plant matter impregnated with various waxy polymers.",
     "weight": "2 kg",
     "volume": "300 ml",
@@ -238,7 +238,7 @@
     "id": "integrated_arvore_claws",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "jagged  wooden claws" },
+    "name": { "str_sp": "jagged wooden claws" },
     "description": "Your hands and fingers have transformed into jagged wooden claws.",
     "weight": "300 g",
     "volume": "500 ml",
@@ -316,6 +316,36 @@
       }
     ],
     "melee_damage": { "heat": 12 }
+  },
+  {
+    "id": "integrated_salamander_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "salamander eyes" },
+    "description": "Your eyes now reflect your mood, the warm red of a campfire or the searing heat of an incendiary weapon.  Glare no longer affects you.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "fae_flesh" ],
+    "symbol": "[",
+    "color": "red",
+    "warmth": 0,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "rigid_layer_only": true,
+        "cover_vitals": 100
+      }
+    ]
   },
   {
     "id": "integrated_gelatinous_skin",
@@ -542,5 +572,33 @@
         "breathability": "SECOND_SKIN"
       }
     ]
+  },
+  {
+    "id": "integrated_bloodbank",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "organic bloodbank" },
+    "description": "You can vaguely sense this organ… somewhere in your body.",
+    "volume": "1 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "symbol": "x",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRADER_AVOID" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "5500 g",
+        "material_restriction": [ "hblood" ],
+        "moves": 120,
+        "rigid": false,
+        "volume_encumber_modifier": 0.3,
+        "spoil_multiplier": 0.3
+      }
+    ],
+    "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
   }
 ]

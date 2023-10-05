@@ -1241,12 +1241,14 @@
     "id": "pizza_cutter",
     "name": { "str": "pizza cutter" },
     "description": "A utensil used for cutting pizza.  Practically useless in combat.",
-    "weight": "190 g",
-    "volume": "135 ml",
+    "price": "6 USD",
+    "weight": "186 g",
+    "volume": "350 ml",
     "longest_side": "23 cm",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "copy-from": "base_silverware",
-    "melee_damage": { "bash": 1, "cut": 2 }
+    "melee_damage": { "bash": 1, "cut": 2 },
+    "//": "Based on https://www.amazon.com/dp/B07YP2VL68"
   },
   {
     "type": "GENERIC",

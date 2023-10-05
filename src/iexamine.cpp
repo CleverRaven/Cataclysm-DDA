@@ -117,6 +117,8 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
 
+static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
+
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -180,7 +182,6 @@ static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
-static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -1517,7 +1518,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         move_cost = 100;
     } else {
         move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
-        if( g->slip_down() ) {
+        if( g->slip_down( game::climb_maneuver::over_obstacle, climbing_aid_furn_CLIMBABLE ) ) {
             you.moves -= move_cost;
             return;
         }
@@ -1574,13 +1575,26 @@ void iexamine::bars( Character &you, const tripoint &examp )
 void iexamine::deployed_furniture( Character &you, const tripoint &pos )
 {
     map &here = get_map();
-    if( !query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
-        return;
+
+    tripoint drop_pos = pos;
+
+    if( you.pos().z != pos.z ) {
+        drop_pos = you.pos();
+        if( !you.query_yn( _( "Pull up the %s?" ), here.furn( pos ).obj().name() ) ) {
+            return;
+        }
+        you.add_msg_if_player( m_info, _( "You pull up the %s." ),
+                               here.furn( pos ).obj().name() );
+    } else {
+        if( !you.query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
+            return;
+        }
+        you.add_msg_if_player( m_info, _( "You take down the %s." ),
+                               here.furn( pos ).obj().name() );
     }
-    you.add_msg_if_player( m_info, _( "You take down the %s." ),
-                           here.furn( pos ).obj().name() );
+
     const itype_id furn_item = here.furn( pos ).obj().deployed_item;
-    here.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    here.add_item_or_charges( drop_pos, item( furn_item, calendar::turn ) );
     here.furn_set( pos, f_null );
 }
 
@@ -4237,6 +4251,7 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const float traps_skill_level = player_character.get_skill_level( skill_traps );
+        const float traps_knowledge_level = player_character.get_knowledge_level( skill_traps );
         const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
                                               player_character.dex_cur +
                                               player_character.int_cur ) / 6.0f;
@@ -4254,7 +4269,8 @@ void trap::examine( const tripoint &examp ) const
             proficiency_effect += 1;
             // Knowing how to set traps does give you a small bonus to disarming them as well, regardless of your other bonuses.
         }
-        const float mean_roll = traps_skill_level + ( weighted_stat_average / 4.0f ) + proficiency_effect;
+        const float mean_roll = ( ( traps_skill_level + traps_knowledge_level ) / 2 ) +
+                                ( weighted_stat_average / 4.0f ) + proficiency_effect;
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
 
@@ -5033,11 +5049,10 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 void iexamine::ledge( Character &you, const tripoint &examp )
 {
     enum ledge_actions {
-        ledge_peek_down,
-        ledge_climb_down,
-        ledge_cling_down,
+        ledge_peek_down = 1,
         ledge_jump_across,
         ledge_fall_down,
+        ledge_examine_furniture_below,
     };
 
     map &here = get_map();
@@ -5046,13 +5061,19 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
 
+    tripoint just_below = examp;
+    just_below.z--;
+
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
+
+    // NOTE this menu is merged with the climb down menu, manage keys carefully.
     cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
-    if( you.has_flag( json_flag_WALL_CLING ) ) {
-        cmenu.addentry( ledge_cling_down, true, 'C', _( "Crawl down." ) );
+    g->climb_down_menu_gen( examp, cmenu );
+    if( here.has_flag_furn( "EXAMINE_FROM_ABOVE", just_below ) ) {
+        cmenu.addentry( ledge_examine_furniture_below, true, 'e',
+                        _( "Reach for the %s below." ), here.furn( just_below ).obj().name() );
     }
-    cmenu.addentry( ledge_climb_down, true, 'c', _( "Climb down." ) );
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
@@ -5060,6 +5081,10 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.query();
 
     creature_tracker &creatures = get_creature_tracker();
+    if( g->climb_down_menu_pick( examp, cmenu.ret ) ) {
+        // This branch means the player chose some option generated by the climb menu.
+        return;
+    }
     switch( cmenu.ret ) {
         case ledge_jump_across: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
@@ -5086,10 +5111,10 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }
-        case ledge_climb_down: {
+        /*case ledge_climb_down: {
             g->climb_down( examp );
             break;
-        }
+        }*/
         case ledge_peek_down: {
             // Peek
             tripoint where = examp;
@@ -5111,7 +5136,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
         }
-        case ledge_cling_down: {
+        case ledge_examine_furniture_below: {
+            // Examine the furniture below.
+            here.furn( just_below ).obj().examine( you, just_below );
+            break;
+        }
+        /*case ledge_cling_down: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5131,7 +5161,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 }
             }
             break;
-        }
+        }*/
         case ledge_fall_down: {
             if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
                 you.moves -= 100;

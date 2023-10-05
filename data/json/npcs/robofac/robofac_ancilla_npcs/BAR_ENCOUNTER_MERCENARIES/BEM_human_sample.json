@@ -5,7 +5,7 @@
     "name": { "str": "Fleshmonger" },
     "//": "This mission is assigned and completed using dialogue and EOCs. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
     "goal": "MGOAL_NULL",
-    "description": "Deposit a human sample in a pit within the dead drop location.  Pick your reward at The Terminal once thats done.",
+    "description": "Deposit a human sample in a pit within the dead drop location.  Pick your reward at The Terminal once that's done.",
     "difficulty": 1,
     "value": 0,
     "start": {

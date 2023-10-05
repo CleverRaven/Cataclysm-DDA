@@ -53,6 +53,26 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
+    "result": "railroad_track_item",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "railroad_track_item_half", 2 ] ] ]
+  },
+  {
+    "result": "railroad_track_item_half",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "mc_steel_lump", 30 ] ] ]
+  },
+  {
     "result": "exodii_ingot_tin",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -299,7 +319,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 54 ] ] ]
   },
   {
     "result": "exodii_ingot_plastic",
@@ -682,5 +702,13 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap_tin", 5 ] ] ]
+  },
+  {
+    "result": "bag_body_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "plastic_sheet", 4 ] ] ]
   }
 ]

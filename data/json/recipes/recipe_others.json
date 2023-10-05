@@ -1242,13 +1242,13 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "4 h",
+    "difficulty": 6,
+    "time": "6 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "drill_press_tool", 20 ] ], [ [ "angle_grinder", 20 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "steel_chunk", 160 ], [ "steel_lump", 40 ], [ "frame", 4 ], [ "hdframe", 2 ] ] ]
+    "components": [ [ [ "anvil_crude", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3035,6 +3035,21 @@
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "anvil_crude",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "angle_grinder", 200 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [ [ [ "railroad_track_item_half", 1 ] ] ]
+  },
+  {
     "result": "anvil_bronze",
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
@@ -3042,13 +3057,13 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 40 m",
+    "time": "6 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "using": [ [ "forging_standard", 45 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DIG", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 10 ] ] ]
+    "components": [ [ [ "scrap_bronze", 90 ] ] ]
   },
   {
     "type": "recipe",

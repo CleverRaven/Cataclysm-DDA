@@ -562,7 +562,7 @@
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
       "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
-      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
+      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zeds but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
       "accepted": "Thanks, make sure you're ready for whatever the beast is.",
       "rejected": "Hey, I know I wouldn't volunteer for it either.",
       "advice": "I'd carry a shotgun at least, it sounded pretty big.",
@@ -870,6 +870,7 @@
     "id": "MISSION_PYROMANIAC",
     "type": "mission_definition",
     "name": { "str": "Angry pyromaniac" },
+    "description": "Bring the pyromaniac to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring atleast 200 units of gasoline</color>.  After you got there, talk to the pyromaniac to start burning the house.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 0,

@@ -1359,6 +1359,17 @@
     "damage_reduction": { "all": 15 }
   },
   {
+    "id": "integrated_heater_small",
+    "copy-from": "mountable_heater_small",
+    "description": "Set of tubes, that move heat from the engine into the vehicle cabin, heating it up.",
+    "item": "pipe",
+    "type": "vehicle_part",
+    "location": "",
+    "name": { "str": "small integrated heater" },
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
+    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } }
+  },
+  {
     "id": "mountable_cooler",
     "type": "vehicle_part",
     "name": { "str": "vehicle-mounted cooler" },
@@ -1380,6 +1391,20 @@
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": "C", "symbols_broken": ":" } ]
+  },
+  {
+    "id": "integrated_cooler",
+    "copy-from": "mountable_cooler",
+    "type": "vehicle_part",
+    "location": "",
+    "name": { "str": "small integrated cooler" },
+    "description": "Small set of mechanisms, that cool the vehicle out when turned on.",
+    "item": "integrated_cooler",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 s", "using": [ [ "adhesive", 1 ] ] }
+    }
   },
   {
     "type": "vehicle_part",

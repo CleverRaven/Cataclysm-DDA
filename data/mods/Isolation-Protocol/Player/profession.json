@@ -35,7 +35,7 @@
     "requirement": "achievement_reach_police_station",
     "description": "A small-town deputy who got the call and was ready to come to the rescue.  If only you'd known what you were getting into…",
     "points": 4,
-    "traits": [ "PROF_POLICE", "iso_trait" ],
+    "traits": [ "PROF_POLICE", "iso_trait", "iso_backup" ],
     "items": {
       "both": {
         "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch", "baton" ],
@@ -59,6 +59,7 @@
     "description": "An activist pursuing a government conspiracy.  In the end you were proven right, but does it even matter now?",
     "points": 2,
     "skills": [ { "level": 6, "name": "computer" }, { "level": 5, "name": "electronics" } ],
+    "traits": [ "iso_robolove", "iso_trait" ],
     "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
     "items": {
       "both": {
@@ -87,7 +88,7 @@
     "name": "Paramedic",
     "description": "A paramedic, trained to save lives in the field.",
     "points": 3,
-    "traits": [ "PROF_MED", "iso_trait" ],
+    "traits": [ "PROF_MED", "iso_trait", "iso_hypo_o" ],
     "items": {
       "both": {
         "items": [

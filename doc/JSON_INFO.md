@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Drop Actions](#drop-actions)
     - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
@@ -543,7 +544,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `scent_types.json`            | type of scent available
 | `scores.json`                 | scores
 | `skills.json`                 | skill descriptions and ID's
-| `snippets.json`               | flier/poster descriptions
+| `snippets.json`               | flier/poster/monster speech/dream/etc descriptions
 | `species.json`                | monster species
 | `speed_descripton.json`       | monster speed description
 | `speech.json`                 | monster vocalizations
@@ -1469,6 +1470,13 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
 | `freezing_point`       | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`               | Optional boolean. Default is false.
 | `rotting`              | Optional boolean. Default is false.
+| `breathability`        | What breathability the clothes, made out of this material, would have; can be `IMPERMEABLE` (0%), `POOR` (30%), `AVERAGE` (50%), `GOOD` (80%), `MOISTURE_WICKING` (110%), `SECOND_SKIN` (140%)
+| `burn_products`        | Burning this material drop this items; array, first in array is the id of an item, and another is the number, respond for effeciency of burning - the bigger the burnable item is (by weight), and the more items there is, the bigger output; Multiple items could be returned simultaneously, like `[ [ "corpse_ash", 0.035 ], [ "glass_shard", 0.5 ] ]`,
+| `repair_difficulty`    | Skill level that would be used to repair this item by default; if item has multiple materials, the most difficult would be used
+| `repaired_with`        | Material, that would be used to repair item, made out of this material
+| `salvaged_into`        | Item, into which this material could be salvaged
+| `sheet_thickness`      | Clothes, made out of this material, has this thickness, meaning clothes thickness should be multiple of this value; layered kevlar has `"sheet_thickness": 4.4,`, meaning all clothes that uses layered kevlar should be either 4.4, 8.8, 13.2 etc milimeters thick; unless `"ignore_sheet_thickness": true` is used for this clothes
+| `uncomfortable`        | Clothes made out of this material is always uncomfortable, no matter of it's properties
 | `soft`                 | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
 | `conductive`           | True if the material conducts electricity, defaults to false
 | `reinforces`           | Optional boolean. Default is false.
@@ -1567,6 +1575,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`. Indicates that this entry is a "monster".
 | `group`           | The sub-group's unique ID eg. `"GROUP_ZOMBIE"`. Indicates that this entry is a "monstergroup".
 | `weight`          | (_optional_) Chance of occurrence (`weight` / total `weight` in group) (default: 1)
+| `freq`            | (_optional_) Not used anymore, works exactly like weight
 | `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
@@ -2971,6 +2980,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // To be a fuel an item needs to be made of only one material,
                               // this material has to produce energy, *ie* have a `data_fuel` entry,
                               // and it needs to have consumable charges.
+"displacement": 280           // engine displacement, meaasured in cubic centimeters (cm3)
 ```
 
 #### The following optional fields are specific to WHEELs.
@@ -2983,6 +2993,8 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "rolling_resistance": 1.0,    // The "squishiness" of the wheel, per SAE standards.  Wheel rolling
                               // resistance increases vehicle drag linearly as vehicle weight
                               // and speed increase.
+"diameter": 8,                // diameter of wheel (in inches)
+"width": 4,                   // width of the wheel (in inches)
 ```
 
 `wheel_terrain_modifiers` field provides a way to modify wheel traction according to the flags set on terrain tile under each wheel.
@@ -3176,7 +3188,11 @@ Weakpoints only match if they share the same id, so it's important to define the
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"stackable": true,                           // This item can be stacked together, similarly to `charges`
 "degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
+"solar_efficiency": 0.3,                     // Efficiency of solar energy conversion for solarpacks; require SOLARPACK_ON to generate electricity; default 0
+"source_monster": "mon_zombie",               // This item is corpse of this monster (so it has weight and volume of this monster), and revive into this monster; require COPRSE flag
+"thrown_damage": [ { "damage_type": "bash", "amount": 15 } ], // Damage, that would be dealt when you throw this item; lack of this field fall back to use melee damage, including player's str bonus applied to melee attack
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
@@ -3219,6 +3235,8 @@ Weakpoints only match if they share the same id, so it's important to define the
   "conversion_rate": 1.0                     // Conversion of number of items that are milled (e.g. with a rate of 2, 10 input items will yield 20 milled items).
 },
 "explode_in_fire": true,                     // Should the item explode if set on fire
+"nanofab_template_group": "nanofab_recipes", // This item is nanofabricator recipe, and point to itemgroup with items, that it could possibly contain; require nanofab_template_group
+"template_requirements": "nanofabricator",   // `requirement`, that needed to craft any of this templates; used as "one full requirememt per 250 ml of item's volume" - item with volume 750 ml would require three times of `requirement`, item of 2L - eight times of `requirement`
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
@@ -3253,23 +3271,32 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 "type" : "AMMO",      // Defines this as ammo
 ...                   // same entries as above for the generic item.
                       // additional some ammo specific entries:
-"ammo_type" : "shot", // Determines what it can be loaded in
-"damage" : 18,        // Ranged damage when fired
-"prop_damage": 2,     // Multiplies the damage of weapon by amount (overrides damage field)
-"pierce" : 0,         // Armor piercing ability when fired
+"ammo_type" : "shot", // Determines what it can be loaded in 
+"damage": {           // Ranged damage when fired
+  "damage_type": "bullet", // Type of the damage that would be dealt
+  "amount": 39,            // Amount of the damage to deal
+  "armor_penetration": 2,  // Flat armor penetration
+  "barrels": [             // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
+    { "barrel_length": "28 mm", "amount": 13 }, //if weapon has barrel lengh this or less, this amount of the damage would be applied
+    { "barrel_length": "30 mm", "amount": 14 },
+    { "barrel_length": "35 mm", "amount": 15 },
+    { "barrel_length": "39 mm", "amount": 16 }
+  ]
+},
 "range" : 5,          // Range when fired
-"range_multiplier": 2,// Optional field multiplying base gun range
 "dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
-"shot_count": 5,      // Optional field specifying that this ammo fires multiple projectiles per round, e.g. shot. If present shot_damage must also be specified.
-"shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present shot_count must also be specified.
-"shot_spread":        // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
+"shot_counter": 5,    // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5); designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
+"projectile_count": 5,// amount of pellets, that the ammo will shot, like in shotgun-like weapon; if used, shot_damage should be specified
+"shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present projectile_count must also be specified; syntax is equal to damage
+"critical_multiplier": 4, // All ranged damage dealt would be multiplied by this, if it was a critical hit
+"shot_spread": 100,   // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
 "loudness": 10,       // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
-
-"effects" : ["COOKOFF", "SHOT"]
+"casing": "223_casing", // casing of the ammo, that would be left after the shot
+"effects" : ["COOKOFF", "SHOT"] // ammo effcts, see below
 ```
 
 ### Ammo Effects
@@ -3579,11 +3606,22 @@ Books can be defined like this:
                       // additional some book specific entries:
 "max_level" : 5,      // Maximum skill level this book will train to
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"time" : "35 m",          // Time a single read session takes. An integer will be read in minutes or a time string can be used.
+"time" : "35 m",      // Time a single read session takes. An integer will be read in minutes or a time string can be used.
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
-"required_level" : 2  // Minimum skill level required to learn
+"required_level" : 2,  // Minimum skill level required to learn
+"martial_art": "style_mma", // Martial art learned from this book; incompatible with `skill`
+"proficiencies": [    // Having this book mitigate lack of proficiency, required for crafting 
+  { 
+    "proficiency": "prof_fermenting", // id of proficiency
+    "time_factor": 0.1,               // slowdown for using this book proficiency - slowdown from lack of proficiency is multiplied on this value, so for `0.75`, if recipe adds 10 hours for lack of proficiency,  with book it would be [ 10 * ( 1 - 0.75 ) = ] 2.5 hours; multiple books stacks, but in logarithmic way, meaning having more books of the same proficiency is better than having one book, but never would be better than learning the proficiency
+    "fail_factor": 0.25               // works same as `time_factor`
+  },
+  { "proficiency": "prof_brewing", "time_factor": 0.25, "fail_factor": 0.5 },
+  { "proficiency": "prof_winemaking", "time_factor": 0.1, "fail_factor": 0.25 }
+],
+
 ```
 It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
 
@@ -3826,7 +3864,8 @@ Memory card information can be defined on any GENERIC item by adding an object n
   "recipes_amount": 5,                 // contains between 1 and 5 new recipes
   "recipes_level_min": 4,              // recipes will have at least level 4
   "recipes_level_max": 8,              // recipes will have at most level 8
-  "recipes_categories": [ "CC_FOOD" ]  // recipes from CC_FOOD category
+  "recipes_categories": [ "CC_FOOD" ], // (Optional) Array, defaults `CC_FOOD`. Memory card can contain recipes from any of these categories.
+  "secret_recipes": true               // (Optional) Boolean, default false. If true, can contain recipes with the `SECRET` flag.
 }
 ```
 
@@ -3846,16 +3885,21 @@ Guns can be defined like this:
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
+"min_strength": 8,         // Minimal strength required to use this gun. Mostly used in different bows
 "sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, measured in 100ths of Minutes Of Angle (MOA)
 "recoil": 0,               // Recoil caused when firing, measured in 100ths of Minutes Of Angle (MOA)
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
+"faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ], // Type of faults, that can be applied to this gun; usually are inherited from single abstract like rifle_base, but exceptions exist
+"handling": 10             // handling of the weapon; better handling means less recoil
 "energy_drain": "2 kJ",    // Additionally to the normal ammo (if any), a gun can require some electric energy. Drains from battery in gun. Use flags "USE_UPS" and "USES_BIONIC_POWER" to drain other sources. This also works on mods. Attaching a mod with energy_drain will add/increase drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used
 "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
+"reload_noise": "Ping!",   // Sound, that would be produced, when the gun is reloaded; seems to not work
+"reload_noise_volume": 4,  // how loud the reloading is
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 "barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
@@ -3893,6 +3937,16 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
+"integral_longest_side": "5 cm", // Length that would be added to a gun when this mod is installed
+"overwrite_min_cycle_recoil": 1350, // Using this field will overwrite gun's min_cycle_recoil
+"reload_noise": "chuk chuk.",   // Message, that would be produced when you reload a gun with this mod; Seems to not work 
+"reload_noise_volume": 2,       // Amount of noise produced, when you reload a gun with this mod
+"aim_speed_modifier": -2,       // Changes how fast you aim a gun with this mod
+"add_mod": [ [ "grip", 1 ], [ "sights", 1 ] ], // adds this amoutn of gunmods to gun, if this gunmod is installed
+"energy_drain_multiplier": 1.2, // if weapon uses `energy_drain`, multiplies it on this amount
+"field_of_view": 270,           // #53180 has an image of it, but it represent how big FoV of the scope - when characters start to aim, it doesn't use the scope whatsoever, aiming into "general direction", and then transfer to using scope to pinpoint the target. The bigger FoV is, the sooner character would be able to use the scope (target acquisition with higher power scopes is very very difficult); put simple: the bigger FoV, the faster player can aim, to some degree; measured in MOA (minutes of angle)
+"min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ], // minimal skill level required to install this gunmod
+"shot_spread_multiplier_modifier": -0.8, // for shotguns, changes the spread of the pellets
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
@@ -3960,7 +4014,12 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
 "power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
+"revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
+"variables": {
+  "vehicle_name": "Wheelchair",         // this tool is a foldable vehicle, that could bypass the default foldability rules; this is the name of the vehicle that would be unfolded 
+  "folded_parts": "folded_parts_syntax" // this is the parts that this vehice has -it uses it's own syntax, different from `"type": "vehicle"`, so better to read the examples in `unfoldable.json`
+}
 ```
 
 
@@ -3990,7 +4049,7 @@ Currently only vats can only accept and produce liquid items.
 ```C++
 "brewable" : {
     "time": 3600, // A time duration: how long the fermentation will take.
-    "result": { "beer": 1, "yeast": 10 } // Ids with a multiplier for the amount of results per charge of the brewable items.
+    "results": { "beer": 1, "yeast": 10 } // Ids with a multiplier for the amount of results per charge of the brewable items.
 }
 ```
 
@@ -4178,7 +4237,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
-    "moves": 50 // Number of moves required in the process, default value is 100.
+    "moves": 50, // Number of moves required in the process, default value is 100.
+    "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ] // what and how much vitamin is given by this drug
 },
 "use_action": {
     "type": "place_monster", // place a turret / manhack / whatever monster on the map
@@ -4337,6 +4397,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
     "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
+    "disinfectant_power": 4,// quality of disinfection - antiseptic is 4, alcohol wipe is 2; float
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
@@ -4405,7 +4466,19 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 ```
 
-  ### Tick Actions
+### Drop Actions
+
+Similar to use_action, this drop_actions would be triggered when you throw the item
+
+```c++
+"drop_action": {                  
+  "type": "emit_actor",           // allow to emit a specific field when thrown
+  "emits": [ "emit_acid_drop" ],  // id of emit to spread
+  "scale_qty": true               // if true, throwing more than one charge of item with emit_actor increases the size of emission
+  }
+```
+
+### Tick Actions
 
 `"tick_action"` of active tools is executed once on every turn. This action can be any use action or iuse but some of them may not work properly when not executed by player.
 
@@ -4568,7 +4641,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 For every `type` other then those with "dissect_only" (see below) the following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using
+    `max` upper limit after `base_num` and `scale_num` are calculated using
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
 For `type`s with "dissect_only" (see below), the following entries can scale the results:

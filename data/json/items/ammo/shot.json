@@ -34,7 +34,7 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, reloaded", "str_pl": "flechette shells, reloaded" },
-    "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "A shotgun shell filled with tiny steel darts.  The spread makes it very accurate at short range.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -84,7 +84,7 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, black powder", "str_pl": "flechette shells, black powder" },
-    "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "A shotgun shell filled with tiny steel darts.  The spread makes it very accurate at short range.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -181,12 +181,12 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": { "str": "flechette shell" },
-    "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.",
+    "description": "A shotgun shell filled with tiny steel darts.  The spread makes it very accurate at short range.",
     "price": 2000,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "shot_damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 }, "shot_spread": -150, "range": 12 }
+    "relative": { "shot_damage": { "damage_type": "bullet", "amount": -3 }, "shot_spread": -150, "range": 12 }
   },
   {
     "id": "shot_he",

@@ -2159,9 +2159,46 @@
     "difficulty": 4,
     "time": "10 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "tailoring_neoprene_patchwork", 33 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 33 ], [ "tailoring_nylon_patchwork", 55 ], [ "fastener_small", 6 ] ],
     "components": [ [ [ "zipper_long_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "xs_wetsuit",
+    "type": "recipe",
+    "copy-from": "wetsuit",
+    "time": "8 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 25 ], [ "tailoring_nylon_patchwork", 40 ], [ "fastener_small", 6 ] ]
+  },
+  {
+    "result": "xl_wetsuit",
+    "type": "recipe",
+    "copy-from": "wetsuit",
+    "time": "15 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 45 ], [ "tailoring_nylon_patchwork", 75 ], [ "fastener_small", 6 ] ]
+  },
+  {
+    "result": "wetsuit_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit",
+    "difficulty": 5,
+    "time": "20 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 55 ], [ "tailoring_nylon_patchwork", 110 ], [ "fastener_small", 6 ] ],
+    "components": [ [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "xs_wetsuit_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_thick",
+    "time": "16 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 42 ], [ "tailoring_nylon_patchwork", 85 ], [ "fastener_small", 6 ] ]
+  },
+  {
+    "result": "xl_wetsuit_thick",
+    "type": "recipe",
+    "copy-from": "wetsuit_thick",
+    "time": "30 h",
+    "using": [ [ "tailoring_neoprene_patchwork", 75 ], [ "tailoring_nylon_patchwork", 160 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "wetsuit_spring",

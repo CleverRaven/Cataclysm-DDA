@@ -39,7 +39,7 @@
       "t": "f_toilet",
       "J": "f_counter",
       "R": "f_bookcase",
-      "∞": "f_foot_locker"
+      "∞": [ "f_foot_locker", "f_foot_locker_aluminum" ]
     },
     "items": {
       "_": [

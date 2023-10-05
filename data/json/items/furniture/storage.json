@@ -1,0 +1,52 @@
+[
+  {
+    "id": "foot_locker_aluminum",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "aluminum foot locker" },
+    "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
+    "looks_like": "f_foot_locker_aluminum",
+    "symbol": "O",
+    "color": "white",
+    "material": [ "aluminum" ],
+    "weight": "3721 g",
+    "volume": "69 L",
+    "longest_side": "69 cm",
+    "price": "200 USD",
+    "price_postapoc": 75,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "67669 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "68 cm"
+      }
+    ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_foot_locker_aluminum" },
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "//": "Weight and pocket data recalculated from foot_locker with the use of the same resources but with the assumption that walls are gauge 16 aluminum."
+  },
+  {
+    "id": "foot_locker",
+    "type": "GENERIC",
+    "name": { "str": "steel foot locker" },
+    "description": "A steel storage box, capable of holding any number of things.  The lid has a small lock.",
+    "copy-from": "foot_locker_aluminum",
+    "looks_like": "f_foot_locker",
+    "color": "light_gray",
+    "material": [ "steel" ],
+    "weight": "6487 g",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "68208 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "68 cm"
+      }
+    ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_foot_locker" },
+    "//": "Based on https://www.duluthtrading.com/best-made-footlocker-B1098.html with the weight calculated from surface area with the use of https://www.engineeringtoolbox.com/gauge-sheet-d_915.html."
+  }
+]

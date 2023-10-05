@@ -299,15 +299,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "m1911_10_magazines_reloaded",
-    "entries": [
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "quiver_modern_archer",
     "entries": [
       { "item": "arrow_cf", "count": 16 },
@@ -3273,6 +3264,27 @@
   },
   {
     "type": "profession",
+    "id": "mutant_amputee",
+    "name": "Mutant Para-Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": 2,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "items": {
+      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
     "id": "hitchhiker",
     "name": "Hitchhiker",
     "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
@@ -3327,6 +3339,23 @@
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "tank_top", "apron_cut_resistant", "fire_gauntlets", "wristwatch", "hammer" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "jeweler",
+    "name": "Jeweler",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "points": 2,
+    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "socks", "boots", "longshirt", "wristwatch", "apron_leather", "chisel" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3752,7 +3781,7 @@
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
       "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
-      "female": [ "skirt_long", "dress_shirt", "purse", "bra", "panties" ]
+      "female": [ "nun_wimple", "nun_habit", "dress_shirt", "purse", "bra", "panties" ]
     }
   },
   {
@@ -3949,6 +3978,23 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_nolegs",
+    "name": "Para-Amputee",
+    "description": "By some unfortunate means, you have lost both of your legs.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  Even if society has collapsed, so long as you've got your trusty wheelchair, you'll be alright.",
+    "points": 0,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {

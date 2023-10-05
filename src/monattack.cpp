@@ -2441,7 +2441,7 @@ bool mattack::formblob( monster *z )
                 // If we're big enough, spawn a baby blob.
                 shared_ptr_fast<monster> mon = make_shared_fast<monster>( mon_blob_small );
                 mon->ammo = mon->type->starting_ammo;
-                if( mon->will_move_to( dest ) ) {
+                if( mon->will_move_to( dest ) && mon->know_danger_at( dest ) ) {
                     didit = true;
                     z->set_speed_base( z->get_speed_base() - mon_blob_small->speed );
                     if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {

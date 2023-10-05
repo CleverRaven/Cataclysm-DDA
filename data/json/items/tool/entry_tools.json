@@ -88,7 +88,7 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "use_action": [ "CROWBAR_WEAK" ],
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "BELT_CLIP", "FRAGILE_MELEE" ],
     "weapon_category": [ "BATONS" ],
     "melee_damage": { "bash": 10, "cut": 1 }

@@ -386,6 +386,30 @@
     "restriction": "Item must be some kind of chainmail veil"
   },
   {
+    "id": "BOOT_FINS",
+    "type": "json_flag",
+    "info": "This item is attachable to commercial diving boots as fins.",
+    "restriction": "Item must be some kind of fins"
+  },
+  {
+    "id": "BOOT_FINS_CUSTOM",
+    "type": "json_flag",
+    "info": "This item is attachable to custom diving boots as fins.",
+    "restriction": "Item must be some kind of custom fins"
+  },
+  {
+    "id": "HEAD_STRAP_MOUNT",
+    "type": "json_flag",
+    "info": "This item is attachable to straps and mountings on some masks and hoods.",
+    "restriction": "Item must be some kind of item that can be attached to straps on masks and hoods."
+  },
+  {
+    "id": "WRIST_MOUNT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable to a proprietary wrist mount.",
+    "restriction": "Item must be some kind of item that can be attached to a proprietary wrist mount."
+  },
+  {
     "id": "EXTRA_PLATING",
     "type": "json_flag",
     "info": "This item is wearable over some armors as an extra layer of plating.",
@@ -562,6 +586,11 @@
   {
     "id": "MOP",
     "type": "json_flag"
+  },
+  {
+    "id": "LEG_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the legs, and can only be used as a replacement limb."
   },
   {
     "id": "OUTER",
@@ -1931,10 +1960,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NON-FOULING",
-    "type": "json_flag"
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag"
   },
@@ -2302,5 +2327,20 @@
   {
     "id": "RABBIT",
     "type": "json_flag"
+  },
+  {
+    "id": "TREE_COMMUNION_PLUS",
+    "type": "json_flag",
+    "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
+  },
+  {
+    "id": "ROOTS2",
+    "type": "json_flag",
+    "info": "The character has roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "ROOTS3",
+    "type": "json_flag",
+    "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
   }
 ]

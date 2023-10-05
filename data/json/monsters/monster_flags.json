@@ -195,6 +195,11 @@
     "//": "Immune to cold damage"
   },
   {
+    "id": "BIOLOGICALPROOF",
+    "type": "monster_flag",
+    "//": "Immune to biological damage"
+  },
+  {
     "id": "COMBAT_MOUNT",
     "type": "monster_flag",
     "//": "Mount has better chance to ignore hostile monster fear"

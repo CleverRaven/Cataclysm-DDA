@@ -1872,7 +1872,7 @@
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
     "//": "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
-    "description": "A plastic badge with an embedded filmstrip.  The filmstrip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+    "description": "A plastic badge with an embedded filmstrip.  The text on the badge says the filmstrip changes color as it is exposed to radiation, and never goes back to how it initially looked.  Wear on your lapel so you can notice if it changes.",
     "weight": "25 g",
     "volume": "25 ml",
     "price": 8000,

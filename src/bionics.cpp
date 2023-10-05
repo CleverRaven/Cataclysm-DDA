@@ -582,6 +582,13 @@ void bionic_data::check_bionic_consistency()
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
             debugmsg( "Bionic %s has no defined item version", bio.id.c_str() );
         }
+        for( const std::pair<const bodypart_str_id, resistances> &bprot : bio.protec ) {
+            for( const std::pair<const damage_type_id, float> &dt : bprot.second.resist_vals ) {
+                if( !dt.first.is_valid() ) {
+                    debugmsg( "Invalid protection type \"%s\" for bionic %s", dt.first.c_str(), bio.id.c_str() );
+                }
+            }
+        }
     }
 }
 
@@ -2054,9 +2061,9 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     float pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
-                   get_skill_level( most_important_skill )  * 4 +
-                   get_skill_level( important_skill )       * 3 +
-                   get_skill_level( least_important_skill ) * 1;
+                   get_greater_skill_or_knowledge_level( most_important_skill )  * 4 +
+                   get_greater_skill_or_knowledge_level( important_skill )       * 3 +
+                   get_greater_skill_or_knowledge_level( least_important_skill ) * 1;
     } else {
         // override chance as though all values were skill_level if it is provided
         pl_skill = 12 * skill_level;

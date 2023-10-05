@@ -42,7 +42,7 @@
       "c": "f_cupboard",
       "f": "f_tourist_table",
       "h": "f_camp_chair",
-      "l": "f_foot_locker",
+      "l": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "@": "f_bed",
       "&": "f_cleat"
     },

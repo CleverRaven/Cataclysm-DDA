@@ -264,7 +264,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         }
     }
 
-    if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
+    if( it.count_by_charges() != target->count_by_charges() && it.count() > 1 ) {
         item take_one = it.split( 1 );
         do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );

@@ -65,14 +65,21 @@
     "difficulty": 7,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "//": "probably new waterproof fasteners/waterproof clasps requirement needed, but i am afraid the deduped_requirement_data simply explode after this",
+    "//2": "just realise it could be fixed when #62618 would be introduced, i slap TODO here so if this holy grail would be added, this recipe could be tweaked properly",
+    "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 12 ], [ "tailoring_nylon_patchwork", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
+    "components": [
+      [ [ "wetsuit", 1 ] ],
+      [ [ "rubber_cement", 14 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 8 ] ]
+    ]
   },
   {
     "result": "xs_h20survivor_jumpsuit",
@@ -80,7 +87,7 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
-    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 20 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
@@ -89,8 +96,39 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
-    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 18 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
+  },
+  {
+    "result": "h20survivor_jumpsuit_light",
+    "type": "recipe",
+    "copy-from": "h20survivor_jumpsuit",
+    "time": "8 h",
+    "using": [ [ "tailoring_kevlar_fabric", 200 ], [ "tailoring_neoprene_patchwork", 2 ], [ "tailoring_nylon_patchwork", 10 ] ],
+    "components": [
+      [ [ "wetsuit", 1 ] ],
+      [ [ "rubber_cement", 12 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 8 ] ]
+    ]
+  },
+  {
+    "result": "xs_h20survivor_jumpsuit_light",
+    "type": "recipe",
+    "copy-from": "h20survivor_jumpsuit_light",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 h",
+    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
+  },
+  {
+    "result": "xl_h20survivor_jumpsuit_light",
+    "type": "recipe",
+    "copy-from": "h20survivor_jumpsuit_light",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "12 h",
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 3 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 2 ] ] ]
   },
   {
     "result": "thick_h20survivor_jumpsuit",
@@ -104,7 +142,7 @@
     "autolearn": true,
     "using": [
       [ "tailoring_kevlar_fabric", 400 ],
-      [ "tailoring_neoprene_patchwork", 42 ],
+      [ "tailoring_neoprene_patchwork", 12 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
@@ -122,12 +160,7 @@
     "copy-from": "thick_h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
-    "using": [
-      [ "tailoring_kevlar_fabric", 300 ],
-      [ "tailoring_neoprene_patchwork", 28 ],
-      [ "fastener_large", 2 ],
-      [ "clasps", 12 ]
-    ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
     "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
@@ -138,7 +171,7 @@
     "time": "14 h",
     "using": [
       [ "tailoring_kevlar_fabric", 600 ],
-      [ "tailoring_neoprene_patchwork", 63 ],
+      [ "tailoring_neoprene_patchwork", 18 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],

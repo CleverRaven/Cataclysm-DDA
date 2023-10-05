@@ -46,5 +46,46 @@
         "hide_failing": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_transporter_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_item_transporter_test_1", "EOC_item_transporter_test_2" ],
+        "names": [ "Set coordinates", "Execute transport" ],
+        "keys": [ "a", "b" ],
+        "descriptions": [ "Target current coordinates.", "Transport items to target coordinates" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_transporter_test_1",
+    "effect": [
+      { "u_location_variable": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } },
+      { "u_add_var": "set_coordinates", "type": "eoc_sample", "context": "item_transporter", "value": "yes" },
+      { "u_message": "Set coordinates: <u_val:eoc_sample_item_transporter_loc>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_transporter_test_2",
+    "condition": { "u_has_var": "set_coordinates", "type": "eoc_sample", "context": "item_transporter", "value": "yes" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "title": "Transport what?",
+        "true_eocs": [
+          {
+            "id": "EOC_item_transporter_test_2_run",
+            "effect": [
+              { "u_message": "Transported: <npc_name>" },
+              { "npc_teleport": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

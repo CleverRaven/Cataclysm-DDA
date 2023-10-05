@@ -396,6 +396,17 @@ Format:
 #### `type`
 Must always be there and must always be `"talk_topic"`.
 
+#### `"insert_before_standard_exits"`
+For mod usage to insert dialogue above the `TALK_DONE` and `TALK_NONE` lines. Defaults to false.
+```json
+  {
+    "id": "TALK_REFUGEE_Draco_1a",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [ { "text": "Have you seen anything that could help me?", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb" } ]
+  }
+```
+
 #### `id`
 The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
@@ -914,6 +925,7 @@ Effect | Description
 `u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `message: ` string or [variable object](#variable-object) ) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.  If `message` is provided and a result is given then the `message` will be displayed as a message with the first instance of `%s` in it replaced with the name of the result selected.  
 `switch : arithmetic/math_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
+`u_run_inv_eocs or npc_run_inv_eocs : ` string or [variable object](#variable-object), (*optional* `true_eocs: effect_on_condition_array`), (*optional* `false_eocs: effect_on_condition_array`), (*optional* `search_data: search_data_array`), (*optional* `title:` string or [variable object](#variable-object)) | Run EOCs on items in u/npc's inventory. For `u_run_inv_eocs` u is the source for `npc_run_inv_eocs` it is the npc. Items will become the beta talker for the EOC to run.<br/> If value is `"all"`, this targets all items that match the condition. If value is `"random"`, this targets one item at random from that match the condition. `true_eocs` runs with items selected as target, If value is `"manual", "manual_mult"`, player selects item(s) form menu. `title` is displayed as menu title. `true_eocs` runs with items selected as target, `false_eocs` runs with the others. `search_data` sets the condition for the target item, if not given all items will be targeted.<br/><br/> `search_data` accepts one or more conditions such as:<pre>    "search_data": [ {<br/>      "id": "item_id",<br/>      "category": "item_category",<br/>      "flags": [ "FLAG_1", "FLAG_2" ],<br/>      "worn_only": false,<br/>      "wielded_only": true<br/>    } ]</pre> All fields are optional. `id`, `category`, `material`, and `flags` set the id, category, material, flags of the target item respectively. `worn_only`, `wielded_only` limit taget to what you wear/wield.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
 #### Detailed Info
@@ -959,7 +971,7 @@ Condition | Type | Description
 
 Condition | Type | Description
 --- | --- | ---
-`"at_safe_space" or "u_at_safe_space" or "npc_at_safe_space"` | simple string | `true` if u or the NPC's current overmap location passes the `is_safe()` test.
+`"at_safe_space" or "u_at_safe_space" or "npc_at_safe_space"` | simple string | `true` if the only monsters present in the talker's OMT are in a monster group with `is_safe`. False otherwise.
 `"has_assigned_mission"` | simple string | `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job...".
 `"has_many_assigned_missions"` | simple string | `true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the `"TALK_MISSION_LIST_ASSIGNED"` topic.
 `"has_no_available_mission" or "npc_has_no_available_mission" or "u_has_no_available_mission"` | simple string | `true` if u or the NPC has no jobs available for the player character.
@@ -980,8 +992,8 @@ Condition | Type | Description
 `"u_hostile" or "npc_hostile"` | simple string | `true` if u or the NPC is an enemy of the player character.
 `"u_train_skills" or "npc_train_skills"` | simple string | `true` if u or the NPC has one or more skills with more levels than the player.
 `"u_train_styles" or "npc_train_styles"` | simple string | `true` if u or the NPC knows one or more martial arts styles that the player does not know.
-`"u_has_class" or "npc_has_class"` | string or [variable object](#variable-object) | `true` if u or the NPC is a member of an NPC class.
-`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : `int or [variable object](#variable-object) ) | string or [variable object](#variable-object) | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble.
+`"u_has_class" or "npc_has_class"` | string or [variable object](#variable-object) | `true` if u or the NPC's class id matches the provided string (e.g. `NC_BANDIT_TRADER`).
+`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : `int or [variable object](#variable-object) ) | string or [variable object](#variable-object) | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble (maximum of ~2 OMTs distance from player's position)
 `"u_aim_rule" or "npc_aim_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for aiming matches the string.
 `"u_engagement_rule" or "npc_engagement_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for engagement matches the string.
 `"u_cbm_reserve_rule" or "npc_cbm_reserve_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for cbm, reserve matches the string.
@@ -1004,7 +1016,7 @@ Condition | Type | Description
 --- | --- | ---
 `"days_since_cataclysm"` | int or [variable object](#variable-object) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
-`"is_day"` | simple string | `true` if it is currently daytime.
+`"is_day"` | simple string | `true` if it is currently daytime (sun is at or above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point)
 `"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
 `"u_is_underwater"`<br/>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
@@ -1262,7 +1274,7 @@ Example | Description
 `"u_val": "mana_max"` | Max mana. Can be read but not written to.
 `"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
 `"u_val": "thirst"` | Current thirst.
-`"u_val": "instant_thirst"` | Current thirst.
+`"u_val": "instant_thirst"` | Current thirst minus water in the stomach that hasn't been absorbed by the body yet.
 `"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
@@ -1274,7 +1286,7 @@ Example | Description
 `"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.
 `"u_val": "focus"` | Current focus level.
-`"u_val": "activity_level"` | Current activity level index, from 0-5
+`"u_val": "activity_level"` | Current activity level index as a floored integer, from 0-5. Roughly: 0.45 = SLEEP_EXERCISE (floored and returns 0), 0.5 = NO_EXERCISE(floored and returns 0), 1 = LIGHT_EXERCISE, 2 = MODERATE_EXERCISE, 3 = BRISK_EXERCISE, 4 = ACTIVE_EXERCISE, 5 = EXTRA_EXERCISE.
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
 `"u_val": "health"` | Current health level.
@@ -1421,8 +1433,8 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Variables are damagetype ID, bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/> Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
 | effect_intensity(`s`/`v`,...)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/> Variable is effect ID.<br/><br/> Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
-| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp.<br/> Variable is bodypart ID. If omitted, get sum of all bodypart or set all bodypart.<br/><br/> Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
-| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
+| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp.<br/> Variable is bodypart ID. If omitted, get sum of all bodypart or set all bodypart.<br/> For items, returns current amount of damage required to destroy item. Variable is not required.<br/><br/> Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
+| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> For items, returns max amount of damage required to destroy item. Variable is not required. <br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/> Variables are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
