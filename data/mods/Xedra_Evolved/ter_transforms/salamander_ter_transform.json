@@ -3,19 +3,18 @@
     "type": "ter_furn_transform",
     "id": "ter_salamander_fire_drop",
     "//": "There has got to be a better way to do the below",
-    "field": [ 
-      { 
-        "result": "fd_fire", 
-        "valid_field": 
-        [ 
-          "f_null", 
-          "fd_blood", 
-          "fd_bile", 
-          "fd_gibs_flesh", 
-          "fd_gibs_veggy", 
-          "fd_web", 
-          "fd_web_nostick", 
-          "fd_slime", 
+    "field": [
+      {
+        "result": "fd_fire",
+        "valid_field": [
+          "f_null",
+          "fd_blood",
+          "fd_bile",
+          "fd_gibs_flesh",
+          "fd_gibs_veggy",
+          "fd_web",
+          "fd_web_nostick",
+          "fd_slime",
           "fd_sap",
           "fd_sludge",
           "fd_biolum",
