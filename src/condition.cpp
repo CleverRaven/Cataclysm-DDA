@@ -1815,6 +1815,10 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_part_temp( bid );
             };
+        } else if( checked_value == "dodge" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_character()->get_dodge();
+            };
         } else if( checked_value == "effect_intensity" ) {
             const std::string &effect_id = jo.get_string( "effect" );
             std::optional<bodypart_id> bp;

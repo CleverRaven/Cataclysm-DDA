@@ -1265,6 +1265,7 @@ Example | Description
 `"u_val": "hp"` | Amount of hp.  If `bodypart` is provided it will be for that part otherwise it will be the sum of all parts.
 `"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
+`"u_val": "dodge"` | Current effective dodge of the character.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
 `"u_val": "power"` | Bionic power in millijoule.
 `"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
@@ -1432,7 +1433,6 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 |----------|------|--------|-------|-------------|
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Variables are damagetype ID, bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/> Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
-| dodge()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted dodge.<br/> Example:<br/>`"condition": { "math": [ "u_dodge()", ">=", "10"] }`| 
 | effect_intensity(`s`/`v`,...)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/> Variable is effect ID.<br/><br/> Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
 | hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp.<br/> Variable is bodypart ID. If omitted, get sum of all bodypart or set all bodypart.<br/> For items, returns current amount of damage required to destroy item. Variable is not required.<br/><br/> Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
 | hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> For items, returns max amount of damage required to destroy item. Variable is not required. <br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
