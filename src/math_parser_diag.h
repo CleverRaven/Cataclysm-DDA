@@ -111,6 +111,8 @@ decl_diag_eval pain_eval;
 decl_diag_ass pain_ass;
 decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
+decl_diag_eval skill_exp_eval;
+decl_diag_ass skill_exp_ass;
 decl_diag_eval spell_exp_eval;
 decl_diag_ass spell_exp_ass;
 decl_diag_eval test_diag;

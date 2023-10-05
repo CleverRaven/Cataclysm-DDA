@@ -87,5 +87,16 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_variable_test",
+    "effect": [
+      { "math": [ "u_sklxp", "=", "u_skill_exp('swimming')" ] },
+      { "u_message": "Swimming exp before: <u_val:sklxp>" },
+      { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
+      { "math": [ "u_sklxp", "=", "u_skill_exp('swimming')" ] },
+      { "u_message": "Swimming exp after: <u_val:sklxp>" }
+    ]
   }
 ]

@@ -389,24 +389,20 @@ std::function<double( dialogue & )> skill_exp_eval( char scope,
 std::function<void( dialogue &, double )> skill_exp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value skill_value( std::string{} );
-    diag_value val_value( std::string{} );
+    diag_value skill_value = params[0];
     diag_value raw_value( std::string{} );
-    if( params.size() < 2 ) {
+    if( params.empty() ) {
         throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
                                      "skill_exp" ) );
     } else {
-        skill_value = params[0];
-        val_value = params[1];
-        if( params.size() > 2 ) {
+        if( params.size() > 1 ) {
             raw_value = params[1];
         }
     }
 
-    return [skill_value, val_value, raw_value, beta = is_beta( scope ),
-                 sid = params[0] ]( dialogue const & d, double val ) {
+    return [skill_value, raw_value, beta = is_beta( scope ) ]( dialogue const & d,
+    double val ) {
         skill_id skill( skill_value.str( d ) );
-        int value = val_value.dbl( d );
         bool raw = raw_value.str( d ) == "true";
         return d.actor( beta )->set_skill_exp( skill, val, raw );
     };
