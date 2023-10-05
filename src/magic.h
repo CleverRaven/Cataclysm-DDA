@@ -343,6 +343,8 @@ class spell_type
 
         std::set<species_id> targeted_species_ids;
 
+        std::set<species_id> ignored_species_ids;
+
         // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
@@ -566,6 +568,8 @@ class spell
         std::string list_targeted_monster_names() const;
         //if targeted_species_ids is empty, it returns an empty string
         std::string list_targeted_species_names() const;
+        //if ignored_species_ids is empty, it returns an empty string
+        std::string list_ignored_species_names() const;
 
         std::string damage_string( const Character &caster ) const;
         std::string aoe_string( const Creature &caster ) const;
@@ -611,6 +615,7 @@ class spell
         bool is_valid_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
         bool target_by_species_id( const tripoint &p ) const;
+        bool ignore_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint> random_valid_target( const Creature &caster,
