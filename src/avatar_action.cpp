@@ -1180,17 +1180,14 @@ void avatar_action::unload( avatar &you )
 {
     bool auto_contain = get_option<std::string>( "UNLOADED_ITEM_CONTAINER" ) == "auto";
 
-    item_location loc = g->inv_map_splice( [&you]( const item & it ) {
-        return you.rate_action_unload( it ) == hint_rating::good;
-    }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
-
-    if( !loc ) {
+    std::pair<item_location, bool> ret = game_menus::inv::unload( you );
+    if( !ret.first ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    if( auto_contain ) {
-        you.unload( loc );
+    if( ret.second || auto_contain ) {
+        you.unload( ret.first );
     } else {
         item_location new_container = g->inv_map_splice( [&you]( const item_location & it ) {
             return it->is_container() && !it->is_corpse() && you.rate_action_insert( it ) == hint_rating::good;
@@ -1200,6 +1197,6 @@ void avatar_action::unload( avatar &you )
             add_msg( _( "Never mind." ) );
             return;
         }
-        you.unload( loc, new_container );
+        you.unload( ret.first, new_container );
     }
 }

@@ -4167,6 +4167,31 @@ void inventory_examiner::setup()
     }
 }
 
+unload_selector::unload_selector( Character &p,
+                                  const inventory_selector_preset &preset ) : inventory_pick_selector( p, preset )
+{
+    ctxt.register_action( "AUTO_INSERT" );
+}
+
+std::pair<item_location, bool> unload_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    while( true ) {
+        ui_manager::redraw();
+        const inventory_input input = get_input();
+        if( input.action == "QUIT" ) {
+            return std::make_pair( item_location(), false );
+        } else if( input.action == "CONFIRM" || input.action == "AUTO_INSERT" ) {
+            const inventory_entry &highlighted = get_active_column().get_highlighted();
+            if( highlighted && highlighted.is_selectable() ) {
+                return std::make_pair( highlighted.any_item(), input.action == "AUTO_INSERT" );
+            }
+        } else {
+            on_input( input );
+        }
+    }
+}
+
 trade_selector::trade_selector( trade_ui *parent, Character &u,
                                 inventory_selector_preset const &preset,
                                 std::string const &selection_column_title,

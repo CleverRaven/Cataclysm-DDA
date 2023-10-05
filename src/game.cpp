@@ -9088,15 +9088,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-void game::insert_item( drop_locations &locs )
+void game::insert_item( drop_locations &targets )
 {
-    if( !locs.front().first ) {
+    if( targets.empty() || !targets.front().first ) {
         return;
     }
     std::string title = string_format( _( "%s: %s and %d items" ), _( "Insert item" ),
-                                       locs.front().first->tname(), locs.size() - 1 );
-    item_location item_loc = inv_map_splice( [ &, locs]( const item_location & it ) {
-        if( locs.front().first.parent_item() == it ) {
+                                       targets.front().first->tname(), targets.size() - 1 );
+    item_location item_loc = inv_map_splice( [ &, targets]( const item_location & it ) {
+        if( targets.front().first.parent_item() == it ) {
             return false;
         }
         return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
@@ -9107,7 +9107,7 @@ void game::insert_item( drop_locations &locs )
         return;
     }
 
-    u.assign_activity( insert_item_activity_actor( item_loc, locs, true ) );
+    u.assign_activity( insert_item_activity_actor( item_loc, targets, true ) );
 }
 
 void game::insert_item()

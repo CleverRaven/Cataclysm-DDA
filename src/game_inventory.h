@@ -150,6 +150,8 @@ item_location install_bionic( Character &you, Character &patient, bool surgeon =
 item_location sterilize_cbm( Character &you );
 /** Change sprite menu. */
 item_location change_sprite( Character &you );
+/** Unload item menu **/
+std::pair<item_location, bool> unload( Character &you );
 /*@}*/
 
 } // namespace inv
