@@ -834,7 +834,6 @@ bool talker_npc::is_safe() const
 
 void talker_npc::die()
 {
-    popup( "talker_npc::die" );
     me_npc->die( nullptr );
     const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( me_npc->getID() );
     if( guy && !guy->is_dead() ) {
