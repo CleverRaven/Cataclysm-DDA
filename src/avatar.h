@@ -122,6 +122,8 @@ class avatar : public Character
 
         mfaction_id get_monster_faction() const override;
 
+        void witness_thievery( item * ) override {}
+
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
         }
