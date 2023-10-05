@@ -104,8 +104,8 @@
   {
     "id": "mon_lizardfolk_chieftan",
     "type": "MONSTER",
-    "name": "lizardfolk chieftan",
-    "description": "Among the lizardfolk, ambition is a rare quality.  Chieftans earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
+    "name": "lizardfolk chieftain",
+    "description": "Among the lizardfolk, ambition is a rare quality.  Chieftains earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "hp": 200,

@@ -588,6 +588,11 @@
     "type": "json_flag"
   },
   {
+    "id": "LEG_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the legs, and can only be used as a replacement limb."
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "//": "Outer garment layer.",
@@ -1955,10 +1960,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NON-FOULING",
-    "type": "json_flag"
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag"
   },
@@ -2331,5 +2332,15 @@
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
+  },
+  {
+    "id": "ROOTS2",
+    "type": "json_flag",
+    "info": "The character has roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "ROOTS3",
+    "type": "json_flag",
+    "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
   }
 ]

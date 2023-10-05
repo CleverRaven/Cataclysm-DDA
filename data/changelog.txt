@@ -49,6 +49,8 @@ Adds basic vehicle proficiencies for driving and boating, as well as athletic pr
 Add overheat mechanics to energy guns.
 Sound-triggered traps
 Item transformation can now pick variant items to transform into
+You can now collect grappling hooks and ladders from the ledge above.
+Adds priority parameter for special placement
 
 
 ## Content:
@@ -112,6 +114,7 @@ Enable/disable showing several non-player-related messages in the log
 Walking into ledges examines them.
 Accessible item insert menu
 Show insertion failure reasons in Insert menu and AIM
+Select default bodypart when applying bandage
 
 
 ## Mods:
@@ -195,6 +198,7 @@ Climbing down stepladders is now safe; climbing down ledges tells you how risky 
 Add NO_SPELLCASTING flag to Stunned effect
 Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
+Allow metal wreckage to be used for cutting
 
 
 ## Bugfixes:
@@ -271,6 +275,7 @@ Monsters can go down ramps
 Don't teleport items to the ground if the vehicle storage destination is full
 Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
+Use correct actor in bulk trade messages
 
 
 ## Performance:
@@ -304,6 +309,8 @@ New item categories for martial arts manuals and traps
 Update all active items to new tick action system and remove old system
 Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
+EVENT EOCs provide beta talker
+[EOC]Inventory selector
 
 
 ## Build:

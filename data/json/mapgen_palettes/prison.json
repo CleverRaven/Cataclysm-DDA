@@ -130,7 +130,7 @@
     "id": "prison_palette",
     "palettes": [ "prison_base_palette" ],
     "terrain": { "I": "t_region_groundcover_barren", "B": "t_region_groundcover_barren", "Z": "t_door_bar_o" },
-    "furniture": { "5": "f_bench", "É": "f_rack", "2": "f_home_furnace", "9": "f_water_heater" },
+    "furniture": { "5": "f_bench", "É": "f_rack", "2": "f_home_furnace", "9": "f_water_heater_family" },
     "items": { "É": [ { "item": "tools_plumbing", "chance": 100, "repeat": [ 1, 3 ] } ] },
     "liquids": { "9": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
   },

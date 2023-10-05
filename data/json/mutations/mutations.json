@@ -310,17 +310,79 @@
   },
   {
     "type": "mutation",
-    "id": "NO_LEGS",
-    "name": { "str": "No Legs" },
+    "id": "HAS_LEFT_LEG",
+    "name": { "str": "left leg" },
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Wether by a serious accident, birth, defect, or other means, you have lost your legs.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
-    "types": [ "LEGS", "RUNNING", "FEET", "SOLES" ],
-    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
-    "restricts_gear": [ "foot_l", "foot_r", "leg_knee_l", "leg_lower_l", "leg_draped_l", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
-    "cancels": [ "BADKNEES", "STRONGKNEES" ],
-    "enchantments": [ "ENCH_NO_LEGS" ]
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_LEFT_LEG" ],
+    "restricts_gear": [ "leg_stub_l" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_RIGHT_LEG",
+    "name": { "str": "right leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_RIGHT_LEG" ],
+    "restricts_gear": [ "leg_stub_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_RIGHT_LEG",
+    "name": { "str": "No Right Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Wether by a serious accident, birth defect, or other means, you have lost your right leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "restricts_gear": [ "foot_r" ],
+    "prereqs": "HAS_RIGHT_LEG",
+    "allowed_items": [ "LEG_PROSTHETIC" ],
+    "enchantments": [ "ENCH_NO_RIGHT_LEG" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_LEFT_LEG",
+    "name": { "str": "No Left Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Wether by a serious accident, birth defect, or other means, you have lost your left leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
+    "restricts_gear": [ "foot_l" ],
+    "prereqs": "HAS_LEFT_LEG",
+    "allowed_items": [ "LEG_PROSTHETIC" ],
+    "enchantments": [ "ENCH_NO_LEFT_LEG" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_PROSTHETIC_LEG",
+    "name": { "str": "Right Prosthetic Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right leg.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "enchantments": [ "ENCH_RIGHT_PROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PROSTHETIC_LEG",
+    "name": { "str": "Left Prosthetic Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left leg.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "enchantments": [ "ENCH_LEFT_PROSTHETIC" ]
   },
   {
     "type": "mutation",
@@ -7278,7 +7340,7 @@
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "ROOTS2" ]
   },
   {
     "type": "mutation",
@@ -7288,13 +7350,14 @@
     "visibility": 5,
     "ugliness": 5,
     "description": "You find it difficult not to sink roots when able.  You extract nutrients and water whenever on diggable terrain, but move more slowly.",
-    "types": [ "LEGS" ],
+    "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "CHLOROMORPH" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "TOUGH_FEET", "ROOTS3" ]
   },
   {
     "type": "mutation",
@@ -7305,7 +7368,7 @@
     "ugliness": 1,
     "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.  Activate this mutation to force yourself to sleep until nightfall.",
     "purifiable": false,
-    "types": [ "LEGS" ],
+    "types": [ "LEGS", "FEET" ],
     "prereqs": [ "ROOTS3" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -7314,7 +7377,8 @@
     "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "active": true,
-    "cost": 0
+    "cost": 0,
+    "flags": [ "TOUGH_FEET", "ROOTS3" ]
   },
   {
     "type": "mutation",
