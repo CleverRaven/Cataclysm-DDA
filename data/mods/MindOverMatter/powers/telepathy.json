@@ -168,7 +168,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_blast_radius": 12 }
+    "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
   },
   {
     "id": "telepathic_confusion",
@@ -208,7 +208,7 @@
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_mind_control": 12 }
+    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
   },
   {
     "id": "telepathic_confusion_blind",
@@ -232,6 +232,40 @@
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     }
+  },
+  {
+    "id": "telepathic_fear_spell",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror",
+    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.",
+    "message": "You unleash your target's fears.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "mod_moves",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 800) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2500,
+    "energy_increment": -100,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5
   },
   {
     "id": "telepathic_invisibility",
@@ -266,8 +300,7 @@
     "energy_increment": -125,
     "base_casting_time": 100,
     "final_casting_time": 25,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "telepathic_mind_control": 9 }
+    "casting_time_increment": -7.5
   },
   {
     "id": "telepathic_blast_radius",
