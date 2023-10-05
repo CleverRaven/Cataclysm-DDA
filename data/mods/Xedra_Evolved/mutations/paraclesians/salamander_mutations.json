@@ -67,7 +67,7 @@
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_dash_boom_spell", 1 ] ]
   },
-    {
+  {
     "type": "mutation",
     "id": "SALAMANDER_SMOKE_TELEPORT",
     "name": { "str": "In a Puff of Smoke" },
@@ -324,7 +324,7 @@
     "activated_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
     "processed_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
     "time": "1 s",
-    "//": "This should have a mana cost here instead of within the EoC once that's possible.",
+    "//": "This should have a mana cost here instead of within the EoC once that's possible."
   },
   {
     "type": "mutation",
@@ -526,7 +526,7 @@
     "name": { "str": "Mana Bonfire" },
     "points": 8,
     "description": "The Salamander is a font of mana, like a well-fueled bonfire.  25% extra mana.",
-    "prereqs": [ "SALAMANDER_INT_BONUS" ]
+    "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "changes_to": "SALAMANDER_FAST_CAST",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
@@ -538,7 +538,7 @@
     "name": { "str": "Crackling Mana Bonfire" },
     "points": 10,
     "description": "The Salamander's mana surges within them, ready to burst out at the slightly opportunity.  25% extra mana and -15% spell casting speed.",
-    "prereqs": [ "SALAMANDER_INT_BONUS" ]
+    "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "mana_multiplier": 1.25,
