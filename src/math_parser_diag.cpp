@@ -193,11 +193,11 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
-std::function<double(dialogue&)> dodge_eval(char scope,
-    std::vector<diag_value> const& params, diag_kwargs const&/* kwargs */)
+std::function<double( dialogue & )> dodge_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[beta = is_beta(scope)](dialogue const& d) {
-        return d.actor(beta)->get_character()->get_dodge();
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->get_character()->get_dodge();
     };
 }
 
