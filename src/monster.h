@@ -183,6 +183,7 @@ class monster : public Creature
         bool shearable() const;
         bool is_pet() const;
         bool is_pet_follow() const;
+        bool has_intelligence() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 

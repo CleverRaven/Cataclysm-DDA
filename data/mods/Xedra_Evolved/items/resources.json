@@ -55,7 +55,7 @@
     "material": [ "dreamstuff" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "scrap_dreamdross"
   },
   {
     "id": "dreamdross_lump",

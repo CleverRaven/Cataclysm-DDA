@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_val('vitamin', 'name:dreamer_vit')", ">=", "300" ] },
+    "condition": { "math": [ "u_val('vitamin', 'name:dreamer_vit')", ">=", "600" ] },
     "effect": [
-      { "u_spawn_item": "dreamer_artifact", "use_item_group": true },
-      { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "300" ] },
+      { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
+      { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "600" ] },
       {
         "u_message": "You pulled your powers into this world and something from outside placed an object in your hand.",
         "type": "info"
@@ -27,21 +27,21 @@
           }
         },
         {
-          "case": 75,
+          "case": 150,
           "effect": {
             "u_message": "You try to connect the item with another dimensions, but everything went wrong from the very beginning.  You feel you need much more patience to finish it.",
             "type": "bad"
           }
         },
         {
-          "case": 150,
+          "case": 300,
           "effect": {
             "u_message": "You try to connect the item with another dimensions, but something interrupted you in the middle.  You need just a bit of time to afford it.",
             "type": "bad"
           }
         },
         {
-          "case": 225,
+          "case": 450,
           "effect": {
             "u_message": "You try to connect the item with another dimensions, but in the end it failed.  It was close enough, so you think you need to try it again in a day.",
             "type": "bad"
