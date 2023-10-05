@@ -4170,7 +4170,17 @@ void inventory_examiner::setup()
 unload_selector::unload_selector( Character &p,
                                   const inventory_selector_preset &preset ) : inventory_pick_selector( p, preset )
 {
-    ctxt.register_action( "AUTO_INSERT" );
+    std::string hint = string_format(
+                           _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel" ),
+                           ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ) );
+    if( get_option<std::string>( "UNLOADED_ITEM_CONTAINER" ) == "auto" ) {
+        set_hint( hint );
+    } else {
+        std::string hint_auto = string_format( _( " [<color_yellow>%s</color>] Confirm(Auto insert)" ),
+                                               ctxt.get_desc( "AUTO_INSERT" ) );
+        ctxt.register_action( "AUTO_INSERT" );
+        set_hint( hint + hint_auto );
+    }
 }
 
 std::pair<item_location, bool> unload_selector::execute()
