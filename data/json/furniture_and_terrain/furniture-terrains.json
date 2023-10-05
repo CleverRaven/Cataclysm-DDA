@@ -1183,7 +1183,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow",
-    "name": "shallow mound of dirt",
+    "name": "short mound of dirt",
     "symbol": "#",
     "color": "brown",
     "looks_like": "t_dirtmound",
@@ -1204,7 +1204,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow_seed",
-    "name": "shallow mound of dirt with seed",
+    "name": "short mound of dirt with seed",
     "symbol": "^",
     "color": "brown",
     "looks_like": "f_dirtmound_shallow_seed",
@@ -1241,7 +1241,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow_seedling",
-    "name": "shallow mound of dirt with seedling",
+    "name": "short mound of dirt with seedling",
     "symbol": "^",
     "color": "green",
     "looks_like": "f_dirtmound_shallow_seed",
@@ -1279,7 +1279,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow_mature",
-    "name": "shallow mound of dirt with seed",
+    "name": "short mound of dirt with seed",
     "symbol": "#",
     "color": "green",
     "looks_like": "f_dirtmound_shallow_seed",
@@ -1322,7 +1322,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow_harvest",
-    "name": "shallow mound of dirt with seed",
+    "name": "short mound of dirt with seed",
     "symbol": "#",
     "color": "light_green",
     "looks_like": "f_dirtmound_shallow_seed",
