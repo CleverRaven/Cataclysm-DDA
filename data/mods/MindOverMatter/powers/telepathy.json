@@ -377,7 +377,8 @@
     "energy_increment": -250,
     "base_casting_time": 120,
     "final_casting_time": 75,
-    "casting_time_increment": -3.5
+    "casting_time_increment": -3.5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "telepathic_network",
