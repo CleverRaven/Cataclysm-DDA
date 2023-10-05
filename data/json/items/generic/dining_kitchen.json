@@ -1328,7 +1328,6 @@
   },
   {
     "type": "GENERIC",
-    "category": "tools",
     "id": "aluminum_pan",
     "name": { "str": "aluminum frying pan" },
     "description": "An aluminum frying pan.  Makes a decent melee weapon, and is used for cooking.",
@@ -1341,7 +1340,6 @@
   },
   {
     "type": "GENERIC",
-    "category": "tools",
     "id": "pot_aluminum",
     "name": { "str": "aluminum pot" },
     "description": "A cooking pot, useful for boiling water and making all kinds of food.  Made from aluminum.",
