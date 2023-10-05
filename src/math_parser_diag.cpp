@@ -367,7 +367,7 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
 std::function<double( dialogue & )> skill_exp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value raw_value( std::string( "false" ) );
+    diag_value raw_value( std::string( "percentage" ) );
     if( params.empty() ) {
         throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
                                      "skill_exp" ) );
@@ -378,10 +378,10 @@ std::function<double( dialogue & )> skill_exp_eval( char scope,
     return[skill_value = params[0], raw_value, beta = is_beta( scope )]( dialogue const & d ) {
         skill_id skill( skill_value.str( d ) );
         std::string raw_str = raw_value.str( d );
-        if( raw_str != "true" && raw_str != "false" ) {
+        if( raw_str != "raw" && raw_str != "percentage" ) {
             throw std::invalid_argument( string_format( "Unknown parameter %s", raw_str ) );
         }
-        bool raw = raw_str == "true";
+        bool raw = raw_str == "raw";
         return d.actor( beta )->get_skill_exp( skill, raw );
     };
 }
@@ -389,7 +389,7 @@ std::function<double( dialogue & )> skill_exp_eval( char scope,
 std::function<void( dialogue &, double )> skill_exp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value raw_value( std::string( "false" ) );
+    diag_value raw_value( std::string( "percentage" ) );
     if( params.empty() ) {
         throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
                                      "skill_exp" ) );
@@ -401,10 +401,10 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
     double val ) {
         skill_id skill( skill_value.str( d ) );
         std::string raw_str = raw_value.str( d );
-        if( raw_str != "true" && raw_str != "false" ) {
+        if( raw_str != "raw" && raw_str != "percentage" ) {
             throw std::invalid_argument( string_format( "Unknown parameter %s", raw_str ) );
         }
-        bool raw = raw_str == "true";
+        bool raw = raw_str == "raw";
         return d.actor( beta )->set_skill_exp( skill, val, raw );
     };
 }
