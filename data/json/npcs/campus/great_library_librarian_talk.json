@@ -74,7 +74,7 @@
   {
     "id": "TALK_GREAT_LIBRARY_LIBRARIAN_Intro",
     "type": "talk_topic",
-    "dynamic_line": "Before you ask, we can't lend out books anymore.  We've had too many stolen and destroyed. If you want to read something, either do it here or I will need to sell it to you for something useful, like a book.  Oh, my name is Elvira Fish, I run Circulations here.  I hope you learn something.",
+    "dynamic_line": "Before you ask, we can't lend out books anymore.  We've had too many stolen and destroyed.  If you want to read something, either do it here or I will need to sell it to you for something useful, like a book.  Oh, my name is Elvira Fish, I run Circulations here.  I hope you learn something.",
     "speaker_effect": [
       {
         "sentinel": "has_onetime_greeting_effect",
@@ -102,7 +102,7 @@
     "dynamic_line": [ "Of course, how can I help?", "I would be happy to assist.", "Of course, please ask.", "What questions do you have?" ],
     "responses": [
       {
-        "text": "You can't lend out books? What kind of library is that?",
+        "text": "You can't lend out books?  What kind of library is that?",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AboutGreeting",
         "condition": { "u_has_effect": "u_Elvira_onetime_greeting" },
         "effect": { "u_lose_effect": "u_Elvira_onetime_greeting" }
