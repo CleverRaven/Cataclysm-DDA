@@ -129,6 +129,18 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_SUMMON_WHIP",
+    "name": { "str": "A Hundred Tongues of Flame" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to summon a flaming whip to aid them in battle.",
+    "prereqs": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_flaming_whip_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_EMIT_HEAT",
     "name": { "str": "Stoking the Inner Fire" },
     "points": 6,
@@ -338,6 +350,28 @@
     "prereqs2": [ "SALAMANDER_HEAT_EYES", "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
     "moncams": [ [ "mon_salamander_tiny", 50 ], [ "mon_smoke_mephit", 50 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_BIGGER_STOMACH",
+    "name": { "str": "Adding Wood to the Campfire" },
+    "points": 2,
+    "description": "Fires require fuel, and so does the Salamander.  This trait allows them to eat twice as much at once.",
+    "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
+    "changes_to": "SALAMANDER_BIGGER_STOMACH2",
+    "category": [ "SALAMANDER" ],
+    "stomach_size_multiplier": 2.0
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_BIGGER_STOMACH2",
+    "name": { "str": "Fueling the Hungry Oven" },
+    "points": 5,
+    "description": "Like a coal furnance, the Salamander devours food to keep functioning.  They may eat three times as much at once and eat food 50% faster.",
+    "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
+    "category": [ "SALAMANDER" ],
+    "stomach_size_multiplier": 3.0,
+    "consume_time_modifier": 0.66
   },
   {
     "type": "mutation",
@@ -599,6 +633,7 @@
     "points": 12,
     "description": "Like the bird of legend, you can recreate yourself from the heat and smoke of a fire.  If your body takes fatal damage while standing in a fire, your fae spirit will use those flames to renew yourself.  This can generally occur no more often than once every 14 days, though there is a small chance it can occur more often.",
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
+    "prereqs2": "SALAMANDER_SMOKE_FORM",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ]
   },
@@ -608,8 +643,7 @@
     "name": { "str": "Form of Billowing Smoke" },
     "points": 8,
     "description": "You may transform into smoke.  You will have only a dim awareness of your surroundings, but can freely move including through the air and will be nearly immune to attack.  You will be unable to attack yourself, however.",
-    "prereqs": [ "SALAMANDER_FIRE_IMMUNE" ],
-    "prereqs2": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
+    "prereqs": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "active": true,
@@ -618,8 +652,7 @@
     "time": 10,
     "kcal": true,
     "cost": 1,
-    "deactivated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_OFF" ],
-    "//": "This should have a per-turn mana cost once that's possible."
+    "deactivated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_OFF" ]
   },
   {
     "type": "mutation",
@@ -630,6 +663,19 @@
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "active": true,
+    "valid": false,
     "activated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ASCEND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_RADIATION_IMMUNE",
+    "name": { "str": "In No Other Fire Shall I Burn" },
+    "points": 6,
+    "description": "The Salamander is completely immune to radiation.",
+    "prereqs": "SALAMANDER_FIRE_IMMUNE",
+    "prereqs2": "SALAMANDER_MANA_BONUS",
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "flags": [ "NO_RADIATION" ]
   }
 ]

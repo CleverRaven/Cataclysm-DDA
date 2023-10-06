@@ -290,5 +290,50 @@
       "ZERO_WEIGHT"
     ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "salamander_flaming_summon_whip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "red",
+    "name": "Tongues of Flame",
+    "description": "A long whip made of red-hot fire.  It crackles menacingly and casts a flickering red glow.",
+    "weight": "60 g",
+    "volume": "1500 ml",
+    "longest_side": "40 cm",
+    "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP",
+      "STURDY",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "FIRESTARTER",
+      "LIGHT_15",
+      "FLAMING",
+      "FIRE"
+    ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [
+            {
+              "value": "ITEM_DAMAGE_HEAT",
+              "add": {
+                "math": [ "(5 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "category": "weapons",
+    "melee_damage": { "cut": 6 }
   }
 ]

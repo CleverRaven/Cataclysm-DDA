@@ -101,6 +101,39 @@
     "sound_description": "a crackle!"
   },
   {
+    "id": "salamander_flaming_whip_spell",
+    "type": "SPELL",
+    "name": "A Hundred Tongues of Flame",
+    "description": "Summon a flaming whip to scourge your enemies.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "skill": "deduction",
+    "effect": "spawn_item",
+    "effect_str": "salamander_flaming_summon_whip",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "(24000 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 20000) * (scaling_factor(u_val('dexterity') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(48000 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 35000) * (scaling_factor(u_val('dexterity') ) ) )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 100,
+    "energy_increment": -6,
+    "base_casting_time": 1000,
+    "final_casting_time": 750,
+    "casting_time_increment": -10
+  },
+  {
     "id": "salamander_smoke_teleport_spell",
     "type": "SPELL",
     "name": "In a Cloud of Smoke",

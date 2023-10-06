@@ -101,15 +101,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_FIRE_FOOSTEPS",
-    "condition": { "math": [ "u_val('mana')", ">=", "5" ] },
+    "condition": { "math": [ "u_val('mana')", ">=", "4" ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "5" ] },
-      {
-        "u_transform_radius": 0,
-        "target_var": { "global_val": "salamander_fire_footsteps_location" },
-        "ter_furn_transform": "ter_salamander_fire_drop"
-      },
-      { "u_location_variable": { "global_val": "salamander_fire_footsteps_location" }, "outdoor_only": false }
+      { "math": [ "u_val('mana')", "-=", "4" ] },
+      { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+      { "u_set_field": "fd_fire", "radius": 0, "hit_player": false }
     ],
     "false_effect": [ { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" } ]
   },
@@ -156,36 +152,5 @@
       { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
     ],
     "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]
-  },
-  {
-    "id": "salamander_quell_flames",
-    "type": "SPELL",
-    "name": "Quell Fire",
-    "description": "As you can create fire, you can also extinguish it.",
-    "message": "You disperse the flames harmlessly.",
-    "teachable": false,
-    "valid_targets": [ "ground" ],
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
-    "effect": "ter_transform",
-    "effect_str": "ter_salamander_fire_drop",
-    "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: salamander_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_range": 70,
-    "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: salamander_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_aoe": 50,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 2000,
-    "final_energy_cost": 500,
-    "energy_increment": -150,
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -7.5
   }
 ]
