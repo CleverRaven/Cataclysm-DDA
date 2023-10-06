@@ -459,7 +459,7 @@
         "switch": true
       },
       {
-        "text": "[Perform a descent dance]",
+        "text": "[Perform a decent dance]",
         "topic": "TALK_REFUGEE_Draco_Dance_3",
         "condition": { "math": [ "u_val('dodge')", "<", "10" ] },
         "switch": true
