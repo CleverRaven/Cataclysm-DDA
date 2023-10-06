@@ -170,6 +170,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_cigs",
+    "entries": [ { "item": "cig", "count": 20, "container-item": "null", "entry-wrapper": "box_cigarette" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_matches",
     "entries": [ { "item": "matches", "charges": 20 } ]
   },
@@ -293,18 +299,9 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "m1911_10_magazines_reloaded",
-    "entries": [
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "quiver_modern_archer",
     "entries": [
-      { "item": "arrow_cf", "charges": 16 },
+      { "item": "arrow_cf", "count": 16 },
       { "item": "bow_sight" },
       { "item": "bow_stabilizer_set" },
       { "item": "manual_archery" }
@@ -314,7 +311,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_bow_hunter",
-    "entries": [ { "item": "arrow_cf", "charges": 10 } ]
+    "entries": [ { "item": "arrow_cf", "count": 10 } ]
   },
   {
     "type": "item_group",
@@ -350,7 +347,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_naturalist",
-    "entries": [ { "item": "arrow_wood", "charges": 20 } ]
+    "entries": [ { "item": "arrow_wood", "count": 20 } ]
   },
   {
     "type": "item_group",
@@ -2837,7 +2834,7 @@
           "fire_gauntlets",
           "nomex_hood",
           "firehelmet",
-          "glasses_safety",
+          "mask_bunker",
           "mbag",
           "nomex_socks",
           "water_clean",
@@ -3267,6 +3264,27 @@
   },
   {
     "type": "profession",
+    "id": "mutant_amputee",
+    "name": "Mutant Para-Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": 2,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "items": {
+      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
     "id": "hitchhiker",
     "name": "Hitchhiker",
     "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
@@ -3321,6 +3339,23 @@
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "tank_top", "apron_cut_resistant", "fire_gauntlets", "wristwatch", "hammer" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "jeweler",
+    "name": "Jeweler",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "points": 2,
+    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "socks", "boots", "longshirt", "wristwatch", "apron_leather", "chisel" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3477,7 +3512,7 @@
           "boots_bunker",
           "nomex_gloves",
           "fire_gauntlets",
-          "glasses_safety",
+          "mask_bunker",
           "nomex_hood",
           "firehelmet",
           "pocketwatch"
@@ -3720,17 +3755,33 @@
   {
     "type": "profession",
     "id": "priest",
-    "name": "Priest",
-    "description": "Armageddon has come!  You did everything you could to protect your parish faithful, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
+    "name": "Pastor",
+    "description": "Armageddon has come!  You did everything you could to protect your community, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1" ],
+        "items": [ "socks", "dress_shoes", "holybook_bible1" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "general_necklace" } ]
+      },
+      "male": [ "briefs", "dress_shirt", "suit", "pants" ],
+      "female": [ "dress", "purse", "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "c_priest",
+    "name": { "male": "Catholic Priest", "female": "Nun" },
+    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But the Rapture has come, and your parish turned against you.  Now all you can do is pray to the Holy Virgin, and prepare to maintain your wellbeing.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "socks", "dress_shoes", "holybook_bible4" ],
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
+      "female": [ "nun_wimple", "nun_habit", "dress_shirt", "purse", "bra", "panties" ]
     }
   },
   {
@@ -3850,10 +3901,14 @@
     "id": "blackbelt_novice",
     "name": "Novice Martial Artist",
     "description": "You've decided today is the day to take your first lesson at the local dojo.  You'll be great at it, you're sure of it.",
-    "points": 0,
+    "points": 1,
+    "flags": [ "NO_BONUS_ITEMS" ],
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "unarmed" } ],
     "items": {
-      "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
+      "both": {
+        "items": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
+        "entries": [ { "item": "manual_karate", "custom-flags": [ "auto_wield" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     },
@@ -3923,6 +3978,23 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_nolegs",
+    "name": "Para-Amputee",
+    "description": "By some unfortunate means, you have lost both of your legs.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  Even if society has collapsed, so long as you've got your trusty wheelchair, you'll be alright.",
+    "points": 0,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -6320,6 +6392,53 @@
         ]
       },
       "male": [ "briefs" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "rv_hunter",
+    "name": "RV Hunter",
+    "description": "Ever since you were a child you loved hunting and traveling; so when you scraped enough money, you bought yourself an old RV, a gun, and hit the road.  You've been all over the country, hunting for good game.  Unfortunately the country is all over this time, and even more unfortunately you've lost your ol' reliable in the chaos.  Now you gotta find a new reliable.",
+    "points": 4,
+    "proficiencies": [ "prof_driver", "prof_basic_engines" ],
+    "skills": [
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "driving" },
+      { "level": 4, "name": "mechanics" }
+    ],
+    "vehicle": "rv",
+    "items": {
+      "both": {
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "missions": [ "MISSION_HUNTER", "MISSION_FIND_RIFLE" ]
+  },
+  {
+    "type": "profession",
+    "id": "heist_driver",
+    "name": "Heist Driver",
+    "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now there are no cops and no law, but even after the Cataclysm, you drive.",
+    "points": 4,
+    "proficiencies": [ "prof_driver", "prof_basic_engines", "prof_athlete_basic" ],
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
+    "vehicle": "car_coupe_muscle",
+    "items": {
+      "both": {
+        "items": [ "jeans", "tshirt", "gosling_jacket", "gloves_fingerless", "socks", "sneakers", "hammer" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
     }
   }

@@ -1,5 +1,39 @@
 [
   {
+    "id": "biokin_hammerhand_item",
+    "type": "TOOL",
+    "name": { "str_sp": "hammerhand" },
+    "description": "You can perform many common handy tasks with your bare hands.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "$",
+    "color": "pink",
+    "flags": [
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "NO_DROP"
+    ],
+    "qualities": [
+      [ "WRENCH", 1 ],
+      [ "SCREW", 1 ],
+      [ "HAMMER", 3 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER_SOFT", 1 ],
+      [ "CHISEL_WOOD", 1 ],
+      [ "PRYING_NAIL", 1 ],
+      [ "PRY", 2 ]
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
     "id": "biokin_enhance_mobility_item_1",
     "type": "ARMOR",
     "name": { "str_sp": "enhanced mobility" },

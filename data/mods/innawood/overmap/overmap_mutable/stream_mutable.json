@@ -23,7 +23,7 @@
       "stream_end_bend_wn": { "overmap": "stream_end_north", "south": "stream_to_east" },
       "stream_end_bend_ws": { "overmap": "stream_end_south", "north": "stream_to_east" }
     },
-    "root": "stream_body",
+    "root": "stream_end_n",
     "phases": [
       [
         { "overmap": "stream_body", "weight": 100 },

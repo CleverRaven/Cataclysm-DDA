@@ -24,93 +24,255 @@
     "do_emp_blast": false
   },
   {
+    "id": "NO_PENETRATE_OBSTACLES",
+    "type": "ammo_effect",
+    "//": "Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers. Hardcoded"
+  },
+  {
+    "id": "BEANBAG",
+    "type": "ammo_effect",
+    "//": "Stuns the target. Hardcoded"
+  },
+  {
+    "id": "LARGE_BEANBAG",
+    "type": "ammo_effect",
+    "//": "Heavily stuns the target. Hardcoded"
+  },
+  {
+    "id": "DRAW_AS_LINE",
+    "type": "ammo_effect",
+    "//": "Doesn't go through regular bullet animation; instead draws a line and the bullet on its end for one frame. Hardcoded"
+  },
+  {
+    "id": "APPLY_SAP",
+    "type": "ammo_effect",
+    "//": "Applies sap-coated effect on hit, used with special hardcoded monster attack. Hardcoded"
+  },
+  {
+    "id": "BLINDS_EYES",
+    "type": "ammo_effect",
+    "//": "Blinds the target if it hits the head. Hardcoded"
+  },
+  {
+    "id": "BOUNCE",
+    "type": "ammo_effect",
+    "//": "Inflicts target with `bounced` effect and rebounds to a nearby target without this effect. Hardcoded"
+  },
+  {
+    "id": "BURST",
+    "type": "ammo_effect",
+    "//": "Ammo effect, applied to thrown projectile, when it has 'burst_when_filled' defined, which makes it spills the contents on hit. Hardcoded, and probably can't be used as actual ammo effect"
+  },
+  {
+    "id": "SPECIAL_COOKOFF",
+    "type": "ammo_effect",
+    "//": "Ammo item explodes when lit on fire with it's ammo_effect. Strength of the explosion do not scale to the amount of ammo. If both COOKOFF and SPECIAL_COOKOFF is used, only SPECIAL_ effect would be used. Hardcoded"
+  },
+  {
+    "id": "COOKOFF",
+    "type": "ammo_effect",
+    "//": "Ammo item create an explosion when lit on fire. Strength of the explosion scale to the amount of ammo. Hardcoded"
+  },
+  {
+    "id": "BLACKPOWDER",
+    "type": "ammo_effect",
+    "//": "This ammo may clog up the gun with blackpowder fouling, which will also cause rust. Hardcoded"
+  },
+  {
+    "id": "HEAVY_HIT",
+    "type": "ammo_effect",
+    "//": "Automatically applied to any projectile, heavier than 500g, to increase it's noise (currently used only when projectile fall into water). Hardcoded"
+  },
+  {
+    "id": "INCENDIARY",
+    "type": "ammo_effect",
+    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded"
+  },
+  {
+    "id": "IGNITE",
+    "type": "ammo_effect",
+    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded"
+  },
+  {
+    "id": "JET",
+    "type": "ammo_effect",
+    "//": "For curses build, draws a `*` symbol as a flying projectile (unlike usual `#` symbol). Hardcoded"
+  },
+  {
+    "id": "MATCHHEAD",
+    "type": "ammo_effect",
+    "//": "Bullet has a chance of damaging the gun from overpressure regardless of fouling level, used in rounds, reloaded with matches. Hardcoded"
+  },
+  {
+    "id": "MAGIC",
+    "type": "ammo_effect",
+    "//": "Always best possible hit, no damage multipliers. Hardcoded"
+  },
+  {
+    "id": "MUZZLE_SMOKE",
+    "type": "ammo_effect",
+    "//": "Generate a small cloud of smoke at the source. Hardcoded"
+  },
+  {
+    "id": "NEVER_MISFIRES",
+    "type": "ammo_effect",
+    "//": "Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags. Hardcoded"
+  },
+  {
+    "id": "NO_DAMAGE_SCALING",
+    "type": "ammo_effect",
+    "//": "Always set 100% damage due to hit in the weakpoint. Hardcoded"
+  },
+  {
+    "id": "NO_EMBED",
+    "type": "ammo_effect",
+    "//": "When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items. Hardcoded"
+  },
+  {
+    "id": "NOGIB",
+    "type": "ammo_effect",
+    "//": "Prevents overkill damage on the target (target won't explode into gibs, same as monster's flag `NOGIB`). Hardcoded"
+  },
+  {
+    "id": "NO_ITEM_DAMAGE",
+    "type": "ammo_effect",
+    "//": "Will not damage items on the map even when it otherwise would try to. Hardcoded"
+  },
+  {
+    "id": "NON_FOULING",
+    "type": "ammo_effect",
+    "//": "This ammo does not cause dirtying or blackpowder fouling on the gun when fired. Hardcoded"
+  },
+  {
+    "id": "NO_OVERSHOOT",
+    "type": "ammo_effect",
+    "//": "Projectiles with this effect won't fly farther than player's set target tile. Hardcoded"
+  },
+  {
+    "id": "NPC_AVOID",
+    "type": "ammo_effect",
+    "//": "NPCs won't use guns or gunmods loaded with ammo with this effect. Hardcoded"
+  },
+  {
+    "id": "NULL_SOURCE",
+    "type": "ammo_effect",
+    "//": "Projectiles with this effect doesn't have a creature who fired them; applied only to explosives' shrapnel. Hardcoded"
+  },
+  {
+    "id": "PARALYZEPOISON",
+    "type": "ammo_effect",
+    "//": "Applies paralyzing poison effect on damaging hit. Hardcoded"
+  },
+  {
+    "id": "ROBOT_DAZZLE",
+    "type": "ammo_effect",
+    "//": "Applies sensor-stunning effect to robots. Hardcoded"
+  },
+  {
+    "id": "RECOVER_X",
+    "type": "ammo_effect",
+    "//": " Has a [(X-1)/X] probability to create a single charge of the used ammo at the point of impact. Change the X with any number, like 'RECOVER_2' means [(2-1)/2]=50% chance. Hardcoded"
+  },
+  {
+    "id": "RECYCLED",
+    "type": "ammo_effect",
+    "//": "Causes the gun to misfire sometimes, used in handloaded ammo; this is independent of the weapon flags. Hardcoded"
+  },
+  {
+    "id": "SHATTER_SELF",
+    "type": "ammo_effect",
+    "//": "Destroys itself and creates shards on hit. Applied to any projectile (usually throwing one), if it has glass as material, and not active. Hardcoded"
+  },
+  {
+    "id": "SHOT",
+    "type": "ammo_effect",
+    "//": "Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty. Hardcoded"
+  },
+  {
+    "id": "WIDE",
+    "type": "ammo_effect",
+    "//": "Prevent HARDTOSHOOT monster flag from having any effect; automatically applied to ammo with `SHOT` flag or which have liquid phase. Hardcoded"
+  },
+  {
     "id": "FLAME",
     "type": "ammo_effect",
+    "//": "Very small explosion that lights fires",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 }
   },
   {
     "id": "NAPALM",
     "type": "ammo_effect",
+    "//": "Explosion that spreads fire",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 },
     "explosion": { "power": 60, "distance_factor": 0.7, "fire": true }
   },
   {
-    "id": "NAPALM_BIG",
-    "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 },
-    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
-  },
-  {
-    "id": "NAPALM_TBG7V",
-    "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 }
-  },
-  {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
+    "//": "Large explosion that spreads fire of high intensity",
     "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
     "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
   },
   {
     "id": "ACIDBOMB",
     "type": "ammo_effect",
+    "//": "Leaves a pool of acid on detonation",
     "aoe": { "field_type": "fd_acid", "intensity_min": 3, "intensity_max": 3 }
   },
   {
     "id": "TOXICGAS",
     "type": "ammo_effect",
+    "//": "Creates a cloud of toxic gas on hit",
     "aoe": { "field_type": "fd_toxic_gas", "intensity_min": 3, "intensity_max": 3 }
   },
   {
     "id": "GAS_FUNGICIDAL",
     "type": "ammo_effect",
+    "//": "Creates a cloud of fungicidal gas on hit",
     "aoe": { "field_type": "fd_fungicidal_gas", "intensity_min": 3, "intensity_max": 3 }
   },
   {
     "id": "GAS_INSECTICIDAL",
     "type": "ammo_effect",
+    "//": "Creates a cloud of insecticidal gas on hit",
     "aoe": { "field_type": "fd_insecticidal_gas", "intensity_min": 3, "intensity_max": 3 }
   },
   {
     "id": "SMOKE",
     "type": "ammo_effect",
+    "//": "Generates a cloud of smoke at the target",
     "aoe": { "field_type": "fd_smoke", "intensity_min": 3, "intensity_max": 3 }
   },
   {
     "id": "SMOKE_BIG",
     "type": "ammo_effect",
+    "//": "Generates a large cloud of smoke at the target",
     "aoe": { "field_type": "fd_smoke", "intensity_min": 3, "intensity_max": 3, "radius": 6 }
   },
   {
     "id": "FLARE",
     "type": "ammo_effect",
+    "//": "Lights the target tile on fire",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1 }
   },
   {
     "id": "LIGHTNING",
     "type": "ammo_effect",
+    "//": "Creates a trail of lightning",
     "aoe": { "field_type": "fd_electricity", "intensity_min": 6, "intensity_max": 10, "chance": 25 }
   },
   {
     "id": "PLASMA",
     "type": "ammo_effect",
+    "//": "Creates a trail of superheated plasma",
     "aoe": { "field_type": "fd_plasma", "intensity_min": 2, "intensity_max": 3, "chance": 50 },
     "trail": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 2, "chance": 50 }
   },
   {
     "id": "PLASMA_BUBBLE",
     "type": "ammo_effect",
+    "//": "Creates a cloud of superheated plasma",
     "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
-  },
-  {
-    "id": "EXPLOSIVE_HUGE",
-    "type": "ammo_effect",
-    "explosion": { "power": 1200 }
-  },
-  {
-    "id": "EXPLOSIVE_BIG",
-    "type": "ammo_effect",
-    "explosion": { "power": 600 }
   },
   {
     "id": "EXPLOSIVE",
@@ -128,13 +290,9 @@
     "explosion": { "power": 2.4, "shrapnel": { "casing_mass": 28, "fragment_mass": 7 } }
   },
   {
-    "id": "FRAG",
-    "type": "ammo_effect",
-    "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.025 } }
-  },
-  {
     "id": "FRAG_20x66",
     "type": "ammo_effect",
+    "//": "Small explosion that spreads shrapnel",
     "explosion": { "power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.08 } }
   },
   {
@@ -145,6 +303,7 @@
   {
     "id": "EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1",
     "type": "ammo_effect",
+    "//": "",
     "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
   },
   {
@@ -183,34 +342,9 @@
     "explosion": { "power": 42, "shrapnel": { "casing_mass": 198, "fragment_mass": 0.08 } }
   },
   {
-    "id": "EXPLOSIVE_HOMEMADE",
-    "type": "ammo_effect",
-    "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.15 } }
-  },
-  {
     "id": "EXPLOSIVE_66mmHEAT",
     "type": "ammo_effect",
     "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_OG7V",
-    "type": "ammo_effect",
-    "explosion": { "power": 266, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.08 } }
-  },
-  {
-    "id": "EXPLOSIVE_PG7VL",
-    "type": "ammo_effect",
-    "explosion": { "power": 598, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_PG7VR",
-    "type": "ammo_effect",
-    "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_TBG7V",
-    "type": "ammo_effect",
-    "explosion": { "power": 66, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.15 } }
   },
   {
     "id": "EXPLOSIVE_84x246HE",
@@ -233,68 +367,45 @@
     "explosion": { "power": 7980, "shrapnel": { "casing_mass": 8725, "fragment_mass": 0.5 } }
   },
   {
-    "id": "MININUKE_MOD",
-    "type": "ammo_effect",
-    "aoe": {
-      "field_type": "fd_nuke_gas",
-      "intensity_min": 3,
-      "intensity_max": 3,
-      "radius": 18,
-      "size": 1,
-      "check_passable": true,
-      "check_sees": true,
-      "check_sees_radius": 3
-    },
-    "explosion": { "power": 72000000 }
-  },
-  {
     "id": "FLASHBANG",
     "type": "ammo_effect",
+    "//": "Blinds and deafens nearby targets",
     "do_flashbang": true
   },
   {
     "id": "EMP",
     "type": "ammo_effect",
+    "//": "Damages 'electronic' terrain types (such as consoles or card readers) In rare cases might make card readers open doors. Damages and destroys robotic enemies. Drains bionic power and power from any electronic equipment in player possession",
     "do_emp_blast": true
   },
   {
     "id": "TRAIL",
     "type": "ammo_effect",
+    "//": "Creates a trail of smoke",
     "trail": { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
   },
   {
     "id": "STREAM",
     "type": "ammo_effect",
+    "//": "Leaves a trail of fire fields",
     "trail": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
   },
   {
     "id": "STREAM_BIG",
     "type": "ammo_effect",
+    "//": "Leaves a trail of intense fire fields",
     "trail": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "chance": 75 }
   },
   {
     "id": "STREAM_GAS_FUNGICIDAL",
     "type": "ammo_effect",
+    "//": "Leaves a trail of fungicidal gas",
     "trail": { "field_type": "fd_fungicidal_gas", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
-  },
-  {
-    "id": "STREAM_GAS_INSCENTICIDAL",
-    "type": "ammo_effect",
-    "trail": { "field_type": "fd_insecticidal_gas", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
   },
   {
     "id": "LASER",
     "type": "ammo_effect",
+    "//": "Creates a trail of laser",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
-  },
-  {
-    "id": "DRAW_LASER_BEAM",
-    "type": "ammo_effect",
-    "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
-  },
-  {
-    "id": "NO_PENETRATE_OBSTACLES",
-    "type": "ammo_effect",
-    "//": "Don't act penetrate obstacles such as fences or reinforced glass"
   }
 ]

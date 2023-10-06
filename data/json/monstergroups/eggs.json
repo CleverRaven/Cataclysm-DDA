@@ -15,8 +15,8 @@
       { "monster": "mon_cardinal_chick", "weight": 15 },
       { "monster": "mon_sparrow_chick", "weight": 15 },
       { "monster": "mon_goose_canadian_chick", "weight": 100 },
-      { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_goose_chick", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_goose_golden_chick", "weight": 100, "cost_multiplier": 1 }
     ]
   },
   {
@@ -102,7 +102,7 @@
   {
     "name": "GROUP_EGG_FIREFLY",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_firefly" } ]
+    "monsters": [ { "monster": "mon_firefly_larva" } ]
   },
   {
     "name": "GROUP_EGG_ANT",
@@ -139,7 +139,7 @@
     "name": "GROUP_EGG_STAG_BEETLE",
     "type": "monstergroup",
     "default": "mon_stag_beetle_larva",
-    "monsters": [ { "monster": "mon_stag_beetle_larva", "freq": 1000, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_stag_beetle_larva", "weight": 1000, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_ANTLION",

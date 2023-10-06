@@ -137,7 +137,7 @@
     "id": "mon_fungaloid_saproling",
     "type": "MONSTER",
     "name": { "str": "saproling" },
-    "description": "A very small mycoid born out of a fungal pod.  Very vulnerable but overtime it will become a proper fungaloid.",
+    "description": "A very small mycoid born out of a fungal pod.  Very vulnerable but over time it will become a proper fungaloid.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "volume": "750 ml",

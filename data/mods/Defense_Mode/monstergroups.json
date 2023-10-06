@@ -47,6 +47,6 @@
     "name": "GROUP_NEMESIS",
     "default": "mon_zombie_nemesis",
     "//": "nemesis squad, exists here to remove them from Defense Mode",
-    "monsters": [ { "monster": "mon_zombie", "freq": 1000, "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_zombie", "weight": 1000, "cost_multiplier": 0 } ]
   }
 ]

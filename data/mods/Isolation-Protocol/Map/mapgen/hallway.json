@@ -1,0 +1,72 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "iso_hallway_isolated",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_straight_isolated_tile" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "iso_hallway_safe",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_safe_tile" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_safe_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "|####| YY    A YY |####|",
+        "|####||55||SS||55||####|",
+        "|####|YPPY||||YPPY|####|",
+        "|#|||||55||||||55|||||#|",
+        "|#|b@@|  b bb b  |@@b|#|",
+        "|#|b  5YYb bb bYY5  b|#|",
+        "|#|b@@|   ms A   |@@b|#|",
+        "|#|||||          |||||#|",
+        "|#|iY PPPPPPPPPPPP Yi|#|",
+        "|#|iY PPPPPPPPPPPP Yi|#|",
+        "|#||| PP ====== PP |||#|",
+        "|#|Y2 PPY=XXXX=YPP |;|#|",
+        "|#|;| PPY=XXXX=YPP 2Y|#|",
+        "|#||| PP ====== PP |||#|",
+        "|#|úY PPPPPPPPPPPP Yú|#|",
+        "|#|úY PPPPPPPPPPPP Yú|#|",
+        "|#||||| A   s    |||||#|",
+        "|#|b@@|    m    A|@@b|#|",
+        "|#|b  5YYb bb bYY5  b|#|",
+        "|#|b@@|  b bb b  |@@b|#|",
+        "|#|||||55||||||55|||||#|",
+        "|####|Y  Y||||Y  Y|####|",
+        "|####||55||SS||55||####|",
+        "|||||| YY      YY ||||||"
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red", "5": "t_door_metal_c" },
+      "furniture": { "A": "f_xedra_antenna" },
+      "item": { "m": { "item": "xedra_microphone", "chance": 90 }, "s": { "item": "xedra_seismograph", "chance": 90 } },
+      "items": { "ú": { "item": "SUS_evac_shelter_locker_used", "chance": 95 } },
+      "signs": { "S": { "signage": "\nNRE-SAFEPOINT\nStatus: ACTIVE" } }
+    }
+  }
+]

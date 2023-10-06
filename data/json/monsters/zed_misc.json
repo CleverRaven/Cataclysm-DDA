@@ -1499,7 +1499,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid", "cooldown": 15 }, { "id": "bite_humanoid", "cooldown": 5 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "fungalize_into": "mon_zombie_smoker_fungus",
     "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
     "flags": [
@@ -1548,7 +1548,7 @@
     "vision_night": 3,
     "harvest": "zombie_humanoid",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "grab_strength": 35,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },

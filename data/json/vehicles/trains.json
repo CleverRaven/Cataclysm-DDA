@@ -63,7 +63,7 @@
       { "x": 0, "y": -3, "parts": [ "frame#vertical", "door_sliding", "roof" ] },
       { "x": 0, "y": -2, "parts": [ "frame#vertical_2", "aisle#horizontal", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_2", "aisle#horizontal", "roof" ] },
-      { "x": 0, "y": 0, "parts": [ "frame#vertical", "aisle#vertical", "aisle_lights", "roof" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical", "aisle#vertical", "aisle_lights", "roof", "mountable_heater" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "aisle#horizontal", "roof" ] },
       { "x": 0, "y": 2, "parts": [ "frame#vertical_2", "aisle#horizontal", "roof" ] },
       { "x": 0, "y": 3, "parts": [ "frame#vertical", "door_sliding", "roof" ] },
@@ -226,7 +226,8 @@
   {
     "id": "motorcycle_rail",
     "type": "vehicle",
-    "name": "Rail Motorcycle",
+    "name": "Debug Rail Motorcycle",
+    "//": "debug vehicle to test one-axis railroads",
     "blueprint": [ "o#>o" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "saddle", "motorcycle_kickstand" ] },
@@ -264,7 +265,11 @@
       { "x": 0, "y": 4, "parts": [ "hdframe#vertical_2", "windshield#vertical_right", "inboard_mirror" ] },
       { "x": 1, "y": -2, "parts": [ "hdframe#vertical_2", "board#vertical_left" ] },
       { "x": 1, "y": -1, "parts": [ "hdframe#cross", "board#vertical_right", "dashboard", "roof" ] },
-      { "x": 1, "y": 0, "parts": [ "hdframe#cross", "seat", "controls", "dashboard", "roof", "seatbelt" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "hdframe#cross", "seat", "controls", "integrated_heater_small", "dashboard", "roof", "seatbelt" ]
+      },
       { "x": 1, "y": 1, "parts": [ "hdframe#cross", "cam_control", "aisle#vertical", "dashboard", "roof" ] },
       { "x": 1, "y": 2, "parts": [ "hdframe#cross", "seat", "dashboard", "roof", "seatbelt" ] },
       { "x": 1, "y": 3, "parts": [ "hdframe#cross", "board#vertical_left", "dashboard", "roof" ] },

@@ -399,6 +399,7 @@
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
+    "longest_side": "18 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

@@ -23,6 +23,7 @@
 #include "cata_utility.h"
 #include "character_modifier.h"
 #include "city.h"
+#include "climbing.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "condition.h"
@@ -406,6 +407,7 @@ void DynamicDataLoader::initialize()
     add( "technique", &load_technique );
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
+    add( "climbing_aid", &climbing_aid::load_climbing_aid );
     add( "effect_type", &load_effect_type );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );
@@ -560,6 +562,7 @@ void DynamicDataLoader::unload_data()
     butchery_requirements::reset();
     sub_body_part_type::reset();
     bodygraph::reset();
+    climbing_aid::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
     character_modifier::reset();
@@ -741,6 +744,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finalize_martial_arts },
+            { _( "Climbing aids" ), &climbing_aid::finalize },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
@@ -820,6 +824,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Profession groups" ), &profession_group::check_profession_group_consistency },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
+            { _( "Climbing aid" ), &climbing_aid::check_consistency },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },

@@ -2241,6 +2241,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
+    "priority": 1,
     "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
@@ -6163,7 +6164,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Luna Park",
+    "id": "miniature railway park",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "luna_park_0_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "luna_park_1_0_0_north" },

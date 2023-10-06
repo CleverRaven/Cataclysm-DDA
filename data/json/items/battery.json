@@ -1,22 +1,5 @@
 [
   {
-    "id": "battery_test",
-    "type": "BATTERY",
-    "category": "spare_parts",
-    "name": { "str": "test battery", "str_pl": "test batteries" },
-    "description": "This is a testing item for the BATTERY item type.  If you found one in-game, it's a bug.",
-    "weight": "200 g",
-    "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 0,
-    "material": [ "iron", "plastic" ],
-    "symbol": "=",
-    "color": "yellow",
-    "max_capacity": "30 kJ",
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
-  },
-  {
     "id": "light_minus_battery_cell",
     "type": "MAGAZINE",
     "category": "tool_magazine",

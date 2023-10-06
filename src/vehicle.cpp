@@ -1442,6 +1442,12 @@ int vehicle::install_part( const point &dp, const vpart_id &type, item &&base )
     return install_part( dp, vehicle_part( type, std::move( base ) ) );
 }
 
+int vehicle::install_part( const point &dp, const vpart_id &type, item &&base,
+                           std::vector<item> &installed_with )
+{
+    return install_part( dp, vehicle_part( type, std::move( base ), installed_with ) );
+}
+
 int vehicle::install_part( const point &dp, vehicle_part &&vp )
 {
     const vpart_info &vpi = vp.info();
@@ -4257,7 +4263,7 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
                            -0.3107 ) ) * engine_power_in_hp;
     add_msg_debug( debugmode::DF_VEHICLE,
                    "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
-                   name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
+                   name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, lift_thrust * 4.45 );
     // convert to newtons.
     return lift_thrust * 4.45;
 }

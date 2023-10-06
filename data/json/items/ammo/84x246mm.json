@@ -21,7 +21,7 @@
     "recoil": 45,
     "count": 4,
     "stack_size": 1,
-    "effects": [ "COOKOFF", "EXPLOSIVE_84x246HE", "NEVER_MISFIRES" ]
+    "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_84x246HE", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -37,7 +37,7 @@
     "range": 100,
     "dispersion": 75,
     "recoil": 60,
-    "effects": [ "COOKOFF", "EXPLOSIVE_84x246HEDP", "NEVER_MISFIRES" ]
+    "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_84x246HEDP", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -52,6 +52,6 @@
     "range": 140,
     "dispersion": 30,
     "extend": { "effects": [ "SMOKE_BIG" ] },
-    "delete": { "effects": [ "EXPLOSIVE_BIG", "FRAG" ] }
+    "delete": { "effects": [ "EXPLOSIVE_84x246HE" ] }
   }
 ]
