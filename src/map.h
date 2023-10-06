@@ -1944,6 +1944,7 @@ class map
         void build_seen_cache( const tripoint &origin, int target_z, int extension_range = 60,
                                bool cumulative = false,
                                bool camera = false, int penalty = 0 );
+        void seen_cache_process_ledges( const tripoint &origin );
         void apply_character_light( Character &p );
 
         int my_MAPSIZE;

@@ -1052,6 +1052,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
             directions_to_cast );
+        seen_cache_process_ledges( origin );
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1117,6 +1118,37 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
+    }
+}
+
+void map::seen_cache_process_ledges( const tripoint &origin )
+{
+    Character &player_character = get_player_character();
+    // For each tile
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    // Iterate down z-levels starting from 1 level below origin
+                    for( int sz = origin.z - 1; sz >= 0; --sz ) {
+                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
+                        level_cache &map_cache = get_cache( sz );
+                        // Until invisible tile reached
+                        if( map_cache.seen_cache[p.x][p.y] == 0.0f ) {
+                            break;
+                        }
+                        // Or floor reached
+                        if( map_cache.floor_cache[p.x][p.y] ) {
+                            // In which case check if it should be obscured by a ledge
+                            if( ledge_coverage( player_character, p ) > 100 ) {
+                                map_cache.seen_cache[p.x][p.y] = 0.0f;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
