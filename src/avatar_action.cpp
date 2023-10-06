@@ -1184,7 +1184,7 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    if( ret.second ) {
+    if( ret.second || !ret.first->is_container() ) {
         // Auto contain
         you.unload( ret.first );
     } else {
