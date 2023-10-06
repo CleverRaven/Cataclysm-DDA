@@ -4172,7 +4172,6 @@ void inventory_examiner::setup()
 unload_selector::unload_selector( Character &p,
                                   const inventory_selector_preset &preset ) : inventory_pick_selector( p, preset )
 {
-    uistate.unload_auto_contain;
     ctxt.register_action( "CONTAIN_MODE" );
     set_hint( hint_string() );
 }

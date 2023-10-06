@@ -1042,7 +1042,6 @@ class unload_selector : public inventory_pick_selector
         std::pair<item_location, bool> execute();
     private:
         std::string hint_string();
-        bool _auto_contain;
 };
 
 /**

@@ -11044,13 +11044,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     return true;
 }
 
-bool Character::unload( item_location &loc, bool bypass_activity )
-{
-    item_location new_container( item_location::nowhere );
-    return unload( loc, new_container, bypass_activity );
-}
-
-bool Character::unload( item_location &loc, item_location &new_container, bool bypass_activity )
+bool Character::unload( item_location &loc, bool bypass_activity, item_location new_container )
 {
     item &it = *loc;
     drop_locations locs;

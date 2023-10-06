@@ -1197,6 +1197,6 @@ void avatar_action::unload( avatar &you )
             add_msg( _( "Never mind." ) );
             return;
         }
-        you.unload( ret.first, new_container );
+        you.unload( ret.first, false, new_container );
     }
 }

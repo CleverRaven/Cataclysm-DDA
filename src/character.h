@@ -2129,8 +2129,8 @@ class Character : public Creature, public visitable
          * Unload item.
          * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
          */
-        bool unload( item_location &loc, bool bypass_activity = false );
-        bool unload( item_location &loc, item_location &new_container, bool bypass_activity = false );
+        bool unload( item_location &loc, bool bypass_activity = false,
+                     item_location new_container = item_location::nowhere );
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param it Item to calculate reload cost for
