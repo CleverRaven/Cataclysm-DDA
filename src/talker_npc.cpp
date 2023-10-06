@@ -28,6 +28,7 @@
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "proficiency.h"
@@ -829,6 +830,15 @@ void talker_npc::set_first_topic( const std::string &chat_topic )
 bool talker_npc::is_safe() const
 {
     return me_npc->is_safe();
+}
+
+void talker_npc::die()
+{
+    me_npc->die( nullptr );
+    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( me_npc->getID() );
+    if( guy && !guy->is_dead() ) {
+        guy->marked_for_death = true;
+    }
 }
 
 void talker_npc::set_npc_trust( const int trust )

@@ -94,6 +94,7 @@ class talker_npc : public talker_cloner<talker_npc, talker_character>
         bool enslave_mind() override;
         void set_first_topic( const std::string &chat_topic ) override;
         bool is_safe() const override;
+        void die() override;
 
         // opinions
         void set_npc_trust( int trust ) override;
