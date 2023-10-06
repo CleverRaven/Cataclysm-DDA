@@ -28,7 +28,7 @@
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "zombie_humanoid",
-    "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 4 }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 4 }, "message": "The %s explodes!" },
     "upgrades": { "half_life": 28, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
@@ -74,7 +74,7 @@
     "vision_day": 10,
     "vision_night": 3,
     "harvest": "zombie_humanoid",
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "special_attacks": [ { "id": "smash", "throw_strength": 30, "cooldown": 30 }, { "id": "grab", "cooldown": 7 } ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
@@ -109,7 +109,7 @@
     "harvest": "zombie_humanoid",
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 2, "cut": 9, "acid": 3, "heat": 15, "bullet": 7, "electric": 3 }

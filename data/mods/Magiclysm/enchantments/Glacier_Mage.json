@@ -75,7 +75,7 @@
     "name": { "str": "Frozen Pressure" },
     "points": 0,
     "active": true,
-    "description": "Your attendance is so dangerous living creatures nearby are smashed.  You suppress it now.",
+    "description": "Your presence is so dangerous living creatures nearby are smashed.  You are currently suppressing this power.",
     "transform": {
       "target": "FROZEN_PRESSURE_ON",
       "msg_transform": "Living creatures around you are crushed!",
@@ -92,7 +92,7 @@
     "active": true,
     "name": { "str": "Frozen Pressure (on)" },
     "points": 0,
-    "description": "Your attendance is so dangerous living creatures nearby are smashed.",
+    "description": "Your presence is so dangerous living creatures nearby are smashed.",
     "enchantments": [ "glacier_mage_bash_aoe" ],
     "transform": { "target": "FROZEN_PRESSURE_OFF", "msg_transform": "You suppress your frozen pressure.", "active": false, "moves": 10 }
   }

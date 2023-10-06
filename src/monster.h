@@ -131,6 +131,7 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
         int get_eff_per() const override;
+        void witness_thievery( item *it ) override;
 
         float get_mountable_weight_ratio() const;
 
@@ -183,6 +184,7 @@ class monster : public Creature
         bool shearable() const;
         bool is_pet() const;
         bool is_pet_follow() const;
+        bool has_intelligence() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 

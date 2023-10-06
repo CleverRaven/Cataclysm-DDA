@@ -199,7 +199,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": 10 } ]
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": -10 } ]
       }
     ],
     "category": [ "SYLPH" ]

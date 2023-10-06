@@ -13,6 +13,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "matrix_awakening_odds",
+    "num_args": 1,
+    "return": "(100 - (100 * (e ^ (_0 / -1.7) ) ) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "portal_storm_awakening_odds",
+    "num_args": 1,
+    "return": "(100 - (100 * (e ^ (_0 / -3) ) ) )"
+  },
+  {
+    "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
     "return": "(u_val('focus') * 18) * (_0)"

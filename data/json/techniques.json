@@ -300,7 +300,7 @@
       ]
     },
     "condition_desc": "* Only works on a <info>non-stunned humanoid</info> target of <info>similar or smaller</info> size",
-    "messages": [ "You jab deftly at %s", "<npcname> jabs deftly at %s" ],
+    "messages": [ "You jab deftly at %s!", "<npcname> jabs deftly at %s!" ],
     "stun_dur": 2,
     "attack_vectors": [ "WEAPON" ]
   },
@@ -791,7 +791,7 @@
     "type": "technique",
     "id": "tec_brawl_trip",
     "name": "Trip",
-    "messages": [ "You trip %s!", "<npcname> trip %s!" ],
+    "messages": [ "You trip %s!", "<npcname> trips %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "condition": {
@@ -991,7 +991,7 @@
     "name": "Dragon Claw",
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
-    "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ],
+    "messages": [ "You lash out at %s with a Dragon Claw!", "<npcname> lashes out at %s with a Dragon Claw!" ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -1145,7 +1145,7 @@
   {
     "type": "technique",
     "id": "tec_fencing_feint",
-    "messages": [ "You steady your weapon and fake a thrust at %s!", "<npcname> steadies their weapon and fake a thrust at %s!" ],
+    "messages": [ "You steady your weapon and fake a thrust at %s!", "<npcname> steadies their weapon and fakes a thrust at %s!" ],
     "name": "Feint",
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
@@ -1513,7 +1513,7 @@
     "type": "technique",
     "id": "tec_karate_staff",
     "name": "Staff Strike",
-    "messages": [ "You strike %s with your staff!", "<npcname> strikes %s with your staff!" ],
+    "messages": [ "You strike %s with your staff!", "<npcname> strikes %s with their staff!" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "weapon_categories_allowed": "QUARTERSTAVES",
@@ -1940,34 +1940,96 @@
   },
   {
     "type": "technique",
+    "id": "tec_muay_thai_rapid",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s!", "<npcname> quickly jabs at %s!" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_cross",
+    "name": "Cross",
+    "messages": [ "You throw a heavy cross at %s!", "<npcname> throws a cross at %s!" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_muay_thai_elbow",
     "name": "Elbow Strike",
     "messages": [ "You slam your elbow into %s!", "<npcname> slams their elbow into %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "flat_bonuses": [ { "stat": "damage", "type": "cut", "scale": 2 } ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ],
     "attack_vectors": [ "ELBOW" ]
   },
   {
     "type": "technique",
-    "id": "tec_muay_thai_kick",
-    "name": "Power Kick",
-    "messages": [ "You deal a powerful kick to %s!", "<npcname> deals a powerful kick to %s!" ],
+    "id": "tec_muay_thai_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s!", "<npcname> roundhouse kicks %s!" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.3 },
-      { "stat": "damage", "type": "cut", "scale": 1.3 },
-      { "stat": "damage", "type": "stab", "scale": 1.3 }
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
     "attack_vectors_random": [ "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
+    "id": "tec_muay_thai_push",
+    "name": "Push Kick",
+    "messages": [ "You shove %s back with a front kick!", "<npcname> shoves %s back with a front kick!" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "unarmed_allowed": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size')", ">=", "n_val('size')" ] },
+        {
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
+          ]
+        }
+      ]
+    },
+    "condition_desc": "* Only works on a target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
+    "knockback_dist": 1,
+    "attack_vectors": [ "FOOT" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_muay_thai_knee",
-    "name": "Flying Knee",
-    "messages": [ "You leap and deliver a flying knee to %s!", "<npcname> leaps and delivers a flying knees to %s!" ],
+    "name": "Knee Strike",
+    "messages": [ "You drive your knee into %s!", "<npcname> drives their knee into %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
@@ -1997,7 +2059,7 @@
       ]
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.35 } ],
     "attack_vectors": [ "KNEE" ]
   },
   {
@@ -2083,7 +2145,7 @@
     "type": "technique",
     "id": "tec_ninjutsu_takedown",
     "name": "Ninjutsu Takedown",
-    "messages": [ "You quickly grab and bring %s to the ground!", "<npcname> quickly grabs and brings attacks %s to the ground!" ],
+    "messages": [ "You quickly grab and bring %s to the ground!", "<npcname> quickly grabs and brings %s to the ground!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
@@ -2810,7 +2872,7 @@
     "type": "technique",
     "id": "tec_taichi_counter",
     "name": "Grasp the Sparrow's Tail",
-    "messages": [ "You divert %s's attack and lead them to the ground!", "<npcname> diverts %s's attack and lead them to the ground!" ],
+    "messages": [ "You divert %s's attack and lead them to the ground!", "<npcname> diverts %s's attack and leads them to the ground!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "required_buffs_all": [ "buff_tai_chi_onblock" ],
@@ -2837,7 +2899,7 @@
     "type": "technique",
     "id": "tec_taichi_precise",
     "name": "Double Palm Strike",
-    "messages": [ "You double-handed palm strike %s!", "<npcname> double-handed palm strikes %s!" ],
+    "messages": [ "You double-handed palm strikes %s!", "<npcname>'s double-handed palm strikes %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
@@ -2908,7 +2970,7 @@
     "type": "technique",
     "id": "tec_tiger_takedown",
     "name": "Tiger Takedown",
-    "messages": [ "You slam %s to the ground", "<npcname> slams %s to the ground" ],
+    "messages": [ "You slam %s to the ground!", "<npcname> slams %s to the ground!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "condition": {
@@ -3006,7 +3068,7 @@
     "type": "technique",
     "id": "tec_wingchun_punch",
     "name": "Straight Punch",
-    "messages": [ "You deliver a vertical straight punch to %s!", "<npcname> delivers a vertical straight punch to %s!" ],
+    "messages": [ "You deliver a straight vertical punch to %s!", "<npcname> delivers a straight vertical punch to %s!" ],
     "unarmed_allowed": true,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.1 },
@@ -3019,7 +3081,7 @@
     "type": "technique",
     "id": "tec_wingchun_punch_knockback",
     "name": "Straight Punch (Knockback)",
-    "messages": [ "You force %s back with a horizontal straight punch!", "<npcname> forces %s back with a horizontal straight punch!" ],
+    "messages": [ "You force %s back with a straight horizontal punch!", "<npcname> forces %s back with a straight horizontal punch!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "required_buffs_all": [ "buff_wingchun_onpause" ],
@@ -3214,7 +3276,7 @@
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.1 }
     ],
     "flat_bonuses": [ { "stat": "movecost", "scale": 100 }, { "stat": "movecost", "scaling-stat": "str", "scale": 10 } ],
-    "messages": [ "You slowly strike %s", "<npcname> slowly strikes %s" ],
+    "messages": [ "You slowly strike %s!", "<npcname> slowly strikes %s!" ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -3235,7 +3297,7 @@
       { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1 }
     ],
     "crit_tec": true,
-    "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ],
+    "messages": [ "You phase-strike %s!", "<npcname> phase-strikes %s!" ],
     "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {

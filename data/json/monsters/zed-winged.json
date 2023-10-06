@@ -159,6 +159,7 @@
     "harvest": "zombie_animal",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
+    "fungalize_into": "mon_fungal_raptor",
     "flags": [
       "SEES",
       "HEARS",

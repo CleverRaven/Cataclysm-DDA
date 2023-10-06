@@ -10686,7 +10686,8 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             }
         }
     }
-    if( m.has_flag( ter_furn_flag::TFLAG_UNSTABLE, dest_loc ) && !u.is_mounted() ) {
+    if( m.has_flag( ter_furn_flag::TFLAG_UNSTABLE, dest_loc ) &&
+        !u.is_mounted() && !m.has_vehicle_floor( dest_loc ) ) {
         u.add_effect( effect_bouldering, 1_turns, true );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
@@ -13364,7 +13365,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     if( !seems_perfectly_safe ) {
         std::string hint_fall_damage;
         if( damage_estimate >= 100 ) {
-            hint_fall_damage = _( "Falling <color_pink>would kill you</color>" );
+            hint_fall_damage = _( "Falling <color_pink>would kill you</color>." );
         } else if( damage_estimate >= 60 ) {
             hint_fall_damage = _( "Falling <color_pink>could cripple or kill you</color>." );
         } else if( damage_estimate >= 30 ) {

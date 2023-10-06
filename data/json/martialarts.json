@@ -909,7 +909,15 @@
         ]
       }
     ],
-    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee", "tec_muay_thai_break" ]
+    "techniques": [
+      "tec_muay_thai_rapid",
+      "tec_muay_thai_cross",
+      "tec_muay_thai_elbow",
+      "tec_muay_thai_push",
+      "tec_muay_thai_roundhouse",
+      "tec_muay_thai_knee",
+      "tec_muay_thai_break"
+    ]
   },
   {
     "type": "martial_art",
