@@ -2110,9 +2110,9 @@
   },
   {
     "type": "keybinding",
-    "id": "AUTO_INSERT",
+    "id": "CONTAIN_MODE",
     "category": "INVENTORY",
-    "name": "Insert unloaded items automatically",
+    "name": "Toggle contain mode for unloaded items",
     "bindings": [ { "input_method": "keyboard_char", "key": "U" }, { "input_method": "keyboard_code", "key": "u", "mod": [ "shift" ] } ]
   },
   {

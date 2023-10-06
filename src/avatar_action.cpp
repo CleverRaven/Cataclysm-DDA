@@ -1178,17 +1178,17 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 // If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
-    bool auto_contain = get_option<std::string>( "UNLOADED_ITEM_CONTAINER" ) == "auto";
-
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );
     if( !ret.first ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    if( ret.second || auto_contain ) {
+    if( ret.second ) {
+        // Auto contain
         you.unload( ret.first );
     } else {
+        // Manual contain
         item_location new_container = g->inv_map_splice( [&you]( const item_location & it ) {
             return it->is_container() && !it->is_corpse() && you.rate_action_insert( it ) == hint_rating::good;
         }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );

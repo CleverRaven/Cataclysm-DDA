@@ -153,6 +153,7 @@ class uistatedata
         bool distraction_mutation = true;
         bool distraction_oxygen = true;
         bool numpad_navigation = false;
+        bool unload_auto_contain = true;
 
         // V Menu Stuff
         int list_item_sort = 0;

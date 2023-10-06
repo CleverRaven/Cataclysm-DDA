@@ -1040,6 +1040,9 @@ class unload_selector : public inventory_pick_selector
     public:
         explicit unload_selector( Character &p, const inventory_selector_preset &preset = default_preset );
         std::pair<item_location, bool> execute();
+    private:
+        std::string hint_string();
+        bool _auto_contain;
 };
 
 /**

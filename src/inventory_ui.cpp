@@ -386,6 +386,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_mutation", distraction_mutation );
     json.member( "distraction_oxygen", distraction_oxygen );
     json.member( "numpad_navigation", numpad_navigation );
+    json.member( "unload_auto_contain", unload_auto_contain );
 
     json.member( "input_history" );
     json.start_object();
@@ -455,6 +456,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_mutation", distraction_mutation );
     jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "numpad_navigation", numpad_navigation );
+    jo.read( "unload_auto_contain", unload_auto_contain );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
@@ -4170,17 +4172,17 @@ void inventory_examiner::setup()
 unload_selector::unload_selector( Character &p,
                                   const inventory_selector_preset &preset ) : inventory_pick_selector( p, preset )
 {
-    std::string hint = string_format(
-                           _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel" ),
-                           ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ) );
-    if( get_option<std::string>( "UNLOADED_ITEM_CONTAINER" ) == "auto" ) {
-        set_hint( hint );
-    } else {
-        std::string hint_auto = string_format( _( " [<color_yellow>%s</color>] Confirm(Auto insert)" ),
-                                               ctxt.get_desc( "AUTO_INSERT" ) );
-        ctxt.register_action( "AUTO_INSERT" );
-        set_hint( hint + hint_auto );
-    }
+    uistate.unload_auto_contain;
+    ctxt.register_action( "CONTAIN_MODE" );
+    set_hint( hint_string() );
+}
+
+std::string unload_selector::hint_string()
+{
+    std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
+    return string_format(
+               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Contain mode(<color_yellow>%s</color>)" ),
+               ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
 }
 
 std::pair<item_location, bool> unload_selector::execute()
@@ -4190,12 +4192,15 @@ std::pair<item_location, bool> unload_selector::execute()
         ui_manager::redraw();
         const inventory_input input = get_input();
         if( input.action == "QUIT" ) {
-            return std::make_pair( item_location(), false );
-        } else if( input.action == "CONFIRM" || input.action == "AUTO_INSERT" ) {
+            return std::make_pair( item_location(), uistate.unload_auto_contain );
+        } else if( input.action == "CONFIRM" ) {
             const inventory_entry &highlighted = get_active_column().get_highlighted();
             if( highlighted && highlighted.is_selectable() ) {
-                return std::make_pair( highlighted.any_item(), input.action == "AUTO_INSERT" );
+                return std::make_pair( highlighted.any_item(), uistate.unload_auto_contain );
             }
+        } else if( input.action == "CONTAIN_MODE" ) {
+            uistate.unload_auto_contain = !uistate.unload_auto_contain;
+            set_hint( hint_string() );
         } else {
             on_input( input );
         }
