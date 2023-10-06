@@ -2466,10 +2466,10 @@
     ]
   },
   {
-    "id": "mon_rabbit",
+    "abstract": "mon_rabbit_base",
     "type": "MONSTER",
-    "name": { "str": "domestic rabbit" },
-    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
+    "name": { "str": "rabbit" },
+    "description": "Rabbit abstract",
     "default_faction": "small_animal",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -2486,12 +2486,10 @@
     "morale": -7,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
-    "reproduction": { "baby_monster": "mon_rabbit_baby", "baby_count": 6, "baby_timer": 33 },
     "harvest": "rabbit_with_skull",
     "dissect": "dissect_rabbit_sample_single",
     "families": [ "prof_intro_biology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [
       "SEES",
       "HEARS",
@@ -2505,11 +2503,20 @@
     ]
   },
   {
+    "id": "mon_rabbit",
+    "type": "MONSTER",
+    "name": { "str": "domestic rabbit" },
+    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
+    "copy-from": "mon_rabbit_base",
+    "reproduction": { "baby_monster": "mon_rabbit_baby", "baby_count": 6, "baby_timer": 33 },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." }
+  },
+  {
     "id": "mon_rabbit_baby",
     "type": "MONSTER",
     "name": { "str": "domestic rabbit kit" },
     "description": "A tiny bunny with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
-    "copy-from": "mon_rabbit",
+    "copy-from": "mon_rabbit_base",
     "volume": "150 ml",
     "weight": "30 g",
     "hp": 1,
@@ -2517,7 +2524,33 @@
     "attack_cost": 125,
     "dodge": 8,
     "upgrades": { "age_grow": 45, "into": "mon_rabbit" },
-    "delete": { "reproduction": { "baby_monster": "mon_rabbit_baby", "baby_count": 6, "baby_timer": 33 } },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "harvest": "mammal_tiny"
+  },
+  {
+    "id": "mon_wild_rabbit",
+    "type": "MONSTER",
+    "name": { "str": "cottontail rabbit" },
+    "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.",
+    "copy-from": "mon_rabbit_base",
+    "looks_like": "mon_rabbit",
+    "reproduction": { "baby_monster": "mon_wild_rabbit_baby", "baby_count": 5, "baby_timer": 28 }
+  },
+  {
+    "id": "mon_wild_rabbit_baby",
+    "type": "MONSTER",
+    "name": { "str": "cottontail rabbit kit" },
+    "description": "A tiny and very cute cottontail rabbit kit.",
+    "copy-from": "mon_rabbit_base",
+    "looks_like": "mon_rabbit_baby",
+    "volume": "150 ml",
+    "weight": "30 g",
+    "hp": 1,
+    "speed": 175,
+    "attack_cost": 175,
+    "dodge": 8,
+    "//": "Sexually mature at 2-3 months. Domestic rabbits are 4-5 months and have a value of 45",
+    "upgrades": { "age_grow": 27, "into": "mon_wild_rabbit" },
     "harvest": "mammal_tiny"
   },
   {
