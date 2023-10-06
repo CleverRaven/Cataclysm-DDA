@@ -7,7 +7,7 @@
     "//5": "- Books, magazines, manuals, games;",
     "//6": "- Tools and resources useful for copying documents like paper and pens.",
     "type": "item_group",
-    "id": "GREAT_Library_Shop",
+    "id": "GREAT_LIBRARY_Shop",
     "subtype": "collection",
     "items": [
       { "group": "GREAT_LIBRARY_Shop_Supplies", "count": [ 10, 20 ] },
