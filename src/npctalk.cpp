@@ -5719,7 +5719,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( start_training_seminar ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
-            WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
             WRAP( pick_style ),

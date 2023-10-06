@@ -2082,6 +2082,14 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_size();
             };
+        } else if( checked_value == "volume" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_volume();
+            };
+        } else if( checked_value == "weight" ) {
+            return [is_npc]( dialogue const & d ) {
+                return d.actor( is_npc )->get_weight();
+            };
         } else if( checked_value == "grab_strength" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_grab_strength();

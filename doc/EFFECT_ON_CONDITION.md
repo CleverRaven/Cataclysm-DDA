@@ -2096,7 +2096,7 @@ You or NPC will instantly die
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ |
 
 ##### Examples
 
