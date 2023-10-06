@@ -2477,8 +2477,8 @@
     "volume": "5 L",
     "weight": "2 kg",
     "hp": 8,
-    "speed": 666,
-    "attack_cost": 666,
+    "speed": 300,
+    "attack_cost": 300,
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "brown",
@@ -2492,7 +2492,17 @@
     "families": [ "prof_intro_biology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_WONT_FOLLOW",
+      "WARM",
+      "CAN_BE_CULLED",
+      "GOODHEARING"
+    ]
   },
   {
     "id": "mon_rabbit_baby",
@@ -2503,8 +2513,8 @@
     "volume": "150 ml",
     "weight": "30 g",
     "hp": 1,
-    "speed": 175,
-    "attack_cost": 175,
+    "speed": 125,
+    "attack_cost": 125,
     "dodge": 8,
     "upgrades": { "age_grow": 45, "into": "mon_rabbit" },
     "delete": { "reproduction": { "baby_monster": "mon_rabbit_baby", "baby_count": 6, "baby_timer": 33 } },
