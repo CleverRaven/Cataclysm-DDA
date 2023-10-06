@@ -2113,7 +2113,7 @@
     "id": "AUTO_INSERT",
     "category": "INVENTORY",
     "name": "Insert unloaded items automatically",
-    "bindings": [ { "input_method": "keyboard_any", "key": "U" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "U" }, { "input_method": "keyboard_code", "key": "u", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
