@@ -287,7 +287,7 @@
     "id": "MISSION_GET_RELIC",
     "type": "mission_definition",
     "name": { "str": "Find Relic" },
-    "description": "Find a relic of a forgotten saint.  Places like a <color_yellow>cathedral or a museum</color> might have one.",
+    "description": "Find a relic of a forgotten saint.  Places like <color_yellow>cathedrals</color> or <color_yellow>museums</color> might have one.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 100000,
