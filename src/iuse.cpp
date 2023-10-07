@@ -8394,6 +8394,8 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
             total_volume += pair.first->volume( false, true, pair.second );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
+        const std::string time = colorize( to_string( time_duration::from_moves( required.time ), true ),
+                                           c_light_gray );
         auto to_string = []( int val ) -> std::string {
             if( val == INT_MAX )
             {
@@ -8401,10 +8403,15 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
             }
             return string_format( "%3d", val );
         };
+        const std::string water = string_join( display_stat( "", required.water, available_water,
+                                               to_string ), "" );
+        const std::string cleanser = string_join( display_stat( "", required.cleanser, available_cleanser,
+                                     to_string ), "" );
         using stats = inventory_selector::stats;
         return stats{{
-                display_stat( _( "Water" ), required.water, available_water, to_string ),
-                display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
+                {{ _( "Water" ), water }},
+                {{ _( "Cleanser" ), cleanser }},
+                {{ _( "Estimated time" ), time }}
             }};
     };
     inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
