@@ -72,6 +72,8 @@ class profession
         std::vector<bionic_id> _starting_CBMs;
         std::vector<proficiency_id> _starting_proficiencies;
         std::vector<trait_and_var> _starting_traits;
+        std::vector<matype_id> _starting_martialarts;
+        std::vector<matype_id> _starting_martialarts_choices;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
@@ -117,6 +119,9 @@ class profession
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         std::vector<proficiency_id> proficiencies() const;
+        std::vector<matype_id> ma_known() const;
+        std::vector<matype_id> ma_choices() const;
+        int ma_choice_amount;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
         int age_lower = 21;

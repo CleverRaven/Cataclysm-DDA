@@ -896,6 +896,34 @@ void avatar::initialize( character_type type )
 {
     this->as_character()->initialize();
 
+    for( const matype_id &ma : prof->ma_known() ) {
+        if( !martial_arts_data->has_martialart( ma ) ) {
+            martial_arts_data->add_martialart( ma );
+        }
+    }
+
+    if( !prof->ma_choices().empty() ) {
+        for( int i = 0; i < prof->ma_choice_amount; i++ ) {
+            std::vector<matype_id> styles;
+            for( const matype_id &ma : prof->ma_choices() ) {
+                if( !martial_arts_data->has_martialart( ma ) ) {
+                    styles.push_back( ma );
+                }
+            }
+            if( !styles.empty() ) {
+                const matype_id ma_type = choose_ma_style( type, styles, *this );
+                martial_arts_data->add_martialart( ma_type );
+            } else {
+                break;
+            }
+        }
+    }
+
+    std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
+    int num = rng( 0, all_styles.size() );
+    const matype_id rand_style = all_styles[num];
+    martial_arts_data->set_style( rand_style );
+
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
@@ -1945,6 +1973,33 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     } else {
         for( const trait_and_var &t : prof_traits ) {
             assembled += t.name() + "\n";
+        }
+    }
+
+    // Profession martial art styles
+    const auto prof_ma_known = sorted_profs[cur_id]->ma_known();
+    const auto prof_ma_choices = sorted_profs[cur_id]->ma_choices();
+    int ma_amount = sorted_profs[cur_id]->ma_choice_amount;
+    assembled += "\n" + colorize( _( "Profession martial arts:" ), COL_HEADER ) + "\n";
+    if( prof_ma_known.empty() && prof_ma_choices.empty() ) {
+        assembled += pgettext( "set_profession_ma", "None" ) + std::string( "\n" );
+    } else {
+        if( !prof_ma_known.empty() ) {
+            assembled += colorize( _( "Known:" ), c_cyan ) + "\n";
+            for( const matype_id &ma : prof_ma_known ) {
+                const martialart &style = ma.obj();
+                assembled += style.name.translated() + "\n";
+            }
+        }
+        if( !prof_ma_known.empty() && !prof_ma_choices.empty() ) {
+            assembled += "\n";
+        }
+        if( !prof_ma_choices.empty() ) {
+            assembled += colorize( _( string_format( "Choose %s:", ma_amount ) ), c_cyan ) + "\n";
+            for( const matype_id &ma : prof_ma_choices ) {
+                const martialart &style = ma.obj();
+                assembled += style.name.translated() + "\n";
+            }
         }
     }
 
