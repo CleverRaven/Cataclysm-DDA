@@ -667,7 +667,7 @@
     "id": "MISSION_RECOVER_PRIEST_DIARY",
     "type": "mission_definition",
     "name": { "str": "Recover Priest's Diary" },
-    "description": "Find something that may reveal what the church's stance is on these events.  Something like <color_yellow>a priest's diary</color> will suffice.",
+    "description": "Find something that may reveal what the church's stance is on these events.  Something like <color_yellow>a priest's diary</color> would suffice.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 70000,
