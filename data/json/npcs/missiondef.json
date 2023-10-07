@@ -780,7 +780,7 @@
     "id": "MISSION_PROVE_YOUR_WORTH",
     "type": "mission_definition",
     "name": { "str": "Prove your worth to Foodperson" },
-    "description": "Prove your dedication to Foodperson and Foodplace as a whole by finding <color_yellow>10 foodplace loyalty cards</color>.",
+    "description": "Prove your dedication to the Foodperson and Foodplace as a whole by finding <color_yellow>10 foodplace loyalty cards</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fp_loyalty_card",
     "count": 10,
