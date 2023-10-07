@@ -1279,7 +1279,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow_mature",
-    "name": "short mound of dirt with seed",
+    "name": "short mound of dirt with mature plant",
     "symbol": "#",
     "color": "green",
     "looks_like": "f_dirtmound_shallow_seed",
@@ -1322,7 +1322,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_shallow_harvest",
-    "name": "short mound of dirt with seed",
+    "name": "short mound of dirt with harvestable plant",
     "symbol": "#",
     "color": "light_green",
     "looks_like": "f_dirtmound_shallow_seed",
@@ -1461,7 +1461,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_pile_mature",
-    "name": "mound of dirt with seed",
+    "name": "mound of dirt with mature plant",
     "symbol": "#",
     "color": "green",
     "looks_like": "f_dirtmound_pile_seed",
@@ -1504,7 +1504,7 @@
   {
     "type": "furniture",
     "id": "f_dirtmound_pile_harvest",
-    "name": "mound of dirt with seed",
+    "name": "mound of dirt with harvestable plant",
     "symbol": "#",
     "color": "light_green",
     "looks_like": "f_dirtmound_pile_seed",

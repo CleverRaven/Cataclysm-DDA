@@ -107,7 +107,6 @@ void start_training_gen( Character &teacher, std::vector<Character *> &students,
 void wake_up( npc & );
 void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );
-void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
 void pick_style( npc &p );
