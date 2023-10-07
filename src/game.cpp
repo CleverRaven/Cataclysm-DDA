@@ -6952,13 +6952,16 @@ void game::zones_manager()
         if( zone_cnt > 0 ) {
             const zone_data &zone = zones[active_index].get();
 
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            mvwprintz( w_zones_options, point( 1, 0 ), c_white, mgr.get_name_from_type( zone.get_type() ) );
+
             if( zone.has_options() ) {
                 const auto &descriptions = zone.get_options().get_descriptions();
 
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_zones_options, point( 1, 0 ), c_white, _( "Options" ) );
+                mvwprintz( w_zones_options, point( 1, 1 ), c_white, _( "Options" ) );
 
-                int y = 1;
+                int y = 2;
                 for( const auto &desc : descriptions ) {
                     mvwprintz( w_zones_options, point( 3, y ), c_white, desc.first );
                     mvwprintz( w_zones_options, point( 20, y ), c_white, desc.second );
@@ -7081,11 +7084,7 @@ void game::zones_manager()
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
                                //~ "P: <Zone Name>" represents a personal zone
-                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 15 ) );
-
-                    //Draw Type name
-                    mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
-                               mgr.get_name_from_type( zone.get_type() ) );
+                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 28 ) );
 
                     tripoint_abs_ms center = zone.get_center_point();
 
