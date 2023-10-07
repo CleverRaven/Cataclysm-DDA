@@ -100,6 +100,7 @@ using decl_diag_ass = std::function<void( dialogue &, double )> ( char scope,
 
 decl_diag_eval armor_eval;
 decl_diag_eval attack_speed_eval;
+decl_diag_eval dodge_eval;
 decl_diag_eval effect_intensity_eval;
 decl_diag_eval hp_eval;
 decl_diag_ass hp_ass;
