@@ -404,7 +404,7 @@
     "id": "MISSION_INVESTIGATE_CULT",
     "type": "mission_definition",
     "name": { "str": "Investigate Cult" },
-    "description": "Investigate the strange cabin in the woods and find an item that may clue in about <color_yellow>a potential human sacrifice</color>the cult has performed, such as <color_yellow>human bones and remains</color>.",
+    "description": "Investigate the strange cabin in the woods and find an item that may clue in about <color_yellow>a potential human sacrifice</color> the cult has performed, such as <color_yellow>human bones and remains</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
