@@ -11,7 +11,10 @@
       }
     },
     "effect": [
-      { "mapgen_update": "mi-go_camp_spawn" },
+      { "mapgen_update": "mi-go_camp_spawn1" },
+      { "mapgen_update": "mi-go_camp_spawn2", "offset_x": 1 },
+      { "mapgen_update": "mi-go_camp_spawn2_roof1", "offset_x": 1, "offset_z": 1 },
+      { "mapgen_update": "mi-go_camp_spawn2_roof2", "offset_x": 1, "offset_z": 2 },
       { "u_add_var": "u_captive_death_timer", "type": "timer", "context": "creature_capture", "value": "172800" },
       { "run_eocs": "EOC_mount_rescue_op" }
     ],

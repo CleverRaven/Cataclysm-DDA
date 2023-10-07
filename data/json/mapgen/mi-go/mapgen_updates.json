@@ -1,28 +1,222 @@
 [
   {
     "type": "mapgen",
-    "update_mapgen_id": "mi-go_camp_spawn",
+    "nested_mapgen_id": "mi-go_spawn1_walls_floors",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ";;;;;;;||;;;;;||;;;;;||;",
+        ";;;;;||||||;||||||;|||||",
+        ";|||||    ||| 4  |||    ",
+        "||  +      ||#    |     ",
+        "| 1 |  2   + #####|   5 ",
+        "||  |      |  3   +     ",
+        ";|  ||    |||    |||    ",
+        ";| |||||||| |||||| |+|||",
+        ";|+||||||     ||        ",
+        "||    ||       |        ",
+        "|      |       |        ",
+        "|   7  |   8  ||    9   ",
+        "|      +     |||        ",
+        "||    ||   |+| |||      ",
+        ";|||||||| ||12   |||    ",
+        ";;;||||||||        ||||+",
+        ";;;;||11  ||      ||    ",
+        ";||||      +      |     ",
+        "||10|   &  |+||   +  13 ",
+        "|&  +      |15|||||     ",
+        "|   ||    ||      ||    ",
+        "||   ||||+|||    |||||||",
+        ";|||+|;||16 ||||||;;;||;",
+        ";;;;;;;;|||+|;||;;;;;;;;"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mi-go_spawn2_walls_floors",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ";;;;;;;;;;;;;;;;;;;;;;;;",
+        "|;;;;;;;;;;;;;;;;;;;;;;;",
+        "||;;;;;;;;;;;;;;;;;;;;;;",
+        " |;;;;;;;;;;||;;;;;;;;;;",
+        " |;;;;;;;;||||||;;;;;;;;",
+        " |;;;;;;|||    |||;;;;;;",
+        "||;;;;|||        |||;;;;",
+        "|||;|||            ||;;;",
+        "  |||<              |;;;",
+        "    ||       6      ||;;",
+        "     |               |;;",
+        "  9a |               |;;",
+        "     +              ||;;",
+        "    ||              |;;;",
+        "  |||               |;;;",
+        "||| +              ||;;;",
+        "||  |||          |||;;;;",
+        " | 14 ||||||||  ||;;;;;;",
+        " |   ||;;;;;;||||;;;;;;;",
+        " |||||;;;;;;;;;;;;;;;;;;",
+        "||;;;;;;;;;;;;;;;;;;;;;;",
+        "|;;;;;;;;;;;;;;;;;;;;;;;",
+        ";;;;;;;;;;;;;;;;;;;;;;;;",
+        ";;;;;;;;;;;;;;;;;;;;;;;;"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mi-go_spawn2_roof1",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "_vvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvvvv__vvvvvvvvvv",
+        "__vvvvvvvv______vvvvvvvv",
+        "__vvvvvv__________vvvvvv",
+        "__vvvv|||___________vvvv",
+        "___v||| ||___________vvv",
+        "____|>  <|___________vvv",
+        "___||    |______||____vv",
+        "___|    ||______||____vv",
+        "___||||||_____________vv",
+        "______________________vv",
+        "_____________________vvv",
+        "_____________________vvv",
+        "_____________________vvv",
+        "____________________vvvv",
+        "__________________vvvvvv",
+        "_______vvvvvv____vvvvvvv",
+        "______vvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvvvvvvvvvvvvvvvv",
+        "_vvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_furniture": [
+        { "furn": "f_alien_pod", "x": [4, 7], "y": 10, "repeat": [ 0, 4 ] },
+        { "furn": "f_alien_zapper", "x": 8, "y": 9 },
+        { "furn": "f_alien_tendril", "x": 7, "y": 7 }
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mi-go_spawn2_roof2",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvv|||||vvvvvvvvvvvvvvv",
+        "vvv||   ||vvvppppvvvvvvv",
+        "vv||    >|vpp,,,,,,,vvvv",
+        "vv|      |vp,,,,,,,,,vvv",
+        "vv|    |||p,,,,,,,,,,,vv",
+        "vv|    + ,,,,,,,,,,,,,vv",
+        "vv|||  + ,,,,,,,,,,,,,vv",
+        "vvvv||||||p,,,,,,,,,,vvv",
+        "vvvvvvvvvvppp,,,,,,,vvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_furniture": [
+        { "furn": "f_alien_pod_resin", "x": [ 5, 7 ], "y": 7, "repeat": 3 },
+        { "furn": "f_alien_gasper", "x": 4, "y": 8 },
+        { "furn": "f_alien_pod_organ", "x": 3, "y": [ 9, 11 ], "repeat": [ 0, 3 ] },
+        { "furn": "f_alien_tendril", "x": 5, "y": 10 },
+        { "furn": "f_alien_tendril", "x": 8, "y": 10 },
+        { "furn": "f_alien_pod_resin", "x": 5, "y": 12 },
+        { "furn": "f_alien_zapper", "x": 19, "y": 8 },
+        { "furn": "f_alien_zapper", "x": 19, "y": 14 }
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mi-go_camp_spawn1",
     "method": "json",
     "object": {
       "place_nested": [
+        { "chunks": [ "mi-go_spawn1_walls_floors" ], "x": 0, "y": 0 },
         { "chunks": [ "mi-go_encampment1_room1" ], "x": 0, "y": 2 },
         { "chunks": [ "mi-go_encampment1_room2" ], "x": 4, "y": 1 },
         { "chunks": [ "mi-go_encampment1_room3" ], "x": 11, "y": 3 },
         { "chunks": [ "mi-go_encampment1_room4" ], "x": 12, "y": 0 },
         { "chunks": [ "mi-go_encampment1_room5" ], "x": 18, "y": 1 },
-        { "chunks": [ "mi-go_encampment1_room6" ], "x": 28, "y": 3 },
         { "chunks": [ "mi-go_encampment1_room7" ], "x": 0, "y": 8 },
         { "chunks": [ "mi-go_encampment1_room8" ], "x": 7, "y": 7 },
         { "chunks": [ "mi-go_encampment1_room9" ], "x": 15, "y": 7 },
-        { "chunks": [ "mi-go_encampment1_room9a" ], "x": 24, "y": 7 },
         { "chunks": [ "mi-go_encampment1_room10" ], "x": 0, "y": 17 },
         { "chunks": [ "mi-go_encampment1_room11" ], "x": 4, "y": 15 },
         { "chunks": [ "mi-go_encampment1_room12" ], "x": 10, "y": 13 },
         { "chunks": [ "mi-go_encampment1_room13" ], "x": 18, "y": 15 },
-        { "chunks": [ "mi-go_encampment1_room14" ], "x": 25, "y": 14 },
         { "chunks": [ "mi-go_encampment1_room15" ], "x": 11, "y": 18 },
         { "chunks": [ "mi-go_encampment1_room16" ], "x": 8, "y": 21 }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mi-go_camp_spawn2",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "mi-go_spawn2_walls_floors" ], "x": 0, "y": 0 },
+        { "chunks": [ "mi-go_encampment1_room6" ], "x": 4, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room9a" ], "x": 0, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room14" ], "x": 1, "y": 14 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mi-go_camp_spawn2_roof1",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "mi-go_spawn2_roof1" ], "x": 0, "y": 0 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mi-go_camp_spawn2_roof2",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "mi-go_spawn2_roof2" ], "x": 0, "y": 0 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
