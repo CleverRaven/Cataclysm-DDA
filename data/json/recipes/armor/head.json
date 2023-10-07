@@ -2673,7 +2673,7 @@
     "difficulty": 5,
     "time": "8 h 20 m",
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
