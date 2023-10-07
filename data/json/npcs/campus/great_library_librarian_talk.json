@@ -12,11 +12,11 @@
         "*whispering.  \"Hello again.  Can I help you find something?\"",
         "*whispering.  \"Hello.\""
       ],
-      "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
+      "no": "*waves and smiles.  \"Welcome fellow reader.\""
     },
     "responses": [
       {
-        "text": "Hello, who are you?  This is a library, isn't it?",
+        "text": "Hello, who are you?  This is a library, is it?",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Intro",
         "condition": { "not": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" } },
         "effect": { "u_add_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
@@ -32,7 +32,7 @@
         "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
-        "text": "Let's trade.",
+        "text": "Let me see what you have.",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
         "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" },
         "effect": "start_trade"
