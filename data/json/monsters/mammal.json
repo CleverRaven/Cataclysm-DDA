@@ -2530,7 +2530,7 @@
     "id": "mon_wild_rabbit",
     "type": "MONSTER",
     "name": { "str": "cottontail rabbit" },
-    "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.  You couldn't tell which one of the two cottontail species from the region this is.",
+    "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.  You can't tell which one of the two cottontail species from the region this is.",
     "copy-from": "mon_rabbit_base",
     "looks_like": "mon_rabbit",
     "weight": "1200 g",
