@@ -285,6 +285,7 @@
     "material": [ "cotton" ],
     "symbol": "!",
     "color": "red",
+    "healthy": -5,
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
