@@ -1981,28 +1981,21 @@
   {
     "id": "mon_hare",
     "type": "MONSTER",
-    "name": { "str": "jackrabbit" },
-    "description": "The snowshoe hare, a small grass-eater with a brown fur coat that changes to white in the wintertime.",
-    "default_faction": "small_animal",
-    "bodytype": "pig",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "volume": "4175 ml",
-    "weight": "4175 g",
-    "hp": 10,
-    "speed": 170,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 6,
-    "harvest": "rabbit_with_skull",
-    "dissect": "dissect_rabbit_sample_single",
-    "families": [ "prof_intro_biology" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "name": { "str": "snowshoe hare" },
+    "description": "A small grass-eater with a brown fur coat that changes to white in the wintertime.",
+    "copy-from": "mon_rabbit_base",
+    "volume": "7500 ml",
+    "weight": "1500 g",
+    "reproduction": { "baby_monster": "mon_hare_baby", "baby_count": 3, "baby_timer": 37 }
+  },
+  {
+    "id": "mon_hare_baby",
+    "type": "MONSTER",
+    "name": { "str": "snowshoe hare kit" },
+    "description": "A tiny and very cute snowshoe hare kit.",
+    "copy-from": "mon_rabbit_baby_base",
+    "looks_like": "mon_rabbit_baby",
+    "upgrades": { "age_grow": 77, "into": "mon_hare" }
   },
   {
     "id": "mon_horse_foal",
@@ -2540,6 +2533,7 @@
     "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.",
     "copy-from": "mon_rabbit_base",
     "looks_like": "mon_rabbit",
+    "weight": "1200 g",
     "reproduction": { "baby_monster": "mon_wild_rabbit_baby", "baby_count": 5, "baby_timer": 28 }
   },
   {
