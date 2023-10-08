@@ -4921,7 +4921,9 @@ void talk_effect_fun_t::set_if( const JsonObject &jo, std::string_view member )
     talk_effect_t else_effect;
     read_condition( jo, std::string( member ), cond, false );
     then_effect.load_effect( jo, "then" );
-    else_effect.load_effect( jo, "else" );
+    if( jo.has_member( "else" ) || jo.has_array( "else" ) ) {
+        else_effect.load_effect( jo, "else" );
+    }
 
     function = [cond, then_effect, else_effect]( dialogue & d ) {
         if( cond( d ) ) {
