@@ -278,6 +278,7 @@
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
         "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
       },
+      { "text": "Have you anything more back there?", "topic": "TALK_EXODII_MERCHANT_AskedRestock" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -331,6 +332,16 @@
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [ "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?.  Sure as 'ell, come back in <interval>." ],
+    "//~": "HEH, you can't get enough of old Rubik's merchandise, eh? Sure as hell, come back in <interval>.",
+    "responses": [
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, thanks.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -737,7 +748,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
+        "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.",
         {
           "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",

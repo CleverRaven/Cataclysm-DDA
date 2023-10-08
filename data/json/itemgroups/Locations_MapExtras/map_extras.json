@@ -20,7 +20,9 @@
       { "group": "socks_unisex", "damage": [ 1, 3 ] },
       { "group": "lab_shoes", "damage": [ 1, 3 ] },
       { "group": "lab_torso", "damage": [ 1, 3 ] },
-      { "group": "underwear", "damage": [ 1, 3 ] }
+      { "group": "underwear", "damage": [ 1, 3 ] },
+      { "item": "left_leg_prosthetic", "prob": 10 },
+      { "item": "right_leg_prosthetic", "prob": 10 }
     ]
   },
   {

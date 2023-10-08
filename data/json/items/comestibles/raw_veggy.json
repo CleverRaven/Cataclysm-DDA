@@ -238,9 +238,9 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "burdock_stalk",
-    "name": { "str": "burdock stalk" },
-    "description": "A stiff, green stalk from a burdock plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
+    "id": "plant_stalk",
+    "name": { "str": "plant stalk" },
+    "description": "A stiff, green stalk from a plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
     "copy-from": "cattail_stalk"
   },
   {
@@ -1003,7 +1003,7 @@
   {
     "type": "COMESTIBLE",
     "id": "young_leaves",
-    "name": { "str_sp": "handful of young leaves" },
+    "name": { "str": "handful of young leaves", "str_pl": "handfuls of young leaves" },
     "weight": "20 g",
     "flags": [ "FREEZERBURN", "RAW" ],
     "color": "light_green",
@@ -1011,13 +1011,23 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 18,
-    "description": "Some young leaves from miscellaneous plants.  They're tender enough to eat, but not very tasty raw.",
-    "price": 40,
+    "description": "Some young leaves from miscellaneous plants.  They're tender enough to eat, but not very tasty on their own.",
+    "price": 0,
     "price_postapoc": 10,
     "material": [ "veggy" ],
     "volume": "45 ml",
-    "fun": -5,
+    "fun": -2,
     "vitamins": [ [ "vitC", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chicory_leaves",
+    "name": { "str": "handful of chicory greens", "str_pl": "handfuls of chicory greens" },
+    "copy-from": "young_leaves",
+    "description": "Some chicory greens.  They are quite bitter but high in vitamins.",
+    "price_postapoc": 20,
+    "fun": -8,
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 1 ], [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",

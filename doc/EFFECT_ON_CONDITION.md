@@ -3,11 +3,32 @@
 
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
+## Contents
+
+- [Effect On Condition](#effect-on-condition)
+  - [Fields](#fields)
+  - [Alpha and Beta Talkers](#alpha-and-beta-talkers)
+  - [Value types](#value-types)
+  - [Variable Object](#variable-object)
+  - [Examples:](#examples)
+- [Condition:](#condition)
+  - [Boolean logic](#boolean-logic)
+  - [Possible conditions](#possible-conditions)
+- [Reusable EOCs:](#reusable-eocs)
+- [EVENT EOCs:](#event-eocs)
+  - [Event Context Vars:](#event-context-vars)
+  - [Event EOC Types:](#event-eoc-types)
+  - [Context Variables For Other EOCs](#context-variables-for-other-eocs)
+- [Effects](#effects)
+  - [Character effects](#character-effects)
+  - [Item effects](#item-effects)
+  - [Map Updates](#map-updates)
+
 ## Fields
 
 | Identifier            | Type      | Description |
 |--------------------- | --------- | ----------- |
-|`recurrence`          | int or variable object or array | The effect_on_condition is automatically invoked (activated) with this many seconds in-between. If it is an object it must have strings `name`, `type`, and `context`. `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.  If it is an array it must have two values which are either ints or varible_objects.
+|`recurrence`          | int or variable object or array | The effect_on_condition is automatically invoked (activated) with this many seconds in-between. If it is an object it must have strings `name`, `type`, and `context`. `default` can be either an int or a string describing a time span. `global` is an optional bool (default false), if it is true the variable used will always be from the player character rather than the target of the dialog.  If it is an array it must have two values which are either ints or variable_objects.
 |`condition`           | condition  | The condition(s) under which this effect_on_condition, upon activation, will cause its effect.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
 | `deactivate_condition`| condition  | *optional* When an effect_on_condition is automatically activated (invoked) and fails its condition(s), `deactivate_condition` will be tested if it exists and there is no `false_effect` entry.  If it returns true, this effect_on_condition will no longer be invoked automatically every `recurrence` seconds.  Whenever the player/npc gains/loses a trait or bionic all deactivated effect_on_conditions will have `deactivate_condition` run; on a return of false, the effect_on_condition will start being run again.  This is to allow adding effect_on_conditions for specific traits or bionics that don't waste time running when you don't have the target bionic/trait.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
 | `required_event`      | cata_event | The event that when it triggers, this EOC does as well. Only relevant for an EVENT type EOC.
@@ -32,13 +53,13 @@ An effect_on_condition is an object allowing the combination of dialog condition
 
 ## Alpha and Beta Talkers
 
-Talker, in context of effect on condition, is any entity, that can use specific effect or be checked against specific condition. Some effects and conditions don't have talker whatsoever, so any entity can use it (like `mapgen_update` effect can be used no matter is it used by player, NPC, monster or item), other has only one talker (aka alpha talker, aka `u_`) - the entity that call the effect or check (like `u_know_recipe` or `u_has_mission`), and the third has two talkers - alpha and beta (aka `u_` and `npc_`), which allow to check both you and your interlocutor (or enemy, depening on context)
+Talker, in context of effect on condition, is any entity, that can use specific effect or be checked against specific condition. Some effects and conditions don't have talker whatsoever, so any entity can use it (like `mapgen_update` effect can be used no matter is it used by player, NPC, monster or item), other has only one talker (aka alpha talker, aka `u_`) - the entity that call the effect or check (like `u_know_recipe` or `u_has_mission`), and the third has two talkers - alpha and beta (aka `u_` and `npc_`), which allow to check both you and your interlocutor (or enemy, depending on context)
 
 For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant, check the player as beta talker, despite the id imply it should be `npc_`; This is a legacy of dialogue system, from which EoC was extended, and won't be fixed, since dialogues still use it fully
 
 ## Value types
 
-Effect on Condidion uses a huge variety of different values for effects or for conditions to check against, so to standardise it, most of them are explained here
+Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
 
 | name | description | example |
 | --- | --- | --- |
@@ -57,9 +78,9 @@ Variable object is a value, that changes due some conditions. Variable can be in
 
 - `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (despite player can swap to another NPC, for example); 
 - `npc_val` - variable, that is stored in beta talker
-- `global_val` - variable, that is store in the world, and won't be lost untill you delete said world
+- `global_val` - variable, that is store in the world, and won't be lost until you delete said world
 - `context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks:
-`character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store infromation about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
+`character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store information about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
 - `var_val` - var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
 
 | Name | Type | Value |
@@ -331,10 +352,10 @@ Checks do alpha talker has `FEATHERS` mutation
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ✔️ |
 
 #### Examples
-Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster uses it to perform grabs - the game checks do monster (alpha talker, `u_`) has GRAB flag (ie able to grab at all), and check is target able to be grabbed using `GRAB_FILTER` flag
+Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster uses it to perform grabs - the game checks do monster (alpha talker, `u_`) has GRAB flag (i.e. able to grab at all), and check is target able to be grabbed using `GRAB_FILTER` flag
 ```json
 { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" }
 ```
@@ -401,7 +422,7 @@ Checks do alpha talker has `u_met_sadie` variable
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 #### Examples
-checks this vars exist
+checks this var exists
 ```json
 { "expects_vars": [ "u_met_me", "u_met_you", "u_met_yourself" ] }
 ```
@@ -614,7 +635,7 @@ You have equipped an item with
 
 ### `u_can_drop_weapon`, `npc_can_drop_weapon`
 - type: simple string
-- return true if alpha or beta talker wield an item, and can drop it on the ground (ie weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
+- return true if alpha or beta talker wield an item, and can drop it on the ground (i.e. weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
 
 #### Valid talkers:
 
@@ -728,6 +749,22 @@ check do you wear something with `RAD_DETECT` flag
 check do you wield something with `WHIP` flag
 ```json
 { "u_has_wielded_with_flag": "WHIP" }
+```
+
+### `u_has_wielded_with_weapon_category`, `npc_has_wielded_with_weapon_category`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker wield something with specific weapon category
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you wield something with `LONG_SWORDS` weapon category
+```json
+{ "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
 ```
 
 ### `u_can_see`, `npc_can_see`
@@ -873,104 +910,104 @@ Every event EOC passes context vars with each of their key value pairs that the 
 
 ## Event EOC Types:
 
-| EVENT            | Description | Context Variables |
-| --------------------- | --------- | ----------- |
-| activates_artifact | Triggers when the player activates an artifact | { "character", `character_id` }, { "item_name", `string` }, |
-| activates_mininuke | Triggers when any character arms a mininuke | { "character", `character_id` } |
-| administers_mutagen |  | { "character", `character_id` }, { "technique", `mutagen_technique` }, |
-| angers_amigara_horrors | Triggers when amigara horrors are spawned as part of a mine finale | NONE |
-| avatar_enters_omt |  | { "pos", `tripoint` }, { "oter_id", `oter_id` }, |
-| avatar_moves |  | { "mount", `mtype_id` }, { "terrain", `ter_id` }, { "movement_mode", `move_mode_id` }, { "underwater", `bool` }, { "z", `int` }, |
-| avatar_dies |  | NONE |
-| awakes_dark_wyrms | Triggers when `pedestal_wyrm` examine action is used | NONE |
-| becomes_wanted | Triggered when copbots/riot bots are spawned as part of a timed event after mon/char is photo'd by eyebot | { "character", `character_id` } |
-| broken_bone | Triggered when any body part reaches 0 hp | { "character", `character_id` }, { "part", `body_part` }, |
-| broken_bone_mends | Triggered when `mending` effect is removed by expiry (Character::mend) | { "character", `character_id` }, { "part", `body_part` }, |
-| buries_corpse | Triggers when item with flag CORPSE is located on same tile as construction with post-special `done_grave` is completed | { "character", `character_id` }, { "corpse_type", `mtype_id` }, { "corpse_name", `string` }, |
-| causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE |
-| character_casts_spell |  | { "character", `character_id` }, { "spell", `spell_id` }, { "difficulty", `int` }, { "cost", `int` }, { "cast_time", `int` }, { "damage", `int` }, |
-| character_consumes_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
-| character_eats_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
-| character_finished_activity | Triggered when character finished or chanceled activity | { "character", `character_id` }, { "activity", `activity_id` }, { "canceled", `bool` } |
-| character_forgets_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
-| character_gains_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
-| character_gets_headshot |  | { "character", `character_id` } |
-| character_heals_damage |  | { "character", `character_id` }, { "damage", `int` }, |
-| character_kills_character |  | { "killer", `character_id` }, { "victim", `character_id` }, { "victim_name", `string` }, |
-| character_kills_monster |  | { "killer", `character_id` }, { "victim_type", `mtype_id` }, |
-| character_learns_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
-| character_loses_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
-| character_melee_attacks_character |  | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "hits", `bool` }, { "victim", `character_id` }, { "victim_name", `string` }, |
-| character_melee_attacks_monster | | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "hits", `bool` }, { "victim_type", `mtype_id` },|
-| character_ranged_attacks_character | |  { "attacker", `character_id` },  { "weapon", `itype_id` }, { "victim", `character_id` }, { "victim_name", `string` }, |
-| character_ranged_attacks_monster | | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "victim_type", `mtype_id` }, |
-| character_smashes_tile | | { "character", `character_id` },  { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, |
-| character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` }, { "activity", `activity_id` }, { "resume", `bool` } |
-| character_takes_damage | | { "character", `character_id` }, { "damage", `int` }, |
-| character_triggers_trap | | { "character", `character_id` }, { "trap", `trap_str_id` }, |
-| character_wakes_up | | { "character", `character_id` }, |
-| character_wields_item | | { "character", `character_id` }, { "itype", `itype_id` }, |
-| character_wears_item | | { "character", `character_id` }, { "itype", `itype_id` }, |
-| consumes_marloss_item | | { "character", `character_id` }, { "itype", `itype_id` }, |
-| crosses_marloss_threshold | | { "character", `character_id` } |
-| crosses_mutation_threshold | | { "character", `character_id` }, { "category", `mutation_category_id` }, |
-| crosses_mycus_threshold | | { "character", `character_id` } |
-| cuts_tree | | { "character", `character_id` } |
-| dermatik_eggs_hatch | | { "character", `character_id` } |
-| dermatik_eggs_injected | | { "character", `character_id` } |
-| destroys_triffid_grove | Triggered *only* via spell with effect_str `ROOTS_DIE` (currently via death spell of triffid heart) | NONE |
-| dies_from_asthma_attack | | { "character", `character_id` } |
-| dies_from_drug_overdose | | { "character", `character_id` }, { "effect", `efftype_id` }, |
-| dies_from_bleeding | | { "character", `character_id` }  |
-| dies_from_hypovolemia | | { "character", `character_id` }  |
-| dies_from_redcells_loss | | { "character", `character_id` }  |
-| dies_of_infection | | { "character", `character_id` }  |
-| dies_of_starvation | | { "character", `character_id` }  |
-| dies_of_thirst | | { "character", `character_id` }  |
-| digs_into_lava | | NONE  |
-| disarms_nuke | Triggered via disarm missile computer action in missile silo special | NONE  |
-| eats_sewage | Triggered via use action `SEWAGE` | NONE  |
-| evolves_mutation | | { "character", `character_id` }, { "from_trait", `trait_id` }, { "to_trait", `trait_id` }, |
-| exhumes_grave | Triggers when construction with post-special `done_dig_grave` or `done_dig_grave_nospawn` is completed | { "character", `character_id` } |
-| fails_to_install_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
-| fails_to_remove_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
-| falls_asleep_from_exhaustion | | { "character", `character_id` } |
-| fuel_tank_explodes | Triggers when vehicle part (that is watertight container/magazine with magazine pocket/or is a reactor) is sufficiently damaged | { "vehicle_name", `string` }, |
-| gains_addiction | |  { "character", `character_id` }, { "add_type", `addiction_id` }, |
-| gains_mutation | |  { "character", `character_id` }, { "trait", `trait_id` }, |
-| gains_skill_level | | { "character", `character_id` }, { "skill", `skill_id` }, { "new_level", `int` }, |
-| game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "is_suicide", `bool` }, { "last_words", `string` }, |
-| game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` }, { "is_debug", `bool` }, { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "avatar_profession", `profession_id` }, { "avatar_custom_profession", `string` }, |
-| game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, |
-| game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, |
-| game_over | Triggers after fully accepting death, epilogues etc have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, |
-| game_save | | { "time_since_load", `chrono_seconds` }, { "total_time_played", `chrono_seconds` }, |
-| game_start | Triggered only during new game character initialization | { "game_version", `string` }, |
-| installs_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
-| installs_faulty_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
-| learns_martial_art | |  { "character", `character_id` }, { "martial_art", `matype_id` }, |
-| loses_addiction | | { "character", `character_id` }, { "add_type", `addiction_id` }, |
-| npc_becomes_hostile | Triggers when NPC's attitude is set to `NPCATT_KILL` via dialogue effect `hostile` | { "npc", `character_id` }, { "npc_name", `string` }, |
-| opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE |
-| opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } |
-| opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE |
-| player_fails_conduct | | { "conduct", `achievement_id` }, { "achievements_enabled", `bool` }, |
-| player_gets_achievement | | { "achievement", `achievement_id` }, { "achievements_enabled", `bool` }, |
-| player_levels_spell | | { "character", `character_id` }, { "spell", `spell_id` }, { "new_level", `int` }, |
-| reads_book | | { "character", `character_id` } |
-| releases_subspace_specimens | Triggers when Release Specimens option is activated via ("old lab" finale's?) computer | NONE |
-| removes_cbm | |  { "character", `character_id` }, { "bionic", `bionic_id` }, |
-| seals_hazardous_material_sarcophagus | Triggers via `srcf_seal_order` computer action | NONE |
-| spellcasting_finish | | { "character", `character_id` }, { "spell", `spell_id` }, { "school", `trait_id` }  |
-| telefrags_creature | (Unimplemented) | { "character", `character_id` }, { "victim_name", `string` }, |
-| teleglow_teleports | Triggers when character(only avatar is actually eligible) is teleported due to teleglow effect | { "character", `character_id` } |
-| teleports_into_wall | Triggers when character(only avatar is actually eligible) is teleported into wall | { "character", `character_id` }, { "obstacle_name", `string` }, |
-| terminates_subspace_specimens | Triggers when Terminate Specimens option is activated via ("old lab" finale's?) computer | NONE |
-| throws_up | | { "character", `character_id` } |
-| triggers_alarm | Triggers when alarm is sounded as a failure state of hacking, prying, using a computer, or (if player is sufficiently close)damaged terrain with ALARMED flag | { "character", `character_id` } | 
-| uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, | 
-| u_var_changed | | { "var", `string` }, { "value", `string` }, |
-| vehicle_moves | | { "avatar_on_board", `bool` }, { "avatar_is_driving", `bool` }, { "avatar_remote_control", `bool` }, { "is_flying_aircraft", `bool` }, { "is_floating_watercraft", `bool` }, { "is_on_rails", `bool` }, { "is_falling", `bool` }, { "is_sinking", `bool` }, { "is_skidding", `bool` }, { "velocity", `int` }, // vehicle current velocity, mph * 100 { "z", `int` }, |
+| EVENT              | Description | Context Variables | Talker(alpha/beta) |
+| ------------------ | ----------- | ----------------- | ------------------ |
+| activates_artifact | Triggers when the player activates an artifact | { "character", `character_id` },<br/> { "item_name", `string` }, | character / NONE |
+| activates_mininuke | Triggers when any character arms a mininuke | { "character", `character_id` } | character / NONE |
+| administers_mutagen |  | { "character", `character_id` },<br/> { "technique", `mutagen_technique` }, | character / NONE |
+| angers_amigara_horrors | Triggers when amigara horrors are spawned as part of a mine finale | NONE | avatar / NONE |
+| avatar_enters_omt |  | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
+| avatar_moves |  | { "mount", `mtype_id` },<br/> { "terrain", `ter_id` },<br/> { "movement_mode", `move_mode_id` },<br/> { "underwater", `bool` },<br/> { "z", `int` }, | avatar / NONE |
+| avatar_dies |  | NONE | avatar / NONE |
+| awakes_dark_wyrms | Triggers when `pedestal_wyrm` examine action is used | NONE | avatar / NONE |
+| becomes_wanted | Triggered when copbots/riot bots are spawned as part of a timed event after mon/char is photo'd by eyebot | { "character", `character_id` } | character / NONE |
+| broken_bone | Triggered when any body part reaches 0 hp | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
+| broken_bone_mends | Triggered when `mending` effect is removed by expiry (Character::mend) | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
+| buries_corpse | Triggers when item with flag CORPSE is located on same tile as construction with post-special `done_grave` is completed | { "character", `character_id` },<br/> { "corpse_type", `mtype_id` },<br/> { "corpse_name", `string` }, | character / NONE |
+| causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
+| character_casts_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
+| character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
+| character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
+| character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
+| character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
+| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
+| character_gets_headshot |  | { "character", `character_id` } | character / NONE |
+| character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
+| character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
+| character_kills_monster |  | { "killer", `character_id` },<br/> { "victim_type", `mtype_id` }, | character / NONE |
+| character_learns_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
+| character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
+| character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
+| character_melee_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim_type", `mtype_id` },| character / NONE |
+| character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
+| character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / NONE |
+| character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
+| character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
+| character_takes_damage | | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
+| character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
+| character_wakes_up | | { "character", `character_id` }, | character / NONE |
+| character_wields_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wield |
+| character_wears_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
+| consumes_marloss_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
+| crosses_marloss_threshold | | { "character", `character_id` } | character / NONE |
+| crosses_mutation_threshold | | { "character", `character_id` },<br/> { "category", `mutation_category_id` }, | character / NONE |
+| crosses_mycus_threshold | | { "character", `character_id` } | character / NONE |
+| cuts_tree | | { "character", `character_id` } | character / NONE |
+| dermatik_eggs_hatch | | { "character", `character_id` } | character / NONE |
+| dermatik_eggs_injected | | { "character", `character_id` } | character / NONE |
+| destroys_triffid_grove | Triggered *only* via spell with effect_str `ROOTS_DIE` (currently via death spell of triffid heart) | NONE | avatar / NONE |
+| dies_from_asthma_attack | | { "character", `character_id` } | character / NONE |
+| dies_from_drug_overdose | | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
+| dies_from_bleeding | | { "character", `character_id` }  | character / NONE |
+| dies_from_hypovolemia | | { "character", `character_id` }  | character / NONE |
+| dies_from_redcells_loss | | { "character", `character_id` }  | character / NONE |
+| dies_of_infection | | { "character", `character_id` }  | character / NONE |
+| dies_of_starvation | | { "character", `character_id` }  | character / NONE |
+| dies_of_thirst | | { "character", `character_id` }  | character / NONE |
+| digs_into_lava | | NONE  | avatar / NONE |
+| disarms_nuke | Triggered via disarm missile computer action in missile silo special | NONE  | avatar / NONE |
+| eats_sewage | Triggered via use action `SEWAGE` | NONE  | avatar / NONE |
+| evolves_mutation | | { "character", `character_id` },<br/> { "from_trait", `trait_id` },<br/> { "to_trait", `trait_id` }, | character / NONE |
+| exhumes_grave | Triggers when construction with post-special `done_dig_grave` or `done_dig_grave_nospawn` is completed | { "character", `character_id` } | character / NONE |
+| fails_to_install_cbm | | { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
+| fails_to_remove_cbm | | { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
+| falls_asleep_from_exhaustion | | { "character", `character_id` } | character / NONE |
+| fuel_tank_explodes | Triggers when vehicle part (that is watertight container/magazine with magazine pocket/or is a reactor) is sufficiently damaged | { "vehicle_name", `string` }, | avatar / NONE |
+| gains_addiction | |  { "character", `character_id` },<br/> { "add_type", `addiction_id` }, | character / NONE |
+| gains_mutation | |  { "character", `character_id` },<br/> { "trait", `trait_id` }, | character / NONE |
+| gains_skill_level | | { "character", `character_id` },<br/> { "skill", `skill_id` },<br/> { "new_level", `int` }, | character / NONE |
+| game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "is_suicide", `bool` },<br/> { "last_words", `string` }, | avatar / NONE |
+| game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_profession", `profession_id` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
+| game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, | avatar / NONE |
+| game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, | avatar / NONE |
+| game_over | Triggers after fully accepting death, epilogues etc. have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, | avatar / NONE |
+| game_save | | { "time_since_load", `chrono_seconds` },<br/> { "total_time_played", `chrono_seconds` }, | avatar / NONE |
+| game_start | Triggered only during new game character initialization | { "game_version", `string` }, | avatar / NONE |
+| installs_cbm | | { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
+| installs_faulty_cbm | | { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
+| learns_martial_art | |  { "character", `character_id` },<br/> { "martial_art", `matype_id` }, | character / NONE |
+| loses_addiction | | { "character", `character_id` },<br/> { "add_type", `addiction_id` }, | character / NONE |
+| npc_becomes_hostile | Triggers when NPC's attitude is set to `NPCATT_KILL` via dialogue effect `hostile` | { "npc", `character_id` },<br/> { "npc_name", `string` }, | NPC / NONE |
+| opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
+| opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } | character / NONE |
+| opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE | avatar / NONE |
+| player_fails_conduct | | { "conduct", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
+| player_gets_achievement | | { "achievement", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
+| player_levels_spell | | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "new_level", `int` }, | character / NONE |
+| reads_book | | { "character", `character_id` } | character / NONE |
+| releases_subspace_specimens | Triggers when Release Specimens option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
+| removes_cbm | |  { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
+| seals_hazardous_material_sarcophagus | Triggers via `srcf_seal_order` computer action | NONE | avatar / NONE |
+| spellcasting_finish | | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "school", `trait_id` }  | character / NONE |
+| telefrags_creature | (Unimplemented) | { "character", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
+| teleglow_teleports | Triggers when character(only avatar is actually eligible) is teleported due to teleglow effect | { "character", `character_id` } | character / NONE |
+| teleports_into_wall | Triggers when character(only avatar is actually eligible) is teleported into wall | { "character", `character_id` },<br/> { "obstacle_name", `string` }, | character / NONE |
+| terminates_subspace_specimens | Triggers when Terminate Specimens option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
+| throws_up | | { "character", `character_id` } | character / NONE |
+| triggers_alarm | Triggers when alarm is sounded as a failure state of hacking, prying, using a computer, or (if player is sufficiently close)damaged terrain with ALARMED flag | { "character", `character_id` } | character / NONE |
+| uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, | avatar / NONE |
+| u_var_changed | | { "var", `string` },<br/> { "value", `string` }, | avatar / NONE |
+| vehicle_moves | | { "avatar_on_board", `bool` },<br/> { "avatar_is_driving", `bool` },<br/> { "avatar_remote_control", `bool` },<br/> { "is_flying_aircraft", `bool` },<br/> { "is_floating_watercraft", `bool` },<br/> { "is_on_rails", `bool` },<br/> { "is_falling", `bool` },<br/> { "is_sinking", `bool` },<br/> { "is_skidding", `bool` },<br/> { "velocity", `int` }, // vehicle current velocity, mph * 100<br/> { "z", `int` }, | avatar / NONE |
 
 ## Context Variables For Other EOCs
 Other EOCs have some variables as well that they have access to, they are as follows:
@@ -1720,7 +1757,7 @@ Emit a sound
 | "volume" | **mandatory** | int, float or [variable object](##variable-object) | how loud the sound is (1 unit = 1 tile around the character) | 
 | "type" | **mandatory** | string or [variable object](##variable-object) | Type of the sound; Could be one of `background`, `weather`, `music`, `movement`, `speech`, `electronic_speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, or `order` | 
 | "target_var" | optional | [variable object](##variable-object) | if set, the center of the sound would be centered in this variable's coordinates instead of you or NPC | 
-| "snippet" | optional | boolean | dafault false; if true, `_make_sound` would use a snippet of provided id instead of a message | 
+| "snippet" | optional | boolean | default false; if true, `_make_sound` would use a snippet of provided id instead of a message | 
 | "same_snippet" | optional | boolean | default false; if true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 
 ##### Valid talkers:
@@ -1984,7 +2021,7 @@ You or NPC is teleported to `target_var` coordinates
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](##variable-object) | location to teleport; should use `target_var`, created previously |
-| "success_message" | optional | string or [variable object](##variable-object) | message, that would be printed, if teleportation was sucessful | 
+| "success_message" | optional | string or [variable object](##variable-object) | message, that would be printed, if teleportation was successful | 
 | "fail_message" | optional | string or [variable object](##variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
 
@@ -1992,7 +2029,7 @@ You or NPC is teleported to `target_var` coordinates
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
 
 ##### Examples
 
@@ -2075,6 +2112,66 @@ You and NPC both die
   "id": "both_are_ded",
   "effect": [ "u_die", "npc_die" ]
 }
+```
+
+## Item effects
+
+#### `u_set_flag`, `npc_set_flag`
+Give item a flag
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_flag" / "npc_set_flag" | **mandatory** | string or [variable object](##variable-object) | id of flag that should be given |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+##### Examples
+Make item filthy
+```json
+{ "npc_set_flag": "FILTHY" }
+```
+
+#### `u_unset_flag`, `npc_unset_flag`
+Remove a flag from item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_unset_flag" / "npc_unset_flag" | **mandatory** | string or [variable object](##variable-object) | id of flag that should be remove |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+##### Examples
+Make item clean
+```json
+{ "npc_unset_flag": "FILTHY" }
+```
+
+#### `u_activate`, `npc_activate`
+You activate beta talker / NPC activates alpha talker. One must be a Character and the other an item.
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_activate" / "npc_activate" | **mandatory** | string or [variable object](##variable-object) |  use action id of item that activate |
+| "target_var" | optional | [variable object](##variable-object) | if set, target location is forced this variable's coordinates | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Force you consume drug item
+```json
+{ "u_activate": "consume_drug" }
 ```
 
 ## Map Updates

@@ -1155,5 +1155,17 @@
     "name": "portal dungeon next level",
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
+  },
+  {
+    "type": "trap",
+    "id": "tr_noisetest",
+    "name": "noise test trap",
+    "color": "light_cyan",
+    "symbol": "_",
+    "visibility": 0,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "sound_detect",
+    "sound_threshold": 5
   }
 ]

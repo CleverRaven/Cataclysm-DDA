@@ -4,6 +4,7 @@
 #include "character_martial_arts.h"
 #include "effect.h"
 #include "item.h"
+#include "itype.h"
 #include "magic.h"
 #include "npc.h"
 #include "npctalk.h"
@@ -27,6 +28,11 @@ talker_character::talker_character( Character *new_me )
 std::string talker_character_const::disp_name() const
 {
     return me_chr_const->disp_name();
+}
+
+std::string talker_character_const::get_name() const
+{
+    return me_chr_const->get_name();
 }
 
 character_id talker_character_const::getID() const
@@ -665,19 +671,25 @@ bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
     return me_chr_const->get_wielded_item() && me_chr_const->get_wielded_item()->has_flag( flag );
 }
 
+bool talker_character_const::wielded_with_weapon_category( const weapon_category_id &w_cat ) const
+{
+    return me_chr_const->get_wielded_item() &&
+           me_chr_const->get_wielded_item()->typeId()->weapon_category.count( w_cat ) > 0;
+}
+
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 {
-    return me_chr_const->has_item_with_flag( flag );
+    return me_chr_const->cache_has_item_with( flag );
 }
 
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
 {
     std::vector<int> rad_vals;
-    for( const item *it : me_chr_const->all_items_with_flag( flag ) ) {
-        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
-            rad_vals.emplace_back( it->irradiation );
+    me_chr_const->cache_visit_items_with( flag, [&]( const item & it ) {
+        if( me_chr_const->is_worn( it ) || me_chr_const->is_wielding( it ) ) {
+            rad_vals.emplace_back( it.irradiation );
         }
-    }
+    } );
     return aggregate( rad_vals, agg_func );
 }
 

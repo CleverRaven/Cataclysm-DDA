@@ -233,15 +233,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "nre_zero_reading_printout",
-    "copy-from": "small_printout_portal_storm_data",
-    "name": { "str": "NRE zero reading" },
-    "description": "A long near uniform sequence of evenly spaced zeroes plotted in thermal paper.  The monotony is rarely broken by small numbered series.",
-    "weight": "10 g",
-    "volume": "50 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -560,11 +551,11 @@
     "category": "spare_parts",
     "name": { "str": "bundle of pipes", "str_pl": "bundles of pipes" },
     "description": "Ten pipes securely tied together for easier transport.  Disassemble to untie them.",
-    "//": "total volume is equal to 10 pipes, assuming uniformity and tight stacking",
+    "//": "Total volume is equal to 10 pipes, assuming uniformity and tight stacking. Total weight is equal to 10 pipes + 2 short ropes, as per the crafting recipe.",
     "volume": "3700 ml",
-    "weight": "12500 g",
+    "weight": "6432 g",
     "longest_side": "60 cm",
-    "price": 100,
+    "price": "380 USD",
     "price_postapoc": 100,
     "material": [ "steel" ],
     "symbol": "H",
@@ -1063,14 +1054,14 @@
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "steel mesh", "str_pl": "steel meshes" },
-    "description": "A mat of finely-woven steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chain link fencing will do these days.",
+    "description": "A 6-inch square piece of finely-woven steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put this on a window to keep mosquitoes and other bugs out if it was larger, but chain link fencing will do these days.",
     "category": "spare_parts",
-    "weight": "318 g",
-    "volume": "500 ml",
+    "//": "Reference tables for calculating steel mesh weight (current one assumes 100 mesh twill weave): http://www.wirecloth.com/mesh-cloth-specification-tables/",
+    "weight": "19 g",
+    "volume": "6 ml",
     "price": 700,
     "price_postapoc": 100,
-    "material": [ "steel" ],
-    "melee_damage": { "bash": 2 }
+    "material": [ "steel" ]
   },
   {
     "type": "GENERIC",
@@ -1280,10 +1271,28 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "steel" ],
+    "//": "weight and volume assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
     "weight": "54431 g",
     "volume": "240 L",
     "to_hit": -5,
     "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater" },
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "household_water_heater_family",
+    "symbol": "0",
+    "color": "white",
+    "name": { "str": "family–sized household water heater" },
+    "description": "A large metal tank with a water faucet attached to it, primarily used to store and heat water.  Large enough for a whole family.",
+    "price": 0,
+    "price_postapoc": 20,
+    "material": [ "steel" ],
+    "//": "weight and volume assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>",
+    "weight": "80000 g",
+    "volume": "406 L",
+    "to_hit": -5,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater_family" },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -2275,14 +2284,15 @@
     "id": "memory_card_science",
     "copy-from": "memory_card",
     "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
-    "description": "A memory card, can be used to store data.  This one appears to be related to 'XEDRA'.",
+    "description": "A memory card, can be used to store data.  This one has a label on which is written 'XEDRA' followed by a long string of numbers.",
     "memory_card": {
       "data_chance": 1.0,
       "on_read_convert_to": "memory_card",
       "recipes_chance": 1.0,
       "recipes_amount": 3,
       "recipes_categories": [ "CC_CHEM" ],
-      "recipes_level_min": 6
+      "recipes_level_min": 6,
+      "secret_recipes": true
     },
     "pocket_data": [  ]
   },
@@ -3794,7 +3804,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "wood" ],
-    "weight": "323 g",
+    "weight": "200 g",
     "volume": "250 ml",
     "to_hit": 1,
     "melee_damage": { "bash": 4 }

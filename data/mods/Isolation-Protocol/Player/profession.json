@@ -1,0 +1,119 @@
+[
+  {
+    "type": "profession",
+    "id": "iso_deliveryboy",
+    "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
+    "description": "A late night delivery to a lonely building, a cry for help from under the elevator, and a terrible conspiracy.  You are not drunk enough for this.",
+    "points": 1,
+    "traits": [ "iso_trait", "iso_deliverator" ],
+    "skills": [
+      { "level": 3, "name": "driving" },
+      { "level": 1, "name": "speech" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "hat_ball", "jeans", "jacket_light", "socks", "sneakers", "pizza_meat", "money_strap_one", "wristwatch", "mbag" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "bat", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "copy-from": "cop",
+    "id": "iso_cop",
+    "name": "Police Officer",
+    "requirement": "achievement_reach_police_station",
+    "description": "A small-town deputy who got the call and was ready to come to the rescue.  If only you'd known what you were getting into…",
+    "points": 4,
+    "traits": [ "PROF_POLICE", "iso_trait", "iso_backup" ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch", "baton" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "iso_hacker",
+    "name": "Hacktivist",
+    "description": "An activist pursuing a government conspiracy.  In the end you were proven right, but does it even matter now?",
+    "points": 2,
+    "skills": [ { "level": 6, "name": "computer" }, { "level": 5, "name": "electronics" } ],
+    "traits": [ "iso_robolove", "iso_trait" ],
+    "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
+    "items": {
+      "both": {
+        "items": [ "pants", "tshirt_text", "hoodie", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
+        "entries": [
+          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "electrohack" },
+          {
+            "item": "light_plus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 150,
+            "container-item": "noise_emitter"
+          },
+          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "camera" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_laptop" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "iso_paramedic",
+    "copy-from": "paramedic",
+    "name": "Paramedic",
+    "description": "A paramedic, trained to save lives in the field.",
+    "points": 3,
+    "traits": [ "PROF_MED", "iso_trait", "iso_hypo_o" ],
+    "items": {
+      "both": {
+        "items": [
+          "technician_shirt_gray",
+          "socks",
+          "gloves_medical",
+          "wristwatch",
+          "boots",
+          "mbag",
+          { "item": "bandages", "count": 3 },
+          "stethoscope",
+          "scissors",
+          "syringe",
+          "morphine",
+          "adrenaline_injector"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "full_1st_aid" },
+          { "item": "pants", "variant": "pants_blue" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  }
+]

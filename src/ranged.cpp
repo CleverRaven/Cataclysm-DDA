@@ -113,6 +113,10 @@ static const efftype_id effect_on_roof( "on_roof" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_overheat_explosion( "fault_overheat_explosion" );
+static const fault_id fault_overheat_melting( "fault_overheat_melting" );
+static const fault_id fault_overheat_safety( "fault_overheat_safety" );
+static const fault_id fault_overheat_venting( "fault_overheat_venting" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -604,6 +608,11 @@ bool Character::handle_gun_damage( item &it )
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
     if( it.has_fault_flag( "JAMMED_GUN" ) ) {
+        add_msg_if_player( m_warning, _( "Your %s can't fire." ), it.tname() );
+        return false;
+    }
+    if( it.has_fault_flag( "RUINED_GUN" ) ) {
+        add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
         return false;
     }
 
@@ -751,6 +760,58 @@ bool Character::handle_gun_damage( item &it )
     return true;
 }
 
+bool Character::handle_gun_overheat( item &it )
+{
+    double heat = it.get_var( "gun_heat", 0.0 );
+    double threshold = it.type->gun->overheat_threshold;
+    const islot_gun &gun_type = *it.type->gun;
+
+    if( threshold < 0.0 ) {
+        return true;
+    }
+
+    if( heat > threshold ) {
+        if( it.faults_potential().count( fault_overheat_safety ) && !one_in( gun_type.durability ) ) {
+            add_msg_if_player( m_bad,
+                               _( "Your %s displays a warning sequence as its active cooling cycle engages." ),
+                               it.tname() );
+            it.faults.insert( fault_overheat_safety );
+            return false;
+        }
+
+        //Overall the durability of the gun greatly conditions what sort of failures are possible.
+        //A durability above 8 prevents the most serious failures
+        int fault_roll = rng( 5, 15 ) - gun_type.durability;
+        if( it.faults_potential().count( fault_overheat_explosion ) && fault_roll > 9 ) {
+            add_msg_if_player( m_bad,
+                               _( "Your %s revs and chokes violently as its internal containment fields detune!" ),
+                               it.tname() );
+            add_msg_if_player( m_bad, _( "Your %s detonates!" ),
+                               it.tname() );
+            it.faults.insert( fault_overheat_melting );
+            explosion_handler::explosion( this, this->pos(), 1200, 0.4 );
+            return false;
+        } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
+            add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
+                               it.tname() );
+            it.faults.insert( fault_overheat_melting );
+            return false;
+        } else if( it.faults_potential().count( fault_overheat_venting ) && fault_roll > 2 ) {
+            map &here = get_map();
+            add_msg_if_player( m_bad,
+                               _( "The cooling system of your %s chokes and vents a dense cloud of superheated coolant." ),
+                               it.tname() );
+            for( int i = 0; i < 3; i++ ) {
+                here.add_field( pos() + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_nuke_gas" ), 3 );
+            }
+            it.set_var( "gun_heat", heat - gun_type.cooling_value * 4.0 );
+            return false;
+        }
+    }
+    it.set_var( "gun_heat", heat + gun_type.heat_per_shot );
+    return true;
+}
+
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
@@ -837,13 +898,16 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( gun.has_fault_flag( "JAMMED_GUN" ) && curshot == 0 ) {
+        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
         if( !handle_gun_damage( gun ) ) {
+            break;
+        }
+        if( !handle_gun_overheat( gun ) ) {
             break;
         }
 

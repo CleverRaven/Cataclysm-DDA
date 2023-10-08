@@ -1,0 +1,16 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "dm_office_cubical_phavian",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_cubical_phavian_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_cubical_phavian_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "office_cubical_phavian_basement_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "office_cubical_phavian_subbasement_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 40, -1 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
+  }
+]

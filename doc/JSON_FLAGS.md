@@ -6,8 +6,6 @@
   - [TODO](#todo)
   - [Ammo](#ammo)
     - [Ammo type](#ammo-type)
-    - [Effects](#ammo-effects)
-    - [Flags](#flags)
   - [Traps](#traps)
   - [Armor](#armor)
     - [Covers](#covers)
@@ -173,101 +171,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```unfinished_char``` Semi-charred fuel
 - ```water``` Water
 - ```paper``` Paper
-
-### Ammo effects
-
-- ```ACIDBOMB``` Leaves a pool of acid on detonation.
-- ```ACT_ON_RANGED_HIT``` The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
-- ```APPLY_SAP``` Applies sap-coated effect on hit.
-- ```BEANBAG``` Stuns the target.
-- ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
-- ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
-- ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
-- ```BURST``` Spills the contents on hit.
-- ```COOKOFF``` Explodes when lit on fire.
-- ```CUSTOM_EXPLOSION``` Explosion as specified in ```"explosion"``` field of used ammo. See `JSON_INFO.md`.
-- ```DRAW_AS_LINE``` Doesn't go through regular bullet animation; instead draws a line and the bullet on its end for one frame.
-- ```DRAW_LASER_BEAM``` Creates a trail of laser (the field type).
-- ```EMP``` Damages "electronic" terrain types (such as consoles or card readers) In rare cases might make card readers open doors. Damages and destroys robotic enemies. Drains bionic power and power from any electronic equipment in player possession.
-- ```EXPLOSIVE```                           -
-- ```EXPLOSIVE_120mmHEAT```                 -
-- ```EXPLOSIVE_20x66```                     -
-- ```EXPLOSIVE_66mmHEAT```                  -
-- ```EXPLOSIVE_84x246HE```                  -
-- ```EXPLOSIVE_84x246HEDP```                -
-- ```EXPLOSIVE_ATGMHEAT```                  -
-- ```EXPLOSIVE_BIG```                       -
-- ```EXPLOSIVE_GRENADE```                   -
-- ```EXPLOSIVE_HESHOT```                    -
-- ```EXPLOSIVE_HOMEMADE```                  - Explosions of various power, with or without shrapnel, see `ammo_effects.json` for exact values.
-- ```EXPLOSIVE_HOMEMADE_GRENADE_1```        -
-- ```EXPLOSIVE_HOMEMADE_GRENADE_2```        -
-- ```EXPLOSIVE_HUGE```                      -
-- ```EXPLOSIVE_m430a1```                    -
-- ```EXPLOSIVE_m433```                      -
-- ```EXPLOSIVE_OG7V```                      -
-- ```EXPLOSIVE_PG7VL```                     -
-- ```EXPLOSIVE_PG7VR```                     -
-- ```EXPLOSIVE_RAUFOSS```                   -
-- ```EXPLOSIVE_SMALL```                     -
-- ```EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1```  -
-- ```EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2```  -
-- ```EXPLOSIVE_TBG7V```                     -
-- ```FLAME``` Very small explosion that lights fires.
-- ```FLARE``` Lights the target tile on fire.
-- ```FLASHBANG``` Blinds and deafens nearby targets.
-- ```FOAMCRETE``` Applies foamcrete effect on hit.
-- ```FRAG``` Small explosion that spreads shrapnel ("power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.025}).
-- ```FRAG_20x66``` Small explosion that spreads shrapnel ("power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.08 }).
-- ```GAS_FUNGICIDAL``` Creates a cloud of fungicidal gas on hit.
-- ```GAS_INSECTICIDAL``` Creates a cloud of insecticidal gas on hit.
-- ```HEAVY_HIT``` Creates a loud sound on hit.
-- ```INCENDIARY``` Lights target on fire.
-- ```IGNITE``` Lights target on intense and longer-lasting fire.
-- ```JET``` Draws a `*` symbol as a flying projectile (unlike usual `#` symbol).
-- ```LARGE_BEANBAG``` Heavily stuns the target.
-- ```LASER``` Creates a trail of laser (the field type).
-- ```LIGHTNING``` Creates a trail of lightning.
-- ```magic``` Always best possible hit, do nothing special, no damage mults, nothing.
-- ```MATCHHEAD``` Bullet has a chance of damaging the gun from overpressure regardless of fouling level.
-- ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
-- ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
-- ```NAPALM``` Explosion that spreads fire.
-- ```NAPALM_BIG``` Large explosion that spreads fire.
-- ```NAPALM_TBG7V``` Creates a large fire on hit.
-- ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
-- ```NO_DAMAGE_SCALING``` Always set 100% damage due to hit in the weakpoint.
-- ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
-- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
-- ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
-- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
-- ```NO_OVERSHOOT``` Projectiles with this effect won't fly farther than player's set target tile.
-- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
-- ```NPC_AVOID``` NPCs won't use guns or gunmods loaded with ammo with this effect.
-- ```NULL_SOURCE``` Projectiles with this effect doesn't have a creature who fired them; applied only to explosives' shrapnel.
-- ```PARALYZEPOISON``` Applies paralyzing poison effect on damaging hit.
-- ```PLASMA``` Creates a trail of superheated plasma.
-- ```PLASMA_BUBBLE``` Creates a cloud of superheated plasma.
-- ```PYROPHORIC``` Large explosion that spreads fire of high intensity.
-- ```ROBOT_DAZZLE``` Applies sensor-stunning effect to robots.
-- ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
-- ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes; this is independent of the weapon flags.
-- ```SHATTER_SELF``` Destroys itself and creates shards on hit.
-- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty.
-- ```SMOKE``` Generates a cloud of smoke at the target.
-- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
-- ```STREAM``` Leaves a trail of fire fields.
-- ```STREAM_BIG``` Leaves a trail of intense fire fields.
-- ```STREAM_GAS_FUNGICIDAL``` Leaves a trail of fungicidal gas.
-- ```STREAM_GAS_INSCENTICIDAL``` Leaves a trail of insecticidal gas.
-- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
-- ```TOXICGAS``` Creates a cloud of toxic gas on hit.
-- ```TRAIL``` Creates a trail of smoke.
-- ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
-
-### Flags
-
-- ```CASELESS_ROUNDS``` Caseless rounds that cannot be disassembled or reloaded.
 
 ## Traps
 
@@ -506,6 +409,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_SCENT``` You have no scent.
+- ```NO_SPELLCASTING``` Mutations with this flag blocks you from casting spells with the spellcasting menu. No effect on other spells sources such as activated items, mutations and bionics
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NUMB``` Changes character's moral behaviour in some situations
 - ```NYCTOPHOBIA``` Apply some negative effects when the ambient light is too low
@@ -518,6 +422,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty
+- ```ROOTS2``` Gain enhanced effects from the Mycorrhizal Communion mutation.
+- ```ROOTS3``` Gain enhanced effects from the Mycorrhizal Communion mutation (slightly faster than ROOTS2).
 - ```SAPIOVORE``` Butcher humans without a morale penalty
 - ```SEESLEEP``` You can see while sleeping, and aren't bothered by light when trying to fall asleep.
 - ```SLUDGE_IMMUNE``` Critter is immune to sludge trail field (`fd_sludge`)
@@ -532,6 +438,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
+- ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
 - ```WALK_UNDERWATER``` your stamina burn is not increased when you swim, emulating you walking on the water bottom
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
 - ```WATCH``` You always know what time it is.
@@ -702,6 +609,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
+- ```EXAMINE_FROM_ABOVE``` Furniture can be <kbd>e</kbd> examined from a ledge above.  If deployed furniture is taken down it will be placed on the ledge.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
@@ -731,6 +639,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`.
 - ```NO_FLOOR``` Things should fall when placed on this tile.
+- ```NO_FLOOR_WATER``` This tile has no floor, but there is water so it doesn't free fall.
 - ```NO_PICKUP_ON_EXAMINE``` Examining this tile (<kbd>e</kbd> by default) won't open Pick Up menu even if there are items here.
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile.
 - ```NO_SELF_CONNECT``` This terrain won't use multitile texture, and will always looks like a separate unit
@@ -842,6 +751,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```CORPSE``` Flag used to spawn various human corpses during the mapgen.
 - ```CREDIT_CARD_SHAPED``` This item is shaped like a credit card and fits into the card slots of a wallet and similar pockets.
 - ```CRUTCHES``` Item with this flag helps characters not to fall down if their legs are broken.
+- ```CUSTOM_EXPLOSION``` Flag, automatically applied to items that has defined `explosion` data in definition. See `JSON_INFO.md`
 - ```CUT_HARVEST``` You need a grass-cutting tool like sickle to harvest this plant
 - ```DANGEROUS``` NPCs will not accept this item. Explosion iuse actor implies this flag. Implies `NPC_THROW_NOW`.
 - ```DETERGENT``` This item can be used as a detergent in a washing machine.
@@ -944,6 +854,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```SPLINT``` This item is splint, when worn on broken body part, it slowly mend it
 - ```STRICT_HUMANITARIANISM``` Flag, automatically applied to food, if it was cooked from demihuman meat, and allow a different food interactions in names
 - ```TACK``` Item can be used as tack for a mount.
+- ```TANGLE``` When this item is thrown, and hits a target, it has a chance to tangle them up and immobilize them.
 - ```TARDIS``` Container item with this flag bypasses internal checks for pocket data, so inside it could be bigger than on the outside, and could hold items that otherwise won't fit its dimensions.
 - ```TIE_UP``` Item can be used to tie up a creature.
 - ```TINDER``` This item can be used as tinder for lighting a fire with a `REQUIRES_TINDER` flagged firestarter.
@@ -1211,6 +1122,7 @@ Other monster flags.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
+- ```BIOLOGICALPROOF``` Immune to biological damage.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180).
 - ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
@@ -1835,4 +1747,3 @@ Gun fault flags:
 - ```JAMMED_GUN``` Stops burst fire. Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 - ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
-

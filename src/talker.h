@@ -78,6 +78,9 @@ class talker
         virtual std::string disp_name() const {
             return "";
         }
+        virtual std::string get_name() const {
+            return "";
+        }
         virtual character_id getID() const {
             return character_id( 0 );
         }
@@ -553,6 +556,9 @@ class talker
             return false;
         }
         virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_weapon_category( const weapon_category_id & ) const {
             return false;
         }
         virtual bool has_item_with_flag( const flag_id & ) const {

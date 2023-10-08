@@ -72,8 +72,7 @@
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
       },
-      [ "PULL_METAL_WEAPON", 8 ],
-      [ "FEAR_PARALYZE", 10 ]
+      [ "PULL_METAL_WEAPON", 8 ]
     ],
     "flags": [
       "SEES",

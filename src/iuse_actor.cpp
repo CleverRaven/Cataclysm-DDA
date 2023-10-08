@@ -168,6 +168,7 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "target", target, true );
 
     obj.read( "msg", msg_transform );
+    obj.read( "variant_type", variant_type );
     obj.read( "container", container );
     obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
@@ -263,12 +264,12 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         }
     }
 
-    if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
+    if( it.count_by_charges() != target->count_by_charges() && it.count() > 1 ) {
         item take_one = it.split( 1 );
-        do_transform( p, take_one );
+        do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );
     } else {
-        do_transform( p, it );
+        do_transform( p, it, variant_type );
     }
 
     if( it.is_tool() ) {
@@ -277,14 +278,15 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
     return result;
 }
 
-void iuse_transform::do_transform( Character *p, item &it ) const
+void iuse_transform::do_transform( Character *p, item &it, const std::string &variant_type ) const
 {
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( container.is_empty() ) {
-        obj = &it.convert( target );
+        obj = &it.convert( target, p );
+        obj->set_itype_variant( variant_type );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -306,7 +308,8 @@ void iuse_transform::do_transform( Character *p, item &it ) const
             }
         }
     } else {
-        obj = &it.convert( container );
+        obj = &it.convert( container, p );
+        obj->set_itype_variant( variant_type );
         int count = std::max( ammo_qty, 1 );
         item cont;
         if( target->count_by_charges() ) {
@@ -426,6 +429,11 @@ void iuse_transform::finalize( const itype_id & )
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    dummy.set_itype_variant( variant_type );
+    // If the variant is to be randomized, use default no-variant name
+    if( variant_type == "<any>" ) {
+        dummy.clear_itype_variant();
+    }
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
@@ -1879,7 +1887,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
             p->add_msg_if_player( "%s", success_message );
         }
 
-        it.convert( target_id );
+        it.convert( target_id, p );
         it.active = true;
     } else if( !failure_message.empty() ) {
         p->add_msg_if_player( m_bad, "%s", failure_message );
@@ -2396,13 +2404,7 @@ void holster_actor::load( const JsonObject &obj )
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
 {
-    if( !holster.can_contain( obj ).success() ) {
-        return false;
-    }
-    if( obj.active ) {
-        return false;
-    }
-    return holster.can_contain( obj ).success();
+    return obj.active ? false : holster.can_contain( obj ).success();
 }
 
 bool holster_actor::store( Character &you, item &holster, item &obj ) const
@@ -3433,7 +3435,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.convert( used_up_item_id );
+            it.convert( used_up_item_id, &healer );
             for( const auto &flag : used_up_item_flags ) {
                 it.set_flag( flag );
             }
@@ -4448,10 +4450,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                 link_menu.addentry( 20, has_loose_end, -1, _( "Attach to Cable Charger System CBM" ) );
             }
         }
-        if( targets.count( link_state::ups ) > 0 ) {
-            if( !( p->all_items_with_flag( flag_IS_UPS ) ).empty() ) {
-                link_menu.addentry( 21, has_loose_end, -1, _( "Attach to UPS" ) );
-            }
+        if( targets.count( link_state::ups ) > 0 && p->cache_has_item_with( flag_IS_UPS ) ) {
+            link_menu.addentry( 21, has_loose_end, -1, _( "Attach to UPS" ) );
         }
         if( targets.count( link_state::solarpack ) > 0 ) {
             const bool has_solar_pack_on = p->worn_with_flag( flag_SOLARPACK_ON );
@@ -4541,7 +4541,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             link_menu.addentry( 20, has_loose_end && !it.link->has_state( link_state::bio_cable ),
                                 -1, _( "Attach loose end to Cable Charger System CBM" ) );
         }
-        if( targets.count( link_state::ups ) > 0 && !( p->all_items_with_flag( flag_IS_UPS ) ).empty() ) {
+        if( targets.count( link_state::ups ) > 0 && p->cache_has_item_with( flag_IS_UPS ) ) {
             link_menu.addentry( 21, has_loose_end && it.link->has_state( link_state::bio_cable ),
                                 -1, _( "Attach loose end to UPS" ) );
         }
@@ -5080,7 +5080,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                 return false;
             }
             if( !inv.has_flag( flag_CABLE_SPOOL ) ) {
-                return can_extend_devices && inv.type->can_use( "link_up" );
+                return can_extend_devices && inv.can_link_up();
             }
             return can_extend.find( inv.typeId().c_str() ) != can_extend.end() && &inv != &it;
         };
@@ -5088,7 +5088,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                    _( "You don't have a compatible cable." ) );
     } else {
         const auto filter = [&it]( const item & inv ) {
-            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.type->can_use( "link_up" ) ||
+            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.can_link_up() ||
                 ( inv.link && ( it.link_length() >= 0 || inv.link->has_state( link_state::needs_reeling ) ) ) ) {
                 return false;
             }
@@ -5168,7 +5168,6 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                           extended_ptr->type_name(), extension->type_name() );
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
-    p->invalidate_weight_carried_cache();
     p->drop_invalid_inventory();
     p->moves -= move_cost;
     return 0;
@@ -5178,7 +5177,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
 {
     std::list<item *> all_cables = it.all_items_ptr( item_pocket::pocket_type::CABLE );
     all_cables.remove_if( []( const item * cable ) {
-        return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->type->can_use( "link_up" );
+        return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->can_link_up();
     } );
 
     if( all_cables.empty() ) {

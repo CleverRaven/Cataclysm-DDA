@@ -81,5 +81,18 @@
     "components": "spell_components_human_blood",
     "flags": [ "SILENT", "NO_LEGS", "NO_FAIL" ],
     "difficulty": 0
+  },
+  {
+    "id": "vampire_map_real",
+    "type": "SPELL",
+    "name": "Commune with children of the night Real Spell",
+    "description": "This is the spell that actually fires when you cast Commune with Children of the Night.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": { "math": [ "( 7 + (u_val('spell_level', 'spell: vampire_reveal_world_map') * 2.2) )" ] }
   }
 ]

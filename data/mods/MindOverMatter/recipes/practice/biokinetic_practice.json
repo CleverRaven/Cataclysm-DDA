@@ -16,9 +16,11 @@
       "practice_biokin_climate_control",
       "practice_biokin_enhance_mobility",
       "practice_biokin_armor_skin",
+      "practice_biokin_hammerhand",
       "practice_biokin_reflex_enhance",
       "practice_biokin_sealed_system",
-      "practice_biokin_combat_dance"
+      "practice_biokin_combat_dance",
+      "practice_biokin_perfected_motion"
     ],
     "difficulty": 1
   },
@@ -328,6 +330,57 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: hammerhand",
+    "id": "practice_biokin_hammerhand",
+    "description": "Contemplate your powers and improve your ability to eschew the use of tools.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: biokin_hammerhand')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "<=", "(difficulty_five_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: biokin_hammerhand')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_hammerhand')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: heightened reflexes",
     "id": "practice_biokin_reflex_enhance",
     "description": "Contemplate your powers and improve your ability to enhance your reflexes.",
@@ -464,6 +517,57 @@
             {
               "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: biokin_combat_dance')", ">=", "1" ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: perfected motion",
+    "id": "practice_biokin_perfected_motion",
+    "description": "Contemplate your powers and improve your ability to outrun a racehorse.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: biokin_perfected_motion')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "<=", "(difficulty_nine_contemplation(1))" ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_val('spell_exp', 'spell: biokin_perfected_motion')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_FALSE",
+              "condition": { "math": [ "u_val('spell_level', 'spell: biokin_perfected_motion')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

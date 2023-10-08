@@ -386,9 +386,7 @@ void add_leash( monster &z )
         return;
     }
     Character &player_character = get_player_character();
-    std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_TIE_UP );
-    } );
+    std::vector<item *> rope_inv = player_character.cache_get_items_with( json_flag_TIE_UP );
     if( rope_inv.empty() ) {
         return;
     }
@@ -458,6 +456,7 @@ void start_leading( monster &z )
         untie_pet( z );
     }
     z.add_effect( effect_led_by_leash, 1_turns, true );
+    z.unset_dest();
     add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
 }
 
@@ -535,9 +534,7 @@ void insert_battery( monster &z )
         return;
     }
     Character &player_character = get_player_character();
-    std::vector<item *> bat_inv = player_character.items_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_MECH_BAT );
-    } );
+    std::vector<item *> bat_inv = player_character.cache_get_items_with( json_flag_MECH_BAT );
     if( bat_inv.empty() ) {
         return;
     }
@@ -654,10 +651,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
-        std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-            return itm.has_flag( json_flag_TIE_UP );
-        } );
-        if( !rope_inv.empty() ) {
+        if( player_character.cache_has_item_with( json_flag_TIE_UP ) ) {
             amenu.addentry( leash, true, 't', _( "Attach leash to %s" ), pet_name );
         } else {
             amenu.addentry( leash, false, 't', _( "You need any type of rope to leash %s" ),
@@ -693,7 +687,7 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     if( z.has_flag( mon_flag_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
-        player_character.has_item_with_flag( json_flag_TACK ) ) {
+        player_character.cache_has_item_with( json_flag_TACK ) ) {
         if( player_character.get_skill_level( skill_survival ) >= 1 ) {
             amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
         } else {

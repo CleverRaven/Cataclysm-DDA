@@ -1394,7 +1394,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
       [ [ "pipe", 2 ] ],
-      [ [ "wire_mesh", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "metal_tank_little", 1 ], [ "jerrycan_big", 1 ], [ "jerrycan", 1 ] ]
     ]
   },
@@ -1421,7 +1421,7 @@
         [ "oxy_torch", 10 ]
       ]
     ],
-    "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 4 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1439,6 +1439,6 @@
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 34 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 7 ], [ "scrap_aluminum", 34 ] ] ]
   }
 ]

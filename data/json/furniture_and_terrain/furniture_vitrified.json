@@ -524,27 +524,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_vitrified_rack_coat",
-    "name": "black glass coat rack",
-    "description": "A tall glass pole with a set of hooks, on which rigid, shapeless masses are draped.",
-    "symbol": "Y",
-    "color": "dark_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 4,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
-    "max_volume": "30 L",
-    "bash": {
-      "str_min": 6,
-      "str_max": 30,
-      "sound": "glass shattering!",
-      "sound_fail": "clink.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_vitrified_planter",
     "name": "black glass garden",
     "description": "A planter of dark glass.  Sharp, twisting glass sprouts emerge from the black soil within.",
