@@ -5623,7 +5623,7 @@ parsers = {
     { "queue_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_queue_eocs },
     { "queue_eoc_with", jarg::member, &talk_effect_fun_t::set_queue_eoc_with },
     { "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs },
-    { "if", jarg::member | jarg::array, &talk_effect_fun_t::set_if },
+    { "if", jarg::member, &talk_effect_fun_t::set_if },
     { "switch", jarg::member, &talk_effect_fun_t::set_switch },
     { "math", jarg::array, &talk_effect_fun_t::set_math },
     { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level },
