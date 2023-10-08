@@ -695,7 +695,6 @@
       { "item": "atgm_heat", "prob": 1 },
       { "item": "m202_flash", "prob": 2 },
       { "item": "m74_clip", "prob": 3 },
-      { "item": "rm51_assault_rifle", "prob": 1 },
       { "item": "rm88_battle_rifle", "prob": 1 },
       { "item": "rm614_lmg", "prob": 1 },
       { "item": "rm2000_smg", "prob": 1 },

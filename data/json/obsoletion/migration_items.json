@@ -130,6 +130,11 @@
     "replace": "rm614_lmg"
   },
   {
+    "id": "rm51_assault_rifle",
+    "type": "MIGRATION",
+    "replace": "rsa840"
+  },
+  {
     "id": "bio_power_armor_interface",
     "type": "MIGRATION",
     "replace": "burnt_out_bionic"

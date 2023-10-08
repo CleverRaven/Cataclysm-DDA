@@ -1857,15 +1857,15 @@
     ]
   },
   {
-    "id": "nested_rm51_assault_rifle",
+    "id": "nested_rsa840",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "rm51_assault_rifle", "charges-min": 0, "charges-max": 50 },
-      { "item": "8x40_50_mag" },
-      { "item": "8x40_50_mag", "prob": 50 },
+      { "item": "rsa840", "charges-min": 0, "charges-max": 42 },
+      { "item": "8x40_42_mag" },
+      { "item": "8x40_42_mag", "prob": 50 },
       { "group": "on_hand_8x40" }
     ]
   },
