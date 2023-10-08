@@ -9087,6 +9087,28 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
+void game::insert_item( drop_locations &targets )
+{
+    if( targets.empty() || !targets.front().first ) {
+        return;
+    }
+    std::string title = string_format( _( "%s: %s and %d items" ), _( "Insert item" ),
+                                       targets.front().first->tname(), targets.size() - 1 );
+    item_location item_loc = inv_map_splice( [ &, targets]( const item_location & it ) {
+        if( targets.front().first.parent_item() == it ) {
+            return false;
+        }
+        return it->is_container() && !it->is_corpse() && rate_action_insert( u, it ) == hint_rating::good;
+    }, title, 1, _( "You have no container to insert items." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    u.assign_activity( insert_item_activity_actor( item_loc, targets, true ) );
+}
+
 void game::insert_item()
 {
     item_location item_loc = inv_map_splice( [&]( const item_location & it ) {

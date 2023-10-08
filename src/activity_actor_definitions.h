@@ -1261,12 +1261,14 @@ class insert_item_activity_actor : public activity_actor
         drop_locations items;
         contents_change_handler handler;
         bool all_pockets_rigid;
+        bool reopen_menu;
 
     public:
 
         insert_item_activity_actor() = default;
-        insert_item_activity_actor( const item_location &holster, const drop_locations &holstered_list ) :
-            holster( holster ), items( holstered_list ) {}
+        insert_item_activity_actor( const item_location &holster, const drop_locations &holstered_list,
+                                    bool reopen_menu = false ) : holster( holster ), items( holstered_list ),
+            reopen_menu( reopen_menu ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_INSERT_ITEM" );
