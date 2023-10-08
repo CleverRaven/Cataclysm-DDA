@@ -87,60 +87,27 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BIOKINESIS_METAPHYSICS_SKILL_EXP",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] } ] },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CLAIRSENTIENCE_METAPHYSICS_SKILL_EXP",
+    "id": "EOC_PSIONICS_METAPHYSICS_SKILL_EXP",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": {
-      "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] } ]
+      "and": [
+        {
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        }
+      ]
     },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PYROKINESIS_METAPHYSICS_SKILL_EXP",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] } ] },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEKINESIS_METAPHYSICS_SKILL_EXP",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] } ] },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPATHY_METAPHYSICS_SKILL_EXP",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "compare_string": [ "TELEPATH", { "context_val": "school" } ] } ] },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPORTATION_METAPHYSICS_SKILL_EXP",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] } ] },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKINESIS_METAPHYSICS_SKILL_EXP",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] } ] },
     "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
   },
   {
@@ -149,6 +116,6 @@
     "condition": {
       "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
     },
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "10" ] } ]
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "250" ] } ]
   }
 ]
