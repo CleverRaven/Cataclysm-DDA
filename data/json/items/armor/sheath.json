@@ -31,7 +31,7 @@
   {
     "id": "baldric",
     "type": "ARMOR",
-    "name": { "str": "baldric" },
+    "name": { "str": "longsword scabbard" },
     "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured to the sturdy leather belt.  Activate to sheath/draw a sword.",
     "weight": "1625 g",
     "volume": "2 L",
