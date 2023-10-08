@@ -640,7 +640,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided</color> and then <color_yellow>quickly running up to it and deactivating the robot before it recovers from the stun</color>.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
+    "description": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
