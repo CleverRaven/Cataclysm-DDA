@@ -346,6 +346,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     json.member( "adv_inv_container_type", adv_inv_container_type );
     json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
+    json.member( "unload_auto_contain", unload_auto_contain );
+    json.member( "hide_entries_override", hide_entries_override );
     json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     json.member( "overmap_blinking", overmap_blinking );
     json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -386,7 +388,6 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_mutation", distraction_mutation );
     json.member( "distraction_oxygen", distraction_oxygen );
     json.member( "numpad_navigation", numpad_navigation );
-    json.member( "unload_auto_contain", unload_auto_contain );
 
     json.member( "input_history" );
     json.start_object();
@@ -424,6 +425,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     jo.read( "adv_inv_container_type", adv_inv_container_type );
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+    jo.read( "unload_auto_contain", unload_auto_contain );
+    jo.read( "hide_entries_override", hide_entries_override );
     jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
@@ -456,7 +459,6 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_mutation", distraction_mutation );
     jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "numpad_navigation", numpad_navigation );
-    jo.read( "unload_auto_contain", unload_auto_contain );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
@@ -601,6 +603,13 @@ const item_category *inventory_entry::get_category_ptr() const
         return nullptr;
     }
     return &any_item()->get_category_of_contents();
+}
+
+inventory_column::inventory_column( const inventory_selector_preset &preset ) :
+    preset( preset )
+{
+    hide_entries_override = uistate.hide_entries_override;
+    cells.resize( preset.get_cells_count() );
 }
 
 bool inventory_column::activatable() const
@@ -2891,6 +2900,7 @@ void inventory_column::cycle_hide_override()
     } else {
         hide_entries_override = false;
     }
+    uistate.hide_entries_override = hide_entries_override;
 }
 
 void selection_column::cycle_hide_override()
