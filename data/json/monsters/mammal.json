@@ -2503,6 +2503,19 @@
     ]
   },
   {
+    "abstract": "mon_rabbit_baby_base",
+    "type": "MONSTER",
+    "name": { "str": "rabbit kit abstract" },
+    "copy-from": "mon_rabbit_base",
+    "volume": "150 ml",
+    "weight": "30 g",
+    "hp": 1,
+    "speed": 125,
+    "attack_cost": 125,
+    "dodge": 8,
+    "harvest": "mammal_tiny"
+  },
+  {
     "id": "mon_rabbit",
     "type": "MONSTER",
     "name": { "str": "domestic rabbit" },
@@ -2516,21 +2529,14 @@
     "type": "MONSTER",
     "name": { "str": "domestic rabbit kit" },
     "description": "A tiny bunny with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
-    "copy-from": "mon_rabbit_base",
-    "volume": "150 ml",
-    "weight": "30 g",
-    "hp": 1,
-    "speed": 125,
-    "attack_cost": 125,
-    "dodge": 8,
+    "copy-from": "mon_rabbit_baby_base",
     "upgrades": { "age_grow": 45, "into": "mon_rabbit" },
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "harvest": "mammal_tiny"
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." }
   },
   {
     "id": "mon_wild_rabbit",
     "type": "MONSTER",
-    "name": { "str": "cottontail rabbit" },
+    "name": { "str": "eastern cottontail" },
     "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.",
     "copy-from": "mon_rabbit_base",
     "looks_like": "mon_rabbit",
@@ -2539,19 +2545,11 @@
   {
     "id": "mon_wild_rabbit_baby",
     "type": "MONSTER",
-    "name": { "str": "cottontail rabbit kit" },
+    "name": { "str": "eastern cottontail kit" },
     "description": "A tiny and very cute cottontail rabbit kit.",
-    "copy-from": "mon_rabbit_base",
+    "copy-from": "mon_rabbit_baby_base",
     "looks_like": "mon_rabbit_baby",
-    "volume": "150 ml",
-    "weight": "30 g",
-    "hp": 1,
-    "speed": 175,
-    "attack_cost": 175,
-    "dodge": 8,
-    "//": "Sexually mature at 2-3 months. Domestic rabbits are 4-5 months and have a value of 45",
-    "upgrades": { "age_grow": 27, "into": "mon_wild_rabbit" },
-    "harvest": "mammal_tiny"
+    "upgrades": { "age_grow": 23, "into": "mon_wild_rabbit" }
   },
   {
     "id": "mon_raccoon",
