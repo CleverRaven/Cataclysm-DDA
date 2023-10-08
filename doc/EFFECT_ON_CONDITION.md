@@ -1481,6 +1481,15 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 ```
 
 
+#### `if`
+Set effects to be executed when conditions are met and when conditions are not met.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "if" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself | 
+| "then" | **mandatory** | effect | Effect(s) executed when conditions are met. | 
+| "else" | optional | effect | Effect(s) executed when conditions are not met. | 
+
 #### `set_condition`
 Create a context value with condition, that you can pass down the next topic or EoC, using `get_condition`. Used, if you need to have dozens of EoCs, and you don't want to copy-paste it's conditions every time (also it's easier to maintain or edit one condition, comparing to two dozens)
 
