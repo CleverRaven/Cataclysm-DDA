@@ -7,7 +7,19 @@
     "condition": {
       "and": [
         {
-          "u_has_any_trait": [ "EATER", "DREAMER", "DREAMSMITH", "INVENTOR", "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "UNDINE", "SYLPH", "VAMPIRE" ]
+          "u_has_any_trait": [
+            "EATER",
+            "DREAMER",
+            "DREAMSMITH",
+            "INVENTOR",
+            "ARVORE",
+            "IERDE",
+            "HOMULLUS",
+            "SALAMANDER",
+            "UNDINE",
+            "SYLPH",
+            "VAMPIRE"
+          ]
         },
         {
           "or": [
