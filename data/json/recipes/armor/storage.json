@@ -1313,9 +1313,9 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "fabrication", 2 ],
-    "time": "5 h 30 m",
+    "time": "2 h 45 m",
     "autolearn": true,
-    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
