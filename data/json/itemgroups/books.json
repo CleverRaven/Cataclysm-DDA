@@ -694,7 +694,7 @@
   },
   { "id": "home_martial_arts_books",
     "type": "item_group",
-    "subtype": "collection"
+    "subtype": "collection",
     "entries": [
       { "group": "rare_martial_arts_books", "prob": 1},
       { "group": "dojo_manuals", "prob": 1}
