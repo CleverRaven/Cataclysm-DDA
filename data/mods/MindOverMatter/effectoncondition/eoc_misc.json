@@ -108,14 +108,6 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_METAPHYSICS_EXP_BOOST" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_METAPHYSICS_EXP_BOOST",
-    "condition": {
-      "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
-    },
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "250" ] } ]
   }
 ]
