@@ -60,14 +60,14 @@
       "furniture": {  },
       "palettes": [ "campus_common" ],
       "place_npcs": [
-        { "class": "NC_CAMPUS_GUARD", "x": 39, "y": 4, "unique_id": "NC_CAMPUS_GUARD1" },
-        { "class": "NC_CAMPUS_GUARD", "x": 36, "y": 7, "unique_id": "NC_CAMPUS_GUARD2" },
-        { "class": "NC_CAMPUS_GUARD", "x": 45, "y": 3, "unique_id": "NC_CAMPUS_GUARD3" },
-        { "class": "NC_GREAT_LIBRARY_LIBRARIAN", "x": 71, "y": 0 },
-        { "class": "NC_CAMPUS_GUARD", "x": 52, "y": 4, "unique_id": "NC_CAMPUS_GUARD4" },
-        { "class": "NC_CAMPUS_GUARD", "x": 73, "y": 3, "unique_id": "NC_CAMPUS_GUARD5" },
-        { "class": "NC_CAMPUS_GUARD", "x": 89, "y": 3, "unique_id": "NC_CAMPUS_GUARD6" },
-        { "class": "NC_CAMPUS_GUARD", "x": 88, "y": 19, "unique_id": "NC_CAMPUS_GUARD7" }
+        { "class": "great_library_guard", "x": 39, "y": 4, "unique_id": "GREAT_LIBRARY_GUARD1" },
+        { "class": "great_library_guard", "x": 36, "y": 7, "unique_id": "GREAT_LIBRARY_GUARD2" },
+        { "class": "great_library_guard", "x": 45, "y": 3, "unique_id": "GREAT_LIBRARY_GUARD3" },
+        { "class": "great_library_librarian", "x": 71, "y": 0 },
+        { "class": "great_library_guard", "x": 52, "y": 4, "unique_id": "GREAT_LIBRARY_GUARD4" },
+        { "class": "great_library_guard", "x": 73, "y": 3, "unique_id": "GREAT_LIBRARY_GUARD5" },
+        { "class": "great_library_guard", "x": 89, "y": 3, "unique_id": "GREAT_LIBRARY_GUARD6" },
+        { "class": "great_library_guard", "x": 88, "y": 19, "unique_id": "GREAT_LIBRARY_GUARD7" }
       ]
     }
   }
