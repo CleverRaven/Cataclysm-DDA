@@ -427,5 +427,30 @@
     "max_range": {
       "math": [ "(2 + (u_val('spell_level', 'spell: salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ]
     }
+  },
+  {
+    "id": "salamander_ally_flame_immune_spell",
+    "type": "SPELL",
+    "name": "Anointed with Incandescence",
+    "description": "You draw on your own fiery nature and infuse a portion of it into an ally, rendering them immune to warm temperatures and fire.",
+    "valid_targets": [ "ally" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_flame_immunity",
+    "shape": "blast",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 7,
+    "min_range": 1,
+    "max_range": 5,
+    "range_increment": 0.4,
+    "base_casting_time": 6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "final_energy_cost": 500,
+    "energy_increment": -10,
+    "min_duration": 30000,
+    "max_duration": 1080000,
+    "duration_increment": 16500
   }
 ]
