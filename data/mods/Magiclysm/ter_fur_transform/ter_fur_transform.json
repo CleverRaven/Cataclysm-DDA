@@ -252,7 +252,7 @@
           "t_strconc_floor_no_roof",
           "t_railroad_rubble"
         ],
-        "message": "A wall of smooth stone rises up around you!."
+        "message": "A wall of smooth stone rises up around you!"
       }
     ]
   },
@@ -264,6 +264,33 @@
   {
     "type": "ter_furn_transform",
     "id": "earthshaper_granite_aegis_from_stone",
-    "terrain": [ { "result": "t_dirtmound", "valid_terrain": [ "t_rock_smooth" ], "message": "The stone wall crumbes to dust." } ]
+    "terrain": [ { "result": "t_dirtmound", "valid_terrain": [ "t_rock_smooth" ], "message": "The stone wall crumbles to dust." } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "druid_summoned_brambles",
+    "furniture": [
+      {
+        "result": "f_druid_brambles",
+        "valid_furniture": [
+          "f_null",
+          "f_cattails",
+          "t_grass_tall",
+          "t_grass_long",
+          "f_burdock",
+          "f_lotus",
+          "f_japanese_knotweed",
+          "f_golden_reed",
+          "f_barnacle_weed",
+          "f_lilypad",
+          "f_whiskflower",
+          "f_bluebell",
+          "f_lily",
+          "f_salsify",
+          "f_wild_sarsaparilla"
+        ],
+        "message": "The ground churns as thick, tangled brambles burst forth and grow in moments."
+      }
+    ]
   }
 ]

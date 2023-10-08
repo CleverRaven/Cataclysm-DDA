@@ -13,7 +13,11 @@
       [ "      o " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "dashboard" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "integrated_heater_small", "dashboard" ]
+      },
       { "x": 0, "y": 0, "parts": [ "vehicle_alarm", "horn_big", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#front_left" ] },
       { "x": 0, "y": 1, "parts": [ "frame#cross", "roof", "box" ] },
@@ -84,7 +88,19 @@
       [ "-o++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -135,7 +151,7 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#horizontal_2", "roof", "seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "light_red", "controls", "dashboard" ] },
+      { "x": 0, "y": 0, "parts": [ "light_red", "controls", "integrated_heater_small", "dashboard" ] },
       { "x": 0, "y": -1, "parts": [ "frame#horizontal_2", "roof", "seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": -2, "parts": [ "frame#vertical_T_left", "roof", "door#nw" ] },
       { "x": 0, "y": -1, "parts": [ "floodlight" ] },
@@ -266,7 +282,11 @@
       [ "        o" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "hdframe#cross", "seat#windshield_front", "seatbelt", "controls" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "hdframe#cross", "seat#windshield_front", "seatbelt", "controls", "integrated_heater_small" ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_big" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "door#front_left", "roof" ] },
@@ -392,7 +412,19 @@
       [ "-o++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -443,7 +475,19 @@
       [ "-o++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -493,7 +537,19 @@
       [ "-o-++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -550,7 +606,19 @@
       [ "-o-++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -609,7 +677,19 @@
       [ "-o-++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -671,7 +751,11 @@
       [ "     o " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "hdframe#cross", "seat", "seatbelt", "controls" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "hdframe#cross", "seat", "seatbelt", "controls", "integrated_heater_small", "integrated_cooler" ]
+      },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "light_blue", "horn_car", "hdroof" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe#vertical_left", "hddoor#left", "plating_steel" ] },

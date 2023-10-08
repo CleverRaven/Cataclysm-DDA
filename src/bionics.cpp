@@ -582,6 +582,13 @@ void bionic_data::check_bionic_consistency()
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
             debugmsg( "Bionic %s has no defined item version", bio.id.c_str() );
         }
+        for( const std::pair<const bodypart_str_id, resistances> &bprot : bio.protec ) {
+            for( const std::pair<const damage_type_id, float> &dt : bprot.second.resist_vals ) {
+                if( !dt.first.is_valid() ) {
+                    debugmsg( "Invalid protection type \"%s\" for bionic %s", dt.first.c_str(), bio.id.c_str() );
+                }
+            }
+        }
     }
 }
 
@@ -2054,9 +2061,9 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     float pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
-                   get_skill_level( most_important_skill )  * 4 +
-                   get_skill_level( important_skill )       * 3 +
-                   get_skill_level( least_important_skill ) * 1;
+                   get_greater_skill_or_knowledge_level( most_important_skill )  * 4 +
+                   get_greater_skill_or_knowledge_level( important_skill )       * 3 +
+                   get_greater_skill_or_knowledge_level( least_important_skill ) * 1;
     } else {
         // override chance as though all values were skill_level if it is provided
         pl_skill = 12 * skill_level;
@@ -2753,10 +2760,13 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
+bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
+                                  bool suppress_debug )
 {
     if( has_bionic( b ) && !b->dupes_allowed ) {
-        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        if( !suppress_debug ) {
+            debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        }
         return 0;
     }
 
@@ -2775,7 +2785,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
     }
 
     for( const bionic_id &inc_bid : b->included_bionics ) {
-        add_bionic( inc_bid, bio_uid );
+        add_bionic( inc_bid, bio_uid, suppress_debug );
     }
 
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {

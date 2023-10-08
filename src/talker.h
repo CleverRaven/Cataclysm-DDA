@@ -78,6 +78,9 @@ class talker
         virtual std::string disp_name() const {
             return "";
         }
+        virtual std::string get_name() const {
+            return "";
+        }
         virtual character_id getID() const {
             return character_id( 0 );
         }
@@ -189,6 +192,9 @@ class talker
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual int get_skill_exp( const skill_id &, bool ) const {
+            return 0;
+        }
         virtual int get_spell_level( const trait_id & ) const {
             return 0;
         }
@@ -207,6 +213,7 @@ class talker
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
+        virtual void set_skill_exp( const skill_id &, int, bool ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
@@ -623,6 +630,12 @@ class talker
         }
         virtual void set_height( int ) {}
         virtual int get_height() const {
+            return 0;
+        }
+        virtual int get_volume() const {
+            return 0;
+        }
+        virtual int get_weight() const {
             return 0;
         }
         virtual void set_npc_trust( int ) {}

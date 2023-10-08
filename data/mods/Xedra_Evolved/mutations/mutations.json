@@ -141,6 +141,17 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODBANK",
+    "name": { "str": "Blood Lungs" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "points": 0,
+    "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them.  You're not sure where the blood goes but with a thought you can use these deposits.",
+    "integrated_armor": [ "integrated_bloodbank" ]
+  },
+  {
+    "type": "mutation",
     "id": "STAMINAFORBLOOD",
     "points": 0,
     "starting_trait": false,
@@ -150,6 +161,18 @@
     "description": "Your exhaust some of the blood in your veins to boost and recover some of your spent stamina.",
     "active": true,
     "activated_eocs": [ "EOC_STAMINAFORBLOOD_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "COMMUNE_NIGHT",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Learn from the Children of the Night" },
+    "description": "You call out to the creatures that inhabit the night.  Wolves, bats, rats and more.  They tell you about what terrain surrounds you.",
+    "active": true,
+    "activated_eocs": [ "EOC_COMMUNE_NIGHT_MAP" ]
   },
   {
     "type": "mutation",

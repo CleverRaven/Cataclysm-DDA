@@ -49,7 +49,7 @@
     "id": "alloy_book",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Alloying reference manual" },
+    "name": { "str": "alloying reference manual" },
     "description": "A textbook with information about alloying various types of metals.",
     "weight": "1500 g",
     "volume": "1250 ml",

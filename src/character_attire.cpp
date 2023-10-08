@@ -273,7 +273,8 @@ Character::wear( item_location item_wear, bool interactive )
     }
 
     if( was_weapon ) {
-        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send_with_talker( this, &item_wear, e );
     }
 
     return result;
@@ -296,7 +297,10 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         worn.push_back( to_wear );
     }
 
-    get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
+    item_location loc = new_item_it != worn.end() ?
+                        item_location( guy, &*new_item_it ) : item_location();
+    cata::event e = cata::event::make<event_type::character_wears_item>( guy.getID(), guy.last_item );
+    get_event_bus().send_with_talker( &guy, &loc, e );
 
     if( interactive ) {
         if( !quiet ) {
@@ -2355,7 +2359,7 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
         if( remaining_charges == 0 ) {
             break;
         }
-        if( i.can_contain_partial( newit ) ) {
+        if( i.can_contain_partial( newit ).success() ) {
             const int used_charges =
                 i.fill_with( newit, remaining_charges, false, false, ignore_pkt_settings );
             remaining_charges -= used_charges;
@@ -2431,12 +2435,13 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
+    guy.invalidate_weight_carried_cache();
     if( ignore_pkt_settings ) {
         // Crawl all pockets regardless of priority
         // Crawl First : wielded item
         item_location carried_item = guy.get_wielded_item();
         if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
-            carried_item->can_contain_partial( newit ) ) {
+            carried_item->can_contain_partial( newit ).success() ) {
             int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
             remaining_charges -= used_charges;
         }
@@ -2473,8 +2478,8 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             const item_location parent_data = pocket_data_ptr.parent;
 
             if( parent_data.has_parent() ) {
-                if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
-                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                if( parent_data.parents_can_contain_recursive( &temp_it ).success() ) {
+                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it ).value();
                 } else {
                     max_contain_value = 0;
                 }

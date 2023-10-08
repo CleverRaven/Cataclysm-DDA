@@ -238,13 +238,6 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_smg_reloaded",
-    "//": "Reloaded SMG ammo balanced according to rarity.",
-    "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_reloaded", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
     "id": "ammo_rifle_common",
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
@@ -827,17 +820,6 @@
       [ "762R_casing", 10 ],
       [ "32_casing", 70 ],
       [ "30carbine_casing", 40 ]
-    ]
-  },
-  {
-    "id": "ammo_casings_bulk",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "ammo_casings", "prob": 25, "charges-min": 50, "charges-max": 50 },
-      { "group": "ammo_casings", "prob": 10, "charges-min": 100, "charges-max": 100 },
-      { "group": "ammo_casings", "prob": 2, "charges-min": 250, "charges-max": 250 },
-      { "group": "ammo_casings", "prob": 1, "charges-min": 500, "charges-max": 500 }
     ]
   },
   {

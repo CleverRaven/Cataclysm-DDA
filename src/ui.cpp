@@ -1224,6 +1224,11 @@ void uilist::settext( const std::string &str )
     text = str;
 }
 
+void uilist::set_selected( int index )
+{
+    selected = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+}
+
 struct pointmenu_cb::impl_t {
     const std::vector< tripoint > &points;
     int last; // to suppress redrawing

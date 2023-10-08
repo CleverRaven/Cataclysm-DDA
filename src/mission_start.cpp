@@ -68,7 +68,8 @@ void mission_start::kill_nemesis( mission * )
 {
     // Pick an area for the nemesis to spawn
 
-    const tripoint_abs_omt center = get_player_character().global_omt_location();
+    // Force z = 0 for overmapbuffer::find_random. (spawning on a rooftop is valid!)
+    const tripoint_abs_omt center = { get_player_character().global_omt_location().xy(), 0 };
     tripoint_abs_omt site = overmap::invalid_tripoint;
 
     static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};

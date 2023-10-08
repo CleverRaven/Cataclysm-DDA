@@ -21,7 +21,7 @@
     "type": "item_group",
     "id": "homebooks",
     "copy-from": "homebooks",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 } ] }
+    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 }, { "item": "history_botanical_enchantment", "prob": 2 } ] }
   },
   {
     "type": "item_group",
@@ -197,7 +197,9 @@
     "id": "trash",
     "type": "item_group",
     "copy-from": "trash",
-    "extend": { "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ] ] }
+    "extend": {
+      "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ], [ "spell_scroll_stormshaper_cloak_of_frog", 5 ] ]
+    }
   },
   {
     "type": "item_group",
@@ -932,7 +934,9 @@
       {
         "distribution": [
           { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
-          { "item": "spell_scroll_lightning_blast", "prob": 50 }
+          { "item": "spell_scroll_lightning_blast", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 }
         ],
         "prob": 45
       },
@@ -942,7 +946,8 @@
           { "item": "spell_scroll_lightning_bolt", "prob": 50 },
           { "item": "spell_scroll_windstrike", "prob": 50 },
           { "item": "spell_scroll_windrun", "prob": 50 },
-          { "item": "spell_scroll_repelling_arc", "prob": 50 }
+          { "item": "spell_scroll_repelling_arc", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_heart_of_hurricane", "prob": 50 }
         ],
         "prob": 40
       },
@@ -1218,7 +1223,8 @@
           { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
           { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
-          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 }
+          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
+          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1229,6 +1235,7 @@
           { "item": "spell_scroll_bio_grotesque", "prob": 50 },
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
+          { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
           { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 }
         ],
         "prob": 35
@@ -1271,7 +1278,8 @@
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
-          { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 }
+          { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
+          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 }
         ],
         "prob": 35
       },
@@ -1279,6 +1287,7 @@
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
+          { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
           { "item": "spell_scroll_druid_bandage", "prob": 100 },
@@ -1342,7 +1351,8 @@
           { "item": "wizard_utility", "prob": 10 },
           { "item": "spell_scroll_protection_aura", "prob": 50 },
           { "item": "spell_scroll_dark_sight", "prob": 30 },
-          { "item": "spell_scroll_megablast", "prob": 30 }
+          { "item": "spell_scroll_megablast", "prob": 30 },
+          { "item": "spell_scroll_classless_dispel_magic", "prob": 30 }
         ],
         "prob": 40
       },
@@ -1351,7 +1361,8 @@
           { "item": "golemcore", "prob": 3 },
           { "item": "light_manipulation_spellbook", "prob": 5 },
           { "item": "translocate_spellbook", "prob": 2 },
-          { "item": "spell_scroll_obfuscated_body", "prob": 50 }
+          { "item": "spell_scroll_obfuscated_body", "prob": 50 },
+          { "item": "spell_scroll_classless_disjunction", "prob": 20 }
         ],
         "prob": 10
       },

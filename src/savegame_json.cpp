@@ -3222,7 +3222,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true, false );
+        contents.combine( read_contents, false, true, false, true );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );
@@ -3350,6 +3350,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "crew_id", crew_id );
     data.read( "items", items );
     data.read( "tools", tools );
+    data.read( "salvageable", salvageable );
     data.read( "target_first_x", target.first.x );
     data.read( "target_first_y", target.first.y );
     data.read( "target_first_z", target.first.z );
@@ -3399,6 +3400,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "items", items );
     json.member( "tools", tools );
+    json.member( "salvageable", salvageable );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
         json.member( "target_first_y", target.first.y );

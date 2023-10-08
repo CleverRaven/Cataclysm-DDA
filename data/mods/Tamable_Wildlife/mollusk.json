@@ -6,7 +6,7 @@
     "name": { "str": "snail larva", "str_pl": "snail larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
       "pet": "The %s slides slowly around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -18,7 +18,7 @@
     "name": { "str": "big snail" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
       "pet": "The %s slides slowly around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -44,7 +44,7 @@
     "name": { "str": "slug larva", "str_pl": "slug larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
       "pet": "The %s slides slowly around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }
@@ -56,7 +56,7 @@
     "name": { "str": "big slug" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
       "pet": "The %s slides slowly around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }

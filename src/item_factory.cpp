@@ -374,10 +374,7 @@ void Item_factory::finalize_pre( itype &obj )
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
             static const std::set<std::string> special_cookoff_tags = {{
-                    "NAPALM", "NAPALM_BIG",
-                    "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
-                    "TOXICGAS", "SMOKE", "SMOKE_BIG",
-                    "FRAG", "FLASHBANG"
+                    "SPECIAL_COOKOFF"
                 }
             };
             obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
@@ -2044,6 +2041,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        for( const std::pair<const damage_type_id, float> &dt : type->melee ) {
+            if( !dt.first.is_valid() ) {
+                msg += string_format( "Invalid melee damage type \"%s\".\n", dt.first.c_str() );
+            }
+        }
+
         if( !type->can_have_charges() && type->charges_default() > 0 ) {
             msg += "charges defined but can not have any\n";
         } else if( type->comestible && type->can_have_charges() && type->charges_default() <= 0 ) {
@@ -2564,6 +2567,9 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
         }
     } else {
         mcd.recipes_categories = { "CC_FOOD" };
+    }
+    if( jo.has_member( "secret_recipes" ) ) {
+        mcd.secret_recipes = jo.get_bool( "secret_recipes" );
     }
 }
 

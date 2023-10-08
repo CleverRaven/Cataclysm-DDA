@@ -1,0 +1,39 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "SHRUB" },
+        { "u_is_on_terrain": "t_tree_young" },
+        { "u_is_on_terrain": "t_bamboo_tall" },
+        { "u_is_on_terrain": "t_dirt" },
+        { "u_is_on_terrain": "t_dirtmound" },
+        { "u_is_on_terrain": "t_clay" },
+        { "u_is_on_terrain": "t_sand" },
+        { "u_is_on_terrain": "t_sandmound" },
+        { "u_is_on_terrain": "t_grave" },
+        { "u_is_on_terrain": "t_forestfloor" },
+        { "u_is_on_terrain": "t_grass" },
+        { "u_is_on_terrain": "t_grass_long" },
+        { "u_is_on_terrain": "t_grass_tall" },
+        { "u_is_on_terrain": "t_grass_dead" },
+        { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+        { "u_is_on_terrain": "t_mud" },
+        { "u_is_on_terrain": "t_dirt_underground" },
+        { "u_is_on_terrain": "t_moss" },
+        { "u_is_on_terrain": "t_rock_floor_no_roof" },
+        { "u_is_on_terrain": "t_rock_floor" },
+        { "u_is_on_terrain": "t_rock_smooth" },
+        { "u_is_on_terrain": "t_rock_wall_half" },
+        { "u_is_on_terrain": "t_mud_underground" },
+        { "u_is_on_terrain": "t_moss_underground" },
+        { "u_is_on_terrain": "t_clay_underground" },
+        { "u_is_on_terrain": "t_sand_underground" },
+        { "u_is_on_terrain": "t_dirt_underground" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "false_effect": [ { "u_message": "You must be on living earth or stone to call forth a goblin fruit.", "type": "bad" } ]
+  }
+]

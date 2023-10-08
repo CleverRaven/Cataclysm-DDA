@@ -9,6 +9,7 @@
       { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "item": "vampire_fangs", "damage": [ 1, 4 ], "prob": 25, "event": "halloween" },
       { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
       { "group": "christmas_accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 25, "event": "christmas" },
       {
@@ -40,7 +41,8 @@
                   { "item": "tux", "prob": 1, "damage": [ 1, 4 ] },
                   { "item": "thawb", "prob": 1, "damage": [ 1, 4 ] },
                   { "item": "cassock", "prob": 1, "damage": [ 1, 4 ] },
-                  { "item": "haori", "prob": 1, "damage": [ 1, 4 ] }
+                  { "item": "haori", "prob": 1, "damage": [ 1, 4 ] },
+                  { "group": "costume_suits", "prob": 25, "damage": [ 1, 4 ], "event": "halloween" }
                 ]
               },
               { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
@@ -83,7 +85,8 @@
                           { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
                           { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
-                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" }
+                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" },
+                          { "group": "costume_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "halloween" }
                         ]
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
@@ -300,7 +303,8 @@
               {
                 "distribution": [
                   { "group": "default_zombie_clothes", "prob": 90 },
-                  { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 }
+                  { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 },
+                  { "group": "default_zombie_clothes_halloween", "event": "halloween", "prob": 10 }
                 ]
               },
               {

@@ -149,13 +149,13 @@
       ],
       "computers": {
         "7": {
-          "name": "Border Partol OS v0.A17 - Armory Access",
+          "name": "Border Patrol OS v0.A17 - Armory Access",
           "security": 2,
           "options": [ { "name": "Unlock Armory", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
         },
         "6": {
-          "name": "Border Partol OS v0.A17 - Evidence Locker Access",
+          "name": "Border Patrol OS v0.A17 - Evidence Locker Access",
           "security": 3,
           "options": [ { "name": "Unlock Evidence Locker", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
@@ -775,13 +775,13 @@
       ],
       "computers": {
         "7": {
-          "name": "Border Partol OS v0.A17 - Armory Access",
+          "name": "Border Patrol OS v0.A17 - Armory Access",
           "security": 2,
           "options": [ { "name": "Unlock Armory", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
         },
         "6": {
-          "name": "Border Partol OS v0.A17 - Evidence Locker Access",
+          "name": "Border Patrol OS v0.A17 - Evidence Locker Access",
           "security": 3,
           "options": [ { "name": "Unlock Evidence Locker", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]

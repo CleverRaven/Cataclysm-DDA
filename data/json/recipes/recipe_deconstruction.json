@@ -582,8 +582,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m 30 s",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 8 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "bio_blood_filter",
@@ -2054,6 +2054,8 @@
     "result": "camera",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 2 ] ], [ [ "lens", 1 ] ] ]
@@ -2062,6 +2064,8 @@
     "result": "camera_pro",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
@@ -2087,6 +2091,8 @@
     "result": "cell_phone",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
@@ -2095,6 +2101,8 @@
     "result": "smart_phone",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -2109,6 +2117,8 @@
     "result": "mp3",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -2945,7 +2955,7 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
-    "difficulty": 3,
+    "difficulty": 1,
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "scrap_aluminum", 4 ] ] ]
@@ -3075,6 +3085,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
+    "difficulty": 1,
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -3156,9 +3167,9 @@
     "result": "makeshift_crowbar",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "15 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 12 ] ] ]
   },
   {
     "result": "makeshift_sling",
@@ -3395,11 +3406,10 @@
   {
     "result": "pipe",
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "skill_used": "mechanics",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 12 ] ] ]
   },
   {
     "result": "hc_steel_lump",
@@ -4173,8 +4183,34 @@
       [ [ "thermostat", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "metal_tank", 1 ] ]
-    ]
+      [ [ "30gal_drum", 1 ] ],
+      [ [ "material_aluminium_ingot", 2 ] ]
+    ],
+    "//": "drum assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>"
+  },
+  {
+    "result": "household_water_heater_family",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "cu_pipe", 5 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "55gal_drum", 1 ] ],
+      [ [ "material_aluminium_ingot", 4 ] ]
+    ],
+    "//": "drum assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>"
   },
   {
     "result": "television",
@@ -4483,7 +4519,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
     "result": "wire",
@@ -6295,7 +6331,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 30 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 6 ] ] ]
   },
   {
     "result": "guitar_stand",
@@ -6303,7 +6339,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 10 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
   },
   {
     "result": "bat_metal",
@@ -6311,7 +6347,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 15 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 3 ] ] ]
   },
   {
     "result": "PR24-extended",
@@ -6435,7 +6471,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 315 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 63 ] ] ]
   },
   {
     "result": "esbit_stove",
@@ -6616,7 +6652,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 3 ] ], [ [ "material_aluminium_ingot", 6 ] ] ]
   },
   {
     "result": "foldxlframe",
@@ -6624,7 +6660,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 3 ] ], [ [ "material_aluminium_ingot", 6 ] ] ]
   },
   {
     "result": "aquarium_medium",
@@ -6664,7 +6700,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 100 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
   },
   {
     "result": "crutches",
@@ -6688,7 +6724,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 149 ] ], [ [ "cotton_patchwork", 10 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 29 ] ], [ [ "cotton_patchwork", 10 ] ] ]
   },
   {
     "result": "stethoscope",
@@ -7249,7 +7285,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "result": "manhole_cover",
@@ -7265,7 +7301,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 51 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "material_aluminium_ingot", 10 ] ] ]
   },
   {
     "result": "55gal_drum_aluminum",
@@ -7273,7 +7309,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 200 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 40 ] ] ]
   },
   {
     "result": "sweater",

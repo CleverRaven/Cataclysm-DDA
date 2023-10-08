@@ -430,27 +430,6 @@
     ]
   },
   {
-    "id": "SUS_books_fict_soft_romc",
-    "type": "item_group",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group returns a small collection of three or four romance novels.",
-    "//3": "Note the plural books.  Not to be confused with SUS_book_fict_soft_romc",
-    "subtype": "collection",
-    "entries": [
-      { "item": "novel_romance", "prob": 100 },
-      { "item": "paperback_romance_circuses", "prob": 20 },
-      { "item": "paperback_romance_cloven", "prob": 20 },
-      { "item": "paperback_romance_conq", "prob": 20 },
-      { "item": "paperback_romance_dd", "prob": 20 },
-      { "item": "paperback_romance_diodes", "prob": 20 },
-      { "item": "paperback_romance_envyh", "prob": 20 },
-      { "item": "paperback_romance_grue", "prob": 20 },
-      { "item": "paperback_romance_rider", "prob": 20 },
-      { "item": "paperback_romance_rogue", "prob": 20 },
-      { "item": "paperback_romance_secret", "prob": 20 }
-    ]
-  },
-  {
     "id": "SUS_book",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -601,7 +580,6 @@
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single paperback book of the romance genre.",
-    "//3": "This id is book singular.  Not to be confused w the collection item_group plural SUS_books_fict_soft_romc",
     "subtype": "distribution",
     "entries": [
       { "item": "novel_romance", "prob": 1 },

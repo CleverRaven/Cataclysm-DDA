@@ -239,8 +239,8 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
         if( !temp_it.is_null() ) {
             const int pocket_max_copies = pocket.second->remaining_capacity_for_item( temp_it );
             const int parent_max_copies = !pocket.first.has_parent() ? INT_MAX :
-                                          !pocket.first.parents_can_contain_recursive( &temp_it ) ? 0 :
-                                          pocket.first.max_charges_by_parent_recursive( temp_it );
+                                          !pocket.first.parents_can_contain_recursive( &temp_it ).success() ? 0 :
+                                          pocket.first.max_charges_by_parent_recursive( temp_it ).value();
             max_copies = std::min( { copies_remaining, pocket_max_copies, parent_max_copies } );
         } else {
             max_copies = copies_remaining;
@@ -248,6 +248,11 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
 
         std::vector<item *>newits;
         pocket.second->add( it, max_copies, newits );
+
+        if( newits.empty() ) {
+            // Failed to insert into best pocket - break out to prevent infinite loop.
+            break;
+        }
 
         // Give invlet to the first item created.
         if( !first_item_added ) {
@@ -549,6 +554,11 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     const tripoint placement = target - pos();
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
+        if( is_avatar() && vp.has_value() && item_pair.first->is_bucket_nonempty() &&
+            !query_yn( _( "The %s would spill if stored there.  Remove its contents first?" ),
+                       item_pair.first->tname() ) ) {
+            continue;
+        }
         if( can_drop( *item_pair.first ).success() ) {
             items.emplace_back( item_pair.first, item_pair.second );
         }

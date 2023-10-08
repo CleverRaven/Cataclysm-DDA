@@ -1471,6 +1471,7 @@
     "bash": {
       "str_min": 30,
       "str_max": 150,
+      "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
@@ -1502,6 +1503,7 @@
     "bash": {
       "str_min": 30,
       "str_max": 150,
+      "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
@@ -1527,6 +1529,7 @@
     "bash": {
       "str_min": 30,
       "str_max": 150,
+      "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
@@ -1562,28 +1565,60 @@
   {
     "type": "furniture",
     "id": "f_foot_locker",
-    "name": "metal foot locker",
-    "description": "A metal storage box, capable of holding any number of things.  The lid has a small lock.",
+    "name": "steel foot locker",
+    "description": "A steel storage box, capable of holding any number of things.  The lid has a small lock.",
     "symbol": "O",
-    "color": "white",
-    "move_cost_mod": -1,
-    "coverage": 60,
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 20,
     "required_str": 10,
     "looks_like": "f_crate_c",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
-    "deconstruct": {
-      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
-    },
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "deployed_item": "foot_locker",
+    "examine_action": "deployed_furniture",
+    "max_volume": "68208 ml",
+    "deconstruct": { "items": [ { "item": "foot_locker", "count": 1 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "wham!",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
       "items": [
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 3, 8 ] },
         { "item": "lock", "count": [ 0, 1 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "hinge", "charges": 2 }
+        { "item": "scrap", "charges": [ 3, 15 ] },
+        { "item": "hinge", "count": [ 0, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_foot_locker_aluminum",
+    "name": "aluminum foot locker",
+    "description": "An aluminum storage box, capable of holding any number of things.  The lid has a small lock.",
+    "symbol": "O",
+    "color": "white",
+    "move_cost_mod": 1,
+    "coverage": 20,
+    "required_str": 10,
+    "looks_like": "f_foot_locker",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "deployed_item": "foot_locker_aluminum",
+    "examine_action": "deployed_furniture",
+    "max_volume": "67669 ml",
+    "deconstruct": { "items": [ { "item": "foot_locker_aluminum", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 3, 8 ] },
+        { "item": "lock", "count": [ 0, 1 ] },
+        { "item": "scrap_aluminum", "count": [ 3, 15 ] },
+        { "item": "hinge", "count": [ 0, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] }
       ]
     }
   },

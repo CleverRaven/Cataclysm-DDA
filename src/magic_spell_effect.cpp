@@ -177,8 +177,11 @@ static void swap_pos( Creature &caster, const tripoint &target )
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
     critter->setpos( caster.pos() );
     caster.setpos( target );
+
     //update map in case a monster swapped positions with the player
-    g->update_map( get_player_character() );
+    Character &you = get_player_character();
+    get_map().vertical_shift( you.posz() );
+    g->update_map( you );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -1766,7 +1769,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
 
             shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
             mon->ammo = mon->type->starting_ammo;
-            if( mon->will_move_to( dest ) ) {
+            if( mon->will_move_to( dest ) && mon->know_danger_at( dest ) ) {
                 if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
                     sp.make_sound( dest, caster );
                     if( !permanent ) {

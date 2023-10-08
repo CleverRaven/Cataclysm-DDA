@@ -362,6 +362,8 @@ static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
 static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
+static const morale_type morale_cold( "morale_cold" );
+static const morale_type morale_hot( "morale_hot" );
 static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -2996,6 +2998,7 @@ item Character::remove_weapon()
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
+    invalidate_weight_carried_cache();
     return tmp;
 }
 
@@ -3011,7 +3014,9 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
     // In case we've moved out of range of lifting assist.
-    invalidate_weight_carried_cache();
+    if( using_lifting_assist ) {
+        invalidate_weight_carried_cache();
+    }
 }
 
 units::mass Character::weight_carried() const
@@ -3087,6 +3092,9 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
             best_nearby_lifting_assist() < weaponweight ) ) {
         ret += weaponweight;
+        using_lifting_assist = false;
+    } else {
+        using_lifting_assist = true;
     }
 
     return ret;
@@ -3361,10 +3369,27 @@ int Character::get_knowledge_level( const skill_id &ident ) const
     return _skills->get_knowledge_level( ident );
 }
 
+float Character::get_knowledge_plus_progress( const skill_id &ident ) const
+{
+    return _skills->get_knowledge_level( ident ) + _skills->get_knowledge_progress_level( ident );
+}
+
 int Character::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
     return _skills->get_knowledge_level( ident, context );
 }
+
+float Character::get_average_skill_level( const skill_id &ident ) const
+{
+    return ( get_skill_level( ident ) + get_knowledge_plus_progress( ident ) ) / 2;
+}
+
+float Character::get_greater_skill_or_knowledge_level( const skill_id &ident ) const
+{
+    return get_skill_level( ident ) > get_knowledge_plus_progress( ident ) ? get_skill_level(
+               ident ) : get_knowledge_plus_progress( ident );
+}
+
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
     get_skill_level_object( ident ).level( level );
@@ -5912,7 +5937,7 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     std::string err;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
     int amount = container->all_pockets_rigid() ? max_remaining_capacity :
-                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ) );
+                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
 
     if( !err.empty() ) {
         if( !container->has_item_with( [&liquid]( const item & it ) {
@@ -5968,9 +5993,50 @@ bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 
 float Character::rest_quality() const
 {
-    // Just a placeholder for now.
-    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
-    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
+    map &here = get_map();
+    const tripoint your_pos = pos();
+    float rest = 0.0f;
+    // Negative morales are penalties
+    int cold_penalty = -has_morale( morale_cold );
+    int heat_penalty = -has_morale( morale_hot );
+    if( cold_penalty > 0 || heat_penalty > 0 ) {
+        // Extreme temperatures have the body working harder to fight them, with less energy dedicated to healing, even just laying around will have you shivering or sweating.
+        rest -= cold_penalty / 10.0f;
+        rest -= heat_penalty / 10.0f;
+    }
+
+    if( has_effect( effect_sleep ) ) {
+        // Beds should normally have a maximum of 1000, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
+        // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
+        rest += ( std::max( floor_bedding_warmth( your_pos ), 0 ) / 1000.0f ) ;
+        return std::max( rest, 0.0f );
+    }
+    const optional_vpart_position veh_part = here.veh_at( your_pos );
+    bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
+    if( activity_level() <= LIGHT_EXERCISE ) {
+        rest += 0.1f;
+        if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
+            // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
+            rest += 0.2f;
+        } else if( floor_bedding_warmth( your_pos ) > 0 ) {
+            // Any comfortable bed can substitute for a chair, but only if you don't have one.
+            rest += 0.2f * ( floor_bedding_warmth( your_pos ) / 1000.0f );
+        }
+        if( activity_level() <= NO_EXERCISE ) {
+            rest += 0.2f;
+        }
+    }
+    // These stack!
+    if( activity_level() >= BRISK_EXERCISE ) {
+        rest -= 0.1f;
+    }
+    if( activity_level() >= ACTIVE_EXERCISE ) {
+        rest -= 0.2f;
+    }
+    if( activity_level() >= EXTRA_EXERCISE ) {
+        rest -= 0.3f;
+    }
+    return rest;
 }
 
 std::string Character::extended_description() const
@@ -6455,7 +6521,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const fault_fix &fix = *fix_id;
             mending_option opt{ f, fix, true };
             for( const auto &[skill_id, level] : fix.skills ) {
-                if( get_skill_level( skill_id ) < level ) {
+                if( get_greater_skill_or_knowledge_level( skill_id ) < level ) {
                     opt.doable = false;
                     break;
                 }
@@ -6541,16 +6607,16 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else {
                 descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
                 fix.skills.begin(), fix.skills.end(), [this]( const std::pair<skill_id, int> &sk ) {
-                    if( get_skill_level( sk.first ) >= sk.second ) {
+                    if( get_greater_skill_or_knowledge_level( sk.first ) >= sk.second ) {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
                     } else {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
                     }
                 } ) );
             }
@@ -7032,7 +7098,7 @@ bool Character::consume_charges( item &used, int qty )
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost,
-                                   int charges_in_it ) const
+                                   int charges_in_it, bool bulk_cost ) const
 {
     int mv = base_cost;
     if( penalties ) {
@@ -7054,17 +7120,20 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         mv *= pen;
     }
 
-    // For single handed items use the least encumbered hand
-    if( it.is_two_handed( *this ) ) {
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            mv += encumb( part );
+    // The following is considered as overhead and is not included in the cost when handling multiple items at once.
+    if( !bulk_cost ) {
+        // For single handed items use the least encumbered hand
+        if( it.is_two_handed( *this ) ) {
+            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+                mv += encumb( part );
+            }
+        } else {
+            int min_encumb = INT_MAX;
+            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+                min_encumb = std::min( min_encumb, encumb( part ) );
+            }
+            mv += min_encumb;
         }
-    } else {
-        int min_encumb = INT_MAX;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            min_encumb = std::min( min_encumb, encumb( part ) );
-        }
-        mv += min_encumb;
     }
 
     return std::max( mv, 0 );
@@ -9544,6 +9613,7 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
+    invalidate_weight_carried_cache();
     invalidate_leak_level_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
         // flag these mutations to be removed at the start of the next turn
@@ -9576,6 +9646,8 @@ void Character::on_item_acquire( const item &it )
         }
         return VisitResponse::NEXT;
     } );
+
+    invalidate_weight_carried_cache();
 
     if( update_overmap_seen ) {
         g->update_overmap_seen();
@@ -10418,14 +10490,14 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                } else {
+                } else if( val > 0 )  {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
@@ -10987,6 +11059,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
+        item *prev_contained = nullptr;
 
         for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
@@ -10995,7 +11068,12 @@ bool Character::unload( item_location &loc, bool bypass_activity )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
-                moves += this->item_handling_cost( *contained );
+                if( prev_contained && prev_contained->stacks_with( *contained ) ) {
+                    moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                } else {
+                    moves += this->item_handling_cost( *contained );
+                }
+                prev_contained = contained;
             }
 
         }
@@ -11063,6 +11141,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     target->casings_handle( [&]( item & e ) {
         return this->i_add_or_drop( e );
     } );
+
+    invalidate_weight_carried_cache();
 
     if( target->is_magazine() ) {
         if( bypass_activity ) {
@@ -12261,7 +12341,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 
     weapon.on_wield( *this );
 
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    item_location loc( *this, &weapon );
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send_with_talker( this, &loc, e );
 
     return true;
 }

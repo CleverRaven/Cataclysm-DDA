@@ -1688,7 +1688,7 @@ class Character : public Creature, public visitable
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic &bio );
         /** Adds a bionic to my_bionics[] */
-        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0 );
+        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0, bool suppress_debug = false );
         /**Calculate skill bonus from tiles in radius*/
         float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
@@ -1907,10 +1907,11 @@ class Character : public Creature, public visitable
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @param charges_in_it the amount of charges to be handled (default is whole)
+         * @param bulk_cost Calculate costs excluding overhead, such as when loading and unloading items in bulk (default is false)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1 ) const;
+                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1, bool bulk_cost = false ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
@@ -2342,7 +2343,12 @@ class Character : public Creature, public visitable
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
+        float get_knowledge_plus_progress( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
+        float get_average_skill_level( const skill_id &ident ) const;
+
+        float get_greater_skill_or_knowledge_level( const skill_id &ident ) const;
+
 
         SkillLevelMap get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
@@ -3424,7 +3430,7 @@ class Character : public Creature, public visitable
          * @param goto_recipe the recipe to display initially. A null recipe_id opens the default crafting screen.
          */
         void craft( const std::optional<tripoint> &loc = std::nullopt,
-                    const recipe_id &goto_recipe = recipe_id() );
+                    const recipe_id &goto_recipe = recipe_id(), const std::string &filterstring = "" );
         void recraft( const std::optional<tripoint> &loc = std::nullopt );
         void long_craft( const std::optional<tripoint> &loc = std::nullopt,
                          const recipe_id &goto_recipe = recipe_id() );
@@ -3906,6 +3912,7 @@ class Character : public Creature, public visitable
         int sleep_deprivation;
         bool check_encumbrance = true;
         bool cache_inventory_is_valid = false;
+        mutable bool using_lifting_assist = false;
 
         int stim;
         int pkill;

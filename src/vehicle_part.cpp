@@ -51,9 +51,52 @@ vehicle_part::vehicle_part( const vpart_id &type, item &&base )
     variant = info_->variant_default;
 }
 
+vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item> &installed_with )
+    : info_( &type.obj() )
+{
+    set_base( std::move( base ) );
+    variant = info_->variant_default;
+    for( item &it : installed_with ) {
+        if( !it.has_flag( flag_UNRECOVERABLE ) ) {
+            salvageable.push_back( it );
+        }
+    }
+}
+
 const item &vehicle_part::get_base() const
 {
     return base;
+}
+
+std::vector<item> vehicle_part::get_salvageable() const
+{
+    std::vector<item> tmp;
+    if( has_flag( vp_flag::unsalvageable_flag ) ) {
+        return tmp;
+    }
+    if( !salvageable.empty() ) {
+        return salvageable;
+    }
+    // Get default install component
+    const requirement_data reqs = info().install_requirements();
+    for( const auto &altercomps : reqs.get_components() ) {
+        const item_comp &comp = altercomps.front();
+        item newit( comp.type, calendar::turn );
+        if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
+            int compcount = comp.count;
+            const bool is_liquid = newit.made_of( phase_id::LIQUID );
+            if( newit.count_by_charges() || is_liquid ) {
+                newit.charges = compcount;
+                compcount = 1;
+            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                newit.charges = 0;
+            }
+            for( ; compcount > 0; compcount-- ) {
+                tmp.push_back( newit );
+            }
+        }
+    }
+    return tmp;
 }
 
 void vehicle_part::set_base( item &&new_base )
@@ -125,6 +168,11 @@ int vehicle_part::degradation() const
 int vehicle_part::max_damage() const
 {
     return base.max_damage();
+}
+
+int vehicle_part::damage_level() const
+{
+    return base.damage_level();
 }
 
 bool vehicle_part::is_repairable() const

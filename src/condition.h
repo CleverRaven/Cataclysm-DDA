@@ -58,13 +58,13 @@ const std::unordered_set<std::string> complex_conds = { {
 };
 } // namespace dialogue_data
 
-str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
-                           const std::string &default_val = "" );
-translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
+                           std::string_view default_val = "" );
+translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required = true, const translation &default_val = {} );
-dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
+dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
+dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member,
                                      bool required = true,
                                      double default_val = 0.0 );
 duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member,
@@ -79,9 +79,9 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
                       const std::string &value );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       double value );
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val );
-std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
@@ -105,71 +105,71 @@ struct conditional_t {
         explicit conditional_t( const std::string &type );
         explicit conditional_t( const JsonObject &jo );
 
-        void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_visible_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_species( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_bodytype( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_expects_vars( const JsonObject &jo, const std::string &member );
-        void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_compare_time_since_var( const JsonObject &jo, const std::string &member,
+        void set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_visible_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_species( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_bodytype( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_expects_vars( const JsonObject &jo, std::string_view member );
+        void set_compare_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_compare_time_since_var( const JsonObject &jo, std::string_view member,
                                          bool is_npc = false );
         void set_has_activity( bool is_npc = false );
         void set_is_riding( bool is_npc = false );
-        void set_npc_has_class( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_u_has_mission( const JsonObject &jo, const std::string &member );
-        void set_u_monsters_in_direction( const JsonObject &jo, const std::string &member );
-        void set_u_safe_mode_trigger( const JsonObject &jo, const std::string &member );
-        void set_has_strength( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_part_temp( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_npc_has_class( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_u_has_mission( const JsonObject &jo, std::string_view member );
+        void set_u_monsters_in_direction( const JsonObject &jo, std::string_view member );
+        void set_u_safe_mode_trigger( const JsonObject &jo, std::string_view member );
+        void set_has_strength( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_dexterity( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_intelligence( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_perception( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_hp( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_part_temp( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
-        void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_is_on_terrain_with_flag( const JsonObject &jo, const std::string &member,
+        void set_is_on_terrain( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
                                           bool is_npc = false );
-        void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_one_in_chance( const JsonObject &jo, const std::string &member );
-        void set_query( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_in_field( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_one_in_chance( const JsonObject &jo, std::string_view member );
+        void set_query( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_x_in_y_chance( const JsonObject &jo, std::string_view member );
-        void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
+        void set_has_worn_with_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_wielded_with_flag( const JsonObject &jo, std::string_view member,
                                         bool is_npc = false );
-        void set_has_wielded_with_weapon_category( const JsonObject &jo, const std::string &member,
+        void set_has_wielded_with_weapon_category( const JsonObject &jo, std::string_view member,
                 bool is_npc = false );
-        void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_is_wearing( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_item( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_items( const JsonObject &jo, std::string_view member, bool is_npc = false );
-        void set_has_item_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_item_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_bionics( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_need( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_at_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_near_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_move_mode( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_npc_role_nearby( const JsonObject &jo, const std::string &member );
-        void set_npc_allies( const JsonObject &jo, const std::string &member );
-        void set_npc_allies_global( const JsonObject &jo, const std::string &member );
-        void set_u_has_cash( const JsonObject &jo, const std::string &member );
-        void set_u_are_owed( const JsonObject &jo, const std::string &member );
-        void set_npc_aim_rule( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_npc_engagement_rule( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_npc_rule( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_npc_override( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_days_since( const JsonObject &jo, const std::string &member );
-        void set_is_season( const JsonObject &jo, const std::string &member );
-        void set_is_weather( const JsonObject &jo, const std::string &member );
-        void set_mod_is_loaded( const JsonObject &jo, const std::string &member );
-        void set_mission_goal( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_has_faction_trust( const JsonObject &jo, const std::string &member );
+        void set_has_item_with_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_item_category( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_bionics( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_effect( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_need( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_at_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_near_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_has_move_mode( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_npc_role_nearby( const JsonObject &jo, std::string_view member );
+        void set_npc_allies( const JsonObject &jo, std::string_view member );
+        void set_npc_allies_global( const JsonObject &jo, std::string_view member );
+        void set_u_has_cash( const JsonObject &jo, std::string_view member );
+        void set_u_are_owed( const JsonObject &jo, std::string_view member );
+        void set_npc_aim_rule( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_npc_engagement_rule( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_npc_cbm_reserve_rule( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_npc_cbm_recharge_rule( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_npc_rule( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_npc_override( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_days_since( const JsonObject &jo, std::string_view member );
+        void set_is_season( const JsonObject &jo, std::string_view member );
+        void set_is_weather( const JsonObject &jo, std::string_view member );
+        void set_mod_is_loaded( const JsonObject &jo, std::string_view member );
+        void set_mission_goal( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_has_faction_trust( const JsonObject &jo, std::string_view member );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();
@@ -203,12 +203,12 @@ struct conditional_t {
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_roll_contested( const JsonObject &jo, std::string_view member );
-        void set_u_know_recipe( const JsonObject &jo, const std::string &member );
+        void set_u_know_recipe( const JsonObject &jo, std::string_view member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
-        void set_get_option( const JsonObject &jo, const std::string &member );
-        void set_compare_string( const JsonObject &jo, const std::string &member );
-        void set_get_condition( const JsonObject &jo, const std::string &member );
+        void set_get_option( const JsonObject &jo, std::string_view member );
+        void set_compare_string( const JsonObject &jo, std::string_view member );
+        void set_get_condition( const JsonObject &jo, std::string_view member );
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );

@@ -1329,7 +1329,8 @@ void npc::starting_weapon( const npc_class_id &type )
             }
         }
 
-        get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
+        get_event_bus().send_with_talker( this, &weapon, e );
 
         weapon->set_owner( get_faction()->id );
     }
@@ -1564,7 +1565,8 @@ bool npc::wield( item &it )
     }
 
     weapon = get_wielded_item();
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
+    get_event_bus().send_with_talker( this, &weapon, e );
 
     if( get_player_view().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
@@ -2173,6 +2175,14 @@ void npc::shop_restock()
     add_fallback_zone( *this );
     consume_items_in_zones( *this, elapsed );
     distribute_items_to_npc_zones( ret, *this );
+}
+
+std::string npc::get_restock_interval() const
+{
+    time_duration const restock_remaining =
+        restock - calendar::turn;
+    std::string restock_rem = to_string( restock_remaining );
+    return restock_rem;
 }
 
 bool npc::is_shopkeeper() const
@@ -3238,7 +3248,8 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
+        !here.has_vehicle_floor( pos_bub() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );

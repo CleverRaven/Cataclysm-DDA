@@ -302,7 +302,7 @@
     "calories": 85,
     "description": "A ball of white mozzarella cheese.",
     "price": 450,
-    "price_postapoc": 400,
+    "price_postapoc": 60,
     "material": [ "milk" ],
     "primary_material": "cheese",
     "volume": "250 ml",

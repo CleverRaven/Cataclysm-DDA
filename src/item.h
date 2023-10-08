@@ -1381,10 +1381,13 @@ class item : public visitable
         std::string damage_indicator() const;
 
         /**
-         * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
-         * returns a symbol with color tag already applied. Otherwise, returns an adjective.
+         * Provides a prefix for the durability state of the item.
+         * With ITEM_HEALTH set to:
+         *     "bars": returns a symbol with color tag already applied.
+         *     "descriptions": returns an adjective.
+         *     "both": returns a symbol as well as an adjective.
          * if include_intact is true, this provides a string for the corner case of a player
-         * with ITEM_HEALTH_BAR disabled, but we need still a string for some reason.
+         *     with ITEM_HEALTH set to "descriptions", but we need still a string for some reason.
          */
         std::string durability_indicator( bool include_intact = false ) const;
 
@@ -1649,10 +1652,10 @@ class item : public visitable
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
-        bool can_contain( const itype &tp ) const;
-        bool can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain( const itype &tp ) const;
+        ret_val<void> can_contain_partial( const item &it ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
-        bool can_contain_partial_directly( const item &it ) const;
+        ret_val<void> can_contain_partial_directly( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
@@ -2738,6 +2741,7 @@ class item : public visitable
         faction_id get_owner() const;
         faction_id get_old_owner() const;
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
+        bool is_owned_by( const monster &m, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
         std::string get_old_owner_name() const;
         std::string get_owner_name() const;
