@@ -326,7 +326,7 @@
       { "item": "cookbook_bloodforgood", "prob": 2 },
       { "group": "memorial", "prob": 10 },
       { "item": "book_judaica_hardcover", "prob": 5 },
-      { "item": "home_martial_arts_books", "prob":1},
+      { "item": "home_martial_arts_books", "prob": 1 },
       { "item": "book_judaica_softcover", "prob": 5 }
     ]
   },
@@ -692,16 +692,12 @@
       { "item": "manual_zui_quan", "prob": 1 }
     ]
   },
-  { "id": "home_martial_arts_books",
+  {
+    "id": "home_martial_arts_books",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "group": "rare_martial_arts_books", "prob": 1},
-      { "group": "dojo_manuals", "prob": 1}
-    ]
+    "entries": [ { "group": "rare_martial_arts_books", "prob": 1 }, { "group": "dojo_manuals", "prob": 1 } ]
   },
-     
-    
   {
     "id": "doctors_books",
     "type": "item_group",
