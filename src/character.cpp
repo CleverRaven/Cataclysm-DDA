@@ -11044,9 +11044,11 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     return true;
 }
 
-bool Character::unload( item_location &loc, bool bypass_activity )
+bool Character::unload( item_location &loc, bool bypass_activity,
+                        const item_location &new_container )
 {
     item &it = *loc;
+    drop_locations locs;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
         if( it.empty() ) {
@@ -11068,16 +11070,26 @@ bool Character::unload( item_location &loc, bool bypass_activity )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
-                if( prev_contained && prev_contained->stacks_with( *contained ) ) {
-                    moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                if( new_container == item_location::nowhere ) {
+                    if( prev_contained && prev_contained->stacks_with( *contained ) ) {
+                        moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                    } else {
+                        moves += this->item_handling_cost( *contained );
+                    }
+                    prev_contained = contained;
                 } else {
-                    moves += this->item_handling_cost( *contained );
+                    // redirect to insert actor
+                    const int count = contained->count_by_charges() ? contained->charges : 1;
+                    locs.emplace_back( item_location( loc, contained ), count );
                 }
-                prev_contained = contained;
             }
 
         }
-        assign_activity( unload_activity_actor( moves, loc ) );
+        if( new_container == item_location::nowhere ) {
+            assign_activity( unload_activity_actor( moves, loc ) );
+        } else if( !locs.empty() ) {
+            assign_activity( insert_item_activity_actor( new_container, locs, true ) );
+        }
 
         return true;
     }
