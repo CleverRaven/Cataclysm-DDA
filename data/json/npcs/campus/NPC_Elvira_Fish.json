@@ -9,8 +9,8 @@
     "class": "NC_GREAT_LIBRARY_LIBRARIAN",
     "attitude": 0,
     "mission": 3,
-    "chat": "NC_GREAT_LIBRARY_LIBRARIAN",
-    "faction": "great_library"
+    "chat": "TALK_GREAT_LIBRARY_LIBRARIAN",
+    "faction": "the_great_library"
   },
   {
     "type": "npc_class",
