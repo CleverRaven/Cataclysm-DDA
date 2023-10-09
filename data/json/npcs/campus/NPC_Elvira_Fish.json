@@ -20,7 +20,7 @@
     "common": false,
     "sells_belongings": false,
     "//": "Elvira is a young librarian, one of the few surviving librarians from before.  She is also heir to the fabulous Fish fortune, but she threw that all away to pursue her passion for library science.",
-    "//2": "Dialogue style goes here.",
+    "//2": "Elvira has a formal, professional tone but breaks into stutters when asked anything personal or uncomfortable.  She will not lie.",
     "//3": "Most of her dialogue goes in 'great_library_librarian_dialogue.json'. Dialogue that just does worldbuilding goes into 'great_library_librarian_dialogue_fluff.json'.",
     "bonus_int": 4,
     "shopkeeper_item_group": [ { "group": "GREAT_LIBRARY_Shop", "rigid": true } ],
@@ -38,6 +38,11 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [ { "skill": "firstaid", "bonus": 1 }, { "skill": "speech", "bonus": 3 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_Elvira_onetime_greeting",
+    "//": "12-hour period for the player to ask follow up questions about Elvira's initial greeting."
   },
   {
     "id": "elvira_shop_rates",
