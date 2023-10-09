@@ -192,7 +192,7 @@ void tab_manager::set_up_tab_navigation( input_context &ctxt )
 
 static int stat_point_pool()
 {
-    return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
+    return 4 * 24 + get_option<int>( "INITIAL_STAT_POINTS" );
 }
 static int stat_points_used( const avatar &u )
 {
