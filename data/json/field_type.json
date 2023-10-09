@@ -336,6 +336,7 @@
         "color": "white",
         "dangerous": true,
         "translucency": 0.1,
+        "concentration:": 1,
         "convection_temperature_mod": -10,
         "effects": [
           {
@@ -355,6 +356,7 @@
         "color": "white",
         "convection_temperature_mod": -20,
         "translucency": 0.4,
+        "concentration:": 2,
         "effects": [
           {
             "effect_id": "poison",
@@ -373,6 +375,7 @@
         "color": "white",
         "convection_temperature_mod": -30,
         "translucency": 0.7,
+        "concentration:": 4,
         "effects": [
           {
             "effect_id": "poison",
@@ -452,6 +455,7 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
+        "concentration:": 1,
         "effects": [
           {
             "effect_id": "smoke_eyes",
@@ -478,6 +482,7 @@
         "color": "light_gray",
         "transparent": false,
         "translucency": 10,
+        "concentration:": 2,
         "effects": [
           {
             "effect_id": "smoke_eyes",
@@ -504,6 +509,7 @@
         "name": "thick smoke",
         "color": "dark_gray",
         "translucency": 0,
+        "concentration:": 4,
         "effects": [
           {
             "effect_id": "smoke_eyes",
@@ -615,7 +621,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": 5,
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -638,6 +644,7 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
+        "concentration:": 1,
         "effects": [
           {
             "effect_id": "tpollen",
@@ -656,6 +663,7 @@
         "color": "light_green",
         "transparent": false,
         "translucency": 10,
+        "concentration:": 2,
         "effects": [
           {
             "effect_id": "tpollen",
@@ -689,15 +697,16 @@
     "type": "field_type",
     "legacy_enum_id": 14,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1, "concentration": 1 },
       {
         "name": "tear gas",
         "color": "light_green",
         "transparent": false,
         "translucency": 10,
+        "concentration:": 2,
         "scent_neutralization": 1
       },
-      { "name": "thick tear gas", "color": "green", "translucency": 0, "scent_neutralization": 5 }
+      { "name": "thick tear gas", "color": "green", "translucency": 0, "concentration:": 4, "scent_neutralization": 5 }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -718,12 +727,13 @@
     "type": "field_type",
     "legacy_enum_id": 15,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 1 },
-      { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2 },
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "concentration:": 1, "extra_radiation_max": 1 },
+      { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2, "concentration:": 2 },
       {
         "name": "thick radioactive gas",
         "color": "green",
         "transparent": false,
+        "concentration:": 4,
         "extra_radiation_max": 3,
         "radiation_hurt_damage_min": 1,
         "radiation_hurt_damage_max": 3,
@@ -746,7 +756,7 @@
     "id": "fd_gas_vent",
     "type": "field_type",
     "legacy_enum_id": 16,
-    "intensity_levels": [ { "name": "gas vent" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "intensity_levels": [ { "name": "gas vent", "concentration:": 4 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
     "wandering_field": "fd_toxic_gas",
     "gas_absorption_factor": 15,
@@ -761,12 +771,13 @@
     "id": "fd_tindalos_rift",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "angular ripple", "color": "light_gray", "sym": "*", "light_emitted": 160 },
-      { "name": "angular rift", "color": "dark_gray" },
+      { "name": "angular ripple", "color": "light_gray", "sym": "*", "light_emitted": 160, "concentration": 1 },
+      { "name": "angular rift", "color": "dark_gray", "concentration": 1 },
       {
         "name": "fractal fissure",
         "color": "magenta",
         "transparent": false,
+        "concentration": 1,
         "monster_spawn_chance": 15,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
@@ -1243,6 +1254,7 @@
         "sym": ".",
         "dangerous": true,
         "translucency": 5,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "relax_gas",
@@ -1258,6 +1270,7 @@
       {
         "name": "sedative gas",
         "color": "pink",
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "relax_gas",
@@ -1272,6 +1285,7 @@
       {
         "name": "relaxation gas",
         "color": "cyan",
+        "concentration": 4,
         "effects": [
           {
             "effect_id": "relax_gas",
@@ -1302,7 +1316,7 @@
     "id": "fd_swamp_gas",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5 },
+      { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5, "concentration": 1 },
       { "//": "repeat last entry" },
       { "//": "repeat last entry" }
     ],
@@ -1324,7 +1338,7 @@
     "id": "fd_fog",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 },
+      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5, "concentration": 0.5 },
       { "name": "fog", "translucency": 3 },
       { "name": "dense fog", "translucency": 1 }
     ],
@@ -1346,9 +1360,9 @@
     "type": "field_type",
     "legacy_enum_id": 40,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": ".", "dangerous": true },
-      { "name": "fungal haze", "color": "cyan" },
-      { "name": "thick fungal haze", "transparent": false }
+      { "name": "hazy cloud", "sym": ".", "dangerous": true, "concentration": 1 },
+      { "name": "fungal haze", "color": "cyan", "concentration": 2 },
+      { "name": "thick fungal haze", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -1516,6 +1530,7 @@
         "name": "foul-smelling air",
         "sym": "8",
         "dangerous": true,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1530,6 +1545,7 @@
       {
         "name": "foul-smelling air",
         "translucency": 1,
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1542,6 +1558,7 @@
       },
       {
         "name": "foul-smelling air",
+        "concentration": 4,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1569,9 +1586,9 @@
     "type": "field_type",
     "legacy_enum_id": 49,
     "intensity_levels": [
-      { "name": "fungicidal mist", "sym": "8", "dangerous": true },
-      { "name": "fungicidal haze", "color": "light_gray" },
-      { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false }
+      { "name": "fungicidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
+      { "name": "fungicidal haze", "color": "light_gray", "concentration": 2 },
+      { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -1591,9 +1608,9 @@
     "id": "fd_insecticidal_gas",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "insecticidal mist", "sym": "8", "dangerous": true },
-      { "name": "insecticidal haze", "color": "light_gray" },
-      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false }
+      { "name": "insecticidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
+      { "name": "insecticidal haze", "color": "light_gray", "concentration": 2 },
+      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -1613,7 +1630,7 @@
     "id": "fd_smoke_vent",
     "type": "field_type",
     "legacy_enum_id": 50,
-    "intensity_levels": [ { "name": "smoke vent", "dangerous": true }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "intensity_levels": [ { "name": "smoke vent", "dangerous": true, "concentration": 4 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
     "wandering_field": "fd_smoke",
     "gas_absorption_factor": 15,
@@ -1678,7 +1695,7 @@
   {
     "id": "fd_clairvoyant",
     "type": "field_type",
-    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false } ],
+    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false, "concentration": 1 } ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 12,
     "dirty_transparency_cache": true,
@@ -1736,6 +1753,7 @@
         "dangerous": true,
         "light_emitted": 10,
         "translucency": 5,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "glowing_gas_cover",
@@ -1773,6 +1791,7 @@
         "dangerous": true,
         "light_emitted": 10,
         "translucency": 5,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "glowing_gas",

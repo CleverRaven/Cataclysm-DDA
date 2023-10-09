@@ -223,7 +223,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
         optional(jao, was_loaded, "concentration", intensity_level.concentration,
-            fallback_intensity_level.concentration);
+            1);
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
         if( jao.has_array( "effects" ) ) {

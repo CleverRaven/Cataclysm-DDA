@@ -4190,7 +4190,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_abs_factor );
             }
         }
-        if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
+        if( it->get_var( "gas_absorbed", 0 ) >= 240 ) {
             it->ammo_consume( 1, pos, p );
             it->set_var( "gas_absorbed", 0 );
         }
