@@ -579,7 +579,7 @@
     "id": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS",
     "type": "mission_definition",
     "name": { "str": "Find reference material about air rifles for Jenny." },
-    "description": "Find reference material about air rifle.  <color_yellow>A book that has 'Pneumatic' in its name</color> could be the thing she wants.",
+    "description": "Find reference material about air rifles.  <color_yellow>A book that has 'Pneumatic' in its name</color> could be the thing she wants.",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
