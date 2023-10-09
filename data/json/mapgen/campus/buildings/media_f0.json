@@ -60,8 +60,8 @@
       "furniture": {  },
       "palettes": [ "campus_common" ],
       "place_npcs": [
-        { "class": "great_library_guard", "x": 13, "y": 3, "unique_id": "GREAT_LIBRARY_GUARD1" },
-        { "class": "great_library_guard", "x": 18, "y": 3, "unique_id": "GREAT_LIBRARY_GUARD2" },
+        { "class": "great_library_guard", "x": 13, "y": 1, "unique_id": "GREAT_LIBRARY_GUARD1" },
+        { "class": "great_library_guard", "x": 18, "y": 1, "unique_id": "GREAT_LIBRARY_GUARD2" },
         { "class": "great_library_guard", "x": 18, "y": 5, "unique_id": "GREAT_LIBRARY_GUARD3" },
         { "class": "great_library_librarian", "x": 15, "y": 7 },
         { "class": "great_library_guard", "x": 52, "y": 4, "unique_id": "GREAT_LIBRARY_GUARD4" },
