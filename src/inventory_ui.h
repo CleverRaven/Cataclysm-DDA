@@ -341,10 +341,7 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        explicit inventory_column( const inventory_selector_preset &preset = default_preset ) : preset(
-                preset ) {
-            cells.resize( preset.get_cells_count() );
-        }
+        explicit inventory_column( const inventory_selector_preset &preset = default_preset );
 
         virtual ~inventory_column() = default;
 
