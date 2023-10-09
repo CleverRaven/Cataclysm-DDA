@@ -4,12 +4,10 @@
 #include <cstdlib>
 #include <iterator>
 
-#include "character.h"
 #include "cuboid_rectangle.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
 #include "list.h"
-#include "map.h"
 #include "point.h"
 
 struct slope {
