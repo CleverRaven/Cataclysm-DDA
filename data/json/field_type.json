@@ -410,7 +410,7 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_fog",
-    "gas_absorption_factor": 1,
+    "gas_absorption_factor": "20h",
     "has_fume": true,
     "percent_spread": 90,
     "dirty_transparency_cache": true,
@@ -534,7 +534,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 12,
+    "gas_absorption_factor": "100m",
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
@@ -621,7 +621,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 5,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -679,7 +679,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -706,10 +706,16 @@
         "concentration:": 2,
         "scent_neutralization": 1
       },
-      { "name": "thick tear gas", "color": "green", "translucency": 0, "concentration:": 4, "scent_neutralization": 5 }
+      {
+        "name": "thick tear gas",
+        "color": "green",
+        "translucency": 0,
+        "concentration:": 4,
+        "scent_neutralization": 5
+      }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
@@ -727,7 +733,14 @@
     "type": "field_type",
     "legacy_enum_id": 15,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "concentration:": 1, "extra_radiation_max": 1 },
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 10,
+        "concentration:": 1,
+        "extra_radiation_max": 1
+      },
       { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2, "concentration:": 2 },
       {
         "name": "thick radioactive gas",
@@ -759,7 +772,7 @@
     "intensity_levels": [ { "name": "gas vent", "concentration:": 4 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
     "wandering_field": "fd_toxic_gas",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "phase": "gas",
@@ -789,7 +802,7 @@
     "half_life": "10 seconds",
     "accelerated_decay": true,
     "wandering_field": "fd_tindalos_gas",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
@@ -1299,7 +1312,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 15,
     "outdoor_age_speedup": "5 minutes",
     "dirty_transparency_cache": true,
@@ -1321,7 +1334,7 @@
       { "//": "repeat last entry" }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 25,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1343,7 +1356,7 @@
       { "name": "dense fog", "translucency": 1 }
     ],
     "decay_amount_factor": 15,
-    "gas_absorption_factor": 5,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1365,7 +1378,7 @@
       { "name": "thick fungal haze", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 13,
     "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
@@ -1571,7 +1584,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -1591,7 +1604,7 @@
       { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 100,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1613,7 +1626,7 @@
       { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 100,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1630,10 +1643,14 @@
     "id": "fd_smoke_vent",
     "type": "field_type",
     "legacy_enum_id": 50,
-    "intensity_levels": [ { "name": "smoke vent", "dangerous": true, "concentration": 4 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "intensity_levels": [
+      { "name": "smoke vent", "dangerous": true, "concentration": 4 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "under",
     "wandering_field": "fd_smoke",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "phase": "gas",
@@ -1697,7 +1714,7 @@
     "type": "field_type",
     "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false, "concentration": 1 } ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 12,
+    "gas_absorption_factor": "100m",
     "dirty_transparency_cache": true,
     "outdoor_age_speedup": "0 turns",
     "priority": 8,
@@ -1714,7 +1731,7 @@
       { "name": "a cloud of bees", "color": "green", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 25,
     "outdoor_age_speedup": "10 minutes",
     "dirty_transparency_cache": true,
@@ -1768,7 +1785,7 @@
       { "//": "repeat last entry" }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 25,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1806,7 +1823,7 @@
       { "//": "repeat last entry" }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 25,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,

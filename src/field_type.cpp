@@ -284,7 +284,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "percent_spread", percent_spread, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
-    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
+    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0_turns);
     optional( jo, was_loaded, "is_splattering", is_splattering, false );
     optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
     optional( jo, was_loaded, "has_fire", has_fire, false );
