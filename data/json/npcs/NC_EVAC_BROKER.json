@@ -66,12 +66,12 @@
       { "item": "salt", "prob": 10 },
       { "item": "seasoning_salt", "prob": 5 },
       { "item": "vinegar", "prob": 10 },
-      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "item": "con_milk", "prob": 20 },
-      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 26, "group": "fish_pickled_jar_glass_sealed_2" },
       { "item": "lutefisk", "prob": 1 },
       { "item": "pemmican", "prob": 10 },
-      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
     ]
   }
 ]
