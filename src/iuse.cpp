@@ -4189,7 +4189,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
             // 6000 is the amount of "gas absorbed" charges in a full 100 capacity gas mask cartridge.
             // factor/concentration gives an amount of seconds the cartidge is expected to last in current conditions.
             /// 6000/that is the amount of "gas absorbed" charges to tick up every second in order to reach that number.
-            float gas_absorbed = 6000 / ( ( float )gas_abs_factor / ( float )int_level.concentration );
+            float gas_absorbed = 6000 / ( static_cast<float>( gas_abs_factor ) / static_cast<float>( int_level.concentration ) );
             if( gas_absorbed > 0 ) {
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_absorbed );
             }
