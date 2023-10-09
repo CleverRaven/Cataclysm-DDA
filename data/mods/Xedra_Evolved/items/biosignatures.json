@@ -5,7 +5,7 @@
     "name": { "str_sp": "guano" },
     "copy-from": "feces_bird",
     "weight": "750 g",
-    "volume": "1 L",
+    "volume": "250 ml",
     "description": "A fresh pile of bat guano; this could probably be used to make some great fertilizer."
   }
 ]

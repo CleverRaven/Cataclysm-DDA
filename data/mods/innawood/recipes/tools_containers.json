@@ -77,7 +77,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "bag_canvas_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -90,7 +90,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "bag_canvas",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",

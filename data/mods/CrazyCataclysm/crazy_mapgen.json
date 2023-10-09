@@ -1,0 +1,46 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_shia",
+    "object": { "place_monster": [ { "monster": "mon_shia", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_jackson",
+    "object": { "place_monster": [ { "monster": "mon_zombie_jackson", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100 } ] }
+  },
+  {
+    "id": "mx_shia",
+    "type": "map_extra",
+    "name": { "str": "Shia LaBeouf" },
+    "description": "Cannibal is nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_shia" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "s",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_jackson",
+    "type": "map_extra",
+    "name": { "str": "Jackson" },
+    "description": "It's close to midnight, and something evil's lurking in the dark.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_jackson" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "j",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "map_extras": {
+      "forest_thick": { "extras": { "mx_shia": 1 } },
+      "forest": { "extras": { "mx_shia": 1 } },
+      "field": { "extras": { "mx_shia": 1 } },
+      "road": { "extras": { "mx_jackson": 1 } }
+    }
+  }
+]

@@ -5,6 +5,7 @@
 #include <array>
 #include <iosfwd>
 
+#include "activity_actor_definitions.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
@@ -52,6 +53,7 @@ class advanced_inventory
             NUM_PANES = 2
         };
         static constexpr int head_height = 5;
+        bool move_all_items_and_waiting_to_quit = false;
 
         std::unique_ptr<ui_adaptor> ui;
         std::unique_ptr<string_input_popup> spopup;
@@ -140,11 +142,24 @@ class advanced_inventory
         bool is_processing() const;
 
         static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items();
-        void print_items( const advanced_inventory_pane &pane, bool active );
+        void print_items( side p, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
         void redraw_sidebar();
+
+        bool move_all_items();
+        /**
+        * Fills drop_or_stash_item_info lists with the current contents of the active pane, for use with move_all_items.
+        * @param player_character Reference to the player character.
+        * @param spane Reference to the active AIM pane.
+        * @param item_list Reference to the list to fill with items.
+        * @param fav_list Reference to the list to fill with favorited items.
+        * @param filter_buckets Whether to skip over containers that would spill in certain locations.
+        * @return a string description of why some items were skipped, if any.
+        */
+        std::string fill_lists_with_pane_items( side &p, Character &player_character,
+                                                std::vector<drop_or_stash_item_info> &item_list,
+                                                std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets );
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
@@ -174,12 +189,6 @@ class advanced_inventory
          * actual location has been queried).
          */
         bool query_destination( aim_location &def );
-        /**
-         * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src_container Source container
-         * @param dest_container Destination container
-         */
-        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

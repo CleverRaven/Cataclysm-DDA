@@ -17,12 +17,16 @@
     "id": "NC_ISHERWOOD_JESSE",
     "name": { "str": "Jesse Isherwood" },
     "job_description": "I'm a horse trainer, part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_female_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
       {
         "skill": "ALL",
@@ -44,8 +48,8 @@
       "yes": "Leave our property, Marshal.",
       "no": {
         "u_male": true,
-        "yes": "Hello, We don't see many people these days.",
-        "no": "Hello, We don't see many people these days."
+        "yes": "Hello.  We don't see many people these days.",
+        "no": "Hello.  We don't see many people these days."
       }
     },
     "responses": [

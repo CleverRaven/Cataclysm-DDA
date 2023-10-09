@@ -3,8 +3,17 @@
     "id": "makarovmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "PM 8-round magazine" },
+    "name": { "str": "Makarov 8-round magazine" },
     "description": "A standard 8-round magazine for the Makarov pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "makarovmag",
+        "name": { "str": "PM 8-round magazine" },
+        "description": "A standard 8-round magazine for the Makarov pistol.",
+        "weight": 1
+      }
+    ],
     "weight": "60 g",
     "volume": "250 ml",
     "price": 2300,
@@ -20,8 +29,17 @@
     "id": "skorpion82mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "Škorpion vz. 82 20-round magazine" },
-    "description": "A standard 20-round magazine for the Škorpion vz. 82, in 9x18mm Makarov.",
+    "name": { "str": "vz. 82 20-round magazine" },
+    "description": "A standard 20-round magazine for the vz. 82 submachine gun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "skorpion82mag",
+        "name": { "str": "Škorpion vz. 82 20-round magazine" },
+        "description": "A standard 20-round magazine for the Škorpion vz. 82, in 9x18mm Makarov.",
+        "weight": 1
+      }
+    ],
     "weight": "170 g",
     "volume": "500 ml",
     "price": 2300,

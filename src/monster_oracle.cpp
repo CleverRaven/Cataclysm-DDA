@@ -10,12 +10,12 @@ struct tripoint;
 namespace behavior
 {
 
-status_t monster_oracle_t::not_hallucination( const std::string & ) const
+status_t monster_oracle_t::not_hallucination( const std::string_view ) const
 {
     return subject->is_hallucination() ? status_t::failure : status_t::running;
 }
 
-status_t monster_oracle_t::split_possible( const std::string & ) const
+status_t monster_oracle_t::split_possible( const std::string_view ) const
 {
     // check if subject has split to support inverting this predicate for absorb monsters without split
     if( subject->has_special( "SPLIT" ) && ( subject->get_hp() / 2 ) > subject->get_hp_max() ) {
@@ -24,7 +24,7 @@ status_t monster_oracle_t::split_possible( const std::string & ) const
     return status_t::failure;
 }
 
-status_t monster_oracle_t::items_available( const std::string & ) const
+status_t monster_oracle_t::items_available( const std::string_view ) const
 {
     if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos() ) &&
         get_map().has_items( subject->pos() ) ) {
@@ -47,7 +47,7 @@ status_t monster_oracle_t::items_available( const std::string & ) const
 }
 
 // TODO: Have it select a target and stash it somewhere.
-status_t monster_oracle_t::adjacent_plants( const std::string & ) const
+status_t monster_oracle_t::adjacent_plants( const std::string_view ) const
 {
     for( const tripoint &p : get_map().points_in_radius( subject->pos(), 1 ) ) {
         if( get_map().has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
@@ -57,7 +57,7 @@ status_t monster_oracle_t::adjacent_plants( const std::string & ) const
     return status_t::failure;
 }
 
-status_t monster_oracle_t::special_available( const std::string &special_name ) const
+status_t monster_oracle_t::special_available( const std::string_view special_name ) const
 {
     bool only_if_present = false;
     std::string mspecial_name;

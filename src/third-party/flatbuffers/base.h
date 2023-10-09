@@ -1,3 +1,5 @@
+/* Modified by the Cataclysm: Dark Days Ahead project. */
+
 #ifndef FLATBUFFERS_BASE_H_
 #define FLATBUFFERS_BASE_H_
 
@@ -255,7 +257,7 @@ namespace flatbuffers {
 #ifndef FLATBUFFERS_LOCALE_INDEPENDENT
 #define FLATBUFFERS_LOCALE_INDEPENDENT 1
 #elif FLATBUFFERS_LOCALE_INDEPENDENT != 1
-#error CDDA requires locale independent number parsing.
+#include "flatbuffers/cata_error_locale_dependent.h"
 #endif
 #ifndef FLATBUFFERS_LOCALE_INDEPENDENT
   // Enable locale independent functions {strtof_l, strtod_l,strtoll_l, strtoull_l}.
@@ -384,7 +386,6 @@ template<typename T> T EndianSwap(T t) {
 #if defined(_MSC_VER)
   #pragma warning(pop)
 #endif
-
 
 template<typename T> T EndianScalar(T t) {
   #if FLATBUFFERS_LITTLEENDIAN

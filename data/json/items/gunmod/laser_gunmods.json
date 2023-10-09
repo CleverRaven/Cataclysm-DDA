@@ -56,7 +56,7 @@
     "mod_targets": [ "pistol" ],
     "range_multiplier": 0.5,
     "damage_modifier": { "damage_type": "heat", "amount": -8 },
-    "ups_charges_multiplier": 1.2,
+    "energy_drain_multiplier": 1.2,
     "ammo_effects": [ "BEANBAG" ],
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
@@ -76,7 +76,7 @@
     "color": "light_gray",
     "location": "emitter",
     "mod_targets": [ "pistol", "rifle" ],
-    "ups_charges_multiplier": 0.9,
+    "energy_drain_multiplier": 0.9,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
   {
@@ -97,7 +97,7 @@
     "mod_targets": [ "pistol", "rifle" ],
     "range_modifier": 5,
     "damage_modifier": { "damage_type": "heat", "amount": 10 },
-    "ups_charges_multiplier": 2.0,
+    "energy_drain_multiplier": 2.0,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   }
 ]

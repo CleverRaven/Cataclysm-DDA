@@ -6,23 +6,30 @@
 
 #include "cata_catch.h"
 #include "character.h"
+#include "effect_on_condition.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "type_id.h"
+
+static const effect_on_condition_id effect_on_condition_changing_mutate2( "changing_mutate2" );
 
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
 static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
+static const mutation_category_id mutation_category_HUMAN( "HUMAN" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
+static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
 
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_TEST_REMOVAL_0( "TEST_REMOVAL_0" );
+static const trait_id trait_TEST_REMOVAL_1( "TEST_REMOVAL_1" );
 static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
 static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
 static const trait_id trait_TEST_TRIGGER_2_active( "TEST_TRIGGER_2_active" );
@@ -31,7 +38,10 @@ static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 
 static const vitamin_id vitamin_instability( "instability" );
+static const vitamin_id vitamin_mutagen( "mutagen" );
+static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
 static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
+static const vitamin_id vitamin_mutagen_test_removal( "mutagen_test_removal" );
 
 static std::string get_mutations_as_string( const Character &you );
 
@@ -93,7 +103,7 @@ std::string get_mutations_as_string( const Character &you )
 //
 // This test illustrates and verifies the above scenario, using the same categories and mutations.
 //
-TEST_CASE( "mutation category strength based on current mutations", "[mutations][category]" )
+TEST_CASE( "mutation_category_strength_based_on_current_mutations", "[mutations][category]" )
 {
     npc dummy;
 
@@ -142,7 +152,7 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
 
 // If character has all available mutations in a category (pre- or post-threshold), that should be
 // their strongest/highest category. This test verifies that expectation for every category.
-TEST_CASE( "Having all mutations give correct highest category", "[mutations][strongest]" )
+TEST_CASE( "Having_all_mutations_give_correct_highest_category", "[mutations][strongest]" )
 {
     for( const std::pair<const mutation_category_id, mutation_category_trait> &cat :
          mutation_category_trait::get_all() ) {
@@ -193,12 +203,12 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations][st
 // 65+ is the suggested range
 //
 // This test verifies the breach-power expectation for all mutation categories.
-TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach power",
+TEST_CASE( "Having_all_pre-threshold_mutations_gives_a_sensible_threshold_breach_power",
            "[mutations][breach]" )
 {
     const int BREACH_POWER_MIN = 55;
 
-    for( const std::pair<mutation_category_id, mutation_category_trait> cat :
+    for( const std::pair<const mutation_category_id, mutation_category_trait> &cat :
          mutation_category_trait::get_all() ) {
         const mutation_category_trait &cur_cat = cat.second;
         const mutation_category_id &cat_id = cur_cat.id;
@@ -238,7 +248,95 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
     }
 }
 
-TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mutations][overmap]" )
+TEST_CASE( "Mutation/starting_trait_interactions", "[mutations]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    SECTION( "Removal via purifier" ) {
+        // Set up for purifier test
+        dummy.my_traits.insert( trait_TEST_REMOVAL_0 );
+        dummy.set_mutation( trait_TEST_REMOVAL_0 );
+        dummy.my_traits.insert( trait_TEST_REMOVAL_1 );
+        dummy.set_mutation( trait_TEST_REMOVAL_1 );
+        dummy.vitamin_set( vitamin_mutagen_human, 1500 );
+        dummy.vitamin_set( vitamin_mutagen, 1500 );
+
+        // Check that everything works as it should
+        CHECK( mutation_category_trait::get_category( mutation_category_HUMAN ).base_removal_chance == 0 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_human ) == 1500 );
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) == 1500 );
+
+        // Trigger a mutation
+        dialogue newDialog( get_talker_for( dummy ), nullptr );
+        effect_on_condition_changing_mutate2->activate( newDialog );
+
+        // Mutation triggered as expected, traits not removed
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) < 1500 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+    }
+
+    SECTION( "Removal via mutation" ) {
+        clear_avatar();
+        dummy.my_traits.insert( trait_TEST_REMOVAL_1 );
+        dummy.set_mutation( trait_TEST_REMOVAL_1 );
+        dummy.vitamin_set( vitamin_mutagen, 1500 );
+        dummy.vitamin_set( vitamin_mutagen_test_removal, 1500 );
+
+        CHECK( mutation_category_trait::get_category( mutation_category_REMOVAL_TEST ).base_removal_chance
+               ==
+               100 );
+        CHECK( mutation_category_trait::get_category( mutation_category_REMOVAL_TEST ).base_removal_cost_mul
+               ==
+               2.0 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_test_removal ) == 1500 );
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) == 1500 );
+
+        // Trigger a mutation
+        dialogue newDialog( get_talker_for( dummy ), nullptr );
+        effect_on_condition_changing_mutate2->activate( newDialog );
+
+        // Mutation triggered as expected, purifiable trait removed at the specified cost multiplier
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) < 1500 );
+        CHECK( !dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( !dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_test_removal ) == 1300 );
+    }
+
+    SECTION( "Non-purifiable traits are still protected" ) {
+        clear_avatar();
+        dummy.my_traits.insert( trait_TEST_REMOVAL_0 );
+        dummy.set_mutation( trait_TEST_REMOVAL_0 );
+        dummy.vitamin_set( vitamin_mutagen, 1500 );
+        dummy.vitamin_set( vitamin_mutagen_test_removal, 1500 );
+
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_test_removal ) == 1500 );
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) == 1500 );
+
+        dialogue newDialog( get_talker_for( dummy ), nullptr );
+        effect_on_condition_changing_mutate2->activate( newDialog );
+
+        // Mutagen decremented but no trait gain, category vitamin level unchanged
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) < 1500 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_0 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_test_removal ) == 1500 );
+
+    }
+}
+
+TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mutations][overmap]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -283,8 +381,7 @@ static void check_test_mutation_is_triggered( const Character &dummy, bool trigg
     }
 }
 
-
-TEST_CASE( "The various type of triggers work", "[mutations]" )
+TEST_CASE( "The_various_type_of_triggers_work", "[mutations]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -423,7 +520,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
 
 }
 
-TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
+TEST_CASE( "All_valid_mutations_can_be_purified", "[mutations][purifier]" )
 {
     std::vector<trait_id> dummies;
     std::vector<trait_id> valid_traits;
@@ -469,7 +566,7 @@ TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
 //neutral mutations, because those are always allowed.
 //This also incidentally tests that, given available mutations and enough mutagen,
 //Character::mutate always succeeds to give exactly one mutation.
-TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" )
+TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" )
 {
     Character &dummy = get_player_character();
 
@@ -484,8 +581,7 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
         {4000, 0.598f},
         {5000, 0.649f},
         {6000, 0.686f},
-        {8000, 0.737f},
-        {10000, 0.770f}
+        {8000, 0.737f}
     };
 
     const int tries = 1000;
@@ -530,7 +626,7 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
 // If has_trait( trait_XXX )-checks for a certain trait have been 'flagified' to check for
 // has_flag( json_flag_XXX ) instead the check should be added here and it's recommended to
 // reference to the PR that changes it.
-TEST_CASE( "The mutation flags are associated to the corresponding base mutations",
+TEST_CASE( "The_mutation_flags_are_associated_to_the_corresponding_base_mutations",
            "[mutations][flags]" )
 {
     Character &dummy = get_player_character();

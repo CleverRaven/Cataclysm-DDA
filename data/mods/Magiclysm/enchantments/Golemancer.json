@@ -16,7 +16,7 @@
     "id": "golemancer_block",
     "type": "effect_type",
     "name": [ "Golemancer's block" ],
-    "desc": [ "Block huge damage in the next 1 second." ],
+    "desc": [ "Decrease any damage taken in the next 1 second." ],
     "rating": "good",
     "show_intensity": false,
     "show_in_info": false,
@@ -38,7 +38,9 @@
   },
   {
     "type": "enchantment",
-    "id": "GOLEMANCER_BLOCK",
+    "id": "GOLEMANCER",
+    "name": { "str": "Clay" },
+    "description": "Your Golemancer abilities make you perfectly steady, as nothing can slow you down.  Your body also deflects some of the damage you take.",
     "hit_me_effect": [ { "id": "golemancer_block", "hit_self": true, "once_in": 5 } ]
   }
 ]

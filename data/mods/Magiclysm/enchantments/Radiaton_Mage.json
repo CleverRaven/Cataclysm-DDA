@@ -52,12 +52,7 @@
     "points": 0,
     "active": true,
     "description": "You can feel the radiation emission near your body so perfectly it allows you to see while blind.  You suppress it now.",
-    "transform": {
-      "target": "CLAIRVOYANCE_ON",
-      "msg_transform": "Living creatures around you are crushed!",
-      "active": true,
-      "moves": 10
-    }
+    "transform": { "target": "CLAIRVOYANCE_ON", "msg_transform": "You see everything!", "active": true, "moves": 10 }
   },
   {
     "type": "mutation",
@@ -70,6 +65,6 @@
     "points": 0,
     "description": "You can feel the radiation emission near your body so perfectly it allows you to see while blind.",
     "enchantments": [ "RADIATION_MAGE_CLAIRVOYANCE" ],
-    "transform": { "target": "CLAIRVOYANCE_OFF", "msg_transform": "You suppress your frozen pressure.", "active": false, "moves": 10 }
+    "transform": { "target": "CLAIRVOYANCE_OFF", "msg_transform": "You suppress your rad senses.", "active": false, "moves": 10 }
   }
 ]

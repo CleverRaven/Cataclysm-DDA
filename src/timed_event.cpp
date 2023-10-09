@@ -3,6 +3,7 @@
 #include <array>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -29,7 +30,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -42,12 +42,9 @@ static const itype_id itype_petrified_eye( "petrified_eye" );
 static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
-static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_dsa_alien_dispatch( "mon_dsa_alien_dispatch" );
-static const mtype_id mon_eyebot( "mon_eyebot" );
-static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
@@ -80,7 +77,7 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
-                          int s, std::string s_id, submap_revert &sr, std::string key )
+                          int s, std::string s_id, submap sr, std::string key )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
@@ -88,9 +85,9 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , strength( s )
     , string_id( std::move( s_id ) )
     , key( std::move( key ) )
+    , revert( std::move( sr ) )
 {
     map_point = project_to<coords::sm>( map_square );
-    revert = sr;
 }
 
 void timed_event::actualize()
@@ -101,19 +98,6 @@ void timed_event::actualize()
         case timed_event_type::HELP:
             debugmsg( "Currently disabled while NPC and monster factions are being rewritten." );
             break;
-
-        case timed_event_type::ROBOT_ATTACK: {
-            const tripoint_abs_sm u_pos = player_character.global_sm_location();
-            if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
-
-                get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
-                point rob( u_pos.x() > map_point.x() ? 0 - SEEX * 2 : SEEX * 4,
-                           u_pos.y() > map_point.y() ? 0 - SEEY * 2 : SEEY * 4 );
-                g->place_critter_at( robot_type, tripoint( rob, u_pos.z() ) );
-            }
-        }
-        break;
 
         case timed_event_type::SPAWN_WYRMS: {
             if( here.get_abs_sub().z() >= 0 ) {
@@ -147,7 +131,7 @@ void timed_event::actualize()
         case timed_event_type::AMIGARA: {
             get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            cata::optional<tripoint> fault_point;
+            std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_fault ) {
@@ -289,7 +273,7 @@ void timed_event::actualize()
                 const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
-                summoning.get_spell().cast_all_effects( dispatcher, spot );
+                summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );
@@ -308,8 +292,9 @@ void timed_event::actualize()
             break;
         }
         case timed_event_type::UPDATE_MAPGEN:
-            run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
-                                    nullptr );
+            run_mapgen_update_func(
+                update_mapgen_id( string_id ), project_to<coords::omt>( map_point ), {}, nullptr );
+            set_queued_points();
             get_map().invalidate_map_cache( map_point.z() );
             break;
 
@@ -331,24 +316,6 @@ void timed_event::per_turn()
     Character &player_character = get_player_character();
     map &here = get_map();
     switch( type ) {
-        case timed_event_type::WANTED: {
-            // About once every 5 minutes. Suppress in classic zombie mode.
-            if( here.get_abs_sub().z() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
-                point place = here.random_outdoor_tile();
-                if( place.x == -1 && place.y == -1 ) {
-                    // We're safely indoors!
-                    return;
-                }
-                g->place_critter_at( mon_eyebot, tripoint( place, player_character.posz() ) );
-                if( player_character.sees( tripoint( place, player_character.posz() ) ) ) {
-                    add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
-                }
-                // One eyebot per trigger is enough, really
-                when = calendar::turn;
-            }
-        }
-        break;
-
         case timed_event_type::SPAWN_WYRMS:
             if( here.get_abs_sub().z() >= 0 ) {
                 when -= 1_turns;
@@ -433,10 +400,10 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
-                               int strength, const std::string &string_id, submap_revert sr,
+                               int strength, const std::string &string_id, submap sr,
                                const std::string &key )
 {
-    events.emplace_back( type, when, faction_id, where, strength, string_id, sr, key );
+    events.emplace_back( type, when, faction_id, where, strength, string_id, std::move( sr ), key );
 }
 
 bool timed_event_manager::queued( const timed_event_type type ) const
@@ -464,7 +431,7 @@ timed_event *timed_event_manager::get( const timed_event_type type, const std::s
     return nullptr;
 }
 
-std::list<timed_event> timed_event_manager::get_all() const
+std::list<timed_event> const &timed_event_manager::get_all() const
 {
     return events;
 }

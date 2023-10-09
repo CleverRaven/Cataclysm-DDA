@@ -9,15 +9,15 @@ class monster;
 namespace mdeath
 {
 // Drop a body
-item *normal( monster &z );
+item_location normal( monster &z );
 // Overkill splatter (also part of normal under conditions)
-item *splatter( monster &z );
+item_location splatter( monster &z );
 // Hallucination disappears
 void disappear( monster &z );
 // Broken robot drop
 void broken( monster &z );
 } //namespace mdeath
 
-item *make_mon_corpse( monster &z, int damageLvl );
+item_location make_mon_corpse( monster &z, int damageLvl );
 
 #endif // CATA_SRC_MONDEATH_H

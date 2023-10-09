@@ -25,7 +25,12 @@
     "worn_override": "REFUGEE_Guneet_worn",
     "carry_override": "REFUGEE_Guneet_carried",
     "weapon_override": "REFUGEE_Guneet_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_SouthAsian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } }
     ]

@@ -86,8 +86,9 @@
     "type": "MAGAZINE",
     "name": { "str": "shotgun 6-round speedloader" },
     "description": "A plastic tube with a sliding handle that can be used to quickly load 6 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
-    "weight": "480 g",
-    "volume": "1750 ml",
+    "weight": "410 g",
+    "volume": "650 ml",
+    "longest_side": "50 cm",
     "price": 3200,
     "price_postapoc": 50,
     "material": [ "plastic" ],
@@ -95,7 +96,7 @@
     "color": "light_gray",
     "ammo_type": [ "shot" ],
     "capacity": 6,
-    "flags": [ "SPEEDLOADER" ],
+    "flags": [ "SPEEDLOADER_CLIP", "BELT_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
@@ -104,8 +105,9 @@
     "type": "MAGAZINE",
     "name": { "str": "shotgun 8-round speedloader" },
     "description": "A plastic tube with a sliding handle that can be used to quickly load 8 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
-    "weight": "510 g",
-    "volume": "2 L",
+    "weight": "440 g",
+    "volume": "800 ml",
+    "longest_side": "65 cm",
     "price": 3250,
     "price_postapoc": 50,
     "material": [ "plastic" ],
@@ -113,7 +115,7 @@
     "color": "light_gray",
     "ammo_type": [ "shot" ],
     "capacity": 8,
-    "flags": [ "SPEEDLOADER" ],
+    "flags": [ "SPEEDLOADER_CLIP", "BELT_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
   {

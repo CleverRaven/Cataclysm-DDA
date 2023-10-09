@@ -8,7 +8,9 @@
     "player_display": false,
     "description": "To cast bug killing spells.",
     "debug": false,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_BULLET", "add": -100 } ] } ]
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "ARMOR_BULLET", "add": -100 }, { "value": "PERCEPTION", "add": 15 } ] }
+    ]
   },
   {
     "id": "librarian_blinding",

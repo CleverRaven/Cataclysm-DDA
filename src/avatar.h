@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "magic_teleporter_list.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
@@ -24,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class cata_path;
 class diary;
 class faction;
 class item;
@@ -43,7 +45,7 @@ class window;
 } // namespace catacurses
 enum class character_type : int;
 class map_memory;
-struct memorized_terrain_tile;
+class memorized_tile;
 
 namespace debug_menu
 {
@@ -69,6 +71,10 @@ struct monster_visible_info {
     // If the monster visible in this direction is dangerous
     std::array<bool, 8> dangerous = {};
 
+    // Whether or not there is at last one creature within safemode proximity that
+    // is dangerous
+    bool has_dangerous_creature_in_proximity = false;
+
     void remove_npc( npc *n );
 };
 
@@ -86,6 +92,7 @@ class avatar : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
+        void export_as_npc( const cata_path &path );
         void serialize( JsonOut &json ) const override;
         void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
@@ -93,12 +100,15 @@ class avatar : public Character
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        // initialize avatar and avatar mocks
+        void initialize( character_type type );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
         void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
+        void add_default_background();
 
         bool is_avatar() const override {
             return true;
@@ -112,6 +122,8 @@ class avatar : public Character
 
         mfaction_id get_monster_faction() const override;
 
+        void witness_thievery( item * ) override {}
+
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
         }
@@ -122,27 +134,26 @@ class avatar : public Character
          * Makes the avatar "take over" the given NPC, while the current avatar character
          * becomes an NPC.
          */
-        void control_npc( npc & );
+        void control_npc( npc &, bool debug = false );
         /**
          * Open a menu to choose the NPC to take over.
          */
-        void control_npc_menu();
+        void control_npc_menu( bool debug = false );
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
+        //! @copydoc map_memory::is_valid() const
+        bool is_map_memory_valid() const;
         bool should_show_map_memory() const;
-        void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
-        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
-                            int rotation );
-        /** Returns last stored map tile in given location in tiles mode */
-        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
-        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, int symbol );
-        /** Returns last stored map tile in given location in curses mode */
-        int get_memorized_symbol( const tripoint &p ) const;
-        void clear_memorized_tile( const tripoint &pos );
+        void prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
+        const memorized_tile &get_memorized_tile( const tripoint_abs_ms &p ) const;
+        void memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
+                               int subtile, int rotation );
+        void memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
+                                  int subtile, int rotation );
+        void memorize_symbol( const tripoint_abs_ms &p, char32_t symbol );
+        void memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix = "" );
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -215,13 +226,12 @@ class avatar : public Character
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+        // clears nutrition related values e.g. calorie_diary, consumption_history...
+        void clear_nutrition();
 
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
-
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
@@ -234,6 +244,10 @@ class avatar : public Character
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
+        // if avatar is affected by relax_gas this rolls chance to overcome it at cost of moves
+        // prints messages for success/failure
+        // @return true if no relax_gas effect or rng roll to ignore it was successful
+        bool try_break_relax_gas( const std::string &msg_success, const std::string &msg_failure );
         void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
@@ -358,6 +372,7 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
+        npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;

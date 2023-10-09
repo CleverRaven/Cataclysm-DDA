@@ -1,0 +1,148 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME",
+    "dynamic_line": "Welcome to Bombastic Perks.  Once you complete this configuration, your character should receive a \"perk menu\" trait which you can use to check your EXP, level, and browse available perks.\nPlease configure the mod with the settings below.",
+    "responses": [
+      { "text": "Use Default Settings", "effect": [ { "run_eocs": "EOC_give_perk_menu" } ], "topic": "TALK_DONE" },
+      { "text": "Customize Settings", "topic": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL",
+    "dynamic_line": "How much experience should be required to get to the first level?",
+    "responses": [
+      {
+        "text": "Default (100 exp)",
+        "effect": [ { "math": [ "u_exp_to_perk", "=", "100" ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
+      },
+      {
+        "text": "Custom Value",
+        "effect": [ { "math": [ "u_exp_to_perk", "=", "num_input('Exp until first level?', 100)" ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT",
+    "dynamic_line": "How much more experience should be required to get to each additional level?",
+    "responses": [
+      {
+        "text": "Default (300 xp)",
+        "effect": [ { "math": [ "u_exp_per_level", "=", "300" ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
+      },
+      {
+        "text": "Custom Value",
+        "effect": [ { "math": [ "u_exp_per_level", "=", "num_input('Exp increase?', 300)" ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_REQUIREMENTS",
+    "dynamic_line": "Should some perks be allowed to be locked behind prerequisites?",
+    "responses": [
+      {
+        "text": "Prerequisites (default)",
+        "effect": [
+          { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] },
+          {
+            "u_add_var": "prereq_note",
+            "type": "dialogue",
+            "context": "perks",
+            "value": "Perks will have requirements."
+          }
+        ],
+        "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE"
+      },
+      {
+        "text": "No Prerequisites",
+        "effect": [
+          { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 1 } ] },
+          {
+            "u_add_var": "prereq_note",
+            "type": "dialogue",
+            "context": "perks",
+            "value": "Perks will not have requirements."
+          }
+        ],
+        "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_PLAYSTYLE",
+    "dynamic_line": "Normal perks are considered lifestyle perks and are small bonuses to help your character progress.  Playstyle perks on the other hand can vary wildly in power, in some cases aren't well balanced, and will define your character's playstyle.  Do you want to enable playstyle perks and if so, how many perk points should they cost?",
+    "responses": [
+      {
+        "text": "Default (4 perk points)",
+        "effect": [
+          { "math": [ "u_playstyle_cost", "=", "3" ] },
+          { "math": [ "u_no_playstyle", "=", "0" ] },
+          {
+            "u_add_var": "playstyle_note",
+            "type": "dialogue",
+            "context": "perks",
+            "value": "I can select playstyle perks for 4 perk points."
+          }
+        ],
+        "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
+      },
+      {
+        "text": "Enabled, Custom Cost",
+        "effect": [
+          { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', 4) - 1" ] },
+          { "math": [ "u_no_playstyle", "=", "0" ] },
+          {
+            "u_add_var": "playstyle_note",
+            "type": "dialogue",
+            "context": "perks",
+            "value": "I can select playstyle perks for a custom cost."
+          }
+        ],
+        "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
+      },
+      {
+        "text": "Disabled",
+        "effect": [
+          { "math": [ "u_no_playstyle", "=", "1" ] },
+          {
+            "u_add_var": "playstyle_note",
+            "type": "dialogue",
+            "context": "perks",
+            "value": "I cannot select playstyle perks."
+          }
+        ],
+        "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_CONFIRM",
+    "dynamic_line": "You are about to enable the mod with:\nFirst perk at: <u_val:exp_to_perk> exp.\nAdditional exp required per level: <u_val:exp_per_level>.\n<u_val:dialogue_perks_prereq_note>\n<u_val:dialogue_perks_playstyle_note>",
+    "responses": [
+      {
+        "text": "Confirm",
+        "effect": [
+          { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
+          { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
+          { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
+          { "u_add_trait": "perk_perk_menu" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE" }
+    ]
+  }
+]

@@ -11,7 +11,7 @@
         { "id": "lighting_boomered_light", "fg": 1, "rotates": false },
         { "id": "lighting_boomered_dark", "fg": 2, "rotates": false },
         { "id": "lighting_lowlight_light", "fg": 3, "rotates": false },
-        { "id": "lighting_lowlight_dark", "fg": 4, "rotates": false },
+        { "id": [ "lighting_lowlight_dark", "unknown_terrain" ], "fg": 4, "rotates": false },
         { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 5 },
         { "id": "highlight_item", "fg": 6, "rotates": false },
         { "id": "animation_line", "bg": 7 },
@@ -39,7 +39,6 @@
         { "id": "unknown", "fg": 79, "rotates": false },
         { "id": "weather_snowflake", "bg": 95 },
         { "id": [ "player_female", "player_male" ], "fg": 144, "rotates": false },
-        { "id": [ "t_open_air", "t_open_air_rooved" ], "bg": 811 },
         { "id": "lighting_hidden", "fg": 1067, "bg": 1067, "rotates": false },
         {
           "id": "explosion_weak",
@@ -108,7 +107,14 @@
             "mission_cursor"
           ],
           "fg": 70
-        }
+        },
+        { "id": [ "run_nw", "run_se" ], "fg": 428 },
+        { "id": [ "run_n", "run_s" ], "fg": 515 },
+        { "id": [ "run_ne", "run_sw", "bash_effective" ], "fg": 383 },
+        { "id": [ "run_w", "run_e" ], "fg": 381 },
+        { "id": "bash_complete", "fg": 424 },
+        { "id": "shadow", "animated": true, "fg": [ { "weight": 8, "sprite": 2478 }, { "weight": 8, "sprite": 0 } ] },
+        { "id": [ "t_open_air", "t_open_air_rooved", "t_open_air_rooved_outside" ], "fg": 9 }
       ]
     },
     {

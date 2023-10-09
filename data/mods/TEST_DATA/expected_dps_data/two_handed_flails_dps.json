@@ -2,6 +2,6 @@
   {
     "type": "test_data",
     "//": "expected value ideally around 20",
-    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.0, "homewrecker": 13.0 }
+    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.4, "homewrecker": 13.0 }
   }
 ]

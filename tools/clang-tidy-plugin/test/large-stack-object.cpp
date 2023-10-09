@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-large-stack-object %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-large-stack-object %t -- --load=%cata_plugin --
 
 void f0()
 {

@@ -1,5 +1,5 @@
-# Lines longer than 78 characters will be wrapped automatically
-# The following line is for reference
+# Řádky delší než 78 znaků budou automaticky zabaleny
+# Následující řádek je pro referenci
 ##############################################################################
 <color_white>Navštivte nás na:</color>
 
@@ -13,12 +13,12 @@
 
 <color_white>Připojte se k diskuzi na fórech a chatech:</color>
 
-<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discourse:                 </color> <color_cyan>https://discourse.cataclysmdda.org/</color>
 <color_light_gray>* Discord: </color><color_cyan>https://discord.gg/jFEc7Yp</color>
 <color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
-<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+<color_light_gray>* Lemmy (Fediverse):         </color><color_cyan>https://cdda.social/</color>
 
-<color_light_gray>Other useful links are also available at our Homepage.</color>
+<color_light_gray>Další užitečné odkazy jsou dostupné na Domovské stránke</color>
 
 <color_light_gray>Ve hře je možno vstoupit od možností nastavení skrze hlavní menu (<color_yellow>Esc</color>).</color>
 
@@ -32,7 +32,7 @@
 
 <color_white>Otázka:</color> <color_yellow>Proč vůbec experimentální verze existuje?</color>
 
-<color_white>A: </color><color_light_gray>Consider it like playing an alpha/beta version - bugs and underdeveloped features are part of it.  Due to continuous integration rigors, experimental builds are always in a state of a constant work in progress.  Experimental is a sandbox where the bug detecting and feature polishing takes place.  Big and small features are constantly released to those builds to be checked for overall stability and balance.  Because of that, experimentals are not under the rigor of guaranteeing balance and stability.  In fact, nothing is guaranteed in the experimental builds.</color>
+<color_white>A:</color><color_light_gray>Je to jako hrát na alfa/beta verzi - chyby a nedokončené prvky jsou její součástí. Z důvodu trvajících snah vše propojit, jsou experimentální verze ve stavu neustálého vývoje. Experimentální verze je hrací plocha, kde se hledají chyby a místa, která potřebují zahladit. Menší i velké změny jsou stále vydávány pro tuto verzi aby byla ověřována stabilita a vyrovnanost. Díky tomu nelze zajistit ideální rovnováhu verze ani její stabilitu. Vlastně nic není v experimentální verzi zaručeno.
 
 <color_white>Otázka:</color> <color_yellow>Jsou tedy experimentální verze hry hratelné?</color>
 

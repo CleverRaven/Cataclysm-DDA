@@ -1,0 +1,89 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "elf_workshop",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "111111111111111111111111",
+        "1fa.....fa..........jsw1",
+        "1ms......m....d....r.ct1",
+        "1d...................ct1",
+        "1bsw.........c........d1",
+        "1dsw........ctc......af1",
+        "1............c.........3",
+        "1msa...................1",
+        "1d.f..................d1",
+        "1......................3",
+        "1bsw..................b1",
+        "1....d............j....1",
+        "1...ws............sw...1",
+        "1......................1",
+        "1......................3",
+        "1......................1",
+        "1...ws............sw...1",
+        "1......................1",
+        "1...ws............sw...1",
+        "1......................1",
+        "1...........m..........1",
+        "1f.........sa.........f1",
+        "1a.sm......f.......ms.a1",
+        "111111111111111111111111"
+      ],
+      "terrain": { "3": "t_rdoor_c", "1": "t_strconc_wall", ".": "t_metal_floor" },
+      "furniture": {
+        "a": "f_anvil",
+        "t": "f_table",
+        "b": "f_tablesaw",
+        "c": "f_chair",
+        "d": "f_drill_press",
+        "j": "f_jointer",
+        "r": "f_router",
+        "w": "f_workbench",
+        "m": "f_workbench",
+        "s": "f_stool",
+        "f": "f_demon_forge"
+      },
+      "place_monsters": [ { "monster": "GROUP_WORKSHOP", "x": [ 3, 5 ], "y": [ 4, 23 ], "density": 0.5, "repeat": [ 1, 6 ] } ],
+      "place_loot": [
+        { "group": "tools_anvil", "x": [ 0, 23 ], "y": [ 0, 20 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "item": "mithril_ingot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10 },
+        { "item": "scrap_copper", "x": [ 0, 22 ], "y": [ 0, 21 ], "chance": 40 },
+        { "group": "tools_anvil", "x": [ 0, 13 ], "y": [ 0, 22 ], "chance": 25 },
+        { "item": "clamp", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "metal_file", "x": [ 0, 23 ], "y": [ 0, 15 ], "chance": 50 },
+        { "item": "pin_reamer", "x": [ 0, 23 ], "y": [ 0, 21 ], "chance": 25 },
+        { "item": "mithril_ingot", "x": [ 0, 15 ], "y": [ 0, 21 ], "chance": 10 },
+        { "item": "scrap_copper", "x": [ 0, 23 ], "y": [ 0, 12 ], "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "misc_repairkit", "x": [ 0, 23 ], "y": [ 0, 14 ], "chance": 25 },
+        { "item": "hammer", "x": [ 0, 23 ], "y": [ 0, 17 ], "chance": 90 },
+        { "item": "sandpaper", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 90 },
+        { "item": "clamp", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 90, "repeat": [ 2, 4 ] },
+        { "item": "xacto", "x": [ 0, 23 ], "y": [ 0, 13 ], "chance": 10 },
+        { "item": "alumentum", "x": [ 0, 23 ], "y": [ 0, 21 ], "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "overmap_special",
+    "id": "elf_workshop",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "elf_workshop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "elf_workshop_roof_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 0, 2 ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "elf_workshop", "elf_workshop_roof" ],
+    "name": "elf workshop",
+    "sym": "W",
+    "color": "red",
+    "see_cost": 6,
+    "flags": [ "RISK_HIGH" ]
+  }
+]

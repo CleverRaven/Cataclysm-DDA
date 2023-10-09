@@ -2,20 +2,20 @@
   {
     "type": "GUN",
     "//": "The C7A1 is semi or full-auto with a 20 in. barrel, which it shares with the M16A3 it overrides.",
-    "id": "m16_auto_rifle",
-    "copy-from": "m16_auto_rifle",
+    "id": "modular_m16_auto_rifle",
+    "copy-from": "modular_m16_auto_rifle",
     "name": { "str": "C7 assault rifle" },
     "description": "The C7A1 is the standard issue rifle for the Canadian military manufactured by Diemaco.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "m16a3",
+        "id": "modular_m16a3",
         "name": { "str": "C7" },
         "description": "The standard issue rifle for the Canadian armed forces, featuring a 20 in. long barrel and full auto capabilities when fed from STANAG magazines.",
         "weight": 1
       },
       {
-        "id": "acr",
+        "id": "modular_acr",
         "name": { "str": "C7A1" },
         "description": "This is the updated model of the C7 carbine, using a modified Weaver rail instead of a carrying handle/iron sight assembly to assist in mounting optics."
       }
@@ -23,17 +23,17 @@
   },
   {
     "type": "GUN",
-    "id": "m4_carbine",
-    "copy-from": "m4_carbine",
+    "id": "modular_m4_carbine",
+    "copy-from": "modular_m4_carbine",
     "looks_like": "ar15",
     "name": { "str": "C8 carbine" },
     "description": "A carbine variant of the C7A1, recently introduced by the Canadian armed forces.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "variants": [
       {
-        "id": "m4a1",
+        "id": "modular_m4a1",
         "name": { "str": "C8" },
         "description": "The standard issue carbine for the Canadian armed forces, featuring a 14.5 in. long barrel and full auto capabilities when fed from STANAG magazines.",
-        "ascii_picture": "m4a1",
+        "ascii_picture": "modular_m4a1",
         "weight": 1
       },
       {

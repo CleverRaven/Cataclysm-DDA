@@ -145,6 +145,9 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
     Character &player_character = get_player_character();
 
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
+        if( !one_in( ae.trigger_chance ) ) {
+            continue;
+        }
         if( effects.count( ae.id.str() ) > 0 ) {
             for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {

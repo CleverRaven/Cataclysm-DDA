@@ -11,7 +11,7 @@ struct point;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 void place_appliance( const tripoint &p, const vpart_id &vpart,
-                      const cata::optional<item> &base = cata::nullopt );
+                      const std::optional<item> &base = std::nullopt );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has
@@ -103,7 +103,12 @@ class veh_app_interact
          * can be disconnected by the player.
          * @returns True if the appliance can be unplugged.
         */
-        bool can_unplug();
+        bool can_merge();
+        /**
+         * Function associated with the "MERGE" action.
+         * Merge power grid elements together into a single appliance
+         */
+        void merge();
         /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
@@ -134,12 +139,6 @@ class veh_app_interact
         * Connects the power cable to selected tile.
         */
         void plug();
-        /**
-         * Function associated with the "UNPLUG" action.
-         * Removes all power connections to other appliances and vehicles and drops
-         * any used cable items on the ground.
-        */
-        void unplug();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mindovermatter",
+    "name": "Mind Over Matter",
+    "authors": [ "StandingStorm" ],
+    "maintainers": [ "StandingStorm" ],
+    "description": "Psionic powers for Cataclysm",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

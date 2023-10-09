@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ench_climate_control_marzanna",
+    "name": { "str": "Charm of Spring" },
+    "description": "You are wearing equipment that helps handle harsh climates and protects from damaging cold.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }, { "value": "ARMOR_COLD", "add": -15 } ]
+  },
+  {
+    "id": "ench_climate_periapta_feline",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "CLAWS_RETRACT" ]
+  },
+  {
+    "id": "ench_climate_periapta_lupine",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "FANGS" ]
+  },
+  {
+    "id": "ench_climate_periapta_cephalopod",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "INK_GLANDS" ]
+  },
+  {
+    "id": "ench_climate_periapta_butterfly",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "WINGS_BUTTERFLY" ]
+  },
+  {
+    "id": "ench_climate_periapta_plant",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "BARK" ]
+  },
+  {
+    "id": "ench_climate_periapta_scorpion",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "TAIL_STING" ]
+  },
+  {
+    "id": "ench_climate_periapta_spider",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "mutations": [ "WEB_WALKER" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "DEDUCTION_REGEN_MANA",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "//": "Increase the mana regen depending on your deduction level. +0.1x for each level, so doubles your mana regen when deduction is 10",
+    "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "u_skill('deduction') / 10" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BERSERKING",
+    "hit_you_effect": [ { "id": "increase_berserking", "hit_self": true, "once_in": 14 } ]
+  },
+  {
+    "id": "increase_berserking",
+    "type": "SPELL",
+    "name": "Berserking",
+    "description": "Increase the berserker variable.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "INCREASE_BERSERKER",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BERSERKER_STR",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "BERSERKER / 3" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BERSERKER_SPEED",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SPEED", "add": { "math": [ "BERSERKER" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BERSERKER_REGEN_STAMINA",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "BERSERKER / 5" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "INCREASE_BERSERKER",
+    "condition": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } },
+    "deactivate_condition": { "not": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } } },
+    "effect": [ { "u_message": "BERSERK +1.", "type": "debug" }, { "math": [ "BERSERKER", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DECREASE_BERSERKER",
+    "recurrence": "25 s",
+    "effect": [ { "math": [ "BERSERKER", "=", "max( 0, BERSERKER - 1)" ] } ]
+  }
+]

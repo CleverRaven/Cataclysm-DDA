@@ -218,5 +218,23 @@
       [ "yeast", 5 ],
       [ "zucchini", 3 ]
     ]
+  },
+  {
+    "id": "survivor_bashing",
+    "//": "Override for hardcoded reference in npc::starting_weapon",
+    "type": "item_group",
+    "items": [ [ "cudgel", 1 ], [ "stick_long", 2 ], [ "rock", 5 ], [ "q_staff", 1 ] ]
+  },
+  {
+    "id": "survivor_stabbing",
+    "//": "Override for hardcoded reference in npc::starting_weapon",
+    "type": "item_group",
+    "items": [ [ "pointy_stick", 5 ], [ "pointy_stick_long", 2 ] ]
+  },
+  {
+    "id": "survivor_cutting",
+    "//": "Override for hardcoded reference in npc::starting_weapon",
+    "type": "item_group",
+    "items": [ [ "sharp_rock", 5 ], [ "bone_knife", 2 ] ]
   }
 ]

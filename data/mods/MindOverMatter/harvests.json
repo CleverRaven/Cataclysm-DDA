@@ -1,0 +1,7 @@
+[
+  {
+    "id": "alien_tree_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "alien_tree_1_fruit", "base_num": [ 1, 4 ], "scale_num": [ 0, 0.5 ] } ]
+  }
+]

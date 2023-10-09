@@ -3,7 +3,7 @@
     "id": "player_health_and_stasistik_block",
     "type": "widget",
     "style": "layout",
-    "label": "1_player_block",
+    "label": "2_player_block",
     "width": 58,
     "arrange": "minimum_columns",
     "widgets": [ "piktogram", "char_num_block" ]
@@ -12,7 +12,7 @@
     "id": "player_health_and_stasistik_block_sa",
     "type": "widget",
     "style": "layout",
-    "label": "1_player_block (self-aware)",
+    "label": "2_player_block (self-aware)",
     "width": 58,
     "arrange": "minimum_columns",
     "widgets": [ "piktogram", "char_num_block_sa" ],

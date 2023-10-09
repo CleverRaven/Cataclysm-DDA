@@ -40,9 +40,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 5,
-    "armor_bullet": 3,
     "vision_day": 10,
     "vision_night": 5,
     "starting_ammo": { "fresh_honeydew": 2 },
@@ -55,6 +52,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 600 },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "MILKABLE" ],
+    "armor": { "bash": 2, "cut": 5, "bullet": 3 }
   }
 ]

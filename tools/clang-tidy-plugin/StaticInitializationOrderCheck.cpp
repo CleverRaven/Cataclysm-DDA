@@ -4,11 +4,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void StaticInitializationOrderCheck::registerMatchers( MatchFinder *Finder )
@@ -80,6 +76,4 @@ void StaticInitializationOrderCheck::check( const MatchFinder::MatchResult &Resu
     CheckDecl( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

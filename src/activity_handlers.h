@@ -6,11 +6,11 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <unordered_set>
 #include <vector>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "type_id.h"
 #include "requirements.h"
 
@@ -67,10 +67,12 @@ enum class do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
+    NEEDS_BOOK_TO_LEARN,    // There is book to learn
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and there's no need for additional tools
+    NEEDS_CUT_HARVESTING,   // There is a plant there which needs a grass-cutting tool to harvest
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
@@ -78,6 +80,7 @@ enum class do_activity_reason : int {
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
     NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
+    NEEDS_CRAFT,             // There is at least one item to craft.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
 };
@@ -88,10 +91,10 @@ struct activity_reason_info {
     //is it possible to do this
     bool can_do;
     //construction index
-    cata::optional<construction_id> con_idx;
+    std::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const std::optional<construction_id> &con_idx_ = std::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )
@@ -176,9 +179,11 @@ void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
+void multiple_craft_do_turn( player_activity *act, Character *you );
 void multiple_dis_do_turn( player_activity *act, Character *you );
 void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
+void multiple_read_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
@@ -233,7 +238,6 @@ void wait_finish( player_activity *act, Character *you );
 void wait_npc_finish( player_activity *act, Character *you );
 void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
-void washing_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,

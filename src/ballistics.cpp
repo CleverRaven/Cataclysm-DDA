@@ -6,6 +6,7 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -21,11 +22,11 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
@@ -113,10 +114,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
+        // FIXME: Hardcoded damage types
         embed = embed &&
-                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( damage_type::STAB ) >
-                attack.dealt_dam.type_damage( damage_type::BASH ) +
+                ( attack.dealt_dam.type_damage( STATIC( damage_type_id( "cut" ) ) ) / 2 ) +
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "stab" ) ) ) >
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "bash" ) ) ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 
@@ -293,12 +295,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                      sfx::get_heard_angle( target ) );
         }
         // TODO: Z dispersion
-        // If we missed, just draw a straight line.
-        trajectory = line_to( source, target );
-    } else {
-        // Go around obstacles a little if we're on target.
-        trajectory = here.find_clear_path( source, target );
     }
+
+    //Use find clear path to draw the trajectory with optimal initial tile offsets.
+    trajectory = here.find_clear_path( source, target );
 
     add_msg_debug( debugmode::DF_BALLISTIC,
                    "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
@@ -353,7 +353,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.
-            if( here.has_floor( floor1 ) && here.has_floor( floor2 ) ) {
+            if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
                 // Currently strictly no shooting through floor
                 // TODO: Bash the floor
                 tp = prev_point;
@@ -452,6 +452,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
+                // on-hit effects for inflicted damage types
+                for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
+                    dt.first->onhit_effects( origin, attack.hit_critter );
+                }
             } else {
                 attack.missed_by = aim.missed_by;
             }

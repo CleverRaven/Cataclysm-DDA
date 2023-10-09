@@ -48,7 +48,6 @@ static void temperature_and_sweat_check( Character *p, const int ambient_temp,
 
     weather.temperature = units::from_fahrenheit( ambient_temp );
 
-
     for( int i = 0; i < 1000; i++ ) {
         p->process_effects();
         p->update_bodytemp();
@@ -79,7 +78,7 @@ static void test_temperature_spread( Character *p, const std::array<int, 7> &amb
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING );
 }
 
-TEST_CASE( "player body temperatures converge on expected values.", "[.bodytemp]" )
+TEST_CASE( "player_body_temperatures_converge_on_expected_values", "[.bodytemp]" )
 {
 
     Character &dummy = get_player_character();
@@ -163,25 +162,23 @@ TEST_CASE( "sweating", "[char][suffer][.bodytemp]" )
 
     GIVEN( "avatar wears outfit and sweats for an hour" ) {
         WHEN( "wearing fur" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( fur_jumper, false );
 
             temperature_and_sweat_check( &dummy, 100, 8100 );
         }
         WHEN( "wearing cotton" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( cotton_jumper, false );
 
             temperature_and_sweat_check( &dummy, 100, 7900 );
         }
         WHEN( "wearing lycra" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( lycra_jumper, false );
 
             temperature_and_sweat_check( &dummy, 100, 7000 );
         }
-
-
 
     }
 }

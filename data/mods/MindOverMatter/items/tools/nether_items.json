@@ -1,0 +1,18 @@
+[
+  {
+    "type": "TOOL",
+    "id": "chaos_stone",
+    "name": { "str_sp": "compressed chaos" },
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like chaos in solid form.",
+      "effect_on_conditions": [ "EOC_CAUSE_PORTAL_STORM" ]
+    },
+    "volume": "250 ml",
+    "weight": "10 g",
+    "symbol": "@",
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the electric tingle in the air before a portal storm.",
+    "flags": [ "SINGLE_USE" ]
+  }
+]

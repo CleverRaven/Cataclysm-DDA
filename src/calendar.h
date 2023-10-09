@@ -3,9 +3,11 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
+#include <climits>
 
 #include "units_fwd.h"
 
@@ -16,13 +18,6 @@ struct rl_vec2d;
 class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 
 /** Real world seasons */
 enum season_type {
@@ -545,6 +540,11 @@ constexpr time_point before_time_starts = time_point::from_turn( -1 );
 
 constexpr time_point turn_zero = time_point::from_turn( 0 );
 
+/**
+ * Largest possible time point. About 69 years after turn_zero
+ */
+constexpr time_point turn_max = time_point::from_turn( INT_MAX );
+
 } // namespace calendar
 
 inline time_duration time_past_midnight( const time_point &p )
@@ -633,7 +633,7 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 /** Returns the offset by which a ray of sunlight would move when shifting down
  * one z-level, or nullopt if the sun is below the horizon.
  */
-cata::optional<rl_vec2d> sunlight_angle( const time_point & );
+std::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,

@@ -62,6 +62,7 @@
     "id": "lab_upstairs_palette",
     "terrain": {
       ".": "t_open_air",
+      "'": "t_open_air_rooved",
       "#": "t_brick_wall",
       "|": "t_strconc_wall",
       " ": "t_strconc_floor",

@@ -320,7 +320,13 @@
       { "trait": "long_over_eye", "variant": "green", "prob": 10 },
       { "trait": "messy", "variant": "green", "prob": 13 },
       { "trait": "short_over_eye", "variant": "green", "prob": 10 },
-      { "trait": "short_no_fringe", "variant": "green", "prob": 15 }
+      { "trait": "short_no_fringe", "variant": "green", "prob": 15 },
+      { "trait": "crewcut", "variant": "green", "prob": 25 },
+      { "trait": "mohawk", "variant": "green", "prob": 1 },
+      { "trait": "fro", "variant": "green", "prob": 1 },
+      { "trait": "medium", "variant": "green", "prob": 25 },
+      { "trait": "long", "variant": "green", "prob": 13 },
+      { "trait": "short", "variant": "green", "prob": 35 }
     ]
   },
   {
@@ -333,7 +339,13 @@
       { "trait": "long_over_eye", "variant": "blue", "prob": 10 },
       { "trait": "messy", "variant": "blue", "prob": 13 },
       { "trait": "short_over_eye", "variant": "blue", "prob": 10 },
-      { "trait": "short_no_fringe", "variant": "blue", "prob": 15 }
+      { "trait": "short_no_fringe", "variant": "blue", "prob": 15 },
+      { "trait": "crewcut", "variant": "blue", "prob": 25 },
+      { "trait": "mohawk", "variant": "blue", "prob": 1 },
+      { "trait": "fro", "variant": "blue", "prob": 1 },
+      { "trait": "medium", "variant": "blue", "prob": 25 },
+      { "trait": "long", "variant": "blue", "prob": 13 },
+      { "trait": "short", "variant": "blue", "prob": 35 }
     ]
   },
   {
@@ -346,7 +358,13 @@
       { "trait": "long_over_eye", "variant": "purple", "prob": 10 },
       { "trait": "messy", "variant": "purple", "prob": 13 },
       { "trait": "short_over_eye", "variant": "purple", "prob": 10 },
-      { "trait": "short_no_fringe", "variant": "purple", "prob": 15 }
+      { "trait": "short_no_fringe", "variant": "purple", "prob": 15 },
+      { "trait": "crewcut", "variant": "purple", "prob": 25 },
+      { "trait": "mohawk", "variant": "purple", "prob": 1 },
+      { "trait": "fro", "variant": "purple", "prob": 1 },
+      { "trait": "medium", "variant": "purple", "prob": 25 },
+      { "trait": "long", "variant": "purple", "prob": 13 },
+      { "trait": "short", "variant": "purple", "prob": 35 }
     ]
   },
   {
@@ -359,7 +377,13 @@
       { "trait": "long_over_eye", "variant": "pink", "prob": 10 },
       { "trait": "messy", "variant": "pink", "prob": 13 },
       { "trait": "short_over_eye", "variant": "pink", "prob": 10 },
-      { "trait": "short_no_fringe", "variant": "pink", "prob": 15 }
+      { "trait": "short_no_fringe", "variant": "pink", "prob": 15 },
+      { "trait": "crewcut", "variant": "pink", "prob": 25 },
+      { "trait": "mohawk", "variant": "pink", "prob": 1 },
+      { "trait": "fro", "variant": "pink", "prob": 1 },
+      { "trait": "medium", "variant": "pink", "prob": 25 },
+      { "trait": "long", "variant": "pink", "prob": 13 },
+      { "trait": "short", "variant": "pink", "prob": 35 }
     ]
   }
 ]

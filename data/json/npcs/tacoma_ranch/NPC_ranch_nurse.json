@@ -145,7 +145,7 @@
               "faction": "tacoma_commune"
             }
           ],
-          "place_item": [ { "item": "bandages", "x": 17, "y": 7, "amount": [ 1, 3 ], "faction": "tacoma_commune" } ]
+          "place_item": [ { "item": "bandages", "x": 17, "y": 7, "amount": [ 3, 9 ], "faction": "tacoma_commune" } ]
         }
       ]
     }

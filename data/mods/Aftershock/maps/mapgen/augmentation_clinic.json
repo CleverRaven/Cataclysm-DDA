@@ -33,8 +33,15 @@
         "                        "
       ],
       "palettes": [ "aug_clinic" ],
-      "terrain": { "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk", "E": "t_machinery_electronic" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "T": "f_table", "n": "f_trashcan", "B": "f_monomolecularsaw" },
+      "terrain": { "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk" },
+      "furniture": {
+        "?": "f_autodoc",
+        "/": "f_autodoc_couch",
+        "T": "f_table",
+        "n": "f_trashcan",
+        "E": "f_machinery_electronic",
+        "B": "f_monomolecularsaw"
+      },
       "items": {
         "c": { "item": "dissection", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "office", "chance": 60 },

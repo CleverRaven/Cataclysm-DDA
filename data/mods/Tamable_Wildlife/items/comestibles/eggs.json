@@ -46,5 +46,13 @@
     "copy-from": "egg_water_bug",
     "description": "The egg of a water scorpion.  This one has been carefully tended for.  The water scorpion inside seems more timid and calmer upon touch.",
     "rot_spawn": "GROUP_EGG_WATER_BUG_TAME"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_centipede_tame",
+    "name": { "str": "tame centipede egg" },
+    "copy-from": "egg_centipede",
+    "description": "The egg of a centipede.  This one has been carefully tended for.  The centipede larva inside seems more timid and calmer upon touch.",
+    "rot_spawn": "GROUP_EGG_CENTIPEDE_TAME"
   }
 ]

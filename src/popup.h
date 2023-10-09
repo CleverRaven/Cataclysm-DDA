@@ -249,7 +249,7 @@ class query_popup
         void init() const;
 
         template <typename ...Args>
-        static void assert_format( const std::string &, Args &&... ) {
+        static void assert_format( const std::string_view, Args &&... ) {
             static_assert( sizeof...( Args ) > 0,
                            "Format string should take at least one argument.  "
                            "If your message is not a format string, "

@@ -115,6 +115,13 @@ const std::vector<const trap *> &trap::get_funnels()
     return funnel_traps;
 }
 
+static std::vector<const trap *> sound_triggered_traps;
+
+const std::vector<const trap *> &trap::get_sound_triggered_traps()
+{
+    return sound_triggered_traps;
+}
+
 size_t trap::count()
 {
     return trap_factory.size();
@@ -125,7 +132,7 @@ void trap::load_trap( const JsonObject &jo, const std::string &src )
     trap_factory.load( jo, src );
 }
 
-void trap::load( const JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -164,6 +171,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
+    optional( jo, was_loaded, "sound_threshold", sound_threshold );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         itype_id item_type;
         int quantity = 0;
@@ -179,7 +187,7 @@ void trap::load( const JsonObject &jo, const std::string & )
             charges = 1;
         }
         if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
-            components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
+            components.emplace_back( item_type, quantity, charges );
         }
     }
     if( jo.has_object( "vehicle_data" ) ) {
@@ -226,6 +234,7 @@ update_mapgen_id trap::map_regen_target() const
 void trap::reset()
 {
     funnel_traps.clear();
+    sound_triggered_traps.clear();
     trap_factory.reset();
 }
 
@@ -250,7 +259,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // Obviously it rapidly gets better as your skills improve.
 
     // Devices skill is helpful for spotting traps
-    const int traps_skill_level = p.get_skill_level( skill_traps );
+    const float traps_skill_level = p.get_skill_level( skill_traps );
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.
@@ -307,6 +316,14 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
+void trap::trigger( const tripoint &pos ) const
+{
+    if( is_null() ) {
+        return;
+    }
+    act( pos, nullptr, nullptr );
+}
+
 void trap::trigger( const tripoint &pos, Creature &creature ) const
 {
     return trigger( pos, &creature, nullptr );
@@ -346,6 +363,17 @@ bool trap::triggered_by_item( const item &itm ) const
 bool trap::is_funnel() const
 {
     return !is_null() && funnel_radius_mm > 0;
+}
+
+bool trap::has_sound_trigger() const
+{
+    return !is_null() && sound_threshold > 0;
+}
+
+bool trap::triggered_by_sound( int vol, int dist ) const
+{
+    const int volume = vol - dist;
+    return !is_null() && volume >= sound_threshold;
 }
 
 void trap::on_disarmed( map &m, const tripoint &p ) const
@@ -395,6 +423,9 @@ void trap::finalize()
         t.loadid = t.id.id();
         if( t.is_funnel() ) {
             funnel_traps.push_back( &t );
+        }
+        if( t.has_sound_trigger() ) {
+            sound_triggered_traps.push_back( &t );
         }
     }
 

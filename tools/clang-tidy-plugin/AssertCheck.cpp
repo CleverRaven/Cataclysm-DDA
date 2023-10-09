@@ -8,11 +8,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 class AssertMacroCallbacks : public PPCallbacks
@@ -97,6 +93,4 @@ void AssertCheck::check( const MatchFinder::MatchResult &Result )
     diag( loc, "Prefer cata_fatal to abort()." );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

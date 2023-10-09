@@ -2,7 +2,7 @@
   {
     "result": "burnt_out_bionic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "time": "10 m",

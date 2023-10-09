@@ -1209,7 +1209,7 @@
         "***R_______b_b_b_b_b_b_RR_b_b_b_b_b_b_______R***"
       ],
       "palettes": [ "stadium_palette" ],
-      "terrain": { "*": "t_open_air", "1": "t_concrete", "2": "t_concrete" },
+      "terrain": { "*": "t_open_air", "1": "t_concrete", "2": "t_concrete", ">": "t_stairs_down_no_roof" },
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 3, 23 ], "y": [ 0, 23 ], "density": 0.2 },
         { "monster": "GROUP_HOUSE", "x": [ 3, 23 ], "y": [ 24, 47 ], "density": 0.2 },
@@ -1381,7 +1381,7 @@
         "**********RRRRR****************************RRRRR************************RRRRR****************************RRRRR**********"
       ],
       "palettes": [ "stadium_palette" ],
-      "terrain": { "*": "t_open_air", "H": "t_thconc_floor", ")": "t_thconc_floor" },
+      "terrain": { "*": "t_open_air", "H": "t_thconc_floor", ")": "t_thconc_floor", ">": "t_stairs_down_no_roof" },
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 7, 23 ], "y": [ 3, 19 ], "density": 0.2 },
         { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 3, 19 ], "density": 0.2 },

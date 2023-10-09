@@ -22,7 +22,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 2,
     "starting_ammo": { "9mm": 30 },
     "special_attacks": [
       {
@@ -55,7 +54,8 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "reproduction": { "baby_monster": "mon_uplifted_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_uplifted_bear_cub",
@@ -136,7 +136,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 2,
     "starting_ammo": { "9mm": 30 },
     "special_attacks": [
       {
@@ -169,7 +168,8 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "reproduction": { "baby_monster": "mon_uplifted_octopus_spawn", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_uplifted_octopus_spawn",

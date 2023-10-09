@@ -1,0 +1,46 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "standing_teleport_stones",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          S,S           ",
+        "        S,,,,,S         ",
+        "      S,,,S,S,,,S       ",
+        "      ,,,,,,,,,,,       ",
+        "     S,,,S,,,S,,,S      ",
+        "     ,,,,,,S,,,,,,      ",
+        "    S,,,S,mmm,S,,,S     ",
+        "     ,,,,,mAm,,,,,      ",
+        "    S,,,S,mmm,S,,,S     ",
+        "     ,,,,,,S,,,,,,      ",
+        "     S,,,S,,,S,,,S      ",
+        "      ,,,,,,,,,,,       ",
+        "      S,,,S,S,,,S       ",
+        "        S,,,,,S         ",
+        "          S,S           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_dirt", 25 ] ],
+        "S": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_dirt", 25 ] ],
+        "m": [ [ "t_moss", 100 ] ],
+        "A": [ [ "t_moss", 100 ] ],
+        " ": "t_null"
+      },
+      "furniture": { "S": [ [ "f_myst_standing_stone", 65 ], [ "f_rubble_rock", 35 ] ], "A": "f_teleport_altar" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

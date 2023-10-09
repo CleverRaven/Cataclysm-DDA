@@ -349,14 +349,14 @@
         "                                                "
       ],
       "palettes": [ "cathedral" ],
-      "terrain": { " ": "t_open_air" }
-    },
-    "place_monsters": [
-      { "monster": "GROUP_ALL_BATS", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 },
-      { "monster": "GROUP_ALL_BATS", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.1 },
-      { "monster": "GROUP_ALL_BATS", "x": [ 0, 17 ], "y": [ 24, 47 ], "density": 0.1 },
-      { "monster": "GROUP_ALL_BATS", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.2 }
-    ]
+      "terrain": { " ": "t_open_air" },
+      "place_monsters": [
+        { "monster": "GROUP_ALL_BATS", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 },
+        { "monster": "GROUP_ALL_BATS", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.1 },
+        { "monster": "GROUP_ALL_BATS", "x": [ 0, 17 ], "y": [ 24, 47 ], "density": 0.1 },
+        { "monster": "GROUP_ALL_BATS", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.2 }
+      ]
+    }
   },
   {
     "type": "mapgen",

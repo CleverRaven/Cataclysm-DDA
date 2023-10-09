@@ -9,8 +9,7 @@
     "volume": "1750 ml",
     "price": 8200,
     "price_postapoc": 750,
-    "bashing": 5,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "electronics",
@@ -18,7 +17,8 @@
     "max_level": 5,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "arduino_experiments",
@@ -30,7 +30,6 @@
     "volume": "1750 ml",
     "price": 8200,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -39,7 +38,8 @@
     "max_level": 4,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "mag_electronics",
@@ -88,7 +88,7 @@
     "volume": "800 ml",
     "price": 2200,
     "price_postapoc": 250,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",
     "intelligence": 8,
@@ -105,7 +105,6 @@
     "volume": "1750 ml",
     "price": 3300,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -114,7 +113,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "recipe_atomic_battery",
@@ -140,7 +140,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
-    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
+    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on prosthetics, though they tend to use too much jargon.",
     "weight": "1909 g",
     "volume": "500 ml",
     "price": 3000,
@@ -165,7 +165,7 @@
     "volume": "500 ml",
     "price": 56000,
     "price_postapoc": 2000,
-    "material": [ "paper" ],
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
     "skill": "electronics",
@@ -185,7 +185,7 @@
     "volume": "500 ml",
     "price": 74000,
     "price_postapoc": 2500,
-    "material": [ "paper" ],
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
     "color": "light_green",
@@ -206,7 +206,6 @@
     "volume": "250 ml",
     "price": 5000,
     "price_postapoc": 1000,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -214,7 +213,8 @@
     "required_level": 2,
     "intelligence": 10,
     "time": "20 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "textbook_electronics",
@@ -226,8 +226,7 @@
     "volume": "1750 ml",
     "price": 9300,
     "price_postapoc": 2000,
-    "bashing": 5,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "electronics",
@@ -235,7 +234,8 @@
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "textbook_robots",
@@ -247,8 +247,7 @@
     "volume": "2 L",
     "price": 9200,
     "price_postapoc": 750,
-    "bashing": 8,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "electronics",
@@ -256,7 +255,8 @@
     "max_level": 10,
     "intelligence": 12,
     "time": "55 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "robofac_yrax_deactivation_manual",
@@ -268,7 +268,7 @@
     "volume": "500 ml",
     "price": 84000,
     "price_postapoc": 2500,
-    "material": [ "paper" ],
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
     "skill": "electronics",
@@ -303,7 +303,6 @@
     "category": "manuals",
     "name": { "str_sp": "schematics" },
     "description": "seeing this is a bug",
-    "looks_like": "schematics_eyebot",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 100000,
@@ -333,20 +332,6 @@
     "copy-from": "schematics_generic"
   },
   {
-    "id": "schematics_copbot",
-    "type": "BOOK",
-    "name": { "str_sp": "police bot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_eyebot",
-    "type": "BOOK",
-    "name": { "str_sp": "eyebot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
     "id": "schematics_secubot",
     "type": "BOOK",
     "name": { "str_sp": "security bot schematics" },
@@ -372,13 +357,6 @@
     "type": "BOOK",
     "name": { "str_sp": "miner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the miner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_riotbot",
-    "type": "BOOK",
-    "name": { "str_sp": "riot control bot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {

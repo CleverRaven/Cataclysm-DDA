@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "flat_set.h"
 #include "magic.h"
 #include "translations.h"
 #include "type_id.h"
@@ -64,6 +65,7 @@ bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
 bool cast_spell( const tripoint &p, Creature *critter, item * );
+bool sound_detect( const tripoint &p, Creature *, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -138,11 +140,11 @@ struct trap {
         trap_function act;
         translation name_;
 
-        cata::optional<translation> memorial_male;
-        cata::optional<translation> memorial_female;
+        std::optional<translation> memorial_male;
+        std::optional<translation> memorial_female;
 
-        cata::optional<translation> trigger_message_u;
-        cata::optional<translation> trigger_message_npc;
+        std::optional<translation> trigger_message_u;
+        std::optional<translation> trigger_message_npc;
 
         cata::flat_set<flag_id> _flags;
 
@@ -150,6 +152,10 @@ struct trap {
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
         units::mass trigger_weight = 500_gram;
+        /**
+         * If a sound of at least this volume reaches the trap, it triggers.
+         */
+        int sound_threshold = 0;
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -283,6 +289,8 @@ struct trap {
         void trigger( const tripoint &pos, item &item ) const;
         /*@}*/
 
+        void trigger( const tripoint &pos ) const;
+
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
@@ -307,7 +315,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         std::string debug_describe() const;
 
@@ -329,6 +337,13 @@ struct trap {
          */
         static const std::vector<const trap *> &get_funnels();
         /*@}*/
+
+        /*
+         * Can the trap be triggered by sounds?
+         */
+        bool has_sound_trigger() const;
+        static const std::vector<const trap *> &get_sound_triggered_traps();
+        bool triggered_by_sound( int vol, int dist ) const;
 
         /*@{*/
         /**

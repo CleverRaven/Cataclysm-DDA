@@ -46,6 +46,7 @@
     "description": "Blood that is filled to the brim with arcane energy.  It releases a faint blue glow.",
     "weight": "265 g",
     "volume": "250 ml",
+    "charges": 1,
     "price": 0,
     "symbol": "~",
     "color": "light_blue",

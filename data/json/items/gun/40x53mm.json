@@ -12,7 +12,6 @@
     "price": 1650000,
     "price_postapoc": 5000,
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "steel" ],
     "ammo": [ "40x53mm" ],
     "range": 30,
@@ -22,7 +21,6 @@
     "min_cycle_recoil": 16875,
     "reload": 400,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "sights", 1 ],
@@ -33,6 +31,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 2, "NPC_AVOID" ] ],
     "flags": [ "MOUNTED_GUN" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt40mm" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt40mm" ] } ],
+    "melee_damage": { "bash": 14 }
   }
 ]

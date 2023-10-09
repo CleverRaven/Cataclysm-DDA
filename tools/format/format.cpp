@@ -126,14 +126,6 @@ void formatter::format( TextJsonIn &jsin, JsonOut &jsout, int depth, bool force_
         jsin.skip_null();
         jsout.write_null();
     } else {
-        std::cerr << "Encountered unrecognized TextJson element \"";
-        const int start_pos = jsin.tell();
-        jsin.skip_value();
-        const int end_pos = jsin.tell();
-        for( int i = start_pos; i < end_pos; ++i ) {
-            jsin.seek( i );
-            std::cerr << jsin.peek();
-        }
-        std::cerr << "\"" << std::endl;
+        jsin.skip_value(); // this will throw exception with the invalid element
     }
 }

@@ -123,7 +123,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Caused a resonance cascade." );
 
     check_memorial<event_type::character_gains_effect>(
-        m, b, "Caught on fire.", ch, eff );
+        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff );
 
     check_memorial<event_type::character_kills_character>(
         m, b, "Killed an innocent person, victim_name, in cold blood and felt terrible "
@@ -219,13 +219,13 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::gains_skill_level>(
         m, b, "Reached skill level 8 in vehicles.", ch, skill_driving, 8 );
 
-    check_memorial<event_type::game_over>(
-        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
-        std::chrono::seconds( 100 ) );
+    check_memorial<event_type::game_avatar_death>(
+        m, b, u_name + " was killed.\nLast words: last_words", ch, u_name, player_character.male, false,
+        "last_words" );
 
-    check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
-        player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
+    check_memorial<event_type::game_avatar_new>(
+        m, b, u_name + " began their journey into the Cataclysm.", true, false, ch, u_name,
+        player_character.male, player_character.prof->ident(), player_character.custom_profession );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );

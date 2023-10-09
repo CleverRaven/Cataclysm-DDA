@@ -57,6 +57,7 @@
       { "monster": "mon_turkey", "weight": 10 },
       { "monster": "mon_raccoon", "weight": 10 },
       { "monster": "mon_opossum", "weight": 10 },
+      { "monster": "mon_ferret", "weight": 5 },
       { "monster": "mon_sewer_rat", "weight": 10 },
       { "monster": "mon_black_rat", "weight": 10 },
       { "monster": "mon_rattlesnake", "weight": 10 },

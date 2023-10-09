@@ -656,6 +656,11 @@ void catacurses::init_interface()
     initialized = true;
 }
 
+bool catacurses::supports_256_colors()
+{
+    return COLORS >= 256;
+}
+
 // A very accurate and responsive timer (NEVER use GetTickCount)
 static uint64_t GetPerfCount()
 {
@@ -746,11 +751,11 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
         bool center_cursor ) const
 {
     // TODO: implement this properly
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 // Ends the terminal, destroy everything

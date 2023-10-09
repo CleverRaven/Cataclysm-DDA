@@ -12,7 +12,7 @@
 class JsonObject;
 
 struct construction_category {
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         construction_category_id id;
         std::vector<std::pair<construction_category_id, mod_id>> src;

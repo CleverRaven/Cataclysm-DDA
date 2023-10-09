@@ -34,7 +34,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter",
     "object": {
       "fill_ter": "t_floor",
@@ -71,7 +70,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "shelter_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -83,41 +81,30 @@
         "                        ",
         "                        ",
         "                        ",
-        "    4444444444444444    ",
-        "    |............#.3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |.:............3    ",
-        "    |...........&..3    ",
-        "    |>.............3    ",
-        "    |--------------5    "
+        "    ----------------    ",
+        "    -............M.-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -.Я............-    ",
+        "    -...........&..-    ",
+        "    -v.............-    ",
+        "    ---------------5    "
       ],
-      "terrain": {
-        ",": "t_flat_roof",
-        " ": "t_open_air",
-        "-": "t_gutter_south",
-        "|": "t_gutter_west",
-        "3": "t_gutter_east",
-        "4": "t_gutter_north",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" },
+      "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 9, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "shelter_1", "shelter_1b" ],
     "object": {
       "fill_ter": "t_floor",
@@ -154,7 +141,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "shelter_roof_1", "shelter_roof_1b" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -165,42 +151,31 @@
         "                        ",
         "                        ",
         "                        ",
-        "       4444444444       ",
-        "       |........3       ",
-        "    |44|........3       ",
-        "    |...........3443    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |........:.....3    ",
-        "    |.........>....3    ",
-        "    |..............3    ",
-        "    |.......&......3    ",
-        "    |..............3    ",
-        "    |..............3    ",
-        "    |............#.5    ",
-        "    |--------------3    "
+        "       ----------       ",
+        "       -........-       ",
+        "    ----........-       ",
+        "    -...........----    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -........Я.....-    ",
+        "    -.........v....-    ",
+        "    -..............-    ",
+        "    -.......&......-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -............M.5    ",
+        "    ----------------    "
       ],
-      "terrain": {
-        ",": "t_flat_roof",
-        " ": "t_open_air",
-        "-": "t_gutter_south",
-        "|": "t_gutter_west",
-        "3": "t_gutter_east",
-        "4": "t_gutter_north",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" },
+      "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 11, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_2",
     "object": {
       "fill_ter": "t_floor",
@@ -237,7 +212,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "shelter_roof_2" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -247,43 +221,32 @@
         "                        ",
         "                        ",
         "                        ",
-        "           4444444443   ",
-        "   |4444444|........3   ",
-        "   |>.....#.........3   ",
-        "   |................3   ",
-        "  ||................33  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..............:...3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |.....&............3  ",
-        "  |..................3  ",
-        "  ||................33  ",
-        "   |................5   ",
-        "   |--------|.......3   ",
-        "            |-------3   "
+        "           ----------   ",
+        "   ---------........-   ",
+        "   -v.....M.........-   ",
+        "   -................-   ",
+        "  --................--  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..............Я...-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -.....&............-  ",
+        "  -..................-  ",
+        "  --................--  ",
+        "   -................5   ",
+        "   ----------.......-   ",
+        "            ---------   "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "-": "t_gutter_south",
-        "|": "t_gutter_west",
-        "3": "t_gutter_east",
-        "4": "t_gutter_north",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" },
+      "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 8, 15 ], "y": [ 7, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_vandal",
     "object": {
       "fill_ter": "t_floor",
@@ -319,7 +282,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "shelter_1_vandal", "shelter_1b_vandal" ],
     "object": {
       "fill_ter": "t_floor",
@@ -355,7 +317,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_2_vandal",
     "object": {
       "fill_ter": "t_floor",
@@ -391,7 +352,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "shelter_survivor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -427,7 +387,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "shelter_1_survivor", "shelter_1b_survivor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -463,7 +422,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "shelter_2_survivor" ],
     "object": {
       "fill_ter": "t_floor",
@@ -499,7 +457,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "//": "Unfinished before the Cataclysm.",
     "om_terrain": "shelter_unfinished",
     "object": {
@@ -536,7 +493,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "//": "Unfinished before the Cataclysm.",
     "om_terrain": [ "shelter_1_unfinished", "shelter_1b_unfinished" ],
     "object": {
@@ -573,7 +529,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "//": "Unfinished before the Cataclysm.",
     "om_terrain": [ "shelter_2_unfinished" ],
     "object": {
@@ -610,8 +565,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
-    "//": "Infested spawn for Compromised Shelter scenario. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
+    "//": "Infested spawn for Compromised Shelter scenario.",
     "om_terrain": [ "shelter_infested" ],
     "object": {
       "fill_ter": "t_floor",
@@ -642,14 +596,13 @@
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter_infested" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ]
+      "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 8 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
-    "//": "Infested spawn for Compromised Shelter scenario. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
+    "//": "Infested spawn for Compromised Shelter scenario.",
     "om_terrain": [ "shelter_1_infested", "shelter_1b_infested" ],
     "object": {
       "fill_ter": "t_floor",
@@ -680,14 +633,13 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter_infested" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ]
+      "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 8 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
-    "//": "Infested spawn for Compromised Shelter scenario. Spawns are a bit sporadic, but usually give at least 1 running enemy and ~4-7 others at 0.6 density.",
+    "//": "Infested spawn for Compromised Shelter scenario.",
     "om_terrain": [ "shelter_2_infested" ],
     "object": {
       "fill_ter": "t_floor",
@@ -718,13 +670,12 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter_infested" ],
-      "place_monsters": [ { "monster": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "density": 0.6 } ]
+      "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 8 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -760,7 +711,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -797,7 +747,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -833,7 +782,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_infested",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -869,7 +817,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1b",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -905,7 +852,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1b_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -942,7 +888,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1b_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -978,7 +923,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1b_infested",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1014,7 +958,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_2",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1050,7 +993,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_2_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1087,7 +1029,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_2_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1123,7 +1064,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_2_infested",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1159,7 +1099,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1195,7 +1134,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1_vandal",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1232,7 +1170,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1_unfinished",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -1268,7 +1205,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": "shelter_under_1_infested",
     "object": {
       "fill_ter": "t_linoleum_white",

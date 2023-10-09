@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-static-initialization-order %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-static-initialization-order %t -- --load=%cata_plugin --
 
 extern const int i0;
 extern const int i0b;

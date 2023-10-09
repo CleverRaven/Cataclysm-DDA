@@ -1,3 +1,5 @@
+/* Modified by the Cataclysm: Dark Days Ahead project. */
+
 /*
  * Copyright 2017 Google Inc. All rights reserved.
  *
@@ -467,7 +469,6 @@ FLATBUFFERS_CONSTEXPR_CPP11 bool operator==(const Optional<T>& lhs, const Option
               : !static_cast<bool>(lhs) ? false : (*lhs == *rhs);
 }
 #endif // FLATBUFFERS_USE_STD_OPTIONAL
-
 
 // Very limited and naive partial implementation of C++20 std::span<T,Extent>.
 #if defined(FLATBUFFERS_USE_STD_SPAN)

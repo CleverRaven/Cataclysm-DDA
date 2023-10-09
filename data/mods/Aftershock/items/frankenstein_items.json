@@ -8,7 +8,6 @@
     "volume": "62 L",
     "price": 600000,
     "to_hit": -3,
-    "bashing": 8,
     "material": "flesh",
     "symbol": ";",
     "color": "green",
@@ -18,6 +17,7 @@
       "summon_msg": "It's alive!",
       "place_randomly": false,
       "moves": 50
-    }
+    },
+    "melee_damage": { "bash": 8 }
   }
 ]

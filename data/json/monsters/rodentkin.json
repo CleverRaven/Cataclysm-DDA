@@ -123,9 +123,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 6,
-    "armor_bullet": 2,
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
@@ -143,7 +140,8 @@
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
-    "dissect": "dissect_rat_sample_small"
+    "dissect": "dissect_rat_sample_small",
+    "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
   {
     "id": "mon_pack_rat",
@@ -164,9 +162,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 6,
-    "armor_bullet": 2,
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED", "STALK" ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_pack_rat",
@@ -183,7 +178,8 @@
       }
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
+    "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
   {
     "id": "mon_teke_mouse",
@@ -207,16 +203,14 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
-    "armor_bash": 15,
-    "armor_cut": 3,
-    "armor_bullet": 26,
     "death_drops": "ratkin_death_drops_teke",
     "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" } ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 15, "cut": 3, "bullet": 26 }
   },
   {
     "id": "mon_mausketeer",
@@ -240,14 +234,12 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 6,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
     "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ],
-    "dissect": "dissect_rat_sample_small"
+    "dissect": "dissect_rat_sample_small",
+    "armor": { "bash": 10, "cut": 10, "bullet": 6 }
   }
 ]

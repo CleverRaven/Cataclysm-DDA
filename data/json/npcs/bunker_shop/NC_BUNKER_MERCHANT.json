@@ -58,27 +58,27 @@
     "type": "item_group",
     "id": "NC_BUNKER_MERCHANT_sell",
     "items": [
-      { "group": "book_military", "prob": 70, "repeat": [ 1, 4 ] },
-      { "group": "guns_milspec", "prob": 70, "repeat": [ 1, 4 ] },
-      { "group": "mil_armor", "prob": 70, "repeat": [ 1, 4 ] },
-      { "group": "mil_food_nodrugs", "prob": 80, "repeat": [ 1, 4 ] },
-      { "group": "ammo_rifle_milspec", "prob": 80, "repeat": [ 1, 4 ] },
-      { "group": "camping", "prob": 90, "repeat": [ 1, 4 ] }
+      { "group": "book_military", "prob": 70 },
+      { "group": "guns_milspec", "prob": 70 },
+      { "group": "mil_armor", "prob": 70 },
+      { "group": "mil_food_nodrugs", "prob": 80 },
+      { "group": "ammo_rifle_milspec", "prob": 80 },
+      { "group": "camping", "prob": 90 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_BUNKER_MERCHANT_misc",
     "items": [
-      { "group": "ammo_reloaded", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "everyday_gear", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "guns_survival", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "tools_survival", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "supplies_electronics", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "clothing_outdoor_torso", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "clothing_outdoor_pants", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "clothing_outdoor_shoes", "prob": 100, "repeat": [ 1, 4 ] },
-      { "group": "drugs_soldier", "prob": 100, "repeat": [ 1, 4 ] }
+      { "group": "ammo_reloaded", "prob": 100 },
+      { "group": "everyday_gear", "prob": 100 },
+      { "group": "guns_survival", "prob": 100 },
+      { "group": "tools_survival", "prob": 100 },
+      { "group": "supplies_electronics", "prob": 100 },
+      { "group": "clothing_outdoor_torso", "prob": 100 },
+      { "group": "clothing_outdoor_pants", "prob": 100 },
+      { "group": "clothing_outdoor_shoes", "prob": 100 },
+      { "group": "drugs_soldier", "prob": 100 }
     ]
   }
 ]

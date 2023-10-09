@@ -1,0 +1,170 @@
+[
+  {
+    "id": [
+      "TALK_GODCO_Zachary_Intro_2",
+      "TALK_GODCO_Zachary_Story0",
+      "TALK_GODCO_Zachary_Feeling",
+      "TALK_GODCO_Zachary_Result_rewardIcon",
+      "TALK_GODCO_Zachary_Result_rewardRation",
+      "TALK_GODCO_Zachary_Godco",
+      "TALK_GODCO_Zachary_Intro",
+      "TALK_GODCO_Zachary_Background"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Zachary_Story0" },
+      { "text": "Why don't you blow this joint and come with me?", "topic": "TALK_GODCO_Zachary_Follow" },
+      { "text": "How are things around here?", "topic": "TALK_GODCO_Zachary_Feeling" },
+      { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Zachary_Godco" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary",
+    "type": "talk_topic",
+    "dynamic_line": "I got my rights to be here, chum.  Squatter's rights!",
+    "responses": [
+      {
+        "text": "Don't worry, I'm not going to hurt you.",
+        "effect": { "npc_add_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Zachary_Intro"
+      },
+      {
+        "text": "Hey, good to see you're still around.",
+        "condition": { "npc_has_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Zachary_Intro_2"
+      },
+      { "text": "…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Intro",
+    "type": "talk_topic",
+    "dynamic_line": "I got here first, therefore this place belongs to me.  Them's the rules in the <the_cataclysm>.",
+    "responses": [ { "text": "Now that's an archaic belief.  I'll see you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Intro_2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
+      "yes": "I ain't leaving, <name_g>.  Not until you or someone else has checked out that nightmare for me.",
+      "no": {
+        "u_has_var": "zachary_willing_to_follow",
+        "type": "mission",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Thanks, <name_g>.  I sure owe you one.",
+        "no": "I ain't leaving, <name_g>.  Not until that eldritch screeching nightmare is dead 'n buried."
+      }
+    },
+    "responses": [
+      {
+        "text": "What nightmare?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" } },
+            {
+              "not": { "u_has_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_GODCO_Zachary_Nightmare"
+      },
+      { "text": "I'll see you around then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Story0",
+    "type": "talk_topic",
+    "dynamic_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <swear> nuisance.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Zachary_Background" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Background",
+    "type": "talk_topic",
+    "dynamic_line": "Who I was is gone, dead… died when I put down the monsters wearing the face of my friends.  Ever since then, I've felt nothing but disgust for myself.  Let's not <swear> reminisce.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Godco",
+    "type": "talk_topic",
+    "dynamic_line": "They are nice people, lettin' us stay here 'n all.  I got friends here, and while we may not be members we belong here.  We'll fight together if they ever try to kick us out.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Feeling",
+    "type": "talk_topic",
+    "dynamic_line": "It ain't so bad.  I got shelter, heat, and people to defend me if any <zombie> shuffles its way in here.  If I want to eat then I'll be doin' construction work all day.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Result_rewardRation",
+    "type": "talk_topic",
+    "dynamic_line": "Food is just the thing a starving man needs.  Thanks for the help, <name_g>.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Result_rewardIcon",
+    "type": "talk_topic",
+    "dynamic_line": "Ha ha ha!  Think before you speak, chum.  Eight icons for an honest day's work, I say the system's broken!",
+    "responses": [
+      { "text": "Sorry to hear that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "No rest for the weary…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_Zachary_Nightmare",
+    "type": "talk_topic",
+    "dynamic_line": "Ain't you heard it?  It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
+    "responses": [
+      {
+        "text": "I'll see what I can do.",
+        "topic": "TALK_NONE",
+        "effect": { "assign_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
+      },
+      { "text": "I'm sorry to hear that <name_g>, but I don't feel like facing it either.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Follow",
+    "dynamic_line": {
+      "u_has_var": "zachary_willing_to_follow",
+      "type": "mission",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
+      "no": "No chance!  Its not you, its the world out there I'm worried about.  All those <swear> monsters really give me the creeps, and as far as I know this church is the last bastion of humanity in the <the_cataclysm>."
+    },
+    "responses": [
+      {
+        "text": "That's understandable.",
+        "condition": { "not": { "u_has_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Zachary_Intro_2"
+      },
+      {
+        "text": "Let's hit the road.",
+        "condition": { "u_has_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" },
+        "effect": "follow",
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-unsequenced-calls %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-unsequenced-calls %t -- --load=%cata_plugin --
 
 struct A {
     // Define a const and a non-const member function

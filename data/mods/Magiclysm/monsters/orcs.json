@@ -91,7 +91,7 @@
           "fake_dex": 9,
           "fake_per": 5,
           "require_targeting_player": false,
-          "description": "The orc shoots you with laser accuracy",
+          "description": "The orc shoots you with laser accuracy!",
           "ranges": [ [ 3, 13, "DEFAULT" ] ],
           "no_ammo_sound": "grunting"
         }

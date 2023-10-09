@@ -7,7 +7,6 @@
       [ "primitive_hammer", 80 ],
       [ "stone_chopper", 60 ],
       [ "stone_polishing", 30 ],
-      [ "primitive_adze", 60 ],
       [ "drill_rock_primitive", 50 ],
       [ "sieve_primitive", 20 ]
     ]

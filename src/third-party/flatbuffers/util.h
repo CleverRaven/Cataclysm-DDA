@@ -1,3 +1,5 @@
+/* Modified by the Cataclysm: Dark Days Ahead project. */
+
 /*
  * Copyright 2014 Google Inc. All rights reserved.
  *
@@ -248,7 +250,7 @@ inline std::string IntToStringHex(int i, int xdigits) {
     #define __strtof_impl(s, pe) strtof_l(s, pe, ClassicLocale::Get())
   #endif
 #else
-  #error CDDA requires locale independent number parsing.
+  #include "flatbuffers/cata_error_locale_dependent.h"
   #define __strtod_impl(s, pe) strtod(s, pe)
   #define __strtof_impl(s, pe) static_cast<float>(strtod(s, pe))
   #ifdef _MSC_VER

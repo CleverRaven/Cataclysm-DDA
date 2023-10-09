@@ -67,7 +67,7 @@ static const itype_id itype_medium_plus_battery_cell( "medium_plus_battery_cell"
 // both to ensure they work as expected, and to exhibit their attributes and terminology (like the
 // curious fact that a battery is treated like a magazine full of ammunition).
 //
-TEST_CASE( "battery tool mod test", "[battery][mod]" )
+TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 {
     item med_mod( "magazine_battery_medium_mod" );
 
@@ -182,9 +182,9 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                     CHECK( use != nullptr );
                     const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
 
-                    Character &dummy = get_avatar();
+                    Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, false, dummy.pos() );
+                    actor->use( dummy, flashlight, dummy->pos() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {
@@ -217,7 +217,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 //   - Can be reloaded with a compatible "magazine" (battery)
 //   - Charge left in the tool's battery is "ammo remaining"
 //
-TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
+TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 {
     const item bat_cell( "light_battery_cell" );
     const item flashlight( "flashlight" );
@@ -279,15 +279,15 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         }
 
         SECTION( "has compatible magazines" ) {
-            CHECK( flashlight.can_contain( *itype_light_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_disposable_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ) );
+            CHECK( flashlight.can_contain( *itype_light_battery_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_disposable_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ).success() );
+            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ).success() );
         }
 
         SECTION( "Does not fit medium or large magazines" ) {
-            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ) );
-            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ) );
+            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ).success() );
+            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ).success() );
         }
 
         SECTION( "has a default magazine" ) {
@@ -316,7 +316,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
     }
 }
 
-TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
+TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
     item bat_cell( "light_battery_cell" );
     item flashlight( "flashlight" );

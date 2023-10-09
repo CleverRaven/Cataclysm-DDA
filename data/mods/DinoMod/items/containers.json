@@ -10,7 +10,6 @@
     "price": 9000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -22,6 +21,7 @@
         "max_item_volume": "34 ml",
         "max_contains_weight": "12 kg"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   }
 ]

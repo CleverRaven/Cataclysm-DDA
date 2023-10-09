@@ -67,6 +67,12 @@ using scenttype_id = string_id<scent_type>;
 class ascii_art;
 using ascii_art_id = string_id<ascii_art>;
 
+struct damage_type;
+using damage_type_id = string_id<damage_type>;
+
+struct damage_info_order;
+using damage_info_order_id = string_id<damage_info_order>;
+
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
 
@@ -82,6 +88,9 @@ using event_statistic_id = string_id<event_statistic>;
 class fault;
 using fault_id = string_id<fault>;
 
+class fault_fix;
+using fault_fix_id = string_id<fault_fix>;
+
 struct field_type;
 using field_type_id = int_id<field_type>;
 using field_type_str_id = string_id<field_type>;
@@ -89,6 +98,9 @@ using field_type_str_id = string_id<field_type>;
 struct furn_t;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
+
+class climbing_aid;
+using climbing_aid_id = string_id<climbing_aid>;
 
 class gun_mode;
 using gun_mode_id = string_id<gun_mode>;
@@ -135,6 +147,10 @@ using mission_type_id = string_id<mission_type>;
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
+
+struct mon_flag;
+using mon_flag_id = int_id<mon_flag>;
+using mon_flag_str_id = string_id<mon_flag>;
 
 class monfaction;
 using mfaction_id = int_id<monfaction>;
@@ -186,6 +202,9 @@ using overmap_special_migration_id = string_id<overmap_special_migration>;
 
 class profession;
 using profession_id = string_id<profession>;
+
+struct profession_group;
+using profession_group_id = string_id<profession_group>;
 
 class recipe;
 using recipe_id = string_id<recipe>;
@@ -291,6 +310,9 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+struct jmath_func;
+using jmath_func_id = string_id<jmath_func>;
 
 class widget;
 using widget_id = string_id<widget>;

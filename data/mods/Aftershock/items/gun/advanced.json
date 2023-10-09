@@ -24,7 +24,7 @@
     "ammo_effects": [ "PLASMA", "EMP", "LOW_RANGE_VAPORIZATION" ],
     "skill": "rifle",
     "extend": { "flags": [ "NO_TURRET" ] },
-    "ups_charges": 0
+    "energy_drain": "0 kJ"
   },
   {
     "id": "railgun",

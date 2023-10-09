@@ -1,0 +1,27 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "test_conditions_1",
+    "cooldown": 5,
+    "move_cost": 0,
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 0 } ],
+    "effects_require_dmg": false,
+    "condition": {
+      "or": [
+        {
+          "and": [
+            { "u_has_effect": "bleed" },
+            { "not": { "npc_has_effect": "took_flumed" } },
+            "u_is_outside",
+            { "npc_has_flag": "TOUGH_FEET" }
+          ]
+        },
+        { "u_has_effect": "took_flumed" }
+      ]
+    },
+    "hit_dmg_u": "The %1$s tests your %2$s, covering it in acid!",
+    "miss_msg_u": "The %1$s tries to test your %2$s, but you dodge!",
+    "no_dmg_msg_u": "The %1$s tests your %2$s, bouncing off yor armor!"
+  }
+]

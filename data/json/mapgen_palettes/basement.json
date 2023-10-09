@@ -49,7 +49,7 @@
       "G": "f_glass_cabinet",
       "s": "f_chair",
       "F": "f_home_furnace",
-      "W": "f_water_heater",
+      "W": [ "f_water_heater", "f_water_heater_family" ],
       "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "b": "f_cupboard",
       "T": "f_rack"
@@ -169,7 +169,7 @@
       "Z": "f_dryer",
       "8": "f_counter",
       "9": "f_shower",
-      "g": "f_water_heater",
+      "g": [ "f_water_heater", "f_water_heater_family" ],
       "v": "f_safe_l",
       "z": "f_cardboard_box",
       "é": "f_freezer"

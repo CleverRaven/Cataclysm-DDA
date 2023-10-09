@@ -15,6 +15,7 @@
       "4": "t_gutter_downspout"
     },
     "furniture": { "&": "f_trashcan", "b": "f_bench", "1": "f_indoor_plant", "2": "f_indoor_plant_y" },
+    "nested": { "6": { "chunks": [ "1x1_subwaystationmap" ] } },
     "signs": { "M": { "signage": "Subway Map: <city> stop" } }
   },
   {

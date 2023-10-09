@@ -1,0 +1,31 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "GOBLIN_DM",
+    "description": "a short and cruel humanoid",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "LIZARDFOLK_DM",
+    "description": "a lizard-like humanoid",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "GOLEM_DM",
+    "description": "an automaton, animated by magical forces",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ORC_DM",
+    "description": "a stocky, green-skinned humanoid",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  }
+]

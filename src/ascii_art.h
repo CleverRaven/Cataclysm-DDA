@@ -15,7 +15,7 @@ class ascii_art
         static void load_ascii_art( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         bool was_loaded = false;
 
         ascii_art_id id;

@@ -9,11 +9,11 @@
     "volume": "3 L",
     "price": 100,
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "fluid_preserved_brain"
+    "looks_like": "fluid_preserved_brain",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "humming_heart",
@@ -25,11 +25,11 @@
     "volume": "1 L",
     "price": 100,
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "flesh" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "jabberwock_heart"
+    "looks_like": "jabberwock_heart",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "sensory_cluster",
@@ -41,11 +41,11 @@
     "volume": "250 ml",
     "price": 100,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "kidney"
+    "looks_like": "kidney",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bioweapon_chassis",
@@ -57,11 +57,11 @@
     "volume": "25 L",
     "price": 100,
     "to_hit": -3,
-    "bashing": 7,
     "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "ruined_chunks"
+    "looks_like": "ruined_chunks",
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -75,10 +75,9 @@
     "material": [ "alien_resin", "flesh" ],
     "weight": "40750 g",
     "volume": "30 L",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "vibrating_blaster",
@@ -91,7 +90,6 @@
     "price": 400000,
     "ammo": [ "acidic_bore" ],
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "alien_resin" ],
     "symbol": "(",
     "color": "magenta",
@@ -104,6 +102,7 @@
     "clip_size": 80,
     "ammo_effects": "ACID",
     "flags": [ "NO_UNLOAD", "NON_FOULING" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ],
+    "melee_damage": { "bash": 4 }
   }
 ]

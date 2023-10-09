@@ -95,3 +95,45 @@ set(SDL2IMAGE_INCLUDE_DIR ${SDL2_IMAGE_INCLUDE_DIRS})
 set(SDL2IMAGE_FOUND ${SDL2_IMAGE_FOUND})
 
 mark_as_advanced(SDL2_IMAGE_LIBRARY SDL2_IMAGE_INCLUDE_DIR)
+
+if(NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
+    if (NOT TARGET SDL2_image:SDL2_image-static)
+      add_library(SDL2_image::SDL2_image-static STATIC IMPORTED)
+      set_property(TARGET SDL2_image::SDL2_image-static
+        PROPERTY IMPORTED_LOCATION ${SDL2_IMAGE_LIBRARY}
+      )
+    endif()
+    message(STATUS "Searching for SDL_images deps libraries --")
+    find_package(JPEG REQUIRED)
+    find_package(PNG REQUIRED)
+    find_package(TIFF REQUIRED)
+    find_library(JBIG jbig REQUIRED)
+    find_package(LibLZMA REQUIRED)
+    target_link_libraries(SDL2_image::SDL2_image-static INTERFACE
+      JPEG::JPEG
+      PNG::PNG
+      TIFF::TIFF
+      ${JBIG}
+      LibLZMA::LibLZMA
+      ${ZSTD}
+    )
+    pkg_check_modules(WEBP REQUIRED IMPORTED_TARGET libwebp)
+    pkg_check_modules(ZIP REQUIRED IMPORTED_TARGET libzip)
+    pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
+    pkg_check_modules(DEFLATE REQUIRED IMPORTED_TARGET libdeflate)
+    target_link_libraries(SDL2_image::SDL2_image-static INTERFACE
+      PkgConfig::WEBP
+      PkgConfig::ZIP
+      PkgConfig::ZSTD
+      PkgConfig::DEFLATE
+    )
+elseif(NOT TARGET SDL2_image::SDL2_image)
+      add_library(SDL2_image::SDL2_image UNKNOWN IMPORTED)
+      set_target_properties(SDL2_image::SDL2_image PROPERTIES
+          IMPORTED_LOCATION ${SDL2_IMAGE_LIBRARY}
+          INTERFACE_INCLUDE_DIRECTORIES ${SDL2_IMAGE_INCLUDE_DIRS}
+      )
+    target_link_libraries(SDL2_image::SDL2_image INTERFACE
+      z
+    )
+endif()

@@ -21,7 +21,7 @@ static const itype_id itype_metal_tank( "metal_tank" );
 static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const int expected_moves )
 {
     guy.remove_weapon();
-    guy.worn.clear();
+    guy.clear_worn();
     item spawned_item( item_name, calendar::turn, 1 );
     item backpack( "backpack" );
     REQUIRE( backpack.can_contain( spawned_item ).success() );
@@ -54,7 +54,7 @@ static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
     CHECK( item_loc.obtain_cost( guy ) == Approx( expected_moves ).epsilon( 0.1f ) );
 }
 
-TEST_CASE( "Wield time test", "[wield]" )
+TEST_CASE( "Wield_time_test", "[wield]" )
 {
     clear_map();
 

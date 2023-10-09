@@ -286,13 +286,13 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     }
 }
 
-static void decorate_panel( const std::string &name, const catacurses::window &w )
+static void decorate_panel( const std::string_view name, const catacurses::window &w )
 {
     werase( w );
     draw_border( w );
 
     static const char *title_prefix = " ";
-    const std::string &title = name;
+    const std::string_view title = name;
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
@@ -333,21 +333,6 @@ bool default_render()
     return true;
 }
 
-// Message on how to use the custom sidebar panel and edit its JSON
-static void draw_custom_hint( const draw_args &args )
-{
-    const catacurses::window &w = args._win;
-
-    werase( w );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_white, _( "Press } for sidebar options." ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray,
-               _( "See docs/WIDGETS.md for help." ) );
-
-    wnoutrefresh( w );
-}
-
 // Initialize custom panels from a given "sidebar" style widget
 static std::vector<window_panel> initialize_default_custom_panels( const widget &wgt )
 {
@@ -355,10 +340,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Use defined width, or at least 16
     const int width = std::max( wgt._width, 16 );
-
-    // Show hint on configuration
-    ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
-                                    2, width, true ) );
 
     // Add window panel for each child widget
     for( const widget_id &row_wid : wgt._widgets ) {
@@ -368,11 +349,11 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Add compass, message log, and map to fill remaining space
     // TODO: Make these into proper widgets
-    ret.emplace_back( window_panel( draw_messages, "Log", to_translation( "Log" ),
-                                    -2, width, true ) );
+    ret.emplace_back( draw_messages, "Log", to_translation( "Log" ),
+                      -2, width, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
-                                    -1, width, true, default_render, true ) );
+    ret.emplace_back( draw_mminimap, "Map", to_translation( "Map" ),
+                      -1, width, true, default_render, true );
 #endif // TILES
 
     return ret;

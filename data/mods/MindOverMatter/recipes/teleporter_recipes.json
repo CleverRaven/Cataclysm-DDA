@@ -1,0 +1,32 @@
+[
+  {
+    "type": "construction",
+    "id": "teleporter_attuned_ground",
+    "group": "teleporter_attune",
+    "category": "OTHER",
+    "required_skills": [ [ "metaphysics", 4 ] ],
+    "time": "120 m",
+    "components": [  ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_teleporter_attuned_ground",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "teleporter_attune",
+    "name": "[Ψ]Attune to area"
+  },
+  {
+    "type": "furniture",
+    "id": "f_teleporter_attuned_ground",
+    "name": "[Ψ]Attuned ground",
+    "symbol": "+",
+    "looks_like": "tr_telepad",
+    "description": "There is nothing obvious about this area of ground to the casual observer, but you can see it with your eyes closed.  You know it like the back of your hand, and with but a thought, you could teleport to it.  (e)xamine to complete attunement.",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT" ],
+    "examine_action": "translocator"
+  }
+]

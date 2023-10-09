@@ -1,9 +1,8 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "atomic_butter",
-    "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -11,11 +10,12 @@
     "time": "15 m",
     "qualities": [ { "id": "CHURN", "level": 2 } ],
     "autolearn": true,
-    "components": [ [ [ "milk_raw", 45 ] ], [ [ "salt", 15 ] ] ]
+    "components": [ [ [ "milk_raw", 45 ] ], [ [ "salt", 15 ] ] ],
+    "charges": 32
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "afs_calorie_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -27,7 +27,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cream_prot_cold",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -46,7 +46,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cream_greater_prot_cold",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -75,8 +75,9 @@
     "batch_time_factors": [ 99, 1 ],
     "book_learn": [ [ "recipe_lichenlog", 2 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "pressure_cooker", -1 ] ] ],
-    "components": [ [ [ "yum_lichen", 4 ] ] ]
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "pressure_cooker", -1 ], [ "makeshift_pressure_cooker", -1 ] ] ],
+    "components": [ [ [ "yum_lichen", 4 ] ] ],
+    "charges": 3
   },
   {
     "type": "recipe",

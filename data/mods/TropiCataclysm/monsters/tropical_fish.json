@@ -81,14 +81,12 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "luminance": 0,
     "harvest": "fish_large",
     "zombify_into": "mon_zhark",
     "reproduction": { "baby_monster": "mon_shark_pup", "baby_count": 8, "baby_timer": 364 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ],
+    "armor": { "bash": 5, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_shark_pup",

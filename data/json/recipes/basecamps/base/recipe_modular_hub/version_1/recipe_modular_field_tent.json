@@ -15,7 +15,7 @@
     "blueprint_requires": [ { "id": "fbmh_0" } ],
     "blueprint_provides": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -34,7 +34,7 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 }, { "id": "fbmh_tent_east" } ],
     "blueprint_excludes": [ { "id": "fbmh_east" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -53,7 +53,7 @@
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 }, { "id": "fbmh_tent_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -72,7 +72,7 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_northwest", "amount": 4 }, { "id": "fbmh_tent_northwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -91,7 +91,7 @@
     "blueprint_requires": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 }, { "id": "fbmh_tent_west" } ],
     "blueprint_excludes": [ { "id": "fbmh_west" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -110,7 +110,7 @@
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 }, { "id": "fbmh_tent_southwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "components": [ [ [ "large_tent_equivalent", 1, "LIST" ] ] ],
     "check_blueprint_needs": false
   }
 ]

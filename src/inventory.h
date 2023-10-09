@@ -124,11 +124,13 @@ class inventory : public visitable
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
+        inventory &operator+= ( const item_components &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
+        inventory  operator+ ( const item_components &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
@@ -139,8 +141,12 @@ class inventory : public visitable
         void add_item_keep_invlet( const item &newit );
         void push_back( const item &newit );
 
-        // used by form_from_map, if tool was already provisioned returns nullptr
-        item *provide_pseudo_item( const itype_id &id, int battery );
+        // provides pseudo tools (e.g. from terrain, furniture or vehicle parts )
+        // @returns pointer to tool or nullptr if tool type_id already provided
+        item *provide_pseudo_item( const item &tool );
+        // provides pseudo tool of type \p tool_type constructed at current turn
+        // @returns pointer to tool or nullptr if tool type_id is invalid or already provided
+        item *provide_pseudo_item( const itype_id &tool_type );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
@@ -209,10 +215,6 @@ class inventory : public visitable
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
         void dump( std::vector<const item *> &dest ) const;
-
-        // vector rather than list because it's NOT an item stack
-        // returns all items that need processing
-        std::vector<item *> active_items();
 
         void json_load_invcache( const JsonValue &jsin );
         void json_load_items( const JsonArray &ja );

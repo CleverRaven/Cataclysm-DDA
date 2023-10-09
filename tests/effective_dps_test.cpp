@@ -111,7 +111,7 @@ static void check_accuracy_dps( avatar &attacker, monster &defender, item &wpn1,
     CHECK( dps_wpn2 > dps_wpn1 );
     CHECK( dps_wpn3 > dps_wpn2 );
 }
-TEST_CASE( "effective damage per second", "[effective][dps]" )
+TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
 {
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -174,7 +174,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
     }
 }
 
-TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
+TEST_CASE( "effective_vs_actual_damage_per_second", "[actual][dps][!mayfail]" )
 {
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -206,7 +206,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     }
 }
 
-TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
+TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
 {
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -258,18 +258,18 @@ static void make_experienced_tester( avatar &test_guy )
     REQUIRE( test_guy.get_str() == 10 );
     REQUIRE( test_guy.get_dex() == 10 );
     REQUIRE( test_guy.get_per() == 10 );
-    REQUIRE( test_guy.get_skill_level( skill_bashing ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_cutting ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_stabbing ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_unarmed ) == 4 );
-    REQUIRE( test_guy.get_skill_level( skill_melee ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_bashing ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_cutting ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_stabbing ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_unarmed ) ) == 4 );
+    REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_melee ) ) == 4 );
 }
 /*
  * A super tedious set of test cases to make sure that weapon values do not drift too far out
  * of range without anyone noticing them and adjusting them.
  * Used expected_dps(), which should make actual dps because of the calculations above.
  */
-TEST_CASE( "expected weapon dps", "[expected][dps]" )
+TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
 {
     avatar &test_guy = get_avatar();
     make_experienced_tester( test_guy );

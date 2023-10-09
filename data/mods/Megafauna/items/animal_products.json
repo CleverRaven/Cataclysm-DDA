@@ -15,9 +15,9 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "80 L",
     "longest_side": "2500 cm",
-    "bashing": 45,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", 96 ] ],
+    "melee_damage": { "bash": 45 }
   },
   {
     "type": "COMESTIBLE",
@@ -29,6 +29,17 @@
     "calories": 140,
     "volume": "90 ml",
     "rot_spawn": "GROUP_EGG_AUK"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_titanis_walleri",
+    "name": { "str": "titanis walleri egg" },
+    "copy-from": "egg_bird",
+    "description": "A large egg laid by a titanis walleri.  Prized for its big, nutritious yolk.",
+    "quench": 14,
+    "calories": 2100,
+    "volume": "1800 ml",
+    "rot_spawn": "GROUP_EGG_TITANIS_WALLERI"
   },
   {
     "type": "COMESTIBLE",
@@ -62,8 +73,8 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 35,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", 96 ] ],
+    "melee_damage": { "bash": 35 }
   }
 ]

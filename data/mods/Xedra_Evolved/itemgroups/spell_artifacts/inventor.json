@@ -91,27 +91,19 @@
     "type": "item_group",
     "id": "xe_inventor_spell_tier1",
     "subtype": "distribution",
-    "entries": [
-      { "item": "ray_diagrams", "prob": 50 },
-      { "item": "wolf_mask", "prob": 100 },
-      { "item": "money_strap_magic", "prob": 50 }
-    ]
+    "entries": [ { "item": "artifact_cable_whip", "prob": 70 } ]
   },
   {
     "type": "item_group",
     "id": "xe_inventor_spell_tier2",
     "subtype": "distribution",
-    "entries": [ { "item": "ray_weapon_diagrams", "prob": 50 } ]
+    "entries": [  ]
   },
   {
     "type": "item_group",
     "id": "xe_inventor_spell_tier3",
     "subtype": "distribution",
-    "entries": [
-      { "item": "syringe_artifact", "prob": 50 },
-      { "item": "foil_hat", "prob": 100 },
-      { "item": "book_inventor", "prob": 50 }
-    ]
+    "entries": [  ]
   },
   {
     "type": "item_group",

@@ -1,0 +1,16 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "teleport_touch",
+    "move_cost": 80,
+    "cooldown": 15,
+    "accuracy": 5,
+    "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
+    "blockable": false,
+    "hit_dmg_u": "%1$s touches you and the world warps around you!",
+    "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
+    "miss_msg_u": "%s reaches for you but you avoid their touch!",
+    "miss_msg_npc": "%s reaches for <npcname> but they dodge!"
+  }
+]

@@ -4,11 +4,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 static auto isStringIdType()
@@ -61,11 +57,15 @@ void StaticStringIdConstantsCheck::registerMatchers( MatchFinder *Finder )
     );
 }
 
-static std::string GetPrefixFor( const CXXRecordDecl *Type )
+static std::string GetPrefixFor( const CXXRecordDecl *Type, StaticStringIdConstantsCheck &Check )
 {
     const ClassTemplateSpecializationDecl *CTSDecl =
         dyn_cast<ClassTemplateSpecializationDecl>( Type );
-    assert( CTSDecl ); // NOLINT(cata-assert)
+    if( !CTSDecl ) {
+        Check.diag( Type->getBeginLoc(),
+                    "Declaration of string_id instantiation was not a tempalte specialization" );
+        return {};
+    }
     QualType ArgType = CTSDecl->getTemplateArgs()[0].getAsType();
     PrintingPolicy Policy( LangOptions{} );
     Policy.adjustForCPlusPlus();
@@ -111,9 +111,10 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
     return TypeName + "_";
 }
 
-static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef &Id )
+static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef &Id,
+                                     StaticStringIdConstantsCheck &Check )
 {
-    std::string Result = ( GetPrefixFor( Type ) + Id ).str();
+    std::string Result = ( GetPrefixFor( Type, Check ) + Id ).str();
 
     for( char &c : Result ) {
         if( !isalnum( c ) ) {
@@ -167,7 +168,8 @@ void StaticStringIdConstantsCheck::CheckConstructor( const MatchFinder::MatchRes
         return;
     }
 
-    std::string CanonicalName = GetCanonicalName( ConstructorDecl->getParent(), Arg->getString() );
+    std::string CanonicalName =
+        GetCanonicalName( ConstructorDecl->getParent(), Arg->getString(), *this );
 
     if( VarDeclParent && TranslationUnit ) {
         if( VarDeclParent->isStaticDataMember() ) {
@@ -521,7 +523,8 @@ static void CheckDeclRef( StaticStringIdConstantsCheck &Check,
         return;
     }
 
-    std::string CanonicalName = GetCanonicalName( ConstructorDecl->getParent(), Arg->getString() );
+    std::string CanonicalName =
+        GetCanonicalName( ConstructorDecl->getParent(), Arg->getString(), Check );
     std::string CurrentName = VarDeclParent->getNameAsString();
 
     if( CurrentName != CanonicalName &&
@@ -540,6 +543,4 @@ void StaticStringIdConstantsCheck::check( const MatchFinder::MatchResult &Result
     CheckDeclRef( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

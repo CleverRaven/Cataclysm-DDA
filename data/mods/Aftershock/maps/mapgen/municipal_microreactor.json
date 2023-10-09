@@ -131,7 +131,8 @@
         { "square": "radiation", "amount": 10000, "x": 9, "y": 5, "x2": 14, "y2": 8 }
       ],
       "palettes": [ "general_jc" ],
-      "terrain": { "-": "t_wall_metal", "1": "t_support_l", "#": "t_rock", "%": "t_machinery_heavy" },
+      "terrain": { "-": "t_wall_metal", "1": "t_support_l", "#": "t_rock" },
+      "furniture": { "%": "f_machinery_heavy" },
       "items": { "*": { "item": "nuclear_waste", "chance": 70 } },
       "monster": { "M": { "monster": "mon_hazmatbot" } }
     }
@@ -170,14 +171,8 @@
       ],
       "set": [ { "square": "radiation", "amount": 50, "x": 0, "y": 17, "x2": 17, "y2": 21 } ],
       "palettes": [ "general_jc" ],
-      "terrain": {
-        "-": "t_wall_metal",
-        "1": "t_support_l",
-        "#": "t_rock",
-        "e": "t_elevator",
-        "E": "t_elevator_control_off",
-        "%": "t_machinery_heavy"
-      },
+      "terrain": { "-": "t_wall_metal", "1": "t_support_l", "#": "t_rock", "e": "t_elevator", "E": "t_elevator_control_off" },
+      "furniture": { "%": "f_machinery_heavy" },
       "items": {
         "d": { "item": "cop_armory", "chance": 5 },
         "l": { "item": "reactor_gear", "chance": 70 },

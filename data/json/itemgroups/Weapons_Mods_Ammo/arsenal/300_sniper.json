@@ -35,13 +35,13 @@
     "type": "item_group",
     "id": "ammo_can_300_full",
     "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_308", "count": 15 } ]
+    "items": [ { "group": "ammo_box_300", "count": 15 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_300_part",
     "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_308", "count": [ 1, 5 ] } ]
+    "items": [ { "group": "ammo_box_300", "count": [ 1, 5 ] } ]
   },
   {
     "type": "item_group",

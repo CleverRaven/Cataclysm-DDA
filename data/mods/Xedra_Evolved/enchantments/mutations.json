@@ -1,0 +1,35 @@
+[
+  {
+    "type": "enchantment",
+    "id": "BONUS_DREAMER",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BONUS_EATER",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*150" ] } },
+      { "value": "REGEN_MANA", "multiply": -0.8 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BONUS_DREAMSMITH",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "BONUS_INVENTOR",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "EATER_SIXTH_SENSE",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
+  }
+]

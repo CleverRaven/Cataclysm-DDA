@@ -699,6 +699,29 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "leather_tent_5x5_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "##+##"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": "f_large_skin_wall",
+        "X": "f_skin_center_groundsheet",
+        "x": "f_large_skin_groundsheet",
+        "+": "f_large_skin_door"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tent_5x5_N",
     "object": {
       "mapgensize": [ 5, 5 ],

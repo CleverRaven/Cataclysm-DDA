@@ -7,84 +7,83 @@
 #include "units.h"
 
 // Fixed window sizes.
-static constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
-static constexpr int EVEN_MINIMUM_TERM_HEIGHT = 24;
-static constexpr int HP_HEIGHT = 14;
-static constexpr int HP_WIDTH = 7;
-static constexpr int MINIMAP_HEIGHT = 7;
-static constexpr int MINIMAP_WIDTH = MINIMAP_HEIGHT;
-static constexpr int MONINFO_HEIGHT = 12;
-static constexpr int MONINFO_WIDTH = 48;
-static constexpr int MESSAGES_HEIGHT = 8;
-static constexpr int MESSAGES_WIDTH = 48;
-static constexpr int LOCATION_HEIGHT = 1;
-static constexpr int LOCATION_WIDTH = 48;
-static constexpr int STATUS_HEIGHT = 4;
-static constexpr int STATUS_WIDTH = 55;
+constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
+constexpr int EVEN_MINIMUM_TERM_HEIGHT = 24;
+constexpr int HP_HEIGHT = 14;
+constexpr int HP_WIDTH = 7;
+constexpr int MINIMAP_HEIGHT = 7;
+constexpr int MINIMAP_WIDTH = MINIMAP_HEIGHT;
+constexpr int MONINFO_HEIGHT = 12;
+constexpr int MONINFO_WIDTH = 48;
+constexpr int MESSAGES_HEIGHT = 8;
+constexpr int MESSAGES_WIDTH = 48;
+constexpr int LOCATION_HEIGHT = 1;
+constexpr int LOCATION_WIDTH = 48;
+constexpr int STATUS_HEIGHT = 4;
+constexpr int STATUS_WIDTH = 55;
 
-static constexpr int BLINK_SPEED = 300;
-static constexpr int EXPLOSION_MULTIPLIER = 7;
+constexpr int EXPLOSION_MULTIPLIER = 7;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
-static constexpr int MAX_ITEM_IN_SQUARE = 4096;
+constexpr int MAX_ITEM_IN_SQUARE = 4096;
 // no reason to differ.
-static constexpr int MAX_ITEM_IN_VEHICLE_STORAGE = MAX_ITEM_IN_SQUARE;
+constexpr int MAX_ITEM_IN_VEHICLE_STORAGE = MAX_ITEM_IN_SQUARE;
 // only can wear a maximum of two of any type of clothing.
-static constexpr int MAX_WORN_PER_TYPE = 2;
+constexpr int MAX_WORN_PER_TYPE = 2;
 
-static constexpr int MAPSIZE = 11;
-static constexpr int HALF_MAPSIZE = static_cast<int>( MAPSIZE / 2 );
+constexpr int MAPSIZE = 11;
+constexpr int HALF_MAPSIZE = static_cast<int>( MAPSIZE / 2 );
 
 // SEEX/SEEY define the size of a nonant, or grid.
 // All map segments will need to be at least this wide.
-static constexpr int SEEX = 12;
-static constexpr int SEEY = SEEX;
+constexpr int SEEX = 12;
+constexpr int SEEY = SEEX;
 
-static constexpr int MAPSIZE_X = SEEX * MAPSIZE;
-static constexpr int MAPSIZE_Y = SEEY * MAPSIZE;
+constexpr int MAPSIZE_X = SEEX * MAPSIZE;
+constexpr int MAPSIZE_Y = SEEY * MAPSIZE;
 
-static constexpr int HALF_MAPSIZE_X = SEEX * HALF_MAPSIZE;
-static constexpr int HALF_MAPSIZE_Y = SEEY * HALF_MAPSIZE;
+constexpr int HALF_MAPSIZE_X = SEEX * HALF_MAPSIZE;
+constexpr int HALF_MAPSIZE_Y = SEEY * HALF_MAPSIZE;
 
-static constexpr int MAX_VIEW_DISTANCE = SEEX * HALF_MAPSIZE;
+constexpr int MAX_VIEW_DISTANCE = SEEX * HALF_MAPSIZE;
 
 /**
  * Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
  * it's just like SEEX/SEEY for submaps.
 */
-static constexpr int OMAPX = 180;
-static constexpr int OMAPY = OMAPX;
+constexpr int OMAPX = 180;
+constexpr int OMAPY = OMAPX;
 
 // Size of a square unit of terrain saved to a directory.
-static constexpr int SEG_SIZE = 32;
+constexpr int SEG_SIZE = 32;
 
 // Size of a square unit of tile memory saved in a single file, in mm_submaps.
-static constexpr int MM_REG_SIZE = 8;
+constexpr int MM_REG_SIZE = 8;
 
 /**
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map
 */
-static constexpr int PICKUP_RANGE = 6;
+constexpr int PICKUP_RANGE = 6;
 
 // Number of z-levels below 0 (not including 0).
-static constexpr int OVERMAP_DEPTH = 10;
+constexpr int OVERMAP_DEPTH = 10;
 // Number of z-levels above 0 (not including 0).
-static constexpr int OVERMAP_HEIGHT = 10;
+constexpr int OVERMAP_HEIGHT = 10;
 // Total number of z-levels.
-static constexpr int OVERMAP_LAYERS = 1 + OVERMAP_DEPTH + OVERMAP_HEIGHT;
+constexpr int OVERMAP_LAYERS = 1 + OVERMAP_DEPTH + OVERMAP_HEIGHT;
 
 // Maximum move cost when handling an item.
-static constexpr int MAX_HANDLING_COST = 400;
+constexpr int MAX_HANDLING_COST = 400;
 // Move cost of accessing an item in inventory.
-static constexpr int INVENTORY_HANDLING_PENALTY = 100;
+constexpr int INVENTORY_HANDLING_PENALTY = 100;
 // Move cost of accessing an item lying on the map. TODO: Less if player is crouching.
-static constexpr int MAP_HANDLING_PENALTY = 80;
+constexpr int MAP_HANDLING_PENALTY = 80;
 // Move cost of accessing an item lying on a vehicle.
-static constexpr int VEHICLE_HANDLING_PENALTY = 80;
+constexpr int VEHICLE_HANDLING_PENALTY = 80;
 
 // Amount by which to charge an item for each unit of plutonium cell.
-static constexpr int PLUTONIUM_CHARGES = 500;
+constexpr int PLUTONIUM_CHARGES = 500;
 
 // Temperature constants.
 namespace temperatures
@@ -112,16 +111,16 @@ constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsiu
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
-static constexpr int MAX_AIM_COST = 10;
+constexpr int MAX_AIM_COST = 10;
 
 // Maximum (effective) level for a skill.
-static constexpr int MAX_SKILL = 10;
+constexpr int MAX_SKILL = 10;
 
 // Maximum (effective) level for a stat.
-static constexpr int MAX_STAT = 14;
+constexpr int MAX_STAT = 14;
 
 // Maximum range at which ranged attacks can be executed.
-static constexpr int RANGE_HARD_CAP = 60;
+constexpr int RANGE_HARD_CAP = 60;
 
 // Accuracy levels which a shots tangent must be below.
 constexpr double accuracy_headshot = 0.1;
@@ -135,25 +134,25 @@ constexpr double accuracy_grazing  = 1.0;
 constexpr double MAX_RECOIL = 3000;
 
 // Minimum item damage output of relevant type to allow using with relevant weapon skill.
-static constexpr int MELEE_STAT = 5;
+constexpr int MELEE_STAT = 5;
 
 // Effective lower bound to combat skill levels when CQB bionic is active.
-static constexpr int BIO_CQB_LEVEL = 5;
+constexpr int BIO_CQB_LEVEL = 5;
 
 // Minimum size of a horde to show up on the minimap.
-static constexpr int HORDE_VISIBILITY_SIZE = 3;
+constexpr int HORDE_VISIBILITY_SIZE = 3;
 
 /**
  * Average annual temperature in F used for climate, weather and temperature calculation.
  * Average New England temperature = 43F/6C rounded to int.
 */
-static constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
+constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
 
 /**
  * Base starting spring temperature in F used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */
-static constexpr units::temperature SPRING_TEMPERATURE = units::from_fahrenheit( 65 );
+constexpr units::temperature SPRING_TEMPERATURE = units::from_fahrenheit( 65 );
 
 /**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
@@ -203,16 +202,16 @@ const std::map<float, std::string> activity_levels_str_map = {
     { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
 
-// these are the lower bounds of each of the weight classes.
+// these are the lower bounds of each of the weight classes, determined by the amount of BMI coming from stored calories (fat)
 namespace character_weight_category
 {
-constexpr float emaciated = 14.0f;
-constexpr float underweight = 16.0f;
-constexpr float normal = 18.5f;
-constexpr float overweight = 25.0f;
-constexpr float obese = 30.0f;
-constexpr float very_obese = 35.0f;
-constexpr float morbidly_obese = 40.0f;
+constexpr float emaciated = 1.0f;
+constexpr float underweight = 2.0f;
+constexpr float normal = 3.0f;
+constexpr float overweight = 5.0f;
+constexpr float obese = 10.0f;
+constexpr float very_obese = 15.0f;
+constexpr float morbidly_obese = 20.0f;
 } // namespace character_weight_category
 
 // these are the lower bounds of each of the health classes.

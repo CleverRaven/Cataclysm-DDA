@@ -36,6 +36,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # Enable pretty backtraces
+  BACKTRACE: 1
   # Compressed size ~1GB based on observations
   CCACHE_LIMIT: 8GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
@@ -55,13 +57,10 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.3.1
 
     - name: Use GNU tar to enable zstd for actions/cache
       run: |
@@ -69,19 +68,15 @@ jobs:
         echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       shell: cmd
 
-    - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10.4
+    - name: Install stable CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v11
       id: runvcpkg
       with:
-        # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
-        # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        # We have to use at least this version of vcpkg to include fixes for yasm-tool's
-        # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
-        # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-        # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: '659b6b5eeacb50ffe25856413960d231ce1a4b58'
+        vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
 
     - name: Integrate vcpkg
       run: |
@@ -105,8 +100,8 @@ jobs:
     - name: Get ccache vars
       id: get-vars
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$(echo "$APPDATA\\ccache")"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo "$APPDATA\\ccache")" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: ccache cache files
@@ -167,19 +162,22 @@ jobs:
         }
 
     - name: Compile .mo files for localization
+      if: ${{ github.ref_name != 'master' }}
       run: |
           & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
           mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
           msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
 
     - name: Enable GitHub Actions problem matchers
+      if: ${{ github.ref_name != 'master' }}
       run: |
           Write-Output "::add-matcher::build-scripts/problem-matchers/catch2.json"
           Write-Output "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
     - name: Run tests
+      if: ${{ github.ref_name != 'master' }}
       run: |
-          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time
 
     - name: Dump disk usage logs if job failed
       if: failure()

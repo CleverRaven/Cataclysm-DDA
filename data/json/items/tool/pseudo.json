@@ -9,7 +9,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "qualities": [ [ "SUSPENDING", 2 ] ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "fake_butcher_rack",
@@ -21,7 +21,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "qualities": [ [ "SUSPENDING", 2 ], [ "ROPE", 2 ] ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "medium_surface_pseudo",
@@ -33,7 +33,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "qualities": [ [ "SURFACE", 2 ] ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "large_surface_pseudo",
@@ -45,7 +45,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "qualities": [ [ "SURFACE", 3 ] ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "fake_stove",
@@ -56,6 +56,19 @@
     "sub": "hotplate",
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
-    "charge_factor": 10
+    "charge_factor": 10,
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "brick_oven_pseudo",
+    "type": "TOOL",
+    "name": { "str": "brick oven" },
+    "description": "This is a pseudo item to represent t_brick_oven.  If you see it, it's a bug.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "OVEN", 2 ] ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   }
 ]

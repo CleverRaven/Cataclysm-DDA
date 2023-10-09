@@ -670,7 +670,7 @@ void Messages::dialog::do_filter( const std::string &filter_str )
     bool has_type_filter = false;
     game_message_type filter_type = m_neutral;
     std::string filter_text;
-    const auto colon = filter_str.find( ':' );
+    const size_t colon = filter_str.find( ':' );
     if( colon != std::string::npos ) {
         has_type_filter = msg_type_from_name( filter_type, filter_str.substr( 0, colon ) );
         filter_text = filter_str.substr( colon + 1 );

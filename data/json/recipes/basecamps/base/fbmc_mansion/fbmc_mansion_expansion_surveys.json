@@ -62,7 +62,7 @@
   {
     "type": "recipe",
     "result": "faction_base_mansion_t3",
-    "description": "Survey mansion's???.",
+    "description": "Survey mansion's '???'.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -97,7 +97,7 @@
       { "id": "saltworks_recipes_2" },
       { "id": "saltworks_recipes_3" }
     ],
-    "blueprint_resources": [ "fake_oven" ]
+    "blueprint_resources": [ "oven" ]
   },
   {
     "type": "recipe",
@@ -233,6 +233,6 @@
       { "id": "saltworks_recipes_2" },
       { "id": "saltworks_recipes_3" }
     ],
-    "blueprint_resources": [ "fake_oven" ]
+    "blueprint_resources": [ "oven" ]
   }
 ]

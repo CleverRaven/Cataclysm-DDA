@@ -1,0 +1,135 @@
+[
+  {
+    "type": "palette",
+    "id": "apt_complex",
+    "//": "Used by apartment complexes and multi-unit housings",
+    "parameters": {
+      "wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_rock_wall", 1 ], [ "t_concrete_wall", 2 ], [ "t_strconc_wall", 2 ], [ "t_brick_wall", 5 ] ] }
+      },
+      "railing_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_wall_glass", 3 ], [ "t_metal_railing", 3 ], [ "t_glass_railing", 4 ], [ "t_concrete_railing", 6 ] ]
+        }
+      },
+      "floor_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_carpet_linoleum_white_yellow", 2 ],
+            [ "t_carpet_linoleum_white_green", 2 ],
+            [ "t_carpet_linoleum_white_purple", 1 ],
+            [ "t_carpet_linoleum_white_red", 2 ],
+            [ "t_linoleum_white", 12 ],
+            [ "t_carpet_linoleum_gray_yellow", 2 ],
+            [ "t_carpet_linoleum_gray_green", 2 ],
+            [ "t_carpet_linoleum_gray_purple", 1 ],
+            [ "t_carpet_linoleum_gray_red", 2 ],
+            [ "t_linoleum_gray", 4 ]
+          ]
+        }
+      }
+    },
+    "terrain": {
+      "/": "t_null",
+      ".": "t_open_air",
+      "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked_interior", 10 ], "t_door_c" ],
+      "=": { "param": "railing_type", "fallback": "t_concrete_railing" },
+      "#": { "param": "wall_type", "fallback": "t_brick_wall" },
+      "~": { "param": "floor_type", "fallback": "t_linoleum_white" },
+      "'": "t_linoleum_gray",
+      "`": "t_thconc_floor",
+      "^": "t_elevator",
+      "˘": "t_ladder_up_down",
+      "0": "t_grate",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "apt_complex_ground",
+    "//": "Used by apartment complexes and multi-unit housings",
+    "palettes": [ "apt_complex" ],
+    "parameters": {
+      "fencing_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_region_shrub_decorative", 4 ],
+            [ "t_region_soil", 4 ],
+            [ "t_region_groundcover_urban", 7 ],
+            [ "t_chainfence", 4 ],
+            [ "t_fence", 3 ],
+            [ "t_privacy_fence", 3 ],
+            [ "t_drystone_wall_half", 4 ]
+          ]
+        }
+      },
+      "shrubbery_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_region_soil", 1 ],
+            [ "t_region_groundcover", 1 ],
+            [ "t_region_groundcover_urban", 1 ],
+            [ "t_region_shrub_decorative", 1 ]
+          ]
+        }
+      },
+      "walkway_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_region_groundcover_urban", 1 ], [ "t_concrete", 1 ], [ "t_railroad_rubble", 1 ] ] }
+      }
+    },
+    "terrain": {
+      ".": "t_region_groundcover_urban",
+      "Ŧ": { "param": "fencing_type", "fallback": "t_region_groundcover_urban" },
+      "-": { "param": "walkway_type", "fallback": "t_concrete" },
+      "%": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" }
+    },
+    "furniture": {
+      "Ŧ": {
+        "switch": { "param": "fencing_type", "fallback": "f_null" },
+        "cases": {
+          "t_region_shrub_decorative": "f_null",
+          "t_region_soil": "f_hedge_short",
+          "t_region_groundcover_urban": "f_null",
+          "t_chainfence": "f_null",
+          "t_fence": "f_null",
+          "t_privacy_fence": "f_null",
+          "t_drystone_wall_half": "f_null"
+        }
+      },
+      "%": {
+        "switch": { "param": "shrubbery_type", "fallback": "f_null" },
+        "cases": {
+          "t_region_shrub_decorative": "f_null",
+          "t_region_soil": "f_hedge_short",
+          "t_region_groundcover_urban": "f_null",
+          "t_region_groundcover": "f_region_flower_decorative"
+        }
+      }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "apt_complex_garage",
+    "terrain": {
+      "~": "t_pavement",
+      "*": "t_door_metal_c",
+      "=": "t_door_metal_locked",
+      "0": "t_gates_mech_control_lab",
+      "[": "t_thconc_y",
+      "'": "t_linoleum_white"
+    },
+    "vehicles": {
+      "N": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
+      "E": { "vehicle": "parking_garage", "chance": 33, "rotation": 0 },
+      "S": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 },
+      "W": { "vehicle": "parking_garage", "chance": 33, "rotation": 180 }
+    }
+  }
+]

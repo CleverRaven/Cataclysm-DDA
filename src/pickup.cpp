@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -34,7 +35,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -99,9 +99,13 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
 
     amenu.text = explain;
 
+    item empty_it( it );
+    empty_it.get_contents().clear_items();
+    bool can_pickup = u.can_stash( empty_it ) && u.can_pickWeight( empty_it );
+
     if( it.is_bucket_nonempty() ) {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
-        amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
+        amenu.addentry( SPILL, can_pickup, 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
     }
 
@@ -218,10 +222,6 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         got_water = true;
     } else if( newit.made_of_from_type( phase_id::GAS ) ) {
         got_gas = true;
-    } else if( !player_character.can_pickWeight_partial( newit, false ) ||
-               !player_character.can_stash_partial( newit, false ) ) {
-        option = CANCEL;
-        stash_successful = false;
     } else if( newit.is_bucket_nonempty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
@@ -231,6 +231,10 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         } else {
             option = CANCEL;
         }
+    } else if( !player_character.can_pickWeight_partial( newit, false ) ||
+               !player_character.can_stash_partial( newit, false ) ) {
+        option = CANCEL;
+        stash_successful = false;
     } else {
         option = STASH;
     }
@@ -411,8 +415,8 @@ void Pickup::autopickup( const tripoint &p )
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos(), true );
-    player.assign_activity( player_activity( actor ) );
+    pickup_activity_actor actor( target_items, quantities, player.pos(), true );
+    player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
     player.activity.auto_resume = true;

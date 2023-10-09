@@ -77,9 +77,9 @@
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
-        "|||+||+||||||||||||==ƶ||",
+        "|||+||+|||||||||||||ƶ==|",
         "|34.|P.P..+..h.|;;;;;;;;",
-        "X...|....h|III6:;;;;;;è;",
+        "X...|....h|I6II:;;;;;;è;",
         "XH..:J..II|::::|;;|#||||",
         "XH..:Jh...=;;;;;;;|;|PPT",
         "-...:J..II|;è;;;;ɜ|;:.h.",
@@ -98,9 +98,9 @@
         "-...:J..II|;è;;;;ɜ|;:.h.",
         "XH..:Jh...=;;;;;;;|;|yPP",
         "XH..:J..II|::::|;;|#||||",
-        "X...|...h.|III6:;;;;;;è;",
+        "X...|...h.|I6II:;;;;;;è;",
         "|34.|P.P..+..h.|;;;;;;;;",
-        "|||+||+||||||||||||==ƶ||"
+        "|||+||+|||||||||||||ƶ==|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
       "terrain": {
@@ -473,7 +473,7 @@
         { "monster": "mon_manhack", "x": 18, "y": 19, "chance": 100 },
         { "monster": "mon_tazer_hack", "x": 21, "y": 19, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 },
-        { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": [ 1, 22 ], "chance": 100 }
+        { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": 11, "chance": 100 }
       ],
       "place_nested": [
         { "chunks": [ [ "12x12_obstacle_course_N", 100 ] ], "x": 1, "y": 1 },

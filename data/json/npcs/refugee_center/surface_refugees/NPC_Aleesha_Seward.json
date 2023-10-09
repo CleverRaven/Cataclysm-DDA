@@ -25,7 +25,7 @@
     "worn_override": "REFUGEE_Aleesha_worn",
     "carry_override": "REFUGEE_Aleesha_carried",
     "weapon_override": "REFUGEE_Aleesha_wield",
-    "traits": [ { "group": "Appearance_African" } ]
+    "traits": [ { "group": "Appearance_African" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
   {
     "type": "item_group",

@@ -14,7 +14,7 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 240
+        "search_range": 500
       }
     },
     "end": {
@@ -117,6 +117,7 @@
           "                        ",
           "                        "
         ],
+        "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
         "terrain": {
           "g": "t_region_groundcover",
           ".": "t_region_groundcover_barren",

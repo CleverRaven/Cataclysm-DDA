@@ -40,8 +40,8 @@ struct sfx_args {
     std::string id;
     std::string variant;
     std::string season;
-    cata::optional<bool> indoors;
-    cata::optional<bool> night;
+    std::optional<bool> indoors;
+    std::optional<bool> night;
 
     bool operator<( const sfx_args &rhs ) const {
         int r_ind = rhs.indoors.value_or( -1 );
@@ -62,9 +62,16 @@ struct sound_effect_resource {
     };
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
+
+static int add_sfx_path( const std::string &path );
+
 struct sound_effect {
-    int volume = 0;
-    int resource_id = 0;
+    const int volume = 0;
+    const int resource_id = 0;
+
+    sound_effect() = default;
+    sound_effect( int volume, const std::string &path )
+        : volume( volume ), resource_id( add_sfx_path( path ) ) {}
 };
 
 // Sound effects are primarily keyed by id
@@ -213,7 +220,7 @@ std::vector<sound_effect> &emplace_sfx( Map &c, Key1 &&k, Key2 &&k2, Keys &&...k
                         std::forward<Keys>( keys )... );
 }
 
-int bool_or( const cata::optional<bool> &opt, int defl )
+int bool_or( const std::optional<bool> &opt, int defl )
 {
     return opt.has_value() ? opt.value() : defl;
 }
@@ -240,8 +247,8 @@ struct sfx_map {
         }
 
         const std::vector<sound_effect> *find( const std::string &id, const std::string &variant,
-                                               const std::string &season, const cata::optional<bool> &is_indoors,
-                                               const cata::optional<bool> &is_night ) const {
+                                               const std::string &season, const std::optional<bool> &is_indoors,
+                                               const std::optional<bool> &is_night ) const {
             return find_closest_sfx( effects, id, "", variant, "default", season_from_string( season ),
                                      sfx_season::NONE, in_or_out_from_int( bool_or( is_indoors, -1 ) ), sfx_in_or_out::EITHER,
                                      tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
@@ -434,8 +441,8 @@ void play_music( const std::string &playlist )
         // Son't need to worry about the determinism check here because it only
         // affects audio, not game logic.
         // NOLINTNEXTLINE(cata-determinism)
-        static auto eng = cata_default_random_engine(
-                              std::chrono::system_clock::now().time_since_epoch().count() );
+        static cata_default_random_engine eng = cata_default_random_engine(
+                std::chrono::steady_clock::now().time_since_epoch().count() );
         std::shuffle( playlist_indexes.begin(), playlist_indexes.end(), eng );
     }
 
@@ -545,10 +552,10 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
     }
     sfx_args key = {
         jsobj.get_string( "id" ),
-        jsobj.get_string( "variant", "default" ),
+        "", // actual variant string is filled in the variant loop
         jsobj.get_string( "season", "" ),
-        cata::optional<bool>(),
-        cata::optional<bool>()
+        std::nullopt,
+        std::nullopt,
     };
     if( jsobj.has_bool( "is_indoors" ) ) {
         key.indoors = jsobj.get_bool( "is_indoors" );
@@ -557,16 +564,23 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
         key.night = jsobj.get_bool( "is_night" );
     }
     const int volume = jsobj.get_int( "volume", 100 );
-    auto &effects = sfx_resources.sound_effects[ key ];
-
-    for( const std::string file : jsobj.get_array( "files" ) ) {
-        sound_effect new_sound_effect;
-        new_sound_effect.volume = volume;
-        new_sound_effect.resource_id = add_sfx_path( file );
-
-        effects.push_back( new_sound_effect );
+    std::vector<std::string> variants;
+    if( jsobj.has_array( "variant" ) ) {
+        variants = jsobj.get_string_array( "variant" );
+    } else if( jsobj.has_string( "variant" ) ) {
+        variants = { jsobj.get_string( "variant" ) };
+    } else {
+        variants = { "default" };
+    }
+    for( const std::string &variant : variants ) {
+        key.variant = variant;
+        std::vector<sound_effect> &effects = sfx_resources.sound_effects[key];
+        for( const std::string file : jsobj.get_array( "files" ) ) {
+            effects.emplace_back( volume, file );
+        }
     }
 }
+
 void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
@@ -576,10 +590,10 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
     for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
         sfx_args preload_key = {
             aobj.get_string( "id" ),
-            aobj.get_string( "variant", "default" ),
+            "", // actual variant string is filled in the variant loop
             aobj.get_string( "season", "" ),
-            cata::optional<bool>(),
-            cata::optional<bool>()
+            std::nullopt,
+            std::nullopt,
         };
         if( aobj.has_bool( "is_indoors" ) ) {
             preload_key.indoors = aobj.get_bool( "is_indoors" );
@@ -587,7 +601,18 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
         if( aobj.has_bool( "is_night" ) ) {
             preload_key.night = aobj.get_bool( "is_night" );
         }
-        sfx_preload.push_back( preload_key );
+        std::vector<std::string> variants;
+        if( aobj.has_array( "variant" ) ) {
+            variants = aobj.get_string_array( "variant" );
+        } else if( aobj.has_string( "variant" ) ) {
+            variants = { aobj.get_string( "variant" ) };
+        } else {
+            variants = { "default" };
+        }
+        for( const std::string &variant : variants ) {
+            preload_key.variant = variant;
+            sfx_preload.push_back( preload_key );
+        }
     }
 }
 
@@ -616,8 +641,8 @@ void sfx::load_playlist( const JsonObject &jsobj )
 // Returns a random sound effect matching given id and variant, but with fallback to "default" variants.
 // May still return `nullptr`
 static const sound_effect *find_random_effect( const std::string &id, const std::string &variant,
-        const std::string &season, const cata::optional<bool> &is_indoors,
-        const cata::optional<bool> &is_night )
+        const std::string &season, const std::optional<bool> &is_indoors,
+        const std::optional<bool> &is_night )
 {
     const std::vector<sound_effect> *iter = sfx_resources.sound_effects.find( id, variant, season,
                                             is_indoors,
@@ -630,8 +655,8 @@ static const sound_effect *find_random_effect( const std::string &id, const std:
 }
 
 bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
-                             const std::string &season, const cata::optional<bool> &is_indoors,
-                             const cata::optional<bool> &is_night )
+                             const std::string &season, const std::optional<bool> &is_indoors,
+                             const std::optional<bool> &is_night )
 {
     return find_random_effect( id, variant, season, is_indoors, is_night ) != nullptr;
 }
@@ -694,8 +719,8 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant,
-                              const std::string &season, const cata::optional<bool> &is_indoors,
-                              const cata::optional<bool> &is_night, int volume )
+                              const std::string &season, const std::optional<bool> &is_indoors,
+                              const std::optional<bool> &is_night, int volume )
 {
     if( test_mode ) {
         return;
@@ -708,7 +733,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     }
     const sound_effect *eff = find_random_effect( id, variant, season, is_indoors, is_night );
     if( eff == nullptr ) {
-        eff = find_random_effect( id, "default", "", cata::optional<bool>(), cata::optional<bool>() );
+        eff = find_random_effect( id, "default", "", std::optional<bool>(), std::optional<bool>() );
         if( eff == nullptr ) {
             return;
         }
@@ -726,8 +751,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant,
-                              const std::string &season, const cata::optional<bool> &is_indoors,
-                              const cata::optional<bool> &is_night, int volume, units::angle angle,
+                              const std::string &season, const std::optional<bool> &is_indoors,
+                              const std::optional<bool> &is_night, int volume, units::angle angle,
                               double pitch_min, double pitch_max )
 {
     if( test_mode ) {
@@ -780,8 +805,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 }
 
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant,
-                                      const std::string &season, const cata::optional<bool> &is_indoors,
-                                      const cata::optional<bool> &is_night, int volume,
+                                      const std::string &season, const std::optional<bool> &is_indoors,
+                                      const std::optional<bool> &is_night, int volume,
                                       channel channel, int fade_in_duration, double pitch, int loops )
 {
     if( test_mode ) {
@@ -860,7 +885,7 @@ void load_soundset()
         loading_ui ui( false );
         DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to load sounds: " << err.what();
+        debugmsg( "failed to load sounds: %s", err.what() );
     }
 
     // Preload sound effects

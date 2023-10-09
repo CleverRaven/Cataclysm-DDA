@@ -33,7 +33,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "zombie_virus", "intensity": 2 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 2 } ] }
+                { "compare_num": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 2 } ] }
               ]
             },
             "effect": [
@@ -49,7 +49,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "zombie_virus", "intensity": 3 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 3 } ] }
+                { "compare_num": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 3 } ] }
               ]
             },
             "effect": [
@@ -65,7 +65,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "zombie_virus", "intensity": 4 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 4 } ] }
+                { "compare_num": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 4 } ] }
               ]
             },
             "effect": [

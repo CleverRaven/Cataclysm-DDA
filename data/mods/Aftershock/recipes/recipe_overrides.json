@@ -177,7 +177,8 @@
       [ [ "salt", 1 ] ],
       [ [ "seasoning_mild", 4, "LIST" ] ],
       [ [ "fry_oil", 4, "LIST" ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",

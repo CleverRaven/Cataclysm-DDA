@@ -81,7 +81,7 @@ Possibly also some birds (Titanis/Paracrax/Aiolornis, Auk), if evidence exists a
 
 Add new monsters to monster groups/implement spawn:
 - tweak spawn rates [done]
-- consider if spawns should occour in specific types of region (meaning, costum moster groups apart from "forest") [done]
+- consider if spawns should occur in specific types of region (meaning, custom monster groups apart from "forest") [done]
 - extra: make "family" monstergroups that spawn adults and juveniles together in the appropriate season
 
 

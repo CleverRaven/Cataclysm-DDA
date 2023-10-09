@@ -7,7 +7,6 @@
     "volume": "500 ml",
     "longest_side": "38 cm",
     "price": "400 USD",
-    "bashing": 3,
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "|",
@@ -23,7 +22,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "small_mana_crystal" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "abstract": "disp_wand",
@@ -33,14 +33,14 @@
     "volume": "500 ml",
     "longest_side": "38 cm",
     "price": 10000,
-    "bashing": 3,
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "|",
     "color": "brown",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "NO_UNLOAD", "NO_RELOAD", "MAGIC_FOCUS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 20 } } ],
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "TOOL",

@@ -10,7 +10,6 @@
     "price": 5000,
     "price_postapoc": 1000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "clay" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -38,6 +37,7 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 100 } } ],
+    "melee_damage": { "bash": 9 }
   }
 ]

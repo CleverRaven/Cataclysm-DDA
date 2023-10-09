@@ -81,7 +81,7 @@ TEST_CASE( "translations_macro_char_address", "[translations]" )
 // requires .mo file for "en" language
 TEST_CASE( "translations_macro_char_address_translated", "[.][translations]" )
 {
-    set_language();
+    set_language_from_options();
     // translated string
     const char *test_string = "thread";
 

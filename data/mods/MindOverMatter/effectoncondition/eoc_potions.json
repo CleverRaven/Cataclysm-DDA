@@ -1,0 +1,161 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_biokin_potion_comedown" },
+      { "u_add_effect": "effect_biokin_potion", "duration": "30 hours" },
+      { "queue_eocs": "EOC_BIOKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_biokin_potion" },
+      { "u_add_effect": "effect_biokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_clair_potion_comedown" },
+      { "u_add_effect": "effect_clair_potion", "duration": "30 hours" },
+      { "queue_eocs": "EOC_CLAIR_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_clair_potion" },
+      { "u_add_effect": "effect_clair_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_pyrokin_potion_comedown" },
+      { "u_add_effect": "effect_pyrokin_potion", "duration": "30 hours" },
+      { "queue_eocs": "EOC_PYROKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_pyrokin_potion" },
+      { "u_add_effect": "effect_pyrokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_telekin_potion_comedown" },
+      { "u_add_effect": "effect_telekin_potion", "duration": "30 hours" },
+      { "u_add_trait": "TELELIXIRDOWN" },
+      { "queue_eocs": "EOC_TELEKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_telekin_potion" },
+      { "u_add_effect": "effect_telekin_potion_comedown", "duration": [ "24 hours", "55 hours" ] },
+      { "u_lose_trait": "TELELIXIRDOWN" },
+      { "u_lose_trait": "TELELIXIRDOWN_active" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_telepath_potion_comedown" },
+      { "u_add_effect": "effect_telepath_potion", "duration": "30 hours" },
+      { "queue_eocs": "EOC_TELEPATH_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_telepath_potion" },
+      { "u_add_effect": "effect_telepath_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_teleport_potion_comedown" },
+      { "u_add_effect": "effect_teleport_potion", "duration": "30 hours" },
+      { "queue_eocs": "EOC_TELEPORT_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_teleport_potion" },
+      { "u_add_effect": "effect_teleport_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_POTION_COMEDOWN_TELEPORT",
+    "condition": { "u_has_effect": "effect_teleport_potion_comedown" },
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "deactivate_condition": { "not": { "u_has_effect": "effect_teleport_potion_comedown" } },
+    "effect": [
+      {
+        "u_cast_spell": { "id": "teleport_blink_monster", "message": "Reality suddenly warps around you and you are somewhere else!" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_vitakin_potion_comedown" },
+      { "u_add_effect": "effect_vitakin_potion", "duration": "30 hours" },
+      { "queue_eocs": "EOC_VITAKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_vitakin_potion" },
+      { "u_add_effect": "effect_vitakin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_RESIST_POTION",
+    "effect": [
+      { "u_message": "You drink the concoction." },
+      { "u_lose_effect": "effect_noetic_resilience_comedown" },
+      { "u_add_effect": "effect_noetic_resilience", "duration": "30 hours" },
+      { "queue_eocs": "EOC_DRAIN_RESIST_POTION_COMEDOWN", "time_in_future": [ "18 hours", "30 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_RESIST_POTION_COMEDOWN",
+    "effect": [
+      { "u_lose_effect": "effect_noetic_resilience" },
+      { "u_add_effect": "effect_noetic_resilience_comedown", "duration": [ "24 hours", "55 hours" ] }
+    ]
+  }
+]

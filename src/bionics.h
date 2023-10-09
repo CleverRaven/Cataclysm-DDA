@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -15,7 +16,6 @@
 #include "flat_set.h"
 #include "item.h"
 #include "magic.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -36,7 +36,7 @@ struct bionic_data {
     translation name;
     translation description;
 
-    cata::optional<translation> cant_remove_reason;
+    std::optional<translation> cant_remove_reason;
     /** Power cost on activation */
     units::energy power_activate = 0_kJ;
     /** Power cost on deactivation */
@@ -76,7 +76,7 @@ struct bionic_data {
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
-    cata::optional<float> coverage_power_gen_penalty;
+    std::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
@@ -84,12 +84,8 @@ struct bionic_data {
     /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
 
-    /**Amount of bash protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> bash_protec;
-    /**Amount of cut protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> cut_protec;
-    /**Amount of bullet protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> bullet_protec;
+    /**Amount of damage protection offered by this bionic*/
+    std::map<bodypart_str_id, resistances> protec;
 
     float vitamin_absorb_mod = 1.0f;
 
@@ -142,7 +138,10 @@ struct bionic_data {
      * Mutations/traits that prevent installing this CBM
      */
     std::set<trait_id> mutation_conflicts;
-
+    /**
+     * Mutations/traits the cbm adds if it is removed
+     */
+    std::set<trait_id> give_mut_on_removal;
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.
      */
@@ -171,7 +170,13 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
-    /**Requirement to bionic installation*/
+    /**
+     * Id of another bionic which this bionic needs to have installed to be installed.
+     * Also prevents that bionic from being removed while this bionic is installed.
+     */
+    bionic_id required_bionic;
+
+    /**Requirement to bionic installation - this is a crafting requirement such as soldering_standard or surface_heat*/
     requirement_id installation_requirement;
 
     cata::flat_set<json_character_flag> flags;
@@ -184,10 +189,15 @@ struct bionic_data {
     itype_id itype() const;
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, const std::string & );
+    void load( const JsonObject &obj, const std::string &src );
+    void finalize();
     static void load_bionic( const JsonObject &jo, const std::string &src );
+    static void finalize_bionic();
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();
+
+    static std::map<bionic_id, bionic_id> migrations;
+    static void load_bionic_migration( const JsonObject &jo, std::string_view );
 };
 
 struct bionic {
@@ -198,6 +208,7 @@ struct bionic {
         time_duration         charge_timer  = 0_turns;
         char        invlet  = 'a';
         bool        powered = false;
+        bool        show_sprite = true;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;
 
@@ -220,7 +231,7 @@ struct bionic {
         item get_weapon() const;
         void set_weapon( const item &new_weapon );
         bool install_weapon( const item &new_weapon, bool skip_checks = false );
-        cata::optional<item> uninstall_weapon();
+        std::optional<item> uninstall_weapon();
         bool has_weapon() const;
         bool can_install_weapon() const;
         bool can_install_weapon( const item &new_weapon ) const;

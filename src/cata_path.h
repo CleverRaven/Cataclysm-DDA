@@ -25,6 +25,10 @@
  * Attempting to construct a path that 'escapes' the logical root will result
  * in a path rooted at the logical root, just like what happens if you try to
  * resolve '/../'.
+ *
+ * All string values are assumed to be utf-8 encoded, but fs::path values are
+ * used as-is without checking for encoding, so fs::u8path should be used if the
+ * path is utf-8 encoded.
  */
 class cata_path
 {
@@ -47,9 +51,7 @@ class cata_path
 
         template<typename T>
         cata_path( root_path logical_root, T &&relative_path ) : logical_root_{ logical_root },
-            relative_path_{
-            std::forward<T>( relative_path )
-        } { }
+            relative_path_{ as_fs_path( std::forward<T>( relative_path ) ) } { }
 
         cata_path( const cata_path & ) = default;
         cata_path &operator=( const cata_path & ) = default;
@@ -89,26 +91,26 @@ class cata_path
         template<typename T>
         cata_path operator/( T &&segment ) const {
             cata_path ret = *this;
-            ret /= std::forward<T>( segment );
+            ret /= as_fs_path( std::forward<T>( segment ) );
             return ret;
         }
 
         template<typename T>
         cata_path &operator/=( T &&segment ) {
-            relative_path_ /= std::forward<T>( segment );
+            relative_path_ /= as_fs_path( std::forward<T>( segment ) );
             return *this;
         }
 
         template<typename T>
         cata_path operator+( T &&segment ) {
             cata_path ret = *this;
-            ret += std::forward<T>( segment );
+            ret += as_fs_path( std::forward<T>( segment ) );
             return ret;
         }
 
         template<typename T>
         cata_path &operator+=( T &&segment ) {
-            relative_path_ += std::forward<T>( segment );
+            relative_path_ += as_fs_path( std::forward<T>( segment ) );
             return *this;
         }
 
@@ -144,6 +146,18 @@ class cata_path
     private:
         root_path logical_root_;
         fs::path relative_path_;
+
+        template<typename T>
+        static std::enable_if_t < std::is_same_v<std::decay_t<T>, fs::path>, T && >
+        as_fs_path( T &&path ) {
+            return std::forward<T>( path );
+        }
+
+        template<typename T>
+        static std::enable_if_t < !std::is_same_v<std::decay_t<T>, fs::path>, fs::path >
+        as_fs_path( T &&path ) {
+            return fs::u8path( std::forward<T>( path ) );
+        }
 };
 
 #endif // CATA_SRC_CATA_PATH_H

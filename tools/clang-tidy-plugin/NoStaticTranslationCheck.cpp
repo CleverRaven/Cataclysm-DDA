@@ -7,11 +7,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void NoStaticTranslationCheck::registerMatchers( MatchFinder *Finder )
@@ -23,7 +19,7 @@ void NoStaticTranslationCheck::registerMatchers( MatchFinder *Finder )
                 decl(
                     anyOf(
                         functionDecl(
-                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
+                            hasAnyName( "_", "translation_argument_identity", "pgettext",
                                         "n_gettext", "npgettext" )
                         ),
                         cxxMethodDecl(
@@ -59,6 +55,4 @@ void NoStaticTranslationCheck::check( const MatchFinder::MatchResult &Result )
     );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

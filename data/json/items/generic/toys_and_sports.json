@@ -55,51 +55,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "generic_figurine_plastic",
-    "symbol": "f",
-    "color": "yellow",
-    "name": { "str": "figurine" },
-    "description": "Some kind of figurine.  It does not have much use nowadays.",
-    "snippet_category": [
-      { "id": "genfig01", "text": "Shaped like a human female.  It was made to wear different clothes." },
-      {
-        "id": "genfig02",
-        "text": "This one wears a hat.  It wears a glove on it's right hand that has three blades sticking out."
-      },
-      {
-        "id": "genfig03",
-        "text": "A blue unicorn that covers it's eyes with it's hooves.  It's in a sitting position."
-      },
-      {
-        "id": "genfig04",
-        "text": "A pink unicorn that covers it's ears with it's hooves.  It's in a sitting position."
-      },
-      {
-        "id": "genfig05",
-        "text": "A purple unicorn that covers it's mouth with it's hooves.  It's in a sitting position."
-      },
-      { "id": "genfig06", "text": "It seems to wear a reindeer suit.  It has a skull for a head." },
-      { "id": "genfig07", "text": "It looks like a swamp monster with scales over it's body." },
-      { "id": "genfig08", "text": "It looks like the reaper.  In it's left hand is a scythe." },
-      { "id": "genfig09", "text": "A mermaid sitting on a rock.  It has red hair." },
-      {
-        "id": "genfig10",
-        "text": "It seems to wear an avocado suit.  In the left hand is a salt shaker and in the right hand is a spoon.  It's in a sitting position."
-      },
-      {
-        "id": "genfig11",
-        "text": "Looks like someone's hero.  You can bend the arms and legs to give it different stances."
-      }
-    ],
-    "price": 600,
-    "price_postapoc": 20,
-    "material": [ "plastic" ],
-    "weight": "100 g",
-    "volume": "150 ml",
-    "longest_side": "15 cm"
-  },
-  {
-    "type": "GENERIC",
     "id": "swimming_kickboard",
     "name": { "str": "swimming kickboard" },
     "description": "A swimming kickboard, would be a great training aid for the beach or the pool, if only they weren't full of zombies and mutant fish.",
@@ -108,12 +63,12 @@
     "longest_side": "37 cm",
     "price": "12 USD",
     "price_postapoc": 5,
-    "bashing": 4,
     "to_hit": -1,
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "shuttlecock",
@@ -160,8 +115,8 @@
     "material": [ "plastic" ],
     "symbol": "*",
     "color": "white",
-    "bashing": 5,
-    "to_hit": -3
+    "to_hit": -3,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
@@ -179,13 +134,13 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "57 mm",
-    "bashing": 8,
     "damage": { "damage_type": "bash", "amount": 8 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -201,8 +156,8 @@
     "weight": "7257 g",
     "volume": "5277 ml",
     "longest_side": "216 mm",
-    "bashing": 18,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "AMMO",
@@ -220,13 +175,13 @@
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "75 mm",
-    "bashing": 6,
     "damage": { "damage_type": "bash", "amount": 6 },
     "range": 12,
     "dispersion": 12,
     "loudness": 0,
     "to_hit": 3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -242,8 +197,8 @@
     "weight": "400 g",
     "volume": "750 ml",
     "longest_side": "29 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -259,8 +214,8 @@
     "weight": "800 g",
     "volume": "1 L",
     "longest_side": "239 mm",
-    "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -276,8 +231,8 @@
     "weight": "260 g",
     "volume": "1 L",
     "longest_side": "26 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "TOOL",
@@ -319,8 +274,8 @@
     "weight": "280 g",
     "volume": "1 L",
     "longest_side": "27 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -336,8 +291,8 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "76 mm",
-    "bashing": 7,
-    "to_hit": 2
+    "to_hit": 2,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -353,8 +308,8 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "TOOL",
@@ -370,7 +325,6 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
     "to_hit": -2,
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
@@ -390,6 +344,7 @@
       "difficulty": 0,
       "need_charges": 100,
       "moves": 20
-    }
+    },
+    "melee_damage": { "bash": 18 }
   }
 ]

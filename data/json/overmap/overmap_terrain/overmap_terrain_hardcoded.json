@@ -125,15 +125,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hive",
-    "name": "bee hive",
-    "sym": "8",
-    "color": "yellow",
-    "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "slimepit",
     "name": "slime pit",
     "sym": "~",

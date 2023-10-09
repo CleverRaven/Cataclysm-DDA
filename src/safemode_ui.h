@@ -99,10 +99,10 @@ class safemode
     public:
         std::string lastmon_whitelist; // NOLINT(cata-serialize)
 
-        bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        bool has_rule( std::string_view rule_in, Creature::Attitude attitude_in );
         void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,
                        int proximity_in, rule_state state_in );
-        void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        void remove_rule( std::string_view rule_in, Creature::Attitude attitude_in );
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
                                   int proximity_in, bool driving = false ) const;

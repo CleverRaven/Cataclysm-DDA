@@ -6,9 +6,14 @@
         "sdl2-image",
         {
           "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
+          "features": [ "libflac", "mpg123", "libmodplug" ]
         },
         "sdl2-ttf",
         "qt5-base"
-    ]
+    ],
+    "vcpkg-configuration": {
+        "overlay-ports": [
+            "../.github/vcpkg_ports"
+        ]
+    }
 }

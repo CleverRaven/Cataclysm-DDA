@@ -7,9 +7,10 @@
     "name": { "str": "basecamp kiln" },
     "description": "A fake kiln used for basecamps.",
     "sub": "char_kiln",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
+    "//1": "250 liters of materials can produce 100 liters of charcoal.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 20000 } } ]
   },
   {
     "id": "fake_char_smoker",
@@ -19,9 +20,10 @@
     "name": { "str": "basecamp charcoal smoker" },
     "description": "A fake charcoal smoker used for basecamps.",
     "sub": "char_smoker",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
+    "//1": "holds 450 liters of charcoal. a full smoking rack cycle of 20L of stuff would consume 15,000 charcoal (75 liters, 15.6kg of charcoal)",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 90000 } } ]
   },
   {
     "id": "fake_forge",
@@ -29,9 +31,9 @@
     "type": "TOOL",
     "name": { "str": "basecamp forge" },
     "copy-from": "char_forge",
-    "description": "A fake forge used for basecamps.",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
+    "description": "A fake charcoal forge used for basecamps.",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "ZERO_WEIGHT" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
   },
   {
     "id": "fake_clay_kiln",
@@ -41,9 +43,9 @@
     "name": { "str": "basecamp clay kiln" },
     "description": "A fake clay kiln used for basecamps.",
     "sub": "brick_kiln",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ]
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
+    "ammo": [ "charcoal", "coal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
   },
   {
     "id": "fake_fireplace",
@@ -52,7 +54,7 @@
     "name": { "str": "basecamp fireplace" },
     "description": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 25
@@ -64,7 +66,7 @@
     "name": { "str": "basecamp stove" },
     "description": "A fake stove used for basecamps.",
     "sub": "hotplate",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 10

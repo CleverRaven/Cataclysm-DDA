@@ -51,11 +51,6 @@
   },
   {
     "type": "weapon_category",
-    "id": "BLADED_FARMING",
-    "name": "BLADED FARMING"
-  },
-  {
-    "type": "weapon_category",
     "id": "CLAWS",
     "name": "CLAWS"
   },

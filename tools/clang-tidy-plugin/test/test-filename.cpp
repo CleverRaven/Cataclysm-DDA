@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-test-filename %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-test-filename %t -- --load=%cata_plugin -- -isystem %cata_include
 
 #define TEST_CASE(name)
 

@@ -104,6 +104,17 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "earthshaper_turning_earth",
+    "terrain": [
+      {
+        "result": "t_dirtmound",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor", "t_grass", "t_grass_long", "t_grass_tall", "t_grass_dead", "t_grass_white", "t_pit_shallow" ],
+        "message": "The ground churns as a long straight furrow suitable for planting appears."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "earthshaper_boulder",
     "furniture": [
       {
@@ -191,6 +202,94 @@
         "result": "f_everfrost_crystal",
         "valid_furniture": [ "f_null" ],
         "message": "There's a rippling in the air and a blast of cold air, then the crystal forms."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "earthshaper_granite_aegis_to_stone",
+    "terrain": [
+      {
+        "result": "t_rock_smooth",
+        "valid_terrain": [
+          "t_rock_floor_no_roof",
+          "t_rock_floor",
+          "t_dirt",
+          "t_dirtfloor",
+          "t_dirtfloor_no_roof",
+          "t_dirt_underground",
+          "t_grass",
+          "t_grass_long",
+          "t_grass_tall",
+          "t_grass_dead",
+          "t_grass_white",
+          "t_grass_golf",
+          "t_pit_shallow",
+          "t_sand",
+          "t_sand_underground",
+          "t_clay",
+          "t_claymound",
+          "t_claymound_underground",
+          "t_dirtmound",
+          "t_sandmound",
+          "t_mud",
+          "t_mud_underground",
+          "t_forestfloor",
+          "t_moss",
+          "t_moss_underground",
+          "t_region_soil",
+          "t_puddle_underground",
+          "t_pit_shallow",
+          "t_concrete_y",
+          "t_concrete",
+          "t_thconc_y_olight",
+          "t_thconc_warning",
+          "t_thconc_y",
+          "t_thconc_r",
+          "t_thconc_floor",
+          "t_strconc_floor",
+          "t_strconc_floor_olight",
+          "t_strconc_floor_no_roof",
+          "t_railroad_rubble"
+        ],
+        "message": "A wall of smooth stone rises up around you!"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "earthshaper_granite_aegis_to_stone_safe",
+    "terrain": [ { "result": "t_dirtmound", "valid_terrain": [ "t_rock_smooth" ], "message": "" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "earthshaper_granite_aegis_from_stone",
+    "terrain": [ { "result": "t_dirtmound", "valid_terrain": [ "t_rock_smooth" ], "message": "The stone wall crumbles to dust." } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "druid_summoned_brambles",
+    "furniture": [
+      {
+        "result": "f_druid_brambles",
+        "valid_furniture": [
+          "f_null",
+          "f_cattails",
+          "t_grass_tall",
+          "t_grass_long",
+          "f_burdock",
+          "f_lotus",
+          "f_japanese_knotweed",
+          "f_golden_reed",
+          "f_barnacle_weed",
+          "f_lilypad",
+          "f_whiskflower",
+          "f_bluebell",
+          "f_lily",
+          "f_salsify",
+          "f_wild_sarsaparilla"
+        ],
+        "message": "The ground churns as thick, tangled brambles burst forth and grow in moments."
       }
     ]
   }

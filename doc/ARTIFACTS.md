@@ -8,7 +8,7 @@ An "artifact" is a special game item with unique "magic" effects.  It uses a bas
 
 The procedural generation of artifacts is defined in Json. The object looks like the following:
 ```json
-{
+  {
     "type": "relic_procgen_data",
     "id": "cult",
     "charge_types": [
@@ -23,24 +23,24 @@ The procedural generation of artifacts is defined in Json. The object looks like
     ],
     "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN" } ],
     "passive_add_procgen_values": [
-        {
-            "weight": 100,
-            "min_value": -1,
-            "max_value": 1,
-            "type": "STRENGTH",
-            "increment": 1,
-            "power_per_increment": 250
-        }
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250
+      }
     ],
     "passive_mult_procgen_values": [
-        {
-            "weight": 100,
-            "min_value": -1.5,
-            "max_value": 1.5,
-            "type": "STRENGTH",
-            "increment": 0.1,
-            "power_per_increment": 250
-        }
+      {
+        "weight": 100,
+        "min_value": -1.5,
+        "max_value": 1.5,
+        "type": "STRENGTH",
+        "increment": 0.1,
+        "power_per_increment": 250
+      }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
     "items": [ { "weight": 100, "item": "spoon" } ]

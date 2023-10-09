@@ -6,6 +6,7 @@
 #include <iterator>
 #include <list>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <vector>
@@ -29,7 +30,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -297,7 +297,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
+        const std::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
         if( !target_pos_ ) {
             return;
         }
@@ -365,7 +365,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
     map &here = get_map();
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            player_character.assign_activity( player_activity( consume_activity_actor( liquid ) ) );
+            player_character.assign_activity( consume_activity_actor( liquid ) );
             liquid.charges--;
             return true;
         case LD_ITEM: {
@@ -374,21 +374,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
             if( target.item_loc && create_activity() ) {
                 serialize_liquid_target( player_character.activity, target.item_loc );
             } else if( player_character.pour_into( target.item_loc, liquid, true ) ) {
-                if( target.item_loc->needs_processing() ) {
-                    // Polymorphism fail, have to introspect into the type to set the target container as active.
-                    switch( target.item_loc.where() ) {
-                        case item_location::type::map:
-                            here.make_active( target.item_loc );
-                            break;
-                        case item_location::type::vehicle:
-                            here.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
-                            break;
-                        case item_location::type::container:
-                        case item_location::type::character:
-                        case item_location::type::invalid:
-                            break;
-                    }
-                }
+                target.item_loc.make_active();
                 player_character.mod_moves( -100 );
             }
             return true;
@@ -407,18 +393,15 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                                       round_up( to_liter( liquid.charges * stack ), 1 ),
                                       liquid.tname() );
 
-            vehicle_part &tank = veh_interact::select_part( *target.veh, sel, title );
-
-            if( !tank ) {
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *target.veh, sel, title );
+            if( !vpr ) {
                 return false;
             }
 
-            const vpart_reference vp( *target.veh, target.veh->index_of_part( &tank ) );
-
             if( create_activity() ) {
-                serialize_liquid_target( player_character.activity, vp );
+                serialize_liquid_target( player_character.activity, *vpr );
                 return true;
-            } else if( player_character.pour_into( vp, liquid ) ) {
+            } else if( player_character.pour_into( *vpr, liquid ) ) {
                 // this branch is used in milking and magiclysm butchery blood draining
                 player_character.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
                 return true;

@@ -11,6 +11,7 @@
     "category": "mutagen",
     "weight": "250 g",
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "container": "flask_glass",
     "symbol": "~",
@@ -430,6 +431,21 @@
     }
   },
   {
+    "id": "iv_mutagen_crustacean",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "crustacean mutagenic primer" },
+    "description": " A red colored mutagenic primer.",
+    "color": "red",
+    "looks_like": "iv_mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the crustacean mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_crustacean", 450, 550 ] ]
+    }
+  },
+  {
     "id": "mutagen",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
@@ -759,6 +775,20 @@
     }
   },
   {
+    "id": "mutagen_crustacean",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "crustacean mutagen" },
+    "description": "A crustacean mutagen.",
+    "looks_like": "mutagen",
+    "color": "red",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the crustacean mutagen.",
+      "vitamins": [ [ "mutagen_crustacean", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
     "id": "purifier",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
@@ -802,6 +832,7 @@
     "comestible_type": "MED",
     "weight": "10 g",
     "volume": "10 ml",
+    "charges": 1,
     "phase": "liquid",
     "container": "test_tube",
     "symbol": "?",

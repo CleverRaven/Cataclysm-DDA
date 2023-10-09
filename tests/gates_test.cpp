@@ -10,7 +10,7 @@
 #include "sounds.h"
 #include "type_id.h"
 
-TEST_CASE( "doors should be able to open and close", "[gates]" )
+TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
 {
     map &here = get_map();
     clear_map();
@@ -42,7 +42,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
     }
 }
 
-TEST_CASE( "windows should be able to open and close", "[gates]" )
+TEST_CASE( "windows_should_be_able_to_open_and_close", "[gates]" )
 {
     map &here = get_map();
     clear_map();
@@ -70,7 +70,7 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
 // Note that it is not intended for all doors and windows to make swish sound,
 // some doors and windows might make other types of sounds in the future
 // TODO: update test case when door and window sounds become defined in JSON.
-TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
+TEST_CASE( "doors_and_windows_should_make_whoosh_sound", "[gates]" )
 {
     map &here = get_map();
     clear_map();
@@ -137,7 +137,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
     }
 }
 
-TEST_CASE( "character should lose moves when opening or closing doors or windows", "[gates]" )
+TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows", "[gates]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();

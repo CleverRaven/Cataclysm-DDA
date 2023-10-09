@@ -307,5 +307,24 @@
     "see_cost": 2,
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Crashing Ship",
+    "id": [
+      "crashing_ship_3",
+      "crashing_ship_2",
+      "crashing_ship_1",
+      "crashing_ship_6",
+      "crashing_ship_5",
+      "crashing_ship_4",
+      "crashing_ship_9",
+      "crashing_ship_8",
+      "crashing_ship_7"
+    ],
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
   }
 ]

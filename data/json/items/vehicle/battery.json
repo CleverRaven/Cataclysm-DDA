@@ -58,10 +58,10 @@
     "symbol": ":",
     "material": [ "plastic", "steel" ],
     "volume": "2250 ml",
-    "bashing": 1,
     "category": "veh_parts",
     "price": 1000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -74,10 +74,10 @@
     "symbol": ":",
     "material": [ "plastic", "steel", "copper" ],
     "volume": "300 ml",
-    "bashing": 1,
     "category": "veh_parts",
     "price": 1000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "large_storage_battery",
@@ -89,9 +89,9 @@
     "volume": "50 L",
     "price": 400000,
     "price_postapoc": 2500,
-    "bashing": 40,
     "capacity": 100000,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "medium_storage_battery",
@@ -103,9 +103,9 @@
     "volume": "5 L",
     "price": 50000,
     "price_postapoc": 750,
-    "bashing": 14,
     "capacity": 10000,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "small_storage_battery",
@@ -117,9 +117,9 @@
     "volume": "500 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "bashing": 7,
     "capacity": 1000,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "storage_battery",
@@ -132,7 +132,6 @@
     "price": 200000,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 20,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "light_cyan",
@@ -140,6 +139,7 @@
     "capacity": 50000,
     "//": "Approximate energy density 2.1 MJ/L / 0.73 MJ/Kg for lithium nickel manganese cobalt oxide (NMC) batteries",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50000 } } ],
+    "melee_damage": { "bash": 20 }
   }
 ]

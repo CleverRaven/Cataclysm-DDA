@@ -1,0 +1,9 @@
+[
+  {
+    "id": "fault_bionic_salvaged",
+    "type": "fault",
+    "name": { "str": "Already deployed" },
+    "description": "This bionic needs to be reset to its factory state.",
+    "item_prefix": "salvaged"
+  }
+]

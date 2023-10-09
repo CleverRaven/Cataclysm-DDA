@@ -27,7 +27,7 @@
     "stack_size": 40,
     "ammo_type": "8x40mm",
     "range": 42,
-    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 18 },
+    "damage": { "damage_type": "bullet", "amount": 46, "armor_penetration": 18 },
     "dispersion": 75,
     "recoil": 2200,
     "effects": [ "NEVER_MISFIRES" ]

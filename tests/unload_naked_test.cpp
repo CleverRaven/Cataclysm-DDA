@@ -1,5 +1,6 @@
 #include <list>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -7,7 +8,6 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "type_id.h"
 

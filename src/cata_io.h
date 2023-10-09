@@ -164,7 +164,7 @@ struct has_archive_tag<T, typename enable_if_type<typename T::archive_type_tag>:
         typename T::archive_type_tag::OutputArchive archive( stream );
         const_cast<T &>( value ).io( archive );
     }
-    static bool read( const JsonObject &obj, const std::string &key, T &value ) {
+    static bool read( const JsonObject &obj, const std::string_view key, T &value ) {
         if( !obj.has_member( key ) ) {
             return false;
         }
@@ -200,7 +200,7 @@ class JsonObjectInputArchive : public JsonObject
         /** Create archive from next object in the given Json array. */
         explicit JsonObjectInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
-        JsonObjectInputArchive( const JsonObject &, const std::string &key );
+        JsonObjectInputArchive( const JsonObject &, std::string_view key );
 
         /**
          * @name Deserialization
@@ -348,7 +348,7 @@ class JsonArrayInputArchive : public JsonArray
         /** Create archive from next object in the giexplicit ven Json array. */
         explicit JsonArrayInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
-        JsonArrayInputArchive( const JsonObject &, const std::string &key );
+        JsonArrayInputArchive( const JsonObject &, std::string_view key );
 
         template<typename T>
         bool io( T &value ) {
@@ -358,13 +358,14 @@ class JsonArrayInputArchive : public JsonArray
 
 inline JsonArrayInputArchive::JsonArrayInputArchive( JsonArray &arr )
     : JsonArray( arr.next_array() ) { }
-inline JsonArrayInputArchive::JsonArrayInputArchive( const JsonObject &obj, const std::string &key )
+inline JsonArrayInputArchive::JsonArrayInputArchive( const JsonObject &obj,
+        const std::string_view key )
     : JsonArray( obj.get_array( key ) ) { }
 
 inline JsonObjectInputArchive::JsonObjectInputArchive( JsonArray &arr )
     : JsonObject( arr.next_object() ) { }
 inline JsonObjectInputArchive::JsonObjectInputArchive( const JsonObject &obj,
-        const std::string &key )
+        const std::string_view key )
     : JsonObject( obj.get_object( key ) ) { }
 
 /**
@@ -403,7 +404,7 @@ class JsonObjectOutputArchive
          */
         /*@{*/
         template<typename T>
-        bool io( const std::string &name, const T &value ) {
+        bool io( const std::string_view name, const T &value ) {
             stream.member( name );
             io::detail::has_archive_tag<T>::write( stream, value );
             return false;
@@ -476,7 +477,7 @@ class JsonObjectOutputArchive
          * and always return false.
          */
         template<typename T>
-        bool read( const std::string &, T & ) {
+        bool read( const std::string_view, T & ) {
             return false;
         }
 };

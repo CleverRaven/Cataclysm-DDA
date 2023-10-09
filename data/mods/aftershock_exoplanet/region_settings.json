@@ -44,7 +44,7 @@
       "base_wind": 9.0,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
-      "weather_types": [ "clear", "sunny", "cloudy", "afs_whiteout", "afs_thunder", "afs_lightning", "afs_flurries", "afs_snowing" ]
+      "weather_white_list": [ "clear", "sunny", "cloudy", "afs_whiteout", "afs_thunder", "afs_lightning", "afs_flurries", "afs_snowing" ]
     },
     "region_terrain_and_furniture": {
       "terrain": {

@@ -14,7 +14,7 @@
     "using": [ [ "welding_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "learning_time_multiplier": 0.5 },
-      { "proficiency": "prof_welding_basic", "required": false, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_welding_basic", "required": false, "skill_penalty": 0.5 }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "CHISEL", "level": 2 } ],
     "components": [ [ [ "orichalcum_frame", 1 ] ] ]

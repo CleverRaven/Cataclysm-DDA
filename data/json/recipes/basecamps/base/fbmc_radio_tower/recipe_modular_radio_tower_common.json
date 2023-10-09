@@ -60,7 +60,7 @@
     "construction_blueprint": "fbmc_radio_tower_root_cellar",
     "blueprint_name": "root cellar",
     "blueprint_provides": [ { "id": "pantry" }, { "id": "trapping" }, { "id": "fbmc_radio_tower_root_cellar" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_radio_tower" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_root_cellar" } ]
   },
   {
@@ -74,7 +74,7 @@
     "construction_blueprint": "fbmc_radio_tower_water_well",
     "blueprint_name": "water well",
     "blueprint_provides": [ { "id": "relaying" }, { "id": "fbmc_radio_tower_water_well" } ],
-    "blueprint_requires": [ { "id": "bed", "amount": 4 }, { "id": "fbmc_radio_tower" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower" } ],
     "blueprint_excludes": [ { "id": "fbmc_radio_tower_water_well" } ]
   },
   {
@@ -191,7 +191,7 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_radio_tower_fix_tower",
     "blueprint_name": "fix whole radio tower",
-    "blueprint_requires": [ { "id": "bed", "amount": 12 }, { "id": "fbmc_radio_tower_palisade" }, { "id": "fbmc_radio_tower_fix_controls" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_palisade" }, { "id": "fbmc_radio_tower_fix_controls" } ],
     "blueprint_provides": [
       { "id": "faction_base_radio_tower_fix_tower" },
       { "id": "hack_recipes_general" },

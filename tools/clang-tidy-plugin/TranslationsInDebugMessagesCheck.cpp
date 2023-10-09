@@ -9,11 +9,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
@@ -25,7 +21,7 @@ void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
                 functionDecl(
                     anyOf(
                         functionDecl(
-                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
+                            hasAnyName( "_", "translation_argument_identity", "pgettext",
                                         "n_gettext", "npgettext", "to_translation", "pl_translation",
                                         "no_translation" )
                         ),
@@ -65,6 +61,4 @@ void TranslationsInDebugMessagesCheck::check( const MatchFinder::MatchResult &Re
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "point.h"
@@ -140,13 +141,18 @@ TEST_CASE( "point_to_from_string", "[point]" )
     bool use_locale = GENERATE( false, true );
 
     if( use_locale ) {
+        std::locale const &oldloc = std::locale();
+        on_out_of_scope reset_loc( [&oldloc]() {
+            std::locale::global( oldloc );
+        } );
         try {
             std::locale::global( std::locale( "en_US.UTF-8" ) );
-        } catch( std::runtime_error & ) {
-            // On platforms where we can't set the locale, don't worry about it
+        } catch( std::runtime_error &e ) {
+            WARN( "couldn't set locale for point test: " << e.what() );
             return;
         }
-        setlocale( LC_ALL, nullptr );
+        char *result = setlocale( LC_ALL, "" );
+        REQUIRE( result );
     }
     CAPTURE( std::locale().name() );
 

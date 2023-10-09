@@ -2,6 +2,7 @@
   {
     "type": "terrain",
     "id": "t_tree_burnt",
+    "looks_like": "t_tree_dead",
     "name": "burnt tree",
     "description": "This tree looks like it has been burnt badly, but it is somehow still standing.",
     "symbol": "7",
@@ -21,7 +22,8 @@
   {
     "type": "terrain",
     "id": "t_webbed_corpse",
-    "name": "burnt tree",
+    "looks_like": "t_tree_dead",
+    "name": "dry cocoon",
     "description": "This is a large cocoon-like object that looks to be the vague shape of some creature.  You don't want to know how long it stayed alive while being sucked dry by these spiders.",
     "symbol": "7",
     "color": "light_gray",

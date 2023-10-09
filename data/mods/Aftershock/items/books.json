@@ -58,7 +58,6 @@
     "weight": "2063 g",
     "volume": "2 L",
     "price": 9200,
-    "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "adv_chemistry",
@@ -68,7 +67,8 @@
     "max_level": 7,
     "intelligence": 13,
     "fun": -1,
-    "time": "50 m"
+    "time": "50 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_bugbrew_book",
@@ -127,6 +127,27 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "schematics_eyebot",
+    "type": "BOOK",
+    "name": { "str_sp": "eyebot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_copbot",
+    "type": "BOOK",
+    "name": { "str_sp": "police bot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_riotbot",
+    "type": "BOOK",
+    "name": { "str_sp": "riot control bot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
     "id": "afs_landfall_kit_2_instructions",
     "type": "BOOK",
     "category": "manuals",
@@ -154,7 +175,6 @@
     "weight": "2063 g",
     "volume": "2 L",
     "price": 929200,
-    "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "adv_chemistry",
@@ -164,7 +184,8 @@
     "max_level": 9,
     "intelligence": 13,
     "fun": -3,
-    "time": "50 m"
+    "time": "50 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "recipe_uplift",
@@ -247,7 +268,6 @@
     "weight": "2063 g",
     "volume": "2 L",
     "price": 9200,
-    "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "adv_chemistry",
@@ -257,7 +277,8 @@
     "max_level": 3,
     "intelligence": 9,
     "fun": 1,
-    "time": "50 m"
+    "time": "50 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "recipe_lichenlog",

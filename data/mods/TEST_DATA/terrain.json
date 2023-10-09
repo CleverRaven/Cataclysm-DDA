@@ -134,5 +134,43 @@
       "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
     },
     "prying": { "result": "t_grass", "duration": "30 seconds", "prying_data": { "difficulty": 100, "breakable": true } }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_pit_shallow",
+    "name": "shallow pit",
+    "description": "test shallow pit",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_pit",
+    "name": "pit",
+    "description": "test deep pit",
+    "symbol": "0",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 10,
+    "trap": "tr_pit",
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit"
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_window_no_curtains",
+    "name": "window without curtains",
+    "description": "barricadable window",
+    "symbol": "\"",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "flags": [ "BARRICADABLE_WINDOW" ]
   }
 ]

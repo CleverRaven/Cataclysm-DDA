@@ -13,7 +13,6 @@
 #define TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 // start catch.hpp
 
-
 #define CATCH_VERSION_MAJOR 2
 #define CATCH_VERSION_MINOR 13
 #define CATCH_VERSION_PATCH 7
@@ -688,7 +687,6 @@ constexpr auto operator "" _catch_sr( char const* rawChars, std::size_t size ) n
 // end catch_stringref.h
 // start catch_preprocessor.hpp
 
-
 #define CATCH_RECURSION_LEVEL0(...) __VA_ARGS__
 #define CATCH_RECURSION_LEVEL1(...) CATCH_RECURSION_LEVEL0(CATCH_RECURSION_LEVEL0(CATCH_RECURSION_LEVEL0(__VA_ARGS__)))
 #define CATCH_RECURSION_LEVEL2(...) CATCH_RECURSION_LEVEL1(CATCH_RECURSION_LEVEL1(CATCH_RECURSION_LEVEL1(__VA_ARGS__)))
@@ -915,7 +913,6 @@ constexpr auto operator "" _catch_sr( char const* rawChars, std::size_t size ) n
 
 // end catch_preprocessor.hpp
 // start catch_meta.hpp
-
 
 #include <type_traits>
 
@@ -3836,7 +3833,6 @@ namespace Catch {
 
 // start catch_interfaces_generatortracker.h
 
-
 #include <memory>
 
 namespace Catch {
@@ -5420,7 +5416,6 @@ namespace Catch {
 
  // Statistics estimates
 
-
 namespace Catch {
     namespace Benchmark {
         template <typename Duration>
@@ -6039,7 +6034,6 @@ namespace Catch {
 // end catch_console_colour.h
 // start catch_reporter_registrars.hpp
 
-
 namespace Catch {
 
     template<typename T>
@@ -6439,11 +6433,9 @@ namespace Catch {
 
 // User-facing chronometer
 
-
 // start catch_clock.hpp
 
 // Clocks
-
 
 #include <chrono>
 #include <ratio>
@@ -6475,7 +6467,6 @@ namespace Catch {
 // start catch_optimizer.hpp
 
  // Hinting the optimizer
-
 
 #if defined(_MSC_VER)
 #   include <atomic> // atomic_thread_fence
@@ -6535,7 +6526,6 @@ namespace Catch {
 // start catch_complete_invoke.hpp
 
 // Invoke with a special case for void
-
 
 #include <type_traits>
 #include <utility>
@@ -6646,7 +6636,6 @@ namespace Catch {
 
 // Environment information
 
-
 namespace Catch {
     namespace Benchmark {
         template <typename Duration>
@@ -6673,11 +6662,9 @@ namespace Catch {
 
  // Execution plan
 
-
 // start catch_benchmark_function.hpp
 
  // Dumb std::function implementation for consistent call overhead
-
 
 #include <cassert>
 #include <type_traits>
@@ -6771,7 +6758,6 @@ namespace Catch {
 
 // repeat algorithm
 
-
 #include <type_traits>
 #include <utility>
 
@@ -6800,16 +6786,13 @@ namespace Catch {
 
 // Run a function for a minimum amount of time
 
-
 // start catch_measure.hpp
 
 // Measure
 
-
 // start catch_timing.hpp
 
 // Timing
-
 
 #include <tuple>
 #include <type_traits>
@@ -6934,11 +6917,9 @@ namespace Catch {
 
  // Environment measurement
 
-
 // start catch_stats.hpp
 
 // Statistical analysis tools
-
 
 #include <algorithm>
 #include <functional>
@@ -7182,11 +7163,9 @@ namespace Catch {
 
  // Run and analyse one benchmark
 
-
 // start catch_sample_analysis.hpp
 
 // Benchmark results
-
 
 #include <algorithm>
 #include <vector>
@@ -7380,7 +7359,6 @@ namespace Catch {
 // start catch_constructor.hpp
 
 // Constructor and destructor helpers
-
 
 #include <type_traits>
 
@@ -8427,7 +8405,6 @@ namespace Catch {
 
 // Clara v1.1.5
 
-
 #ifndef CATCH_CLARA_CONFIG_CONSOLE_WIDTH
 #define CATCH_CLARA_CONFIG_CONSOLE_WIDTH 80
 #endif
@@ -8455,7 +8432,6 @@ namespace Catch {
 // file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 // This project is hosted at https://github.com/philsquared/textflowcpp
-
 
 #include <cassert>
 #include <ostream>
@@ -10042,7 +10018,6 @@ namespace Catch {
 
 // end catch_errno_guard.h
 // start catch_windows_h_proxy.h
-
 
 #if defined(CATCH_PLATFORM_WINDOWS)
 
@@ -17943,7 +17918,6 @@ using Catch::Detail::Approx;
 #endif // ! CATCH_CONFIG_IMPL_ONLY
 
 // start catch_reenable_warnings.h
-
 
 #ifdef __clang__
 #    ifdef __ICC // icpc defines the __clang__ macro

@@ -35,9 +35,9 @@
     "weight": "1400 g",
     "volume": "3 L",
     "longest_side": "170 cm",
-    "bashing": 17,
     "category": "weapons",
-    "to_hit": 3
+    "to_hit": 3,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "magi_staff_lesser",
@@ -57,9 +57,9 @@
     "weight": "1400 g",
     "volume": "3 L",
     "longest_side": "170 cm",
-    "bashing": 17,
     "category": "weapons",
-    "to_hit": 3
+    "to_hit": 3,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "magi_staff_greater",
@@ -79,9 +79,9 @@
     "weight": "1400 g",
     "volume": "3 L",
     "longest_side": "170 cm",
-    "bashing": 17,
     "category": "weapons",
-    "to_hit": 3
+    "to_hit": 3,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "bleed_staff_minor",

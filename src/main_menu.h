@@ -72,6 +72,7 @@ class main_menu
         input_context ctxt;
         int sel1 = 1;
         int sel2 = 1;
+        size_t last_world_pos = 0;
         int sub_opt_off = 0;
         point LAST_TERM;
         catacurses::window w_open;

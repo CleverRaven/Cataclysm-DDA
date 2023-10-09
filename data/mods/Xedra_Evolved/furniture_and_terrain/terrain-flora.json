@@ -1,0 +1,169 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_tree_fig",
+    "name": "fig tree",
+    "looks_like": "t_tree",
+    "description": "This tree is Ficus carica, a species of small tree in the flowering plant family Moraceae, native to the Mediterranean region, together with western and southern Asia.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red", "brown" ],
+    "//": "barren in winter, fruits in autumn",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_fig_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "fig_harv" } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_fig_harvested",
+    "name": "fig tree",
+    "looks_like": "t_tree_dead",
+    "description": "This tree is Ficus carica, a species of small tree in the flowering plant family Moraceae, native to the Mediterranean region, together with western and southern Asia.  There do not appear to be any ripe apples now.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_fig",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_pomegranate",
+    "name": "fig tree",
+    "looks_like": "t_tree",
+    "description": "This tree is Punica granatum is a fruit-bearing deciduous shrub in the family Lythraceae, subfamily Punicoideae, that grows between 5 and 10 m (16 and 33 ft) tall.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red", "brown" ],
+    "//": "barren in winter, fruits in autumn",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_pomegranate_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pomegranate_harv" } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_pomegranate_harvested",
+    "name": "fig tree",
+    "looks_like": "t_tree_dead",
+    "description": "This tree is Punica granatum is a fruit-bearing deciduous shrub in the family Lythraceae, subfamily Punicoideae, that grows between 5 and 10 m (16 and 33 ft) tall.  There do not appear to be any ripe apples now.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_pomegranate",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hawthorn",
+    "name": "hawthorn tree",
+    "looks_like": "t_tree",
+    "description": "Crataegus monogyna, known as common hawthorn, one-seed hawthorn, or single-seeded hawthorn, is a species of flowering plant in the rose family Rosaceae.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "i_light_green", "brown" ],
+    "//": "berries in autum and in winter, harvestable petals in spring",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "spring" ], "id": "hawthorn_petal_harv" },
+      { "seasons": [ "autumn", "winter" ], "id": "hawthorn_berry_harv" }
+    ],
+    "transforms_into": "t_tree_hawthorn_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hawthorn_harvested",
+    "looks_like": "t_tree_harvested",
+    "description": "Crataegus monogyna, known as common hawthorn, one-seed hawthorn, or single-seeded hawthorn, is a species of flowering plant in the rose family Rosaceae.  It looks like the tree has been picked clean of hawthorns.",
+    "name": "hawthorn tree",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_hawthorn",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  }
+]

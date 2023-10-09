@@ -2,15 +2,38 @@
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_gear",
+    "//": "Should contain all Hub 01 gear",
     "subtype": "collection",
     "entries": [
       { "group": "robofac_armor_pieces" },
+      { "group": "robofac_armor_pieces_basic" },
       { "group": "robofac_armor_pieces_military" },
       { "group": "robofac_gun_mags" },
       { "group": "robofac_gun_exodii" },
       { "group": "robofac_gun_kit" },
+      { "item": "robofac_armor_anchor" },
+      { "item": "robofac_armor_anchor_on" },
+      { "item": "robofac_armor_rig" },
       { "item": "robofac_enviro_suit" },
-      { "item": "robofac_enviro_suit_casual" }
+      { "item": "robofac_enviro_suit_casual" },
+      { "item": "robofac_head_rig" },
+      { "item": "robofac_head_rig_ir" },
+      { "item": "robofac_head_rig_nv" },
+      { "item": "hm12" },
+      { "item": "template_armor" },
+      { "item": "template_photonics" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces_basic",
+    "subtype": "collection",
+    "entries": [
+      { "item": "robofac_basic_helmet" },
+      { "item": "robofac_basic_greaves" },
+      { "item": "robofac_basic_mantle" },
+      { "item": "robofac_basic_skirt" },
+      { "item": "robofac_basic_vambraces" }
     ]
   },
   {
@@ -44,7 +67,13 @@
     "type": "item_group",
     "id": "robofac_basic_robots",
     "subtype": "distribution",
-    "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+    "items": [ [ "bot_tazer_hack", 40 ], [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_robots",
+    "subtype": "distribution",
+    "items": [ [ "bot_robofac_skittergun", 40 ], [ "robofac_robotrig", 50 ] ]
   },
   {
     "type": "item_group",

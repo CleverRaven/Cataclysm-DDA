@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-redundant-parentheses %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-redundant-parentheses %t -- --load=%cata_plugin -- -isystem %cata_include
 
 #define MACRO(a, b) ( g1( ( a ), ( b ) ) )
 

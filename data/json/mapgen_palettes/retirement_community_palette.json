@@ -182,13 +182,13 @@
       "Я": "t_null"
     },
     "furniture": {
-      "!": "f_foot_locker",
+      "!": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "-": "f_cupboard",
       "₸": "f_pool_table",
       "#": "f_glass_cabinet",
       "*": "f_toilet",
       "@": "f_console",
-      "_": "f_foot_locker",
+      "_": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "~": "f_cupboard",
       "=": "f_null",
       "5": "f_dresser",
@@ -202,7 +202,7 @@
       "d": "f_displaycase",
       "f": "f_fridge",
       "H": "f_home_furnace",
-      "h": "f_water_heater",
+      "h": "f_water_heater_family",
       "i": "f_cupboard",
       "I": "f_null",
       "j": "f_null",
@@ -315,6 +315,7 @@
       ",": "f_rack",
       ";": "f_sofa",
       "@": "f_desk",
+      "}": "f_room_divider",
       "_": "f_console",
       "₸": "f_pool_table",
       "*": "f_region_flower",
@@ -417,10 +418,5 @@
       "k": "f_sink"
     },
     "toilets": { "&": {  } }
-  },
-  {
-    "type": "palette",
-    "id": "retirement_community_sewer_palette",
-    "terrain": { ".": "t_sewage", "|": "t_sewage_pipe", "-": "t_grate", "w": "t_bridge", "<": "t_ladder_up" }
   }
 ]

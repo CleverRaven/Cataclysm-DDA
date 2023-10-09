@@ -139,6 +139,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14_elevator" ],
+    "name": "Hub 14 elevator",
+    "color": "cyan",
+    "sym": "L",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14" ],
+    "name": "Hub 14",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "microlab_portal_elevator_nether_glass",
     "name": "lost level",
     "color": "black",

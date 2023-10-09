@@ -1,0 +1,8 @@
+[
+  {
+    "type": "city_building",
+    "id": "FakeSpecial_warehouse",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" } ]
+  }
+]

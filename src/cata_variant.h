@@ -36,6 +36,7 @@ enum class debug_menu_index : int;
 enum class cata_variant_type : int {
     void_, // Special type for empty variants
     achievement_id,
+    activity_id,
     addiction_id,
     bionic_id,
     body_part,
@@ -133,7 +134,7 @@ struct convert_string {
     static T from_string( const std::string &v ) {
         return v;
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         return true;
     }
 };
@@ -187,20 +188,23 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 47,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 48,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
 template<>
 struct convert<cata_variant_type::void_> {
     using type = void;
-    static bool is_valid( const std::string &s ) {
+    static bool is_valid( const std::string_view s ) {
         return s.empty();
     }
 };
 
 template<>
 struct convert<cata_variant_type::achievement_id> : convert_string_id<achievement_id> {};
+
+template<>
+struct convert<cata_variant_type::activity_id> : convert_string_id<activity_id> {};
 
 template<>
 struct convert<cata_variant_type::addiction_id> : convert_string_id<addiction_id> {};
@@ -236,7 +240,7 @@ struct convert<cata_variant_type::character_id> {
     static character_id from_string( const std::string &v ) {
         return character_id( std::stoi( v ) );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -251,7 +255,7 @@ struct convert<cata_variant_type::chrono_seconds> {
     static std::chrono::seconds from_string( const std::string &v ) {
         return std::chrono::seconds( std::stoll( v ) );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -293,7 +297,7 @@ struct convert<cata_variant_type::int_> {
     static int from_string( const std::string &v ) {
         return std::stoi( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -348,7 +352,7 @@ struct convert<cata_variant_type::point> {
     static point from_string( const std::string &v ) {
         return point::from_string( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for point-ness
         return true;
     }
@@ -397,7 +401,7 @@ struct convert<cata_variant_type::tripoint> {
     static tripoint from_string( const std::string &v ) {
         return tripoint::from_string( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for tripoint-ness
         return true;
     }

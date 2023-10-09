@@ -23,10 +23,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "dodge": 5,
-    "armor_bash": 2,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_stab": 6,
     "harvest": "lizardfolk",
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_wp_demihuman" ],
@@ -50,7 +46,8 @@
       "SWARMS",
       "CAN_OPEN_DOORS",
       "NO_BREATHE"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 12, "stab": 6, "bullet": 10 }
   },
   {
     "id": "mon_lizardfolk_hunter",
@@ -92,7 +89,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 5 }, [ "scratch", 5 ] ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 10 }, [ "scratch", 5 ] ],
     "death_drops": {
       "subtype": "distribution",
       "items": [
@@ -107,8 +104,8 @@
   {
     "id": "mon_lizardfolk_chieftan",
     "type": "MONSTER",
-    "name": "lizardfolk chieftan",
-    "description": "Among the lizardfolk, ambition is a rare quality.  Chieftans earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
+    "name": "lizardfolk chieftain",
+    "description": "Among the lizardfolk, ambition is a rare quality.  Chieftains earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "hp": 200,

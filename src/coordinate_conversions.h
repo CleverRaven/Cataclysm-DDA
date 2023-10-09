@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_COORDINATE_CONVERSIONS_H
 #define CATA_SRC_COORDINATE_CONVERSIONS_H
 
+#include "game_constants.h"
 #include "point.h"
 
 /**
@@ -136,8 +137,15 @@ inline tripoint ms_to_sm_remain( tripoint &p )
 // submap back to map squares, basically: x *= SEEX
 // Note: this gives you the map square coordinates of the top-left corner
 // of the given submap.
-point sm_to_ms_copy( const point &p );
-tripoint sm_to_ms_copy( const tripoint &p );
+inline point sm_to_ms_copy( const point &p )
+{
+    return point( p.x * SEEX, p.y * SEEY );
+}
+
+inline tripoint sm_to_ms_copy( const tripoint &p )
+{
+    return tripoint( p.x * SEEX, p.y * SEEY, p.z );
+}
 void sm_to_ms( int &x, int &y );
 inline void sm_to_ms( point &p )
 {

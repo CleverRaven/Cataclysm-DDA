@@ -1,0 +1,67 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_DM_MERCHANT",
+    "dynamic_line": "Nice to see you again.  Would you like to buy something, hire someone, or somethin' else?",
+    "responses": [
+      {
+        "text": "I'll buy something.",
+        "topic": "TALK_DM_MERCHANT_2",
+        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
+      },
+      { "text": "What'll it cost me to get some help around here?", "topic": "TALK_DM_MERCHANT_HIRE_COST" },
+      {
+        "text": "I'd like to hire some help.",
+        "topic": "TALK_DM_MERCHANT_2",
+        "effect": [
+          { "u_buy_item": "mercenary_contract", "cost": 50000, "true_eocs": "defense_mode_hire_merc_true" },
+          { "run_eocs": "defense_mode_money_add_npc" }
+        ]
+      },
+      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DM_MERCHANT_HIRE_COST",
+    "dynamic_line": "It's usually $500.  You can pay me up front in either goods or money, then we'll talk.",
+    "responses": [
+      {
+        "text": "I'll buy something.",
+        "topic": "TALK_DM_MERCHANT_2",
+        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
+      },
+      {
+        "text": "I'd like to hire some help.",
+        "topic": "TALK_DM_MERCHANT_2",
+        "effect": [
+          { "u_buy_item": "mercenary_contract", "cost": 50000, "true_eocs": "defense_mode_hire_merc_true" },
+          { "run_eocs": "defense_mode_money_add_npc" }
+        ]
+      },
+      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DM_MERCHANT_2",
+    "dynamic_line": "Anything else I can do for you?",
+    "responses": [
+      {
+        "text": "I'll buy something.",
+        "topic": "TALK_DM_MERCHANT_2",
+        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
+      },
+      { "text": "What'll it cost me to get some help around here?", "topic": "TALK_DM_MERCHANT_HIRE_COST" },
+      {
+        "text": "I'd like to hire some help.",
+        "topic": "TALK_DM_MERCHANT_2",
+        "effect": [
+          { "u_buy_item": "mercenary_contract", "cost": 50000, "true_eocs": "defense_mode_hire_merc_true" },
+          { "run_eocs": "defense_mode_money_add_npc" }
+        ]
+      },
+      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
+    ]
+  }
+]

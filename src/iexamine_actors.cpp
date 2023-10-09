@@ -13,6 +13,8 @@
 #include "output.h"
 #include "veh_appliance.h"
 
+static const mon_flag_str_id mon_flag_ID_CARD_DESPAWN( "ID_CARD_DESPAWN" );
+
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 
@@ -131,9 +133,10 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     map &here = get_map();
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
-        if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
+        if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
             debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
+        set_queued_points();
         here.set_seen_cache_dirty( examp );
         here.set_transparency_cache_dirty( examp.z );
     } else {
@@ -175,7 +178,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
+                critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }

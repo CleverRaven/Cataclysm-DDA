@@ -1,9 +1,9 @@
 #include "ordered_static_globals.h"
 
 #include "ammo_effect.h"
+#include "city.h"
 #include "field_type.h"
 #include "name.h"
-#include "overmap.h"
 
 void ordered_static_globals()
 {

@@ -1,0 +1,154 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_nm_tube",
+    "name": "decaying tube",
+    "description": "A decomposing fleshy stalagmite extends from the ceiling to the floor.",
+    "looks_like": "f_alien_gasper",
+    "symbol": "|",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_tube_emitter",
+    "name": "glowing decaying tube",
+    "description": "A decomposing fleshy stalagmite extends from the ceiling to the floor.  Countless glowing spores weft from within, coating everything nearby.",
+    "looks_like": "f_alien_gasper",
+    "symbol": "|",
+    "color": "magenta_red",
+    "move_cost_mod": 6,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "emissions": [ "emit_monster_gas_1", "emit_monster_gas_2" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_nether_lily",
+    "name": "beautiful nether lily",
+    "//~": "Its thing is making itself irresistible to the PC. TODO: Make this effect more obvious",
+    "description": "A very tall, mesmerizing blood red flower.  Its beautiful, pristine form is rooted firmly on the innards of the beast.  The flesh around it is decayed, being consumed to feed its ornate, magnanimous body.  You feel an urge to sit and admire this priceless miracle of life.",
+    "looks_like": "f_black_eyed_susan",
+    "symbol": "P",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 61,
+      "sound": "a chilling scream!",
+      "sound_fail": "squish!",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "admire_lily_effect",
+          "effect": [
+            {
+              "weighted_list_eocs": [
+                [
+                  { "id": "admire", "effect": { "u_message": "You admire the lily.  Isn't it beautiful?", "popup": true } },
+                  { "const": 15 }
+                ],
+                [
+                  { "id": "admire_2", "effect": { "u_message": "You worship the lily, and feel truly fulfilled.", "popup": true } },
+                  { "const": 10 }
+                ],
+                [
+                  {
+                    "id": "admire_3",
+                    "effect": { "u_message": "You bow to the lily, and gain immense satisfaction in having done so.", "popup": true }
+                  },
+                  { "const": 5 }
+                ],
+                [
+                  {
+                    "id": "admire_4",
+                    "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*.", "popup": true }
+                  },
+                  { "const": 2 }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_nether_grass",
+    "name": "nether grass",
+    "description": "A bed of waist high segmented blue plants that remind you of grass.  As you wade past, they react to your movement and always swivel to face you.",
+    "looks_like": "t_grass_alien",
+    "symbol": "^",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "ROUGH", "PAINFUL" ],
+    "bash": { "str_min": 15, "str_max": 25, "sound": "crunch!", "sound_fail": "smash!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_nether_grass_tall",
+    "name": "tall nether grass",
+    "description": "A clump of tall, segmented blue plants that remind you of grass.  As you approach, they bend towards you, hugging your body and making movement difficult.",
+    "looks_like": "t_grass_alien",
+    "symbol": "^",
+    "color": "blue",
+    "move_cost_mod": 2,
+    "coverage": 10,
+    "required_str": -1,
+    "flags": [ "PAINFUL" ],
+    "bash": { "str_min": 15, "str_max": 25, "sound": "crunch!", "sound_fail": "smash!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_nether_patchwork",
+    "name": "nether patchwork",
+    "description": "A peculiar plant that is hard to distinguish, resembling a tangled mess of different terrestrial flowers and weeds firmly wedged into the monstrous flesh.  It pulses rhythmically as it rearranges its form into even weirder shapes.",
+    "looks_like": "t_grass_alien",
+    "symbol": "Y",
+    "color": "green",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 61,
+      "sound": "crunch!",
+      "sound_fail": "squish!",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nm_nether_lichen",
+    "name": "nether lichen",
+    "description": "A bed of orange, flowering lichen, covering the surface of the yellow ichor.  Every now and then, a flower disappears into the liquid, but seems to reappear the moment you look away.",
+    "looks_like": "f_shrub_moss",
+    "symbol": "L",
+    "color": "green",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "ROUGH", "PAINFUL" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 61,
+      "sound": "crunch!",
+      "sound_fail": "squish!",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  }
+]

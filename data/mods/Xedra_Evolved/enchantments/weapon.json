@@ -1,0 +1,83 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCHANTMENT_VAMPIRISM",
+    "has": "WIELD",
+    "hit_you_effect": [ { "id": "xedra_weak_healing", "hit_self": true, "once_in": 15 } ]
+  },
+  {
+    "id": "xedra_weak_healing",
+    "type": "SPELL",
+    "name": "Weak healing",
+    "description": "Heal 1 hp.  Used in various enchantments.  You can see it only in debug.",
+    "valid_targets": [ "self" ],
+    "min_damage": -1,
+    "max_damage": -1,
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "MON_NEARBY_SPEED",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SPEED", "add": { "math": [ "u_monsters_nearby('radius': 25) / 2" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "EXP_BASH",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "arithmetic": [ { "u_val": "exp" }, "/", { "const": 750 } ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "UNARMED_MELEE_BOOST",
+    "condition": "ALWAYS",
+    "//": "not used currently, just proof of concept",
+    "values": [ { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_skill('unarmed') * 5" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "MAX_MANA_STR",
+    "condition": "ALWAYS",
+    "//": "proof of concept",
+    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "mana_max" }, "/", { "const": 4 } ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "PAIN_STR",
+    "condition": "ALWAYS",
+    "//": "proof of concept",
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "u_pain() / 4" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "WOLF_SLEDGE",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('deduction')" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "DREAM_DAGGER",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": { "math": [ "u_val('mana_max')/100" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "SALAMANDER_SUMMON_WHIP",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_HEAT",
+        "add": {
+          "math": [ "(5 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ]
+        }
+      }
+    ]
+  }
+]

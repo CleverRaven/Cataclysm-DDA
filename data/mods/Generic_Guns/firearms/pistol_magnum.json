@@ -38,7 +38,6 @@
     "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
-    "bashing": 10,
     "color": "brown",
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 550,
@@ -47,7 +46,6 @@
     "loudness": 25,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -65,7 +63,8 @@
         "item_restriction": [ "pistol_mag", "pistol_magnum_mag" ],
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "pistol_magnum_pipe",

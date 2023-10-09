@@ -1,0 +1,26 @@
+[
+  {
+    "id": "vitamin_psionic_drain",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Psionic Drain" },
+    "excess": "effect_disease_psionic_drain",
+    "min": 0,
+    "max": 250,
+    "rate": "4 h",
+    "disease_excess": [
+      [ 15, 34 ],
+      [ 35, 54 ],
+      [ 55, 74 ],
+      [ 75, 94 ],
+      [ 95, 114 ],
+      [ 115, 134 ],
+      [ 135, 154 ],
+      [ 155, 174 ],
+      [ 175, 194 ],
+      [ 195, 214 ],
+      [ 215, 234 ],
+      [ 235, 250 ]
+    ]
+  }
+]

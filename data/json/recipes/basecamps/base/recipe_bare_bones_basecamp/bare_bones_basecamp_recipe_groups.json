@@ -8,7 +8,8 @@
       { "id": "pointy_stick", "description": " Craft: Pointy Sticks" },
       { "id": "wood_panel_from nailed planks", "description": " Craft: Wooden Panel, Nailed Planks" },
       { "id": "wood_panel_from wooden beams", "description": " Craft: Wooden Panel, Wooden Beams" },
-      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" }
+      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" },
+      { "id": "2x4_from logs", "description": " Craft: Wooden Plank" }
     ]
   },
   {
@@ -45,7 +46,8 @@
       { "id": "hardtack", "description": " Cook: Hardtack" },
       { "id": "veggy_pickled_jarred", "description": " Cook: Veggy, Pickled" },
       { "id": "cheese_hard", "description": " Cook: Cheese, Hard" },
-      { "id": "pemmican", "description": " Cook: Pemmican" },
+      { "id": "pemmican", "description": " Cook: Pemmican, Meat + Berries" },
+      { "id": "pemmican_veggy", "description": " Cook: Pemmican, Meat + Veg" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
       { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
@@ -75,7 +77,7 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "metal_file", "description": " Craft: Metal Fileset" },
       { "id": "stone_polishing", "description": " Craft: Polishing Stone" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
