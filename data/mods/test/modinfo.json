@@ -1,11 +1,11 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "translate_dialogue",
-    "name": "Translate Complex Dialogue",
-    "authors": [ "I-am-Erk" ],
-    "description": "Adds a translation for some of the weirder dialogue in game.  Keeps the original flavour dialogue visible.",
-    "category": "misc_additions",
+    "id": "point_rebalance",
+    "name": "Rebalanced Character Creation",
+    "authors": [ "Velocitymagnet" ],
+    "description": "Rebalances costs of scenarios, professions, traits, and backgrounds, in order to provide a fun and fair experience whenever creating a character. Supports only the single-pool option. More details in README.",
+    "category": "rebalance",
     "dependencies": [ "dda" ]
   }
 ]
