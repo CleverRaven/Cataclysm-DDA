@@ -3,4 +3,4 @@ This mod changes all scenarios, traits, backgrounds, professions, skills, and st
 
 If you wish to see a comprehensive list of all options and their values, then refer to this link: https://docs.google.com/spreadsheets/d/19UbexeQSzBWZvPMVBqFoTJUv7R8nHU1jGMLAEZ-miMI/edit?usp=sharing
 
-If you are at all confused by the values given to certain options, then refer to this reddit post:
+If you are at all confused by or disagree with anything in this mod, then refer to this reddit post:
