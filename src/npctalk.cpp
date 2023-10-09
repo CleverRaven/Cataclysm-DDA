@@ -4914,6 +4914,26 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     };
 }
 
+void talk_effect_fun_t::set_if( const JsonObject &jo, std::string_view member )
+{
+    std::function<bool( dialogue & )> cond;
+    talk_effect_t then_effect;
+    talk_effect_t else_effect;
+    read_condition( jo, std::string( member ), cond, false );
+    then_effect.load_effect( jo, "then" );
+    if( jo.has_member( "else" ) || jo.has_array( "else" ) ) {
+        else_effect.load_effect( jo, "else" );
+    }
+
+    function = [cond, then_effect, else_effect]( dialogue & d ) {
+        if( cond( d ) ) {
+            then_effect.apply( d );
+        } else {
+            else_effect.apply( d );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_switch( const JsonObject &jo, std::string_view member )
 {
     std::function<double( dialogue &/* d */ )> eoc_switch = jo.has_string( member ) ?
@@ -5603,6 +5623,7 @@ parsers = {
     { "queue_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_queue_eocs },
     { "queue_eoc_with", jarg::member, &talk_effect_fun_t::set_queue_eoc_with },
     { "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs },
+    { "if", jarg::member, &talk_effect_fun_t::set_if },
     { "switch", jarg::member, &talk_effect_fun_t::set_switch },
     { "math", jarg::array, &talk_effect_fun_t::set_math },
     { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level },
