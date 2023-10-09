@@ -80,7 +80,7 @@
   {
     "type": "weapon_category",
     "id": "FENCING_WEAPONRY",
-    "//": "One-handed straight swords built for thrusting.  Cutting edge optional.",
+    "//": "One-handed straight swords built for thrusting or lightly curved agile sabers.  Cutting edge optional for the former.",
     "name": "FENCING WEAPONRY"
   },
   {
