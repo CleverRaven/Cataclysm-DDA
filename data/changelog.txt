@@ -51,6 +51,10 @@ Sound-triggered traps
 Item transformation can now pick variant items to transform into
 You can now collect grappling hooks and ladders from the ledge above.
 Adds priority parameter for special placement
+Adds priority parameter for special placement
+Add ignored_monster_species spell parameter
+Monsters affiliated with factions will watch for theft of faction items
+Dance with Draco in the refugee center
 
 
 ## Content:
@@ -89,6 +93,18 @@ JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
 Vehicles now contain heater, and some contain AC
+Improved Soil Storage
+Adds a jeweler as a new starting profession
+Allow crafting of gold, silver, and copper necklaces
+Add a larger “family–sized” water heater
+Rework Anvils and add crude anvil
+Various typo, bad grammar and consistency fixes
+Add some backstory to Eddie McKenzie.
+Add some prosthetics.
+Allow Eddie McKenize to purchase food.
+Added Bulk Storage Mounds and Piles for More Resources
+Making XL Kettle Helmet craft
+Add undomesticated wild rabbits
 
 
 ## Interface:
@@ -115,6 +131,11 @@ Walking into ledges examines them.
 Accessible item insert menu
 Show insertion failure reasons in Insert menu and AIM
 Select default bodypart when applying bandage
+port: hotkeys to jump tabs in @ menu
+Make zone manager display more of zone name
+Show estimated time when washing items
+Selecting container mode for unloaded items
+Adds mana widgets to Custom sidebar style
 
 
 ## Mods:
@@ -163,6 +184,16 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
+Jmathify awakenings
+Add Flameshield power
+Remove FEAR_PARALYZE from telepathic monsters
+Add TREE_COMMUNION_PLUS flag to druid
+Rework Quell Fire and make zombie nulls delete fields after death
+Add some Salamander mutations
+Fix MoM misspellings and description update
+Add Primal Terror telepathic power
+Allow use of psionics to train Metaphysics
+More Salamander powers
 
 
 ## Balance:
@@ -199,6 +230,10 @@ Add NO_SPELLCASTING flag to Stunned effect
 Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
+Add quench values to cooked oatmeal and deluxe oatmeal
+Improved path for intelligent monsters
+update the quench values for oatmeal and grits
+Move the isolated_road turret 3 tiles to the west
 
 
 ## Bugfixes:
@@ -276,6 +311,15 @@ Don't teleport items to the ground if the vehicle storage destination is full
 Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
 Use correct actor in bulk trade messages
+Prevent segfault when asking the scrap trader when they'll restock
+Fix MREs spawning opened
+XEDRA Evolved tailors kit now has  canvas repair and doesn't have broken adv sewing section
+Fixed Dirt Mound Name and Move Cost
+Your nemesis will still hunt you even if you spawn on a roof at the start
+Flesh raptor should fungalize into their fungal form
+Only show dropped bucket spill warning if dropping into vehicle
+drop leg pouches can be worn separately
+Baldric description doesn't match with how it is represented in game
 
 
 ## Performance:
@@ -310,6 +354,7 @@ Update all active items to new tick action system and remove old system
 Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
 EVENT EOCs provide beta talker
+[EOC]Inventory selector
 [EOC]Inventory selector
 
 
