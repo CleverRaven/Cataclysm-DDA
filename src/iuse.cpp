@@ -4184,24 +4184,24 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
         const field &gasfield = get_map().field_at( pos );
         for( const auto &dfield : gasfield ) {
             const field_entry &entry = dfield.second;
-            int gas_abs_factor = to_turns<int>(entry.get_field_type()->gas_absorption_factor);
-            const field_intensity_level& int_level = entry.get_intensity_level();
+            int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor);
+            const field_intensity_level &int_level = entry.get_intensity_level();
             // 6000 is the amount of "gas absorbed" charges in a full 100 capacity gas mask cartridge.
             // factor/concentration gives an amount of seconds the cartidge is expected to last in current conditions.
             /// 6000/that is the amount of "gas absorbed" charges to tick up every second in order to reach that number.
-            float gas_absorbed = 6000/((float)gas_abs_factor / (float)int_level.concentration);
-            if(gas_absorbed > 0 ) {
+            float gas_absorbed = 6000 / ( ( float )gas_abs_factor / ( float )int_level.concentration );
+            if( gas_absorbed > 0 ) {
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_absorbed);
             }
         }
         if( it->get_var( "gas_absorbed", 0 ) >= 60 ) {
             it->ammo_consume( 1, pos, p );
             it->set_var( "gas_absorbed", 0 );
-            if (it->ammo_remaining() < 10) {
+            if(it->ammo_remaining() < 10) {
                 p->add_msg_player_or_npc(
                     m_bad,
-                    _("Your %s is getting hard to breathe in!"),
-                    _("<npcname>'s gas mask is getting hard to breathe in!")
+                    _( "Your %s is getting hard to breathe in!" ),
+                    _( "<npcname>'s gas mask is getting hard to breathe in!" )
                     , it->tname());
             }
         }
@@ -4211,7 +4211,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
                 _( "Your %s requires new filters!" ),
                 _( "<npcname> needs new gas mask filters!" )
                 , it->tname() );
-        } 
+        }
     }
 
     if( it->ammo_remaining() == 0 ) {
