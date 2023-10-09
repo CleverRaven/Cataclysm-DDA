@@ -28,6 +28,7 @@
     "worn_override": "NC_GREAT_LIBRARY_LIBRARIAN_worn",
     "weapon_override": "NC_GREAT_LIBRARY_LIBRARIAN_carried",
     "traits": [
+      { "group": "Appearance_demographics" },
       { "trait": "LOVES_BOOKS" },
       { "trait": "TRUTHTELLER" },
       { "trait": "OPTIMISTIC" },
