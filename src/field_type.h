@@ -118,6 +118,7 @@ struct field_intensity_level {
     float light_emitted = 0.0f;
     float local_light_override = -1.0f;
     float translucency = 0.0f;
+    int concentration = 0.0f;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
     std::vector<field_effect> field_effects;

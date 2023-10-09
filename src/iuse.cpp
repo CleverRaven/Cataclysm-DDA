@@ -4184,6 +4184,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
         for( const auto &dfield : gasfield ) {
             const field_entry &entry = dfield.second;
             const int gas_abs_factor = entry.get_field_type()->gas_absorption_factor;
+            const field_intensity_level& int_level = entry.get_intensity_level();
             if( gas_abs_factor > 0 ) {
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_abs_factor );
             }
