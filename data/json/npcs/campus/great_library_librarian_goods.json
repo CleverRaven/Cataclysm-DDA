@@ -16,9 +16,7 @@
     ]
   },
   {
-    "//": "Generic spare parts that can be used in a lot of different places, like nails and such. Thread is included here due to how it's used a lot even outside of tailoring.",
-    "//2": "Also includes duct tape, but it's useful to them too, not just outsiders. They won't sell as much of it as other crafting goods. Same goes for superglue.",
-    "//3": "To a lesser degree, this also includes building materials, but not that many.",
+    "//": "Generic spare parts that can be used to make or repair written materials",
     "type": "item_group",
     "id": "GREAT_LIBRARY_Shop_Supplies",
     "subtype": "distribution",
@@ -43,7 +41,7 @@
     ]
   },
   {
-    "//": "Tools needed to copy books.",
+    "//": "Tools needed to copy and repair books.",
     "type": "item_group",
     "id": "GREAT_LIBRARY_Shop_Tools",
     "subtype": "collection",
