@@ -1846,13 +1846,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "cooked_burdock_stalk",
-    "copy-from": "cooked_cattail_stalk",
-    "components": [ [ [ "burdock_stalk", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "roasted_cattail_rhizome",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6767,15 +6760,13 @@
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
-        [ "chicory_leaves", 2 ],
-        [ "burdock_cooked", 1 ]
+        [ "chicory_leaves", 2 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6850,15 +6841,13 @@
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
-        [ "chicory_leaves", 2 ],
-        [ "burdock_cooked", 1 ]
+        [ "chicory_leaves", 2 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -8168,7 +8157,6 @@
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
@@ -8176,8 +8164,7 @@
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "wild_garlic", 1 ],
-        [ "burdock_cooked", 1 ]
+        [ "wild_garlic", 1 ]
       ]
     ]
   },
@@ -8237,7 +8224,6 @@
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
@@ -8307,7 +8293,6 @@
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
@@ -8377,7 +8362,6 @@
         [ "cucumber_cut", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
