@@ -546,6 +546,18 @@ void body_part_type::check() const
         }
     }
 
+    for( const std::pair<const damage_type_id, float> &dt : armor.resist_vals ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid armor type \"%s\" for body part %s", dt.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const damage_unit &dt : damage.damage_units ) {
+        if( !dt.type.is_valid() ) {
+            debugmsg( "Invalid unarmed_damage type \"%s\" for body part %s", dt.type.c_str(), id.c_str() );
+        }
+    }
+
     // Check that connected_to leads eventually to the root bodypart (currently always head),
     // without any loops
     std::unordered_set<bodypart_str_id> visited = { id };
@@ -894,8 +906,8 @@ bool bodypart::has_conditional_flag( const json_character_flag &flag ) const
 std::set<matec_id> bodypart::get_limb_techs() const
 {
     std::set<matec_id> result;
-    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit  &&
-                 hp_cur > id->health_limit ) ) {
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) &&
+        hp_cur > id->health_limit ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
     }
     return result;

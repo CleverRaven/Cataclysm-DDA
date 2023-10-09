@@ -147,7 +147,6 @@ struct damage_instance {
     void ondamage_effects( Creature *source, Creature *target, const damage_instance &premitigated,
                            bodypart_str_id bp ) const;
 
-
     // calculates damage taking barrel length into consideration for the amount
     damage_instance di_considering_length( units::length barrel_length ) const;
 

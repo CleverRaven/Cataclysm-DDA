@@ -2,6 +2,7 @@
   {
     "type": "GENERIC",
     "id": "altered_exposed_wiring_prototype",
+    "category": "artifacts",
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "scrap",
@@ -16,6 +17,7 @@
   {
     "type": "GENERIC",
     "id": "altered_phone",
+    "category": "artifacts",
     "symbol": ",",
     "color": "light_red",
     "looks_like": "toaster",
@@ -30,6 +32,7 @@
   {
     "type": "GENERIC",
     "id": "altered_comb",
+    "category": "artifacts",
     "symbol": ",",
     "color": "yellow",
     "looks_like": "comb_pocket",
@@ -44,6 +47,7 @@
   {
     "type": "GENERIC",
     "id": "altered_keyring",
+    "category": "artifacts",
     "symbol": ",",
     "color": "yellow",
     "looks_like": "old_key",
@@ -58,6 +62,7 @@
   {
     "type": "GENERIC",
     "id": "altered_rubicks_cube",
+    "category": "artifacts",
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "art_lamp",
@@ -72,6 +77,7 @@
   {
     "type": "GENERIC",
     "id": "altered_teapot",
+    "category": "artifacts",
     "copy-from": "clay_teapot",
     "color": "light_gray",
     "name": { "str": "Utah teapot" },
@@ -82,6 +88,7 @@
   {
     "type": "GENERIC",
     "id": "altered_stopwatch",
+    "category": "artifacts",
     "symbol": ",",
     "color": "blue",
     "looks_like": "wristwatch",

@@ -358,14 +358,14 @@
     "type": "bionic",
     "id": "afs_bio_skullgun",
     "name": { "str": "Skullgun" },
-    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "description": "Concealed in your head is a single shot 10mm pistol.  Activate the bionic to fire and reload the skullgun.",
     "occupied_bodyparts": [ [ "head", 5 ] ],
     "encumbrance": [ [ "head", 5 ] ],
-    "act_cost": "35 J",
     "fake_weapon": "bio_skullgun_gun",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "flags": [ "BIONIC_GUN" ],
     "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ],
-    "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA" ],
-    "spell_on_activation": { "id": "skullgun_snapback", "hit_self": true }
+    "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA", "SKULLGUN_STUPID" ],
+    "give_mut_on_removal": [ "SKULLGUN_STUPID" ],
+    "activated_close_ui": true
   }
 ]

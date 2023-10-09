@@ -3,6 +3,7 @@
     "type": "effect_on_condition",
     "id": "scenario_defense_mode",
     "eoc_type": "SCENARIO_SPECIFIC",
+    "deactivate_condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, ">=", { "const": 1 } ] },
     "effect": [
       { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
       { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
@@ -25,12 +26,6 @@
       { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "defense_mode_caravan_remove",
-    "global": false,
-    "effect": [ { "mapgen_update": "defense_mode_caravan_remove" } ]
   },
   {
     "type": "effect_on_condition",
@@ -58,28 +53,39 @@
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_CONTROL",
     "recurrence": "1 day",
+    "global": true,
     "effect": [
+      { "u_teleport": { "global_val": "your_spawnpoint" } },
       { "arithmetic": [ { "global_val": "var", "var_name": "wave_number" }, "+=", { "const": 1 } ] },
       { "math": [ "wave_cash_number", "++" ] },
       { "u_message": "Welcome to wave <global_val:wave_number>!", "type": "bad", "popup": false },
-      { "run_eocs": [ "defense_mode_caravan_remove", "defense_mode_money_add" ] },
+      { "run_eocs": [ "defense_mode_money_add", "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPECIAL_DECIDER",
+    "global": true,
+    "//": "This is used to decide for special waves, like shadow spawns and ultimate victory.",
+    "condition": {
+      "or": [
+        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 5 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 15 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 30 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 50 } ] }
+      ]
+    },
+    "effect": [
       {
-        "weighted_list_eocs": [
-          [ "DEFENSE_MODE_WAVE_SPAWN_ZOMBIES", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SPECIAL_ZOMBIES", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ]
+        "run_eocs": [
+          "DEFENSE_MODE_WAVE_SPECIAL_FERALS",
+          "DEFENSE_MODE_WAVE_SPECIAL_RATKIN",
+          "DEFENSE_MODE_WAVE_SPECIAL_MILITARY",
+          "DEFENSE_MODE_WAVE_SPECIAL_SHADOW"
         ]
       }
-    ]
+    ],
+    "false_effect": [ { "run_eocs": "DEFENSE_MODE_WAVE_SPAWN_FALLBACK" } ]
   },
   {
     "type": "effect_on_condition",
@@ -99,7 +105,12 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MYTHOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_EXODII", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_XEDRA", { "const": 1 } ]
         ]
       }
     ]
@@ -298,9 +309,131 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPECIAL_FERALS",
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 5 } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_FERAL",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_FERAL",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_FERAL",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_message": "You hear the wild howls of crazed individuals and unintelligible, carnal gibberish and slavering cries.  Something is coming, and it doesn't have your best interest in mind.",
+        "type": "bad",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPECIAL_RATKIN",
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 15 } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_message": "Squeaking and chittering can be heard nearby, with the pattering of many feet, like a swarm of rats travelling quickly.  However, this sounds more, organized?  Almost like they're all walking in formation.",
+        "type": "bad",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPECIAL_MILITARY",
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 30 } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_MIL_HELIPAD",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_MIL_HELIPAD",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_MIL_HELIPAD",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_message": "You hear crazed, half-pronounced orders screamed from afar.  The tamping of boots and off-beat shouts of two-three-four sound like the signs of an approaching army, but all the footfall is out of tune.",
+        "type": "bad",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPECIAL_SHADOW",
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, "==", { "const": 50 } ] },
+    "effect": [
+      { "u_spawn_monster": "mon_boss_shadow", "real_count": 1, "outdoor_only": true, "min_radius": 20, "max_radius": 40 },
+      {
+        "u_message": "Your vision flickers with black, blob-like creatures for a moment.  An intense feeling of paranoia washes over you, as if the world itself is now out to kill you, the night itself reaching for your mind to rip it apart.  Somethings wicked comes this way, and it wants you dead.",
+        "type": "bad",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "DEFENSE_MODE_FORTRESS_TRAP",
     "//": "Keeps you from running away from your hideout.",
-    "recurrence": 10,
+    "global": true,
+    "recurrence": 100,
     "condition": {
       "or": [
         { "u_near_om_location": "field", "range": 0 },
@@ -314,5 +447,57 @@
       { "u_message": "You can't leave your fortress behind!", "type": "bad", "popup": false },
       { "u_teleport": { "global_val": "your_spawnpoint" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WIN_SCREEN",
+    "global": true,
+    "recurrence": 100,
+    "condition": { "math": [ "final_wave_defeated", "==", "1" ] },
+    "effect": [ { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_WIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_QUEUE_WIN_SCREEN",
+    "effect": [ { "math": [ "final_wave_defeated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_RANDOM_EVENT",
+    "recurrence": [ "2 days", "4 days" ],
+    "//": "A general EOC for selecting a random event.  Can and should be expanded.",
+    "condition": { "and": [ { "not": { "is_weather": "portal_storm" } }, { "x_in_y_chance": { "x": 7, "y": 10 } } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC", { "const": 10 } ],
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER", { "const": 6 } ],
+          [ "EOC_DEFENSE_MODE_BANDIT_ATTACK", { "const": 1 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC",
+    "effect": [ { "u_spawn_npc": "random_survivor", "outdoor_only": true, "real_count": 1, "min_radius": 15, "max_radius": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER",
+    "effect": [
+      {
+        "u_spawn_npc": "random_survivor_nefarious",
+        "outdoor_only": true,
+        "real_count": 1,
+        "min_radius": 15,
+        "max_radius": 40
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_BANDIT_ATTACK",
+    "effect": [ { "u_spawn_npc": "defense_mode_raider", "outdoor_only": true, "real_count": 5, "min_radius": 15, "max_radius": 25 } ]
   }
 ]

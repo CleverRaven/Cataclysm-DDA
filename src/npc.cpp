@@ -764,7 +764,8 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
     personality.collector  = rng( -1, 10 );
-    personality.altruism   = rng( -10, 10 );
+    // Normal distribution. Mean = 0, stddev = 3, clamp at -10 and 10. Rounded to return integer value.
+    personality.altruism   = std::round( std::max( -10.0, std::min( normal_roll( 0, 3 ), 10.0 ) ) );
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
@@ -1060,7 +1061,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 
     who.worn.on_takeoff( who );
-    who.worn.clear();
+    who.clear_worn();
     for( item &it : ret ) {
         if( it.has_flag( flag_VARSIZE ) ) {
             it.set_flag( flag_FIT );
@@ -1328,7 +1329,8 @@ void npc::starting_weapon( const npc_class_id &type )
             }
         }
 
-        get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
+        get_event_bus().send_with_talker( this, &weapon, e );
 
         weapon->set_owner( get_faction()->id );
     }
@@ -1563,7 +1565,8 @@ bool npc::wield( item &it )
     }
 
     weapon = get_wielded_item();
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
+    get_event_bus().send_with_talker( this, &weapon, e );
 
     if( get_player_view().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
@@ -1627,7 +1630,6 @@ void npc::form_opinion( const Character &you )
 npc_opinion npc::get_opinion_values( const Character &you ) const
 {
     npc_opinion npc_values = op_of_u;
-
 
     const item_location weapon = you.get_wielded_item();
     // FEAR
@@ -1868,53 +1870,6 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<skill_id> npc::skills_offered_to( const Character &you ) const
-{
-    std::vector<skill_id> ret;
-    for( const auto &pair : *_skills ) {
-        const skill_id &id = pair.first;
-        if( you.get_knowledge_level( id ) < pair.second.level() ) {
-            ret.push_back( id );
-        }
-    }
-    return ret;
-}
-
-std::vector<proficiency_id> npc::proficiencies_offered_to( const Character &guy ) const
-{
-    std::vector<proficiency_id> ret;
-    for( const proficiency_id &known : known_proficiencies() ) {
-        if( !guy.has_proficiency( known ) ) {
-            ret.push_back( known );
-        }
-    }
-    return ret;
-}
-
-std::vector<matype_id> npc::styles_offered_to( const Character &you ) const
-{
-    return you.martial_arts_data->get_unknown_styles( *martial_arts_data );
-}
-
-std::vector<spell_id> npc::spells_offered_to( Character &you )
-{
-    std::vector<spell_id> teachable;
-    for( const spell_id &sp : magic->spells() ) {
-        const spell &teacher_spell = magic->get_spell( sp );
-        if( you.magic->can_learn_spell( you, sp ) ) {
-            if( you.magic->knows_spell( sp ) ) {
-                const spell &student_spell = you.magic->get_spell( sp );
-                if( student_spell.is_max_level( you ) ||
-                    student_spell.get_level() >= teacher_spell.get_level() ) {
-                    continue;
-                }
-            }
-            teachable.emplace_back( sp );
-        }
-    }
-    return teachable;
-}
-
 void npc::decide_needs()
 {
     const item_location weapon = get_wielded_item();
@@ -1943,13 +1898,10 @@ void npc::decide_needs()
     needrank[need_weapon] = weapon_value( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    const auto inv_food = items_with( []( const item & itm ) {
-        return itm.is_food();
+    cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
+        needrank[ need_food ] += nutrition_for( it ) / 4.0;
+        needrank[ need_drink ] += it.get_comestible()->quench / 4.0;
     } );
-    for( const item *food : inv_food ) {
-        needrank[ need_food ] += nutrition_for( *food ) / 4.0;
-        needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
-    }
     needs.clear();
     size_t j;
     bool serious = false;
@@ -2223,6 +2175,14 @@ void npc::shop_restock()
     add_fallback_zone( *this );
     consume_items_in_zones( *this, elapsed );
     distribute_items_to_npc_zones( ret, *this );
+}
+
+std::string npc::get_restock_interval() const
+{
+    time_duration const restock_remaining =
+        restock - calendar::turn;
+    std::string restock_rem = to_string( restock_remaining );
+    return restock_rem;
 }
 
 bool npc::is_shopkeeper() const
@@ -3288,7 +3248,8 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
+        !here.has_vehicle_floor( pos_bub() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -3736,6 +3697,26 @@ void npc::set_attitude( npc_attitude new_attitude )
         }
     }
     attitude = new_attitude;
+}
+
+bool npc::theft_witness_compare( const npc *lhs, const npc *rhs )
+{
+    const auto class_score = []( const npc * const guy ) {
+        // Apparently a guard?
+        if( guy->myclass == NC_BOUNTY_HUNTER ) {
+            return 0;
+            // If the guard? doesn't notice, the shopkeep will complain
+            // Because they're probably the person who you have to talk to
+            // and so will ensure the theft is noticed
+        } else if( guy->mission == NPC_MISSION_SHOPKEEP ) {
+            return 1;
+            // Patrolling NPCs more likely to notice/be guards?
+        } else if( guy->mission == NPC_MISSION_GUARD_PATROL ) {
+            return 2;
+        }
+        return 3;
+    };
+    return class_score( lhs ) < class_score( rhs );
 }
 
 npc_follower_rules::npc_follower_rules()

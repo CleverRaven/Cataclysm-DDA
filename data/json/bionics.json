@@ -1196,8 +1196,8 @@
   {
     "id": "bio_membrane",
     "type": "bionic",
-    "name": { "str": "Nictating Membrane" },
-    "description": "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties.",
+    "name": { "str": "Nictitating Membrane" },
+    "description": "Your eyes are equipped with thin membranes that cover your eyes while underwater, negating any vision penalties.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "EYE_MEMBRANE" ]
   },
@@ -1579,7 +1579,7 @@
     "name": { "str": "Synthetic Lungs" },
     "description": "You have highly efficient artificial lungs which greatly increase your oxygen intake.  If they are not powered you will suffocate, and they weaken your immune system somewhat.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
-    "flags": [ "BIONIC_SLEEP_FRIENDLY", "BIO_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_SLEEP_FRIENDLY", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
     "act_cost": "3 J",
     "react_cost": "3 J",
     "time": "1 s",
@@ -1653,7 +1653,7 @@
     "description": "Surgically implanted in your hands and forearms is a set of compact tools and a welder that runs off your internal power banks.",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
     "passive_pseudo_items": [ "toolset", "integrated_welder" ],
-    "flags": [ "BIO_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_torsionratchet",

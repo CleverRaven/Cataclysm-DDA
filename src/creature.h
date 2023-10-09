@@ -294,6 +294,9 @@ class Creature : public viewer
             return nullptr;
         }
         virtual mfaction_id get_monster_faction() const = 0;
+
+        // Witness and respond to theft of faction items
+        virtual void witness_thievery( item *it ) = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -558,7 +561,6 @@ class Creature : public viewer
         virtual bool is_immune_field( const field_type_id & ) const {
             return false;
         }
-
 
         // check if the creature is immune to the effect / field based on the immunity data
         virtual bool check_immunity_data( const field_immunity_data & ) const {

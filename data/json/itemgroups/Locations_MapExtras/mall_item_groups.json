@@ -34,37 +34,6 @@
     "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "prob": 50, "group": "licorice_bag_plastic_4" } ]
   },
   {
-    "id": "tux_shop",
-    "type": "item_group",
-    "items": [
-      [ "blazer", 75 ],
-      [ "tie_skinny", 40 ],
-      [ "tie_necktie", 40 ],
-      [ "tie_bow", 30 ],
-      [ "tie_clipon", 20 ],
-      [ "tieclip", 25 ],
-      [ "polo_shirt", 35 ],
-      [ "dress_shirt", 70 ],
-      [ "pants", 75 ],
-      [ "dress_shoes", 50 ],
-      [ "briefcase", 35 ],
-      [ "gold_watch", 20 ],
-      [ "pocketwatch", 20 ],
-      [ "collarpin", 10 ],
-      { "item": "tailors_kit", "prob": 40, "charges": 400 }
-    ]
-  },
-  {
-    "id": "flower_shop",
-    "type": "item_group",
-    "items": [
-      { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
-      [ "fertilizer_liquid", 50 ],
-      [ "dahlia_root", 30 ],
-      [ "fertilizer_commercial", 25 ]
-    ]
-  },
-  {
     "id": "music_shop",
     "type": "item_group",
     "ammo": 75,
@@ -181,23 +150,6 @@
     ]
   },
   {
-    "id": "victoria_shop",
-    "type": "item_group",
-    "items": [
-      [ "bra", 70 ],
-      [ "panties", 70 ],
-      [ "boy_shorts", 50 ],
-      [ "boxer_shorts", 70 ],
-      [ "briefs", 50 ],
-      [ "swim_briefs", 15 ],
-      [ "speedo", 10 ],
-      [ "bikini_top", 15 ],
-      [ "bikini_top_short", 5 ],
-      [ "bikini_bottom", 15 ],
-      [ "bikini_bottom_short", 5 ]
-    ]
-  },
-  {
     "id": "knife_shop",
     "type": "item_group",
     "items": [
@@ -269,30 +221,6 @@
       [ "sheet_leather", 20 ],
       [ "tanned_hide", 20 ],
       [ "tanned_pelt", 20 ]
-    ]
-  },
-  {
-    "id": "key_shop",
-    "type": "item_group",
-    "ammo": 75,
-    "magazine": 100,
-    "items": [
-      [ "screwdriver", 40 ],
-      [ "hammer", 35 ],
-      [ "wrench", 30 ],
-      [ "wrench_small", 30 ],
-      [ "hacksaw", 50 ],
-      [ "xacto", 10 ],
-      { "item": "flashlight", "prob": 40, "charges": 300 },
-      [ "crowbar", 30 ],
-      { "item": "carver_off", "prob": 25, "charges": 500 },
-      [ "press", 40 ],
-      [ "puller", 20 ],
-      [ "boltcutters", 35 ],
-      [ "chisel", 20 ],
-      { "item": "misc_repairkit", "prob": 45, "charges": 200 },
-      [ "tool_belt", 35 ],
-      [ "multitool", 20 ]
     ]
   },
   {

@@ -223,7 +223,7 @@
     "coverage": 80,
     "required_str": -1,
     "looks_like": "t_column",
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_glimmer", "emit_cold_air2_stream" ],
     "bash": {
       "str_min": 18,
@@ -251,7 +251,7 @@
     "coverage": 80,
     "required_str": -1,
     "looks_like": "t_column",
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_heater_vehicle" ],
     "bash": {
       "str_min": 18,

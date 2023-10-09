@@ -202,6 +202,30 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
 }
 
+static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
+                                   const std::string_view &key,
+                                   vp_control_req &req )
+{
+    if( !obj.has_object( key ) ) {
+        return;
+    }
+    JsonObject src = obj.get_object( key );
+
+    JsonArray sk = src.get_array( "skills" );
+    if( !sk.empty() ) {
+        req.skills.clear();
+        for( JsonArray cur : sk ) {
+            if( cur.size() != 2 ) {
+                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
+                continue;
+            }
+            req.skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+    }
+
+    optional( src, false, "proficiencies", req.proficiencies );
+}
+
 void vehicles::parts::load( const JsonObject &jo, const std::string &src )
 {
     vpart_info_factory.load( jo, src );
@@ -285,6 +309,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         parse_vp_reqs( reqs, id, "install", install_reqs, install_skills, install_moves );
         parse_vp_reqs( reqs, id, "removal", removal_reqs, removal_skills, removal_moves );
         parse_vp_reqs( reqs, id, "repair",  repair_reqs,  repair_skills, repair_moves );
+    }
+
+    if( jo.has_member( "control_requirements" ) ) {
+        JsonObject reqs = jo.get_object( "control_requirements" );
+
+        parse_vp_control_reqs( reqs, id, "air", control_air );
+        parse_vp_control_reqs( reqs, id, "land", control_land );
     }
 
     assign( jo, "looks_like", looks_like, strict );
@@ -689,7 +720,7 @@ void vpart_info::finalize()
     if( variants.empty() ) {
         debugmsg( "vehicle part %s defines no variants", id.str() );
         vpart_variant vv;
-        vv.id = "";
+        vv.id.clear();
         vv.label_ = "Default";
         vv.symbols.fill( '?' );
         vv.symbols_broken.fill( '?' );
@@ -901,6 +932,12 @@ void vpart_info::check() const
     if( base_item->pockets.size() > 4 ) {
         debugmsg( "Error: vehicle parts assume only one pocket.  Multiple pockets unsupported" );
     }
+    for( const auto &dt : damage_reduction ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid damage_reduction type \"%s\" for vehicle part %s", dt.first.c_str(),
+                      id.c_str() );
+        }
+    }
 }
 
 void vehicles::parts::reset()
@@ -1103,6 +1140,12 @@ time_duration vpart_info::get_folding_time() const
 time_duration vpart_info::get_unfolding_time() const
 {
     return unfolding_time;
+}
+
+bool vpart_info::has_control_req() const
+{
+    return !control_air.proficiencies.empty() || !control_air.skills.empty() ||
+           !control_land.proficiencies.empty() || !control_land.skills.empty();
 }
 
 std::string vpart_variant::get_label() const
@@ -1501,7 +1544,6 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
 
     json.end_object();
 }
-
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.

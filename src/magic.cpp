@@ -270,6 +270,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_default );
+    optional( jo, was_loaded, "teachable", teachable, true );
     optional( jo, was_loaded, "components", spell_components, spell_components_default );
     optional( jo, was_loaded, "message", message, message_default );
     optional( jo, was_loaded, "sound_description", sound_description, sound_description_default );
@@ -295,6 +296,13 @@ void spell_type::load( const JsonObject &jo, const std::string_view )
     const auto targeted_monster_species_reader = string_id_reader<::species_type> {};
     optional( jo, was_loaded, "targeted_monster_species", targeted_species_ids,
               targeted_monster_species_reader );
+
+    const auto ignored_monster_species_reader = string_id_reader<::species_type> {};
+    optional( jo, was_loaded, "ignored_monster_species", ignored_species_ids,
+              ignored_monster_species_reader );
+
+
+
 
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
@@ -466,6 +474,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
     json.member( "effect_str", effect_str, effect_str_default );
     json.member( "skill", skill, skill_default );
+    json.member( "teachable", teachable, true );
     json.member( "components", spell_components, spell_components_default );
     json.member( "message", message.translated(), message_default.translated() );
     json.member( "sound_description", sound_description.translated(),
@@ -477,6 +486,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_variant", sound_variant, sound_variant_default );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
     json.member( "targeted_monster_species", targeted_species_ids, std::set<species_id> {} );
+    json.member( "ignored_monster_species", ignored_species_ids, std::set<species_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
@@ -1406,6 +1416,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
+        valid = valid && ignore_by_species_id( p );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -1441,6 +1452,25 @@ bool spell::target_by_species_id( const tripoint &p ) const
     }
     return valid;
 }
+
+bool spell::ignore_by_species_id( const tripoint &p ) const
+{
+    if( type->ignored_species_ids.empty() ) {
+        return true;
+    }
+    bool valid = true;
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
+        for( const species_id &spid : type->ignored_species_ids ) {
+            if( target->type->in_species( spid ) ) {
+                valid = false;
+            }
+        }
+    }
+    return valid;
+}
+
+
+
 
 std::string spell::description() const
 {
@@ -1490,7 +1520,6 @@ int spell::get_temp_level_adjustment() const
 {
     return temp_level_adjustment;
 }
-
 
 void spell::set_temp_level_adjustment( int adjustment )
 {
@@ -1601,6 +1630,22 @@ std::string spell::list_targeted_species_names() const
     return ret;
 }
 
+std::string spell::list_ignored_species_names() const
+{
+    if( type->ignored_species_ids.empty() ) {
+        return "";
+    }
+    std::vector<std::string> all_valid_species_names;
+    for( const species_id &species_id : type->ignored_species_ids ) {
+        all_valid_species_names.emplace_back( species_id.str() );
+    }
+    //remove repeat names
+    all_valid_species_names.erase( std::unique( all_valid_species_names.begin(),
+                                   all_valid_species_names.end() ), all_valid_species_names.end() );
+    std::string ret = enumerate_as_string( all_valid_species_names );
+    return ret;
+}
+
 const damage_type_id &spell::dmg_type() const
 {
     return type->dmg_type;
@@ -1626,7 +1671,7 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
     projectile bolt;
     bolt.speed = 10000;
     bolt.impact = get_damage_instance( caster );
-    bolt.proj_effects.emplace( "magic" );
+    bolt.proj_effects.emplace( "MAGIC" );
 
     dealt_projectile_attack atk;
     atk.end_point = target;
@@ -1673,7 +1718,6 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
                 this->casting_time( *caster ),
                 this->damage( source ) );
     }
-
 
     type->effect( *this, source, target );
 }
@@ -1864,7 +1908,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                     trait_cancel += ".";
                 }
             }
-            if( query_yn(
+            if( !guy.is_avatar() || query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
                     sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
                 guy.set_mutation( sp->spell_class );
@@ -1878,9 +1922,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
     if( force || can_learn_spell( guy, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
         get_event_bus().send<event_type::character_learns_spell>( guy.getID(), sp->id );
-        guy.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
+        guy.add_msg_player_or_npc( m_good, _( "You learned %s!" ), _( "<npcname> learned %s!" ), sp->name );
     } else {
-        guy.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+        guy.add_msg_player_or_npc( m_bad, _( "You can't learn this spell." ),
+                                   _( "<npcname> can't learn this spell." ) );
     }
 }
 

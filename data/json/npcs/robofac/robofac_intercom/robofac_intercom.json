@@ -283,6 +283,7 @@
     "responses": [
       { "text": "Let's discuss contracts.", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" },
       { "text": "Let's trade.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
+      { "text": "Is there anything fancier you can sell?", "topic": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL" },
       {
         "text": "Let's discuss prototypes.",
         "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
@@ -512,7 +513,8 @@
             { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
           ]
         },
-        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
       },
       { "text": "Wait, what?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
       { "text": "You do realize that the front door is just open?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
@@ -524,7 +526,11 @@
         "text": "I'm just looking for valuables.  Maybe we can trade?",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE"
       },
-      { "text": "Look, there must be something we can work out.", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" },
+      {
+        "text": "Look, there must be something we can work out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
+      },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
   },
@@ -800,5 +806,14 @@
       "sentinel": "told_about_prototype"
     },
     "responses": [ { "text": "Right.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "We have no other disposable equipment right now.  You'll have to come back in <interval>.",
+      "No. Come back in <interval>."
+    ],
+    "responses": [ { "text": "Right…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   }
 ]

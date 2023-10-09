@@ -73,7 +73,7 @@
     "dodge": 2,
     "harvest": "mammal_fur",
     "dissect": "dissect_ursine_sample_single",
-    "special_attacks": [ [ "EAT_FOOD", 60 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], { "type": "bite", "cooldown": 30, "infection_chance": 44 } ],
     "upgrades": { "age_grow": 480, "into": "mon_bear" }
   },
   {
@@ -112,7 +112,7 @@
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
-    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER" ],
     "armor": { "bash": 2, "electric": 1 }
   },
@@ -145,6 +145,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zombeaver",
+    "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -333,7 +334,6 @@
     "volume": "400 ml",
     "weight": "400 g",
     "hp": 6,
-    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "harvest": "mammal_tiny",
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
@@ -348,9 +348,11 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN",
+      "CORNERED_FIGHTER",
       "NO_BREED"
     ],
     "upgrades": { "age_grow": 120, "into": "mon_cat" },
+    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "armor": { "cold": 0 }
   },
   {
@@ -378,7 +380,10 @@
     "dodge": 8,
     "//": "Their fur keeps them warm",
     "vision_night": 20,
-    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
+    "special_attacks": [
+      { "id": "scratch", "attack_upper": false, "cooldown": 10 },
+      { "type": "bite", "cooldown": 15, "infection_chance": 50 }
+    ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "cat_small_with_skull",
@@ -401,6 +406,7 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN",
+      "CORNERED_FIGHTER",
       "CAN_BE_CULLED"
     ],
     "armor": { "cold": 2 }
@@ -587,7 +593,7 @@
     "speed": 100,
     "dodge": 5,
     "//": "Fat helps keeping their body warm",
-    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 },
+    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 4, "baby_timer": 60 },
     "armor": { "cold": 3 }
   },
   {
@@ -612,7 +618,7 @@
     "copy-from": "mon_cat",
     "name": { "str": "black cat" },
     "description": "A black ball of fur with prominent green eyes staring right into your soul.",
-    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 8, "baby_timer": 60 }
+    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_chipmunk",
@@ -723,6 +729,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
+    "zombify_into": "mon_meat_cocoon_small",
     "harvest": "mammal_large_leather",
     "dissect": "dissect_cattle_sample_single",
     "families": [ "prof_intro_biology" ],
@@ -960,7 +967,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1024,7 +1031,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1072,7 +1079,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1097,7 +1104,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1147,7 +1154,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1172,7 +1179,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1225,7 +1232,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1260,7 +1267,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1311,7 +1318,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1368,7 +1375,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1409,7 +1416,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1458,7 +1465,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1484,7 +1491,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1535,7 +1542,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1570,7 +1577,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1619,7 +1626,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1647,7 +1654,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1697,7 +1704,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1725,7 +1732,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1775,7 +1782,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1800,7 +1807,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [
       "ANIMAL",
@@ -1851,7 +1858,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1974,28 +1981,21 @@
   {
     "id": "mon_hare",
     "type": "MONSTER",
-    "name": { "str": "jackrabbit" },
-    "description": "The snowshoe hare, a small grass-eater with a brown fur coat that changes to white in the wintertime.",
-    "default_faction": "small_animal",
-    "bodytype": "pig",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "volume": "4175 ml",
-    "weight": "4175 g",
-    "hp": 10,
-    "speed": 170,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 6,
-    "harvest": "mammal_small_fur",
-    "dissect": "dissect_rabbit_sample_single",
-    "families": [ "prof_intro_biology" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "name": { "str": "snowshoe hare" },
+    "description": "A small grass-eater with a brown fur coat that changes to white in the wintertime.",
+    "copy-from": "mon_rabbit_base",
+    "volume": "7500 ml",
+    "weight": "1500 g",
+    "reproduction": { "baby_monster": "mon_hare_baby", "baby_count": 3, "baby_timer": 37 }
+  },
+  {
+    "id": "mon_hare_baby",
+    "type": "MONSTER",
+    "name": { "str": "snowshoe hare kit" },
+    "description": "A tiny and very cute snowshoe hare kit.",
+    "copy-from": "mon_rabbit_baby_base",
+    "looks_like": "mon_rabbit_baby",
+    "upgrades": { "age_grow": 77, "into": "mon_hare" }
   },
   {
     "id": "mon_horse_foal",
@@ -2459,18 +2459,19 @@
     ]
   },
   {
-    "id": "mon_rabbit",
+    "abstract": "mon_rabbit_base",
     "type": "MONSTER",
     "name": { "str": "rabbit" },
-    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
+    "description": "Rabbit abstract",
     "default_faction": "small_animal",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "1600 ml",
-    "weight": "1600 g",
+    "volume": "5 L",
+    "weight": "2 kg",
     "hp": 8,
-    "speed": 160,
+    "speed": 300,
+    "attack_cost": 300,
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "brown",
@@ -2478,13 +2479,71 @@
     "morale": -7,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
-    "reproduction": { "baby_monster": "mon_rabbit", "baby_count": 3, "baby_timer": 55 },
-    "harvest": "mammal_small_fur",
+    "harvest": "rabbit_with_skull",
     "dissect": "dissect_rabbit_sample_single",
     "families": [ "prof_intro_biology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_WONT_FOLLOW",
+      "WARM",
+      "CAN_BE_CULLED",
+      "GOODHEARING"
+    ]
+  },
+  {
+    "abstract": "mon_rabbit_baby_base",
+    "type": "MONSTER",
+    "name": { "str": "rabbit kit abstract" },
+    "copy-from": "mon_rabbit_base",
+    "volume": "150 ml",
+    "weight": "30 g",
+    "hp": 1,
+    "speed": 125,
+    "attack_cost": 125,
+    "dodge": 8,
+    "harvest": "mammal_tiny"
+  },
+  {
+    "id": "mon_rabbit",
+    "type": "MONSTER",
+    "name": { "str": "domestic rabbit" },
+    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
+    "copy-from": "mon_rabbit_base",
+    "reproduction": { "baby_monster": "mon_rabbit_baby", "baby_count": 6, "baby_timer": 33 },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." }
+  },
+  {
+    "id": "mon_rabbit_baby",
+    "type": "MONSTER",
+    "name": { "str": "domestic rabbit kit" },
+    "description": "A tiny bunny with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
+    "copy-from": "mon_rabbit_baby_base",
+    "upgrades": { "age_grow": 45, "into": "mon_rabbit" },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." }
+  },
+  {
+    "id": "mon_wild_rabbit",
+    "type": "MONSTER",
+    "name": { "str": "cottontail rabbit" },
+    "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.  You can't tell which one of the two cottontail species from the region this is.",
+    "copy-from": "mon_rabbit_base",
+    "looks_like": "mon_rabbit",
+    "weight": "1200 g",
+    "reproduction": { "baby_monster": "mon_wild_rabbit_baby", "baby_count": 5, "baby_timer": 28 }
+  },
+  {
+    "id": "mon_wild_rabbit_baby",
+    "type": "MONSTER",
+    "name": { "str": "cottontail rabbit kit" },
+    "description": "A tiny and very cute cottontail rabbit kit.",
+    "copy-from": "mon_rabbit_baby_base",
+    "looks_like": "mon_rabbit_baby",
+    "upgrades": { "age_grow": 23, "into": "mon_wild_rabbit" }
   },
   {
     "id": "mon_raccoon",

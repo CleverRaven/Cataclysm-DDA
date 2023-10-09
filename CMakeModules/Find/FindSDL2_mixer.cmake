@@ -96,22 +96,33 @@ set(SDL2MIXER_FOUND ${SDL2_MIXER_FOUND})
 
 mark_as_advanced(SDL2_MIXER_LIBRARY SDL2_MIXER_INCLUDE_DIR)
 
-if(NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
+if(NOT DYNAMIC_LINKING)
   if (NOT TARGET SDL2_mixer::SDL2_mixer-static)
     add_library(SDL2_mixer::SDL2_mixer-static STATIC IMPORTED)
-    set_property(TARGET SDL2_mixer::SDL2_mixer-static
-      PROPERTY IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+    set_target_properties(SDL2_mixer::SDL2_mixer-static PROPERTIES
+      IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+      INTERFACE_INCLUDE_DIRECTORIES ${SDL2_MIXER_INCLUDE_DIRS}
     )
   endif()
-  message(STATUS "Searching for SDL_mixer deps libraries --")
-  pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
-  target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
-    PkgConfig::FLAC
-  )
 elseif(NOT TARGET SDL2_mixer::SDL2_mixer)
     add_library(SDL2_mixer::SDL2_mixer STATIC IMPORTED)
-    set_property(TARGET SDL2_mixer::SDL2_mixer
-      PROPERTY IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+    set_target_properties(SDL2_mixer::SDL2_mixer PROPERTIES
+      IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+      INTERFACE_INCLUDE_DIRECTORIES ${SDL2_MIXER_INCLUDE_DIRS}
     )
+endif()
 
+if(PKG_CONFIG_FOUND)
+    message(STATUS "Searching for SDL_mixer deps libraries --")
+    if(TARGET SDL2_mixer::SDL2_mixer-static)
+        pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
+        target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
+            PkgConfig::FLAC
+        )
+    elseif(TARGET SDL2_mixer::SDL2_mixer)
+        pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
+        target_link_libraries(SDL2_mixer::SDL2_mixer INTERFACE
+            PkgConfig::FLAC
+        )
+    endif()
 endif()

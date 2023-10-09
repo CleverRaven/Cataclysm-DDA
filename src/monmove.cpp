@@ -100,7 +100,6 @@ static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1"
 static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
 static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
-static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
 static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_PUSH_MON( "PUSH_MON" );
 static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
@@ -174,8 +173,10 @@ bool monster::will_move_to( const tripoint &p ) const
         }
     }
 
-    if( ( !can_submerge() && !flies() ) && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
-        return false;
+    if( !here.has_vehicle_floor( p ) ) {
+        if( ( !can_submerge() && !flies() ) && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+            return false;
+        }
     }
 
     if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
@@ -200,12 +201,21 @@ bool monster::will_move_to( const tripoint &p ) const
         return false; // if a large critter, can't move through tight passages
     }
 
+    return true;
+}
+
+bool monster::know_danger_at( const tripoint &p ) const
+{
+    map &here = get_map();
+
     // Various avoiding behaviors.
 
     bool avoid_fire = has_flag( mon_flag_PATH_AVOID_FIRE );
     bool avoid_fall = has_flag( mon_flag_PATH_AVOID_FALL );
     bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER_1 );
     bool avoid_complex = has_flag( mon_flag_PATH_AVOID_DANGER_2 );
+    bool avoid_sharp = get_pathfinding_settings().avoid_sharp;
+    bool avoid_traps = get_pathfinding_settings().avoid_traps;
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -214,56 +224,61 @@ bool monster::will_move_to( const tripoint &p ) const
      */
     if( avoid_complex ) {
         avoid_simple = true;
+        avoid_traps = true;
     }
     if( avoid_simple ) {
         avoid_fire = true;
         avoid_fall = true;
+        avoid_sharp = true;
     }
 
     // technically this will shortcut in evaluation from fire or fall
     // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
+    if( avoid_fire || avoid_fall || avoid_simple ||
+        avoid_complex || avoid_traps || avoid_sharp ) {
         const ter_id target = here.ter( p );
-
-        // Don't enter lava if we have any concept of heat being bad
-        if( avoid_fire && target == t_lava ) {
-            return false;
-        }
-
-        if( avoid_fall ) {
-            // Don't throw ourselves off cliffs if we have a concept of falling
-            if( !here.has_floor( p ) && !flies() ) {
+        if( !here.has_vehicle_floor( p ) ) {
+            // Don't enter lava if we have any concept of heat being bad
+            if( avoid_fire && target == t_lava ) {
                 return false;
             }
 
-            // Don't enter open pits ever unless tiny, can fly or climb well
-            if( !( type->size == creature_size::tiny || can_climb() ) &&
-                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-                return false;
-            }
-        }
+            if( avoid_fall ) {
+                // Don't throw ourselves off cliffs if we have a concept of falling
+                if( !here.has_floor_or_water( p ) && !flies() ) {
+                    return false;
+                }
 
-        // Some things are only avoided if we're not attacking
-        if( attitude( &get_player_character() ) != MATT_ATTACK ) {
-            // Sharp terrain is ignored while attacking
-            if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
-                !( type->size == creature_size::tiny || flies() ||
-                   get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
+                // Don't enter open pits ever unless tiny, can fly or climb well
+                if( !( type->size == creature_size::tiny || can_climb() ) &&
+                    ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                    return false;
+                }
+            }
+
+            // Some things are only avoided if we're not attacking
+            if( attitude( &get_player_character() ) != MATT_ATTACK ) {
+                // Sharp terrain is ignored while attacking
+                if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
+                    !( type->size == creature_size::tiny || flies() ||
+                       get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
+                    return false;
+                }
+            }
+
+            // Don't step on any traps (if we can see)
+            const trap &target_trap = here.tr_at( p );
+            if( avoid_traps && has_flag( mon_flag_SEES ) &&
+                !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
                 return false;
             }
         }
 
         const field &target_field = here.field_at( p );
-
         // Higher awareness is needed for identifying these as threats.
         if( avoid_complex ) {
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
-                return false;
-            }
-            // Don't step on any traps (if we can see)
-            const trap &target_trap = here.tr_at( p );
-            if( has_flag( mon_flag_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
                 return false;
             }
         }
@@ -288,15 +303,19 @@ bool monster::can_reach_to( const tripoint &p ) const
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
             return true;
         }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos() ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos() ) && here.has_floor( p ) ) {
             // can't go through the roof
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) {
+        const tripoint above( p.xy(), p.z + 1 );
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
+            return true;
+        }
+        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) &&
+            ( here.has_floor( above ) || ( !flies() && !here.has_floor_or_water( above ) ) ) ) {
             // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
+            // Check floors for flying monsters movement
             return false;
         }
     }
@@ -305,7 +324,7 @@ bool monster::can_reach_to( const tripoint &p ) const
 
 bool monster::can_move_to( const tripoint &p ) const
 {
-    return can_reach_to( p ) && will_move_to( p );
+    return can_reach_to( p ) && will_move_to( p ) && know_danger_at( p );
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
@@ -753,13 +772,11 @@ void monster::plan()
             next_stop = patrol_route.at( next_patrol_point );
         }
         set_dest( next_stop );
-    } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
+    } else if( friendly != 0 && has_effect( effect_led_by_leash ) &&
+               get_location().z() == get_dest().z() ) {
         // visibility doesn't matter, we're getting pulled by a leash
-        if( rl_dist( get_location(), player_character.get_location() ) > 1 ) {
-            set_dest( player_character.get_location() );
-        } else {
-            unset_dest();
-        }
+        // To use stairs smoothly, if the destination is on a different Z-level, move there first.
+        set_dest( player_character.get_location() );
         if( friendly > 0 && one_in( 3 ) ) {
             // Grow restless with no targets
             friendly--;
@@ -767,14 +784,12 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( player_character ) &&
-               // Simpleminded animals are too dumb to follow the player.
-               !has_flag( mon_flag_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( get_location(), player_character.get_location() ) > 2 ) {
-            set_dest( player_character.get_location() );
-        } else {
-            unset_dest();
-        }
+    } else if( is_pet_follow() && sees( player_character ) &&
+               ( get_location().z() == player_character.get_location().z() ||
+                 get_location().z() == get_dest().z() ) ) {
+        // Simpleminded animals are too dumb to follow the player.
+        // To use stairs smoothly, if the destination is on a different Z-level, move there first.
+        set_dest( player_character.get_location() );
     }
 }
 
@@ -907,7 +922,7 @@ void monster::move()
     nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
-    if( !flies() && here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, pos() ) ) {
+    if( !flies() && !here.has_floor_or_water( pos() ) && !here.has_vehicle_floor( pos_bub() ) ) {
         here.creature_on_trap( *this, false );
         if( is_dead() ) {
             return;
@@ -972,10 +987,20 @@ void monster::move()
         }
     }
 
-    if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
-        ( ( current_attitude == MATT_FOLLOW ||
-            ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
-          && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
+    if( is_pet_follow() || ( friendly != 0 && has_effect( effect_led_by_leash ) ) ) {
+        const int dist = rl_dist( get_location(), get_dest() );
+        if( ( dist <= 1 || ( dist <= 2 && !has_effect( effect_led_by_leash ) &&
+                             sees( player_character ) ) ) &&
+            ( get_dest() == player_character.get_location() &&
+              get_location().z() == player_character.get_location().z() ) ) {
+            moves = 0;
+            stumble();
+            return;
+        }
+    } else if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
+               ( ( current_attitude == MATT_FOLLOW ||
+                   ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
+                 && rl_dist( get_location(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
         stumble();
         return;
@@ -995,11 +1020,34 @@ void monster::move()
             }
         }
     }
+
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
-    const tripoint local_dest = here.getlocal( get_dest() );
+    tripoint local_dest = here.getlocal( get_dest() );
     if( try_to_move ) {
-        if( !is_wandering() ) {
+        // Move using vision by follow smells and sounds
+        bool move_without_target = false;
+        if( is_wandering() && has_intelligence() && can_see() ) {
+            if( has_flag( mon_flag_SMELLS ) ) {
+                unset_dest();
+                tripoint tmp = scent_move();
+                if( tmp.x != -1 ) {
+                    local_dest = tmp;
+                    move_without_target = true;
+                    add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell using vision", name() );
+                }
+            }
+            if( !move_without_target && wandf > 0 && friendly == 0 ) {
+                unset_dest();
+                if( wander_pos != get_location() ) {
+                    local_dest = here.getlocal( wander_pos );
+                    move_without_target = true;
+                    add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound using vision", name() );
+                }
+            }
+        }
+
+        if( !is_wandering() || move_without_target ) {
             while( !path.empty() && path.front() == pos() ) {
                 path.erase( path.begin() );
             }
@@ -1031,6 +1079,7 @@ void monster::move()
         if( tmp.x != -1 ) {
             destination = tmp;
             moved = true;
+            add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell to not use vision", name() );
         }
     }
     if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
@@ -1038,6 +1087,7 @@ void monster::move()
         if( wander_pos != get_location() ) {
             destination = here.getlocal( wander_pos );
             moved = true;
+            add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound to not use vision", name() );
         }
     }
 
@@ -1077,11 +1127,14 @@ void monster::move()
             }
 
             bool via_ramp = false;
+            int rampPos = 0;
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
+                rampPos -= 1;
                 candidate.z += 1;
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
+                rampPos += 1;
                 candidate.z -= 1;
             }
             const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
@@ -1097,8 +1150,11 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        // Can't "jump" up a whole z-level
-                        can_z_move = false;
+                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
+                              !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
+                            // Can't "jump" up a whole z-level
+                            can_z_move = false;
+                        }
                     }
                 }
 
@@ -1179,7 +1235,8 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( candidate, destination );
+            const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(),
+                                   candidate.z + rampPos ), destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
@@ -1874,20 +1931,8 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
 
-    if( type->size != creature_size::tiny && on_ground ) {
-        const int sharp_damage = rng( 1, 10 );
-        const int rough_damage = rng( 1, 2 );
-        if( here.has_flag( ter_furn_flag::TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
-            get_armor_type( damage_cut, bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
-            apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
-        }
-        if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
-            get_armor_type( damage_cut, bodypart_id( "torso" ) ) < rough_damage && get_hp() > rough_damage ) {
-            apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
-        }
-    }
-
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, destination ) && on_ground ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, destination ) &&
+        on_ground && !here.has_vehicle_floor( destination ) ) {
         add_effect( effect_bouldering, 1_turns, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -1899,9 +1944,23 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         remove_effect( effect_no_sight );
     }
 
-    here.creature_on_trap( *this );
-    if( is_dead() ) {
-        return true;
+    if( !here.has_vehicle_floor( destination ) ) {
+        if( type->size != creature_size::tiny && on_ground ) {
+            const int sharp_damage = rng( 1, 10 );
+            const int rough_damage = rng( 1, 2 );
+            if( here.has_flag( ter_furn_flag::TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
+                get_armor_type( damage_cut, bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
+                apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
+            }
+            if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
+                get_armor_type( damage_cut, bodypart_id( "torso" ) ) < rough_damage && get_hp() > rough_damage ) {
+                apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
+            }
+        }
+        here.creature_on_trap( *this );
+        if( is_dead() ) {
+            return true;
+        }
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
         underwater = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() );

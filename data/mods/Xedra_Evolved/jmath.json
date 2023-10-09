@@ -29,7 +29,37 @@
     "type": "jmath_function",
     "id": "spell_exp_diff",
     "num_args": 1,
-    "//": "aceept the spell level, return a difference in experience between spell's current level and the next level",
+    "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
     "return": "spell_exp(_0 + 1) - spell_exp(_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "int_to_level",
+    "num_args": 1,
+    "return": "(u_val('intelligence') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dex_to_level",
+    "num_args": 1,
+    "return": "(u_val('dexterity') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "per_to_level",
+    "num_args": 1,
+    "return": "(u_val('perception') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "str_to_level",
+    "num_args": 1,
+    "return": "(u_val('strength') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "scaling_factor",
+    "num_args": 1,
+    "return": "( ( _0 + 10) / 20 )"
   }
 ]

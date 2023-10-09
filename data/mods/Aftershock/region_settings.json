@@ -7,12 +7,13 @@
       "shop_sigma": 300,
       "shops": {
         "afs_augmentation_clinic_1": 400,
-        "city_block_2": 700,
-        "urban_35_hospital": 875,
-        "office_tower_large": 800,
-        "office_tower_hiddenlab": 800,
-        "afs_astrobiology_lab": 300,
-        "mall": 700
+        "city_block_2": 300,
+        "urban_35_hospital": 175,
+        "office_skyscraper": 300,
+        "office_tower_large": 300,
+        "office_tower_hiddenlab": 200,
+        "afs_astrobiology_lab": 200,
+        "mall": 100
       },
       "houses": { "afs_city_ruinfield": 200, "afs_formless_ruins_dynamic": 300, "afs_house_1": 100 }
     },

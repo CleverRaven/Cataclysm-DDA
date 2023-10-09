@@ -79,7 +79,6 @@ static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
-static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
@@ -1084,7 +1083,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
             m.spawn_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ),
-                              relic_procgen_data_alien_reality, true );
+                              relic_procgen_data_alien_reality, 5, 1000, -2000, true );
             break;
         }
     }
@@ -1399,7 +1398,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.ter_set( loc, ter_t_tree_dead );
         } else {
             m.ter_set( loc, ter_t_dirt );
-            m.furn_set( loc, f_ash );
+            if( one_in( 4 ) ) {
+                m.furn_set( loc, f_ash );
+            } else {
+                m.furn_set( loc, furn_id( "f_fireweed" ) );
+            }
             m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
         }
         // everything else is destroyed, ash is added
@@ -1520,6 +1523,7 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
     weighted_int_list<furn_id> vegetation;
     vegetation.add( f_cattails, 15 );
     vegetation.add( f_lotus, 5 );
+    vegetation.add( furn_id( "f_purple_loosestrife" ), 1 );
     vegetation.add( f_lilypad, 1 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {

@@ -707,9 +707,9 @@ TEST_CASE( "techniques_when_wielded", "[iteminfo][weapon][techniques]" )
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
            " <color_c_light_blue>Brutal Strike</color>:"
-           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
+           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only, min 2 melee</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
            " <color_c_light_blue>Sweep Attack</color>:"
-           " <color_c_cyan>Down 2 turns</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
+           " <color_c_cyan>Down 2 turns, min 3 melee</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
            " <color_c_light_blue>Block</color>:"
            " <color_c_cyan>Medium blocking ability</color> <color_c_cyan></color>\n" );
 
@@ -2799,7 +2799,6 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
         CHECK( item_info_str( compbow, mag_cap ) ==
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
-
 
     }
 }

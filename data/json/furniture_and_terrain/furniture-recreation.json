@@ -397,8 +397,7 @@
         { "item": "nuts_bolts", "charges": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
-        { "item": "material_sand", "charges": 4000 },
-        { "item": "bag_plastic", "count": 4 }
+        { "item": "material_sand", "charges": 4000 }
       ]
     },
     "bash": {

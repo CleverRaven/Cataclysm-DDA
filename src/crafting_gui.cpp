@@ -24,8 +24,10 @@
 #include "debug.h"
 #include "display.h"
 #include "flag.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -101,6 +103,8 @@ static std::string peek_related_recipe( const recipe *current, const recipe_subs
 static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
+static item get_recipe_result_item( const recipe &rec, Character &crafter );
+static void compare_recipe_with_item( const item &recipe_item, Character &crafter );
 
 static std::string get_cat_unprefixed( const std::string_view prefixed_name )
 {
@@ -330,7 +334,6 @@ static std::string cata_fail_chance_string( const recipe &recp, const Character 
     return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f%%</color>" ), color,
                           chance );
 }
-
 
 static std::vector<std::string> recipe_info(
     const recipe &recp,
@@ -568,6 +571,7 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "COMPARE" );
     if( highlight_unread_recipes ) {
         ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
         ctxt.register_action( "MARK_ALL_RECIPES_READ" );
@@ -681,6 +685,30 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
     }
 }
 
+static item get_recipe_result_item( const recipe &rec, Character &crafter )
+{
+    item dummy_result = item( rec.result(), calendar::turn, item::default_charges_tag{} );
+    if( !rec.variant().empty() ) {
+        dummy_result.set_itype_variant( rec.variant() );
+    }
+    //Check if recipe result is a clothing item that can be properly fitted
+    if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
+        //Check if it can actually fit.  If so, list the fitted info
+        item::sizing general_fit = dummy_result.get_sizing( crafter );
+        if( general_fit == item::sizing::small_sized_small_char ||
+            general_fit == item::sizing::human_sized_human_char ||
+            general_fit == item::sizing::big_sized_big_char ||
+            general_fit == item::sizing::ignore ) {
+            dummy_result.set_flag( flag_FIT );
+        }
+    }
+    if( dummy_result.count_by_charges() ) {
+        dummy_result.charges = 1;
+    }
+    dummy_result.set_var( "recipe_exemplar", rec.ident().str() );
+    return dummy_result;
+}
+
 item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
         int &scroll_pos, const catacurses::window &window )
 {
@@ -711,31 +739,13 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     std::vector<iteminfo> details_info;
 
     //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
-    item dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+    item dummy_result = get_recipe_result_item( *rec, crafter );
     std::string result_description;
     if( dummy_result.is_null() ) {
         result_description = rec->description.translated();
     }
-    if( !rec->variant().empty() ) {
-        dummy_result.set_itype_variant( rec->variant() );
-    }
-    //Check if recipe result is a clothing item that can be properly fitted
-    if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
-        //Check if it can actually fit.  If so, list the fitted info
-        item::sizing general_fit = dummy_result.get_sizing( crafter );
-        if( general_fit == item::sizing::small_sized_small_char ||
-            general_fit == item::sizing::human_sized_human_char ||
-            general_fit == item::sizing::big_sized_big_char ||
-            general_fit == item::sizing::ignore ) {
-            dummy_result.set_flag( flag_FIT );
-        }
-    }
     bool result_uses_charges = dummy_result.count_by_charges();
     int const makes_amount = rec->makes_amount();
-    if( result_uses_charges ) {
-        dummy_result.charges = 1;
-    }
-    dummy_result.set_var( "recipe_exemplar", rec->ident().str() );
     item dummy_container;
 
     //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
@@ -743,7 +753,8 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     const std::string recipe_output_string = _( "Recipe Outputs" );
     const std::string recipe_result_string = _( "Recipe Result" );
     const std::string container_string = _( "Container" );
-    const std::string in_container_string = _( "In container" );
+    // Every learnable recipe in a container is sealed.
+    const std::string in_container_string = _( "In sealed container" );
     const std::string container_info_string = _( "Container Information" );
 
     //Set up summary at top so people know they can look further to learn about byproducts and such
@@ -1125,7 +1136,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
 }
 
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe,
-                                      Character &crafter )
+                                      Character &crafter, std::string filterstring )
 {
     recipe_result_info_cache result_info( crafter );
     recipe_info_cache r_info_cache;
@@ -1246,7 +1257,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
     const inventory &crafting_inv = crafter.crafting_inventory();
     const std::vector<npc *> helpers = crafter.get_crafting_helpers();
-    std::string filterstring;
 
     const recipe_subset &available_recipes = crafter.get_available_recipes( crafting_inv,
             &helpers );
@@ -1955,6 +1965,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                 recalc = true;
                 recalc_unread = highlight_unread_recipes;
             }
+        } else if( action == "COMPARE" && selection_ok( current, line, false ) ) {
+            const item recipe_result = get_recipe_result_item( *current[line], crafter );
+            compare_recipe_with_item( recipe_result, crafter );
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Regenerate keybinding tips
             ui.mark_resize();
@@ -2092,6 +2105,28 @@ int related_menu_fill( uilist &rmenu,
     }
 
     return np_last;
+}
+
+static void compare_recipe_with_item( const item &recipe_item, Character &crafter )
+{
+    inventory_pick_selector inv_s( crafter );
+
+    inv_s.add_character_items( crafter );
+    inv_s.set_title( _( "Compare" ) );
+    inv_s.set_hint( _( "Select item to compare with." ) );
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
+        return;
+    }
+
+    do {
+        const item_location to_compare = inv_s.execute();
+        if( !to_compare ) {
+            break;
+        }
+        game_menus::inv::compare_items( recipe_item, *to_compare );
+    } while( true );
 }
 
 static bool query_is_yes( const std::string_view query )

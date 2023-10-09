@@ -829,7 +829,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     }
 
     // Legacy compatibility. Changed during 0.F.
-    miss_id.parameters = "";
+    miss_id.parameters.clear();
     npc_list = companion_list( p, miss_id );
 
     if( !npc_list.empty() ) {
@@ -1500,9 +1500,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
-    std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
-        return itm.is_seed() && itm.typeId() != itype_marloss_seed &&
-               itm.typeId() != itype_fungal_seeds;
+    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
+    []( const item & itm ) {
+        return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant!" ) );
@@ -2044,7 +2044,7 @@ bool talk_function::carpenter_return( npc &p )
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->get_skill_level( skill_fabrication );
+        int skill_1 = comp->get_greater_skill_or_knowledge_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
         popup( _( "While %s was framing a building, one of the walls began to collapse…" ),

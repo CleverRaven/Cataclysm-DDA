@@ -122,6 +122,8 @@ class avatar : public Character
 
         mfaction_id get_monster_faction() const override;
 
+        void witness_thievery( item * ) override {}
+
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
         }
@@ -230,7 +232,6 @@ class avatar : public Character
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
-
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.

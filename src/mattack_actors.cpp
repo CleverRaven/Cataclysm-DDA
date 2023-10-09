@@ -82,6 +82,8 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
     optional( obj, was_loaded, "random_leap", random_leap, false );
+    optional( obj, was_loaded, "ignore_dest_terrain", ignore_dest_terrain, false );
+    optional( obj, was_loaded, "ignore_dest_danger", ignore_dest_danger, false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
@@ -92,7 +94,6 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
         read_condition( obj, "condition", condition, false );
         has_condition = true;
     }
-
 
     if( obj.has_array( "self_effects" ) ) {
         for( JsonObject eff : obj.get_array( "self_effects" ) ) {
@@ -168,6 +169,16 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
+        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate place it can't enter, discarded" );
+            continue;
+        }
+        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate with dangerous conditions, discarded" );
+            continue;
+        }
         candidates.emplace( candidate_dist, candidate );
     }
     for( const auto &candidate : candidates ) {
@@ -193,12 +204,12 @@ bool leap_actor::call( monster &z ) const
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
                 break;
+            } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, i ) &&
+                       z.get_size() > creature_size::medium ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate discarded" );
+                blocked_path = true;
+                break;
             }
-        }
-        // don't leap into water if you could drown (#38038)
-        if( z.is_aquatic_danger( dest ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Can't leap into water, candidate discarded" );
-            blocked_path = true;
         }
         if( blocked_path ) {
             continue;
@@ -255,7 +266,6 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
         has_condition = true;
     }
 
-
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const
@@ -278,7 +288,6 @@ bool mon_spellcasting_actor::call( monster &mon ) const
             return false;
         }
     }
-
 
     const tripoint target = ( spell_data.self ||
                               allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
@@ -326,7 +335,6 @@ void grab::load_grab( const JsonObject &jo )
     optional( jo, was_loaded, "pull_weight_ratio", pull_weight_ratio, 0.75f );
     was_loaded = true;
 }
-
 
 melee_actor::melee_actor()
 {
@@ -616,7 +624,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 tripoint zpt = z.pos();
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
-                    return false;
+                    return 0;
                 }
                 if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
                                              zpt.y < HALF_MAPSIZE_Y ||

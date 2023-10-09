@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_INSTABILITY_CREAM",
+    "effect": [
+      {
+        "u_message": "You rub the cream on your skin.  It's cool and soothing at first, but very soon that feeling is replaced by an overpowering itchiness."
+      },
+      { "u_add_effect": "instability_remover", "duration": "24 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_FORCE_FIELD_GENERATOR_ACTIVATION",
     "condition": { "u_has_items": { "item": "matrix_crystal_drained", "count": 1 } },
     "effect": [

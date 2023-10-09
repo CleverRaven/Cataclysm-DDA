@@ -9,10 +9,12 @@
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": 20,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_EATER_DRAIN",
+    "effect": "attack",
+    "damage_type": "psi_enervation_damage",
     "shape": "blast",
-    "min_range": 30
+    "min_range": 30,
+    "min_damage": 1,
+    "max_damage": 1
   },
   {
     "type": "effect_on_condition",
@@ -31,7 +33,7 @@
     ],
     "false_effect": [
       { "u_cast_spell": { "id": "eater_drain_health" } },
-      { "u_message": "You feel your life draining away!.", "type": "bad" }
+      { "u_message": "You feel your life draining away!", "type": "bad" }
     ]
   },
   {
@@ -83,13 +85,13 @@
     "name": "[Ψ]Eater Drain Stamina",
     "description": "Eater's spell to drain health.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "pure",
     "max_level": 1,
-    "min_damage": 10,
-    "max_damage": 10,
+    "min_damage": 1,
+    "max_damage": 2,
     "min_range": 30
   }
 ]

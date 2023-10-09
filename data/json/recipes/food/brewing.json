@@ -136,7 +136,7 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "book_learn": [ [ "brewing_cookbook", 6 ] ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sake_unfiltered", 1 ] ] ]
   },
   {

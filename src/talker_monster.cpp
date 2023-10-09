@@ -12,7 +12,6 @@
 
 class time_duration;
 
-
 talker_monster::talker_monster( monster *new_me )
 {
     me_mon = new_me;
@@ -165,6 +164,17 @@ int talker_monster_const::get_grab_strength() const
                    me_mon_const->get_grab_strength() );
     return  me_mon_const->get_grab_strength();
 }
+
+int talker_monster_const::get_volume() const
+{
+    return units::to_milliliter( me_mon_const->get_volume() );
+}
+
+int talker_monster_const::get_weight() const
+{
+    return units::to_milligram( me_mon_const->get_weight() );
+}
+
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;

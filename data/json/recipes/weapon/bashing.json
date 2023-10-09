@@ -132,6 +132,45 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "2h_club_kanabo_studded",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ "bashing", 1 ],
+    "difficulty": 4,
+    "time": "6 h",
+    "book_learn": [ [ "textbook_weapeast", 2 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "DRILL", "level": 3 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carving", "skill_penalty": 0 },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
+    ],
+    "components": [ [ [ "log", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "2h_club_kanabo_spiked",
+    "copy-from": "2h_club_kanabo_studded",
+    "book_learn": [ [ "textbook_weapeast", 2 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 }
+    ],
+    "components": [ [ [ "log", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "lucern_hammer",
     "category": "CC_WEAPON",

@@ -10,6 +10,7 @@ accessorizing
 acclimatization
 accoustrement
 accuracies
+accurized
 achelousaurus
 acho
 acidball
@@ -27,15 +28,19 @@ aeroctinus
 aerofoil
 aeterna
 aetheric
+aetherically
 affordability
 affordably
 afterbirth
+aftereffect
+aftereffects 
 afterglow
 afterimage
 afterlife
 aftermarket
 aftermath
 afternoon
+afternoons
 aftertaste
 afterthought
 afterward
@@ -77,6 +82,7 @@ allosaurid
 allosaurus
 allosaurusid
 allotrope
+alloying
 allucination
 alnico
 alquerque
@@ -732,6 +738,7 @@ deliriant
 delsihous
 demagnetized
 demihuman
+demining
 demisexuality
 demoed
 denarius
@@ -840,6 +847,8 @@ dreamdrossed
 dreamforged
 dreamsmith
 dreamstuff
+dress
+dresses
 driers
 drivetrain
 dromaeosaurid
@@ -1324,6 +1333,7 @@ hdd
 headbutts
 headin
 headwear
+headwrap
 healthiness
 heartiness
 heartlike
@@ -1490,6 +1500,8 @@ intermixed
 interwar
 intimidatingly
 intolerances
+intone
+intones
 intoxications
 intoxicative
 inulin
@@ -1902,6 +1914,7 @@ motes
 motorpool
 motorsports
 mountable
+mountings
 mouthgear
 mouthpart
 mouthparts
@@ -2094,6 +2107,7 @@ outgrowths
 outperforms
 outputting
 ovata
+overboots
 overbore
 overbuilt
 overclock
@@ -2102,13 +2116,18 @@ overdosage
 overdrinking
 overengineered
 overexertion
+overgloves
 overgrowth
+overhood
+overhoods
 overmap
 overmaps
 overpenetration
 overpressure
 overqueen
 overshoes
+oversuit
+oversuits
 overswing
 overswinging
 overtaxing
@@ -2154,10 +2173,10 @@ pasteurize
 pathfinding
 patios
 pauldrons
-pebbled
 peacoat
 peanutbutter
 pearlescent
+pebbled
 peccari
 peccary
 pecial
@@ -2595,6 +2614,7 @@ sawblade
 sawblades
 sawteeth
 sayig
+scabbards
 scalable
 scatterer
 schippe
@@ -2652,6 +2672,7 @@ shantak
 shantytowns
 shapechangers
 sharksuit
+sharksuits
 shedded
 shenandoah
 shipside
@@ -2979,7 +3000,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-th
+thaumaturge 
 thaumaturgical
 thawb
 themm
@@ -3125,8 +3146,8 @@ underbarrel
 underbody
 undercovering
 underfongen
-underhill
 undergrown
+underhill
 underlayer
 underlayers
 undersides
@@ -3294,8 +3315,8 @@ wasnt
 wastebread
 watchband
 waterfowl
-waterproofed
 waterkin
+waterproofed
 waterskin
 waterskins
 waterskis
@@ -3339,6 +3360,8 @@ wielders
 wieldier
 willin
 willowbark
+wimple
+wimples
 windowframe
 windproof
 winglike

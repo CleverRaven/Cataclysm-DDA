@@ -581,7 +581,7 @@
         "=": [ "f_treadmill", "f_treadmill_mechanical" ],
         "M": "f_bigmirror",
         "s": "f_shower",
-        "W": "f_water_heater"
+        "W": "f_water_heater_family"
       },
       "place_nested": [
         {

@@ -34,7 +34,7 @@
     "type": "GENERIC",
     "id": "matrix_crystal_biokin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, pink" },
-    "description": "Concentrated matrix crystal dust.  It glitters pink even in complete darkness..",
+    "description": "Concentrated matrix crystal dust.  It glitters pink even in complete darkness.",
     "color": "pink",
     "symbol": "=",
     "volume": "1 ml",
@@ -187,7 +187,7 @@
   {
     "type": "GENERIC",
     "id": "matrix_crystal_teleport_dust_refined",
-    "name": { "str_sp": "refined matrix crystal, blue" },
+    "name": { "str_sp": "refined matrix crystal powder, blue" },
     "description": "Concentrated matrix crystal dust.  It glitters blue even in complete darkness.",
     "copy-from": "matrix_crystal_biokin_dust_refined",
     "color": "blue"

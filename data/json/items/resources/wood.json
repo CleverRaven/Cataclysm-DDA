@@ -48,7 +48,7 @@
     "weight": "1500 g",
     "volume": "2500 ml",
     "longest_side": "130 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "category": "spare_parts",
     "melee_damage": { "bash": 14 }
   },
@@ -61,12 +61,12 @@
     "description": "A straight section of wood, about eight feet long and a couple of inches in diameter.  Makes a decent melee weapon, and can be broken into shorter pieces for crafting.",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "REACH_ATTACK" ],
     "weight": "3000 g",
     "volume": "5000 ml",
     "longest_side": "260 cm",
     "looks_like": "stick",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "use_action": [ "BREAK_STICK" ],
     "category": "spare_parts",
     "melee_damage": { "bash": 18 }

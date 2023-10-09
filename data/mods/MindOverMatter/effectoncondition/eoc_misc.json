@@ -84,5 +84,30 @@
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
     "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_METAPHYSICS_SKILL_EXP",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'raw')", "+=", "250" ] } ]
   }
 ]

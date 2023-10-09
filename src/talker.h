@@ -78,6 +78,9 @@ class talker
         virtual std::string disp_name() const {
             return "";
         }
+        virtual std::string get_name() const {
+            return "";
+        }
         virtual character_id getID() const {
             return character_id( 0 );
         }
@@ -189,6 +192,9 @@ class talker
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual int get_skill_exp( const skill_id &, bool ) const {
+            return 0;
+        }
         virtual int get_spell_level( const trait_id & ) const {
             return 0;
         }
@@ -201,9 +207,13 @@ class talker
         virtual int get_highest_spell_level() const {
             return 0;
         }
+        virtual int get_spell_count( const trait_id & ) const {
+            return 0;
+        }
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
+        virtual void set_skill_exp( const skill_id &, int, bool ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
@@ -265,22 +275,40 @@ class talker
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
             return {};
         }
+        virtual std::vector<proficiency_id> proficiencies_teacheable() const {
+            return {};
+        }
         virtual std::vector<proficiency_id> proficiencies_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string proficiency_seminar_text( const proficiency_id & ) const {
             return {};
         }
         virtual std::string proficiency_training_text( const talker &, const proficiency_id & ) const {
             return {};
         }
+        virtual std::vector<matype_id> styles_teacheable() const {
+            return {};
+        }
         virtual std::vector<matype_id> styles_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string style_seminar_text( const matype_id & ) const {
             return {};
         }
         virtual std::string style_training_text( const talker &, const matype_id & ) const {
             return {};
         }
-        virtual std::vector<spell_id> spells_offered_to( talker & ) {
+        virtual std::vector<spell_id> spells_teacheable() const {
             return {};
         }
-        virtual std::string spell_training_text( talker &, const spell_id & ) {
+        virtual std::vector<spell_id> spells_offered_to( talker & ) const {
+            return {};
+        }
+        virtual std::string spell_seminar_text( const spell_id & ) const {
+            return {};
+        }
+        virtual std::string spell_training_text( talker &, const spell_id & ) const {
             return {};
         }
         virtual void store_chosen_training( const skill_id &, const matype_id &,
@@ -534,6 +562,9 @@ class talker
         virtual bool wielded_with_flag( const flag_id & ) const {
             return false;
         }
+        virtual bool wielded_with_weapon_category( const weapon_category_id & ) const {
+            return false;
+        }
         virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
         }
@@ -599,6 +630,12 @@ class talker
         }
         virtual void set_height( int ) {}
         virtual int get_height() const {
+            return 0;
+        }
+        virtual int get_volume() const {
+            return 0;
+        }
+        virtual int get_weight() const {
             return 0;
         }
         virtual void set_npc_trust( int ) {}

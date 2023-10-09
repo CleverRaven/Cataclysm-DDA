@@ -795,8 +795,7 @@ void advanced_inventory::redraw_pane( side p )
     const advanced_inv_area &sq = same_as_dragged ? squares[AIM_DRAGGED] : square;
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
     std::string name = utf8_truncate( car ? sq.veh->name : sq.name, width );
-    std::string desc = utf8_truncate( pane.container ? pane.container->tname( 1, false ) :
-                                      sq.desc[car], width );
+    std::string desc = pane.container ? pane.container->tname( 1, false ) : sq.desc[car];
     // starts at offset 2, plus space between the header and the text
     width -= 2 + 1;
     trim_and_print( w, point( 2, 1 ), width, active ? c_green  : c_light_gray, name );
@@ -1346,7 +1345,7 @@ void advanced_inventory::start_activity(
             && panes[dest].container.where() != item_location::type::map
             && !player_character.is_wielding( *panes[dest].container ) ) {
 
-            popup_getkey( _( "The %s would spill unless it's on the ground or wielded." ),
+            popup_getkey( _( "The %s would spill if opened up; it must be on the ground or wielded." ),
                           panes[dest].container->type_name() );
             return;
         }
@@ -1423,6 +1422,11 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // but are potentially at a different place).
     recalc = true;
     cata_assert( amount_to_move > 0 );
+    if( to_vehicle && sitem->items.front()->is_bucket_nonempty() &&
+        !query_yn( _( "The %s would spill if stored there.  Remove its contents first?" ),
+                   sitem->items.front()->tname() ) ) {
+        return false;
+    }
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
         popup_getkey( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
@@ -1646,7 +1650,6 @@ void advanced_inventory::display()
             }
         } );
     }
-
 
     while( !exit ) {
         if( player_character.moves < 0 ) {
@@ -1915,46 +1918,6 @@ bool advanced_inventory::query_destination( aim_location &def )
         return true;
     }
     return false;
-}
-
-bool advanced_inventory::move_content( item &src_container, item &dest_container )
-{
-    if( !src_container.is_container() ) {
-        popup( _( "Source must be a container." ) );
-        return false;
-    }
-    if( src_container.is_container_empty() ) {
-        popup( _( "Source container is empty." ) );
-        return false;
-    }
-
-    item &src_contents = src_container.legacy_front();
-
-    if( !src_contents.made_of( phase_id::LIQUID ) ) {
-        popup( _( "You can unload only liquids into the target container." ) );
-        return false;
-    }
-
-    std::string err;
-    // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = std::min( src_contents.charges,
-                                 dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err ) );
-    if( !err.empty() ) {
-        popup( err );
-        return false;
-    }
-    dest_container.fill_with( src_contents, amount );
-    src_contents.charges -= amount;
-    src_container.contained_where( src_contents )->on_contents_changed();
-    src_container.on_contents_changed();
-    get_avatar().flag_encumbrance();
-
-    uistate.adv_inv_container_content_type = dest_container.legacy_front().typeId();
-    if( src_contents.charges <= 0 ) {
-        src_container.clear_items();
-    }
-
-    return true;
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,

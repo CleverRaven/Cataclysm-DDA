@@ -908,9 +908,7 @@ void vehicle::honk_horn() const
 void vehicle::reload_seeds( const tripoint &pos )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
+    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
@@ -1994,7 +1992,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .on_submit( [] { handbrake(); } );
         }
 
-        if( controls_here && engines.size() > 1 ) {
+        const bool has_engine_or_fuel_controls = ( engines.size() > 1 ) ||
+        std::any_of( engines.begin(), engines.end(), [&]( int engine_idx ) {
+            return parts[engine_idx].info().engine_info->fuel_opts.size() > 1;
+        } );
+
+        if( controls_here && has_engine_or_fuel_controls ) {
             menu.add( _( "Control individual engines" ) )
             .hotkey( "CONTROL_ENGINES" )
             .on_submit( [this] { control_engines(); } );

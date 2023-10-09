@@ -18,8 +18,7 @@
       { "id": "foraging" },
       { "id": "sorting" },
       { "id": "logging" },
-      { "id": "tool_storage" },
-      { "id": "bed", "amount": 16 }
+      { "id": "tool_storage" }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",

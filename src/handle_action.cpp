@@ -141,8 +141,6 @@ static const material_id material_glass( "glass" );
 
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
-static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
-
 static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
@@ -158,17 +156,17 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
+static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
+static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
@@ -530,7 +528,7 @@ static void pldrive( const tripoint &p )
         }
     }
     if( p.z != 0 ) {
-        if( !player_character.has_proficiency( proficiency_prof_helicopter_pilot ) ) {
+        if( !veh->can_control_in_air( player_character ) ) {
             player_character.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
             return;
         }
@@ -549,6 +547,12 @@ static void pldrive( const tripoint &p )
         if( veh->check_heli_ascend( player_character ) ) {
             player_character.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
         } else {
+            return;
+        }
+    }
+    if( !veh->is_flying_in_air() ) {
+        if( !veh->can_control_on_land( player_character ) ) {
+            player_character.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle move." ) );
             return;
         }
     }
@@ -1279,7 +1283,7 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     zone_manager &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
+    const bool has_fertilizer = player_character.cache_has_item_with( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
     mgr.reset_disabled();
@@ -1296,8 +1300,8 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
-    flags |= g->check_near_zone( zone_type_zone_unload_all, player_character.pos() ) ||
-             g->check_near_zone( zone_type_zone_strip, player_character.pos() ) ? UnloadLoot : 0;
+    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
@@ -1316,7 +1320,7 @@ static void loot()
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
                                  player_character.pos() ) ? MultiButchery : 0;
     flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
-    flags |= g->check_near_zone( zone_type_zone_disassemble,
+    flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos() ) ? MultiDis : 0;
     flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
     if( flags == 0 ) {
@@ -1334,14 +1338,8 @@ static void loot()
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLootStatic, true, 'o', _( "Sort out my loot (static zones only)" ),
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring personal zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
-    }
-
-    if( flags & SortLoot ) {
         menu.addentry_desc( SortLootPersonal, true, 'O', _( "Sort out my loot (personal zones only)" ),
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring static zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
-    }
-
-    if( flags & SortLoot ) {
         menu.addentry_desc( SortLoot, true, 'I', _( "Sort out my loot (all)" ),
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
@@ -1941,7 +1939,6 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
     }
 }
 
-
 static std::map<action_id, std::string> get_actions_disabled_in_shell()
 {
     return std::map<action_id, std::string> {
@@ -2414,6 +2411,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                 }
             }
+            break;
+
+        case ACTION_INSERT_ITEM:
+            insert_item();
             break;
 
         case ACTION_UNLOAD_CONTAINER:

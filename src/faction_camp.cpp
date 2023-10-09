@@ -105,35 +105,9 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
-static const mtype_id mon_bear( "mon_bear" );
-static const mtype_id mon_beaver( "mon_beaver" );
-static const mtype_id mon_black_rat( "mon_black_rat" );
-static const mtype_id mon_chicken( "mon_chicken" );
-static const mtype_id mon_chipmunk( "mon_chipmunk" );
-static const mtype_id mon_cockatrice( "mon_cockatrice" );
-static const mtype_id mon_cougar( "mon_cougar" );
-static const mtype_id mon_cow( "mon_cow" );
-static const mtype_id mon_coyote( "mon_coyote" );
-static const mtype_id mon_deer( "mon_deer" );
-static const mtype_id mon_duck( "mon_duck" );
-static const mtype_id mon_fox_gray( "mon_fox_gray" );
-static const mtype_id mon_fox_red( "mon_fox_red" );
-static const mtype_id mon_groundhog( "mon_groundhog" );
-static const mtype_id mon_grouse( "mon_grouse" );
-static const mtype_id mon_hare( "mon_hare" );
-static const mtype_id mon_lemming( "mon_lemming" );
-static const mtype_id mon_mink( "mon_mink" );
-static const mtype_id mon_moose( "mon_moose" );
-static const mtype_id mon_muskrat( "mon_muskrat" );
-static const mtype_id mon_opossum( "mon_opossum" );
-static const mtype_id mon_otter( "mon_otter" );
-static const mtype_id mon_pheasant( "mon_pheasant" );
-static const mtype_id mon_pig( "mon_pig" );
-static const mtype_id mon_rabbit( "mon_rabbit" );
-static const mtype_id mon_squirrel( "mon_squirrel" );
-static const mtype_id mon_turkey( "mon_turkey" );
-static const mtype_id mon_weasel( "mon_weasel" );
-static const mtype_id mon_wolf( "mon_wolf" );
+static const mongroup_id GROUP_CAMP_HUNTING( "GROUP_CAMP_HUNTING" );
+static const mongroup_id GROUP_CAMP_HUNTING_LARGE( "GROUP_CAMP_HUNTING_LARGE" );
+static const mongroup_id GROUP_CAMP_TRAPPING( "GROUP_CAMP_TRAPPING" );
 
 static const oter_str_id oter_forest_wet( "forest_wet" );
 
@@ -155,7 +129,6 @@ static const skill_id skill_survival( "survival" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
-
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -186,7 +159,6 @@ static const std::string var_time_between_succession =
 
 static const std::string var_timer_time_of_last_succession =
     "npctalk_var_timer_time_of_last_succession";
-
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -575,7 +547,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
     } else if( dir == point_west ) {
         dir_string = "W";
     } else if( dir == point_zero ) {
-        dir_string = "";  //  Will result in "hidden" flags that can actually affect the core.
+        dir_string.clear();  //  Will result in "hidden" flags that can actually affect the core.
     } else if( dir == point_east ) {
         dir_string = "E";
     } else if( dir == point_south_west ) {
@@ -712,7 +684,7 @@ void talk_function::start_camp( npc &p )
     }
     std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
     if( camp.has_value() ) {
-        for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+        for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
             std::vector<ui_mission_id> temp;
             camp.value()->hidden_missions.push_back( temp );
         }
@@ -1106,7 +1078,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
 
         //  Code to deal with legacy construction (Changed during 0.F)
-        miss_id.parameters = "";
+        miss_id.parameters.clear();
         npc_list = get_mission_workers( miss_id );
 
         if( !npc_list.empty() ) {
@@ -1376,7 +1348,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
     // Missions that belong exclusively to the central tile
     {
-        if( can_expand() ) {
+        if( directions.size() < 8 ) {
             const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
             comp_list npc_list = get_mission_workers( miss_id );
             entry = string_format( _( "Notes:\n"
@@ -1388,9 +1360,9 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "Effects:\n"
                                       "> Choose any one of the available expansions.  Starting with "
                                       "a farm is always a solid choice since food is used to support "
-                                      "companion missions and little is needed to get it going.  "
-                                      "With minimal investment, and a forge provides the resources "
-                                      "to make charcoal.\n\n"
+                                      "companion missions and minimal investment is needed to get it going.  "
+                                      "A forge is also a great idea, allowing you to refine ressources for "
+                                      "subsequent expansions, craft better gear and make charcoal.\n\n"
                                       "NOTE: Actions available through expansions are located in "
                                       "separate tabs of the Camp Manager window.\n\n"
                                       "Risk: None\n"
@@ -1404,15 +1376,6 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id, _( "Recover Surveyor" ),
                                         entry, avail );
-            }
-        } else {
-            // Unless maximum expansions have been reached, show "Expand Base",
-            // but in a disabled state, with a message about what is required.
-            if( directions.size() < 8 ) {
-                const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
-                entry = _( "You will need more beds before you can expand your base." );
-                mission_key.add_start( miss_id, name_display_of( miss_id ),
-                                       entry, false );
             }
         }
     }
@@ -4254,47 +4217,23 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
 
 void basecamp::hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty )
 {
-    // no item groups for corpses, so we'll have to improvise
+    // corpses do not exist as discrete items, so we use monster groups instead
     weighted_int_list<mtype_id> hunting_targets;
-    hunting_targets.add( mon_beaver, 10 );
-    hunting_targets.add( mon_fox_red, 10 );
-    hunting_targets.add( mon_fox_gray, 10 );
-    hunting_targets.add( mon_mink, 5 );
-    hunting_targets.add( mon_muskrat, 10 );
-    hunting_targets.add( mon_otter, 10 );
-    hunting_targets.add( mon_duck, 10 );
-    hunting_targets.add( mon_cockatrice, 1 );
+    for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING->monsters ) {
+        hunting_targets.add( target.name, target.frequency );
+    }
     if( miss_id.id == Camp_Trapping ) {
-        hunting_targets.add( mon_black_rat, 40 );
-        hunting_targets.add( mon_chipmunk, 30 );
-        hunting_targets.add( mon_groundhog, 30 );
-        hunting_targets.add( mon_hare, 20 );
-        hunting_targets.add( mon_lemming, 40 );
-        hunting_targets.add( mon_opossum, 10 );
-        hunting_targets.add( mon_rabbit, 20 );
-        hunting_targets.add( mon_squirrel, 20 );
-        hunting_targets.add( mon_weasel, 20 );
-        hunting_targets.add( mon_chicken, 10 );
-        hunting_targets.add( mon_grouse, 10 );
-        hunting_targets.add( mon_pheasant, 10 );
-        hunting_targets.add( mon_turkey, 20 );
+        for( const MonsterGroupEntry &target : GROUP_CAMP_TRAPPING->monsters ) {
+            hunting_targets.add( target.name, target.frequency );
+        }
     } else if( miss_id.id == Camp_Hunting ) {
-        hunting_targets.add( mon_chicken, 20 );
-        // good luck hunting upland game birds without dogs
-        hunting_targets.add( mon_grouse, 2 );
-        hunting_targets.add( mon_pheasant, 2 );
-        hunting_targets.add( mon_turkey, 10 );
-        hunting_targets.add( mon_bear, 1 );
-        hunting_targets.add( mon_cougar, 5 );
-        hunting_targets.add( mon_cow, 1 );
-        hunting_targets.add( mon_coyote, 15 );
-        hunting_targets.add( mon_deer, 2 );
-        hunting_targets.add( mon_moose, 1 );
-        hunting_targets.add( mon_pig, 1 );
-        hunting_targets.add( mon_wolf, 10 );
+        for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE->monsters ) {
+            hunting_targets.add( target.name, target.frequency );
+        }
     }
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
+            // TODO: replace this with MonsterGroupManager::GetResultFromGroup
             const mtype_id *target = hunting_targets.pick();
             item result = item::make_corpse( *target, calendar::turn, "" );
             if( !result.is_null() ) {

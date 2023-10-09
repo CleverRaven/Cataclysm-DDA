@@ -521,7 +521,6 @@ class Character : public Creature, public visitable
         // initialize avatar and avatar mocks
         void initialize( bool learn_recipes = true );
 
-
         Character *as_character() override {
             return this;
         }
@@ -888,8 +887,6 @@ class Character : public Creature, public visitable
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
-        /** Returns list of rc items in player inventory. **/
-        std::list<item *> get_radio_items();
         /** Handles health fluctuations over time */
         virtual void update_health();
         /** Updates all "biology" by one turn. Should be called once every turn. */
@@ -1422,6 +1419,26 @@ class Character : public Creature, public visitable
         void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
+        /**
+         * @return Skills of which this NPC has a higher level than the given player. In other
+         * words: skills this NPC could teach the player.
+         */
+        std::vector<skill_id> skills_offered_to( const Character *you ) const;
+        /**
+         * Proficiencies we know that the character doesn't
+         */
+        std::vector<proficiency_id> proficiencies_offered_to( const Character *guy ) const;
+        /**
+         * Martial art styles that we known, but the player p doesn't.
+         */
+        std::vector<matype_id> styles_offered_to( const Character *you ) const;
+        /**
+         * Spells that the NPC knows but that the player p doesn't.
+         * not const because get_spell isn't const and both this and p call it
+         */
+        std::vector<spell_id> spells_offered_to( const Character *you ) const;
+
+        int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
         /** used for profession spawning and save migration for nested containers. remove after 0.F */
         void migrate_items_to_storage( bool disintegrate );
@@ -1625,7 +1642,7 @@ class Character : public Creature, public visitable
         /** Returns solar items connected to cable charger bionic */
         std::vector<item *> get_cable_solar();
         /** Returns vehicles connected to cable charger bionic */
-        std::vector<vehicle *> get_cable_vehicle();
+        std::vector<vehicle *> get_cable_vehicle() const;
 
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
@@ -1671,7 +1688,7 @@ class Character : public Creature, public visitable
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic &bio );
         /** Adds a bionic to my_bionics[] */
-        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0 );
+        bionic_uid add_bionic( const bionic_id &b, bionic_uid parent_uid = 0, bool suppress_debug = false );
         /**Calculate skill bonus from tiles in radius*/
         float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
@@ -1890,10 +1907,11 @@ class Character : public Creature, public visitable
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          * @param charges_in_it the amount of charges to be handled (default is whole)
+         * @param bulk_cost Calculate costs excluding overhead, such as when loading and unloading items in bulk (default is false)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1 ) const;
+                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1, bool bulk_cost = false ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
@@ -1943,6 +1961,8 @@ class Character : public Creature, public visitable
          * If the filter function returns true, the item is removed.
          */
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter );
+
+        void clear_worn();
 
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
@@ -2097,6 +2117,7 @@ class Character : public Creature, public visitable
         hint_rating rate_action_reload( const item &it ) const;
         /** Whether a tool or a gun can be unloaded. */
         hint_rating rate_action_unload( const item &it ) const;
+        hint_rating rate_action_insert( const item_location &loc ) const;
         /**
           * So far only called by unload() from game.cpp
           * @avoid - do not put @it into @avoid
@@ -2108,7 +2129,8 @@ class Character : public Creature, public visitable
          * Unload item.
          * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
          */
-        bool unload( item_location &loc, bool bypass_activity = false );
+        bool unload( item_location &loc, bool bypass_activity = false,
+                     const item_location &new_container = item_location::nowhere );
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param it Item to calculate reload cost for
@@ -2323,7 +2345,12 @@ class Character : public Creature, public visitable
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
+        float get_knowledge_plus_progress( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
+        float get_average_skill_level( const skill_id &ident ) const;
+
+        float get_greater_skill_or_knowledge_level( const skill_id &ident ) const;
+
 
         SkillLevelMap get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
@@ -2611,6 +2638,8 @@ class Character : public Creature, public visitable
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
         pimpl<character_martial_arts> martial_arts_data;
+        std::vector<matype_id> known_styles( bool teachable_only ) const;
+        bool has_martialart( const matype_id &m ) const;
 
         stomach_contents stomach;
         stomach_contents guts;
@@ -2688,12 +2717,94 @@ class Character : public Creature, public visitable
         void stop_hauling();
         bool is_hauling() const;
 
-        // Has a weapon, inventory item or worn item with flag
+        /**
+         * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
+         * @param type Only process on items of this item type.
+         * @param type_flag Only process on items whose type has this flag.
+         * @param key A string to use as the key in the cache. Should usually be the same name as filter_func.
+         * @param filter_func Only process on items that return true with this boolean item function. This is cached, so avoid using functions with varying results.
+         * @param do_func A lambda function to apply on all items that pass the filters.
+         */
+        void cache_visit_items_with( const itype_id &type,
+                                     const std::function<void( item & )> &do_func );
+        void cache_visit_items_with( const flag_id &type_flag,
+                                     const std::function<void( item & )> &do_func );
+        void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<void( item & )> &do_func );
+        void cache_visit_items_with( const std::string &key, const itype_id &type,
+                                     const flag_id &type_flag, bool( item::*filter_func )() const,
+                                     const std::function<void( item & )> &do_func );
+        void cache_visit_items_with( const itype_id &type,
+                                     const std::function<void( const item & )> &do_func ) const;
+        void cache_visit_items_with( const flag_id &type_flag,
+                                     const std::function<void( const item & )> &do_func ) const;
+        void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<void( const item & )> &do_func ) const;
+        void cache_visit_items_with( const std::string &key, const itype_id &type,
+                                     const flag_id &type_flag, bool( item::*filter_func )() const,
+                                     const std::function<void( const item & )> &do_func ) const;
+        /**
+        * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
+        * @brief If you want to iterate over the entire cache, `cache_visit_items_with` should be used instead, as it's more optimized for processing entire caches.
+        * @param type Look for items of this item type.
+        * @param type_flag Look for items whose type has this flag.
+        * @param key A string to use as the cache's key. Should usually be the same name as filter_func. Unneeded if checking only for a flag.
+        * @param filter_func Look for items that return true with this boolean item function.
+        * @param check_func An optional lambda function applied to items that pass the flag/bool function filters.
+        * If it returns true, abort iteration and make cache_has_item_with return true. These results are not cached, unlike filter_func.
+        * @return True if the character has an item that passes the criteria, including check_func if provided.
+        */
+        bool cache_has_item_with( const itype_id &type,
+                                  const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        bool cache_has_item_with( const flag_id &type_flag,
+                                  const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        bool cache_has_item_with( const std::string &key, bool( item::*filter_func )() const,
+                                  const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        bool cache_has_item_with( const std::string &key, const itype_id &type, const flag_id &type_flag,
+                                  bool( item::*filter_func )() const,
+                                  const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        /**
+        * @brief Find if the character has an item with a specific flag. Can also checks for charges, if needed.
+        */
         bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
         /**
-         * All items that have the given flag (@ref item::has_flag).
+        * @brief Find if the character has an item whose type has a specific flag. Can also checks for charges, if needed. Uses or creates caches from @ref inv_search_caches.
+        */
+        bool cache_has_item_with_flag( const flag_id &type_flag, bool need_charges = false ) const;
+        /**
+         * @brief Returns all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
+         * @param type Only get items of this item type.
+         * @param type_flag Only get items whose type has this flag.
+         * @param key A string to use as the cache's key. Should usually be the same name as filter_func. Unneeded if checking only for a flag.
+         * @param filter_func Only get items that return true with this boolean item function.
+         * @param do_and_check_func An optional lambda function applied to items that pass the flag/bool function filters.
+         * If it returns true, the item is added to the return vector. These results are not cached, unlike filter_func.
+         * @return A vector of pointers to all items that pass the criteria.
          */
-        std::vector<const item *> all_items_with_flag( const flag_id &flag ) const;
+        std::vector<item *> cache_get_items_with( const itype_id &type,
+                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
+        std::vector<item *> cache_get_items_with( const flag_id &type_flag,
+                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
+        std::vector<item *> cache_get_items_with( const std::string &key,
+                bool( item::*filter_func )() const,
+                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
+        std::vector<item *> cache_get_items_with( const std::string &key, const itype_id &type,
+                const flag_id &type_flag, bool( item::*filter_func )() const,
+                const std::function<bool( item & )> &do_and_check_func = return_true<item> );
+        std::vector<const item *> cache_get_items_with( const itype_id &type,
+                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        std::vector<const item *> cache_get_items_with( const flag_id &type_flag,
+                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        std::vector<const item *> cache_get_items_with( const std::string &key,
+                bool( item::*filter_func )() const,
+                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        std::vector<const item *> cache_get_items_with( const std::string &key, const itype_id &type,
+                const flag_id &type_flag, bool( item::*filter_func )() const,
+                const std::function<bool( const item & )> &check_func = return_true<item> ) const;
+        /**
+         * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
+         */
+        void add_to_inv_search_caches( item &it ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const override;
@@ -2873,6 +2984,9 @@ class Character : public Creature, public visitable
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
+
+        /**Handles overheat mechanics for guns, returns true if the gun cant fire due to overheat effects*/
+        bool handle_gun_overheat( item &it );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -3318,7 +3432,7 @@ class Character : public Creature, public visitable
          * @param goto_recipe the recipe to display initially. A null recipe_id opens the default crafting screen.
          */
         void craft( const std::optional<tripoint> &loc = std::nullopt,
-                    const recipe_id &goto_recipe = recipe_id() );
+                    const recipe_id &goto_recipe = recipe_id(), const std::string &filterstring = "" );
         void recraft( const std::optional<tripoint> &loc = std::nullopt );
         void long_craft( const std::optional<tripoint> &loc = std::nullopt,
                          const recipe_id &goto_recipe = recipe_id() );
@@ -3462,7 +3576,6 @@ class Character : public Creature, public visitable
         void calculate_leak_level();
         /** Sets leak_level_dirty to true */
         void invalidate_leak_level_cache();
-
 
         /** Creates an auditory hallucination */
         void sound_hallu();
@@ -3801,6 +3914,7 @@ class Character : public Creature, public visitable
         int sleep_deprivation;
         bool check_encumbrance = true;
         bool cache_inventory_is_valid = false;
+        mutable bool using_lifting_assist = false;
 
         int stim;
         int pkill;
@@ -3828,6 +3942,15 @@ class Character : public Creature, public visitable
 
         mutable bool pseudo_items_valid = false;
         mutable std::vector<const item *> pseudo_items;
+
+        /** Cached results for functions that search through the inventory, like @ref cache_visit_items_with */
+        struct inv_search_cache {
+            itype_id type;
+            flag_id type_flag;
+            bool ( item::*filter_func )() const;
+            std::list<safe_reference<item>> items;
+        };
+        mutable std::unordered_map<std::string, inv_search_cache> inv_search_caches;
     protected:
         // Bionic IDs are unique only within a character. Used to unambiguously identify bionics in a character
         bionic_uid weapon_bionic_uid = 0;

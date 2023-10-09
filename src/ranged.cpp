@@ -113,6 +113,10 @@ static const efftype_id effect_on_roof( "on_roof" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_overheat_explosion( "fault_overheat_explosion" );
+static const fault_id fault_overheat_melting( "fault_overheat_melting" );
+static const fault_id fault_overheat_safety( "fault_overheat_safety" );
+static const fault_id fault_overheat_venting( "fault_overheat_venting" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -604,6 +608,11 @@ bool Character::handle_gun_damage( item &it )
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
     if( it.has_fault_flag( "JAMMED_GUN" ) ) {
+        add_msg_if_player( m_warning, _( "Your %s can't fire." ), it.tname() );
+        return false;
+    }
+    if( it.has_fault_flag( "RUINED_GUN" ) ) {
+        add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
         return false;
     }
 
@@ -751,6 +760,58 @@ bool Character::handle_gun_damage( item &it )
     return true;
 }
 
+bool Character::handle_gun_overheat( item &it )
+{
+    double heat = it.get_var( "gun_heat", 0.0 );
+    double threshold = it.type->gun->overheat_threshold;
+    const islot_gun &gun_type = *it.type->gun;
+
+    if( threshold < 0.0 ) {
+        return true;
+    }
+
+    if( heat > threshold ) {
+        if( it.faults_potential().count( fault_overheat_safety ) && !one_in( gun_type.durability ) ) {
+            add_msg_if_player( m_bad,
+                               _( "Your %s displays a warning sequence as its active cooling cycle engages." ),
+                               it.tname() );
+            it.faults.insert( fault_overheat_safety );
+            return false;
+        }
+
+        //Overall the durability of the gun greatly conditions what sort of failures are possible.
+        //A durability above 8 prevents the most serious failures
+        int fault_roll = rng( 5, 15 ) - gun_type.durability;
+        if( it.faults_potential().count( fault_overheat_explosion ) && fault_roll > 9 ) {
+            add_msg_if_player( m_bad,
+                               _( "Your %s revs and chokes violently as its internal containment fields detune!" ),
+                               it.tname() );
+            add_msg_if_player( m_bad, _( "Your %s detonates!" ),
+                               it.tname() );
+            it.faults.insert( fault_overheat_melting );
+            explosion_handler::explosion( this, this->pos(), 1200, 0.4 );
+            return false;
+        } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
+            add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
+                               it.tname() );
+            it.faults.insert( fault_overheat_melting );
+            return false;
+        } else if( it.faults_potential().count( fault_overheat_venting ) && fault_roll > 2 ) {
+            map &here = get_map();
+            add_msg_if_player( m_bad,
+                               _( "The cooling system of your %s chokes and vents a dense cloud of superheated coolant." ),
+                               it.tname() );
+            for( int i = 0; i < 3; i++ ) {
+                here.add_field( pos() + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_nuke_gas" ), 3 );
+            }
+            it.set_var( "gun_heat", heat - gun_type.cooling_value * 4.0 );
+            return false;
+        }
+    }
+    it.set_var( "gun_heat", heat + gun_type.heat_per_shot );
+    return true;
+}
+
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
@@ -837,13 +898,16 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( gun.has_fault_flag( "JAMMED_GUN" ) && curshot == 0 ) {
+        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
         if( !handle_gun_damage( gun ) ) {
+            break;
+        }
+        if( !handle_gun_overheat( gun ) ) {
             break;
         }
 
@@ -948,7 +1012,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-
         // Vehicle turrets drain vehicle battery and do not care about this
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();
@@ -970,6 +1033,14 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_attack( *this, *gun_id );
+
+    const islot_gun &firing = *gun.type->gun;
+    for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
+        apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
+        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
+                               _( "<npcname>'s %s is hurt by the recoil!" ),
+                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+    }
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
@@ -1402,16 +1473,19 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
-    you.set_activity_level( scaled_str_ratio );
+    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
+    you.set_activity_level( 10 * str_ratio );
 
-    // Calculate stamina drain based on archery and athletics skill
+    // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
     const float archery_skill = you.get_skill_level( skill_archery );
     const float athletics_skill = you.get_skill_level( skill_swimming );
-    const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
+    const float skill_modifier = ( 2.0f * archery_skill + athletics_skill ) / 3.0f;
+    const int stamina_cost = pow( 10.0f * str_ratio + 10 - skill_modifier, 2 );
 
-    const int stamina_cost = pow( 20 - skill_modifier, 2 );
     you.mod_stamina( -stamina_cost );
+    add_msg_debug( debugmode::DF_RANGED,
+                   "-%i stamina: %.1f str ratio, %.1f skill mod",
+                   stamina_cost, str_ratio, skill_modifier );
 }
 
 static void do_aim( Character &you, const item &relevant, const double min_recoil )
@@ -2073,7 +2147,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, false ),
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -3416,7 +3490,7 @@ void target_ui::draw_terrain_overlay()
 
     // Draw spell AOE
     if( mode == TargetMode::Spell ) {
-        drawsq_params params;
+        drawsq_params params = drawsq_params().highlight( true ).center( center );
         for( const tripoint &tile : spell_aoe ) {
             if( tile.z != center.z ) {
                 continue;

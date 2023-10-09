@@ -159,20 +159,14 @@
     "difficulty": 5,
     "time": "6 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 3 ] ],
-    "using": [
-      [ "sewing_standard", 100 ],
-      [ "tailoring_lycra_patchwork", 20 ],
-      [ "clasps", 1 ],
-      [ "waterproofing_plastic_sheets", 10 ]
-    ],
+    "using": [ [ "tailoring_lycra_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" }
     ],
-    "components": [ [ [ "duct_tape", 200 ] ] ]
+    "byproducts": [ [ "scrap_lycra", 9 ] ]
   },
   {
     "result": "fanny",
@@ -574,7 +568,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 2 ] ]
   },
   {
     "result": "bbholster",
@@ -588,7 +583,8 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
     "result": "bindle",
@@ -1317,9 +1313,9 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "fabrication", 2 ],
-    "time": "5 h 30 m",
+    "time": "2 h 45 m",
     "autolearn": true,
-    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1733,6 +1729,7 @@
   },
   {
     "result": "survivor_dry_duffelbag",
+    "//": "Survivor expands the drybag a bit, reinforces it and adds compression straps to the side, along with making other personal adjustments.",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -1742,9 +1739,9 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ], [ "tailoring_lycra_patchwork", 30 ], [ "fastener_large", 3 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 20 ], [ "waterproofing_plastic_sheets", 16 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "plastic_sheet", 6 ] ], [ [ "dry_duffelbag", 1 ] ], [ [ "duct_tape", 300 ] ] ]
+    "components": [ [ [ "dry_duffelbag", 1 ] ] ]
   },
   {
     "result": "light_load_bearing_vest",
@@ -1930,7 +1927,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 120 ], [ "tailoring_lycra_patchwork", 10 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "dry_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "duct_tape", 120 ] ] ]
+    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "dry_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "duct_tape", 120 ] ] ],
+    "byproducts": [ [ "scrap_lycra", 9 ] ]
   },
   {
     "result": "survivor_vest",

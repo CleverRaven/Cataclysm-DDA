@@ -5,6 +5,7 @@
     "name": "[Ψ]Physical Enhancement",
     "description": "You can improve your strength and agility with your powers.",
     "message": "You enhance your physical prowess.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -32,7 +33,7 @@
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_enhance_mobility": 7, "biokin_reflex_enhance": 12, "biokin_combat_dance": 15 }
+    "learn_spells": { "biokin_enhance_mobility": 7, "biokin_hammerhand": 12, "biokin_reflex_enhance": 15, "biokin_combat_dance": 20 }
   },
   {
     "id": "biokin_overcome_pain",
@@ -40,6 +41,7 @@
     "name": "[Ψ]Overcome Pain",
     "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.",
     "message": "You breathe deeply and your pain lessens.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -68,7 +70,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7,
-    "learn_spells": { "biokin_armor_skin": 7, "biokin_climate_control": 10, "biokin_sealed_system": 15 }
+    "learn_spells": { "biokin_armor_skin": 9, "biokin_climate_control": 12, "biokin_sealed_system": 18 }
   },
   {
     "type": "effect_on_condition",
@@ -235,6 +237,7 @@
     "name": "[Ψ]Flexibility",
     "description": "You can make your limbs move far beyond the normal human range of motion, allowing you to twist out of others' grasp and reduce fall damage.",
     "message": "You body begins twisting in unbelivable ways.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -247,14 +250,14 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
-    "final_energy_cost": 850,
+    "final_energy_cost": 1250,
     "energy_increment": -175,
     "min_duration": 200,
     "max_duration": 500,
     "base_casting_time": 50,
     "final_casting_time": 15,
     "casting_time_increment": -2.5,
-    "learn_spells": { "biokin_enhance_mobility": 6, "biokin_reflex_enhance": 12, "biokin_combat_dance": 15 }
+    "learn_spells": { "biokin_enhance_mobility": 6, "biokin_hammerhand": 9, "biokin_reflex_enhance": 12, "biokin_combat_dance": 18 }
   },
   {
     "id": "biokin_armor_skin",
@@ -262,6 +265,7 @@
     "name": "[Ψ]Hardened Skin",
     "description": "You can increase the strength of your skin, making it almost like armor while still allowing you to move freely.",
     "message": "Your skin itches slightly and takes on a waxy appearance.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -285,7 +289,7 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -8.5,
-    "learn_spells": { "biokin_climate_control": 5, "biokin_sealed_system": 9, "biokin_physical_enhance": 12 }
+    "learn_spells": { "biokin_climate_control": 5, "biokin_hammerhand": 9, "biokin_sealed_system": 12 }
   },
   {
     "id": "biokin_climate_control",
@@ -293,6 +297,7 @@
     "name": "[Ψ]Temperature Adaptability",
     "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.\n\nTemperature Adaptability and Sealed System will cancel each other.",
     "message": "You feel much more comfortable.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -345,6 +350,7 @@
     "name": "[Ψ]Enhance Mobility",
     "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.",
     "message": "You gear doesn't seem to encumber you as much.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
@@ -367,7 +373,7 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
-    "final_energy_cost": 2000,
+    "final_energy_cost": 2500,
     "energy_increment": -150,
     "base_casting_time": 275,
     "final_casting_time": 50,
@@ -375,11 +381,43 @@
     "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
   },
   {
+    "id": "biokin_hammerhand",
+    "type": "SPELL",
+    "name": "[Ψ]Hammerhand",
+    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools",
+    "message": "You flex your fingers.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_hammerhand_item",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2250,
+    "energy_increment": -225,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_casting_time": 350,
+    "final_casting_time": 150,
+    "casting_time_increment": -12.5
+  },
+  {
     "id": "biokin_reflex_enhance",
     "type": "SPELL",
     "name": "[Ψ]Heightened Reflexes",
     "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.",
     "message": "You enhance your speed and sensory prowess.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -392,7 +430,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
-    "final_energy_cost": 1750,
+    "final_energy_cost": 2250,
     "energy_increment": -205,
     "min_duration": {
       "math": [
@@ -407,7 +445,7 @@
     "base_casting_time": 175,
     "final_casting_time": 100,
     "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_combat_dance": 9, "biokin_overcome_pain": 12 }
+    "learn_spells": { "biokin_combat_dance": 8, "biokin_hammerhand": 12, "biokin_perfected_motion": 15 }
   },
   {
     "id": "biokin_sealed_system",
@@ -415,6 +453,7 @@
     "name": "[Ψ]Sealed System",
     "description": "With a deep breath, you lock your body off from the outside world--nothing gets in, nothing gets out.\n\nSealed System and Temperature Adaptability cannot be activate at the same time.",
     "message": "You take a deep breath and seal your lips.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -429,9 +468,9 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 5000,
+    "base_energy_cost": 5500,
     "final_energy_cost": 2750,
-    "energy_increment": -225,
+    "energy_increment": -175,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -463,6 +502,7 @@
     "name": "[Ψ]Combat Dance",
     "description": "You can flood your body with psionic power to enhance your combat prowess.",
     "message": "A surge of power fills your body and you begin moving with terrible purpose!",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -474,17 +514,51 @@
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1750,
+    "base_energy_cost": 5500,
+    "final_energy_cost": 2250,
     "energy_increment": -125,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 100,
     "final_casting_time": 40,
+    "casting_time_increment": -4,
+    "learn_spells": { "biokin_perfected_motion": 6 }
+  },
+  {
+    "id": "biokin_perfected_motion",
+    "type": "SPELL",
+    "name": "[Ψ]Perfected Motion",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.",
+    "message": "The world around you slows down to a crawl.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_perfected_motion",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": false } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3500,
+    "energy_increment": -175,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 75,
+    "final_casting_time": 15,
     "casting_time_increment": -4
   }
 ]

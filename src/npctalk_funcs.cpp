@@ -1234,15 +1234,6 @@ void talk_function::set_npc_pickup( npc &p )
     p.rules.pickup_whitelist->show( p.name );
 }
 
-void talk_function::npc_die( npc &p )
-{
-    p.die( nullptr );
-    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( p.getID() );
-    if( guy && !guy->is_dead() ) {
-        guy->marked_for_death = true;
-    }
-}
-
 void talk_function::npc_thankful( npc &p )
 {
     if( p.get_attitude() == NPCATT_MUG || p.get_attitude() == NPCATT_WAIT_FOR_LEAVE ||

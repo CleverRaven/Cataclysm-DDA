@@ -694,14 +694,12 @@
     "id": "shape_of_dust",
     "type": "SPELL",
     "name": "Shape of Dust",
-    "description": "Hide yourself between the sand gust.  It's harder to hit you, and monster's can't spot you.",
+    "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.",
     "//": "Fuck its broken. I thought you can make monster hard to see you, so you will be able to hide from them beyond the sand, but of course invis make monsters even more dumb, and they start to stoically ignore your existence.",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "LOUD" ],
-    "min_damage": 1,
-    "max_damage": 1,
-    "effect": "spawn_item",
-    "effect_str": "shape_of_dust",
+    "effect": "attack",
+    "effect_str": "effect_shape_of_dust",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
@@ -768,7 +766,7 @@
     "name": "Reading the Earthbones",
     "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.  It will only work when in contact with the earth.",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "flags": [ "NO_HANDS", "CONCENTRATE", "VERBAL" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_EARTHSHAPER_MAP",
     "shape": "blast",
@@ -798,5 +796,186 @@
     "shape": "blast",
     "max_level": 1,
     "min_aoe": { "math": [ "( 7 + (u_val('spell_level', 'spell: earthshaper_reveal_world_map') * 2.2) )" ] }
+  },
+  {
+    "id": "earthshaper_danger_sense",
+    "type": "SPELL",
+    "name": "Tremorsense",
+    "description": "By sensing their movements upon the earth, you can detect nearby sources of danger.  You must maintain a connection to the earth for the spell to function.",
+    "valid_targets": [ "self" ],
+    "spell_class": "EARTHSHAPER",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_DANGERSENSE",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "difficulty": 3,
+    "max_level": 10,
+    "base_casting_time": 400,
+    "base_energy_cost": 350,
+    "min_duration": 30000,
+    "max_duration": 300000,
+    "duration_increment": 30000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_DANGERSENSE",
+    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "effect": [
+      {
+        "u_add_effect": "effect_tremorsense",
+        "duration": { "math": [ "(u_val('spell_level', 'spell: earthshaper_danger_sense') * 30000)" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
+    "recurrence": 1,
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
+    "effect": [
+      { "u_lose_effect": "effect_tremorsense" },
+      {
+        "u_message": "As you break your connection to the living earth, your magical senses fade away.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "id": "earthshaper_fortitude_of_stone",
+    "type": "SPELL",
+    "name": "Stones' Fortitude",
+    "description": "Draw on the eternal endurance of the stones, slowing your metabolism and staving off hunger and thirst.  However, while the enchantment is in effect, you will not heal.",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "EARTHSHAPER",
+    "energy_source": "MANA",
+    "effect": "attack",
+    "effect_str": "earthshaper_fortitude_of_stone",
+    "shape": "blast",
+    "difficulty": 4,
+    "base_casting_time": 500,
+    "base_energy_cost": 650,
+    "max_level": 20,
+    "min_duration": 360000,
+    "max_duration": 2160000,
+    "duration_increment": 100000
+  },
+  {
+    "id": "earthshaper_turning_of_earth",
+    "type": "SPELL",
+    "name": "The Turning of the Earth",
+    "description": "Ask the earth spirits to prepare the earth for growth and planting.",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "LOUD" ],
+    "valid_targets": [ "ground" ],
+    "max_level": 12,
+    "spell_class": "EARTHSHAPER",
+    "energy_source": "MANA",
+    "shape": "line",
+    "difficulty": 2,
+    "effect": "ter_transform",
+    "effect_str": "earthshaper_turning_earth",
+    "base_casting_time": 1500,
+    "base_energy_cost": 800,
+    "final_energy_cost": 350,
+    "energy_increment": -37.5,
+    "min_range": 3,
+    "max_range": 20,
+    "range_increment": 1.2
+  },
+  {
+    "id": "earthshaper_granite_aegis",
+    "type": "SPELL",
+    "name": "Granite Aegis",
+    "description": "In an extremity of danger, summon a hollow shell of rock around yourself.  It lasts only a few moments, but sometimes that's all you need.  You must be standing on the living earth to invoke it.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": 10,
+    "spell_class": "EARTHSHAPER",
+    "energy_source": "MANA",
+    "shape": "blast",
+    "difficulty": 9,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_GRANITE_AEGIS",
+    "base_casting_time": 150,
+    "final_casting_time": 100,
+    "casting_time_increment": -5,
+    "base_energy_cost": 750
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_GRANITE_AEGIS",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain": "t_rock_floor_no_roof" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_claymound" },
+            { "u_is_on_terrain": "t_claymound_underground" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_dirtmoundfloor" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirt_underground" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_soil" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_region_soil" },
+            { "u_is_on_terrain": "t_pit_shallow" },
+            { "u_is_on_terrain": "t_pit" },
+            { "u_is_on_terrain": "t_puddle_underground" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_mud_underground" },
+            { "u_is_on_terrain": "t_concrete_y" },
+            { "u_is_on_terrain": "t_concrete" },
+            { "u_is_on_terrain": "t_thconc_y_olight" },
+            { "u_is_on_terrain": "t_thconc_warning" },
+            { "u_is_on_terrain": "t_thconc_y" },
+            { "u_is_on_terrain": "t_thconc_r" },
+            { "u_is_on_terrain": "t_thconc_floor" },
+            { "u_is_on_terrain": "t_strconc_floor" },
+            { "u_is_on_terrain": "t_strconc_floor_olight" },
+            { "u_is_on_terrain": "t_strconc_floor_no_roof" },
+            { "u_is_on_terrain": "t_railroad_rubble" }
+          ]
+        },
+        { "math": [ "u_val('pos_z')", "<=", "0" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "earthshaper_granite_aegis_location" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "outdoor_only": false
+      },
+      {
+        "u_transform_radius": 1,
+        "ter_furn_transform": "earthshaper_granite_aegis_to_stone",
+        "target_var": { "global_val": "earthshaper_granite_aegis_location" }
+      },
+      {
+        "u_transform_radius": 0,
+        "ter_furn_transform": "earthshaper_granite_aegis_to_stone_safe",
+        "target_var": { "global_val": "earthshaper_granite_aegis_location" },
+        "time_in_future": [ "0 seconds", "0 seconds" ]
+      },
+      {
+        "u_transform_radius": 1,
+        "ter_furn_transform": "earthshaper_granite_aegis_from_stone",
+        "target_var": { "global_val": "earthshaper_granite_aegis_location" },
+        "time_in_future": [ "5 seconds", "20 seconds" ]
+      }
+    ],
+    "false_effect": { "u_message": "Without a connection to the living earth or a flat surface of solid rock, the spell fails." }
   }
 ]
