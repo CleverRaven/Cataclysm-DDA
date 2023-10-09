@@ -3632,7 +3632,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2263 ml",
+        "max_contains_volume": "1769 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 50,
@@ -3698,34 +3698,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ")",
     "color": "light_gray"
-  },
-  {
-    "id": "beverage_bag",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "plastic beverage bag" },
-    "description": "A transparent, watertight plastic bag meant for holding drinks.",
-    "looks_like": "bag_plastic",
-    "weight": "6 g",
-    "volume": "262 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "material": [ "plastic" ],
-    "symbol": ")",
-    "color": "white",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": false,
-        "watertight": true,
-        "open_container": true,
-        "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
-        "//": "sealed_data is here so the container can be sealed to avoid spilling",
-        "sealed_data": { "spoil_multiplier": 1.0 }
-      }
-    ]
   },
   {
     "id": "ipok",
