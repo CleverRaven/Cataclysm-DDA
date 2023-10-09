@@ -4193,6 +4193,13 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
         if( it->get_var( "gas_absorbed", 0 ) >= 240 ) {
             it->ammo_consume( 1, pos, p );
             it->set_var( "gas_absorbed", 0 );
+            if (it->ammo_remaining() < 10) {
+                p->add_msg_player_or_npc(
+                    m_bad,
+                    _("Your %s is getting hard to breathe in!"),
+                    _("<npcname>'s gas mask is getting hard to breathe in!")
+                    , it->tname());
+            }
         }
         if( it->ammo_remaining() == 0 ) {
             p->add_msg_player_or_npc(
@@ -4200,7 +4207,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
                 _( "Your %s requires new filters!" ),
                 _( "<npcname> needs new gas mask filters!" )
                 , it->tname() );
-        }
+        } 
     }
 
     if( it->ammo_remaining() == 0 ) {
