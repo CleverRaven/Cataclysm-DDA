@@ -41,6 +41,7 @@
 #include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
@@ -1940,6 +1941,13 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 {
     std::string assembled;
 
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( sorted_profs[cur_id]->src, [](
+    const std::pair<profession_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 sorted_profs[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
 
@@ -3042,6 +3050,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         const scenario *current_scenario )
 {
     std::string assembled;
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( current_scenario->src,
+    []( const std::pair<string_id<scenario>, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
     assembled += string_format(
