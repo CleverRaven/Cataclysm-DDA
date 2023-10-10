@@ -47,7 +47,6 @@ class profession
 
     private:
         string_id<profession> id;
-        std::vector<std::pair<string_id<profession>, mod_id>> src;
         bool was_loaded = false;
 
         translation _name_male;
@@ -126,6 +125,8 @@ class profession
         const std::vector<mission_type_id> &missions() const;
         int age_lower = 21;
         int age_upper = 55;
+
+        std::vector<std::pair<string_id<profession>, mod_id>> src;
 
         std::optional<achievement_id> get_requirement() const;
 
