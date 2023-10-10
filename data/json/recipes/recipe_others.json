@@ -1221,7 +1221,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 300 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "soldering_iron", 300 ],
         [ "oxy_torch", 40 ]
       ]
@@ -1396,7 +1396,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "soldering_iron", 150 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1434,7 +1434,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "soldering_iron", 75 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1598,7 +1598,7 @@
         [ "welder", 150 ],
         [ "welding_kit", 150 ],
         [ "welder_crude", 225 ],
-        [ "toolset", 225 ],
+        [ "integrated_welder", 225 ],
         [ "soldering_iron", 225 ],
         [ "oxy_torch", 30 ]
       ]
@@ -1764,7 +1764,13 @@
       { "id": "GLARE", "level": 1 }
     ],
     "tools": [
-      [ [ "welder", 100 ], [ "welding_kit", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ]
+      [
+        [ "welder", 100 ],
+        [ "welding_kit", 100 ],
+        [ "welder_crude", 150 ],
+        [ "integrated_welder", 150 ],
+        [ "soldering_iron", 150 ]
+      ]
     ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
