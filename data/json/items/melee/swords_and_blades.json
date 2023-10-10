@@ -2514,7 +2514,7 @@
     "price_postapoc": 4500,
     "material": [ { "type": "leather", "portion": 1.1 }, { "type": "mc_steel", "portion": 96 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
