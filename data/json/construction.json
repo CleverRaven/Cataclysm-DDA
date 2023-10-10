@@ -5331,6 +5331,19 @@
   },
   {
     "type": "construction",
+    "id": "app_ground_solar",
+    "group": "place_ground_solar_panel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "ground_solar_panel", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_reinforced_solar",
     "group": "place_reinforced_solar_panel",
     "category": "APPLIANCE",
@@ -5351,6 +5364,19 @@
     "time": "6 m",
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel_v2", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_ground_solar_v2",
+    "group": "place_ground_solar_panel_v2",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "ground_solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
