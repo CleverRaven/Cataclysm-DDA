@@ -357,6 +357,7 @@
     "id": "MISSION_GET_SOFTWARE",
     "type": "mission_definition",
     "name": { "str": "Retrieve Software" },
+    "description": "Retrieve the software in their computer marked on your map.",
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 2,
     "value": 80000,
