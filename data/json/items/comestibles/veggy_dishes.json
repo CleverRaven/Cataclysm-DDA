@@ -679,7 +679,7 @@
   {
     "type": "COMESTIBLE",
     "id": "carrot_glazed",
-    "name": { "str": "glazed carrot" },
+    "name": { "str": "glazed carrots", "str_pl": "glazed carrots" },
     "weight": "72 g",
     "color": "light_red",
     "spoils_in": "2 days",
