@@ -1517,7 +1517,15 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 10 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 4 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
@@ -1528,7 +1536,15 @@
     "copy-from": "mask_fsurvivor",
     "time": "2 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welding_kit", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "tools": [
+      [
+        [ "welder", 42 ],
+        [ "welding_kit", 42 ],
+        [ "welder_crude", 63 ],
+        [ "soldering_iron", 63 ],
+        [ "integrated_welder", 63 ]
+      ]
+    ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 3 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
@@ -1545,7 +1561,15 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ] ],
-    "tools": [ [ [ "welder", 74 ], [ "welding_kit", 74 ], [ "welder_crude", 112 ], [ "soldering_iron", 112 ], [ "toolset", 112 ] ] ],
+    "tools": [
+      [
+        [ "welder", 74 ],
+        [ "welding_kit", 74 ],
+        [ "welder_crude", 112 ],
+        [ "soldering_iron", 112 ],
+        [ "integrated_welder", 112 ]
+      ]
+    ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 8 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
@@ -1712,7 +1736,15 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -2015,7 +2047,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2039,7 +2079,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 8 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 2 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2064,7 +2112,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
@@ -2085,7 +2141,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2111,7 +2175,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [
+      [
+        [ "welder", 56 ],
+        [ "welding_kit", 56 ],
+        [ "welder_crude", 84 ],
+        [ "soldering_iron", 84 ],
+        [ "integrated_welder", 84 ]
+      ]
+    ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],

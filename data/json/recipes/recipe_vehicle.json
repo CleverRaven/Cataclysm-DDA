@@ -1023,7 +1023,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1049,7 +1049,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1159,7 +1159,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "forge", 100 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1185,7 +1185,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1211,7 +1211,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "forge", 100 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1237,7 +1237,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "forge", 200 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1416,7 +1416,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]

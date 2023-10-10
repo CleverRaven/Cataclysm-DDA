@@ -1671,7 +1671,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [ [ [ "chem_saltpetre", 50 ] ], [ [ "sugar", 50 ] ] ]
   },
   {
