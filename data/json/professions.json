@@ -3276,7 +3276,9 @@
       { "level": 4, "name": "electronics" }
     ],
     "items": {
-      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
+      "both": {
+        "items": [ "dress_shirt", "pants", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch", "folded_wheelchair_generic" ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -4026,7 +4028,7 @@
     "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "items": [ "jeans", "longshirt", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
         "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
       },
       "male": [ "boxer_shorts" ],
