@@ -1,15 +1,21 @@
 [
   {
+    "//": "Assumed to be ~0.5x0.5m to fit in a vehicle tile",
     "type": "GENERIC",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
-    "weight": "14000 g",
+    "//1": [
+      "66x40x2in = 68L solar panels weigh 40lbs, for density of ~210g/L",
+      "If this is 0.5mx0.5mx5cm, it has a volume of 12.5L, and a weight of 2.63kg",
+      "Numbers from https://modernize.com/homeowner-resources/solar/average-solar-panel-dimensions-and-sizes"
+    ],
+    "weight": "2630 g",
     "to_hit": -4,
     "color": "yellow",
     "symbol": "]",
     "material": [ "glass" ],
-    "volume": "3 L",
+    "volume": "12500 ml",
     "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",
     "price": 90000,
@@ -17,12 +23,20 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "//": "Four solar panels stuck together to fit in 1x1m",
+    "type": "GENERIC",
+    "id": "ground_solar_panel",
+    "name": { "str": "solar panel array" },
+    "description": "A collection of four solar panels, ready to get to work converting solar radiation into electric power.  Install them to use them in a static power grid.",
+    "copy-from": "solar_panel",
+    "proportional": { "weight": 4, "volume": 4, "price": 4, "price_postapoc": 4 }
+  },
+  {
     "type": "GENERIC",
     "copy-from": "solar_panel",
     "id": "folding_solar_panel",
     "name": { "str": "collapsible solar array" },
     "description": "An electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a common, inexpensive type made with polycrystalline silicon cells.",
-    "weight": "14500 g",
     "price": 120000,
     "price_postapoc": 1500
   },
@@ -49,6 +63,7 @@
     "copy-from": "solar_panel"
   },
   {
+    "//": "Assumed to be ~0.5mx0.5m to fit in a vehicle tile",
     "type": "GENERIC",
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
@@ -56,6 +71,15 @@
     "price": 190000,
     "price_postapoc": 3000,
     "copy-from": "solar_panel"
+  },
+  {
+    "//": "Four advanced solar panels stuck together for 1mx1m area",
+    "type": "GENERIC",
+    "id": "ground_solar_panel_v2",
+    "name": { "str": "advanced solar panel array" },
+    "description": "A collection of four smaller solar panels, read to convert solar radiation into electric power.  These panels are high-performance, made with monocrystalline silicon cells.",
+    "copy-from": "solar_panel_v2",
+    "proportional": { "price": 4, "price_postapoc": 4, "weight": 4, "volume": 4 }
   },
   {
     "type": "GENERIC",
