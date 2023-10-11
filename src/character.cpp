@@ -3499,10 +3499,7 @@ void Character::normalize()
 // Actual player death is mostly handled in game::is_game_over
 void Character::die( Creature *nkiller )
 {
-    g->set_critter_died();
     set_all_parts_hp_cur( 0 );
-    set_killer( nkiller );
-    set_time_died( calendar::turn );
 
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
@@ -3512,6 +3509,13 @@ void Character::die( Creature *nkiller )
             debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
         }
     }
+    if( !is_dead_state() ) {
+        return;
+    }
+
+    g->set_critter_died();
+    set_killer( nkiller );
+    set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
         inv->add_item( item( "rope_6", calendar::turn_zero ) );
