@@ -131,8 +131,8 @@ static const oter_str_id oter_rural_road_forest_east( "rural_road_forest_east" )
 static const oter_str_id oter_rural_road_forest_north( "rural_road_forest_north" );
 static const oter_str_id oter_rural_road_forest_south( "rural_road_forest_south" );
 static const oter_str_id oter_rural_road_forest_west( "rural_road_forest_west" );
-static const oter_str_id oter_rural_road_turn1_forest_north( "rural_road_turn1_forest_north" );
 static const oter_str_id oter_rural_road_turn1_forest_east( "rural_road_turn1_forest_east" );
+static const oter_str_id oter_rural_road_turn1_forest_north( "rural_road_turn1_forest_north" );
 static const oter_str_id oter_rural_road_turn1_forest_south( "rural_road_turn1_forest_south" );
 static const oter_str_id oter_rural_road_turn1_forest_west( "rural_road_turn1_forest_west" );
 static const oter_str_id oter_rural_road_turn_forest_east( "rural_road_turn_forest_east" );
