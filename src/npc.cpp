@@ -2959,12 +2959,13 @@ void npc::die( Creature *nkiller )
     for( effect_on_condition_id &eoc : death_eocs ) {
         if( eoc->type == eoc_type::NPC_DEATH ) {
             eoc->activate( d );
-            // Invalidate cache in case the npc doesn't die due to EoC as a result
-            cached_dead_state.reset();
         } else {
             debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
         }
     }
+    get_event_bus().send<event_type::character_dies>( getID() );
+    // Invalidate cache in case the npc doesn't die due to EoC as a result
+    cached_dead_state.reset();
     if( !is_dead() ) {
         return;
     }

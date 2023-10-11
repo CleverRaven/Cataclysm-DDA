@@ -927,6 +927,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
 | character_casts_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
+| character_dies |  | { "character", `character_id` }, | character / NONE |
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |

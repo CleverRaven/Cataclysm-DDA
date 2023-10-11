@@ -151,5 +151,13 @@
     "id": "EOC_event_NPC_DEATH_test",
     "eoc_type": "NPC_DEATH",
     "effect": [ { "u_set_hp": 999, "only_increase": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_event_character_dies_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_dies",
+    "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
+    "effect": [ { "u_set_hp": 999, "only_increase": true } ]
   }
 ]
