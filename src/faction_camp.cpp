@@ -123,18 +123,14 @@ static const oter_str_id oter_dirt_road_turn_forest_south( "dirt_road_turn_fores
 static const oter_str_id oter_dirt_road_turn_forest_west( "dirt_road_turn_forest_west" );
 static const oter_str_id oter_forest( "forest" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
-static const oter_str_id oter_forest_trail( "forest_trail" );
-static const oter_str_id oter_forest_trail_end( "forest_trail_end" );
-static const oter_str_id oter_forest_trail_intersection( "forest_trail_intersection" );
-static const oter_str_id oter_forest_trail_isolated( "forest_trail_isolated" );
-static const oter_str_id oter_rural_road_forest_east( "rural_road_forest_east" );
-static const oter_str_id oter_rural_road_forest_north( "rural_road_forest_north" );
-static const oter_str_id oter_rural_road_forest_south( "rural_road_forest_south" );
-static const oter_str_id oter_rural_road_forest_west( "rural_road_forest_west" );
 static const oter_str_id oter_rural_road_3way_forest_east( "rural_road_3way_forest_east" );
 static const oter_str_id oter_rural_road_3way_forest_north( "rural_road_3way_forest_north" );
 static const oter_str_id oter_rural_road_3way_forest_south( "rural_road_3way_forest_south" );
 static const oter_str_id oter_rural_road_3way_forest_west( "rural_road_3way_forest_west" );
+static const oter_str_id oter_rural_road_forest_east( "rural_road_forest_east" );
+static const oter_str_id oter_rural_road_forest_north( "rural_road_forest_north" );
+static const oter_str_id oter_rural_road_forest_south( "rural_road_forest_south" );
+static const oter_str_id oter_rural_road_forest_west( "rural_road_forest_west" );
 static const oter_str_id oter_rural_road_turn1_forest_north( "rural_road_turn1_forest_north" );
 static const oter_str_id oter_rural_road_turn1_forest_east( "rural_road_turn1_forest_east" );
 static const oter_str_id oter_rural_road_turn1_forest_south( "rural_road_turn1_forest_south" );
@@ -2337,7 +2333,7 @@ void basecamp::start_menial_labor()
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
-void change_cleared_terrain( tripoint_abs_omt forest )
+static void change_cleared_terrain( tripoint_abs_omt forest )
 {
     if( om_cutdown_trees_est( forest ) < 5 ) {
         const oter_id &omt_trees = overmap_buffer.ter( forest );
