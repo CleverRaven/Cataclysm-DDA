@@ -1808,6 +1808,7 @@
         "coverage": 100,
         "encumbrance": 5
       }
+    ],
     "melee_damage": { "bash": 50, "cut": 10 }
   }
 ]
