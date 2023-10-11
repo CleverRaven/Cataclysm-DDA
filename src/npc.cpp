@@ -2964,8 +2964,7 @@ void npc::die( Creature *nkiller )
         }
     }
     get_event_bus().send<event_type::character_dies>( getID() );
-    // Invalidate cache in case the npc doesn't die due to EoC as a result
-    cached_dead_state.reset();
+    // Check if npc doesn't die due to EoC as a result
     if( !is_dead() ) {
         return;
     }
@@ -3029,6 +3028,12 @@ void npc::die( Creature *nkiller )
     }
 
     place_corpse();
+}
+
+void npc::prevent_death()
+{
+    marked_for_death = false;
+    Character::prevent_death();
 }
 
 std::string npc_attitude_id( npc_attitude att )

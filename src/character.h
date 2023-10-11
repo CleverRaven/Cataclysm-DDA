@@ -2463,6 +2463,7 @@ class Character : public Creature, public visitable
          */
         void normalize() override;
         void die( Creature *nkiller ) override;
+        virtual void prevent_death();
 
         std::string get_name() const override;
 

@@ -1000,6 +1000,7 @@ class npc : public Character
         void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
+        void prevent_death() override;
         // How well we smash terrain (not corpses!)
         int smash_ability() const;
 
