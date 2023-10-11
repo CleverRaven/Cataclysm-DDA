@@ -6745,8 +6745,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
-        [ "chicory_leaves", 2 ],
-        [ "burdock_cooked", 1 ]
+        [ "chicory_leaves", 2 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -6828,8 +6827,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
-        [ "chicory_leaves", 2 ],
-        [ "burdock_cooked", 1 ]
+        [ "chicory_leaves", 2 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -8146,8 +8144,7 @@
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "wild_garlic", 1 ],
-        [ "burdock_cooked", 1 ]
+        [ "wild_garlic", 1 ]
       ]
     ]
   },
