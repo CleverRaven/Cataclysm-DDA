@@ -1052,7 +1052,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
             directions_to_cast );
-        seen_cache_process_ledges( origin );
+        seen_cache_process_ledges( seen_caches, floor_caches, origin );
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1121,7 +1121,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
     }
 }
 
-void map::seen_cache_process_ledges( const tripoint &origin )
+void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
+                                     const array_of_grids_of<const bool> &floor_caches, const tripoint &origin )
 {
     Character &player_character = get_player_character();
     // For each tile
@@ -1132,16 +1133,16 @@ void map::seen_cache_process_ledges( const tripoint &origin )
                     // Iterate down z-levels starting from 1 level below origin
                     for( int sz = origin.z - 1; sz >= 0; --sz ) {
                         const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
-                        level_cache &map_cache = get_cache( sz );
+                        const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
-                        if( map_cache.seen_cache[p.x][p.y] == 0.0f ) {
+                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
                             break;
                         }
                         // Or floor reached
-                        if( map_cache.floor_cache[p.x][p.y] ) {
+                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
                             // In which case check if it should be obscured by a ledge
                             if( ledge_coverage( player_character, p ) > 100 ) {
-                                map_cache.seen_cache[p.x][p.y] = 0.0f;
+                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
                             }
                             break;
                         }

@@ -1938,13 +1938,14 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+        void seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
+                                        const array_of_grids_of<const bool> &floor_caches, const tripoint &origin );
 
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z, int extension_range = 60,
                                bool cumulative = false,
                                bool camera = false, int penalty = 0 );
-        void seen_cache_process_ledges( const tripoint &origin );
         void apply_character_light( Character &p );
 
         int my_MAPSIZE;
