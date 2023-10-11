@@ -533,7 +533,7 @@
   },
   {
     "type": "terrain",
-    "id": "acc_stair_up",
+    "id": "t_acc_stair_up",
     "name": "accessible stairs",
     "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading up.",
     "symbol": ">",
@@ -543,7 +543,7 @@
   },
   {
     "type": "terrain",
-    "id": "acc_stair_down",
+    "id": "t_acc_stair_down",
     "name": "accessible stairs",
     "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading down.",
     "symbol": ">",
@@ -553,7 +553,7 @@
   },
   {
     "type": "terrain",
-    "id": "acc_stair_up_no_roof",
+    "id": "t_acc_stair_up_no_roof",
     "name": "accessible stairs",
     "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading up.",
     "symbol": ">",
@@ -563,7 +563,7 @@
   },
   {
     "type": "terrain",
-    "id": "acc_stair_down_no_roof",
+    "id": "t_acc_stair_down_no_roof",
     "name": "accessible stairs",
     "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading down.",
     "symbol": ">",
