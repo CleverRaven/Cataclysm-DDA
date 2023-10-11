@@ -15,9 +15,9 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_burdock_stalk",
-    "name": { "str": "cooked burdock stalk" },
+    "name": { "str": "cooked plant stalk" },
     "copy-from": "cooked_cattail_stalk",
-    "description": "A cooked stalk from a burdock plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
+    "description": "A cooked stalk from a plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
   },
   {
     "type": "COMESTIBLE",
