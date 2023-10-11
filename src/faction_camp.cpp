@@ -2341,7 +2341,7 @@ void change_cleared_terrain( tripoint_abs_omt forest )
 {
     if( om_cutdown_trees_est( forest ) < 5 ) {
         const oter_id &omt_trees = overmap_buffer.ter( forest );
-        const std::string omt_trees_string = ( std::string )omt_trees.id();
+        const std::string omt_trees_string = static_cast<std::string>( omt_trees.id() );
 
         if( omt_trees_string.find( "dirt_road" ) != std::string::npos ) {}
 
