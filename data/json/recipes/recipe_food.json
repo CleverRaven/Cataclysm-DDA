@@ -1164,7 +1164,6 @@
         [ "grape_leaves", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
-        [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_cooked", 1 ]
@@ -1210,7 +1209,6 @@
         [ "cabbage", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
-        [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
         [ "wild_garlic", 2 ],
         [ "veggy_wild_cooked", 2 ],
@@ -1329,7 +1327,6 @@
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
-        [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_cooked", 1 ]
@@ -1359,7 +1356,6 @@
         [ "cabbage", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
-        [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "veggy_cooked", 2 ]
@@ -1989,31 +1985,6 @@
       { "proficiency": "prof_frying_bread" }
     ],
     "components": [ [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "raw_dandelion", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "burdock_cooked",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "skills_required": [ "survival", 2 ],
-    "time": "6 m",
-    "batch_time_factors": [ 80, 4 ],
-    "book_learn": {
-      "pocket_survival": { "skill_level": 1 },
-      "survival_book": { "skill_level": 1 },
-      "textbook_survival": { "skill_level": 1 },
-      "manual_survival": { "skill_level": 1 },
-      "mag_survival": { "skill_level": 1 },
-      "family_cookbook": { "skill_level": 1 },
-      "cookbook_daintydishes": { "skill_level": 2, "recipe_name": "Royal Penny Tea" }
-    },
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
-    "components": [ [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7886,7 +7857,6 @@
         [ "broccoli", 2 ],
         [ "irradiated_broccoli", 2 ],
         [ "dandelion_cooked", 2 ],
-        [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "fiddlehead_boiled", 2 ],
@@ -8245,8 +8215,7 @@
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "wild_garlic", 1 ],
-        [ "burdock_cooked", 1 ]
+        [ "wild_garlic", 1 ]
       ]
     ]
   },
@@ -8315,8 +8284,7 @@
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "wild_garlic", 1 ],
-        [ "burdock_cooked", 1 ]
+        [ "wild_garlic", 1 ]
       ]
     ]
   },
@@ -8385,8 +8353,7 @@
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
-        [ "wild_garlic", 1 ],
-        [ "burdock_cooked", 1 ]
+        [ "wild_garlic", 1 ]
       ]
     ]
   },
@@ -9794,7 +9761,6 @@
         [ "lettuce", 2 ],
         [ "irradiated_lettuce", 2 ],
         [ "dandelion_cooked", 2 ],
-        [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "grape_leaves", 2 ],
