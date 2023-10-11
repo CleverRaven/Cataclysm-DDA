@@ -1999,6 +1999,36 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "burdock_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
+    "time": "8 m",
+    "book_learn": {
+      "pocket_survival": { "skill_level": 1 },
+      "survival_book": { "skill_level": 1 },
+      "textbook_survival": { "skill_level": 1 },
+      "manual_survival": { "skill_level": 1 },
+      "mag_survival": { "skill_level": 1 },
+      "family_cookbook": { "skill_level": 1 },
+      "cookbook_daintydishes": { "skill_level": 2, "recipe_name": "Royal Penny Tea" }
+    },
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "//": "3u heat for 136g of burdock + 2u heat for batter",
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
+    "components": [ [ [ "raw_burdock", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bamboo_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2017,6 +2047,42 @@
       { "proficiency": "prof_frying_bread" }
     ],
     "components": [ [ [ "raw_bamboo", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "dandelionburdock_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
+    "time": "8 m",
+    "book_learn": {
+      "pocket_survival": { "skill_level": 1 },
+      "survival_book": { "skill_level": 1 },
+      "textbook_survival": { "skill_level": 1 },
+      "manual_survival": { "skill_level": 1 },
+      "mag_survival": { "skill_level": 1 },
+      "family_cookbook": { "skill_level": 1 },
+      "cookbook_daintydishes": { "skill_level": 2, "recipe_name": "Royal Penny Tea" }
+    },
+    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "//1": "136g of dandelion/burdock + batter",
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" },
+      { "proficiency": "prof_frying" },
+      { "proficiency": "prof_frying_bread" }
+    ],
+    "components": [
+      [ [ "raw_dandelion", 1 ] ],
+      [ [ "raw_burdock", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "batter", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
