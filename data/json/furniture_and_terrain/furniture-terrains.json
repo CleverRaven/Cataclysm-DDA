@@ -1679,7 +1679,7 @@
     "move_cost_mod": -1,
     "examine_action": "chainfence",
     "coverage": 100,
-    "description": "An area of gravel heaped well above your head, difficult to climb over",
+    "description": "An area of gravel heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_mid" },
