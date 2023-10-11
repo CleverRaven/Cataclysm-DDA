@@ -2965,8 +2965,11 @@ void npc::die( Creature *nkiller )
     }
     get_event_bus().send<event_type::character_dies>( getID() );
     // Check if npc doesn't die due to EoC as a result
-    if( !is_dead() ) {
-        return;
+    if( prevent_death_reminder ) {
+        prevent_death_reminder = false;
+        if( !is_dead() ) {
+            return;
+        }
     }
 
     if( assigned_camp ) {
@@ -3033,6 +3036,7 @@ void npc::die( Creature *nkiller )
 void npc::prevent_death()
 {
     marked_for_death = false;
+    prevent_death_reminder = true;
     Character::prevent_death();
 }
 

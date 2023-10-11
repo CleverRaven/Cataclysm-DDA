@@ -8795,7 +8795,7 @@
     "name": { "str": "Debug Prevent Death" },
     "points": 99,
     "valid": false,
-    "description": "You are prvented from death.",
+    "description": "You are prevented from death.",
     "debug": true
   },
   {
