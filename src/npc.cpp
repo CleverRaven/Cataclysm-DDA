@@ -2954,6 +2954,21 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
+
+    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
+    for( effect_on_condition_id &eoc : death_eocs ) {
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+            // Invalidate cache in case the npc doesn't die due to EoC as a result
+            cached_dead_state.reset();
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
+    }
+    if( !is_dead() ) {
+        return;
+    }
+
     if( assigned_camp ) {
         std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {

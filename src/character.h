@@ -1159,7 +1159,7 @@ class Character : public Creature, public visitable
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
 
-    private:
+    protected:
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
