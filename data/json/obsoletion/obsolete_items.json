@@ -1163,5 +1163,17 @@
     "dispersion": 50,
     "recoil": 350,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "burdock_cooked",
+    "name": { "str_sp": "cooked burdock greens" },
+    "copy-from": "raw_burdock",
+    "spoils_in": "2 days",
+    "description": "Cooked burdock leaves.  Tasty and nutritious.",
+    "price": 200,
+    "price_postapoc": 50,
+    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "fun": 1
   }
 ]
