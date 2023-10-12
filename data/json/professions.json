@@ -6448,8 +6448,9 @@
     "name": "Explosive Ordinance Disposal Technician",
     "description": "Ever since you were a child you were fascinated with explosives and all things that go boom. As soon as you turned 18 you joined the army to become an EOD technician. When your base was overrun, you find yourself alone in the middle of nowhere with nothing but your precious training, gear and cherished love of explosives",
     "points": 5,
-    "proficiencies": [ "prof_elec_circuits", "prof_intro_chemistry", "prof_athlete_expert", "prof_gun_cleaning" ],
+    "proficiencies": [ "prof_elec_circuits", "prof_intro_chemistry", "prof_athlete_expert", "prof_gun_cleaning", "prof_spotting", "prof_traps", "prof_disarming", "prof_trapsetting" ],
     "skills": [
+      { "level": 6, "name": "traps" },
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
