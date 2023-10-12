@@ -26,7 +26,14 @@
             { "compare_string": [ "EATER", { "context_val": "school" } ] },
             { "compare_string": [ "DREAMER", { "context_val": "school" } ] },
             { "compare_string": [ "DREAMSMITH", { "context_val": "school" } ] },
-            { "compare_string": [ "INVENTOR", { "context_val": "school" } ] }
+            { "compare_string": [ "INVENTOR", { "context_val": "school" } ] },
+            { "compare_string": [ "ARVORE", { "context_val": "school" } ] },
+            { "compare_string": [ "IERDE", { "context_val": "school" } ] },
+            { "compare_string": [ "HOMULLUS", { "context_val": "school" } ] },
+            { "compare_string": [ "SALAMANDER", { "context_val": "school" } ] },
+            { "compare_string": [ "UNDINE", { "context_val": "school" } ] },
+            { "compare_string": [ "SYLPH", { "context_val": "school" } ] },
+            { "compare_string": [ "VAMPIRE", { "context_val": "school" } ] }
           ]
         }
       ]
