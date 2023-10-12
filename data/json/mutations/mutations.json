@@ -8791,6 +8791,15 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_PREVENT_DEATH",
+    "name": { "str": "Debug Prevent Death" },
+    "points": 99,
+    "valid": false,
+    "description": "You are prevented from death.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,

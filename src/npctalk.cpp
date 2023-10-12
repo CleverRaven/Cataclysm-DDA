@@ -4159,6 +4159,16 @@ void talk_effect_fun_t::set_die( bool is_npc )
     };
 }
 
+void talk_effect_fun_t::set_prevent_death( bool is_npc )
+{
+    function = [is_npc]( dialogue const & d ) {
+        Character *ch = d.actor( is_npc )->get_character();
+        if( ch ) {
+            ch->prevent_death();
+        }
+    };
+}
+
 void talk_effect_fun_t::set_lightning()
 {
     function = []( dialogue const &/* d */ ) {
@@ -4914,6 +4924,26 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     };
 }
 
+void talk_effect_fun_t::set_if( const JsonObject &jo, std::string_view member )
+{
+    std::function<bool( dialogue & )> cond;
+    talk_effect_t then_effect;
+    talk_effect_t else_effect;
+    read_condition( jo, std::string( member ), cond, false );
+    then_effect.load_effect( jo, "then" );
+    if( jo.has_member( "else" ) || jo.has_array( "else" ) ) {
+        else_effect.load_effect( jo, "else" );
+    }
+
+    function = [cond, then_effect, else_effect]( dialogue & d ) {
+        if( cond( d ) ) {
+            then_effect.apply( d );
+        } else {
+            else_effect.apply( d );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_switch( const JsonObject &jo, std::string_view member )
 {
     std::function<double( dialogue &/* d */ )> eoc_switch = jo.has_string( member ) ?
@@ -5603,6 +5633,7 @@ parsers = {
     { "queue_eocs", jarg::member | jarg::array, &talk_effect_fun_t::set_queue_eocs },
     { "queue_eoc_with", jarg::member, &talk_effect_fun_t::set_queue_eoc_with },
     { "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs },
+    { "if", jarg::member, &talk_effect_fun_t::set_if },
     { "switch", jarg::member, &talk_effect_fun_t::set_switch },
     { "math", jarg::array, &talk_effect_fun_t::set_math },
     { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level },
@@ -5719,7 +5750,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( start_training_seminar ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
-            WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
             WRAP( pick_style ),
@@ -5757,6 +5787,18 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 
     if( effect_id == "npc_die" ) {
         subeffect_fun.set_die( true );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "u_prevent_death" ) {
+        subeffect_fun.set_prevent_death( false );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "npc_prevent_death" ) {
+        subeffect_fun.set_prevent_death( true );
         set_effect( subeffect_fun );
         return;
     }

@@ -2624,3 +2624,29 @@ item_location game_menus::inv::change_sprite( Character &you )
                          _( "Change appearance of your armor:" ), -1,
                          _( "You have nothing to wear." ) );
 }
+
+std::pair<item_location, bool> game_menus::inv::unload( Character &you )
+{
+
+    const inventory_filter_preset preset( [&you]( const item_location & location ) {
+        return you.rate_action_unload( *location ) == hint_rating::good;
+    } );
+    unload_selector inv_s( you, preset );
+
+    inv_s.set_title( _( "Unload item" ) );
+    inv_s.set_display_stats( false );
+
+    you.inv->restack( you );
+
+    inv_s.clear_items();
+
+    inv_s.add_character_items( you );
+    inv_s.add_nearby_items( 1 );
+
+    if( inv_s.empty() ) {
+        popup( _( "You have nothing to unload." ), PF_GET_KEY );
+        return std::make_pair( item_location(), false );
+    }
+
+    return inv_s.execute();
+}

@@ -72,13 +72,13 @@
       { "item": "spork" },
       {
         "distribution": [
-          { "item": "instant_coffee", "count": 2, "container-item": "beverage_bag" },
-          { "item": "herbal_tea_bag", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_bag", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_bag_chamomile", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_bag_dandelion", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_fruit_bag", "count": 2, "container-item": "beverage_bag" },
-          { "item": "tea_green_bag", "count": 2, "container-item": "beverage_bag" }
+          { "item": "instant_coffee", "count": 2, "container-item": "bag_zipper" },
+          { "item": "herbal_tea_bag", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_bag", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_bag_chamomile", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_bag_dandelion", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_fruit_bag", "count": 2, "container-item": "bag_zipper" },
+          { "item": "tea_green_bag", "count": 2, "container-item": "bag_zipper" }
         ]
       }
     ]
@@ -168,7 +168,7 @@
     "id": "pur_tablets_beverage_bag_6",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "beverage_bag",
+    "container-item": "bag_zipper",
     "entries": [ { "item": "pur_tablets", "count": 6 } ]
   },
   {
@@ -176,7 +176,7 @@
     "id": "sugar_beverage_bag_2",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "beverage_bag",
+    "container-item": "bag_zipper",
     "entries": [ { "item": "sugar", "container-item": "null", "count": 2 } ]
   },
   {
@@ -192,7 +192,7 @@
     "id": "pur_tablets_beverage_bag_0_6",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "beverage_bag",
+    "container-item": "bag_zipper",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 6 ] } ]
   },
   {
@@ -200,7 +200,7 @@
     "id": "sugar_beverage_bag_0_2",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "beverage_bag",
+    "container-item": "bag_zipper",
     "entries": [ { "item": "sugar", "container-item": "null", "count": [ 0, 2 ] } ]
   },
   {
