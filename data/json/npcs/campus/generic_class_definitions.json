@@ -40,6 +40,10 @@
       },
       { "distribution": [ { "item": "vest", "prob": 80 }, { "item": "vest_leather", "prob": 40 } ], "prob": 70 },
       {
+        "distribution": [ { "item": "backpack", "prob": 80 }, { "item": "backpack_leather", "prob": 40 } ],
+        "prob": 70
+      },
+      {
         "distribution": [
           { "item": "glasses_safety", "prob": 10 },
           { "item": "goggles_ski", "prob": 10 },
