@@ -103,7 +103,6 @@
     "teachable": false,
     "skill": "deduction",
     "spell_class": "VAMPIRE",
-    "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "effect": "attack",
     "effect_str": "stunned",
