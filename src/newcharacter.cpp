@@ -85,6 +85,8 @@ static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
+static const matype_id style_none( "style_none" );
+
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
 
@@ -921,9 +923,7 @@ void avatar::initialize( character_type type )
     }
 
     std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
-    int num = rng( 0, all_styles.size() );
-    const matype_id rand_style = all_styles[num];
-    martial_arts_data->set_style( rand_style );
+    martial_arts_data->set_style( random_entry( all_styles, style_none ) );
 
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
