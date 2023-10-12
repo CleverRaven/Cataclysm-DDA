@@ -2150,6 +2150,41 @@ You and NPC both die
 }
 ```
 
+#### `u_prevent_death`, `npc_prevent_death`
+You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+NPC is prevented from death.
+
+`NPC_DEATH`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_event_NPC_DEATH_test",
+  "eoc_type": "NPC_DEATH",
+  "effect": [ "u_prevent_death" ]
+}
+```
+
+`EVENT`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_event_character_dies_test",
+  "eoc_type": "EVENT",
+  "required_event": "character_dies",
+  "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
+  "effect": [ "u_prevent_death" ]
+}
+```
+
 ## Item effects
 
 #### `u_set_flag`, `npc_set_flag`
