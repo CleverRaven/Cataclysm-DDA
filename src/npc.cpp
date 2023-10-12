@@ -2955,6 +2955,7 @@ void npc::die( Creature *nkiller )
         return;
     }
 
+    prevent_death_reminder = false;
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
         if( eoc->type == eoc_type::NPC_DEATH ) {
