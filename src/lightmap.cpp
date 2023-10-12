@@ -651,6 +651,11 @@ float map::light_transparency( const tripoint &p ) const
     return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
 }
 
+void map::get_lightmap( const int zlev )
+{
+    return generate_lightmap( zlev );
+}
+
 // End of tile light/transparency
 
 map::apparent_light_info map::apparent_light_helper( const level_cache &map_cache,

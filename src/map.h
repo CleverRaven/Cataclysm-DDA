@@ -1946,7 +1946,9 @@ class map
                                bool cumulative = false,
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
-
+    public:
+        void get_lightmap( int zlev );
+    protected:
         int my_MAPSIZE;
         int my_HALF_MAPSIZE;
         bool zlevels;
