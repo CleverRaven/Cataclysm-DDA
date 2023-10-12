@@ -4159,7 +4159,6 @@ void talk_effect_fun_t::set_die( bool is_npc )
     };
 }
 
-
 void talk_effect_fun_t::set_prevent_death( bool is_npc )
 {
     function = [is_npc]( dialogue const & d ) {
