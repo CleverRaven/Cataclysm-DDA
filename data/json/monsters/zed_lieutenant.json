@@ -114,8 +114,6 @@
     "max_accuracy": 20,
     "min_range": 30,
     "max_range": 30,
-    "//": "A little bit of cast 'backswing' so that it can be caught in more situations.",
-    "base_casting_time": "800",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
