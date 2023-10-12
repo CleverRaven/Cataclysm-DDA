@@ -25,6 +25,7 @@
     "final_energy_cost": 100,
     "energy_increment": 8,
     "energy_source": "MANA",
+    "teachable": false,
     "spell_class": [ "SYLPH", "UNDINE" ],
     "difficulty": 4,
     "damage_type": "heat"
@@ -43,6 +44,7 @@
     "effect": "spawn_item",
     "effect_str": "magic_light",
     "shape": "blast",
+    "teachable": false,
     "spell_class": [ "SYLPH", "SALAMANDER" ],
     "energy_source": "MANA",
     "difficulty": 2,
