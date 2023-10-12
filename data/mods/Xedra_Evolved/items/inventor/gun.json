@@ -190,7 +190,7 @@
     "armor": [
       { "encumbrance": [ 20, 22 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE" ]
   },
   {
     "id": "bio_warhead",
@@ -245,7 +245,7 @@
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "MUNDANE" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {

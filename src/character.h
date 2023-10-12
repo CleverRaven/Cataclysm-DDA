@@ -2117,6 +2117,7 @@ class Character : public Creature, public visitable
         hint_rating rate_action_reload( const item &it ) const;
         /** Whether a tool or a gun can be unloaded. */
         hint_rating rate_action_unload( const item &it ) const;
+        hint_rating rate_action_insert( const item_location &loc ) const;
         /**
           * So far only called by unload() from game.cpp
           * @avoid - do not put @it into @avoid
@@ -2128,7 +2129,8 @@ class Character : public Creature, public visitable
          * Unload item.
          * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
          */
-        bool unload( item_location &loc, bool bypass_activity = false );
+        bool unload( item_location &loc, bool bypass_activity = false,
+                     const item_location &new_container = item_location::nowhere );
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param it Item to calculate reload cost for
@@ -2343,7 +2345,12 @@ class Character : public Creature, public visitable
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
+        float get_knowledge_plus_progress( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
+        float get_average_skill_level( const skill_id &ident ) const;
+
+        float get_greater_skill_or_knowledge_level( const skill_id &ident ) const;
+
 
         SkillLevelMap get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
@@ -2456,6 +2463,7 @@ class Character : public Creature, public visitable
          */
         void normalize() override;
         void die( Creature *nkiller ) override;
+        virtual void prevent_death();
 
         std::string get_name() const override;
 

@@ -332,10 +332,11 @@
   },
   {
     "id": "mask_skull",
+    "//": "the mask_skull was here first so i'm just expanding it with mask variants.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "skull mask" },
-    "description": "A plastic skull mask that covers the face.  Spooky.",
+    "description": "A plastic mask that covers the face.",
     "weight": "50 g",
     "volume": "750 ml",
     "price": 4000,
@@ -349,7 +350,45 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_plastic_mask",
+        "name": { "str": "plastic skull mask" },
+        "description": "It's a skull mask.  Spooky.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "goblin_plastic_mask",
+        "name": { "str": "plastic goblin mask" },
+        "description": "It's modeled after a green goblin.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "unicorn_plastic_mask",
+        "name": { "str": "plastic unicorn mask" },
+        "description": "It's a mask of a unicorn with a plastic piece sticking out as a horn.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "bear_plastic_mask",
+        "name": { "str": "plastic bear mask" },
+        "description": "It's modeled after an American black bear.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "zombie_plastic_mask",
+        "name": { "str": "plastic zombie mask" },
+        "description": "It's a cheesy plastic zombie mask.  You miss when they were just fiction.",
+        "weight": 15,
+        "append": true
+      }
+    ]
   },
   {
     "id": "santa_beard",
@@ -443,6 +482,42 @@
     ]
   },
   {
+    "id": "pumpkin_mask",
+    "type": "ARMOR",
+    "name": { "str": "pumpkin mask" },
+    "description": "A flimsy plastic pumpkin mask to wear over your head.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 20,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "environmental_protection": 1,
+    "flags": [ "FRAGILE" ],
+    "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+  },
+  {
+    "id": "zombie_mask",
+    "type": "ARMOR",
+    "name": { "str": "zombie mask" },
+    "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 20,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "environmental_protection": 1,
+    "flags": [ "FRAGILE" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+  },
+  {
     "id": "mask_plague",
     "type": "ARMOR",
     "category": "armor",
@@ -464,14 +539,14 @@
     "variants": [
       {
         "id": "brown_mask_plague",
-        "name": { "str": "brown mask plague" },
+        "name": { "str": "brown plague mask" },
         "description": "It's colored brown.",
         "weight": 25,
         "append": true
       },
       {
         "id": "white_mask_plague",
-        "name": { "str": "white mask plague" },
+        "name": { "str": "white plague mask" },
         "description": "It's a simple white color.",
         "color": "blue",
         "weight": 25,
@@ -479,7 +554,7 @@
       },
       {
         "id": "black_mask_plague",
-        "name": { "str": "black mask plague" },
+        "name": { "str": "black plague mask" },
         "description": "It's colored black.",
         "color": "dark_gray",
         "weight": 25,

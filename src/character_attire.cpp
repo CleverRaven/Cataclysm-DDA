@@ -273,7 +273,8 @@ Character::wear( item_location item_wear, bool interactive )
     }
 
     if( was_weapon ) {
-        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send_with_talker( this, &item_wear, e );
     }
 
     return result;
@@ -296,7 +297,10 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         worn.push_back( to_wear );
     }
 
-    get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
+    item_location loc = new_item_it != worn.end() ?
+                        item_location( guy, &*new_item_it ) : item_location();
+    cata::event e = cata::event::make<event_type::character_wears_item>( guy.getID(), guy.last_item );
+    get_event_bus().send_with_talker( &guy, &loc, e );
 
     if( interactive ) {
         if( !quiet ) {

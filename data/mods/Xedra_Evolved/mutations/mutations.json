@@ -141,6 +141,17 @@
   },
   {
     "type": "mutation",
+    "id": "BLOODBANK",
+    "name": { "str": "Blood Lungs" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "points": 0,
+    "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them.  You're not sure where the blood goes but with a thought you can use these deposits.",
+    "integrated_armor": [ "integrated_bloodbank" ]
+  },
+  {
+    "type": "mutation",
     "id": "STAMINAFORBLOOD",
     "points": 0,
     "starting_trait": false,

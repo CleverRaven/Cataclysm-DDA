@@ -3,7 +3,7 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
   },
   {
     "id": "shot_forming",
@@ -20,7 +20,7 @@
         [ "clay_teapot", -1 ],
         [ "can_food", -1 ]
       ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
     ]
   },
   {
@@ -178,7 +178,7 @@
         [ "welder", 20 ],
         [ "welding_kit", 20 ],
         [ "welder_crude", 40 ],
-        [ "toolset", 30 ],
+        [ "integrated_welder", 30 ],
         [ "oxy_torch", 1 ],
         [ "propane_torch", 8 ]
       ]
@@ -197,7 +197,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 400 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "oxy_torch", 10 ],
         [ "propane_torch", 80 ]
       ]
@@ -219,7 +219,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 400 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "oxy_torch", 10 ],
         [ "propane_torch", 80 ]
       ]
@@ -252,7 +252,7 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "integrated_welder", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {

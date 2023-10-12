@@ -728,7 +728,7 @@ static int hack_level( const Character &who )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    return round( who.get_skill_level( skill_computer ) + static_cast<float>
+    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + static_cast<float>
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
@@ -1177,7 +1177,7 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     }
     vehicle &veh = vp->vehicle();
 
-    int skill = round( who.get_skill_level( skill_mechanics ) );
+    int skill = round( who.get_average_skill_level( skill_mechanics ) );
     if( skill > rng( 1, 6 ) ) {
         // Success
         who.add_msg_if_player( _( "You found the wire that starts the engine." ) );
@@ -4284,11 +4284,19 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         success = true;
     }
 
+    drop_locations items_remain;
+    if( who.is_avatar() && reopen_menu && !success ) {
+        items_remain.insert( items_remain.end(), items.begin(), items.end() );
+    }
+
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
         handler.handle_by( who );
         act.set_to_null();
+        if( !items_remain.empty() ) {
+            g->insert_item( items_remain );
+        }
         return;
     }
 
@@ -4311,6 +4319,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "handler", handler );
     jsout.member( "all_pockets_rigid", all_pockets_rigid );
+    jsout.member( "reopen_menu", reopen_menu );
 
     jsout.end_object();
 }
@@ -4325,6 +4334,7 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     data.read( "items", actor.items );
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
+    data.read( "reopen_menu", actor.reopen_menu );
 
     return actor.clone();
 }

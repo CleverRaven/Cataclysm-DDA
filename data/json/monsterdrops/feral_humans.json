@@ -852,17 +852,6 @@
     ]
   },
   {
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "contains item drops for Big Pappy in the nursing home hidden lab",
-    "id": "feral_big_pappy",
-    "entries": [
-      { "item": "house_coat", "damage": [ 1, 4 ], "prob": 100 },
-      { "item": "footrags", "damage": [ 1, 4 ], "prob": 100 },
-      { "item": "cane", "damage": [ 1, 4 ], "prob": 100 }
-    ]
-  },
-  {
     "id": "feral_archaelogist_death_drops",
     "type": "item_group",
     "subtype": "collection",

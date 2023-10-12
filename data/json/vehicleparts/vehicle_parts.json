@@ -1362,11 +1362,12 @@
     "id": "integrated_heater_small",
     "copy-from": "mountable_heater_small",
     "description": "Set of tubes, that move heat from the engine into the vehicle cabin, heating it up.",
+    "item": "pipe",
     "type": "vehicle_part",
     "location": "",
     "name": { "str": "small integrated heater" },
-    "//": "can't be installed or unistalled, can only be bashed away",
-    "requirements": { "install": { "skills": [ [ "mechanics", 99 ] ] }, "removal": { "skills": [ [ "mechanics", 99 ] ] } }
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
+    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } }
   },
   {
     "id": "mountable_cooler",

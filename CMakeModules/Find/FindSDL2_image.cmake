@@ -129,8 +129,9 @@ if(NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
     )
 elseif(NOT TARGET SDL2_image::SDL2_image)
       add_library(SDL2_image::SDL2_image UNKNOWN IMPORTED)
-      set_property(TARGET SDL2_image::SDL2_image
-        PROPERTY IMPORTED_LOCATION ${SDL2_IMAGE_LIBRARY}
+      set_target_properties(SDL2_image::SDL2_image PROPERTIES
+          IMPORTED_LOCATION ${SDL2_IMAGE_LIBRARY}
+          INTERFACE_INCLUDE_DIRECTORIES ${SDL2_IMAGE_INCLUDE_DIRS}
       )
     target_link_libraries(SDL2_image::SDL2_image INTERFACE
       z

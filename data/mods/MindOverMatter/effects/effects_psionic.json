@@ -783,6 +783,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pyrokinetic_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are completely immune to fire." ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 95,
+    "dur_add_perc": 10,
+    "int_dur_factor": "19 s",
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "flags": [ "HEAT_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
     "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],

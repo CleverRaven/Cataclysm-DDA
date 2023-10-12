@@ -204,6 +204,42 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     return location;
 }
 
+static drop_locations inv_internal_multi( Character &u, const inventory_selector_preset &preset,
+        const std::string &title, int radius,
+        const std::string &none_message,
+        const std::string &hint = std::string(),
+        item_location container = item_location() )
+{
+    inventory_multiselector inv_s( u, preset );
+
+    inv_s.set_title( title );
+    inv_s.set_hint( hint );
+    inv_s.set_display_stats( false );
+
+    u.inv->restack( u );
+
+    inv_s.clear_items();
+
+    if( container ) {
+        // Only look inside the container.
+        inv_s.add_contained_items( container );
+    } else {
+        // Default behavior.
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+    }
+
+    if( inv_s.empty() ) {
+        const std::string msg = none_message.empty()
+                                ? _( "You don't have the necessary item at hand." )
+                                : none_message;
+        popup( msg, PF_GET_KEY );
+        return drop_locations();
+    }
+
+    return inv_s.execute();
+}
+
 void game_menus::inv::common( avatar &you )
 {
     // Return to inventory menu on those inputs
@@ -278,21 +314,26 @@ void game_menus::inv::common( item_location &loc, avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-item_location game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
+item_location game_menus::inv::titled_filter_menu( const item_filter &filter, Character &you,
         const std::string &title, int radius, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
-        const std::string &title, int radius, const std::string &none_message )
+item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter,
+        Character &you, const std::string &title, int radius, const std::string &none_message )
 {
-    return inv_internal( you, inventory_filter_preset( filter ),
-                         title, radius, none_message );
+    return inv_internal( you, inventory_filter_preset( filter ), title, radius, none_message );
 }
 
-item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
+drop_locations game_menus::inv::titled_multi_filter_menu( const item_location_filter &filter,
+        Character &you, const std::string &title, int radius, const std::string &none_message )
+{
+    return inv_internal_multi( you, inventory_filter_preset( filter ), title, radius, none_message );
+}
+
+item_location game_menus::inv::titled_menu( Character &you, const std::string &title,
         const std::string &none_message )
 {
     const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
@@ -2582,4 +2623,30 @@ item_location game_menus::inv::change_sprite( Character &you )
     return inv_internal( you, change_sprite_inventory_preset( you ),
                          _( "Change appearance of your armor:" ), -1,
                          _( "You have nothing to wear." ) );
+}
+
+std::pair<item_location, bool> game_menus::inv::unload( Character &you )
+{
+
+    const inventory_filter_preset preset( [&you]( const item_location & location ) {
+        return you.rate_action_unload( *location ) == hint_rating::good;
+    } );
+    unload_selector inv_s( you, preset );
+
+    inv_s.set_title( _( "Unload item" ) );
+    inv_s.set_display_stats( false );
+
+    you.inv->restack( you );
+
+    inv_s.clear_items();
+
+    inv_s.add_character_items( you );
+    inv_s.add_nearby_items( 1 );
+
+    if( inv_s.empty() ) {
+        popup( _( "You have nothing to unload." ), PF_GET_KEY );
+        return std::make_pair( item_location(), false );
+    }
+
+    return inv_s.execute();
 }

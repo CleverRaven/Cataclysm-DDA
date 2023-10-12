@@ -370,7 +370,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "#": "t_adobe_brick_wall", "_": "t_thconc_floor", "+": "t_door_metal_elocked" },
-      "furniture": { "H": "f_generator_broken", "6": "f_water_heater" },
+      "furniture": { "H": "f_generator_broken", "6": "f_water_heater_family" },
       "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_monster": [
         { "group": "GROUP_ROOF_ZOMBIE", "x": [ 7, 23 ], "y": [ 24, 46 ], "repeat": [ 1, 2 ] },

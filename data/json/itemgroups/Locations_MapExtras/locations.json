@@ -123,7 +123,9 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "harddrugs", "prob": 5 }
+      { "group": "harddrugs", "prob": 5 },
+      { "item": "left_leg_prosthetic", "prob": 5 },
+      { "item": "right_leg_prosthetic", "prob": 5 }
     ]
   },
   {
@@ -193,6 +195,8 @@
       [ "strong_antibiotic", 1 ],
       [ "antibiotics", 5 ],
       [ "weak_antibiotic", 15 ],
+      { "item": "left_leg_prosthetic", "prob": 5 },
+      { "item": "right_leg_prosthetic", "prob": 5 },
       [ "crutches", 5 ]
     ]
   },
@@ -241,6 +245,8 @@
       [ "badge_doctor", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
+      [ "left_leg_prosthetic", 40 ],
+      [ "right_leg_prosthetic", 40 ],
       [ "crutches", 5 ]
     ]
   },
@@ -802,7 +808,6 @@
     "id": "recycle_iron",
     "type": "item_group",
     "items": [
-      { "item": "bolt_metal", "prob": 15, "charges-min": 1, "charges-max": 3 },
       { "item": "oil_lamp", "prob": 20, "charges-min": 0, "charges-max": 3 },
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
@@ -1677,7 +1682,9 @@
       { "group": "tools_medical", "prob": 100 },
       { "group": "drugs_emergency", "prob": 50 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
-      { "item": "badge_doctor", "prob": 2 }
+      { "item": "badge_doctor", "prob": 2 },
+      { "item": "left_leg_prosthetic", "prob": 2 },
+      { "item": "right_leg_prosthetic", "prob": 2 }
     ]
   },
   {
@@ -2639,7 +2646,12 @@
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
+    "entries": [
+      { "item": "blanket", "prob": 50 },
+      { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
+      { "item": "left_leg_prosthetic", "prob": 20 },
+      { "item": "right_leg_prosthetic", "prob": 20 }
+    ]
   },
   {
     "id": "mil_base_table_hospital",

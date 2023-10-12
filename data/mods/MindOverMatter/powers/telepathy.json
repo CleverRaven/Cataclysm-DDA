@@ -158,7 +158,7 @@
       "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -168,7 +168,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_blast_radius": 12 }
+    "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
   },
   {
     "id": "telepathic_confusion",
@@ -198,7 +198,7 @@
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
@@ -208,7 +208,8 @@
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_mind_control": 12 }
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ],
+    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
   },
   {
     "id": "telepathic_confusion_blind",
@@ -231,6 +232,80 @@
     },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
+  },
+  {
+    "id": "telepathic_fear",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror",
+    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does.",
+    "message": "You unleash your target's fears.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "effect": "mod_moves",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true }, { "id": "telepathic_fear_extra", "hit_self": false } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "//": "Complicated formula here is to produce diminishing returns, since mod_moves for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
+    "min_damage": {
+      "math": [
+        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * -1"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * -1"
+      ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2500,
+    "energy_increment": -100,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+  },
+  {
+    "id": "telepathic_fear_extra",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror fearparalyze",
+    "description": "Applies the fearparalyze effect so you can tell a target is afraid.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "attack",
+    "effect_str": "fearparalyze",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) )" ]
     }
   },
   {
@@ -266,8 +341,7 @@
     "energy_increment": -125,
     "base_casting_time": 100,
     "final_casting_time": 25,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "telepathic_mind_control": 9 }
+    "casting_time_increment": -7.5
   },
   {
     "id": "telepathic_blast_radius",
@@ -368,7 +442,7 @@
       ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 70,
     "energy_source": "STAMINA",
@@ -377,7 +451,8 @@
     "energy_increment": -250,
     "base_casting_time": 120,
     "final_casting_time": 75,
-    "casting_time_increment": -3.5
+    "casting_time_increment": -3.5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "telepathic_network",

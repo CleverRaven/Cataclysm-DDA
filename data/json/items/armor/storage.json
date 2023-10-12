@@ -1352,24 +1352,17 @@
   {
     "id": "legrig",
     "type": "ARMOR",
-    "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
-    "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
-    "weight": "205 g",
-    "volume": "1050 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "name": { "str": "drop leg pouch", "str_pl": "drop leg pouches" },
+    "description": "A pouch that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
+    "weight": "102 g",
+    "volume": "525 ml",
+    "price": 1500,
+    "price_postapoc": 125,
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
+    "sided": true,
     "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2250 ml",
-        "max_contains_weight": "4500 g",
-        "max_item_length": "30 cm",
-        "magazine_well": "500 ml",
-        "moves": 80
-      },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2250 ml",

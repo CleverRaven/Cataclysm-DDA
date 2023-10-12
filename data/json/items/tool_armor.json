@@ -1978,7 +1978,6 @@
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
@@ -2014,7 +2013,6 @@
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
@@ -2074,7 +2072,6 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3
   },
   {

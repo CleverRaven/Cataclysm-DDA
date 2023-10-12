@@ -409,7 +409,7 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_VISITOR" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": true,
       "despawn_monsters": true,
       "radius": 3,
@@ -533,7 +533,7 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_TRANSPORT_1" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": false,
       "despawn_monsters": false,
       "radius": 7,

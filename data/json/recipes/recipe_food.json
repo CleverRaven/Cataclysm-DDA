@@ -5096,6 +5096,7 @@
         [ "garlic_clove", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "onion", 1 ]
       ],
       [ [ "cheese_standard", 1, "LIST" ], [ "veggy_green", 1, "LIST" ] ],
@@ -5128,6 +5129,7 @@
         [ "garlic_clove", 1 ],
         [ "wild_garlic", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "onion", 1 ]
       ],
       [ [ "cheese_standard", 1, "LIST" ], [ "veggy_green", 1, "LIST" ] ],
@@ -6504,6 +6506,7 @@
         [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ]
       ],
@@ -6542,7 +6545,7 @@
       [ [ "pickle", 1 ], [ "veggy_pickled", 1 ], [ "sauerkraut", 1 ] ],
       [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ],
       [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ],
-      [ [ "young_leaves", 2 ], [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ] ],
+      [ [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ] ],
       [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ] ],
       [ [ "mustard", 1 ], [ "honey_mustard", 1 ] ],
       [ [ "horseradish", 1 ], [ "mayonnaise", 1 ] ]
@@ -6571,6 +6574,7 @@
         [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ]
       ],
@@ -6609,6 +6613,7 @@
         [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ]
       ],
@@ -6649,6 +6654,7 @@
         [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ]
       ],
@@ -6768,6 +6774,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "burdock_cooked", 1 ]
       ],
       [
@@ -6850,6 +6857,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "burdock_cooked", 1 ]
       ],
       [
@@ -6946,6 +6954,7 @@
         [ "tomato", 1 ],
         [ "lettuce", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "irradiated_lettuce", 1 ]
       ],
       [
@@ -6988,6 +6997,7 @@
         [ "irradiated_tomato", 1 ],
         [ "tomato", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ]
       ],
@@ -7306,7 +7316,7 @@
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "bacon", 1 ] ],
-      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "young_leaves", 2 ] ],
+      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
       [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
     ],
     "charges": 2
@@ -7324,7 +7334,7 @@
     "components": [
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [ [ "bacon", 1 ] ],
-      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "young_leaves", 2 ] ],
+      [ [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
       [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ]
     ],
     "charges": 2
@@ -7882,6 +7892,7 @@
         [ "fiddlehead_boiled", 2 ],
         [ "fiddlehead_sauteed", 2 ],
         [ "young_leaves", 4 ],
+        [ "chicory_leaves", 4 ],
         [ "sauerkraut", 2 ],
         [ "grape_leaves", 2 ],
         [ "irradiated_cabbage", 2 ],
@@ -8164,6 +8175,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "wild_garlic", 1 ],
         [ "burdock_cooked", 1 ]
       ]
@@ -8232,6 +8244,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "wild_garlic", 1 ],
         [ "burdock_cooked", 1 ]
       ]
@@ -8301,6 +8314,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "wild_garlic", 1 ],
         [ "burdock_cooked", 1 ]
       ]
@@ -8370,6 +8384,7 @@
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
+        [ "chicory_leaves", 2 ],
         [ "wild_garlic", 1 ],
         [ "burdock_cooked", 1 ]
       ]

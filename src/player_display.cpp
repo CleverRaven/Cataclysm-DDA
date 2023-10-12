@@ -339,6 +339,8 @@ static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &wi
     }
     center_print( win, 0, title_color, string_format( "[<color_yellow>%s</color>] %s",
                   ctxt.get_desc( "VIEW_PROFICIENCIES" ), _( title_PROFICIENCIES ) ) );
+    right_print( win, 0, 0, title_color, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_PROFICIENCIES_TAB" ) ) );
 
     const int height = getmaxy( win ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( profs.size() );
@@ -408,6 +410,8 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
     center_print( w_stats, 0, title_col,
                   string_format( "[<color_yellow>%s</color>] %s",
                                  ctxt.get_desc( "VIEW_BODYSTAT" ), _( title_STATS ) ) );
+    right_print( w_stats, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_STATS_TAB" ) ) );
 
     const auto highlight_line = [is_current_tab, line]( const unsigned line_to_draw ) {
         return is_current_tab && line == line_to_draw;
@@ -576,12 +580,14 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
 
 static void draw_encumbrance_tab( ui_adaptor &ui, const catacurses::window &w_encumb,
                                   const Character &you, const unsigned line,
-                                  const player_display_tab curtab )
+                                  const player_display_tab curtab, const input_context &ctxt )
 {
     werase( w_encumb );
     const bool is_current_tab = curtab == player_display_tab::encumbrance;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_encumb, 0, title_col, _( title_ENCUMB ) );
+    right_print( w_encumb, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_ENCUMBRANCE_TAB" ) ) );
     if( is_current_tab ) {
         ui.set_cursor( w_encumb, point_zero );
         you.print_encumbrance( ui, w_encumb, line );
@@ -609,7 +615,7 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
 
 static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
                              const unsigned line, const player_display_tab curtab,
-                             const std::vector<trait_and_var> &traitslist )
+                             const std::vector<trait_and_var> &traitslist, const input_context &ctxt )
 {
     werase( w_traits );
     const bool is_current_tab = curtab == player_display_tab::traits;
@@ -618,6 +624,8 @@ static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
         ui.set_cursor( w_traits, point_zero );
     }
     center_print( w_traits, 0, title_col, _( title_TRAITS ) );
+    right_print( w_traits, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_TRAITS_TAB" ) ) );
 
     const int height = getmaxy( w_traits ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( traitslist.size() );
@@ -665,12 +673,14 @@ struct bionic_grouping {
 static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionics,
                               const Character &you, const unsigned line,
                               const player_display_tab curtab,
-                              const std::vector<bionic_grouping> &bionicslist )
+                              const std::vector<bionic_grouping> &bionicslist, const input_context &ctxt )
 {
     werase( w_bionics );
     const bool is_current_tab = curtab == player_display_tab::bionics;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_bionics, 0, title_col, _( title_BIONICS ) );
+    right_print( w_bionics, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_BIONICS_TAB" ) ) );
     int power_amount;
     std::string power_unit;
     if( you.get_power_level() < 1_J ) {
@@ -735,7 +745,8 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
 
 static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effects,
                               const unsigned line, const player_display_tab curtab,
-                              const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
+                              const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
+                              const input_context &ctxt )
 {
     werase( w_effects );
     const bool is_current_tab = curtab == player_display_tab::effects;
@@ -744,7 +755,8 @@ static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effect
         ui.set_cursor( w_effects, point_zero );
     }
     center_print( w_effects, 0, title_col, _( title_EFFECTS ) );
-
+    right_print( w_effects, 0, 0, title_col, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_EFFECTS_TAB" ) ) );
     const int height = getmaxy( w_effects ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( effect_name_and_text.size() );
     const int width = getmaxx( w_effects ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
@@ -781,7 +793,7 @@ static void draw_effects_info( const catacurses::window &w_info, const unsigned 
 
 static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                              Character &you, unsigned int line, const player_display_tab curtab,
-                             std::vector<HeaderSkill> &skillslist )
+                             std::vector<HeaderSkill> &skillslist, const input_context &ctxt )
 {
     werase( w_skills );
     const bool is_current_tab = curtab == player_display_tab::skills;
@@ -790,6 +802,8 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
         ui.set_cursor( w_skills, point_zero );
     }
     center_print( w_skills, 0, cstatus, _( title_SKILLS ) );
+    right_print( w_skills, 0, 0, c_light_gray, string_format( "[<color_yellow>%s</color>]",
+                 ctxt.get_desc( "SELECT_SKILLS_TAB" ) ) );
 
     const int height = getmaxy( w_skills ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( skillslist.size() );
@@ -1447,6 +1461,55 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         if( you.is_avatar() ) {
             you.as_avatar()->disp_medical();
         }
+    } else if( action == "SELECT_STATS_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::stats;
+        invalidate_tab( curtab );
+        line = 0;
+        info_line = 0;
+        ui_info.invalidate_ui();
+    } else if( action == "SELECT_ENCUMBRANCE_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::encumbrance;
+        invalidate_tab( curtab );
+        line = 0;
+        info_line = 0;
+        ui_info.invalidate_ui();
+    } else if( action == "SELECT_SKILLS_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::skills;
+        invalidate_tab( curtab );
+        line = 1; // avoid a call to skip_skill_headers
+        info_line = 0;
+        ui_info.invalidate_ui();
+    } else if( action == "SELECT_TRAITS_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::traits;
+        invalidate_tab( curtab );
+        line = 0;
+        info_line = 0;
+        ui_info.invalidate_ui();
+    } else if( action == "SELECT_BIONICS_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::bionics;
+        invalidate_tab( curtab );
+        line = 0;
+        info_line = 0;
+        ui_info.invalidate_ui();
+    } else if( action == "SELECT_EFFECTS_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::effects;
+        invalidate_tab( curtab );
+        line = 0;
+        info_line = 0;
+        ui_info.invalidate_ui();
+    } else if( action == "SELECT_PROFICIENCIES_TAB" ) {
+        invalidate_tab( curtab );
+        curtab = player_display_tab::proficiencies;
+        invalidate_tab( curtab );
+        line = 0;
+        info_line = 0;
+        ui_info.invalidate_ui();
     } else if( action == "CHANGE_ARMOR_SPRITE" ) {
         if( you.as_avatar() ) {
             change_armor_sprite( *you.as_avatar() );
@@ -1655,6 +1718,13 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "MEDICAL_MENU" );
     ctxt.register_action( "CHANGE_ARMOR_SPRITE" );
+    ctxt.register_action( "SELECT_STATS_TAB" );
+    ctxt.register_action( "SELECT_ENCUMBRANCE_TAB" );
+    ctxt.register_action( "SELECT_SKILLS_TAB" );
+    ctxt.register_action( "SELECT_TRAITS_TAB" );
+    ctxt.register_action( "SELECT_BIONICS_TAB" );
+    ctxt.register_action( "SELECT_EFFECTS_TAB" );
+    ctxt.register_action( "SELECT_PROFICIENCIES_TAB" );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
@@ -1743,7 +1813,7 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_traits_border );
         wnoutrefresh( w_traits_border );
         ui_traits.disable_cursor();
-        draw_traits_tab( ui_traits, w_traits, line, curtab, traitslist );
+        draw_traits_tab( ui_traits, w_traits, line, curtab, traitslist, ctxt );
     } );
 
     // BIONICS
@@ -1768,7 +1838,7 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_bionics_border );
         wnoutrefresh( w_bionics_border );
         ui_bionics.disable_cursor();
-        draw_bionics_tab( ui_bionics, w_bionics, *this, line, curtab, bionicslist );
+        draw_bionics_tab( ui_bionics, w_bionics, *this, line, curtab, bionicslist, ctxt );
     } );
 
     // ENCUMBRANCE
@@ -1787,7 +1857,7 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_encumb_border );
         wnoutrefresh( w_encumb_border );
         ui_encumb.disable_cursor();
-        draw_encumbrance_tab( ui_encumb, w_encumb, *this, line, curtab );
+        draw_encumbrance_tab( ui_encumb, w_encumb, *this, line, curtab, ctxt );
     } );
 
     // EFFECTS & PROFICIENCIES
@@ -1814,7 +1884,7 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_effects_border );
         wnoutrefresh( w_effects_border );
         ui_effects.disable_cursor();
-        draw_effects_tab( ui_effects, w_effects, line, curtab, effect_name_and_text );
+        draw_effects_tab( ui_effects, w_effects, line, curtab, effect_name_and_text, ctxt );
     } );
 
     // PROFICIENCIES
@@ -1867,7 +1937,7 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_skills_border );
         wnoutrefresh( w_skills_border );
         ui_skills.disable_cursor();
-        draw_skills_tab( ui_skills, w_skills, *this, line, curtab, skillslist );
+        draw_skills_tab( ui_skills, w_skills, *this, line, curtab, skillslist, ctxt );
     } );
 
     // info panel
