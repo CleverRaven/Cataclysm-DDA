@@ -2869,7 +2869,8 @@ bool basecamp::common_salt_water_pipe_construction(
         }
     }
 
-    basecamp_action_components components( making, {}, 1, *this );
+    mapgen_arguments arg;  //  Created with a default value.
+    basecamp_action_components components( making, arg, 1, *this );
     if( !components.choose_components() ) {
         return false;
     }
