@@ -3504,15 +3504,6 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
-    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
-    for( effect_on_condition_id &eoc : death_eocs ) {
-        if( eoc->type == eoc_type::NPC_DEATH ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
-        }
-    }
-
     if( has_effect( effect_heavysnare ) ) {
         inv->add_item( item( "rope_6", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -3521,6 +3512,18 @@ void Character::die( Creature *nkiller )
         inv->add_item( item( "beartrap", calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
+}
+
+void Character::prevent_death()
+{
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->is_vital ) {
+            if( get_part_hp_cur( bp ) <= 0 ) {
+                set_part_hp_cur( bp, 1 );
+            }
+        }
+    }
+    cached_dead_state.reset();
 }
 
 void Character::apply_skill_boost()
