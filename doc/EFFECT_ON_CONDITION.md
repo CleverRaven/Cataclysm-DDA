@@ -46,7 +46,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 * `RECURRING` - activated automatically on schedule (see `recurrence`)
 * `SCENARIO_SPECIFIC` - automatically invoked once on scenario start.
 * `AVATAR_DEATH` - automatically invoked whenever the current avatar dies (it will be run with the avatar as `u`), if after it the player is no longer dead they will not die, if there are multiple EOCs they all be run until the player is not dead.
-* `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer.
+* `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. If after it npc is no longer dead they will not die, if there are multiple they all be run until npc is not dead.
 * `OM_MOVE` - EOCs trigger when the player moves overmap tiles
 * `PREVENT_DEATH` - whenever the current avatar dies it will be run with the avatar as `u`, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead.
 * `EVENT` - EOCs trigger when a specific event given by "required_event" takes place. 
@@ -927,6 +927,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
 | character_casts_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
+| character_dies |  | { "character", `character_id` }, | character / NONE |
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
@@ -2146,6 +2147,41 @@ You and NPC both die
   "type": "effect_on_condition",
   "id": "both_are_ded",
   "effect": [ "u_die", "npc_die" ]
+}
+```
+
+#### `u_prevent_death`, `npc_prevent_death`
+You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+NPC is prevented from death.
+
+`NPC_DEATH`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_event_NPC_DEATH_test",
+  "eoc_type": "NPC_DEATH",
+  "effect": [ "u_prevent_death" ]
+}
+```
+
+`EVENT`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_event_character_dies_test",
+  "eoc_type": "EVENT",
+  "required_event": "character_dies",
+  "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
+  "effect": [ "u_prevent_death" ]
 }
 ```
 

@@ -4159,6 +4159,16 @@ void talk_effect_fun_t::set_die( bool is_npc )
     };
 }
 
+void talk_effect_fun_t::set_prevent_death( bool is_npc )
+{
+    function = [is_npc]( dialogue const & d ) {
+        Character *ch = d.actor( is_npc )->get_character();
+        if( ch ) {
+            ch->prevent_death();
+        }
+    };
+}
+
 void talk_effect_fun_t::set_lightning()
 {
     function = []( dialogue const &/* d */ ) {
@@ -5777,6 +5787,18 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 
     if( effect_id == "npc_die" ) {
         subeffect_fun.set_die( true );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "u_prevent_death" ) {
+        subeffect_fun.set_prevent_death( false );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "npc_prevent_death" ) {
+        subeffect_fun.set_prevent_death( true );
         set_effect( subeffect_fun );
         return;
     }
