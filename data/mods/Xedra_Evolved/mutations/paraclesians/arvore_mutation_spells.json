@@ -70,7 +70,6 @@
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 4,
-    "spell_class": "ARVORE",
     "base_casting_time": 12000,
     "energy_source": "MANA",
     "base_energy_cost": 500,
