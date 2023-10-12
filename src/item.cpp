@@ -5429,7 +5429,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                                iteminfo::lower_is_better, attack_cost );
         }
         insert_separation_line( info );
-    } else if( player_character.get_skill_level( skill_melee ) < 3 ) {
+    } else if( player_character.get_skill_level( skill_melee ) < 3 &&
+               ( !dmg_types.empty() || type->m_to_hit > 0 ) ) {
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.emplace_back( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) );
