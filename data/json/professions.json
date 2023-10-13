@@ -6446,7 +6446,7 @@
     "type": "profession",
     "id": "explosive_ordinance_disposal",
     "name": "Explosive Ordinance Disposal Technician",
-    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom. As soon as you turned 18 you joined the army to become an EOD technician. While out on a call about a potential explosive in the neighbouring county, your team was overrun by hordes of the undead. You are alone, with nothing but your precious training, gear and love of explosives",
+    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives",
     "points": 5,
     "proficiencies": [
       "prof_elec_circuits",
