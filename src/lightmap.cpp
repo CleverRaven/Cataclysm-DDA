@@ -1130,7 +1130,7 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
-                    for( int sz = origin.z - 1; sz >= 0; --sz ) {
+                    for( int sz = origin.z - 1; sz >= -OVERMAP_DEPTH; --sz ) {
                         const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
