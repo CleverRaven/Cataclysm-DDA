@@ -293,7 +293,7 @@
     "shot_spread_multiplier_modifier": 1.25,
     "//": "based on M26-MASS; shot_spread_multiplier_modifier is increased due the short barrel",
     "name": { "str_sp": "HWP breacher configuration" },
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version looks like close quarters configuration, but has a shortened barrel with \"BREACH\" stamped into the metal."
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version looks like the close quarters configuration, but has a shortened barrel with \"00 BREACH\" stamped into the metal."
   },
   {
     "id": "xedra_gun_shotgun",
