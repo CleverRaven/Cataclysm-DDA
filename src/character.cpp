@@ -8363,14 +8363,14 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl > 0 ) {
         if( has_effect( def ) ) {
-            get_effect( def ).set_intensity( lvl, true );
+            get_effect( def ).set_intensity( lvl, is_avatar() );
         } else {
             add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc ) ) {
-            get_effect( exc ).set_intensity( -lvl, true );
+            get_effect( exc ).set_intensity( -lvl, is_avatar() );
         } else {
             add_effect( exc, 1_turns, true, -lvl );
         }
