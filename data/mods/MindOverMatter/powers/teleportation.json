@@ -230,7 +230,7 @@
     "id": "teleport_farstep",
     "type": "SPELL",
     "name": "[Ψ]Farstep",
-    "description": "Skating along the void between dimensions, move to a specific place within line of sight.",
+    "description": "Skating along the void between dimensions, move to a specific place nearby.",
     "message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
     "teachable": false,
     "valid_targets": [ "ground" ],
