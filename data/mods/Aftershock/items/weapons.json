@@ -416,7 +416,8 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 11 },
+    "extend": { "flags": [ "USE_UPS" ] }
   },
   {
     "id": "afs_bio_whip_weapon",
