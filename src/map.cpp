@@ -7237,36 +7237,11 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
-int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
-                         const creature_size &viewer_size ) const
+int map::ledge_coverage( const Creature &viewer, const tripoint &target_p ) const
 {
     tripoint viewer_p = viewer.pos();
-    if( viewer_p.z == target_p.z ) {
-        return 0;
-    }
+    creature_size viewer_size = viewer.get_size();
 
-    // Find ledge between viewer and target
-    // Only the first ledge found is calculated for performance reasons
-    tripoint high_p;
-    tripoint low_p;
-    if( viewer_p.z > target_p.z ) {
-        high_p = viewer_p;
-        low_p = target_p;
-    } else {
-        high_p = target_p;
-        low_p = viewer_p;
-    }
-    tripoint ledge_p = high_p;
-    for( tripoint p : line_to( tripoint( low_p.xy(), high_p.z ), high_p ) ) {
-        if( dont_draw_lower_floor( p ) ) {
-            ledge_p = p;
-            break;
-        }
-    }
-
-    const int ledge_height = std::abs( target_p.z - viewer_p.z );
-    // Height of each z-level in grids
-    const float zlevel_to_grid_ratio = 2.0f;
     // Viewer eye level from ground in grids
     float eye_level = 1.0f;
     switch( viewer_size ) {
@@ -7304,6 +7279,39 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
         const int viewer_furn_coverage = viewer_furn->coverage;
         eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
     }
+
+    return ledge_coverage( viewer_p, target_p, eye_level );
+}
+
+int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
+                         const float &eye_level ) const
+{
+    if( viewer_p.z == target_p.z ) {
+        return 0;
+    }
+
+    // Find ledge between viewer and target
+    // Only the first ledge found is calculated for performance reasons
+    tripoint high_p;
+    tripoint low_p;
+    if( viewer_p.z > target_p.z ) {
+        high_p = viewer_p;
+        low_p = target_p;
+    } else {
+        high_p = target_p;
+        low_p = viewer_p;
+    }
+    tripoint ledge_p = high_p;
+    for( tripoint p : line_to( tripoint( low_p.xy(), high_p.z ), high_p ) ) {
+        if( dont_draw_lower_floor( p ) ) {
+            ledge_p = p;
+            break;
+        }
+    }
+
+    const int ledge_height = std::abs( target_p.z - viewer_p.z );
+    // Height of each z-level in grids
+    const float zlevel_to_grid_ratio = 2.0f;
     float dist_to_ledge_base = rl_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) );
     const int flat_dist = rl_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
 
