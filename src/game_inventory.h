@@ -145,7 +145,8 @@ item_location salvage( Character &you, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( Character &you, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
+item_location install_bionic( Character &installer, Character &patron, Character &patient,
+                              bool surgeon = false );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( Character &you );
 /** Change sprite menu. */

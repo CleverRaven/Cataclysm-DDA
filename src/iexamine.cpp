@@ -5431,7 +5431,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            item_location bionic = game_menus::inv::install_bionic( you, patient );
+            item_location bionic = game_menus::inv::install_bionic( you, you, patient );
 
             if( !bionic ) {
                 return;
