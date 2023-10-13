@@ -6444,11 +6444,20 @@
   },
   {
     "type": "profession",
-    "id": "explosive_ordinance_disposal_on_duty",
+    "id": "explosive_ordinance_disposal",
     "name": "Explosive Ordinance Disposal Technician",
-    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom. As soon as you turned 18 you joined the army to become an EOD technician. When your base was overrun, you find yourself alone in the middle of nowhere with nothing but your precious training, gear and cherished love of explosives",
+    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom. As soon as you turned 18 you joined the army to become an EOD technician. While out on a call about a potential explosive in the neighbouring county, your team was overrun by hordes of the undead. You are alone, with nothing but your precious training, gear and love of explosives",
     "points": 5,
-    "proficiencies": [ "prof_elec_circuits", "prof_intro_chemistry", "prof_athlete_expert", "prof_gun_cleaning", "prof_spotting", "prof_traps", "prof_disarming", "prof_trapsetting" ],
+    "proficiencies": [
+      "prof_elec_circuits",
+      "prof_intro_chemistry",
+      "prof_athlete_expert",
+      "prof_gun_cleaning",
+      "prof_spotting",
+      "prof_traps",
+      "prof_disarming",
+      "prof_trapsetting"
+    ],
     "skills": [
       { "level": 6, "name": "traps" },
       { "level": 4, "name": "melee" },
@@ -6475,7 +6484,6 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   }
 ]
