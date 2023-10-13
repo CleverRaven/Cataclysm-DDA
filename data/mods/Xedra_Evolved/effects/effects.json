@@ -259,7 +259,7 @@
     "type": "effect_type",
     "id": "cheval_overdose",
     "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
-    "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
+    "name": [ "Energized", "Enflamed", "Arrhythmic", "Tachycardiac" ],
     "apply_message": [
       [ "These magickal trucker pills have kicked in and you feel great!", "good" ],
       [
@@ -907,7 +907,7 @@
   {
     "type": "effect_type",
     "id": "effect_salamander_emit_heat",
-    "name": [ "Burning Furnance" ],
+    "name": [ "Burning Furnace" ],
     "desc": [ "You are throwing off a large amount of heat." ],
     "apply_message": "The air around you heats up.",
     "remove_message": "The air around you cools down.",

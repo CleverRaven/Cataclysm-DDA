@@ -99,7 +99,7 @@
       { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
       { "math": [ "u_skill_test", "=", "u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience after: <u_val:skill_test>" },
-      { "u_message": "[Wight and volume test]" },
+      { "u_message": "[Weight and volume test]" },
       { "run_eocs": [ "EOC_variable_weight_volume_test1" ] },
       { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_variable_weight_volume_test2" ] }
     ]

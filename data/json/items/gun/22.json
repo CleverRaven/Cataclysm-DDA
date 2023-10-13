@@ -119,7 +119,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": ".22 deringer pistol" },
-    "description": "A four barrelled, adorably tiny pocket pistol, firing the equally miniscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
+    "description": "A four barreled, adorably tiny pocket pistol, firing the equally minuscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
     "variant_type": "gun",
     "variants": [
       {
