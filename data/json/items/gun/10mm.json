@@ -313,7 +313,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
   },
   {
-	"id": "STI_DS_10",
+    "id": "STI_DS_10",
     "copy-from": "pistol_base",
     "looks_like": "m1911_10",
     "type": "GUN",
