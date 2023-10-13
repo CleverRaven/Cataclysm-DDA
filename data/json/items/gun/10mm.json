@@ -319,7 +319,7 @@
     "type": "GUN",
     "name": { "str": "STI Tactical 2011 DS 10mm" },
     "description": "A next-gen model of the venerable 1911, ready to win World War Z.  Modernized and mannufactured by Staccato, sporting a double-stack magwell, sleek solid-steel frame, and ergonomic grip; favored by certain dog-loving assasins.  This model is chambered in 10mm Auto.",
-	"weight": "1191 g",
+    "weight": "1191 g",
     "volume": "430 ml",
     "longest_side": "231 mm",
     "price": 269900,
