@@ -4557,14 +4557,19 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
         hide_failing = jo.get_bool( "hide_failing" );
     }
 
+    bool allow_cancel = false;
+    if( jo.has_bool( "allow_cancel" ) ) {
+        allow_cancel = jo.get_bool( "allow_cancel" );
+    }
+
     std::string title = jo.get_string( "title", _( "Select an option." ) );
 
     function = [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
-          hide_failing]( dialogue & d ) {
+          hide_failing, allow_cancel]( dialogue & d ) {
         uilist eoc_list;
 
         eoc_list.text = title;
-        eoc_list.allow_cancel = false;
+        eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
@@ -4605,6 +4610,9 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
         }
 
         eoc_list.query();
+        if( eoc_list.ret < 0 ) {
+            return;
+        }
 
         // add context variables
         dialogue newDialog( d );
