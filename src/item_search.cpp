@@ -75,6 +75,34 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 }
                 return false;
             };
+        // covers bodypart
+        case 'v': {
+            std::unordered_set<bodypart_id> filtered_bodyparts;
+            std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+            for( const body_part &bp : all_body_parts ) {
+                const bodypart_str_id &bp_str_id = convert_bp( bp );
+                if( lcmatch( body_part_name( bp_str_id, 1 ), filter )
+                    || lcmatch( body_part_name( bp_str_id, 2 ), filter ) ) {
+                    filtered_bodyparts.insert( bp_str_id->id );
+                }
+                for( const sub_bodypart_str_id &sbp : bp_str_id->sub_parts ) {
+                    if( lcmatch( sbp->name.translated(), filter )
+                        || lcmatch( sbp->name_multiple.translated(), filter ) ) {
+                        filtered_sub_bodyparts.insert( sbp->id );
+                    }
+                }
+            }
+            return [filter, filtered_bodyparts, filtered_sub_bodyparts]( const item & i ) {
+                return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
+                [&i]( const bodypart_id & bp ) {
+                    return i.covers( bp );
+                } )
+                || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
+                [&i]( const sub_bodypart_id & sbp ) {
+                    return i.covers( sbp );
+                } );
+            };
+        }
         // by name
         default:
             return [filter]( const item & a ) {
