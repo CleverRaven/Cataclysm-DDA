@@ -98,5 +98,20 @@
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
     ],
     "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY5",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY5" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "plant_imbuement", "earth_imbuement", "water_imbuement", "air_imbuement", "fire_imbuement", "doll_imbuement" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "384 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
   }
 ]

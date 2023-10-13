@@ -9704,6 +9704,17 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
     return !get_opposite_traits( flag ).empty();
 }
 
+bool Character::has_threshold() const
+{
+    for (const std::pair<const trait_id, trait_data>& mut : my_mutations) {
+        if (mut.first->threshold)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &flag ) const
 {
     std::unordered_set<trait_id> traits;

@@ -217,6 +217,9 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool has_threshold() const {
+            return false;
+        }
         virtual bool has_recipe( const recipe_id & ) const {
             return false;
         }
