@@ -753,7 +753,7 @@
     "name": [ "Rooted" ],
     "desc": [ "Your roots sink into the ground and you are nearly immobile." ],
     "apply_message": "",
-    "remove_message": "The air loses its structure and you are vulnerable once again.",
+    "remove_message": "",
     "rating": "mixed",
     "max_intensity": 999,
     "show_intensity": false,
@@ -765,6 +765,190 @@
     "id": "arvore_perennial_rebirth_cooldown",
     "name": [ "Reborn" ],
     "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_levitation",
+    "name": [ "Smoke-Walking" ],
+    "desc": [ "You are walking through the air." ],
+    "apply_message": "",
+    "remove_message": "Your feet touch the ground once again.",
+    "rating": "good",
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_featherfall",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_smoke_immunity",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_remove_stun",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "stunned", "dazed", "downed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to heat and fire." ],
+    "rating": "good",
+    "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_cure_conditions",
+    "name": [ "Burning" ],
+    "desc": [ "Your impurities are being seared away!" ],
+    "rating": "mixed",
+    "removes_effects": [
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "blind",
+      "poison",
+      "venom_dmg",
+      "venom_weaken",
+      "stung",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "tetanus",
+      "rat_bite_fever",
+      "infected",
+      "asthma",
+      "common_cold",
+      "flu"
+    ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 2 ],
+      "hurt_tick": [ 1 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 3 ],
+      "pain_tick": [ 1 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_burning_damage",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "//": "Name and description empty to hide effect",
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 2 ],
+      "hurt_tick": [ 1 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 3 ],
+      "pain_tick": [ 1 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_berserk_stance",
+    "name": [ "Wildfire Soul" ],
+    "desc": [ "You are filled with transcendent flame." ],
+    "apply_message": "All of your weakness boils away in the heat of the flames!",
+    "remove_message": "As the heat leaves you, pain rushes in to take its place.",
+    "rating": "good",
+    "base_mods": { "str_mod": [ 3 ], "dex_mod": [ 3 ], "speed_mod": [ 20 ] },
+    "flags": [ "PAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_increase_speed",
+    "name": [ "Inner Spark" ],
+    "desc": [ "Your speed is magically increased." ],
+    "apply_message": "You are filled with burning vigor.",
+    "remove_message": "Your movements gradually slow.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "( ( 5 + ( u_val('spell_level', 'spell: salamander_increase_speed_spell') * 1.5 ) ) ) * (scaling_factor(u_val('strength') ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_emit_heat",
+    "name": [ "Burning Furnance" ],
+    "desc": [ "You are throwing off a large amount of heat." ],
+    "apply_message": "The air around you heats up.",
+    "remove_message": "The air around you cools down.",
+    "rating": "good",
+    "enchantments": [ { "emitter": "emit_salamander_heat" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_prevented_death",
+    "name": [ "Arisen" ],
+    "desc": [ "Like the phoenix, you have been reborn." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_smoke_form",
+    "name": [ "Smoke Form" ],
+    "desc": [ "You have transformed yourself into a cloud of smoke." ],
+    "apply_message": "Your body falls apart into billowing smoke!",
+    "remove_message": "You reconstruct yourself from the smoke.",
+    "rating": "good",
+    "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ],
+    "enchantments": [
+      { "emitter": "emit_smoke_blast" },
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": -1.0 }, { "value": "RANGED_DAMAGE", "multiply": -1.0 } ] }
+    ],
+    "flags": [
+      "INVISIBLE",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "DEAF",
+      "FEATHER_FALL",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "STAB_IMMUNE",
+      "CUT_IMMUNE",
+      "BULLET_IMMUNE",
+      "BASH_IMMUNE",
+      "ACID_IMMUNE",
+      "BIO_IMMUNE"
+    ],
+    "//": "Deliberately vulnerable to electricity damage."
   },
   {
     "type": "effect_type",

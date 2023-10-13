@@ -50,34 +50,14 @@
         "topic": "TALK_GODCO_guard_food_who"
       },
       {
-        "text": "Could I borrow something from the stock?",
+        "text": "Care to talk for a bit?",
         "condition": {
           "and": [
             { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
             { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         },
-        "topic": "TALK_GODCO_guard_food_borrow"
-      },
-      {
-        "text": "Has anyone stolen from here?",
-        "condition": {
-          "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
-          ]
-        },
-        "topic": "TALK_GODCO_guard_food_theft"
-      },
-      {
-        "text": "How much food do you have?",
-        "condition": {
-          "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
-          ]
-        },
-        "topic": "TALK_GODCO_guard_food_stock"
+        "topic": "TALK_GODCO_guard_food_idlechat"
       },
       {
         "text": "I'll see you around.",
@@ -98,8 +78,21 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_idlechat",
+    "dynamic_line": [ "Sure, what's happening?" ],
+    "responses": [
+      { "text": "Could you tell me a bit about yourself?", "topic": "TALK_GODCO_guard_food_about_self" },
+      { "text": "Could I borrow something from the stock?", "topic": "TALK_GODCO_guard_food_borrow" },
+      { "text": "Would you be willing to buy any food?", "topic": "TALK_GODCO_guard_food_buy" },
+      { "text": "Has anyone stolen from here?", "topic": "TALK_GODCO_guard_food_theft" },
+      { "text": "How much food do you have?", "topic": "TALK_GODCO_guard_food_stock" },
+      { "text": "Good luck with that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_who",
-    "dynamic_line": [ "I'm a guard.  I'm making sure this stockpile is alright." ],
+    "dynamic_line": [ "Name's Eddie.  I'm making sure this stockpile is alright." ],
     "responses": [
       { "text": "Could I borrow something from the stock?", "topic": "TALK_GODCO_guard_food_borrow" },
       { "text": "Has anyone stolen from here?", "topic": "TALK_GODCO_guard_food_theft" },
@@ -177,6 +170,183 @@
         ],
         "topic": "TALK_DONE"
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_about_self",
+    "dynamic_line": [
+      "I'm just a regular guy, been with the Church for a while now.  I used to deliver mail for the post office, it was pretty good."
+    ],
+    "responses": [
+      { "text": "Do you have any family?", "topic": "TALK_GODCO_guard_food_family" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_family",
+    "dynamic_line": [
+      "I used to, me and my mother were pretty close.  I didn't know my father very well for the first four years of my life, he was always out on deployment with the Navy someplace.  Me and him got to know each other after he retired from the service, we'd always go fishing on Sunday afternoons for years.  My mother though, she was the sweetest lady you'd ever meet, always took care of me and Dad.  Now they're gone, been that way for the last three years."
+    ],
+    "responses": [
+      { "text": "You're mother must've been very nice.", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_mother",
+    "dynamic_line": [
+      "She sure was, helped me through some very hard times in my life.  I used to be bullied in middle school, whenever I'd get beat up, she'd always help clean me up and tell me I'd be alright.  She had this recipe for peach casserole too, best one in the world.  It was hard for me when she passed, but I found some solace right here in this Church.  We'd always been religious, but this one just clicked for me, ya know?"
+    ],
+    "responses": [
+      { "text": "Is that why you joined the Church?", "topic": "TALK_GODCO_guard_food_church" },
+      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_father",
+    "dynamic_line": [
+      "He was a nice fellow, taught me everything I know about firearms, wildlife, and sailing.  We lived next to this big ol' lake, so we had plenty of opportunities to catch bass and catfish.  He'd skin and filet them, and we'd have it for dinner.  My mother always cooked them, and she was great at it."
+    ],
+    "responses": [
+      { "text": "You're mother sounds very nice, what was she like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_church",
+    "dynamic_line": [
+      "Yeah, her death was hard on me.  I wound up goin' here one day, and I felt something come over me, like I belonged here.  I haven't left since, and I've been able to move on with them."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_buy",
+    "dynamic_line": "Sure, I'd be willing to purchase some.  I'll have to work up the money with Helena, but I'm sure we've got it.  I'd prefer canned, preserved, and irradiated goods.  How much are you talkin'?",
+    "repeat_responses": {
+      "for_item": [
+        "jerky",
+        "meat_smoked",
+        "fish_smoked",
+        "dry_meat",
+        "dry_veggy",
+        "dry_fruit",
+        "dry_fish",
+        "dry_lobster",
+        "dry_corn",
+        "salted_fish",
+        "cooking_oil",
+        "cooking_oil2",
+        "cornmeal",
+        "flour",
+        "fruit_wine",
+        "beer",
+        "sugar",
+        "salt",
+        "vinegar",
+        "kompot",
+        "freeze_dried_meal",
+        "offal_canned",
+        "can_coconut",
+        "con_milk",
+        "milk_evap",
+        "sauce_red",
+        "can_peach",
+        "apple_canned",
+        "fish_canned",
+        "lobster_canned",
+        "can_sardine",
+        "can_tuna",
+        "can_salmon",
+        "can_clams",
+        "can_chicken",
+        "can_corn",
+        "meat_canned",
+        "confit_meat",
+        "can_tomato",
+        "broth",
+        "broth_bone",
+        "soup_veggy",
+        "soup_meat",
+        "soup_fish",
+        "soup_lobsterstew",
+        "curry_veggy",
+        "curry_meat",
+        "soup_woods",
+        "soup_chicken",
+        "soup_mushroom",
+        "soup_tomato",
+        "soup_dumplings",
+        "soup_cullenskink",
+        "cooked_pumpkin",
+        "veggy_canned",
+        "irradiated_rose_hips",
+        "irradiated_elderberries",
+        "irradiated_mulberries",
+        "irradiated_huckleberries",
+        "irradiated_raspberries",
+        "irradiated_strawberries",
+        "irradiated_blueberries",
+        "irradiated_apple",
+        "irradiated_banana",
+        "irradiated_orange",
+        "irradiated_lemon",
+        "irradiated_grapefruit",
+        "irradiated_pear",
+        "irradiated_cherries",
+        "irradiated_plums",
+        "irradiated_grapes",
+        "irradiated_pineapple",
+        "irradiated_peach",
+        "irradiated_watermelon",
+        "irradiated_melon",
+        "irradiated_blackberries",
+        "irradiated_mango",
+        "irradiated_pomegranate",
+        "irradiated_papaya",
+        "irradiated_guayaba",
+        "irradiated_maracuya",
+        "irradiated_kiwi",
+        "irradiated_lulo",
+        "irradiated_plantain",
+        "irradiated_apricot",
+        "irradiated_lettuce",
+        "irradiated_cabbage",
+        "irradiated_tomato",
+        "irradiated_broccoli",
+        "irradiated_zucchini",
+        "irradiated_onion",
+        "irradiated_carrot",
+        "irradiated_corn",
+        "irradiated_pumpkin",
+        "irradiated_potato",
+        "irradiated_cucumber",
+        "irradiated_celery",
+        "irradiated_rhubarb",
+        "irradiated_eggplant"
+      ],
+      "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      {
+        "text": "I don't have anything right now.  Let's talk about something else.",
+        "topic": "TALK_GODCO_guard_food_idlechat"
+      },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -207,20 +207,36 @@
     "name": "GROUP_DISTORTED_MICROLAB",
     "default": "mon_zombie_scientist",
     "monsters": [
-      { "monster": "mon_zombie_phase_skulker", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_yugg", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_gelatin", "freq": 80, "cost_multiplier": 0 },
-      { "monster": "mon_flaming_eye", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_kreck", "freq": 110, "cost_multiplier": 0 },
-      { "monster": "mon_gozu", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_shoggoth", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_flying_polyp", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_hunting_horror", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_unseen_hunter", "freq": 100, "cost_multiplier": 1, "starts": 180 },
-      { "monster": "mon_darkman", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_hazmat", "freq": 40, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_breather_hub", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_zombie_phase_skulker", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_yugg", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 110, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 100, "cost_multiplier": 1, "starts": 180 },
+      { "monster": "mon_darkman", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_hazmat", "weight": 40, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_breather_hub", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MEATLAB",
+    "monsters": [
+      { "monster": "mon_null", "weight": 9 },
+      { "monster": "mon_amalgamation_swarmer", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_tiny", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_small", "weight": 2 },
+      { "monster": "mon_amalgamation_spotter", "weight": 2 },
+      { "monster": "mon_amalgamation_corroder", "weight": 2 },
+      { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 1 },
+      { "monster": "mon_amalgamation_soldier", "weight": 1, "starts": "7 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "14 days" },
+      { "monster": "mon_jabberwock", "weight": 1, "starts": "7 days" }
     ]
   },
   {

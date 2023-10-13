@@ -889,7 +889,6 @@ class game
         // Pick up items from all nearby tiles
         void pickup_all();
 
-        void insert_item(); // Insert items to container  'v'
         void unload_container(); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 
@@ -903,6 +902,8 @@ class game
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void insert_item(); // Insert items to container  'v'
+        void insert_item( drop_locations &targets );
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );

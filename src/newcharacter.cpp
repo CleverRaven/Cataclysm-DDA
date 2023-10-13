@@ -41,6 +41,7 @@
 #include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
@@ -83,6 +84,8 @@ static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
+static const matype_id style_none( "style_none" );
 
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
@@ -895,6 +898,32 @@ void Character::initialize( bool learn_recipes )
 void avatar::initialize( character_type type )
 {
     this->as_character()->initialize();
+
+    for( const matype_id &ma : prof->ma_known() ) {
+        if( !martial_arts_data->has_martialart( ma ) ) {
+            martial_arts_data->add_martialart( ma );
+        }
+    }
+
+    if( !prof->ma_choices().empty() ) {
+        for( int i = 0; i < prof->ma_choice_amount; i++ ) {
+            std::vector<matype_id> styles;
+            for( const matype_id &ma : prof->ma_choices() ) {
+                if( !martial_arts_data->has_martialart( ma ) ) {
+                    styles.push_back( ma );
+                }
+            }
+            if( !styles.empty() ) {
+                const matype_id ma_type = choose_ma_style( type, styles, *this );
+                martial_arts_data->add_martialart( ma_type );
+            } else {
+                break;
+            }
+        }
+    }
+
+    std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
+    martial_arts_data->set_style( random_entry( all_styles, style_none ) );
 
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
@@ -1912,6 +1941,13 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 {
     std::string assembled;
 
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( sorted_profs[cur_id]->src, [](
+    const std::pair<profession_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 sorted_profs[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
 
@@ -1945,6 +1981,33 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     } else {
         for( const trait_and_var &t : prof_traits ) {
             assembled += t.name() + "\n";
+        }
+    }
+
+    // Profession martial art styles
+    const auto prof_ma_known = sorted_profs[cur_id]->ma_known();
+    const auto prof_ma_choices = sorted_profs[cur_id]->ma_choices();
+    int ma_amount = sorted_profs[cur_id]->ma_choice_amount;
+    assembled += "\n" + colorize( _( "Profession martial arts:" ), COL_HEADER ) + "\n";
+    if( prof_ma_known.empty() && prof_ma_choices.empty() ) {
+        assembled += pgettext( "set_profession_ma", "None" ) + std::string( "\n" );
+    } else {
+        if( !prof_ma_known.empty() ) {
+            assembled += colorize( _( "Known:" ), c_cyan ) + "\n";
+            for( const matype_id &ma : prof_ma_known ) {
+                const martialart &style = ma.obj();
+                assembled += style.name.translated() + "\n";
+            }
+        }
+        if( !prof_ma_known.empty() && !prof_ma_choices.empty() ) {
+            assembled += "\n";
+        }
+        if( !prof_ma_choices.empty() ) {
+            assembled += colorize( _( string_format( "Choose %s:", ma_amount ) ), c_cyan ) + "\n";
+            for( const matype_id &ma : prof_ma_choices ) {
+                const martialart &style = ma.obj();
+                assembled += style.name.translated() + "\n";
+            }
         }
     }
 
@@ -2987,6 +3050,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         const scenario *current_scenario )
 {
     std::string assembled;
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( current_scenario->src,
+    []( const std::pair<string_id<scenario>, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
+
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
     assembled += string_format(

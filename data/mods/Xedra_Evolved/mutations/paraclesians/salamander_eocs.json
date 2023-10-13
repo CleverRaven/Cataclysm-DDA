@@ -1,21 +1,197 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_REMOVE_STUN",
+    "effect": [ { "u_add_effect": "effect_salamander_remove_stun", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_GOBLIN_FRUIT",
-    "//": "I don't believe EoCs can detect if there is a fire nearby--once they can, that should be added in.",
+    "//": "I don't believe EoCs can detect if there is a fire nearby--once they can, that should be added in rather than detecting heat fields.",
     "condition": {
       "or": [
-        { "u_has_part_temp": 5500, "bodypart": "torso" },
         { "u_has_item": "torch_lit" },
         { "u_has_item": "candle_lit" },
         { "u_has_item": "oil_lamp_on" },
         { "u_has_item": "oil_lamp_clay_on" },
         { "u_has_item": "cigar_lit" },
         { "u_has_item": "cig_lit" },
+        { "u_is_in_field": "fd_hot_air1" },
+        { "u_is_in_field": "fd_hot_air2" },
+        { "u_is_in_field": "fd_hot_air3" },
+        { "u_is_in_field": "fd_hot_air4" },
         { "u_is_in_field": "fd_fire" }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
     "false_effect": [ { "u_message": "You must have a source of flames or heat to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FIRE_FLY",
+    "condition": { "u_is_in_field": "fd_fire" },
+    "effect": [
+      {
+        "u_add_effect": "effect_salamander_levitation",
+        "duration": { "math": [ "( 12 + (u_val('spell_level', 'spell: salamander_fire_fly') * rng(2,4) )) " ] }
+      },
+      {
+        "u_add_effect": "effect_salamander_featherfall",
+        "duration": { "math": [ "( 15 + (u_val('spell_level', 'spell: salamander_fire_fly') * 4 )) " ] }
+      },
+      { "u_cast_spell": { "id": "salamander_fire_fly_real" }, "targeted": true }
+    ],
+    "false_effect": [ { "u_message": "You must be standing in flames to cast Burning Ascension.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_WATER_TO_BOOZE",
+    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_BOOZE" },
+    "effect": [ { "u_learn_recipe": "mixed_alcohol_strong_from_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_WATER_TO_FUEL",
+    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_FUEL" },
+    "effect": [ { "u_learn_recipe": "lamp_oil_from_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_REBORN_IN_FLAMES",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": {
+      "and": [
+        { "u_has_trait": "SALAMANDER_PREVENT_DEATH" },
+        { "u_is_in_field": "fd_fire" },
+        { "not": { "u_has_effect": "effect_salamander_prevented_death" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As your body takes its final wound, your fae spirit drinks in the heat of the flames and your flesh is renewed.",
+        "popup": true
+      },
+      { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
+      { "u_add_effect": "effect_salamander_prevented_death", "duration": 1209600 },
+      { "math": [ "u_val('stored_kcal')", "+=", "40000" ] }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_SALAMANDER_REBORN_IN_FLAMES_COOLDOWN",
+          "condition": {
+            "and": [
+              { "u_has_trait": "SALAMANDER_PREVENT_DEATH" },
+              { "u_is_in_field": "fd_fire" },
+              { "u_has_effect": "effect_salamander_prevented_death" },
+              { "x_in_y_chance": { "x": 1, "y": 7 } }
+            ]
+          },
+          "effect": [
+            {
+              "u_message": "As your body takes its final wound, your fae spirit drinks in the heat of the flames and your flesh is renewed.",
+              "popup": true
+            },
+            { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
+            { "math": [ "u_val('stored_kcal')", "+=", "40000" ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_NO_SLEEP",
+    "effect": [ { "math": [ "u_val('fatigue')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FIRE_FOOSTEPS",
+    "condition": { "math": [ "u_val('mana')", ">=", "4" ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "4" ] },
+      { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+      { "u_set_field": "fd_fire", "radius": 0, "hit_player": false }
+    ],
+    "false_effect": [ { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_HEALTH_FOR_MANA",
+    "condition": { "math": [ "u_val('mana')", "<", "u_val('mana_max')" ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "+=", "1000" ] },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "torso" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "head" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "arm_l" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "arm_r" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "leg_r" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "leg_l" }
+    ],
+    "false_effect": [ { "u_message": "You have no need to restore your mana now!", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ON",
+    "effect": [
+      { "u_add_effect": "effect_salamander_smoke_form", "duration": "PERMANENT" },
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_OFF",
+    "effect": [
+      { "u_lose_effect": "effect_salamander_smoke_form" },
+      { "u_lose_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_add_effect": "effect_salamander_smoke_immunity", "duration": "15 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND",
+    "condition": {
+      "or": [
+        { "u_is_in_field": "fd_hot_air1" },
+        { "u_is_in_field": "fd_hot_air2" },
+        { "u_is_in_field": "fd_hot_air3" },
+        { "u_is_in_field": "fd_hot_air4" },
+        { "u_is_in_field": "fd_fire" },
+        { "u_is_in_field": "fd_salamander_heat" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK" ] } ],
+    "false_effect": [ { "u_message": "You must be in warm air to ascend!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_location_variable": { "u_val": "salamander_smoke_form_ascend" }, "z_adjust": 2, "outdoor_only": true },
+      { "u_message": "You soar upward on the rising smoke", "type": "good" },
+      { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
+    ],
+    "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_BERSERK_STANCE_ON",
+    "condition": { "not": { "u_has_effect": "effect_salamander_berserk_stance" } },
+    "effect": [
+      { "math": [ "u_salamander_pain_value", "=", "u_pain()" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "u_add_effect": "effect_salamander_berserk_stance", "duration": "24 hours" }
+    ],
+    "false_effect": [ { "u_message": "You are already under the effects of Wildfire Soul!", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_BERSERK_STANCE_OFF",
+    "condition": { "u_has_effect": "effect_salamander_berserk_stance" },
+    "effect": [
+      { "math": [ "u_pain()", "+=", "(u_salamander_pain_value * 1.15)" ] },
+      { "u_lose_effect": "effect_salamander_berserk_stance" }
+    ]
   }
 ]

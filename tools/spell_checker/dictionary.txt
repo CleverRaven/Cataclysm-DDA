@@ -40,6 +40,7 @@ afterlife
 aftermarket
 aftermath
 afternoon
+afternoons
 aftertaste
 afterthought
 afterward
@@ -2613,6 +2614,7 @@ sawblade
 sawblades
 sawteeth
 sayig
+scabbards
 scalable
 scatterer
 schippe

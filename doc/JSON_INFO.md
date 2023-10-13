@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Drop Actions](#drop-actions)
     - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
@@ -1469,6 +1470,13 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
 | `freezing_point`       | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`               | Optional boolean. Default is false.
 | `rotting`              | Optional boolean. Default is false.
+| `breathability`        | What breathability the clothes, made out of this material, would have; can be `IMPERMEABLE` (0%), `POOR` (30%), `AVERAGE` (50%), `GOOD` (80%), `MOISTURE_WICKING` (110%), `SECOND_SKIN` (140%)
+| `burn_products`        | Burning this material drop this items; array, first in array is the id of an item, and another is the number, respond for effeciency of burning - the bigger the burnable item is (by weight), and the more items there is, the bigger output; Multiple items could be returned simultaneously, like `[ [ "corpse_ash", 0.035 ], [ "glass_shard", 0.5 ] ]`,
+| `repair_difficulty`    | Skill level that would be used to repair this item by default; if item has multiple materials, the most difficult would be used
+| `repaired_with`        | Material, that would be used to repair item, made out of this material
+| `salvaged_into`        | Item, into which this material could be salvaged
+| `sheet_thickness`      | Clothes, made out of this material, has this thickness, meaning clothes thickness should be multiple of this value; layered kevlar has `"sheet_thickness": 4.4,`, meaning all clothes that uses layered kevlar should be either 4.4, 8.8, 13.2 etc milimeters thick; unless `"ignore_sheet_thickness": true` is used for this clothes
+| `uncomfortable`        | Clothes made out of this material is always uncomfortable, no matter of it's properties
 | `soft`                 | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
 | `conductive`           | True if the material conducts electricity, defaults to false
 | `reinforces`           | Optional boolean. Default is false.
@@ -1567,6 +1575,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`. Indicates that this entry is a "monster".
 | `group`           | The sub-group's unique ID eg. `"GROUP_ZOMBIE"`. Indicates that this entry is a "monstergroup".
 | `weight`          | (_optional_) Chance of occurrence (`weight` / total `weight` in group) (default: 1)
+| `freq`            | (_optional_) Not used anymore, works exactly like weight
 | `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.

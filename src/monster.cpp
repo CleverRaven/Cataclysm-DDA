@@ -177,10 +177,15 @@ static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
 static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
 static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
 static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
+static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
 static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
 static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
 static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
+static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
 static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
 static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 static const mon_flag_str_id mon_flag_REVIVES_HEALTHY( "REVIVES_HEALTHY" );
@@ -1295,6 +1300,17 @@ bool monster::is_pet_follow() const
     return is_pet() && !has_flag( mon_flag_PET_WONT_FOLLOW );
 }
 
+bool monster::has_intelligence() const
+{
+    return has_flag( mon_flag_PATH_AVOID_FALL ) ||
+           has_flag( mon_flag_PATH_AVOID_FIRE ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ||
+           has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
+           get_pathfinding_settings().avoid_sharp ||
+           get_pathfinding_settings().avoid_traps;
+}
+
 std::vector<material_id> monster::get_absorb_material() const
 {
     return type->absorb_material;
@@ -1360,6 +1376,24 @@ Creature *monster::attack_target()
     }
 
     return target;
+}
+
+void monster::witness_thievery( item *it )
+{
+    add_msg( m_bad, _( "%1$s saw the %2$s being stolen!" ), get_name(), it->tname() );
+    std::vector<npc *> friends;
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.get_faction() && guy.get_faction()->mon_faction == faction.id() ) {
+            friends.push_back( &guy );
+        }
+    }
+    if( friends.empty() ) {
+        aggro_character = true;
+        anger = 100;
+        return;
+    }
+    std::sort( friends.begin(), friends.end(), npc::theft_witness_compare );
+    friends[0]->witness_thievery( it );
 }
 
 bool monster::is_fleeing( Character &u ) const
@@ -3776,5 +3810,30 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
 
 std::set<tripoint> monster::get_path_avoid() const
 {
-    return std::set<tripoint>();
+    std::set<tripoint> ret;
+
+    map &here = get_map();
+    int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );
+
+    for( const tripoint &p : here.points_in_radius( pos(), radius ) ) {
+        if( !can_move_to( p ) ) {
+            if( bash_skill() <= 0 || !here.is_bashable( p ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+
+    if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
+        radius = 2;
+    } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
+               has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
+        radius = 1;
+    } else {
+        return ret;
+    }
+    for( Creature *critter : here.get_creatures_in_radius( pos(), radius ) ) {
+        ret.insert( critter->pos() );
+    }
+
+    return ret;
 }
