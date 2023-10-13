@@ -1124,7 +1124,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                                      const array_of_grids_of<const bool> &floor_caches, const tripoint &origin )
 {
-    Character &player_character = get_player_character();
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -1141,7 +1140,7 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                         // Or floor reached
                         if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( ledge_coverage( player_character, p ) > 100 ) {
+                            if( ledge_coverage( origin, p ) > 100 ) {
                                 ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
                             }
                             break;
