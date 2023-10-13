@@ -841,7 +841,7 @@
     "to_hit": -3,
     "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
     "symbol": "H",
-    "color": "silver",
+    "color": "light_gray",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "LEAK_DAM", "RADIOACTIVE" ],
     "melee_damage": { "bash": 7 }
   }
