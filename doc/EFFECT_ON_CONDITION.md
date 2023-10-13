@@ -1864,10 +1864,10 @@ Your character or the NPC will gain a morale bonus
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
-Gives `morale_off_drugs` thought with +1 mood bonus
+Gives `morale_afs_drugs` thought with +1 mood bonus
 ```json
 {
-  "u_add_morale": "morale_off_drugs",
+  "u_add_morale": "morale_afs_drugs",
 }
 ```
 
