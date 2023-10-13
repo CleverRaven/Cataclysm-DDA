@@ -326,7 +326,7 @@
       { "item": "cookbook_bloodforgood", "prob": 2 },
       { "group": "memorial", "prob": 10 },
       { "item": "book_judaica_hardcover", "prob": 5 },
-      { "item": "home_martial_arts_books", "prob": 1 },
+      { "group": "home_martial_arts_books", "prob": 1 },
       { "item": "book_judaica_softcover", "prob": 5 }
     ]
   },
