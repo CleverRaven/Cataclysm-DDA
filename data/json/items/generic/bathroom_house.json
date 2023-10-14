@@ -9,7 +9,7 @@
     "price": 200,
     "price_postapoc": 0,
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "100 ml",
     "material": [ "plastic" ],
     "to_hit": -1,
     "melee_damage": { "bash": 1 }
@@ -47,6 +47,10 @@
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
+    "weight": "18 g",
+    "volume": "38 ml",
+    "longest_side": "18 cm",
+    "price": "6 USD",
     "copy-from": "base_toiletries",
     "snippet_category": [
       {
@@ -69,7 +73,8 @@
         "id": "tbrush5",
         "text": "A short toothbrush designed for children.  It has a grinning red racecar on the handle."
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B0BQ1FVGJM, volume calculated as a cylinder with the assumption of 7in length and 0.65in diameter - the dimensions on the listing are for the package, so I took a bit of length off."
   },
   {
     "id": "tampon",
