@@ -515,6 +515,8 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
+
+        void set_selected( int index );
 };
 
 /**
@@ -582,7 +584,6 @@ inc_clamp_wrap( T val, I inc, T size )
     return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
 }
 
-
 /**
  * Helper for typical UI list navigation without wrap-around
  * Add delta to val, then clamp to the range [min,max]
@@ -610,7 +611,7 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 inc_clamp( V val, bool inc, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
-    return inc_clamp( val, static_cast<int>( val + ( inc ? 1 : -1 ) ), static_cast<S>( 0 ), max );
+    return inc_clamp( val, inc ? 1 : -1, static_cast<S>( 0 ), max );
 }
 
 /**
@@ -633,7 +634,7 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 inc_clamp( V val, bool inc, S min, S max )
 {
-    return inc_clamp( val, val + ( inc ? 1 : -1 ), min, max );
+    return inc_clamp( val, inc ? 1 : -1, min, max );
 }
 
 /**

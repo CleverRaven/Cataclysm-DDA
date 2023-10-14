@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_MATH_PARSER_IMPL_H
 #define CATA_SRC_MATH_PARSER_IMPL_H
 
@@ -259,6 +260,11 @@ inline double neq( double l, double r )
     return static_cast<double>( l != r );
 }
 
+inline double b_neg( double /* zero */, double r )
+{
+    return static_cast<double>( float_equals( r, 0 ) );
+}
+
 } // namespace math_opers
 
 constexpr std::array<binary_op, 15> binary_ops{
@@ -278,9 +284,10 @@ constexpr std::array<binary_op, 15> binary_ops{
     binary_op{ "^", 4, binary_op::associativity::right, math_opers::math_pow },
 };
 
-constexpr std::array<unary_op, 2> prefix_unary_ops{
+constexpr std::array<unary_op, 3> prefix_unary_ops{
     unary_op{ "+", math_opers::pos },
     unary_op{ "-", math_opers::neg },
+    unary_op{ "!", math_opers::b_neg },
 };
 
 #endif // CATA_SRC_MATH_PARSER_IMPL_H

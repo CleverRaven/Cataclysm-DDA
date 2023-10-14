@@ -145,11 +145,10 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 void material_type::finalize_all()
 {
     material_data.finalize();
-}
-
-void material_type::finalize()
-{
-    finalize_damage_map( _resistances.resist_vals );
+    for( const material_type &mtype : material_data.get_all() ) {
+        material_type &mt = const_cast<material_type &>( mtype );
+        finalize_damage_map( mt._resistances.resist_vals );
+    }
 }
 
 void material_type::check() const
@@ -175,6 +174,12 @@ void material_type::check() const
     if( _repair_difficulty && ( _repair_difficulty > 10 || _repair_difficulty < 0 ) ) {
         debugmsg( "Repair difficulty out of skill range (0 to 10, is %d) for %s.", _repair_difficulty,
                   id.str() );
+    }
+
+    for( const auto &dt : _resistances.resist_vals ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid resistance type \"%s\" for material %s", dt.first.c_str(), id.c_str() );
+        }
     }
 
     for( const damage_type &dt : damage_type::get_all() ) {
@@ -209,6 +214,12 @@ itype_id material_type::repaired_with() const
 float material_type::resist( const damage_type_id &dmg_type ) const
 {
     return _resistances.type_resist( dmg_type );
+}
+
+bool material_type::has_dedicated_resist( const damage_type_id &dmg_type ) const
+{
+    return std::find( _res_was_loaded.begin(), _res_was_loaded.end(),
+                      dmg_type ) != _res_was_loaded.end();
 }
 
 std::string material_type::bash_dmg_verb() const

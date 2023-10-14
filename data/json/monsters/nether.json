@@ -339,11 +339,15 @@
     "hp": 10,
     "proportional": { "speed": 1.2, "dodge": 0.25, "vision_day": 2 },
     "armor": { "bash": 5, "cut": 5, "bullet": 5, "electric": 3, "stab": 4, "acid": 15 },
-    "grab_strength": 1,
+    "grab_strength": 50,
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_skill": 3,
-    "special_attacks": [ [ "GRAB", 7 ], [ "GRAB_DRAG", 15 ] ],
+    "special_attacks": [
+      { "id": "grab", "cooldown": 7 },
+      { "id": "grab_drag", "cooldown": 15, "grab_data": { "drag_distance": 1 } },
+      { "id": "drag_followup", "grab_data": { "drag_distance": 1 } }
+    ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s shatters like pane of glass." },
     "delete": { "flags": [ "ATTACKMON", "ALWAYS_SEES_YOU", "HIT_AND_RUN" ] },
     "extend": { "flags": [ "SILENT_DISAPPEAR" ] }
@@ -550,7 +554,6 @@
       { "type": "leap", "cooldown": 20, "max_range": 6, "allow_no_target": true },
       { "id": "hunter_peck" }
     ],
-    "//": "Reduce bullet armor when things are harder to hit or players miss more",
     "anger_triggers": [ "FIRE" ],
     "fear_triggers": [ "HURT" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -568,7 +571,7 @@
       "HARDTOSHOOT",
       "HIT_AND_RUN"
     ],
-    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 30 }
+    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 12 }
   },
   {
     "id": "mon_gozu",
@@ -1055,7 +1058,18 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]
+    "flags": [
+      "HEARS",
+      "GOODHEARING",
+      "STUMBLES",
+      "BIOLOGICALPROOF",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "FLIES",
+      "PLASTIC",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
   },
   {
     "id": "mon_shifting_mass",
@@ -1082,7 +1096,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "BIOLOGICALPROOF", "HEARS" ]
   },
   {
     "id": "mon_impossible_shape",
@@ -1109,7 +1123,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "BIOLOGICALPROOF", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_absence",
@@ -1136,7 +1150,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "BIOLOGICALPROOF", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_giant_appendage",
@@ -1159,7 +1173,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is pulled back through the closing portal." },
-    "flags": [ "FLIES", "NO_BREATHE", "STUMBLES" ]
+    "flags": [ "FLIES", "NO_BREATHE", "BIOLOGICALPROOF", "STUMBLES" ]
   },
   {
     "id": "mon_memory",
@@ -1183,7 +1197,7 @@
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab", "cooldown": 2 }, [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "NO_BREATHE", "GRABS", "PUSH_MON", "GROUP_BASH" ]
+    "flags": [ "NO_BREATHE", "GRABS", "BIOLOGICALPROOF", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1209,7 +1223,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
-    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ],
+    "flags": [ "IMMOBILE", "NO_BREATHE", "BIOLOGICALPROOF", "SEES", "HEARS", "RANGED_ATTACKER" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 5 }
   },
   {
@@ -1237,7 +1251,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "FLIES", "NO_BREATHE", "BIOLOGICALPROOF", "SEES", "HEARS", "RANGED_ATTACKER" ]
   },
   {
     "id": "mon_archunk_weak",
@@ -1271,7 +1285,7 @@
       "message": "The material stabilizes and reforms itself into a small chunk of unknown composition."
     },
     "death_drops": "ps_artifact_weak",
-    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ],
+    "flags": [ "COLDPROOF", "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ],
     "armor": { "bash": 20, "cut": 20, "stab": 20, "heat": 20, "bullet": 20, "electric": 20 }
   },
   {
@@ -1331,7 +1345,7 @@
         "cooldown": 5
       }
     ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_twisted_reflection",
@@ -1360,6 +1374,7 @@
   {
     "id": "mon_XEDRA_officer",
     "type": "MONSTER",
+    "description": "A figure in a high-tech suit, their outline contorted as though you were viewing them through a prism.  Their movements are strained but determined, pushing through apparent pain with feverish resolve, dead-set on reaching their target.",
     "name": { "str": "mercenary officer" },
     "copy-from": "mon_zombie_bio_op",
     "hp": 150,
@@ -1382,6 +1397,7 @@
   {
     "id": "mon_XEDRA_soldier",
     "type": "MONSTER",
+    "description": "A figure in combat gear, distorted and shattered like broken glass.  They thrash around as they move, an expression of shock and anguish frozen on their face.",
     "name": { "str": "mercenary ghost" },
     "copy-from": "mon_zombie_soldier_blackops_1",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The soldier fades away to nothing." }
@@ -1410,7 +1426,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "Your shadow seemingly becomes normal again."
     },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE" ]
   },
   {
     "id": "mon_hallucinator",
@@ -1431,7 +1447,7 @@
     "vision_day": 60,
     "vision_night": 60,
     "path_settings": { "max_dist": 60, "allow_open_doors": true },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s just disappeared." },
     "flags": [
       "NO_BREATHE",
       "SEES",
@@ -1439,6 +1455,7 @@
       "ACIDPROOF",
       "CAN_OPEN_DOORS",
       "FIREPROOF",
+      "BIOLOGICALPROOF",
       "LOUDMOVES",
       "SLUDGEPROOF",
       "SMELLS",
@@ -1471,7 +1488,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "BIOLOGICALPROOF", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_sloth",
@@ -1488,7 +1505,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "BIOLOGICALPROOF", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_hanging_roper",
@@ -1509,7 +1526,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "stab", "amount": 6 } ],
-    "special_attacks": [ [ "RANGED_PULL", 3 ], [ "GRAB", 4 ], { "type": "bite", "cooldown": 2 } ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 3 }, { "id": "grab", "cooldown": 4 }, { "type": "bite", "cooldown": 2 } ],
     "harvest": "mutant_mammal_leather",
     "reproduction": { "baby_monster": "mon_carrion_grub", "baby_count": 1, "baby_timer": 330 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],

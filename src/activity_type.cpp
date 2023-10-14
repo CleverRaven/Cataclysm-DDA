@@ -34,6 +34,12 @@ const activity_type &string_id<activity_type>::obj() const
     return found->second;
 }
 
+template<>
+bool string_id<activity_type>::is_valid() const
+{
+    return activity_type_all.find( *this ) != activity_type_all.end();
+}
+
 namespace io
 {
 template<>
@@ -71,6 +77,7 @@ std::string enum_to_string<distraction_type>( distraction_type data )
         case distraction_type::thirst: return "thirst";
         case distraction_type::temperature: return "temperature";
         case distraction_type::mutation: return "mutation";
+        case distraction_type::oxygen: return "oxygen";
         // *INDENT-ON*
         default:
             cata_fatal( "Invalid distraction_type in enum_to_string" );

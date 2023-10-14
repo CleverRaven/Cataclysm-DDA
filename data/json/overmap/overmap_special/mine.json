@@ -3,10 +3,9 @@
     "type": "overmap_special",
     "id": "Spiral mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_no_sidewalk_east" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
       { "point": [ 1, 1, 1 ], "overmap": "mine_entrance_loading_zone_roof_north" },
       { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
@@ -30,8 +29,8 @@
       { "point": [ -1, 2, -4 ], "overmap": "mine_spiral_finale_se_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
@@ -43,10 +42,9 @@
     "type": "overmap_special",
     "id": "Amigara mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_no_sidewalk_east" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
       { "point": [ 1, 1, 1 ], "overmap": "mine_entrance_loading_zone_roof_north" },
       { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
@@ -64,8 +62,8 @@
       { "point": [ -3, 1, -4 ], "overmap": "mine_amigara_finale_west_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
@@ -77,10 +75,9 @@
     "type": "overmap_special",
     "id": "Wyrms mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_no_sidewalk_east" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
       { "point": [ 1, 1, 1 ], "overmap": "mine_entrance_loading_zone_roof_north" },
       { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
@@ -93,8 +90,8 @@
       { "point": [ -3, 1, -3 ], "overmap": "mine_wyrms_finale_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],

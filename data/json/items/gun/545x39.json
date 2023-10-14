@@ -2,7 +2,7 @@
   {
     "id": "ak74",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AK-74M" },
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
@@ -42,7 +42,7 @@
   {
     "id": "kord",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Kord 6P67" },
     "//": "An exceptionally new AK style gun found illicitly as part of a quest.",

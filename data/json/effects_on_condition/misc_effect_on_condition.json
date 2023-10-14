@@ -1,0 +1,117 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEP",
+    "effect": [ { "u_message": "You feel very sleepy…" }, { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 40 } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINOR_SLEEP",
+    "effect": [ { "u_message": "You feel sleepy…" }, { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 20 } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ambient_subway",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "global": true,
+    "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
+    "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ambient_lab_subway",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "global": true,
+    "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
+    "effect": [ { "u_message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "robofac_surveillance",
+    "recurrence": [ "1 days", "7 days" ],
+    "global": true,
+    "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
+    "effect": [
+      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mininuke_record",
+    "eoc_type": "EVENT",
+    "required_event": "activates_mininuke",
+    "effect": [ { "math": [ "u_mininuke_activated", "++" ] } ]
+  },
+  {
+    "id": "EOC_DEATH_SWITCH",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": {
+      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died.  Continue as one of your followers?", "default": false } ]
+    },
+    "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_last_amigara_death",
+    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror')", "<", "1" ] },
+    "effect": [
+      { "mapgen_update": "amigara_death" },
+      { "u_lose_effect": "effect_amigara" },
+      {
+        "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
+        "type": "info"
+      },
+      { "u_add_var": "clearead_amigara_mine", "type": "general", "context": "talk", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAY_PIANO",
+    "effect": [
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+      { "u_make_sound": "music", "type": "music", "volume": 10 },
+      { "u_message": "play_piano", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANDOM_HALLUCINATIONS",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_HALLUCINATION_ATTACKS",
+          "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
+          "effect": [
+            {
+              "u_spawn_monster": "GROUP_YOUR_FEARS",
+              "group": true,
+              "real_count": 0,
+              "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
+              "outdoor_only": false,
+              "min_radius": 10,
+              "max_radius": 40,
+              "lifespan": [ "1 hours", "4 hours" ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_discover_zomborg",
+    "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
+    "effect": [ { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_trifacet_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_trifacet", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile trifacet violently unfolds just clear of your hand!", "type": "bad" }
+    ]
+  }
+]

@@ -21,7 +21,7 @@ option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
 cmake_dependent_option(USE_PREFIX_DATA_DIR
-    "Use UNIX system directories for game data in release build." OFF
+    "Use UNIX system directories for game data in release build." ON
     "UNIX" OFF
 )
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
@@ -172,6 +172,7 @@ else ()
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if(USE_PREFIX_DATA_DIR)
         if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
+            set(CMAKE_INSTALL_DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda")
             add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
             configure_file(
                 "${CMAKE_SOURCE_DIR}/src/prefix.h.in"

@@ -31,6 +31,10 @@
     "info": "You can install a seat belt or five part harness here to help keep you in your seat during a collision."
   },
   {
+    "id": "BOARD_INTERNAL",
+    "type": "json_flag"
+  },
+  {
     "id": "CABLE_PORTS",
     "type": "json_flag",
     "info": "You can connect electrical cables to this part."
@@ -93,6 +97,7 @@
   {
     "id": "E_ALTERNATOR",
     "type": "json_flag",
+    "//": "The engine can mount and power an alternator",
     "info": "An alternator can be attached, and it will generate electrical power while the engine is on at the cost of some motive power."
   },
   {
@@ -221,12 +226,18 @@
   {
     "id": "INTERNAL",
     "type": "json_flag",
+    "//": "Can be mounted inside other parts",
     "requires_flag": "CARGO"
   },
   {
     "id": "CARGO_LOCKING",
     "type": "json_flag",
     "requires_flag": "LOCKABLE_CARGO"
+  },
+  {
+    "id": "DOOR_LOCKING",
+    "type": "json_flag",
+    "requires_flag": "LOCKABLE_DOOR"
   },
   {
     "id": "DOOR_MOTOR",
@@ -260,6 +271,10 @@
   },
   {
     "id": "AUTOPILOT",
+    "type": "json_flag"
+  },
+  {
+    "id": "BATTERY",
     "type": "json_flag"
   },
   {
@@ -328,7 +343,8 @@
   },
   {
     "id": "E_COLD_START",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Cold weather makes the engine take longer to start"
   },
   {
     "id": "E_DIESEL_FUEL",
@@ -341,11 +357,13 @@
   },
   {
     "id": "E_HIGHER_SKILL",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Multiple engines with this flag are harder to install"
   },
   {
     "id": "E_STARTS_INSTANTLY",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "The engine takes no time to start, like foot pedals"
   },
   {
     "id": "EVENTURN",
@@ -405,12 +423,18 @@
     "type": "json_flag"
   },
   {
+    "id": "LOCKABLE_DOOR",
+    "type": "json_flag",
+    "info": "This can be locked if equipped with a locking mechanism, preventing access from outside the vehicle."
+  },
+  {
     "id": "LOW_FINAL_AIR_DRAG",
     "type": "json_flag"
   },
   {
     "id": "MOUNTABLE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Usable as a point to fire a mountable weapon from"
   },
   {
     "id": "MUFFLER",
@@ -586,6 +610,10 @@
     "type": "json_flag"
   },
   {
+    "id": "WALL_MOUNTED",
+    "type": "json_flag"
+  },
+  {
     "id": "WASHING_MACHINE",
     "type": "json_flag"
   },
@@ -616,5 +644,22 @@
   {
     "id": "WINDSHIELD",
     "type": "json_flag"
+  },
+  {
+    "id": "WIRING",
+    "type": "json_flag"
+  },
+  {
+    "id": "SEAT_REQUIRES_BALANCE",
+    "type": "json_flag"
+  },
+  {
+    "id": "WHEEL_MOUNT_SKATEBOARD",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_SKATEBOARD",
+    "type": "json_flag",
+    "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "price": 40000,
     "price_postapoc": 2250,
@@ -63,13 +63,13 @@
     "clip_size": 1,
     "reload": 2500,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "NEVER_JAMS" ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 5 }
   },
   {
     "id": "rifle_flintlock",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock musket" },
@@ -101,7 +101,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ],
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 15 }
   },
@@ -126,7 +126,7 @@
     "longest_side": "1278 mm",
     "price": 42000,
     "price_postapoc": 2500,
-    "relative": { "range": 2 },
+    "range": 12,
     "proportional": { "dispersion": 0.5, "reload": 1.1 }
   }
 ]

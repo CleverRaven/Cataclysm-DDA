@@ -139,5 +139,98 @@
     "copy-from": "fd_fog",
     "half_life": "999999999 minutes",
     "looks_like": "fd_fog"
+  },
+  {
+    "id": "fd_kelvinist_warmth",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 7 },
+      { "color": "yellow", "convection_temperature_mod": 15 },
+      { "color": "red", "convection_temperature_mod": 30 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "15 minutes",
+    "priority": 7,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_kelvinist_cold",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "chill air", "sym": "&", "convection_temperature_mod": -7 },
+      { "color": "blue", "convection_temperature_mod": -15 },
+      { "color": "cyan", "convection_temperature_mod": -30 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "15 minutes",
+    "priority": 7,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_rad_mage_aura",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 10 },
+      {
+        "name": "radioactive gas",
+        "color": "light_green",
+        "extra_radiation_max": 15,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 2,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      },
+      {
+        "name": "thick radioactive gas",
+        "color": "green",
+        "transparent": false,
+        "extra_radiation_max": 20,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 3,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 15,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "100 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
+  },
+  {
+    "id": "fd_obscuring_fog",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "thick fog",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": false,
+        "translucency": 8,
+        "color": "light_gray",
+        "scent_neutralization": 3
+      },
+      { "name": "very thick fog", "translucency": 12, "color": "light_gray", "scent_neutralization": 6 },
+      { "name": "impenetrable fog", "translucency": 0, "color": "dark_gray", "scent_neutralization": 9 }
+    ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 35,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "7 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
   }
 ]

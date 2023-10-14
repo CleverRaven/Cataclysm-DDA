@@ -222,6 +222,8 @@ void field_type::load( const JsonObject &jo, const std::string_view )
                   fallback_intensity_level.local_light_override );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
+        optional( jao, was_loaded, "concentration", intensity_level.concentration,
+                  1 );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
         if( jao.has_array( "effects" ) ) {
@@ -243,6 +245,9 @@ void field_type::load( const JsonObject &jo, const std::string_view )
                 optional( joe, was_loaded, "message_npc", fe.message_npc );
                 const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
                 optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
+                JsonObject jid = joe.get_object( "immunity_data" );
+                field_types::load_immunity( jid, fe.immunity_data );
+
                 intensity_level.field_effects.emplace_back( fe );
             }
         } else {
@@ -271,22 +276,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    for( const std::string id : jid.get_array( "flags" ) ) {
-        immunity_data_flags.emplace_back( id );
-    }
-    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( io::string_to_enum<body_part_type::type>
-                ( jao.get_string( 0 ) ), jao.get_int( 1 ) );
-    }
-    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
-        immunity_data_part_item_flags.emplace_back( io::string_to_enum<body_part_type::type>
-                ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
-    }
-
-    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
-        immunity_data_part_item_flags_any.emplace_back( io::string_to_enum<body_part_type::type>
-                ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
-    }
+    field_types::load_immunity( jid, immunity_data );
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
@@ -294,7 +284,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
     optional( jo, was_loaded, "percent_spread", percent_spread, 0 );
     optional( jo, was_loaded, "apply_slime_factor", apply_slime_factor, 0 );
-    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0 );
+    optional( jo, was_loaded, "gas_absorption_factor", gas_absorption_factor, 0_turns );
     optional( jo, was_loaded, "is_splattering", is_splattering, false );
     optional( jo, was_loaded, "dirty_transparency_cache", dirty_transparency_cache, false );
     optional( jo, was_loaded, "has_fire", has_fire, false );
@@ -389,6 +379,28 @@ void field_types::check_consistency()
 void field_types::reset()
 {
     get_all_field_types().reset();
+}
+
+void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd )
+{
+    for( const std::string id : jid.get_array( "flags" ) ) {
+        fd.immunity_data_flags.emplace_back( id );
+    }
+    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
+        fd.immunity_data_body_part_env_resistance.emplace_back(
+            io::string_to_enum<body_part_type::type>
+            ( jao.get_string( 0 ) ), jao.get_int( 1 ) );
+    }
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
+        fd.immunity_data_part_item_flags.emplace_back( io::string_to_enum<body_part_type::type>
+                ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
+    }
+
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
+        fd.immunity_data_part_item_flags_any.emplace_back(
+            io::string_to_enum<body_part_type::type>
+            ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
+    }
 }
 
 const std::vector<field_type> &field_types::get_all()

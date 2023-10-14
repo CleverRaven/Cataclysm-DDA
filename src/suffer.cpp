@@ -74,6 +74,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_radleak( "bio_radleak" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+static const bionic_id bio_synlungs( "bio_synlungs" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
@@ -128,6 +129,8 @@ static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
+
+static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -328,7 +331,7 @@ void suffer::while_grabbed( Character &you )
     int impassable_ter = 0;
     for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
         const monster *const mon = creatures.creature_at<monster>( dest );
-        if( mon && mon->has_flag( MF_GROUP_BASH ) ) {
+        if( mon && mon->has_flag( mon_flag_GROUP_BASH ) ) {
             crowd++;
             add_msg_debug( debugmode::DF_CHARACTER, "Crowd pressure check: monster %s found, crowd size %d",
                            mon->name(), crowd );
@@ -362,6 +365,9 @@ void suffer::while_grabbed( Character &you )
     // a few warnings before starting to take damage
     if( you.oxygen <= 5 ) {
         you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
+        if( uistate.distraction_oxygen && you.is_avatar() ) {
+            g->cancel_activity_or_ignore_query( distraction_type::oxygen, _( "You're suffocating!" ) );
+        }
         // your characters chest is being crushed and you are dying
         you.apply_damage( nullptr, you.get_random_body_part_of_type( body_part_type::type::torso ), rng( 1,
                           4 ) );
@@ -1398,6 +1404,16 @@ void suffer::from_radiation( Character &you )
 void suffer::from_bad_bionics( Character &you )
 {
     // Negative bionics effects
+    if( you.has_bionic( bio_synlungs ) && !you.has_active_bionic( bio_synlungs ) &&
+        !you.has_effect( effect_narcosis ) ) {
+        if( you.get_power_level() >= bio_synlungs->power_trigger ) {
+            std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_synlungs );
+            you.activate_bionic( **bio_opt );
+        } else {
+            you.mod_stamina( -2000 );
+            you.add_msg_if_player( m_bad, _( "Emergency!  User's lungs are not powered!" ) );
+        }
+    }
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
         one_turn_in( 2_hours ) &&
         !you.has_effect( effect_narcosis ) ) {
@@ -1833,7 +1849,7 @@ void Character::suffer()
         if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
-        if( has_active_mutation( mut_id ) || !mut_id->activated ) {
+        if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
         }
     }
@@ -2081,7 +2097,7 @@ void Character::sound_hallu()
                                   "east",
                                   "west" };
 
-    std::vector<std::string> dirz{ "and above you ", "and below you " };
+    std::vector<std::string> dirz{ "and above you", "and below you" };
 
     std::vector<std::tuple<std::string, std::string, std::string>> desc{
         std::make_tuple( "whump!", "smash_fail", "t_door_c" ),
@@ -2089,7 +2105,7 @@ void Character::sound_hallu()
         std::make_tuple( "glass breaking!", "smash_success", "t_window_domestic" ) };
 
     std::vector<std::tuple<std::string, std::string, std::string>> desc_big{
-        std::make_tuple( "huge explosion!", "explosion", "default" ),
+        std::make_tuple( "a huge explosion!", "explosion", "default" ),
         std::make_tuple( "bang!", "fire_gun", "glock_19" ),
         std::make_tuple( "blam!", "fire_gun", "mossberg_500" ),
         std::make_tuple( "crash!", "smash_success", "t_wall" ),

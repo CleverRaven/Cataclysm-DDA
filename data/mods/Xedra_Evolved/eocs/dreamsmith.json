@@ -7,7 +7,6 @@
     "condition": { "u_has_trait": "DREAMSMITH" },
     "effect": [
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "u_skill('deduction')" ] },
-      { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
       {
         "u_roll_remainder": [
           "dreamdross_bo",
@@ -47,12 +46,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMSMITHS_RECIPES_ENCH",
-    "//": "If your DREAMSMITH_RECIPE_SCORE bigger than DREAMSMITH_RECIPE_SCORE_TARGET, you take a spell, DREAMSMITH_RECIPE_SCORE is zeroed, and DREAMSMITH_RECIPE_SCORE_TARGET is increased for 100. const 20 is respond for delay, after which player would be able to obtain super recipes, and const 100 is respond for gap between each recipe gain. Now it's 6 casts for first gain, 11 for second, 10 for third, 10 for fourth etc.",
+    "//": "If your DREAMSMITH_RECIPE_SCORE bigger than DREAMSMITH_RECIPE_SCORE_TARGET, you take a spell, DREAMSMITH_RECIPE_SCORE is zeroed, and DREAMSMITH_RECIPE_SCORE_TARGET is increased for 25. Const 25 is respond for gap between each recipe gain. Now it's 1 casts for first gain, 6 for second, 5 for third and further.",
     "condition": {
-      "and": [
-        { "u_has_trait": "DREAMSMITH" },
-        { "math": [ "DREAMSMITH_RECIPE_SCORE", ">=", "DREAMSMITH_RECIPE_SCORE_TARGET + 20" ] }
-      ]
+      "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "DREAMSMITH_RECIPE_SCORE", ">=", "DREAMSMITH_RECIPE_SCORE_TARGET" ] } ]
     },
     "effect": [
       {
@@ -92,7 +88,16 @@
           "dreamforged_longbow",
           "arrow_dreamforged",
           "dreamforged_crossbow",
-          "bolt_dreamforged"
+          "bolt_dreamforged",
+          "dreamforged_hacksaw",
+          "dreamforged_hammer",
+          "dreamforged_halligan",
+          "dreamforged_pliers_locking",
+          "dreamforged_pickaxe",
+          "dreamforged_picklocks",
+          "dreamforged_scalpel",
+          "dreamforged_e_tool",
+          "dreamforged_ax"
         ],
         "type": "recipe",
         "true_eocs": {
@@ -106,7 +111,7 @@
         }
       },
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "100" ] }
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "25" ] }
     ],
     "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
   },

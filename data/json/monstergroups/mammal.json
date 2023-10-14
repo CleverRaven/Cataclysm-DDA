@@ -168,6 +168,7 @@
       { "group": "GROUP_PET_DOGS", "weight": 90, "cost_multiplier": 0 },
       { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
       { "monster": "mon_dog_incorporeal", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_telekenetic", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_dog_antimemetic", "weight": 1, "cost_multiplier": 0 }
     ]
   },
@@ -216,6 +217,17 @@
     ]
   },
   {
+    "name": "GROUP_MUTANT_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog_mutant_mongrel",
+    "monsters": [
+      { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_thrasher", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_mauler", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_loper", "weight": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "name": "GROUP_PET_CATS",
     "type": "monstergroup",
     "default": "mon_cat",
@@ -254,7 +266,18 @@
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 1, "cost_multiplier": 0 },
       { "group": "GROUP_PET_DOGS", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 0 }
+      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_rabbit", "weight": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_RABBIT_WILD",
+    "type": "monstergroup",
+    "default": "mon_wild_rabbit",
+    "monsters": [
+      { "monster": "mon_wild_rabbit", "weight": 893, "cost_multiplier": 0 },
+      { "monster": "mon_hare", "weight": 106, "cost_multiplier": 0 },
+      { "monster": "mon_rabbit", "weight": 1, "cost_multiplier": 0 }
     ]
   }
 ]

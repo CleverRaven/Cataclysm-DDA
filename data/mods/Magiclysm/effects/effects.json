@@ -149,6 +149,65 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_obfuscating_aura",
+    "name": [ "Obfuscating Aura" ],
+    "desc": [ "Light is distorting around you and making it easier for you to avoid attacks." ],
+    "apply_message": "The edges of your vision ripple slightly.",
+    "remove_message": "The aura of light distortion around you vanishes.",
+    "enchantments": [
+      {
+        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_val('spell_level', 'spell: obfuscated_body') / 7) + 1)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shape_of_dust",
+    "name": [ "Shape of Dust" ],
+    "desc": [ "Clouds of dust around you are hiding you from your enemies." ],
+    "apply_message": "Dust springs up and hides your presence.",
+    "remove_message": "The clouds of dust around you die down",
+    "max_duration": "10 minutes",
+    "enchantments": [ "ench_shape_of_dust" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_acid_res_aura",
+    "name": [ "Acid Resist Aura" ],
+    "desc": [ "You are protected from acid damage." ],
+    "apply_message": "Your body tingles.",
+    "remove_message": "The tingling fades.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_ACID",
+            "multiply": { "math": [ "((u_val('spell_level', 'spell: acid_resistance') * -0.02) - 0.2)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_acid_res_aura_greater",
+    "name": [ "Greater Acid Resist Aura" ],
+    "desc": [ "You are greatly protected from acid damage." ],
+    "apply_message": "Your body tingles.",
+    "remove_message": "The tingling fades.",
+    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_thorns_electric",
+    "name": [ "Aura of Repelling Arc" ],
+    "desc": [ "Anyone who attacks you will be electrified." ],
+    "apply_message": "The air around you sparks with electricity.",
+    "remove_message": "The air around you loses its charge.",
+    "enchantments": [ { "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_acidburn",
     "name": [ "Acidic burn" ],
     "desc": [ "Burned with acid" ],
@@ -337,7 +396,7 @@
     "type": "effect_type",
     "id": "neuro_boost",
     "name": [ "Mental Boost" ],
-    "desc": [ "Your mind is working incredibly fast, but your body cannot keep up" ],
+    "desc": [ "Your mind is working incredibly fast and your body struggles to keep up." ],
     "rating": "bad",
     "max_duration": "10 s",
     "base_mods": { "speed_mod": [ 20 ] }
@@ -380,11 +439,10 @@
     "name": [ "Nature's Commune" ],
     "desc": [ "You can feel Mother Nature welcoming you, revitalizing your body and calming the natural fauna around you." ],
     "apply_message": "A warm embrace surrounds you, like that of a mother with her child.",
-    "remove_message": "Your commune with Mother Nature fades.",
+    "remove_message": "Your communion with Mother Nature fades.",
     "rating": "good",
-    "max_duration": "20 m",
-    "//": "No morale_mod is currently possible in effects, but this effect should give +5/+10 morale whenever that it's implemented.",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ] }
+    "max_duration": "120 m",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] }
   },
   {
     "type": "effect_type",
@@ -503,18 +561,12 @@
     "id": "electric_waves",
     "type": "effect_type",
     "name": [ "Electric Waves" ],
-    "desc": [ "Your body throw a massive electric charges when you attack monsters." ],
+    "desc": [ "Your body will release a massive electric charges when you attack monsters." ],
     "apply_message": "A powerful energy streams out of your hands.",
-    "remove_message": "Energy streams calm down.",
+    "remove_message": "The energy streams calm down.",
     "rating": "good",
     "show_intensity": false,
-    "//": "When #61693 will be resolved (or, in other words, the spell will start to throw electric waves, as it says), the ITEM_DAMAGE_ELEC must be removed, and the spell description must be edited.  Alternatively, the effect may be moved into electric gloves, instead of their flat bonus.",
-    "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "electric_waves_damage", "once_in": 3 } ],
-        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": { "u_val": "spell_level", "spell": "electric_waves" } } ]
-      }
-    ]
+    "enchantments": [ "enchant_stormshaper_electric_waves" ]
   },
   {
     "id": "electric_arts",
@@ -680,5 +732,380 @@
     "show_intensity": true,
     "max_intensity": 25,
     "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "earthshaper_fortitude_of_stone",
+    "name": [ "Stones' Fortitude" ],
+    "desc": [ "You feel little hunger or thirst." ],
+    "apply_message": "",
+    "remove_message": "Your stomach suddenly rumbles as you feel a pang of hunger.",
+    "rating": "good",
+    "max_duration": "24 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          {
+            "value": "METABOLISM",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          { "value": "REGEN_HP", "multiply": -1.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_tremorsense",
+    "name": [ "Tremorsense" ],
+    "desc": [ "You can feel them moving around you." ],
+    "apply_message": "",
+    "remove_message": "You can no longer discern the vibrations of the living earth.",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_VISION_RANGE",
+            "add": { "math": [ "( u_val('spell_level', 'spell: earthshaper_danger_sense') * 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sense_outsiders",
+    "name": [ "Sense Outsider" ],
+    "desc": [ "You can sense the presence of things that should not be." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of outsiders fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_cold",
+    "name": [ "Cloak of Warmth" ],
+    "desc": [ "The air around you is warmer thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A cool breeze hits your skin.",
+    "rating": "good",
+    "removes_effects": [ "effect_kelvinist_anti_heat" ],
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_cold",
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+          {
+            "value": "ARMOR_COLD",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_heat",
+    "name": [ "Cloak of Chill" ],
+    "desc": [ "The air around you is cooler thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A warm breeze hits your skin.",
+    "rating": "good",
+    "removes_effects": [ "effect_kelvinist_anti_cold" ],
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_heat",
+        "values": [
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
+          {
+            "value": "ARMOR_HEAT",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "You won't hit the ground nearly as hard anymore." ],
+    "apply_message": "",
+    "remove_message": "You can feel gravity take hold of you again.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_spiderclimb",
+    "name": [ "Spider Climb" ],
+    "desc": [ "You can quickly ascend sheer surfaces." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced climbing ability vanishes.",
+    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_swim_speed",
+    "name": [ "Frog Limbs" ],
+    "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
+    "//": "Minor stamina regen to help with swimming.  If people want to cast this spell as a stamina buff, they're welcome to do it and deal with their froggy limbs.",
+    "apply_message": "",
+    "remove_message": "With an unpleasant twisting sensation your hands and feet return to normal.",
+    "rating": "good",
+    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ],
+    "base_mods": { "stamina_min": [ 10 ] }
+  },
+  {
+    "id": "effect_biomancer_remove_instability",
+    "type": "effect_type",
+    "name": [ "Increased Stability" ],
+    "desc": [
+      "You are overcoming the aftereffects of XE037 overexposure.",
+      "You were just overcoming the aftereffects of XE037 overexposure but now you feel awful!"
+    ],
+    "apply_message": "You feel…strange.",
+    "remove_message": "The strange feeling passes and you feel more like yourself.",
+    "rating": "good",
+    "max_intensity": 2,
+    "show_intensity": false,
+    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "30 m" ] } ],
+    "scaling_mods": { "speed_mod": [ -25 ], "str_mod": [ -5 ], "dex_mod": [ -5 ], "int_mod": [ -5 ], "per_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 1, "scaling": -0.2 },
+      { "limb_score": "footing", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_biomancer_carrion_feast",
+    "type": "effect_type",
+    "name": [ "Carrion Feast" ],
+    "desc": [ "You can eat rotten food without any trouble, if you can stand the taste." ],
+    "apply_message": "Your have a hunger for some overly-aged meat.",
+    "remove_message": "You can't believe you even considered eating that!  Yuck!",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "IMMUNE_SPOIL", "PARAIMMUNE" ],
+    "blocks_effects": [ "foodpoison" ],
+    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "30 s" ] } ]
+  },
+  {
+    "id": "effect_classless_watch",
+    "type": "effect_type",
+    "name": [ "Know the Day and the Hour" ],
+    "desc": [ "You know exactly what time it is." ],
+    "apply_message": "",
+    "remove_message": "Your perfect sense of time fades away.",
+    "max_duration": "24 hours",
+    "flags": [ "WATCH" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_cloak_of_fog",
+    "name": [ "Cloak of Fog" ],
+    "desc": [ "The fog shields you from sight." ],
+    "apply_message": "",
+    "remove_message": "The fog begins to dissipate.",
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "enchantments": [ "enchant_stormshaper_cloak_of_fog" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_heart_of_hurricane",
+    "name": [ "Heart of the Hurricane" ],
+    "desc": [ "Barely-controlled winds rage around you." ],
+    "remove_message": "The wind around you dies down.",
+    "rating": "good",
+    "enchantments": [ "enchant_stormshaper_heart_of_hurricane" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_cure_disease_minor",
+    "name": [ "Cure Disease, Minor" ],
+    "desc": [ "Cold and flu begone." ],
+    "remove_message": "You feel much better.",
+    "rating": "good",
+    "removes_effects": [ "common_cold", "flu" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_flesh_rending",
+    "name": [ "Rending" ],
+    "desc": [ "Your flesh is twisting itself apart!" ],
+    "apply_message": "Your flesh writhes where you were hit!",
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "hurt_chance_bot": [ 5 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_anchor",
+    "name": [ "Teleport Anchor" ],
+    "desc": [ "You're not going anywhere." ],
+    "apply_message": "Your body tingles.",
+    "rating": "bad",
+    "flags": [ "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "id": "effect_dispel_magic",
+    "type": "effect_type",
+    "name": [ "Dispel Magic" ],
+    "//": "Removes effects from spells Difficulty 6 or below.  No attumement effects removed.",
+    "desc": [ "Enchantments are being stripped away from you." ],
+    "apply_message": "",
+    "remove_message": "You feel a sudden sense of loss.",
+    "max_duration": "2 seconds",
+    "removes_effects": [
+      "enchant_windrun",
+      "dark_sight",
+      "effect_ethereal_grasp",
+      "invisibility",
+      "bless",
+      "bio_boost",
+      "entangled",
+      "root_impale",
+      "ogres_strength",
+      "eagles_sight",
+      "cats_grace",
+      "foxs_cunning",
+      "feather_fall",
+      "bio_weave",
+      "natures_commune",
+      "electric_eye",
+      "electric_waves",
+      "electric_arts",
+      "flower_fern_eff",
+      "glowing_mushroom_eff",
+      "flask_speed_eff",
+      "flask_healing_eff",
+      "flask_stamina_eff",
+      "flask_excitement",
+      "flask_resistance",
+      "flask_illumination",
+      "flask_mana_regen",
+      "flask_max_mana",
+      "flask_regeneration",
+      "earthshaper_fortitude_of_stone",
+      "effect_tremorsense",
+      "effect_sense_outsiders",
+      "effect_kelvinist_anti_cold",
+      "effect_kelvinist_anti_heat",
+      "effect_magus_slowfall",
+      "effect_magus_spiderclimb",
+      "effect_biomancer_swim_speed",
+      "effect_biomancer_carrion_feast",
+      "effect_classless_watch",
+      "effect_obfuscating_aura",
+      "effect_shape_of_dust",
+      "effect_acid_res_aura",
+      "effect_acid_res_aura_greater",
+      "effect_thorns_electric"
+    ]
+  },
+  {
+    "id": "effect_disjunction",
+    "type": "effect_type",
+    "name": [ "Disjunction" ],
+    "//": "Removes all effects from spells.",
+    "desc": [ "All enchantments are being stripped away from you." ],
+    "apply_message": "",
+    "remove_message": "You feel a sudden acute sense of loss.",
+    "max_duration": "2 seconds",
+    "removes_effects": [
+      "enchant_windrun",
+      "dark_sight",
+      "effect_ethereal_grasp",
+      "invisibility",
+      "bless",
+      "bio_boost",
+      "entangled",
+      "root_impale",
+      "ogres_strength",
+      "eagles_sight",
+      "cats_grace",
+      "foxs_cunning",
+      "feather_fall",
+      "bio_weave",
+      "natures_commune",
+      "electric_eye",
+      "electric_waves",
+      "electric_arts",
+      "flower_fern_eff",
+      "glowing_mushroom_eff",
+      "flask_speed_eff",
+      "flask_healing_eff",
+      "flask_stamina_eff",
+      "flask_excitement",
+      "flask_resistance",
+      "flask_illumination",
+      "flask_mana_regen",
+      "flask_max_mana",
+      "flask_regeneration",
+      "earthshaper_fortitude_of_stone",
+      "effect_tremorsense",
+      "effect_sense_outsiders",
+      "effect_kelvinist_anti_cold",
+      "effect_kelvinist_anti_heat",
+      "effect_magus_slowfall",
+      "effect_magus_spiderclimb",
+      "effect_biomancer_swim_speed",
+      "effect_biomancer_carrion_feast",
+      "effect_classless_watch",
+      "effect_obfuscating_aura",
+      "effect_shape_of_dust",
+      "effect_acid_res_aura",
+      "effect_acid_res_aura_greater",
+      "effect_thorns_electric",
+      "haste",
+      "synaptic_stim",
+      "slow_freeze_effect",
+      "neuro_boost",
+      "cold_heart_effect",
+      "overclocker_drive_effect",
+      "biomechanic",
+      "ice_energy",
+      "ice_age_eff",
+      "effect_biomancer_remove_instability",
+      "effect_terra_armor",
+      "gravity_mage_melee",
+      "eff_storm_elemental_electric_melee"
+    ]
   }
 ]

@@ -29,8 +29,6 @@ const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
 
-static const efftype_id effect_grabbing_appendix( "grabbing_appendix" );
-
 const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 
 side opposite_side( side s )
@@ -404,7 +402,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "conditional_flags", conditional_flags );
-    optional( jo, was_loaded, "grabbing_effect", grabbing_effect, effect_grabbing_appendix );
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
@@ -546,6 +543,18 @@ void body_part_type::check() const
         }
         if( bpls.second.score > bpls.second.max ) {
             debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.first.str() );
+        }
+    }
+
+    for( const std::pair<const damage_type_id, float> &dt : armor.resist_vals ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid armor type \"%s\" for body part %s", dt.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const damage_unit &dt : damage.damage_units ) {
+        if( !dt.type.is_valid() ) {
+            debugmsg( "Invalid unarmed_damage type \"%s\" for body part %s", dt.type.c_str(), id.c_str() );
         }
     }
 
@@ -897,8 +906,8 @@ bool bodypart::has_conditional_flag( const json_character_flag &flag ) const
 std::set<matec_id> bodypart::get_limb_techs() const
 {
     std::set<matec_id> result;
-    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit  &&
-                 hp_cur > id->health_limit ) ) {
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) &&
+        hp_cur > id->health_limit ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
     }
     return result;

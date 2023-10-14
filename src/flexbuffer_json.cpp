@@ -262,7 +262,7 @@ void JsonObject::report_unvisited() const
             tiny_bitset::block_t block = bits[block_idx];
             tiny_bitset::block_t mask = tiny_bitset::kLowBit << ( tiny_bitset::kBitsPerBlock - 1 );
             for( size_t bit_idx = 0; bit_idx < tiny_bitset::kBitsPerBlock; ++bit_idx ) {
-                if( block & mask ) {
+                if( !( block & mask ) ) {
                     skipped_members.emplace_back( block_idx * tiny_bitset::kBitsPerBlock + bit_idx );
                 }
                 mask >>= 1;
@@ -279,7 +279,16 @@ void JsonObject::report_unvisited() const
             mask >>= 1;
         }
 
-        error_skipped_members( skipped_members );
+        // Don't error on skipped comments.
+        skipped_members.erase( std::remove_if( skipped_members.begin(),
+        skipped_members.end(), [this]( size_t idx ) {
+            flexbuffers::String name = keys_[idx].AsString();
+            return strncmp( "//", name.c_str(), 2 ) == 0;
+        } ), skipped_members.end() );
+
+        if( !skipped_members.empty() ) {
+            error_skipped_members( skipped_members );
+        }
         visited_fields_bitset_.set_all();
     }
 #endif
@@ -324,14 +333,12 @@ void JsonObject::error_skipped_members( const std::vector<size_t> &skipped_membe
     jo.allow_omitted_members();
     for( size_t skipped_member_idx : skipped_members ) {
         flexbuffers::String name = keys_[skipped_member_idx].AsString();
-        if( strncmp( "//", name.c_str(), 2 ) != 0 ) {
-            try {
-                jo.throw_error_at( name.c_str(),
-                                   string_format( "Invalid or misplaced field name \"%s\" in JSON data",
-                                                  name.c_str() ) );
-            } catch( const JsonError &e ) {
-                debugmsg( "(json-error)\n%s", e.what() );
-            }
+        try {
+            jo.throw_error_at( name.c_str(),
+                               string_format( "Invalid or misplaced field name \"%s\" in JSON data",
+                                              name.c_str() ) );
+        } catch( const JsonError &e ) {
+            debugmsg( "(json-error)\n%s", e.what() );
         }
         mark_visited( skipped_member_idx );
     }

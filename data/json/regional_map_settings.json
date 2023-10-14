@@ -202,6 +202,7 @@
           "f_black_eyed_susan": 3,
           "f_bluebell": 2,
           "f_maianthemum_stellatum": 2,
+          "f_fireweed": 1,
           "f_flower_spurge": 1,
           "f_dahlia": 1,
           "f_salsify": 1,
@@ -209,13 +210,15 @@
           "f_sunflower": 1
         },
         "f_region_weed": {
-          "f_chamomile": 400,
+          "f_thistle": 400,
+          "f_dandelion": 400,
+          "f_burdock": 400,
+          "f_chamomile": 300,
           "f_carrot_wild": 300,
           "f_salsify": 300,
           "f_datura": 300,
           "f_japanese_knotweed": 300,
           "f_bluebell": 200,
-          "f_burdock": 100,
           "f_dahlia": 100,
           "f_lily": 100,
           "f_sunflower": 100,
@@ -228,6 +231,7 @@
           "f_carrot_wild": 300,
           "f_salsify": 300,
           "f_datura": 300,
+          "f_thistle": 300,
           "f_japanese_knotweed": 200,
           "f_dahlia": 200,
           "f_maianthemum_stellatum": 200,
@@ -236,9 +240,12 @@
           "f_flower_tulip": 100,
           "f_mustard": 100,
           "f_sunflower": 100,
+          "f_fireweed": 100,
+          "f_selfheal": 100,
           "f_jerusalem_artichoke": 100,
           "f_lily": 100,
-          "f_chicory": 100
+          "f_chicory": 100,
+          "f_dogbane": 30
         },
         "f_region_forest": {
           "f_burdock": 2000,
@@ -252,7 +259,8 @@
           "f_dahlia": 200,
           "f_mutpoppy": 100,
           "f_maianthemum_stellatum": 100,
-          "f_wintergreen": 100
+          "f_wintergreen": 100,
+          "f_dogbane": 80
         },
         "f_region_forest_dense": {
           "f_burdock": 2000,
@@ -260,10 +268,11 @@
           "f_lily": 500,
           "f_wild_sarsaparilla": 400,
           "f_salsify": 300,
-          "f_wintergreen": 200
+          "f_wintergreen": 200,
+          "f_dogbane": 100
         },
-        "f_region_forest_water": { "f_burdock": 4, "f_japanese_knotweed": 2, "f_lily": 1 },
-        "f_region_water_plant": { "f_cattails": 15, "f_wild_rice": 1, "f_lilypad": 1, "f_lotus": 5 }
+        "f_region_forest_water": { "f_burdock": 4, "f_purple_loosestrife": 3, "f_japanese_knotweed": 2, "f_lily": 1 },
+        "f_region_water_plant": { "f_cattails": 15, "f_purple_loosestrife": 10, "f_wild_rice": 1, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
     "river_scale": 1.0,
@@ -644,7 +653,6 @@
           "mx_science": 20,
           "mx_toxic_waste": 10,
           "mx_crater": 10,
-          "mx_supplydrop": 8,
           "mx_military": 8,
           "mx_drugdeal": 8,
           "mx_mass_grave": 5,
@@ -684,7 +692,6 @@
           "mx_grass": 10,
           "mx_military": 8,
           "mx_mass_grave": 5,
-          "mx_supplydrop": 5,
           "mx_portal": 3,
           "mx_portal_in": 3,
           "mx_jabberwock": 1,
@@ -707,7 +714,6 @@
           "mx_point_dead_vegetation": 60,
           "mx_science": 50,
           "mx_military": 25,
-          "mx_supplydrop": 25,
           "mx_crater": 20,
           "mx_drugdeal": 20,
           "mx_fallen_shed": 10,
@@ -742,7 +748,7 @@
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
           "mx_grave": 50,
-          "mx_supplydrop": 40,
+          "mx_supplydrop": 4,
           "mx_Trapdoor_spider_den": 40,
           "mx_collegekids": 30,
           "mx_drugdeal": 30,
@@ -767,7 +773,7 @@
           "mx_roadblock_mil": 170,
           "mx_bandits_block": 800,
           "mx_drugdeal": 300,
-          "mx_supplydrop": 100,
+          "mx_supplydrop": 5,
           "mx_portal": 50,
           "mx_crater": 100,
           "mx_portal_in": 40,
@@ -831,7 +837,7 @@
           "mx_casings": 30
         }
       },
-      "river": { "chance": 3, "extras": { "mx_reed": 100 } },
+      "river": { "chance": 1, "extras": { "mx_null": 66, "mx_riverside_boat": 1, "mx_reed": 33 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
       "sewer": { "chance": 80, "extras": { "mx_null": 100 } },
       "agricultural": {
@@ -844,7 +850,7 @@
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
           "mx_grave": 50,
-          "mx_supplydrop": 40,
+          "mx_supplydrop": 2,
           "mx_Trapdoor_spider_den": 40,
           "mx_collegekids": 30,
           "mx_drugdeal": 30,
@@ -1010,6 +1016,7 @@
         "urban_16_house_ranch": 50,
         "urban_17_house_ranch": 50,
         "urban_18_victorian": 50,
+        "urban_20_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 7,
         "house_vacant1": 7,
@@ -1026,8 +1033,7 @@
         "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
-        "fishing_pond_city": 10,
-        "railroad_city": 5
+        "fishing_pond_city": 10
       },
       "parks": {
         "park": 50,
@@ -1083,6 +1089,7 @@
         "cs_open_sewer": 33
       },
       "shops": {
+        "deserter_city": 30,
         "bus_station": 200,
         "city_block_2": 300,
         "textile_mill_museum": 50,
@@ -1182,6 +1189,7 @@
         "bowling_alley": 200,
         "church": 200,
         "church_1": 200,
+        "synagogue": 75,
         "office_cubical": 200,
         "office_cubical_1": 200,
         "furniture": 200,
@@ -1280,7 +1288,8 @@
         "public_works": 200,
         "office_tower": 150,
         "office_tower_2": 150,
-        "office_tower_large": 500,
+        "office_skyscraper": 300,
+        "office_tower_large": 300,
         "office_tower_hiddenlab": 50,
         "mall": 100,
         "home_improvement_superstore_new": 150,
@@ -1303,7 +1312,8 @@
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
         "salon": 500,
-        "strip_mall": 750
+        "strip_mall": 750,
+        "barber_shop": 350
       }
     },
     "weather": {

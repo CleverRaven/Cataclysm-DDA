@@ -1,0 +1,53 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "name": "centering meditation",
+    "id": "psi_centering_meditation_drain_reduce",
+    "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the unnatural drain of psionic channeling into mundane tiredness, though it may take some time to meditate all of your drain away.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "difficulty": 4,
+    "time": "15 m",
+    "autolearn": true,
+    "skill_used": "metaphysics",
+    "flags": [ "BLIND_EASY" ],
+    "result_eocs": [
+      {
+        "id": "EOC_CENTERING_MEDITATION",
+        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "-=", "1" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "name": "drain channeling protocol PGS38",
+    "id": "psi_matrix_channeling_drain_reduce",
+    "description": "That report indicated there was a way to channel all of the unnatural fatigue from long-term psionic use into a focusing object.  All you need is a drained matrix crystal and time.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "metaphysics",
+    "difficulty": 7,
+    "time": "4 h",
+    "book_learn": [ [ "phavian_report_psionic_drain", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false }
+    ],
+    "components": [ [ [ "matrix_crystal_drained", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_MATRIX_DRAIN_MEDITATION",
+        "effect": [
+          {
+            "u_message": "You channel all of the unnatural fatigue into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, all of the fatigue your powers caused you vanishes."
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "=", "0" ] },
+          { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 }
+        ]
+      }
+    ]
+  }
+]

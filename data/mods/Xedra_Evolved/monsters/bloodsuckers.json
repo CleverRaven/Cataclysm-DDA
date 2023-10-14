@@ -42,7 +42,7 @@
       { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON", "VAMP_VIRUS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
     "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6 }
   },
   {
@@ -89,7 +89,7 @@
       { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY", "VAMP_VIRUS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 25, "cut": 8, "bullet": 24, "electric": 14 }
   },
   {

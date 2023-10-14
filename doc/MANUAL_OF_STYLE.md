@@ -1,3 +1,5 @@
+# Manual Of Style
+
 Follow these conventions when adding or editing in-game text. Theses conventions apply to the default US English language, translations should follow guidelines from [/lang/notes/](../lang/notes) if there are any for the language in question, which can be different that the ones here.
 
 1. Use US English spelling.

@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "field_type.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -53,7 +54,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum m_flag : int;
+struct mon_flag;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
@@ -223,6 +224,12 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
+enum class body_part_filter : int {
+    strict = 0,
+    equivalent = 1,
+    next_best = 2
+};
+
 using scheduled_effect = struct scheduled_effect_t {
     efftype_id eff_id;
     time_duration dur;
@@ -287,6 +294,9 @@ class Creature : public viewer
             return nullptr;
         }
         virtual mfaction_id get_monster_faction() const = 0;
+
+        // Witness and respond to theft of faction items
+        virtual void witness_thievery( item *it ) = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -512,9 +522,7 @@ class Creature : public viewer
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
-        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
-        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
-         */
+        /** Returns true if this monster has a gun-type attack or the RANGED_ATTACKER flag*/
         virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
@@ -547,10 +555,15 @@ class Creature : public viewer
         bool is_dangerous_fields( const field &fld ) const;
         /** Returns true if the given field entry is dangerous to us. */
         bool is_dangerous_field( const field_entry &entry ) const;
-        /** Returns true if we are immune to the field type with the given fid. Does not
-         *  handle intensity, so this function should only be called through is_dangerous_field().
+        /** Returns true if we are immune to the field type with the given fid. Can handle intensity if field intensity data is specified for the effect
+        , so this function should only be called through is_dangerous_field().
          */
         virtual bool is_immune_field( const field_type_id & ) const {
+            return false;
+        }
+
+        // check if the creature is immune to the effect / field based on the immunity data
+        virtual bool check_immunity_data( const field_immunity_data & ) const {
             return false;
         }
 
@@ -723,7 +736,7 @@ class Creature : public viewer
         virtual field_type_id bloodType() const = 0;
         virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const {
+        virtual bool has_flag( const mon_flag_id & ) const {
             return false;
         }
         virtual bool uncanny_dodge() {
@@ -774,18 +787,16 @@ class Creature : public viewer
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
-        void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
-                                int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
-                                int fat_to_max_hp = 0 );
         // Does not fire debug message if part does not exist
-        bool has_part( const bodypart_id &id ) const;
+        bool has_part( const bodypart_id &id, body_part_filter filter = body_part_filter::strict ) const;
         // A debug message will be fired if part does not exist.
         // Check with has_part first if a part may not exist.
         bodypart *get_part( const bodypart_id &id );
         const bodypart *get_part( const bodypart_id &id ) const;
 
         // get the body part id that matches for the character
-        bodypart_id get_part_id( const bodypart_id &id ) const;
+        bodypart_id get_part_id( const bodypart_id &id,
+                                 body_part_filter filter = body_part_filter::next_best, bool suppress_debugmsg = false ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
@@ -805,7 +816,7 @@ class Creature : public viewer
 
         const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
 
-        void set_part_hp_cur( const bodypart_id &id, int set );
+        virtual void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
         void set_part_healed_total( const bodypart_id &id, int set );
         void set_part_damage_disinfected( const bodypart_id &id, int set );

@@ -242,7 +242,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
-    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
     optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
@@ -261,7 +260,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         optional( jo, was_loaded, "condition_desc", condition_desc );
         has_condition = true;
     }
-
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -353,6 +351,7 @@ void martialart::load( const JsonObject &jo, const std::string &src )
     }
     optional( jo, was_loaded, "primary_skill", primary_skill, skill_unarmed );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
+    optional( jo, was_loaded, "teachable", teachable, true );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -535,7 +534,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_remove = false;
             name.push_back( buff.name );
             desc.push_back( buff.description );
-            rating = e_good;
+            apply_msgs.emplace_back( no_translation( "" ), m_good );
         }
 };
 
@@ -710,8 +709,8 @@ std::string ma_requirements::get_description( bool buff ) const
     if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
     return pr.second > 0;
 } ) ) {
-        dump += string_format( _( "<bold>%s required: </bold>" ),
-                               n_gettext( "Skill", "Skills", min_skill.size() ) );
+        dump += n_gettext( "<bold>Skill required: </bold>",
+                           "<bold>Skills required: </bold>", min_skill.size() );
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
@@ -827,7 +826,6 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    powerful_knockback = false;
     knockback_follow = false; // player follows the knocked-back party into their former tile
 
     // offensive
@@ -966,8 +964,8 @@ std::string ma_buff::get_description( bool passive ) const
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump += string_format( _( "<bold>%s:</bold> " ),
-                               n_gettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
+        dump += std::string( npgettext( "martial arts buff desc", "<bold>Bonus:</bold> ",
+                                        "<bold>Bonus/stack:</bold> ", max_stacks ) ) + "\n" + temp;
     }
 
     dump += reqs.get_description( true );
@@ -979,24 +977,38 @@ std::string ma_buff::get_description( bool passive ) const
 
     const int turns = to_turns<int>( buff_duration );
     if( !passive && turns ) {
-        dump += string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
-                               turns, n_gettext( "turn", "turns", turns ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>last</info> for <stat>%d turn</stat>",
+                                          "* Will <info>last</info> for <stat>%d turns</stat>",
+                                          turns ),
+                               turns ) + "\n";
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
+                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
+                               max_stacks ),
+                    dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
+                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
+                               max_stacks ),
+                    dodges_bonus ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
+                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
+                               max_stacks ),
+                    blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
+                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
+                               max_stacks ),
+                    blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -1862,10 +1874,6 @@ std::string ma_technique::get_description() const
                 std::string( "\n" );
     }
 
-    if( powerful_knockback ) {
-        dump += _( "* Causes extra damage on <info>knockback collision</info>." ) + std::string( "\n" );
-    }
-
     if( dodge_counter ) {
         dump += _( "* Will <info>counterattack</info> when you <info>dodge</info>" ) + std::string( "\n" );
     }
@@ -1895,8 +1903,10 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_dist ) {
-        dump += string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
-                               knockback_dist, n_gettext( "tile", "tiles", knockback_dist ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>knock back</info> enemies <stat>%d tile</stat>",
+                                          "* Will <info>knock back</info> enemies <stat>%d tiles</stat>",
+                                          knockback_dist ),
+                               knockback_dist ) + "\n";
     }
 
     if( knockback_follow ) {
@@ -1904,13 +1914,17 @@ std::string ma_technique::get_description() const
     }
 
     if( down_dur ) {
-        dump += string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
-                               down_dur, n_gettext( "turn", "turns", down_dur ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>down</info> enemies for <stat>%d turn</stat>",
+                                          "* Will <info>down</info> enemies for <stat>%d turns</stat>",
+                                          down_dur ),
+                               down_dur ) + "\n";
     }
 
     if( stun_dur ) {
-        dump += string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
-                               stun_dur, n_gettext( "turn", "turns", stun_dur ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>stun</info> target for <stat>%d turn</stat>",
+                                          "* Will <info>stun</info> target for <stat>%d turns</stat>",
+                                          stun_dur ),
+                               stun_dur ) + "\n";
     }
 
     if( disarms ) {

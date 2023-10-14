@@ -66,6 +66,13 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 10,
+        "charge_rate": "100 W"
       }
     ]
   },
@@ -91,6 +98,13 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_plus_battery_cell"
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 10,
+        "charge_rate": "100 W"
       }
     ],
     "melee_damage": { "bash": 4 }

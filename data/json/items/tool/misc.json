@@ -23,7 +23,6 @@
       "noise_id": "misc",
       "noise_variant": "airhorn",
       "use_message": "You honk your airhorn.",
-      "no_charges_message": "You depress the button but no sound comes out.",
       "//": "Use of %s not currently supported."
     },
     "melee_damage": { "bash": 3 }
@@ -61,12 +60,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "butane": 400 } } ],
     "material": [ "aluminum" ],
     "flags": [ "NO_RELOAD", "GAS_TANK" ],
-    "explosion": {
-      "power": 4503,
-      "distance_factor": 0.1,
-      "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
-    },
     "explode_in_fire": true
   },
   {
@@ -109,6 +102,7 @@
     "id": "clay_urn",
     "type": "TOOL",
     "name": { "str": "clay urn" },
+    "category": "container",
     "description": "A clay container for storing cremated ashes.",
     "weight": "1600 g",
     "volume": "4280 ml",
@@ -317,7 +311,6 @@
       "noise_id": "misc",
       "noise_variant": "horn_bicycle",
       "use_message": "You honk the bicycle horn.",
-      "no_charges_message": "Seeing this is an error.",
       "//": "Use of %s not currently supported."
     },
     "melee_damage": { "bash": 1 }
@@ -369,15 +362,18 @@
     "color": "brown",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": {
-      "target": "large_space_heater_on",
-      "msg": "You turn on the heater.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The heater needs more charge.",
-      "menu_text": "Turn on",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "large_space_heater_on",
+        "msg": "You turn on the heater.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The heater needs more charge.",
+        "menu_text": "Turn on",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -398,13 +394,16 @@
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "large_space_heater",
-      "msg": "You turn off the heater.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    }
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "large_space_heater",
+        "msg": "You turn off the heater.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
+    ]
   },
   {
     "id": "lifestraw",
@@ -569,15 +568,18 @@
     "color": "brown",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "use_action": {
-      "target": "small_space_heater_on",
-      "msg": "You turn on the heater.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The heater needs more charge.",
-      "menu_text": "Turn on",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "small_space_heater_on",
+        "msg": "You turn on the heater.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The heater needs more charge.",
+        "menu_text": "Turn on",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -598,13 +600,16 @@
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "small_space_heater",
-      "msg": "You turn off the heater.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    }
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "small_space_heater",
+        "msg": "You turn off the heater.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
+    ]
   },
   {
     "id": "spray_can",
@@ -613,6 +618,7 @@
     "description": "An aerosol spray can filled with paint.  Activate it to make graffiti on the floor.",
     "weight": "340 g",
     "volume": "250 ml",
+    "longest_side": "21 cm",
     "price": 500,
     "price_postapoc": 10,
     "material": [ "aluminum" ],
@@ -630,6 +636,7 @@
     "description": "A ten-foot wooden stepladder.  Activate it to set it down.",
     "weight": "20000 g",
     "volume": "50 L",
+    "longest_side": "150 cm",
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -702,6 +709,28 @@
     "use_action": [ "MACE" ]
   },
   {
+    "id": "c4_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "C-4 payload" },
+    "description": "This is a dummy item used by c4 hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": { "target": "c4armed", "target_timer": "10 seconds", "type": "transform" },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "mininuke_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "mininuke payload" },
+    "description": "This is a dummy item used by mininuke hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": { "target": "mininuke_act", "target_timer": "20 seconds", "type": "transform" },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "tear_gas_payload",
     "type": "TOOL",
     "category": "weapons",
@@ -742,6 +771,7 @@
     "description": "A telescoping umbrella which has been collapsed down for easy storage.  May be used to keep dry when extended and wielded.",
     "weight": "411 g",
     "volume": "1500 ml",
+    "longest_side": "25 cm",
     "price": 12000,
     "price_postapoc": 100,
     "to_hit": -2,
@@ -904,7 +934,6 @@
         "noise_id": "misc",
         "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
-        "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."
       },
       "WEATHER_TOOL",
@@ -920,6 +949,7 @@
     "looks_like": "stepladder",
     "weight": "15750 g",
     "volume": "50 L",
+    "longest_side": "150 cm",
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,

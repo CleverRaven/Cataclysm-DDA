@@ -14,7 +14,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
-#include "gamemode_defense.h"
 #include "input.h"
 #include "memory_fast.h"
 #include "output.h"
@@ -1225,6 +1224,11 @@ void uilist::settext( const std::string &str )
     text = str;
 }
 
+void uilist::set_selected( int index )
+{
+    selected = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+}
+
 struct pointmenu_cb::impl_t {
     const std::vector< tripoint > &points;
     int last; // to suppress redrawing
@@ -1293,12 +1297,6 @@ template bool navigate_ui_list<size_t, size_t>( const std::string &action, size_
 template bool navigate_ui_list<unsigned int, unsigned int>( const std::string &action,
         unsigned int &val,
         int page_delta, unsigned int size, bool wrap );
-template bool navigate_ui_list<defense_style, defense_style>( const std::string &action,
-        defense_style &val,
-        int page_delta, defense_style size, bool wrap );
-template bool navigate_ui_list<defense_location, defense_location>( const std::string &action,
-        defense_location &val,
-        int page_delta, defense_location size, bool wrap );
 
 // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
 // NOLINTs below are to address

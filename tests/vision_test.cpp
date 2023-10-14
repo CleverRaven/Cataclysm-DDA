@@ -151,7 +151,7 @@ struct vision_test_case {
     void test_all() const {
         Character &player_character = get_player_character();
         g->place_player( tripoint( 60, 60, 0 ) );
-        player_character.worn.clear(); // Remove any light-emitting clothing
+        player_character.clear_worn(); // Remove any light-emitting clothing
         player_character.clear_effects();
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
@@ -218,12 +218,14 @@ struct vision_test_case {
             // player's vision_threshold is based on the previous lighting level (so
             // they might, for example, have poor nightvision due to having just been
             // in daylight)
+            here.invalidate_visibility_cache();
             here.update_visibility_cache( zlev );
             // make sure floor caches are valid on all zlevels above
             for( int z = -2; z <= OVERMAP_HEIGHT; z++ ) {
                 here.invalidate_map_cache( z );
             }
             here.build_map_cache( zlev );
+            here.invalidate_visibility_cache();
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
             here.build_map_cache( zlev );
@@ -908,7 +910,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
             std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
-            v->remove_part( v->index_of_part( horns.front(), true ) );
+            v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
             REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );

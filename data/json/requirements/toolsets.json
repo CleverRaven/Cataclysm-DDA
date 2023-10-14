@@ -3,7 +3,7 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
   },
   {
     "id": "shot_forming",
@@ -20,7 +20,7 @@
         [ "clay_teapot", -1 ],
         [ "can_food", -1 ]
       ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
     ]
   },
   {
@@ -43,9 +43,22 @@
         [ "chem_DMSO", 125 ],
         [ "vinegar", 8 ],
         [ "ammonia_hydroxide", 1 ],
-        [ "bleach", 1 ],
-        [ "soapy_water", 1 ]
+        [ "bleach", 1 ]
       ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+    ]
+  },
+  {
+    "id": "gun_cleaning_bp",
+    "type": "requirement",
+    "//": "BP requires hot soapy water",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [
+      [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
+      [ [ "water_boiling_heat", 2, "LIST" ] ]
+    ],
+    "components": [
+      [ [ "soapy_water", 3 ] ],
       [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
     ]
   },
@@ -73,11 +86,24 @@
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
+    "id": "forging_scrap",
+    "type": "requirement",
+    "//": "Forging of steel items (per scrap metal), charcoal forge is already a substitute for forge",
+    "tools": [ [ [ "forge", 4 ], [ "oxy_torch", 4 ] ] ]
+  },
+  {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
+    "id": "blacksmithing_scrap",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_scrap energy cost balanced for one scrap metal.",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 4 ], [ "oxy_torch", 4 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -152,7 +178,7 @@
         [ "welder", 20 ],
         [ "welding_kit", 20 ],
         [ "welder_crude", 40 ],
-        [ "toolset", 30 ],
+        [ "integrated_welder", 30 ],
         [ "oxy_torch", 1 ],
         [ "propane_torch", 8 ]
       ]
@@ -171,7 +197,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 400 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "oxy_torch", 10 ],
         [ "propane_torch", 80 ]
       ]
@@ -193,7 +219,7 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 400 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "oxy_torch", 10 ],
         [ "propane_torch", 80 ]
       ]
@@ -220,20 +246,20 @@
     "type": "requirement",
     "//": "Construction of chainmail items",
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "drill_press_tool", 5 ] ] ]
+    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "corded_powerdrill", 10 ], [ "drill_press_tool", 5 ] ] ]
   },
   {
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "integrated_welder", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -304,8 +330,8 @@
         [ "elec_jackhammer", 1848 ],
         [ "hammer_sledge", -1 ]
       ],
-      [ [ "masonrysaw_off", 100 ] ],
-      [ [ "cordless_drill", 200 ] ],
+      [ [ "masonrysaw_off", 100 ], [ "electric_masonrysaw_off", 1320 ] ],
+      [ [ "cordless_drill", 200 ], [ "corded_powerdrill", 200 ] ],
       [ [ "angle_grinder", 200 ] ]
     ]
   },
@@ -334,7 +360,7 @@
     "qualities": [ { "id": "PRY", "level": 3 } ],
     "tools": [
       [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
-      [ [ "masonrysaw_off", 100 ] ]
+      [ [ "masonrysaw_off", 100 ], [ "electric_masonrysaw_off", 1320 ] ]
     ]
   },
   {

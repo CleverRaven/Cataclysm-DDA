@@ -1,6 +1,24 @@
 [
   {
     "type": "oter_id_migration",
+    "//": "obsoleted in 0.H",
+    "oter_ids": {
+      "school_2_3_north": "open_air",
+      "school_2_3_east": "open_air",
+      "school_2_3_south": "open_air",
+      "school_2_3_west": "open_air",
+      "school_3_3_north": "open_air",
+      "school_3_3_east": "open_air",
+      "school_3_3_south": "open_air",
+      "school_3_3_west": "open_air",
+      "school_4_3_north": "open_air",
+      "school_4_3_east": "open_air",
+      "school_4_3_south": "open_air",
+      "school_4_3_west": "open_air"
+    }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so keep until 0.I",
     "oter_ids": {
       "dirt_road_turn1_east": "dirt_road_turn_east",
@@ -11,6 +29,38 @@
       "dirt_road_turn1_north": "dirt_road_turn_north",
       "dirt_road_turn1_south": "dirt_road_turn_south",
       "dirt_road_turn1_west": "dirt_road_turn_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": { "gunshow_0": "gunshow_0_north", "gunshow_1": "gunshow_1_north" }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": { "crater_core": "crater_core_large" }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "2fmotel_1_north": "motel_1_north",
+      "2fmotel_1_east": "motel_1_east",
+      "2fmotel_1_south": "motel_1_south",
+      "2fmotel_1_west": "motel_1_west",
+      "2fmotel_entrance_north": "motel_entrance_north",
+      "2fmotel_entrance_east": "motel_entrance_east",
+      "2fmotel_entrance_south": "motel_entrance_south",
+      "2fmotel_entrance_west": "motel_entrance_west",
+      "2fmotel_2_north": "motel_2_north",
+      "2fmotel_2_east": "motel_2_east",
+      "2fmotel_2_south": "motel_2_south",
+      "2fmotel_2_west": "motel_2_west",
+      "2fmotel_3_north": "motel_3_north",
+      "2fmotel_3_east": "motel_3_east",
+      "2fmotel_3_south": "motel_3_south",
+      "2fmotel_3_west": "motel_3_west"
     }
   },
   {
@@ -108,6 +158,37 @@
       "pagan_cult_right_corner_up_south": "omt_obsolete",
       "pagan_cult_right_corner_up_west": "omt_obsolete",
       "pagan_cult_right_corner_west": "omt_obsolete"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "hive": "omt_obsolete",
+      "s_restaurant_foodplace_north": "s_restaurant_north",
+      "s_restaurant_foodplace_east": "s_restaurant_east",
+      "s_restaurant_foodplace_south": "s_restaurant_south",
+      "s_restaurant_foodplace_west": "s_restaurant_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "motel_twd_second_floor_north": "motel_twd_1_f1_north",
+      "motel_twd_second_floor_east": "motel_twd_1_f1_east",
+      "motel_twd_second_floor_south": "motel_twd_1_f1_south",
+      "motel_twd_second_floor_west": "motel_twd_1_f1_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
+    "oter_ids": {
+      "trail_intersection_north": "forest_trail_intersection_north",
+      "trail_intersection_east": "forest_trail_intersection_east",
+      "trail_intersection_south": "forest_trail_intersection_south",
+      "trail_intersection_west": "forest_trail_intersection_west"
     }
   },
   {

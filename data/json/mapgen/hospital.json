@@ -48,12 +48,12 @@
       { "x": -4, "y": 2, "parts": [ "frame#se", "halfboard#se" ] }
     ],
     "items": [
-      { "x": -2, "y": 0, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
-      { "x": -2, "y": 1, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
-      { "x": -3, "y": 0, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
-      { "x": -3, "y": 1, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
-      { "x": -4, "y": 0, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
-      { "x": -4, "y": 1, "chance": 90, "item_groups": [ "corpses_bodybag" ] }
+      { "x": -2, "y": 0, "chance": 90, "item_groups": [ "corpse_in_body_bag" ] },
+      { "x": -2, "y": 1, "chance": 90, "item_groups": [ "corpse_in_body_bag" ] },
+      { "x": -3, "y": 0, "chance": 90, "item_groups": [ "corpse_in_body_bag" ] },
+      { "x": -3, "y": 1, "chance": 90, "item_groups": [ "corpse_in_body_bag" ] },
+      { "x": -4, "y": 0, "chance": 90, "item_groups": [ "corpse_in_body_bag" ] },
+      { "x": -4, "y": 1, "chance": 90, "item_groups": [ "corpse_in_body_bag" ] }
     ]
   },
   {
@@ -62,7 +62,7 @@
     "nested_mapgen_id": "pile_bodybag_corpses",
     "object": {
       "mapgensize": [ 3, 3 ],
-      "place_items": [ { "item": "corpses_bodybag", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100, "repeat": [ 20, 40 ] } ]
+      "place_items": [ { "item": "corpse_in_body_bag", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100, "repeat": [ 20, 40 ] } ]
     }
   },
   {
@@ -194,6 +194,7 @@
           { "item": "surgery", "chance": 60 }
         ]
       },
+      "monster": { "B": { "monster": "mon_civilian_icu", "chance": 10 } },
       "place_monster": [
         { "group": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 15, 20 ] },
         { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },

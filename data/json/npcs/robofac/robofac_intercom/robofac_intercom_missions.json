@@ -23,17 +23,6 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
       },
       {
-        "//": "Remove after 0.G - This is to prevent players who accepted the mission before its update from being unable to continue the questline",
-        "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
-        "effect": [
-          { "u_consume_item": "data_card", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 4 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
-        ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
-      },
-      {
         "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
         "effect": [
@@ -239,9 +228,10 @@
           "                        "
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
-        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": [ 1, 2 ] } },
         "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
-        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
+        "item": { "@": [ { "item": "corpse_generic_female" } ] },
+        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
@@ -650,7 +640,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the unusual robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
+    "description": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -797,7 +787,7 @@
     "name": { "str": "Hazard Meteorology" },
     "//": "This mission is completed when you first sell any piece of portal storm data.",
     "goal": "MGOAL_NULL",
-    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need stay outside and carry the recorder for around 6 minutes to collect sufficient data.  Generate a printout and offer it to Hub 01 to finish the mission.",
+    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need to <color_yellow>stay outside and carry the recorder for around 6 minutes until you hear a sharp beep</color> to collect sufficient data.  Generate a printout by activating the NRE recorder and offer it to Hub 01 to finish the mission.",
     "difficulty": 5,
     "value": 0,
     "end": {

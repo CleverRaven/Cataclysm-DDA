@@ -158,5 +158,53 @@
     "type": "monstergroup",
     "name": "GROUP_FERAL_AGENTS",
     "monsters": [ { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 1, 2 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_IERDE",
+    "monsters": [
+      { "monster": "mon_monstrous_badger", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_stoneling", "weight": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_UNDINE",
+    "monsters": [
+      { "monster": "mon_water_sprite", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_spitting_lizard", "weight": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_SALAMANDER",
+    "monsters": [
+      { "monster": "mon_smoke_mephit", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_SYLPH",
+    "monsters": [
+      { "monster": "mon_skyglass_butterflies", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_dragonfly_fae", "weight": 40, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_ARVORE",
+    "monsters": [
+      { "monster": "mon_vineling", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_ratatosk_children", "weight": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_HOMULLUS",
+    "monsters": [
+      { "monster": "mon_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_venus_doll", "weight": 400, "cost_multiplier": 0 }
+    ]
   }
 ]

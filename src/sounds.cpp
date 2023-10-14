@@ -37,6 +37,7 @@
 #include "safemode_ui.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
@@ -481,6 +482,16 @@ void sounds::process_sounds()
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
             }
         }
+        // Trigger sound-triggered traps
+        for( const trap *trapType : trap::get_sound_triggered_traps() ) {
+            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
+                const int dist = sound_distance( source, tp );
+                const trap &tr = get_map().tr_at( tp );
+                if( tr.triggered_by_sound( vol, dist ) ) {
+                    tr.trigger( tp );
+                }
+            }
+        }
     }
     recent_sounds.clear();
 }
@@ -883,7 +894,7 @@ void sfx::do_vehicle_engine_sfx()
         if( !veh->is_engine_on( vp ) ) {
             continue;
         }
-        std::string variant = vp.info().get_id().str();
+        std::string variant = vp.info().id.str();
         if( sfx::has_variant_sound( "engine_working_internal", variant, seas_str, indoors, night ) ) {
             // has special sound variant for this vpart id
         } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
@@ -1027,7 +1038,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         if( !veh->is_engine_on( vp ) ) {
             continue;
         }
-        std::string variant = vp.info().get_id().str();
+        std::string variant = vp.info().id.str();
         if( sfx::has_variant_sound( "engine_working_external", variant, seas_str, indoors, night ) ) {
             // has special sound variant for this vpart id
         } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
@@ -1745,17 +1756,12 @@ void sfx::do_footstep()
             ter_t_railroad_track_d2,
             ter_t_railroad_tie,
             ter_t_railroad_tie_d,
-            ter_t_railroad_tie_d,
             ter_t_railroad_tie_h,
             ter_t_railroad_tie_v,
-            ter_t_railroad_tie_d,
             ter_t_railroad_track_on_tie,
             ter_t_railroad_track_h_on_tie,
             ter_t_railroad_track_v_on_tie,
             ter_t_railroad_track_d_on_tie,
-            ter_t_railroad_tie,
-            ter_t_railroad_tie_h,
-            ter_t_railroad_tie_v,
             ter_t_railroad_tie_d1,
             ter_t_railroad_tie_d2,
         };
@@ -1798,7 +1804,7 @@ void sfx::do_footstep()
             return;
         }
         if( veh_displayed_part ) {
-            const std::string &part_id = veh_displayed_part->part().info().get_id().str();
+            const std::string &part_id = veh_displayed_part->part().info().id.str();
             if( has_variant_sound( "plmove", part_id, seas_str, indoors, night ) ) {
                 play_plmove_sound_variant( part_id, seas_str, indoors, night );
             } else if( veh_displayed_part->has_feature( VPFLAG_AISLE ) ) {

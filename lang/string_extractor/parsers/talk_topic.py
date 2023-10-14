@@ -20,11 +20,12 @@ dynamic_line_string_keys = [
     "has_available_mission", "has_many_available_missions",
     "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
     "npc_available", "npc_following", "npc_friend", "npc_hostile",
-    "npc_train_skills", "npc_train_styles",
-    "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_has_camp",
-    "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon",
-    "npc_has_weapon", "u_driving", "npc_driving",
-    "has_pickup_list", "is_by_radio", "has_reason",
+    "npc_train_skills", "npc_train_styles", "npc_train_spells",
+    "at_safe_space", "is_day", "npc_has_activity",
+    "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
+    "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon",
+    "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",
+    "u_driving", "npc_driving", "has_pickup_list", "is_by_radio", "has_reason"
     # yes/no strings for complex conditions, 'and' list
     "yes", "no", "concatenate"
 ]

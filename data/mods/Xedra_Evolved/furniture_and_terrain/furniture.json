@@ -159,5 +159,46 @@
         { "item": "feces_bat", "count": [ 60, 75 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_elemental_altar",
+    "name": "altar of elements",
+    "move_cost_mod": 10,
+    "symbol": "H",
+    "color": "light_gray",
+    "coverage": 40,
+    "required_str": 30,
+    "light_emitted": 4,
+    "crafting_pseudo_item": "sacrifice_table",
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" },
+    "description": "This is a dramatic stone altar, it glows faintly in the dark.  Each of the four corners has a place for one of the cardinal elements as well as several recessed spaces around the center of the altar.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_barkfloor_no_roof",
+    "looks_like": "t_barkfloor",
+    "name": "bark",
+    "description": "A solid piece of bark covers the floor here, open to the sky.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_dirt",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+    }
   }
 ]

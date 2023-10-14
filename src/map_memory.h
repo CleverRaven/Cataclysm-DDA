@@ -63,8 +63,8 @@ struct mm_submap {
         // @returns true if mm_submap is valid, i.e. not returned from an uninitialized region.
         bool is_valid() const;
 
-        const memorized_tile &get_tile( const point &p ) const;
-        void set_tile( const point &p, const memorized_tile &value );
+        const memorized_tile &get_tile( const point_sm_ms &p ) const;
+        void set_tile( const point_sm_ms &p, const memorized_tile &value );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( int version, const JsonArray &ja );
@@ -103,20 +103,23 @@ class map_memory
          * global sm coord + ms coord within the submap.
          */
         struct coord_pair {
-            tripoint sm;
-            point loc;
+            tripoint_abs_sm sm;
+            point_sm_ms loc;
 
-            explicit coord_pair( const tripoint &p );
+            explicit coord_pair( const tripoint_abs_ms &p );
         };
 
     public:
         map_memory();
 
+        // @returns true if map memory has been loaded
+        bool is_valid() const;
+
         /** Load memorized submaps around given global map square pos. */
-        void load( const tripoint &pos );
+        void load( const tripoint_abs_ms &pos );
 
         /** Save memorized submaps to disk, drop ones far from given global map square pos. */
-        bool save( const tripoint &pos );
+        bool save( const tripoint_abs_ms &pos );
 
         /**
          * Prepares map memory for rendering and/or memorization of given region.
@@ -125,58 +128,61 @@ class map_memory
          * Both coords are inclusive and should be on the same Z level.
          * @return whether the region was re-cached
          */
-        bool prepare_region( const tripoint &p1, const tripoint &p2 );
+        bool prepare_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
 
         /**
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.
          */
-        const memorized_tile &get_tile( const tripoint &pos ) const;
+        const memorized_tile &get_tile( const tripoint_abs_ms &pos ) const;
 
         /**
          * Memorizes terrain at \p pos, overwriting old terrain values.
          * @param pos tile position, in global ms coords.
          */
-        void set_tile_terrain( const tripoint &pos, std::string_view id, int subtile, int rotation );
+        void set_tile_terrain( const tripoint_abs_ms &pos, std::string_view id,
+                               int subtile, int rotation );
 
         /**
          * Memorizes decoraiton at \p pos, overwriting old decoration values.
          * @param pos tile position, in global ms coords.
          */
-        void set_tile_decoration( const tripoint &pos, std::string_view id, int subtile, int rotation );
+        void set_tile_decoration( const tripoint_abs_ms &pos, std::string_view id,
+                                  int subtile, int rotation );
 
         /**
          * Memorizes symbol at \p pos, overwriting old symbol.
          * @param pos tile position, in global ms coords.
         */
-        void set_tile_symbol( const tripoint &pos, char32_t symbol );
+        void set_tile_symbol( const tripoint_abs_ms &pos, char32_t symbol );
 
         /**
-         * Clears memorized vehicles and symbol.
+         * Clears memorized decorations and symbol.
          * @param pos tile position, in global ms coords.
+         * @param prefix if non-empty only clears if decoration starts with this prefix
          */
-        void clear_tile_vehicles( const tripoint &pos );
+        void clear_tile_decoration( const tripoint_abs_ms &pos, std::string_view prefix = "" );
 
     private:
-        std::map<tripoint, shared_ptr_fast<mm_submap>> submaps;
+        std::map<tripoint_abs_sm, shared_ptr_fast<mm_submap>> submaps;
 
-        std::vector<shared_ptr_fast<mm_submap>> cached;
-        tripoint cache_pos;
+        mutable std::map<int, std::vector<shared_ptr_fast<mm_submap>>> cached;
+        tripoint_abs_sm cache_pos;
         point cache_size;
 
         /** Find, load or allocate a submap. @returns the submap. */
-        shared_ptr_fast<mm_submap> fetch_submap( const tripoint &sm_pos );
+        shared_ptr_fast<mm_submap> fetch_submap( const tripoint_abs_sm &sm_pos );
         /** Find submap amongst the loaded submaps. @returns nullptr if failed. */
-        shared_ptr_fast<mm_submap> find_submap( const tripoint &sm_pos );
+        shared_ptr_fast<mm_submap> find_submap( const tripoint_abs_sm &sm_pos );
         /** Load submap from disk. @returns nullptr if failed. */
-        shared_ptr_fast<mm_submap> load_submap( const tripoint &sm_pos );
+        shared_ptr_fast<mm_submap> load_submap( const tripoint_abs_sm &sm_pos );
         /** Allocate empty submap. @returns the submap. */
-        shared_ptr_fast<mm_submap> allocate_submap( const tripoint &sm_pos );
+        shared_ptr_fast<mm_submap> allocate_submap( const tripoint_abs_sm &sm_pos );
 
         /** Get submap from within the cache */
         //@{
-        const mm_submap &get_submap( const tripoint &sm_pos ) const;
-        mm_submap &get_submap( const tripoint &sm_pos );
+        const mm_submap &get_submap( const tripoint_abs_sm &sm_pos ) const;
+        mm_submap &get_submap( const tripoint_abs_sm &sm_pos );
         //@}
 
         void clear_cache();

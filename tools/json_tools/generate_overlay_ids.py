@@ -33,6 +33,7 @@ CPP_IDS = (
     'infrared_creature',
     'run_nw', 'run_n', 'run_ne', 'run_w', 'run_e', 'run_sw', 'run_s', 'run_se',
     'bash_complete', 'bash_effective', 'bash_ineffective',
+    'shadow',
 )
 ATTITUDES = ('hostile', 'neutral', 'friendly', 'other')
 

@@ -12,7 +12,7 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -44,7 +44,7 @@
       "items": [ { "item": "mattress", "count": 1 }, { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 10, 20 ] } ],
       "furn_set": "f_bed"
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -55,6 +55,68 @@
         { "item": "nail", "charges": [ 15, 20 ] },
         { "item": "splinter", "count": [ 8, 15 ] },
         { "item": "cotton_patchwork", "count": [ 80, 110 ] },
+        { "item": "scrap", "count": [ 20, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_down",
+    "name": "down bed",
+    "symbol": "0",
+    "description": "A down mattress on a sturdy wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sight for sore, tired eyes.",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "down_mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 10, 15 ] },
+        { "item": "down_feather", "count": [ 45, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bunkbed_down",
+    "name": "down bunkbed",
+    "symbol": "0",
+    "looks_like": "f_bed_down",
+    "description": "A bunk bed with a sturdy wooden frame built to hold two single-person mattresses above one another.  While these usually mean sleeping closer than you'd like to somebody you wouldn't normally want to share a mattress with, a bed's a bed.  This one has two down mattresses.",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "down_mattress", "count": 1 }, { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 10, 20 ] } ],
+      "furn_set": "f_bed_down"
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 15 ] },
+        { "item": "nail", "charges": [ 15, 20 ] },
+        { "item": "splinter", "count": [ 8, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "down_feather", "count": [ 90, 110 ] },
         { "item": "scrap", "count": [ 20, 40 ] }
       ]
     }
@@ -80,7 +142,7 @@
         { "item": "sheet_metal_small", "count": 12 }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 25,
       "str_max": 60,
@@ -105,7 +167,7 @@
     "coverage": 40,
     "required_str": 5,
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -132,7 +194,7 @@
     "required_str": 7,
     "deployed_item": "mattress",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
     "bash": {
       "str_min": 8,
@@ -163,7 +225,7 @@
       "str_max": 30,
       "sound": "rrrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "cotton_patchwork", "count": [ 40, 55 ] }, { "item": "down_feather", "count": [ 900, 1100 ] } ]
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 15 ] }, { "item": "down_feather", "count": [ 45, 55 ] } ]
     }
   },
   {
@@ -233,7 +295,7 @@
         { "item": "nail", "charges": [ 4, 6 ] }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -260,7 +322,7 @@
     "floor_bedding_warmth": 200,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 120, 140 ] } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 6,
       "str_max": 20,

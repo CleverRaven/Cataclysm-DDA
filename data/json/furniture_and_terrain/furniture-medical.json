@@ -308,7 +308,7 @@
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "motor_micro", "charges": 1 },
+        { "item": "motor_micro", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
       ]
     },

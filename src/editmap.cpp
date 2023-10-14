@@ -427,8 +427,6 @@ std::optional<tripoint> editmap::edit()
         } else if( action == "EDIT_MONSTER" ) {
             if( Creature *const critter = creatures.creature_at( target ) ) {
                 edit_critter( *critter );
-            } else if( get_map().veh_at( target ) ) {
-                edit_veh();
             }
         } else if( action == "EDIT_OVERMAP" ) {
             edit_mapgen();
@@ -730,7 +728,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
-               terrain_type.name(),
+               static_cast<std::string>( terrain_type.id ),
                terrain_type.movecost
              );
     off++; // 2
@@ -738,7 +736,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
                    here.furn( target ).to_i(),
-                   furniture_type.name(),
+                   static_cast<std::string>( furniture_type.id ),
                    furniture_type.movecost,
                    furniture_type.move_str_req
                  );
@@ -1577,11 +1575,6 @@ void editmap::edit_critter( Creature &critter )
     } else if( npc *const npc_ptr = dynamic_cast<npc *>( &critter ) ) {
         edit_json( *npc_ptr );
     }
-}
-
-void editmap::edit_veh() const
-{
-    edit_json( get_map().veh_at( target )->vehicle() );
 }
 
 /*

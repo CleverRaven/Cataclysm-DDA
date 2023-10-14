@@ -9,7 +9,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
@@ -36,7 +36,7 @@
     "move_cost_mod": 1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "SMALL_HIDE" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "rotates_to": "INDOORFLOOR",
@@ -66,7 +66,7 @@
     "description": "A commercial-quality swinging door made of wood that allows passage behind counters.  It's currently closed.",
     "symbol": "+",
     "color": "blue",
-    "move_cost_mod": 2,
+    "move_cost_mod": 0,
     "required_str": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
@@ -90,7 +90,7 @@
     "description": "A commercial-quality swinging door made of wood that allows passage behind counters.  It's open, allowing passage.",
     "symbol": ".",
     "color": "blue",
-    "move_cost_mod": 2,
+    "move_cost_mod": 0,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "connect_groups": "COUNTER",
@@ -116,7 +116,7 @@
     "coverage": 45,
     "required_str": 5,
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "SMALL_HIDE" ],
     "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
@@ -147,7 +147,7 @@
     "required_str": 10,
     "looks_like": "f_lab_bench",
     "crafting_pseudo_item": "large_surface_pseudo",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "workbench", "count": 1 } ] },
     "bash": {
       "str_min": 35,
@@ -247,7 +247,7 @@
     "deployed_item": "tourist_table",
     "looks_like": "f_table",
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
     "bash": {
       "str_min": 16,
@@ -274,7 +274,7 @@
     "coverage": 50,
     "required_str": 5,
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
@@ -304,7 +304,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
@@ -334,7 +334,7 @@
     "coverage": 40,
     "required_str": 8,
     "crafting_pseudo_item": "medium_surface_pseudo",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 20,
       "str_max": 200,

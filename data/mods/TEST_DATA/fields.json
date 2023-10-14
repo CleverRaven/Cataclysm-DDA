@@ -1,0 +1,68 @@
+[
+  {
+    "id": "fd_short_halflife",
+    "type": "field_type",
+    "legacy_enum_id": 19,
+    "intensity_levels": [
+      { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01 },
+      { "//": "repeat last entry", "light_emitted": 1 },
+      { "//": "repeat last entry", "light_emitted": 2.5 },
+      { "name": "electric crackle", "color": "cyan", "light_emitted": 4 },
+      { "//": "repeat last entry", "light_emitted": 7.5 },
+      { "//": "repeat last entry", "light_emitted": 11 },
+      { "name": "electric cloud", "color": "blue", "light_emitted": 14.5 },
+      { "//": "repeat last entry", "light_emitted": 18 },
+      { "//": "repeat last entry", "light_emitted": 21.5 },
+      { "//": "repeat last entry", "light_emitted": 25 }
+    ],
+    "description_affix": "illuminated_by",
+    "has_elec": true,
+    "priority": 4,
+    "half_life": "1 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_test",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "rashification",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "test_rash",
+            "body_part": "head",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "head", 7 ] ] }
+          },
+          {
+            "effect_id": "test_rash",
+            "body_part": "torso",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "torso", 7 ] ] }
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 12,
+    "dirty_transparency_cache": true,
+    "percent_spread": 10,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "2 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_fog"
+  }
+]

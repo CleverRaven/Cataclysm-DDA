@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "looks_like": "mon_secubot",
     "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm.",
+    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",

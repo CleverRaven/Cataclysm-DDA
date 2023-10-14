@@ -49,7 +49,7 @@
     "volume": "5 ml",
     "price": 800,
     "price_postapoc": 0,
-    "flags": [ "BANK_NOTE_SHAPED" ],
+    "flags": [ "BANK_NOTE_SHAPED", "PAPER_SHAPED" ],
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
@@ -61,8 +61,9 @@
     "category": "other",
     "weight": "150 g",
     "color": "red",
-    "//": "The pom poms could make use of their own type of use_action.",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "//": "The pom poms could make use of their own type of tick_action.",
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 10,
       "volume": 10,
@@ -655,20 +656,6 @@
     "intelligence": 5,
     "time": "10 m",
     "melee_damage": { "bash": 1 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "train_data_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "laboratory shipping records" },
-    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
-    "price": 10000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "to_hit": -3
   },
   {
     "type": "GENERIC",

@@ -35,6 +35,24 @@ static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
+static const mon_flag_str_id mon_flag_ACID_BLOOD( "ACID_BLOOD" );
+static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
+static const mon_flag_str_id mon_flag_ARTHROPOD_BLOOD( "ARTHROPOD_BLOOD" );
+static const mon_flag_str_id mon_flag_BILE_BLOOD( "BILE_BLOOD" );
+static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
+static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
+static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
+static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
+static const mon_flag_str_id mon_flag_POISON( "POISON" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
+static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
+static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
+static const mon_flag_str_id mon_flag_WARM( "WARM" );
+
 static const species_id species_MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
@@ -74,8 +92,7 @@ mtype::mtype()
 
     aggro_character = true;
 
-    flags
-    .set( MF_HUMAN );
+    pre_flags_.emplace( mon_flag_HUMAN );
 }
 
 std::string mtype::nname( unsigned int quantity ) const
@@ -88,15 +105,21 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
     return special_attacks.find( attack_name ) != special_attacks.end();
 }
 
-bool mtype::has_flag( m_flag flag ) const
+bool mtype::has_flag( const mon_flag_id &flag ) const
 {
-    MonsterGenerator::generator().m_flag_usage_stats[flag]++;
-    return flags[flag];
+    return flags.count( flag ) > 0;
 }
 
-void mtype::set_flag( m_flag flag, bool state )
+void mtype::set_flag( const mon_flag_id &flag, bool state )
 {
-    flags.set( flag, state );
+    if( state ) {
+        flags.emplace( flag );
+    } else {
+        auto iter = flags.find( flag );
+        if( iter != flags.end() ) {
+            flags.erase( iter );
+        }
+    }
 }
 
 bool mtype::made_of( const material_id &material ) const
@@ -172,15 +195,15 @@ bool mtype::same_species( const mtype &other ) const
 
 field_type_id mtype::bloodType() const
 {
-    if( has_flag( MF_ACID_BLOOD ) )
+    if( has_flag( mon_flag_ACID_BLOOD ) )
         //A monster that has the death effect "ACID" does not need to have acid blood.
     {
         return fd_acid;
     }
-    if( has_flag( MF_BILE_BLOOD ) ) {
+    if( has_flag( mon_flag_BILE_BLOOD ) ) {
         return fd_bile;
     }
-    if( has_flag( MF_ARTHROPOD_BLOOD ) ) {
+    if( has_flag( mon_flag_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
     if( made_of( material_veggy ) ) {
@@ -189,7 +212,7 @@ field_type_id mtype::bloodType() const
     if( made_of( material_iflesh ) ) {
         return fd_blood_insect;
     }
-    if( has_flag( MF_WARM ) && made_of( material_flesh ) ) {
+    if( has_flag( mon_flag_WARM ) && made_of( material_flesh ) ) {
         return fd_blood;
     }
     return get_bleed_type();
@@ -215,7 +238,7 @@ field_type_id mtype::gibType() const
 
 itype_id mtype::get_meat_itype() const
 {
-    if( has_flag( MF_POISON ) ) {
+    if( has_flag( mon_flag_POISON ) ) {
         if( made_of( material_flesh ) || made_of( material_hflesh ) ||
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             made_of( material_iflesh ) ) {
@@ -227,9 +250,9 @@ itype_id mtype::get_meat_itype() const
         }
     } else {
         if( made_of( material_flesh ) || made_of( material_hflesh ) ) {
-            if( has_flag( MF_HUMAN ) ) {
+            if( has_flag( mon_flag_HUMAN ) ) {
                 return itype_human_flesh;
-            } else if( has_flag( MF_AQUATIC ) ) {
+            } else if( has_flag( mon_flag_AQUATIC ) ) {
                 return itype_fish;
             } else {
                 return itype_meat;
@@ -343,37 +366,37 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     }
     // Senses
     std::vector<std::string> senses_str;
-    if( has_flag( MF_HEARS ) ) {
+    if( has_flag( mon_flag_HEARS ) ) {
         senses_str.emplace_back( colorize( _( "hearing" ), c_yellow ) );
     }
-    if( has_flag( MF_SEES ) ) {
+    if( has_flag( mon_flag_SEES ) ) {
         senses_str.emplace_back( colorize( _( "sight" ), c_yellow ) );
     }
-    if( has_flag( MF_SMELLS ) ) {
+    if( has_flag( mon_flag_SMELLS ) ) {
         senses_str.emplace_back( colorize( _( "smell" ), c_yellow ) );
     }
     trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
                     string_format( "%s: %s", colorize( _( "Senses" ), c_white ), enumerate_as_string( senses_str ) ) );
     // Abilities
-    if( has_flag( MF_SWIMS ) ) {
+    if( has_flag( mon_flag_SWIMS ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can swim." ) );
     }
-    if( has_flag( MF_FLIES ) ) {
+    if( has_flag( mon_flag_FLIES ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can fly." ) );
     }
-    if( has_flag( MF_DIGS ) ) {
+    if( has_flag( mon_flag_DIGS ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can burrow underground." ) );
     }
-    if( has_flag( MF_CLIMBS ) ) {
+    if( has_flag( mon_flag_CLIMBS ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can climb." ) );
     }
-    if( has_flag( MF_GRABS ) ) {
+    if( has_flag( mon_flag_GRABS ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can grab." ) );
     }
-    if( has_flag( MF_VENOM ) ) {
+    if( has_flag( mon_flag_VENOM ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can inflict poison." ) );
     }
-    if( has_flag( MF_PARALYZE ) ) {
+    if( has_flag( mon_flag_PARALYZEVENOM ) ) {
         trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can inflict paralysis." ) );
     }
     // Description

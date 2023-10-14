@@ -25,7 +25,7 @@
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
-    "harvest": "zombie_acid",
+    "harvest": "zombie_humanoid_acid",
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab" }, [ "ACID_BARF", 10 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -78,7 +78,7 @@
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry", "prof_wp_nat_armored" ],
-    "harvest": "zombie_acid",
+    "harvest": "zombie_humanoid_acid",
     "//grab": "Basic zed grab strength but icky icky acid on the hands",
     "grab_strength": 20,
     "special_attacks": [
@@ -152,7 +152,7 @@
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_big" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
-    "harvest": "zombie_acid",
+    "harvest": "zombie_humanoid_acid",
     "special_attacks": [ [ "ACID", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
@@ -204,7 +204,7 @@
     "vision_day": 14,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
-    "harvest": "zombie_acid",
+    "harvest": "zombie_humanoid_acid",
     "special_attacks": [ [ "ACID_BARF", 22 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
@@ -254,7 +254,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 }, { "damage_type": "acid", "amount": 4 } ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "dodge": 1,
-    "harvest": "zombie_acid",
+    "harvest": "zombie_dog_acid",
     "grab_strength": 20,
     "special_attacks": [
       { "id": "bite_grab", "attack_upper": false, "cooldown": 5 },
@@ -299,6 +299,7 @@
       "armor": { "bash": 4, "cut": 4, "bullet": 3, "electric": 1 }
     },
     "grab_strength": 40,
+    "harvest": "zombie_dog_acid",
     "special_attacks": [
       { "id": "bite_grab", "attack_upper": false, "cooldown": 5, "min_mul": 0.75, "max_mul": 1.5 },
       { "id": "scratch_grab_required", "attack_upper": false, "min_mul": 0.75, "max_mul": 1.5 },

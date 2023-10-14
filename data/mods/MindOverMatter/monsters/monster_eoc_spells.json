@@ -1,0 +1,97 @@
+[
+  {
+    "id": "eater_drain_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Essence Drain",
+    "description": "Eater's draining attack.  It's a bug if you have it.",
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 20,
+    "effect": "attack",
+    "damage_type": "psi_enervation_damage",
+    "shape": "blast",
+    "min_range": 30,
+    "min_damage": 1,
+    "max_damage": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATER_DRAIN",
+    "condition": { "compare_num": [ { "u_val": "mana" }, ">=", { "const": 150 } ] },
+    "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
+    "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATER_DRAIN_2",
+    "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] },
+    "effect": [
+      { "u_cast_spell": { "id": "eater_drain_stamina" } },
+      { "u_message": "For a moment, you feel exhausted.", "type": "bad" }
+    ],
+    "false_effect": [
+      { "u_cast_spell": { "id": "eater_drain_health" } },
+      { "u_message": "You feel your life draining away!", "type": "bad" }
+    ]
+  },
+  {
+    "id": "eater_drain_mana",
+    "type": "SPELL",
+    "name": "[Ψ]Eater Drain Mana",
+    "description": "Eater's spell to drain mana.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "recover_energy",
+    "effect_str": "MANA",
+    "shape": "blast",
+    "max_level": 1,
+    "min_damage": -150,
+    "min_range": 30
+  },
+  {
+    "id": "eater_drain_stamina",
+    "type": "SPELL",
+    "name": "[Ψ]Eater Drain Stamina",
+    "description": "Eater's spell to drain stamina.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "recover_energy",
+    "effect_str": "STAMINA",
+    "extra_effects": [ { "id": "eater_drain_fatigue", "hit_self": false, "max_level": 3 } ],
+    "shape": "blast",
+    "max_level": 1,
+    "min_damage": -200,
+    "min_range": 30
+  },
+  {
+    "id": "eater_drain_fatigue",
+    "type": "SPELL",
+    "name": "[Ψ]Eater Drain Fatigue",
+    "description": "Eater's spell to drain fatigue.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "recover_energy",
+    "effect_str": "FATIGUE",
+    "shape": "blast",
+    "max_level": 1,
+    "min_damage": -2,
+    "min_range": 30
+  },
+  {
+    "id": "eater_drain_health",
+    "type": "SPELL",
+    "name": "[Ψ]Eater Drain Stamina",
+    "description": "Eater's spell to drain health.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_range": 30
+  }
+]

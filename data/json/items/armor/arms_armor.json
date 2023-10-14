@@ -1442,7 +1442,7 @@
     "id": "xl_armguard_bronze",
     "type": "ARMOR",
     "copy-from": "armguard_bronze",
-    "name": { "str": "XL bronze vambraces", "str_pl": "pairs of XL bronze vambraces" },
+    "name": { "str": "pair of XL bronze vambraces", "str_pl": "pairs of XL bronze vambraces" },
     "description": "A pair of gigantic bronze arm guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1451,7 +1451,7 @@
     "id": "xs_armguard_bronze",
     "type": "ARMOR",
     "copy-from": "armguard_bronze",
-    "name": { "str": "XS bronze vambraces", "str_pl": "pairs of XS bronze vambraces" },
+    "name": { "str": "pair of XS bronze vambraces", "str_pl": "pairs of XS bronze vambraces" },
     "description": "A pair of tiny bronze arm guards with a simple leather lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1512,7 +1512,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
     "description": "A long pair of cut-resistant Kevlar sleeves with thumbholes.  Useful for chainsaw protection.",
-    "weight": "113 g",
+    "weight": "450 g",
     "copy-from": "armguard_soft",
     "price": 1200,
     "material": [ "kevlar" ]

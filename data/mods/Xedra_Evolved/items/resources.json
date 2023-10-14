@@ -31,6 +31,33 @@
     "to_hit": -2
   },
   {
+    "id": "scrap_moon_tears",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "scrap moon tears", "str_pl": "scraps of moon tears" },
+    "description": "A bulky assortment of small bits of scrap moon tears, useful for forging into ingots and wire.",
+    "weight": "5 g",
+    "volume": "25 ml",
+    "price": 500,
+    "price_postapoc": 10,
+    "count": 2,
+    "stack_size": 10,
+    "//": "Density 2g/ml.",
+    "material": [ "moon_tears" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "water" },
+    "copy-from": "water",
+    "calories": 0,
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+  },
+  {
     "id": "scrap_dreamdross",
     "type": "AMMO",
     "category": "spare_parts",
@@ -46,7 +73,7 @@
     "material": [ "dreamstuff" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "scrap_dreamdross"
   },
   {
     "id": "dreamdross_lump",

@@ -195,6 +195,8 @@ void profession::load( const JsonObject &jo, const std::string_view )
         _description_male = to_translation( "prof_desc_male", desc_male );
         _description_female = to_translation( "prof_desc_female", desc_female );
     }
+    optional( jo, was_loaded, "age_lower", age_lower, 16 );
+    optional( jo, was_loaded, "age_upper", age_upper, 55 );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -259,6 +261,10 @@ void profession::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+
+    optional( jo, was_loaded, "starting_styles", _starting_martialarts );
+    optional( jo, was_loaded, "starting_styles_choices", _starting_martialarts_choices );
+    optional( jo, was_loaded, "starting_styles_choices_amount", ma_choice_amount, 1 );
 
     // Flag which denotes if a profession is a hobby
     optional( jo, was_loaded, "subtype", _subtype, "" );
@@ -545,6 +551,16 @@ std::vector<bionic_id> profession::CBMs() const
 std::vector<proficiency_id> profession::proficiencies() const
 {
     return _starting_proficiencies;
+}
+
+std::vector<matype_id> profession::ma_known() const
+{
+    return _starting_martialarts;
+}
+
+std::vector<matype_id> profession::ma_choices() const
+{
+    return _starting_martialarts_choices;
 }
 
 std::vector<trait_and_var> profession::get_locked_traits() const

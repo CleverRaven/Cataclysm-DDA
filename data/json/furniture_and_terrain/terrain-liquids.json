@@ -37,7 +37,7 @@
     "looks_like": "t_water_sh",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "GOES_DOWN" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
@@ -299,7 +299,7 @@
     "symbol": "~",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "GOES_DOWN", "GOES_UP" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "NO_FLOOR_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
@@ -314,7 +314,7 @@
     "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "GOES_UP" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"

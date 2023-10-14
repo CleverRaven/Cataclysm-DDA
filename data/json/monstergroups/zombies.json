@@ -202,7 +202,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_VANILLA_ONLY_HUMANS",
-    "//": "only human zombies, used in the refugee center and as upgrades for civilians",
+    "//": "only human zombies, used in the refugee center",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
@@ -455,14 +455,14 @@
     "name": "GROUP_SCHOOL",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "mon_null", "weight": 1 },
+      { "monster": "mon_null", "weight": 10 },
       { "monster": "mon_civilian_stationary", "weight": 20, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 10, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_panic", "weight": 50, "cost_multiplier": 0, "ends": "5 days" },
-      { "monster": "mon_zombie_child", "weight": 4 },
-      { "monster": "mon_zombie_fat", "weight": 1 },
-      { "monster": "mon_zombie_tough", "weight": 1 },
-      { "monster": "mon_zombie", "weight": 3 }
+      { "monster": "mon_zombie_child", "weight": 50 },
+      { "monster": "mon_zombie_fat", "weight": 10 },
+      { "monster": "mon_zombie_tough", "weight": 10 },
+      { "monster": "mon_zombie", "weight": 30 }
     ]
   },
   {
@@ -571,8 +571,8 @@
       { "monster": "mon_feral_fancy_rapier", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 100 },
       { "monster": "mon_feral_fancy_crossbow", "weight": 50, "cost_multiplier": 5 },
-      { "monster": "mon_feral_armored_mace", "weight": 10, "cost_multiplier": 10 },
-      { "monster": "mon_feral_armored_battleaxe", "weight": 10, "cost_multiplier": 10 }
+      { "monster": "mon_feral_armored_mace", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_feral_armored_battleaxe", "weight": 3, "cost_multiplier": 10 }
     ]
   },
   {
@@ -606,11 +606,24 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBULL_FROG_UPGRADE",
+    "monsters": [
+      { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
+      { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_MANSION_POOL",
     "monsters": [
       { "monster": "mon_zombie_swimmer_base", "weight": 850 },
       { "monster": "mon_zombie_swimmer_base", "weight": 250, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 10 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 10,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_child", "weight": 250 },
       { "monster": "mon_zombie", "weight": 100 },
       { "monster": "mon_zombie_tough", "weight": 100 },
@@ -709,7 +722,13 @@
       { "monster": "mon_zombie_swat", "weight": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_zombie", "weight": 325 },
-      { "monster": "mon_zombie_swimmer_base", "weight": 150, "cost_multiplier": 0 },
+      {
+        "monster": "mon_zombie_swimmer_base",
+        "weight": 150,
+        "cost_multiplier": 0,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_feral_swimmer_kickboard", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie_resort_dancer", "weight": 150, "cost_multiplier": 0 }
     ]
@@ -785,7 +804,12 @@
       { "monster": "mon_zombie_swimmer", "weight": 100, "cost_multiplier": 2, "starts": "5 days" },
       { "monster": "mon_zombie_swimmer_base", "weight": 815 },
       { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 10 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 10,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_child", "weight": 35 }
     ]
   },
@@ -848,7 +872,13 @@
     "monsters": [
       { "monster": "mon_zombie_swimmer_base", "weight": 950, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 5, "cost_multiplier": 2 }
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 5,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
     ]
   },
   {
@@ -856,12 +886,17 @@
     "type": "monstergroup",
     "//": "Zombies/ferals that could be found on a diving related place.",
     "monsters": [
-      { "monster": "mon_feral_diver_knife", "weight": 430, "cost_multiplier": 10 },
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie_swimmer_base", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
       { "monster": "mon_zombie", "weight": 50, "cost_multiplier": 3 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 10, "cost_multiplier": 2 }
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 10,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
     ]
   },
   {
@@ -872,9 +907,21 @@
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_swimmer_base", "weight": 500, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 15, "cost_multiplier": 2 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 10, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_feral_diver_knife", "weight": 3, "cost_multiplier": 10 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 15,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 10,
+        "cost_multiplier": 4,
+        "pack_size": [ 3, 5 ],
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie", "weight": 5, "cost_multiplier": 3 },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 10, "pack_size": [ 2, 5 ] },
       { "monster": "mon_zombie_child", "weight": 15 },
@@ -903,12 +950,7 @@
   {
     "name": "GROUP_FORT",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 25, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_child", "weight": 25, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zombie_reenactor", "weight": 850 },
-      { "monster": "mon_zombie_reenactor", "weight": 100, "pack_size": [ 1, 2 ] }
-    ]
+    "monsters": [ { "monster": "mon_zombie_reenactor" } ]
   },
   {
     "name": "GROUP_CIVILIAN",

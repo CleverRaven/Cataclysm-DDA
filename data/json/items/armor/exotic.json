@@ -185,7 +185,7 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 5,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT", "OVERSIZE" ]
   },
   {
     "id": "migo_skin_off",

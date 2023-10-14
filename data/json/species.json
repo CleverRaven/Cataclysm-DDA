@@ -153,6 +153,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "FERAL",
+    "description": "a feral",
+    "footsteps": "shuffling.",
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
     "id": "ROBOT",
     "description": "a robot",
     "footsteps": "mechanical whirring.",

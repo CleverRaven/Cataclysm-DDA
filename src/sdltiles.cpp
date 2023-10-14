@@ -848,27 +848,29 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    const point s = get_window_tile_counts( point( width, height ) );
-    const point full_s = get_window_full_tile_counts( point( width, height ) );
+    const point s = get_window_base_tile_counts( { width, height } );
+    const half_open_rectangle<point> full_base_range = get_window_full_base_tile_range( { width, height } );
 
     op = point( dest.x * fontwidth, dest.y * fontheight );
-    // Rounding up to include incomplete tiles at the bottom/right edges
-    screentile_width = divide_round_up( width, tile_width );
-    screentile_height = divide_round_up( height, tile_height );
+    screentile_width = s.x;
+    screentile_height = s.y;
 
-    const int min_col = 0;
-    const int max_col = s.x;
-    const int min_row = 0;
-    const int max_row = s.y;
+    const half_open_rectangle<point> any_tile_range = get_window_any_tile_range( { width, height }, 0 );
+    const int min_col = any_tile_range.p_min.x;
+    const int max_col = any_tile_range.p_max.x;
+    const int min_row = any_tile_range.p_min.y;
+    const int max_row = any_tile_range.p_max.y;
     int height_3d = 0;
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.global_omt_location();
-    const tripoint_abs_omt corner_NW = center_abs_omt - point( max_col / 2, max_row / 2 );
-    const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
+    const tripoint_abs_omt origin = center_abs_omt - point( s.x / 2, s.y / 2 );
+    const tripoint_abs_omt corner_NW = origin + any_tile_range.p_min;
+    const tripoint_abs_omt corner_SE = origin + any_tile_range.p_max + point_north_west;
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Area of fully shown tiles
-    const tripoint_abs_omt full_corner_SE = corner_NW + full_s + point_north_west;
-    const inclusive_cuboid<tripoint> full_om_tile_area( corner_NW.raw(), full_corner_SE.raw() );
+    const tripoint_abs_omt full_corner_NW = origin + full_base_range.p_min;
+    const tripoint_abs_omt full_corner_SE = origin + full_base_range.p_max + point_north_west;
+    const inclusive_cuboid<tripoint> full_om_tile_area( full_corner_NW.raw(), full_corner_SE.raw() );
     // Debug vision allows seeing everything
     const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
@@ -877,7 +879,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    o = corner_NW.raw().xy();
+    o = origin.raw().xy();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
@@ -886,7 +888,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     for( int row = min_row; row < max_row; row++ ) {
         for( int col = min_col; col < max_col; col++ ) {
-            const tripoint_abs_omt omp = corner_NW + point( col, row );
+            const tripoint_abs_omt omp = origin + point( col, row );
 
             const bool see = overmap_buffer.seen( omp );
             const bool los = see && you.overmap_los( omp, sight_points );
@@ -1069,14 +1071,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !viewing_weather && uistate.overmap_show_city_labels ) {
 
         const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
-            const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
-                                           ( city_pos ) ) - o;
-            point draw_point( tile_draw_pos.x * tile_width + dest.x,
-                              tile_draw_pos.y * tile_height + dest.y );
+            const point omt_pos = global_omt_to_draw_position( project_to<coords::omt>( city_pos ) ).xy();
+            const point draw_point = player_to_screen( omt_pos );
             // center text on the tile
-            draw_point += point( ( tile_width - label_length * fontwidth ) / 2,
-                                 ( tile_height - fontheight ) / 2 );
-            return draw_point;
+            return draw_point + point( ( tile_width - label_length * fontwidth ) / 2,
+                                       ( tile_height - fontheight ) / 2 );
         };
 
         // draws a black rectangle behind a label for visibility and legibility
@@ -1092,7 +1091,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
         // the tiles on the overmap are overmap tiles, so we need to use
         // coordinate conversions to make sure we're in the right place.
-        const int radius = project_to<coords::sm>( tripoint_abs_omt( std::min( max_col, max_row ),
+        const int radius = project_to<coords::sm>( tripoint_abs_omt( std::max( s.x, s.y ),
                            0, 0 ) ).x() / 2;
 
         for( const city_reference &city : overmap_buffer.get_cities_near(
@@ -1154,10 +1153,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         // Find screen coordinates to the right of the center tile
         auto center_sm = project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
                          center_abs_omt.y(), center_abs_omt.z() ) );
-        const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
-                                       ( center_sm ) ) - o;
-        point draw_point( tile_draw_pos.x * tile_width + dest.x,
-                          tile_draw_pos.y * tile_height + dest.y );
+        const point omt_pos = global_omt_to_draw_position( project_to<coords::omt>( center_sm ) ).xy();
+        point draw_point = player_to_screen( omt_pos );
         draw_point += point( padding, padding );
 
         // Draw notes header. Very simple label at the moment
@@ -2817,22 +2814,21 @@ static void CheckMessages()
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
                             const optional_vpart_position vp = here.veh_at( pos );
-                            vehicle *const veh = veh_pointer_or_null( vp );
-                            if( veh ) {
-                                if( veh->part_with_feature( vp->mount(), "CONTROLS", true ) >= 0 ) {
+                            if( vp ) {
+                                if( const std::optional<vpart_reference> controlpart = vp.part_with_feature( "CONTROLS", true ) ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const int openablepart = veh->part_with_feature( vp->mount(), "OPENABLE", true );
-                                if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
+                                const std::optional<vpart_reference> openablepart = vp.part_with_feature( "OPENABLE", true );
+                                if( openablepart && openablepart->part().open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int curtainpart = veh->part_with_feature( vp->mount(), "CURTAIN", true );
-                                if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
+                                const std::optional<vpart_reference> curtainpart = vp.part_with_feature( "CURTAIN", true );
+                                if( curtainpart && curtainpart->part().open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int cargopart = veh->part_with_feature( vp->mount(), "CARGO", true );
-                                if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
+                                const std::optional<vpart_reference> cargopart = vp.cargo();
+                                if( cargopart && ( !cargopart->items().empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }
                             }

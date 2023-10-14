@@ -18,7 +18,7 @@
     "ammo": [ "223" ],
     "dispersion": 150,
     "durability": 7,
-    "flags": [ "OBSOLETE" ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
     "min_cycle_recoil": 1350,
     "pocket_data": [
       {
@@ -90,7 +90,7 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "flags": [ "OBSOLETE" ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -151,7 +151,7 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "flags": [ "OBSOLETE" ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -209,7 +209,7 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "flags": [ "OBSOLETE" ],
+    "flags": [ "OBSOLETE", "NO_TURRET" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -259,6 +259,6 @@
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "flags": [ "OBSOLETE" ]
+    "flags": [ "OBSOLETE", "NO_TURRET" ]
   }
 ]

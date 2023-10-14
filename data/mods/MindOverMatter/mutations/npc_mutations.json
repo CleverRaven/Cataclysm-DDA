@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mutation",
+    "id": "NPC_TELEPATHY_IMMUNE",
+    "name": { "str": "NPC Telepathy immunity" },
+    "points": 99,
+    "valid": false,
+    "description": "For NPCs that should be immune to telepathy.",
+    "purifiable": false,
+    "flags": [ "TEEPSHIELD" ]
+  }
+]

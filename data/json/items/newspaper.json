@@ -11,6 +11,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -26,6 +27,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -41,7 +43,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ],
+    "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED", "PAPER_SHAPED" ],
     "weight": "12 mg",
     "volume": "1 ml"
   },
@@ -57,7 +59,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "12 mg",
     "volume": "1 ml"
   },
@@ -269,7 +271,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -285,7 +287,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "PAPER_SHAPED" ],
     "weight": "1 g",
     "volume": "2 ml"
   },
@@ -300,6 +302,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "1 g",
     "volume": "1 ml"
   },
@@ -315,6 +318,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -330,6 +334,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -345,6 +350,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -360,6 +366,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -375,6 +382,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -390,6 +398,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -406,7 +415,7 @@
     "price_postapoc": 0,
     "looks_like": "survnote",
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "10 ml"
   },
@@ -422,7 +431,7 @@
     "looks_like": "newest_newspaper",
     "color": "white",
     "symbol": "?",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -436,6 +445,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
   },
@@ -451,6 +461,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
   },
@@ -466,6 +477,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
   },
@@ -481,6 +493,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
   },
@@ -494,6 +507,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml",
     "variant_type": "generic",
@@ -544,5 +558,21 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "wallet_photo",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "photograph" },
+    "snippet_category": "wallet_photos",
+    "description": "A small picture of something or somebody important to the owner, designed to be safely tucked into a wallet.",
+    "weight": "12 mg",
+    "volume": "1 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
   }
 ]

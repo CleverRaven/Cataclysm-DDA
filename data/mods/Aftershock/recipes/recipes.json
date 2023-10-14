@@ -164,7 +164,7 @@
     "autolearn": [ [ "electronics", 4 ] ],
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
+    "tools": [ [ [ "soldering_iron", 200 ], [ "integrated_welder", 200 ] ] ],
     "components": [
       [ [ "afs_circuitry_2", 1 ] ],
       [ [ "cable", 100 ] ],
@@ -375,7 +375,7 @@
       { "id": "DRILL", "level": 2 },
       { "id": "SAW_W", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "integrated_welder", 450 ] ] ],
     "components": [
       [ [ "cable", 80 ] ],
       [ [ "afs_circuitry_1", 1 ] ],

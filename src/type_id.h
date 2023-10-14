@@ -99,6 +99,9 @@ struct furn_t;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 
+class climbing_aid;
+using climbing_aid_id = string_id<climbing_aid>;
+
 class gun_mode;
 using gun_mode_id = string_id<gun_mode>;
 
@@ -144,6 +147,10 @@ using mission_type_id = string_id<mission_type>;
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
+
+struct mon_flag;
+using mon_flag_id = int_id<mon_flag>;
+using mon_flag_str_id = string_id<mon_flag>;
 
 class monfaction;
 using mfaction_id = int_id<monfaction>;
@@ -195,6 +202,9 @@ using overmap_special_migration_id = string_id<overmap_special_migration>;
 
 class profession;
 using profession_id = string_id<profession>;
+
+struct profession_group;
+using profession_group_id = string_id<profession_group>;
 
 class recipe;
 using recipe_id = string_id<recipe>;

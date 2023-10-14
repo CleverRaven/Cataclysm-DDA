@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_REACHABILITY_CACHE_H
 #define CATA_SRC_REACHABILITY_CACHE_H
 

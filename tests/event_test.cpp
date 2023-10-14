@@ -25,6 +25,7 @@ TEST_CASE( "construct_event", "[event]" )
 }
 
 struct test_subscriber : public event_subscriber {
+    using event_subscriber::notify;
     void notify( const cata::event &e ) override {
         events.push_back( e );
     }
@@ -78,6 +79,7 @@ TEST_CASE( "destroy_bus_before_subscriber", "[event]" )
 }
 
 struct expect_subscriber : public event_subscriber {
+    using event_subscriber::notify;
     void notify( const cata::event & ) override {
         found = true;
     }

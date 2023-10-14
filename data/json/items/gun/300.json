@@ -2,7 +2,7 @@
   {
     "id": "m2010",
     "copy-from": "rifle_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "M2010 ESR" },
     "//": "http://www.guns.com/2012/05/17/remington-xm2010-army-sniper-system-esr-now-in-stores/.",
@@ -19,14 +19,14 @@
     "dispersion": 90,
     "durability": 8,
     "barrel_volume": "500 ml",
-    "flags": [ "NEVER_JAMS" ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "weatherby_5",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Weatherby Mark V" },
     "//": "MSRP, believe it or not.",
@@ -46,7 +46,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -66,7 +66,7 @@
   {
     "id": "win70",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Winchester Model 70" },
     "description": "The Winchester Model 70 is a bolt-action sporting rifle.  It has an iconic place in American sporting culture and has been held in high regard by shooters since it was introduced in 1936.",
@@ -85,7 +85,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -104,7 +104,7 @@
   },
   {
     "id": "ruger_pr",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "copy-from": "rifle_manual",
     "type": "GUN",
     "name": "Ruger Precision Rifle",
@@ -126,7 +126,6 @@
     "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
     "barrel_volume": "456 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -140,6 +139,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "EASY_CLEAN" ],
     "pocket_data": [
       {
         "magazine_well": "300 ml",

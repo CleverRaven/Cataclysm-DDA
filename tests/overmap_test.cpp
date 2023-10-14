@@ -13,6 +13,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -28,6 +29,16 @@ static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
 static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
 static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
 static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
+static const oter_type_str_id oter_type_deserter_city_gate( "deserter_city_gate" );
+static const oter_type_str_id oter_type_deserter_city_office_1f( "deserter_city_office_1f" );
+static const oter_type_str_id oter_type_deserter_city_office_1fb( "deserter_city_office_1fb" );
+static const oter_type_str_id oter_type_deserter_city_office_2f( "deserter_city_office_2f" );
+static const oter_type_str_id oter_type_deserter_city_office_2fb( "deserter_city_office_2fb" );
+static const oter_type_str_id oter_type_deserter_city_office_3f( "deserter_city_office_3f" );
+static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city_office_3fb" );
+static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
+static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
+static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
@@ -41,6 +52,11 @@ static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
 static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
 static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
+static const oter_type_str_id oter_type_unvitrified_farm_0( "unvitrified_farm_0" );
+static const oter_type_str_id oter_type_unvitrified_farm_1( "unvitrified_farm_1" );
+static const oter_type_str_id oter_type_unvitrified_farm_2( "unvitrified_farm_2" );
+static const oter_type_str_id oter_type_unvitrified_farm_neg_1( "unvitrified_farm_neg_1" );
+static const oter_type_str_id oter_type_unvitrified_orchard( "unvitrified_orchard" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
@@ -298,6 +314,16 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_ants_lab_stairs.id(),
         oter_type_bunker_shop_b.id(),
         oter_type_bunker_shop_g.id(),
+        oter_type_deserter_city_gate.id(),
+        oter_type_deserter_city_park.id(),
+        oter_type_deserter_city_office_1f.id(),
+        oter_type_deserter_city_office_2f.id(),
+        oter_type_deserter_city_office_3f.id(),
+        oter_type_deserter_city_office_roof.id(),
+        oter_type_deserter_city_office_1fb.id(),
+        oter_type_deserter_city_office_2fb.id(),
+        oter_type_deserter_city_office_3fb.id(),
+        oter_type_deserter_city_office_roofb.id(),
         oter_type_ravine.id(), // ravine only in desert & Aftershock
         oter_type_ravine_edge.id(),
         oter_type_ravine_floor_edge.id(),
@@ -311,6 +337,11 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_g1.id(),
         oter_type_s_gas_g1_roof.id(),
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
+        oter_type_unvitrified_orchard.id(),
+        oter_type_unvitrified_farm_0.id(),
+        oter_type_unvitrified_farm_1.id(),
+        oter_type_unvitrified_farm_2.id(),
+        oter_type_unvitrified_farm_neg_1.id(),
     };
 
     std::unordered_set<oter_type_id> done;
@@ -359,7 +390,11 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             missing.erase( missing.begin() + max_to_report, missing.end() );
         }
         std::sort( missing.begin(), missing.end() );
-        CAPTURE( missing );
+        const std::string missing_oter_type_ids = enumerate_as_string( missing,
+        []( const oter_type_id & id ) {
+            return id->id.str();
+        } );
+        CAPTURE( missing_oter_type_ids );
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
               "SHOULD_NOT_SPAWN flag (intended for terrains that should never spawn, for example "
               "test terrains or work in progress), or tweak the constraints so that the terrain "
@@ -374,14 +409,20 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // with that.
     int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
+        const std::string oter_type_id = p.first->id.str();
         const tripoint_abs_omt pos = p.second.first_observed;
-        tinymap tm;
-        tm.load( project_to<coords::sm>( pos ), false );
+        CAPTURE( oter_type_id );
+        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
+            tinymap tm;
+            tm.load( project_to<coords::sm>( pos ), false );
 
-        // Periodically clear the generated maps to save memory
-        if( ++num_generated_since_last_clear >= 64 ) {
-            MAPBUFFER.clear_outside_reality_bubble();
-            num_generated_since_last_clear = 0;
-        }
+            // Periodically clear the generated maps to save memory
+            if( ++num_generated_since_last_clear >= 64 ) {
+                MAPBUFFER.clear_outside_reality_bubble();
+                num_generated_since_last_clear = 0;
+            }
+        } );
+        CAPTURE( msg );
+        REQUIRE( msg.empty() );
     }
 }

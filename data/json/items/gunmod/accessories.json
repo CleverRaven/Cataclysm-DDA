@@ -129,7 +129,7 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
-    "location": "belt_clip",
+    "location": "belt clip",
     "mod_targets": [ "rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie" ],
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
   }

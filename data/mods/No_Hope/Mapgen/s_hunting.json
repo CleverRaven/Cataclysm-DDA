@@ -88,7 +88,7 @@
         { "group": "guns_rifle_common", "x": 2, "y": 13, "chance": 20 },
         { "group": "guns_shotgun_common", "x": 2, "y": 14, "chance": 20 },
         { "group": "SUS_hunting_archery", "x": 2, "y": 15, "chance": 20 },
-        { "group": "lodge_archery_ammo", "x": 2, "y": 16, "chance": 20 },
+        { "group": "archery_ammo", "x": 2, "y": 16, "chance": 20 },
         { "group": "archery_mods", "x": 2, "y": 17, "chance": 20 },
         { "group": "gun_cases", "x": [ 3, 9 ], "y": 6, "chance": 20 },
         { "group": "clothing_hunting", "x": [ 3, 9 ], "y": [ 8, 9 ], "chance": 20 },

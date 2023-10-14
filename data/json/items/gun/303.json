@@ -2,7 +2,7 @@
   {
     "id": "smle_mk3",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Enfield battle rifle" },
     "description": "An iconic weapon of both the First and Second World Wars, this bolt-action rifle has seen deployment in the hands of Commonwealth troops across Europe and beyond.  Firing the .303-caliber cartridge and making use of 10-round Enfield magazines, the firearm’s reputation precedes it.",
@@ -29,8 +29,8 @@
     "dispersion": 170,
     "durability": 8,
     "blackpowder_tolerance": 40,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -49,7 +49,7 @@
   {
     "id": "number4_mki",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "updated Enfield rifle" },
     "description": "An evolution of Britten’s First World War battle rifle, this bolt-action firearm uses the same .303-caliber cartridge as its forerunner.  Much beloved across the globe by collectors, rifles like this served as England’s infantry rifle well into the 1950s, with a specialized sniper variant remaining in service until the early nineties.",
@@ -76,8 +76,8 @@
     "dispersion": 150,
     "durability": 8,
     "blackpowder_tolerance": 40,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

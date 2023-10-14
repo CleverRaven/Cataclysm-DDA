@@ -21,6 +21,7 @@
       "ALCMET",
       "ANIMALDISCORD2",
       "ANIMALEMPATH2",
+      "ANIMAL_FEET",
       "ANTENNAE",
       "ANTLERS",
       "ARM_FEATHERS",
@@ -260,7 +261,8 @@
       "WINGS_STUB",
       "XS",
       "XXXL"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -442,7 +444,7 @@
     "name": "Mutant - Wolf Threshold",
     "description": "Start as a post-threshold Wolf Mutant",
     "forced_traits": "THRESH_LUPINE",
-    "extend": { "traits": [ "BURROW", "PACK_HUNTER", "PERSISTENCE_HUNTER2", "PRED1", "PRED2", "PRED3", "STRONGER_RESISTCHILL" ] }
+    "extend": { "traits": [ "BURROWLARGE", "PACK_HUNTER", "PERSISTENCE_HUNTER2", "PRED1", "PRED2", "PRED3", "STRONGER_RESISTCHILL" ] }
   },
   {
     "type": "scenario",
@@ -630,7 +632,7 @@
     "forced_traits": "THRESH_URSINE",
     "extend": {
       "traits": [
-        "BURROW",
+        "BURROWLARGE",
         "HIBERNATE",
         "HUGE_OK",
         "LARGE_OK",

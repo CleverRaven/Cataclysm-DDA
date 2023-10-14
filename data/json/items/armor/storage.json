@@ -26,8 +26,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle.",
         "ripoff": 2
@@ -43,7 +43,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -57,7 +58,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 6,
@@ -150,7 +152,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -164,7 +167,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -177,7 +181,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -190,7 +195,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
@@ -235,8 +241,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -247,8 +253,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -274,7 +280,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -288,7 +295,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -301,7 +309,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -314,7 +323,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "has the ability to loosen the pack, causing a lot of encumbrance but allowing for storage of very large items between the pack and the frame",
@@ -475,7 +485,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -489,7 +500,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -503,7 +515,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -602,7 +615,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -615,7 +629,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -682,7 +697,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -696,7 +712,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 5,
@@ -712,6 +729,7 @@
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
     "volume": "15750 ml",
+    "longest_side": "46 cm",
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -2,
@@ -800,7 +818,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "water bottle pocket",
@@ -808,8 +827,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -826,7 +845,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 5,
@@ -918,7 +938,44 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.19,
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "dry_bag",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "//": "based on KastKing Regular Cyclone Seal Dry Bag",
+    "name": { "str": "dry bag" },
+    "description": "A lightweight watertight backpack, commonly worn by swimmers and divers.",
+    "weight": "580 g",
+    "volume": "1750 ml",
+    "price": 13900,
+    "price_postapoc": 1000,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "dive_bag",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "70 cm",
+        "watertight": true,
+        "moves": 450
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -962,15 +1019,68 @@
         "moves": 80,
         "extra_encumbrance": 5,
         "description": "Tucked under the carry handles.",
-        "ripoff": 1
+        "ripoff": 1,
+        "transparent": true
       }
     ],
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 5,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "dry_duffelbag",
+    "type": "ARMOR",
+    "//": "based on Aonyx 60 Waterproof Duffel Bag",
+    "name": { "str": "dry duffel bag" },
+    "description": "A huge watertight duffel bag.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
+    "weight": "1300 g",
+    "volume": "10500 ml",
+    "price": 18000,
+    "price_postapoc": 1000,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "90 kg",
+        "max_item_length": "65 cm",
+        "watertight": true,
+        "magazine_well": "5 L",
+        "moves": 450
+      },
+      {
+        "//": "items slipped under the top of a duffelbag not well secured",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 80,
+        "extra_encumbrance": 5,
+        "description": "Tucked under the carry handles.",
+        "ripoff": 1,
+        "transparent": true
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 10,
         "volume_encumber_modifier": 0.25,
         "coverage": 100,
         "covers": [ "torso" ],
@@ -1242,24 +1352,17 @@
   {
     "id": "legrig",
     "type": "ARMOR",
-    "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
-    "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
-    "weight": "205 g",
-    "volume": "1050 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "name": { "str": "drop leg pouch", "str_pl": "drop leg pouches" },
+    "description": "A pouch that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
+    "weight": "102 g",
+    "volume": "525 ml",
+    "price": 1500,
+    "price_postapoc": 125,
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
+    "sided": true,
     "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2250 ml",
-        "max_contains_weight": "4500 g",
-        "max_item_length": "30 cm",
-        "magazine_well": "500 ml",
-        "moves": 80
-      },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2250 ml",
@@ -1278,6 +1381,129 @@
         "coverage": 50,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "legrig_wetsuit",
+    "type": "ARMOR",
+    "name": { "str": "pair of diving pouches", "str_pl": "pairs of diving pouches" },
+    "description": "A set of pouches that can be worn on the thighs using buckled neoprene rig.  This variety is favored by the divers.",
+    "//": "Based on skeletonized version of these https://fourthelement.com/product/technical-shorts/ with added lower buckles like here https://www.divegarage.com/neoprene-tech-shorts.html",
+    "weight": "305 g",
+    "volume": "1150 ml",
+    "price": 3000,
+    "price_postapoc": 250,
+    "material": [ "neoprene", "nylon", "nylon_2" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "//3": "Two large pockets separated into four, two small zipper pockets on flaps, four bungee loops.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1650 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "32 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "19 cm",
+        "moves": 130
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "19 cm",
+        "moves": 130
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "extra_encumbrance": 2,
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.2,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nylon_2", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 40,
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
     ]
   },
@@ -1370,7 +1596,7 @@
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
         "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
-        "weight": 50
+        "weight": 1
       }
     ]
   },
@@ -1385,7 +1611,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
+        "max_item_length": "16 cm",
         "moves": 100,
         "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
       }
@@ -1425,7 +1651,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "15 cm",
+        "max_item_length": "16 cm",
         "moves": 200
       }
     ],
@@ -1513,7 +1739,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 5,
@@ -1584,7 +1811,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 4,
@@ -1640,7 +1867,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -1654,7 +1882,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -1667,7 +1896,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -1728,7 +1958,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -1742,7 +1973,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -1755,7 +1987,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 10,
@@ -1816,7 +2049,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -1830,7 +2064,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -1843,7 +2078,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 12,
@@ -1970,7 +2206,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2083,7 +2319,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -2097,7 +2334,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -2111,7 +2349,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -2125,7 +2364,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       }
     ],
     "warmth": 8,
@@ -2199,7 +2439,7 @@
     ],
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2380,8 +2620,8 @@
         "holster": true,
         "max_contains_volume": "510 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "12 cm",
-        "min_item_length": "7 cm",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
         "moves": 80,
         "description": "Small pocket for a water bottle",
         "ripoff": 2
@@ -2397,7 +2637,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       },
       {
         "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
@@ -2410,7 +2651,8 @@
         "moves": 300,
         "extra_encumbrance": 1,
         "description": "Secured under compression straps or with a tool loop.",
-        "ripoff": 5
+        "ripoff": 5,
+        "transparent": true
       }
     ],
     "warmth": 8,
@@ -2527,7 +2769,7 @@
     ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
@@ -2864,7 +3106,8 @@
         "moves": 1000,
         "ripoff": 5,
         "activity_noise": { "volume": 9, "chance": 15 },
-        "extra_encumbrance": 20
+        "extra_encumbrance": 20,
+        "transparent": true
       }
     ],
     "material_thickness": 2,

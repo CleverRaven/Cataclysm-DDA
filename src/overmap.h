@@ -12,6 +12,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -405,7 +406,10 @@ class overmap
         bool generate_sub( int z );
         bool generate_over( int z );
         // Check and put bridgeheads
-        void generate_bridgeheads( const std::vector<point_om_omt> &bridge_points );
+        void generate_bridgeheads( const std::vector<point_om_omt> &bridge_points,
+                                   oter_type_str_id bridge_type,
+                                   const std::string &bridgehead_ground,
+                                   const std::string &bridgehead_ramp );
 
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
 
@@ -431,6 +435,9 @@ class overmap
 
         void place_roads( const overmap *north, const overmap *east, const overmap *south,
                           const overmap *west );
+
+        void place_railroads( const overmap *north, const overmap *east, const overmap *south,
+                              const overmap *west );
 
         void populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
                 const overmap *south, const overmap *west );
@@ -551,7 +558,7 @@ om_special_sectors get_sectors( int sector_width );
 /**
 * Returns the string of oter without any directional suffix
 */
-std::string oter_no_dir( const oter_id &oter );
+std::string_view oter_no_dir( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east

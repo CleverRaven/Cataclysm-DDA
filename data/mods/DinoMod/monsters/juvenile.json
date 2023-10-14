@@ -12,7 +12,7 @@
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_ceratosaurus_juvenile",
@@ -83,6 +83,23 @@
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
     "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_giganotosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "giganotosaurus juvenile",
+    "description": "Large predatory bipedal dinosaur juvenile with a wide, flat head.",
+    "default_faction": "giganotosaurus_juvenile",
+    "copy-from": "mon_giganotosaurus",
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_giganotosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
@@ -273,7 +290,7 @@
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ],
     "harvest": "bird_small"
   },
   {
@@ -325,7 +342,18 @@
     "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "dissect": "dissect_raptor_sample_single",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CANPLAY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CANPLAY",
+      "NO_BREED",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_utahraptor_juvenile",
@@ -569,7 +597,7 @@
     "copy-from": "mon_stegosaurus_juvenile",
     "color": "yellow",
     "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_camptosaurus_juvenile",
@@ -578,7 +606,7 @@
     "copy-from": "mon_stegosaurus_juvenile",
     "color": "yellow",
     "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" },
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_hadrosaurus_juvenile",
@@ -661,7 +689,7 @@
     "bodytype": "bear",
     "hp": 30,
     "upgrades": { "age_grow": 17, "into": "mon_leptoceratops" },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_zuniceratops_juvenile",
@@ -673,7 +701,7 @@
     "weight": "90 kg",
     "hp": 55,
     "upgrades": { "age_grow": 29, "into": "mon_pachyrhinosaurus" },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_styracosaurus_juvenile",
@@ -774,7 +802,7 @@
     "copy-from": "mon_thescelosaurus",
     "hp": 70,
     "upgrades": { "age_grow": 60, "into": "mon_thescelosaurus" },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_pteranodon_juvenile",
@@ -786,7 +814,19 @@
     "color": "light_gray_yellow",
     "upgrades": { "age_grow": 14, "into": "mon_pteranodon" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "HIT_AND_RUN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "FLIES",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CANPLAY",
+      "NO_BREED",
+      "HIT_AND_RUN",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_quetzalcoatlus_juvenile",

@@ -23,15 +23,15 @@
       [ "salt", 10 ],
       [ "seasoning_salt", 5 ],
       [ "vinegar", 10 ],
-      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },
       [ "con_milk", 10 ],
       [ "milk_evap", 10 ],
       [ "instant_coffee", 25 ],
-      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 26, "group": "fish_pickled_jar_glass_sealed_2" },
       [ "lutefisk", 1 ],
       [ "pemmican", 10 ],
-      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
     ]
   },
   {
@@ -55,30 +55,30 @@
     "type": "item_group",
     "id": "stash_drugs",
     "items": [
-      { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
-      { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
-      { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
-      { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
+      { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
+      { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
+      { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },
+      { "prob": 10, "group": "xanax_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       [ "pipe_tobacco", 2 ],
-      { "item": "tobacco", "prob": 2, "charges": [ 1, 20 ] },
+      { "prob": 2, "group": "tobacco_bag_plastic_1_20" },
       [ "adrenaline_injector", 2 ],
-      { "item": "weed", "prob": 50, "charges": [ 1, 5 ] },
+      { "item": "weed", "prob": 50, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       [ "seed_weed", 35 ],
       [ "seed_tobacco", 15 ],
       [ "rolling_paper", 9 ],
       [ "pipe_glass", 17 ],
-      { "item": "coke", "prob": 8, "charges": [ 1, 8 ] },
-      { "item": "meth", "prob": 2, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
-      { "item": "crack", "prob": 4, "charges": [ 1, 4 ] },
+      { "prob": 8, "group": "coke_bag_zipper_1_8" },
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
+      { "prob": 4, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 7 ],
-      { "item": "antifungal", "prob": 1, "charges": [ 1, 5 ] },
-      { "item": "antiparasitic", "prob": 2, "charges": [ 1, 10 ] },
-      { "item": "diazepam", "prob": 1, "charges": [ 1, 10 ] },
-      { "item": "lsd", "prob": 6, "charges": [ 1, 5 ] }
+      { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_1_5" },
+      { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
+      { "item": "lsd", "prob": 6, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -172,7 +172,7 @@
       { "group": "used_ifak", "prob": 50 },
       { "group": "full_1st_aid", "prob": 50 },
       { "group": "used_1st_aid", "prob": 50 },
-      { "item": "homeopathic_pills", "prob": 50 },
+      { "prob": 50, "group": "homeopathic_pills_bottle_plastic_pill_supplement_20" },
       { "group": "full_ipok", "prob": 50 }
     ]
   },
@@ -382,8 +382,72 @@
       { "group": "salty_snacks", "prob": 75 },
       { "group": "softdrinks_canned", "prob": 55 },
       { "group": "softdrinks_bottled", "prob": 45 },
-      { "item": "cookies", "prob": 30, "charges": [ 1, 4 ] },
+      { "prob": 30, "group": "cookies_box_snack_1_4" },
       { "group": "toastems", "prob": 15 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pills_sleep_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "pills_sleep", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "xanax_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "xanax", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_bag_plastic_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crack_bag_zipper_1_4",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "crack", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_bottle_plastic_pill_prescription_1_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "homeopathic_pills_bottle_plastic_pill_supplement_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cookies_box_snack_1_4",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_snack",
+    "entries": [ { "item": "cookies", "container-item": "null", "count": [ 1, 4 ] } ]
   }
 ]

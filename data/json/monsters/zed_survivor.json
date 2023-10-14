@@ -24,7 +24,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "grab_strength": 20,
     "special_attacks": [ [ "SHRIEK", 20 ], { "id": "bite_humanoid", "cooldown": 5, "min_mul": 1 }, { "id": "grab", "cooldown": 7 } ],
     "death_drops": "mon_zombie_survivor_death_drops",

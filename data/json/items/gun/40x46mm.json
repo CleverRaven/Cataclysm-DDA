@@ -19,6 +19,7 @@
     "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 350,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "sights", 1 ],
@@ -52,6 +53,7 @@
     "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 150,
+    "flags": [ "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
     "melee_damage": { "bash": 6 }
   },
@@ -85,6 +87,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "flags": [ "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -163,7 +166,7 @@
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
     "clip_size": 3,
     "price_postapoc": 1750,
-    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
+    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID" ] ] ],
     "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 3 } } ]
   },

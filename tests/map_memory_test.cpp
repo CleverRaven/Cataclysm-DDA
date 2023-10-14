@@ -11,10 +11,10 @@
 #include "map_memory.h"
 #include "point.h"
 
-static constexpr tripoint p1{ -SEEX - 2, -SEEY - 3, -1 };
-static constexpr tripoint p2{ 5, 7, -1 };
-static constexpr tripoint p3{ SEEX * 2 + 5, SEEY + 7, -1 };
-static constexpr tripoint p4{ SEEX * 3 + 2, SEEY * 7 + 1, -1 };
+static constexpr tripoint_abs_ms p1{ -SEEX - 2, -SEEY - 3, -1 };
+static constexpr tripoint_abs_ms p2{ 5, 7, -1 };
+static constexpr tripoint_abs_ms p3{ SEEX * 2 + 5, SEEY + 7, -1 };
+static constexpr tripoint_abs_ms p4{ SEEX * 3 + 2, SEEY * 7 + 1, -1 };
 
 TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
 {
@@ -29,8 +29,8 @@ TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
     CHECK( memory.prepare_region( p1, p4 ) );
     CHECK( !memory.prepare_region( p2, p3 ) );
     CHECK( memory.prepare_region(
-               tripoint( p2.xy(), -p2.z ),
-               tripoint( p3.xy(), -p3.z )
+               tripoint_abs_ms( p2.xy(), -p2.z() ),
+               tripoint_abs_ms( p3.xy(), -p3.z() )
            ) );
 }
 
@@ -112,7 +112,7 @@ TEST_CASE( "map_memory_forgets", "[map_memory]" )
     CHECK( mt.get_dec_rotation() == 3 );
     memory.set_tile_symbol( p1, 1 );
     CHECK( mt.symbol == 1 );
-    memory.clear_tile_vehicles( p1 );
+    memory.clear_tile_decoration( p1, /* prefix = */ "vp_" );
     CHECK( mt.symbol == 0 );
     CHECK( mt.get_ter_id() == "t_foo" );
     CHECK( mt.get_ter_subtile() == 43 );
@@ -197,7 +197,7 @@ static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cac
 static constexpr size_t first_twelve = SEEX;
 static constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
 
-TEST_CASE( "shift_map_memory_seen_cache" )
+TEST_CASE( "shift_map_memory_bitset_cache" )
 {
     std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> test_cache;
 

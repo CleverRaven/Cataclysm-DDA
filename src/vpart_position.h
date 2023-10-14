@@ -17,6 +17,7 @@ struct input_event;
 class inventory;
 class Character;
 class vehicle;
+class vehicle_stack;
 class vpart_info;
 struct vehicle_part;
 
@@ -66,6 +67,8 @@ class vpart_position
          * @returns The label at this part of the vehicle, if there is any.
          */
         std::optional<std::string> get_label() const;
+        // @return reference to unbroken CARGO part at this position or std::nullopt
+        std::optional<vpart_reference> cargo() const;
         /// @see vehicle::part_with_feature
         std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         /// @see vehicle::part_with_feature
@@ -88,7 +91,7 @@ class vpart_position
         // Finds vpart_reference to inner part with specified tool
         std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
-        std::map<item, input_event> get_tools() const;
+        std::map<item, int> get_tools() const;
         // Forms inventory for inventory::form_from_map
         void form_inventory( inventory &inv ) const;
 
@@ -113,7 +116,7 @@ class vpart_position
 };
 
 /**
- * Simple wrapper to forward functions that may return a @ref cata::optional
+ * Simple wrapper to forward functions that may return a @ref std::optional
  * to @ref vpart_position. They generally return an empty `optional`, or
  * forward to the same function in `vpart_position`.
  */
@@ -126,6 +129,8 @@ class optional_vpart_position : public std::optional<vpart_position>
         std::optional<std::string> get_label() const {
             return has_value() ? value().get_label() : std::nullopt;
         }
+        // @return reference to unbroken CARGO part at this position or std::nullopt
+        std::optional<vpart_reference> cargo() const;
         std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
         std::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
@@ -157,6 +162,8 @@ class vpart_reference : public vpart_position
         vehicle_part &part() const;
         /// See @ref vehicle_part::info
         const vpart_info &info() const;
+        // @return vehicle_stack constructed from the part's cargo items
+        vehicle_stack items() const;
         /**
          * Returns whether the part *type* has the given feature.
          * Note that this is different from part flags (which apply to part

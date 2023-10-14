@@ -22,10 +22,13 @@
 #include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npctalk.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "test_data.h"
 #include "text_snippets.h"
 #include "type_id.h"
 #include "units.h"
@@ -309,6 +312,107 @@ static void check_npc_movement( const tripoint &origin )
                     CHECK( guy == nullptr );
                     break;
             }
+        }
+    }
+}
+
+static npc *make_companion( const tripoint &npc_pos )
+{
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    guy->normalize();
+    guy->randomize();
+    guy->spawn_at_precise( tripoint_abs_ms( get_map().getabs( npc_pos ) ) );
+    overmap_buffer.insert_npc( guy );
+    g->load_npcs();
+    guy->companion_mission_role_id.clear();
+    guy->guard_pos = std::nullopt;
+    clear_character( *guy );
+    guy->setpos( npc_pos );
+    talk_function::follow( *guy );
+
+    return get_creature_tracker().creature_at<npc>( npc_pos );
+}
+
+TEST_CASE( "npc-board-player-vehicle" )
+{
+    REQUIRE_FALSE( test_data::npc_boarding_data.empty() );
+
+    for( std::pair<const std::string, npc_boarding_test_data> &given : test_data::npc_boarding_data ) {
+        GIVEN( given.first ) {
+            npc_boarding_test_data &data = given.second;
+            g->place_player( data.player_pos );
+            clear_map();
+            map &here = get_map();
+            Character &pc = get_player_character();
+
+            vehicle *veh = here.add_vehicle( data.veh_prototype, data.player_pos, 0_degrees, 100, 2 );
+            REQUIRE( veh != nullptr );
+            here.board_vehicle( data.player_pos, &pc );
+            REQUIRE( pc.in_vehicle );
+
+            npc *companion = make_companion( data.npc_pos );
+            REQUIRE( companion != nullptr );
+            REQUIRE( companion->get_attitude() == NPCATT_FOLLOW );
+            REQUIRE( companion->path_settings->allow_open_doors );
+            REQUIRE( companion->path_settings->allow_unlock_doors );
+
+            /* Uncomment for some extra info when test fails
+            debug_mode = true;
+            debugmode::enabled_filters.clear();
+            debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
+            REQUIRE( debugmode::enabled_filters.size() == 1 );
+            */
+
+            int turns = 0;
+            while( turns++ < 100 && companion->pos() != data.npc_target ) {
+                companion->moves = 100;
+                /* Uncommment for extra debug info
+                tripoint npc_pos = companion->pos();
+                optional_vpart_position vp = here.veh_at( npc_pos );
+                vehicle *veh = veh_pointer_or_null( vp );
+                add_msg( m_info, "%s is at %d %d %d and sees t: %s, f: %s, v: %s (%s)",
+                         companion->name, npc_pos.x, npc_pos.y, npc_pos.z,
+                         here.tername( npc_pos ),
+                         here.furnname( npc_pos ),
+                         vp ? remove_color_tags( vp->part_displayed()->part().name() ) : "",
+                         veh ? veh->name : " " );
+                */
+                companion->move();
+            }
+
+            CAPTURE( companion->path );
+            if( !companion->path.empty() ) {
+                tripoint &p = companion->path.front();
+
+                int part = -1;
+                const vehicle *veh = here.veh_at_internal( p, part );
+                if( veh ) {
+                    const vehicle_part &vp = veh->part( part );
+                    CHECK_FALSE( vp.info().has_flag( VPFLAG_OPENABLE ) );
+
+                    std::string part_name = remove_color_tags( vp.name() );
+                    UNSCOPED_INFO( "target tile: " << p.to_string() << " - vehicle part : " << part_name );
+
+                    int hp = vp.hp();
+                    int bash = companion->path_settings->bash_strength;
+                    UNSCOPED_INFO( "part hp: " << hp << " - bash strength: " << bash );
+
+                    const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
+                    part = vpobst ? vpobst->part_index() : -1;
+                    int open = veh->next_part_to_open( part, true );
+                    int lock = veh->next_part_to_unlock( part, true );
+
+                    if( open >= 0 ) {
+                        const vehicle_part &vp_open = veh->part( open );
+                        UNSCOPED_INFO( "open part " << vp_open.name() );
+                    }
+                    if( lock >= 0 ) {
+                        const vehicle_part &vp_lock = veh->part( lock );
+                        UNSCOPED_INFO( "lock part " << vp_lock.name() );
+                    }
+                }
+            }
+            CHECK( companion->pos() == data.npc_target );
         }
     }
 }

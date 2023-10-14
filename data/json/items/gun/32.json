@@ -144,7 +144,7 @@
   },
   {
     "id": "rifle_32",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: .32", "str_pl": "pipe rifles: .32" },
@@ -179,7 +179,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 1 } } ],
     "melee_damage": { "bash": 10 }
   }

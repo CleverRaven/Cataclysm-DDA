@@ -18,7 +18,8 @@
       [ "holo_sight", 20 ],
       [ "balclava", 10 ],
       [ "balaclava_cut_resistant", 5 ],
-      [ "holster", 15 ],
+      [ "nylon_holster", 10 ],
+      [ "holster", 5 ],
       [ "bandolier_shotgun", 15 ],
       [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
@@ -89,6 +90,7 @@
       { "group": "used_1st_aid", "prob": 10 },
       { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
       { "group": "cotton_ball_bag_used", "prob": 2 },
+      { "group": "cotton_ball_bag_full", "prob": 1 },
       [ "crowbar", 15 ],
       [ "entry_suit", 10 ],
       [ "hammer_sledge", 5 ],
@@ -152,8 +154,8 @@
       { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
       { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
       [ "UPS_OFF", 2 ],
-      { "item": "prussian_blue", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "iodine", "prob": 50, "charges": [ 1, 10 ] }
+      { "prob": 25, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 50, "group": "iodine_bottle_plastic_pill_supplement_1_10" }
     ]
   },
   {
@@ -174,6 +176,9 @@
       { "group": "swimmer_wetsuit", "prob": 100 },
       { "group": "swimmer_accessories", "prob": 40 },
       { "item": "dive_bag", "prob": 100 },
+      { "item": "dry_bag", "prob": 100 },
+      { "item": "dry_duffelbag", "prob": 100 },
+      { "item": "dry_bag_large", "prob": 50 },
       { "item": "wetsuit_gloves", "prob": 70 },
       { "item": "wetsuit_booties", "prob": 70 },
       { "item": "swim_fins", "prob": 100 },
@@ -194,7 +199,7 @@
         "prob": 85
       },
       {
-        "collection": [ { "item": "rebreather_cartridge", "prob": 50, "charges": 100 }, { "item": "rebreather", "prob": 90 } ],
+        "collection": [ { "item": "rebreather_cartridge_o2", "prob": 50, "charges": 180 }, { "item": "rebreather", "prob": 90 } ],
         "prob": 20
       },
       {

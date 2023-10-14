@@ -3,6 +3,7 @@
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"
+#include "action.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -21,6 +22,7 @@
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const quality_id qual_HOSE( "HOSE" );
 
@@ -31,6 +33,8 @@ static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_WALL_MOUNTED( "WALL_MOUNTED" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
@@ -41,10 +45,9 @@ static const int win_width = 60;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id )
 {
-    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
-            return vp.get_id();
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.base_item == item_id && vpi.has_flag( flag_APPLIANCE ) ) {
+            return vpi.id;
         }
     }
     debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
@@ -73,7 +76,16 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         partnum = veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
+
     veh->last_update = calendar::turn;
+
+    if( vpinfo.base_item == itype_wall_wiring ) {
+        veh->add_tag( flag_WIRING );
+    }
+
+    if( veh->is_powergrid() || vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
+        veh->add_tag( flag_CANT_DRAG );
+    }
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
@@ -86,8 +98,12 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         if( !vp ) {
             continue;
         }
-        const vehicle &veh_target = vp->vehicle();
-        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
+        vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) ) {
+            if( veh->is_powergrid() && veh_target.is_powergrid() ) {
+                veh->merge_appliance_into_grid( veh_target );
+                continue;
+            }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 veh->connect( p, trip );
                 connected_vehicles.insert( &veh_target );
@@ -132,6 +148,7 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "UNPLUG" );
+    ctxt.register_action( "MERGE" );
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
@@ -309,12 +326,9 @@ bool veh_app_interact::can_siphon()
     return false;
 }
 
-bool veh_app_interact::can_unplug()
+bool veh_app_interact::can_merge()
 {
-    vehicle_part_range vpr = veh->get_all_parts();
-    return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
-        return ref.vehicle().part_flag( static_cast<int>( ref.part_index() ), "POWER_TRANSFER" );
-    } );
+    return veh->is_powergrid();
 }
 
 // Helper function for selecting a part in the parts list.
@@ -391,7 +405,7 @@ void veh_app_interact::refill()
     if( target ) {
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
-        act.str_values.push_back( pt->info().get_id().str() );
+        act.str_values.push_back( pt->info().id.str() );
         const point q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
@@ -463,18 +477,18 @@ void veh_app_interact::remove()
         msg += reqs.list_missing();
     }
 
-    int time = vpinfo.removal_time( you );
+    time_duration time = vpinfo.removal_time( you );
     if( you.has_trait( trait_DEBUG_HS ) ) {
         can_remove = true;
-        time = 1;
+        time = 1_seconds;
     }
 
     if( !can_remove ) {
         popup( msg );
         //~ Prompt the player if they want to remove the appliance. %s = appliance name.
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
-        act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'O' ) );
-        act.str_values.push_back( vpinfo.get_id().str() );
+        act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
+        act.str_values.push_back( vpinfo.id.str() );
         const point q = veh->coord_translate( vp.mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
@@ -494,32 +508,50 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( a_point );
     const tripoint pos = veh->global_part_pos3( part );
-    veh->plug_in( get_map().getabs( pos ) );
+    veh->plug_in( pos );
 }
 
-void veh_app_interact::unplug()
+void veh_app_interact::merge()
 {
-    veh->shed_loose_parts();
-    int const part = veh->part_at( a_point );
-    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
-    act = player_activity( ACT_VEHICLE, 1, static_cast<int>( 'u' ) );
-    act.str_values.push_back( vp.info().get_id().str() );
-    const point q = veh->coord_translate( vp.mount );
     map &here = get_map();
-    for( const tripoint &p : veh->get_points( true ) ) {
-        act.coord_set.insert( here.getabs( p ) );
+
+    const int part = veh->part_at( a_point );
+    const tripoint app_pos = veh->global_part_pos3( part );
+
+    const std::function<bool( const tripoint & )> f = [&here, app_pos]( const tripoint & pnt ) {
+        if( pnt == app_pos ) {
+            return false;
+        }
+        const optional_vpart_position target_vp = here.veh_at( pnt );
+        if( !target_vp ) {
+            return false;
+        }
+        vehicle &target_veh = target_vp->vehicle();
+        if( !target_veh.has_tag( flag_APPLIANCE ) || !target_veh.is_powergrid() ) {
+            return false;
+        }
+        return true;
+    };
+
+    const std::optional<tripoint> target_pos = choose_adjacent_highlight( app_pos,
+            _( "Merge the appliance into which grid?" ), _( "Target must be adjacent." ), f, false, false );
+    if( !target_pos ) {
+        return;
     }
-    act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-    act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
-    act.values.push_back( a_point.x );
-    act.values.push_back( a_point.y );
-    act.values.push_back( -a_point.x );
-    act.values.push_back( -a_point.y );
-    act.values.push_back( veh->index_of_part( &vp ) );
+    const optional_vpart_position target_vp = here.veh_at( *target_pos );
+    if( !target_vp ) {
+        return;
+    }
+    vehicle &target_veh = target_vp->vehicle();
+    veh->merge_appliance_into_grid( target_veh );
 }
 
 void veh_app_interact::populate_app_actions()
 {
+
+    int const part = veh->part_at( a_point );
+    const vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
+
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
     imenu.entries.clear();
     app_actions.clear();
@@ -547,7 +579,7 @@ void veh_app_interact::populate_app_actions()
     app_actions.emplace_back( [this]() {
         remove();
     } );
-    imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
+    imenu.addentry( -1, veh->can_unmount( vp ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
     app_actions.emplace_back( [this]() {
@@ -556,12 +588,12 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     ctxt.get_action_name( "PLUG" ) );
 
-    // Unplug
+    // Merge
     app_actions.emplace_back( [this]() {
-        unplug();
+        merge();
     } );
-    imenu.addentry( -1, can_unplug(), ctxt.keys_bound_to( "UNPLUG" ).front(),
-                    ctxt.get_action_name( "UNPLUG" ) );
+    imenu.addentry( -1, can_merge(), ctxt.keys_bound_to( "MERGE" ).front(),
+                    ctxt.get_action_name( "MERGE" ) );
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );

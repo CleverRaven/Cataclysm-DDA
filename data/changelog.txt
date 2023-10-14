@@ -25,6 +25,32 @@ Creatures can stumble into invisible players to discover them
 Add molting for exoskeleton mutations
 3D vision of lower levels with distance fog
 Rework MA tech requirements
+Allow NPCs to read E-books - new activity added
+Allow mutation transformation using the normal mutation rules
+Implement setting direction for appliances and add a directed floodlight appliance
+Asynchronous animations including sprinting and smashing
+Added enable and disable mutation EOCs
+3D vision for isometric tilesets
+Unhardcode dragging, grab fixes
+Make vehicle doors lockable and pickable
+Implement export&import of the protagonist and follower NPCs
+Expand grain farming and adjust seeds
+Creatures above cast shadows onto tiles below
+Apply different messages at different effect intensity levels
+Player character now can get sick with common cold or flu only after contacts with NPCs or ferals
+Generate vehicle prototypes from in-game vehicles
+In-game Armor sprite change
+Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
+Cataclysm and game start dates are to be set through scenarios
+Friendly NPC crafting by crafting menu
+Functionality to drop items off ledges/cliffs onto creatures below
+NPC fleeing behaviour adjusted and slightly improved
+Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
+Add overheat mechanics to energy guns.
+Sound-triggered traps
+Item transformation can now pick variant items to transform into
+You can now collect grappling hooks and ladders from the ledge above.
+Adds priority parameter for special placement
 
 
 ## Content:
@@ -47,6 +73,22 @@ Addition of non-NPC civilians for lore reasons
 Nether spiders as a new bossfight for the game.
 New conversion kits, guns, and calibres
 Crashing ship start for Aftershock
+Add more monsters to the nether monster corpse
+Living lore document
+Gastropod Foot Limb: Mutant limbs can be added in json
+Added a small office building fortified by bandits
+New location: speedway
+You can now choose a new leader for your faction without dying
+Adds new skateboard vehicle
+Most scenarios now provide vision of the nearest city on start
+Alternative resolution to clean back bay quest
+Add a synagogue
+Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
+Adds curved road bends, rotaries and rest stops/laybys
+JSONify Defense Mode
+Adds a new mission to the Exodii
+Add boats to river banks
+Vehicles now contain heater, and some contain AC
 
 
 ## Interface:
@@ -60,6 +102,19 @@ Mouse thumb button support
 Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
+Adds the 'Mark as dangerous' keybinding to the overmap
+NPC selects melee style
+Add sundial, wind and radiation badge to "spacebar" sidebar
+fix widget error if player has no body part
+AIM: Add key to step outside containers; AIM: mark container that the other pane is looking inside
+Change description of highlighted regions when editing the overmap
+Detailed information for stats on character creation menu
+Larger and more I18n-friendly safemode UI
+Enable/disable showing several non-player-related messages in the log
+Walking into ledges examines them.
+Accessible item insert menu
+Show insertion failure reasons in Insert menu and AIM
+Select default bodypart when applying bandage
 
 
 ## Mods:
@@ -86,6 +141,28 @@ Open multiple containers in Advanced Inventory Manager
 [Xedra Evolved] Revamped the inventor class
 Alchemy Perks for Xedra Evolved
 Bombastic Perks adds Playstyle Perks
+[Magiclysm] Ways to boost your caster level
+Disable the Bionic Professions mod by default
+Add the Mind Over Matter mod to the CDDA repository
+[Tamable Wildlife] More tamable creatures
+[MoM] Add additional portal storm remnant map extras
+[Sky Island] Mainline Sky Island mod
+[Magiclysm] Add a spell-using feral human to Magiclysm
+[MoM] Add telepathic and telekinetic damage types
+[MoM] Mind Over Matter-specific Research facility overhaul
+[XE] Paraclesians: Elemental Races
+[Railroads] New mod
+[MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
+[Magiclysm] Add more than two dozen spells to magiclysm
+[Magiclysm] Add fantasy species starting option
+[Magiclysm] Add two more playable fantasy species for Magiclysm
+JSON-ize faction camp hunting returns
+[DinoMod] document lore
+[Aftershock] Rebalance energy weapons to use overheat mechanics
+[Magiclysm] Add fantasy species ferals
+[Magiclysm] Add dispel magic spells
+Create the Isolation Protocol Mod: A traditional roguelike experience
+[Magiclysm] Add triffid and migo mages
 
 
 ## Balance:
@@ -104,6 +181,24 @@ Add a more accessible holy symbol mission, replacing the small relic one
 Most materials now burn at least a little slower than gunpowder
 stationary monsters don't let you train throwing to high levels
 player can drag heavier vehicles
+difficulty to repair depends on what the thing is made of instead of its crafting difficulty
+Hound afterimages also copy their host nicknames
+The player is substantially less effective with guns at low skill values
+Lycra is less protective
+BMI has a less all consuming impact on how healthy you are
+Being badly wounded will always allow you to swap characters in camp while you heal
+Intelligence provides a multiplier to current focus rather than adding to its value
+More monsters fight back if cornered
+Higher dodge skill lowers the stamina cost to dodge
+Adds a mutable stream to the mapgen
+Limit the times assassins can try to kill you.
+Increase plastic variety, adjust plastics to be more realistic in terms of protection
+Characters start with basic skills from their previous life
+Climbing down stepladders is now safe; climbing down ledges tells you how risky it is.
+Add NO_SPELLCASTING flag to Stunned effect
+Improve pets' ability to use stairs
+Make ferals actually feel like human enemies instead of weaker zombies with range attacks
+Allow metal wreckage to be used for cutting
 
 
 ## Bugfixes:
@@ -145,11 +240,53 @@ Fix unicode path encoding error in Windows MinGW build
 Difficulty 0 recipes are no longer arbitrarily difficult
 Make EOC u_sell_item() actually transfers the items' ownership
 Improving NPC shooting frequency
+Enable death effects on limited lifespan monsters
+Make Hub01 globally unique
+Charge integrated magazines when plugged in
+Don't allow to scan books that are owned by other characters
+Fix NPC putting items in open air when fetching items during an activity when 3D FOV is on
+Trees and other FLAMMABLE_ASH terrain leaves behind ash when burned down
+Do not report monsters breaking free of unknown grabbers if the player cannot see them
+Allows certain docks to be placed on non-flowing shallow and deep water.
+Fix the epilogue for the New England Church Community
+Flat armor penetration is spread across all armor layers instead of applying its full value to each
+Fix tow cables being unable to connect different vehicles
+Smashing now incorporates any MELEE_DAMAGE and STRENGTH enchantments
+'w'ield menu will now correctly trigger a steal warning when wielding an item that does not belong to player
+Allow crafting tools to use linked electricity
+Don't get randomly sick anymore
+Itemgroups can seal containers
+Spawned corpses should now spawn with and contain their clothes
+Can no longer get stuck for days thinking about working out if you're a WIMP with NEGATIVE WORKOUT TIME
+Prevent car from spawning into a house wall
+HP widgets gets equivalent bodypart
+Fix grainy glyphs in blended font rendering mode
+Stop dodging good spells, fix uncanny dodge spell crash
+Fix and improve NPC randomizer
+Make sure overconfident officers reliably drop their guns
+[MoM] Fix zombie telepathic stuns
+Fix appliance power drain display right after plugging in/unplugging device
+Fix items and furniture being deleted from grappling hook usage
+Randomly generated characters are now aged appropriately to their profession
+AIM: Display correct truncation of container names
+Fix visible tiles revealing invisible tiles below
+Fix furniture & vehicle map memory refresh
+Monsters can go down ramps
+Don't teleport items to the ground if the vehicle storage destination is full
+Fix Free Merchants Broker price calculation of non charge based item
+Skip auto sorting items that don't belong to you
+Use correct actor in bulk trade messages
 
 
 ## Performance:
 Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
+Removes the ludicrous amount of OMs the refugee and research centres define
+Fix Nested List lag in crafting menu
+Optimize eoc processing and other fixes to speed up waiting near many npcs
+Optimize pocket overflow function
+Speed up new character screen, particularly when many recipes are known
+Stop clearing weight carried cache unnecessarily
 
 
 ## Infrastructure:
@@ -162,10 +299,28 @@ Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
 Allow C++ standard includes in clang-tidy tests
+Refactor timer items to be a bit more time based
+Support for material replacement in items
+Carrier for items on ground is nullptr
+Tick_action as a separate thing from use_action
+New documentation on how to test proposed changes
+Remove charges from solid comestibles
+New item categories for martial arts manuals and traps
+Update all active items to new tick action system and remove old system
+Add ability to merge appliance into grid
+Add JSON-based system for climbing aids.
+EVENT EOCs provide beta talker
+[EOC]Inventory selector
 
 
 ## Build:
 Support Mac arm64 build
+Adds VS Code Dev Containers & Workspace Config
+Allow for cross-compiling from Linux to Windows in Devcontainer
+Faster local VS builds
+Fast Windows iteration with llvm-lib and lld-link
+Cross compile object creator from linux to Windows using Devcontainer
+add object creator to releases
 
 
 ## I18N and A11Y:

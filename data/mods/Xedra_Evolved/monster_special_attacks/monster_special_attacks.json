@@ -39,5 +39,39 @@
     "spell_class": "NONE",
     "difficulty": 2,
     "energy_source": "NONE"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "ice_spray",
+    "cooldown": 5,
+    "move_cost": 100,
+    "range": 8,
+    "damage_max_instance": [ { "damage_type": "cold", "amount": 6 }, { "damage_type": "cut", "amount": 6 } ],
+    "hit_dmg_u": "%1$s sprays icicles at your %2$s!",
+    "hit_dmg_npc": "%1$s sprays icicles at <npcname>!",
+    "no_dmg_msg_u": "%1$s sprays icicles out at you without doing any damage.",
+    "no_dmg_msg_npc": "%1$s sprays icicles out at <npcname> without doing any damage.",
+    "miss_msg_u": "%s sprays icicles at you, but you dodge!",
+    "miss_msg_npc": "%s sprays icicles at <npcname>, but they dodge!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "ratatosks_curse",
+    "cooldown": 10,
+    "move_cost": 100,
+    "attack_chance": 50,
+    "hitsize_min": 4,
+    "attack_upper": false,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+    "effects_require_dmg": false,
+    "hit_dmg_u": "%1$s curses you and you fall to the ground!",
+    "hit_dmg_npc": "%1$s curses <npcname> and they fall to the ground!",
+    "no_dmg_msg_u": "%1$s tries to curse %2$s and knock you down!",
+    "no_dmg_msg_npc": "%1$s tries to curse and knock <npcname> down!",
+    "miss_msg_u": "%s tries to curse your %2$s but you dodge!",
+    "miss_msg_npc": "%s tries to curse and knock down <npcname>, but they dodge!",
+    "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
   }
 ]

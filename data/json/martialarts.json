@@ -7,7 +7,8 @@
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
     "leg_block": 99,
-    "allow_all_weapons": true
+    "allow_all_weapons": true,
+    "teachable": false
   },
   {
     "type": "martial_art",
@@ -18,7 +19,8 @@
     "arm_block": 1,
     "leg_block": 99,
     "force_unarmed": true,
-    "prevent_weapon_blocking": true
+    "prevent_weapon_blocking": true,
+    "teachable": false
   },
   {
     "type": "martial_art",
@@ -225,7 +227,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "FLAILS", "MACES", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
+    "weapon_category": [ "FLAILS", "MACES", "LONG_SWORDS", "GREAT_SWORDS", "GREAT_HAMMERS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -516,7 +518,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "BLADED_FARMING", "CLAWS", "SHIVS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "SHORT_SWORDS", "CLAWS", "SHIVS" ]
   },
   {
     "type": "martial_art",
@@ -719,8 +721,8 @@
     "type": "martial_art",
     "id": "style_kickboxing",
     "name": { "str": "Kickboxing" },
-    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.",
-    "initiate": [ "You assume a kickboxing stance and focus power into your limbs.", "%s assumes a kickboxing stance." ],
+    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.  American Kickboxing in particular focuses on high kicks without knee or elbow strikes.",
+    "initiate": [ "You bring your fists up and stay light on your feet.", "%s brings their fists up and stays light on their feet." ],
     "learn_difficulty": 4,
     "arm_block": 2,
     "leg_block": 4,
@@ -735,11 +737,10 @@
     ],
     "techniques": [
       "tec_kickboxing_rapid",
+      "tec_kickboxing_cross",
+      "tec_kickboxing_push",
       "tec_kickboxing_upper",
-      "tec_kickboxing_roundhouse",
-      "tec_kickboxing_sidekick",
-      "tec_kickboxing_straight_knee",
-      "tec_kickboxing_flying_knee"
+      "tec_kickboxing_roundhouse"
     ]
   },
   {
@@ -874,7 +875,7 @@
       }
     ],
     "techniques": [ "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "GREAT_SWORDS", "LONG_THRUSTING_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -908,7 +909,15 @@
         ]
       }
     ],
-    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee", "tec_muay_thai_break" ]
+    "techniques": [
+      "tec_muay_thai_rapid",
+      "tec_muay_thai_cross",
+      "tec_muay_thai_elbow",
+      "tec_muay_thai_push",
+      "tec_muay_thai_roundhouse",
+      "tec_muay_thai_knee",
+      "tec_muay_thai_break"
+    ]
   },
   {
     "type": "martial_art",
@@ -976,7 +985,7 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_swift_crit", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "CLAWS" ]
   },
   {
     "type": "martial_art",
@@ -1050,7 +1059,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -1143,7 +1152,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "SHORT_SWORDS", "POLEARMS" ]
   },
   {
     "type": "martial_art",

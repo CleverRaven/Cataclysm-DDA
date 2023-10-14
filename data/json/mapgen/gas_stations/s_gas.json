@@ -50,7 +50,7 @@
         { "liquid": "gasoline", "x": 2, "y": 3, "repeat": [ 200, 1075 ] },
         { "liquid": "diesel", "x": 4, "y": 3, "repeat": [ 200, 1075 ] }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
@@ -86,9 +86,43 @@
         "########~##############]",
         " 4      ]]]]]]]]]]]]]]]]"
       ],
-      "palettes": [ "road" ],
-      "terrain": { "Á": "t_concrete", "]": "t_concrete", ".": "t_thconc_floor", "4": "t_gutter_downspout" },
-      "furniture": { "Á": "f_rack" },
+      "terrain": {
+        " ": [ [ "t_region_groundcover", 8 ], "t_region_shrub" ],
+        "_": "t_pavement",
+        "!": "t_pavement",
+        "#": "t_wall_w",
+        "+": "t_door_c",
+        "~": "t_door_locked",
+        "/": "t_door_glass_c",
+        "x": "t_wall_glass",
+        ":": "t_pavement_y",
+        "*": "t_tree",
+        "A": "t_atm",
+        "Á": "t_concrete",
+        "]": "t_concrete",
+        ".": "t_thconc_floor",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "&": "f_trashcan",
+        "{": "f_glass_fridge",
+        "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "C": "f_counter",
+        "H": "f_sofa",
+        "c": "f_chair",
+        "s": "f_stool",
+        "t": "f_table",
+        "r": "f_rack",
+        "l": "f_locker",
+        "f": "f_fridge",
+        "o": "f_oven",
+        "S": "f_sink",
+        "T": "f_toilet",
+        "Á": "f_rack"
+      },
+      "toilets": { "T": {  } },
+      "gaspumps": { "!": {  } },
+      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "place_signs": [ { "signage": "Wide selection of storage batteries!  Discounts!", "x": 13, "y": 10 } ],
       "items": { "l": { "item": "SUS_janitors_closet", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },
       "place_loot": [
@@ -157,7 +191,7 @@
           "y": [ 15, 16 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
@@ -257,7 +291,7 @@
         { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80, "repeat": [ 1, 8 ] }
       ],
       "place_item": [ { "item": "shotgun_s", "x": 3, "y": 20 }, { "item": "shot_00", "x": 7, "y": 19, "chance": 50 } ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   },
   {
@@ -307,7 +341,7 @@
           "y": [ 12, 17 ]
         }
       ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 5, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIE_GAS", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
     }
   }
 ]

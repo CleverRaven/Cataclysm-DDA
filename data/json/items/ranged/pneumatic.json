@@ -34,5 +34,42 @@
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "BB": 150 } } ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "varmint_airgun",
+    "type": "GUN",
+    "looks_like": "ar15",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "varmint air rifle" },
+    "description": "A cheap varmint air rifle chambered in .177, suitable for hunting small game.",
+    "price": 25000,
+    "price_postapoc": 550,
+    "//": "Based on the Gamo Varmint .177, with 1200fps PBA/1000fps Lead",
+    "material": [ "plastic", "steel" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "skill": "rifle",
+    "ammo": [ "airgun_pellet" ],
+    "weight": "3243 g",
+    "volume": "1500 ml",
+    "longest_side": "85 cm",
+    "to_hit": -1,
+    "range": 30,
+    "ranged_damage": { "damage_type": "stab", "amount": 0 },
+    "dispersion": 150,
+    "durability": 7,
+    "reload": 300,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ],
+    "melee_damage": { "bash": 4 }
   }
 ]

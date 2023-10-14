@@ -281,7 +281,7 @@
     "type": "MONSTER",
     "copy-from": "mon_duck",
     "name": { "str": "goose", "str_pl": "geese" },
-    "description": "A Canadian goose, a common waterfowl that regrets leaving Canada.",
+    "description": "A Canada goose; a common waterfowl that regrets leaving Canada.",
     "volume": "5 L",
     "weight": "3750 g",
     "hp": 15,
@@ -640,7 +640,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_goose",
@@ -701,7 +701,7 @@
     "id": "mon_hummingbird",
     "type": "MONSTER",
     "name": { "str": "hummingbird" },
-    "description": "A very small bird of varied colored feathers depending on species.  It flies at incredible speeds while seeking nectar among flowers.",
+    "description": "A very small ruby-throated hummingbird of varied colored feathers.  It flies at incredible speeds while seeking nectar among flowers.",
     "bodytype": "bird",
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],

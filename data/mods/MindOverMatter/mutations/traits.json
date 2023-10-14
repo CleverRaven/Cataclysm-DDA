@@ -1,0 +1,93 @@
+[
+  {
+    "type": "mutation",
+    "id": "BIOKINETIC",
+    "name": "Awakened Biokinetic",
+    "points": 0,
+    "description": "Mental control over bodily processes.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "biokin_flexibility", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIRSENTIENT",
+    "name": "Awakened Clairsentient",
+    "points": 0,
+    "description": "The ability to extend the senses beyond the body.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_danger_sense", 2 ], [ "clair_speed_reading", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "PYROKINETIC",
+    "name": "Awakened Pyrokinetic",
+    "points": 0,
+    "description": "Mental control of heat and flame.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "pyrokinetic_quell_flames", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEPATH",
+    "name": "Awakened Telepath",
+    "points": 0,
+    "description": "The ability to read thoughts and influence others' minds.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [
+      [ "telepathic_concentration", 2 ],
+      [ "telepathic_shield", 2 ],
+      [ "telepathic_concentration_end", 1 ],
+      [ "telepathic_morale", 2 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC",
+    "name": "Awakened Telekinetic",
+    "points": 0,
+    "description": "Mental control over the motion of objects and people at a distance.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "telekinetic_momentum", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEPORTER",
+    "name": "Awakened Teleporter",
+    "points": 0,
+    "description": "The ability to move without crossing the intervening space, as well as some control over space itself.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "teleport_transpose", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VITAKINETIC",
+    "name": "Awakened Vitakinetic",
+    "points": 0,
+    "description": "Mental control over health and vitality.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "vita_stop_bleeding", 2 ], [ "vita_health_power", 2 ], [ "vita_hurt_touch", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "VERDANT HAND Combat Protocols" },
+    "points": 2,
+    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
+    "starting_trait": false,
+    "valid": false
+  }
+]

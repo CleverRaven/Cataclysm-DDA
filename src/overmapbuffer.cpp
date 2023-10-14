@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -1586,6 +1587,13 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
             format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     }
+
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( oter->get_type_id().obj().src,
+    []( const std::pair<oter_type_str_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    format_string += "\n" + string_format( _( "Origin: %s" ), mod_src );
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }

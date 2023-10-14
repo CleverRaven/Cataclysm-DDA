@@ -14,7 +14,7 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 240
+        "search_range": 500
       }
     },
     "end": {

@@ -10,11 +10,6 @@
 #include <string>
 #include <vector>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 struct input_event;
 struct point;
 struct tripoint;
@@ -187,6 +182,8 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Open the insert-item menu */
+    ACTION_INSERT_ITEM,
     /** Unload container in a given direction */
     ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
@@ -467,6 +464,8 @@ bool can_action_change_worldstate( action_id act );
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
 std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
+        bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -520,6 +519,9 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
 

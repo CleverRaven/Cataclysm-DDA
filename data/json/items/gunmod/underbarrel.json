@@ -370,7 +370,7 @@
     "sight_dispersion": 30,
     "field_of_view": 3000,
     "aim_speed_modifier": 15,
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "slingshot", "launcher" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },

@@ -28,8 +28,8 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "iodine", "prob": 50 },
-      { "item": "prussian_blue", "prob": 75 },
+      { "prob": 50, "group": "iodine_bottle_plastic_pill_supplement_10" },
+      { "prob": 75, "group": "prussian_blue_bottle_plastic_pill_supplement_10" },
       { "group": "full_1st_aid", "prob": 50 },
       { "item": "gloves_medical", "prob": 20 },
       { "item": "cotton_patchwork", "prob": 30, "custom-flags": [ "FILTHY" ] },

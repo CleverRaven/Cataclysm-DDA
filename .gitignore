@@ -33,6 +33,7 @@
 /src/prefix.h
 /sound/
 /templates/
+/export_dir/
 /tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
 CataclysmWin.depend

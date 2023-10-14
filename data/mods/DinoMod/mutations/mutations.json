@@ -304,8 +304,8 @@
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
-      "attack_text_u": "You tear into %s with your serrated teeth",
-      "attack_text_npc": "%1$s tears into %2$s with their serrated teeth",
+      "attack_text_u": "You tear into %s with your serrated teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their serrated teeth!",
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 30 },
@@ -343,8 +343,8 @@
     "description": "You have three long, pointed horns, like those of a triceratops.  They allow you to make a strong piercing headbutt attack, but prevent wearing headwear that is not made of fabric.",
     "prereqs": [ "HORNS_POINTED", "HORNS_CURLED" ],
     "attacks": {
-      "attack_text_u": "You stab %s with your three pointed horns",
-      "attack_text_npc": "%1$s stabs %2$s with their three pointed horns",
+      "attack_text_u": "You stab %s with your three pointed horns!",
+      "attack_text_npc": "%1$s stabs %2$s with their three pointed horns!",
       "chance": 33,
       "base_damage": { "damage_type": "stab", "amount": 36 }
     },
@@ -384,8 +384,8 @@
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You smash %s with your tail",
-      "attack_text_npc": "%1$s smashes %2$s with their tail",
+      "attack_text_u": "You smash %s with your tail!",
+      "attack_text_npc": "%1$s smashes %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 24 },
       "strength_damage": { "damage_type": "stab", "amount": 2 }

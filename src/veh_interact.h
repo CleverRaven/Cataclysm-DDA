@@ -133,7 +133,7 @@ class veh_interact
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
-                          const std::map<skill_id, int> &skills, int moves ) const;
+                          const std::map<skill_id, int> &skills, time_duration time ) const;
 
         int part_at( const point &d );
         void move_cursor( const point &d, int dstart_at = 0 );
@@ -255,9 +255,6 @@ class veh_interact
         bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
         bool update_part_requirements();
-        //true if trying to install foot crank with electric engines for example
-        //writes failure to ui
-        bool is_drive_conflict();
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "crystalline_potions",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_MEDICAL",
+    "name": "crystalline elixirs",
+    "description": "Recipes for mixing refined matrix crystal into water.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "matrix_crystal_biokin_dust_potion",
+      "matrix_crystal_clair_dust_potion",
+      "matrix_crystal_pyrokin_dust_potion",
+      "matrix_crystal_telekin_dust_potion",
+      "matrix_crystal_telepath_dust_potion",
+      "matrix_crystal_teleport_dust_potion",
+      "matrix_crystal_vitakin_dust_potion"
+    ],
+    "difficulty": 1
+  }
+]

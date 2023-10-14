@@ -5,42 +5,42 @@
     "responses": [
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_animist" } }, { "u_has_trait": "ANIMIST" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_animist]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_animist>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_ANIMIST"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_magus" } }, { "u_has_trait": "MAGUS" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_magus]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_magus>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_MAGUS"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_stormshaper" } }, { "u_has_trait": "STORMSHAPER" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_stormshaper]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_stormshaper>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_STORMSHAPER"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_kelvinist" } }, { "u_has_trait": "KELVINIST" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_kelvinist]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_kelvinist>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_KELVINIST"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_earthshaper" } }, { "u_has_trait": "EARTHSHAPER" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_earthshaper]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_earthshaper>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_EARTHSHAPER"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_technomancer" } }, { "u_has_trait": "TECHNOMANCER" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_technomancer]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_technomancer>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_TECHNOMANCER"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_druid" } }, { "u_has_trait": "DRUID" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_druid]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_druid>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_DRUID"
       },
       {
         "condition": { "and": [ { "not": { "u_has_trait": "perk_caster_level_up_biomancer" } }, { "u_has_trait": "BIOMANCER" } ] },
-        "text": "Gain [<trait_name:[perk_caster_level_up_biomancer]>]",
+        "text": "Gain [<trait_name:perk_caster_level_up_biomancer>]",
         "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP_BIOMANCER"
       }
     ]

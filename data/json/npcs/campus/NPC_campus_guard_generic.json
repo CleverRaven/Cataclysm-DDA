@@ -1,0 +1,39 @@
+[
+  {
+    "type": "npc",
+    "id": "great_library_guard",
+    "//": "A generic guard for the campus faction.",
+    "name_suffix": "Guard",
+    "class": "NC_CAMPUS_GUARD",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_CAMP_GUARD",
+    "faction": "the_great_library"
+  },
+  {
+    "id": "TALK_CAMP_GUARD",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I'm not in charge here, you're looking for someone else…",
+      "Stay alert, there's trouble in these woods.",
+      "Just on lookout, move along.",
+      "Don't distract me.  I'm on watch.",
+      { "is_day": [ "Hello.  Welcome to the library." ], "no": [ "Good evening.  Welcome to the library." ] }
+    ],
+    "responses": [
+      { "text": "How did you get stuck with guard duty?", "topic": "TALK_GUARD_CAMP_BACKGROUND" },
+      { "text": "Don't mind me…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GUARD_CAMP_BACKGROUND",
+    "dynamic_line": [
+      "Everybody left has to take a turn.  I guess it's fair but not everyone is really suited for beating up zombies or whatever.",
+      "I'm not even supposed to be here today, I just lost a bet and had to take this shift.",
+      "I should be resting right now, this is my third straight shift.  Too many people sick or hurt right now.",
+      "I live for this stuff.  I'm not really big on books, so this is probably what I'm best at here."
+    ],
+    "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+  }
+]

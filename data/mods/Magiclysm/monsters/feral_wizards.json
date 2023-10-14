@@ -1,0 +1,157 @@
+[
+  {
+    "id": "mon_feral_lab_magician",
+    "type": "MONSTER",
+    "name": { "str": "feral thaumaturgical researcher" },
+    "description": "A researcher with the look of the stereotypical academic mage, their lab coat bearing an arcane sigil on the breast pocket.  The bloodshot eyes and constant muttering, accompanied by the occasional gesture that releases a burst of sparks, tell you that research is currently far from their minds.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "dodge": 1,
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
+    "vision_day": 30,
+    "vision_night": 3,
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      {
+        "id": "feral_thaum_sci_spell_magicmissile",
+        "type": "spell",
+        "spell_data": { "id": "magic_missile", "min_level": 3 },
+        "cooldown": 10,
+        "monster_message": "%1$s screams out a word of power!"
+      },
+      {
+        "id": "feral_thaum_sci_spell_blindflash",
+        "type": "spell",
+        "spell_data": { "id": "blinding_flash", "min_level": 0 },
+        "cooldown": 15,
+        "monster_message": "%1$s gestures and light explodes everywhere!"
+      },
+      {
+        "id": "smash",
+        "move_cost": 80,
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 15, "armor_penetration": 10 } ],
+        "hitsize_min": 12,
+        "range": 8,
+        "throw_strength": 40,
+        "blockable": false,
+        "hit_dmg_u": "%1$s gestures at you and a powerful force hurls you through the air!",
+        "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
+        "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+        "miss_msg_npc": "%s gestures at <npcname> but nothing happens!"
+      }
+    ],
+    "death_drops": "mon_zombie_research_thaumaturge_death_drops",
+    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "zombify_into": "mon_zombie",
+    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_feral_radiation_mage",
+    "type": "MONSTER",
+    "name": { "str": "feral radiation mage" },
+    "description": "A research thaumaturge with the international radiation danger symbol in front of a pentagram on their lab coat.  If you had a geiger counter active, it would probably be going crazy right now.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "dodge": 1,
+    "harvest": "human",
+    "emit_fields": [ { "emit_id": "emit_rad_leak", "delay": "5 s" } ],
+    "dissect": "dissect_human_sample_single",
+    "vision_day": 30,
+    "vision_night": 3,
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      {
+        "id": "feral_rad_mage_wall_of_fog",
+        "type": "spell",
+        "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 3 },
+        "cooldown": 15,
+        "monster_message": "%1$s gestures and a sudden force slams you to the ground!"
+      },
+      {
+        "id": "feral_rad_mage_rad_attack",
+        "type": "spell",
+        "spell_data": { "id": "feral_rad_mage_rad_spell", "min_level": 5 },
+        "cooldown": 25,
+        "monster_message": "%1$s makes arcane motions and the air is filled with burning gas!"
+      },
+      {
+        "id": "feral_thaum_sci_spell_mirrorimage",
+        "type": "spell",
+        "spell_data": { "id": "mirror_image_rad_mage", "min_level": 0 },
+        "cooldown": 15,
+        "monster_message": "%1$s smiles and duplicates appear!"
+      },
+      {
+        "id": "feral_thaum_sci_spell_summon_zombie",
+        "type": "spell",
+        "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
+        "cooldown": 30,
+        "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
+      },
+      {
+        "id": "feral_thaum_sci_spell_disjunction",
+        "type": "spell",
+        "spell_data": { "id": "disjunction_monster", "min_level": 8 },
+        "cooldown": 50,
+        "monster_message": "%1$s waves their hands in a gesture of negation!"
+      }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "item": "wrapped_rad_badge", "prob": 80 }, { "group": "mon_zombie_research_thaumaturge_death_drops", "prob": 100 } ]
+    },
+    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "zombify_into": "mon_zombie",
+    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "//": "NO_BREATHE is required so it doesn't kill itself with its own radiation field",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "NO_BREATHE",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1"
+    ]
+  }
+]

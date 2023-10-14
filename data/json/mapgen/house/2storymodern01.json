@@ -184,7 +184,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -240,7 +240,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -298,7 +298,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -350,7 +350,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -400,7 +400,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -460,7 +460,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",

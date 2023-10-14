@@ -54,12 +54,14 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                         case spawn_type::vehicle: {
                             clear_map();
                             map &here = get_map();
-                            here.add_vehicle( cs_data.vehicle, point_zero, 0_degrees, -1, 0 );
+                            const tripoint vehpos( 0, 0, here.get_abs_sub().z() );
+                            vehicle *veh = here.add_vehicle( cs_data.vehicle, vehpos, 0_degrees, 0, 0 );
+                            REQUIRE( veh );
                             REQUIRE( here.get_vehicles().size() == 1 );
-                            vehicle *veh = here.get_vehicles()[0].v;
-                            int part = veh->avail_part_with_feature( point_zero, "CARGO" );
-                            REQUIRE( part >= 0 );
-                            for( item &it : veh->get_items( part ) ) {
+                            const tripoint pos( point_zero, veh->sm_pos.z );
+                            const std::optional<vpart_reference> ovp_cargo = here.veh_at( pos ).cargo();
+                            REQUIRE( ovp_cargo );
+                            for( item &it : ovp_cargo->items() ) {
                                 items.push_back( it );
                             }
                             break;

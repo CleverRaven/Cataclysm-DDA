@@ -341,10 +341,7 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        explicit inventory_column( const inventory_selector_preset &preset = default_preset ) : preset(
-                preset ) {
-            cells.resize( preset.get_cells_count() );
-        }
+        explicit inventory_column( const inventory_selector_preset &preset = default_preset );
 
         virtual ~inventory_column() = default;
 
@@ -625,6 +622,7 @@ class inventory_selector
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
         void add_remote_map_items( tinymap *remote_map, const tripoint &target );
+        void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
         void clear_items();
         /** Assigns a title that will be shown on top of the menu. */
@@ -1032,6 +1030,15 @@ class pickup_selector : public inventory_multiselector
         void remove_from_to_use( item_location &it );
         void add_reopen_activity();
         const std::optional<tripoint> where;
+};
+
+class unload_selector : public inventory_pick_selector
+{
+    public:
+        explicit unload_selector( Character &p, const inventory_selector_preset &preset = default_preset );
+        std::pair<item_location, bool> execute();
+    private:
+        std::string hint_string();
 };
 
 /**

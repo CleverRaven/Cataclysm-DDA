@@ -79,6 +79,12 @@ using drop_locations = std::list<drop_location>;
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const dialogue &d, const itype_id &item_type = itype_id::NULL_ID() );
+
+void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
+                 const itype_id &item_type = itype_id::NULL_ID() );
+
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
  * Trade:  Trust mid->high, fear low->midlow, need is a bonus
@@ -142,6 +148,9 @@ class job_data
             { activity_id( "ACT_MULTIPLE_DIS" ), 0}
         };
     public:
+        // Multi activity fetchs something to complete task. To avoid infinite loop, remember what is tried to fetch already.
+        std::unordered_map<std::string, time_point> fetch_history;
+
         bool set_task_priority( const activity_id &task, int new_priority );
         void clear_all_priorities();
         bool has_job() const;
@@ -342,7 +351,9 @@ enum class ally_rule : int {
     hold_the_line = 4096,
     ignore_noise = 8192,
     forbid_engage = 16384,
-    follow_distance_2 = 32768
+    follow_distance_2 = 32768,
+    lock_doors = 65536,
+    avoid_locks = 131072
 };
 
 struct ally_rule_data {
@@ -423,6 +434,13 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
             }
         },
         {
+            "lock_doors", {
+                ally_rule::lock_doors,
+                "<ally_rule_lock_doors_true_text>",
+                "<ally_rule_lock_doors_false_text>"
+            }
+        },
+        {
             "follow_close", {
                 ally_rule::follow_close,
                 "<ally_rule_follow_close_true_text>",
@@ -434,6 +452,13 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
                 ally_rule::avoid_doors,
                 "<ally_rule_avoid_doors_true_text>",
                 "<ally_rule_avoid_doors_false_text>"
+            }
+        },
+        {
+            "avoid_locks", {
+                ally_rule::avoid_locks,
+                "<ally_rule_avoid_locks_true_text>",
+                "<ally_rule_avoid_locks_false_text>"
             }
         },
         {
@@ -762,7 +787,8 @@ class npc : public Character
         void npc_dismount();
         weak_ptr_fast<monster> chosen_mount;
         // Generating our stats, etc.
-        void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
+        void randomize( const npc_class_id &type = npc_class_id::NULL_ID(),
+                        const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
         void learn_ma_styles_from_traits();
@@ -802,7 +828,14 @@ class npc : public Character
         // Save & load
         void deserialize( const JsonObject &data ) override;
         void serialize( JsonOut &json ) const override;
+        void export_to( const cata_path &path ) const;
+        /// Read json and apply post-import cleanup
+        void import_and_clean( const cata_path &path );
 
+    private:
+        void import_and_clean( const JsonObject &data );
+
+    public:
         // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
@@ -837,24 +870,6 @@ class npc : public Character
         */
         void on_attacked( const Creature &attacker );
         int assigned_missions_value();
-        /**
-         * @return Skills of which this NPC has a higher level than the given player. In other
-         * words: skills this NPC could teach the player.
-         */
-        std::vector<skill_id> skills_offered_to( const Character &you ) const;
-        /**
-         * Proficiencies we know that the character doesn't
-         */
-        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
-        /**
-         * Martial art styles that we known, but the player p doesn't.
-         */
-        std::vector<matype_id> styles_offered_to( const Character &you ) const;
-        /**
-         * Spells that the NPC knows but that the player p doesn't.
-         * not const because get_spell isn't const and both this and p call it
-         */
-        std::vector<spell_id> spells_offered_to( Character &you );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;
@@ -910,6 +925,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        std::string get_restock_interval() const;
         bool is_shopkeeper() const;
         // Use and assessment of items
         // The minimum value to want to pick up an item
@@ -984,6 +1000,7 @@ class npc : public Character
         void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
+        void prevent_death() override;
         // How well we smash terrain (not corpses!)
         int smash_ability() const;
 
@@ -1045,12 +1062,10 @@ class npc : public Character
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
-        int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
-
         void handle_sound( sounds::sound_t priority, const std::string &description,
                            int heard_volume, const tripoint &spos );
 
-        void witness_thievery( item *it );
+        void witness_thievery( item *it ) override;
 
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -1260,6 +1275,10 @@ class npc : public Character
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission() const;
         void revert_after_activity();
+        // Craft related stuff
+        void do_npc_craft( const std::optional<tripoint> &loc = std::nullopt,
+                           const recipe_id &goto_recipe = recipe_id() );
+        item_location get_item_to_craft();
 
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
@@ -1360,6 +1379,10 @@ class npc : public Character
 
         void set_known_to_u( bool known );
 
+        // Comparator between two NPCs as to who is a better person to respond
+        // to a theft being witnessed
+        static bool theft_witness_compare( const npc *lhs, const npc *rhs );
+
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const mission_id &miss_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
@@ -1387,6 +1410,8 @@ class npc : public Character
         int cbm_weapon_index = -1;
 
         bool dead = false;  // If true, we need to be cleaned up
+        // Temporary variable for preventing from death (used by EoC event)
+        bool prevent_death_reminder = false; // NOLINT(cata-serialize)
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
@@ -1423,6 +1448,13 @@ class npc_template
             female
         };
         gender gender_override = gender::random;
+        std::optional<int> age;
+        std::optional<int> height;
+        std::optional<int> str;
+        std::optional<int> dex;
+        std::optional<int> intl;
+        std::optional<int> per;
+        std::optional<npc_personality> personality;
 
         static void load( const JsonObject &jsobj );
         static void reset();

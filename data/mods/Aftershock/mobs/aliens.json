@@ -95,7 +95,11 @@
     "vision_day": 3,
     "vision_night": 3,
     "grab_strength": 50,
-    "special_attacks": [ { "id": "ranged_pull", "cooldown": 10, "grab_data": { "pull_weight_ratio": 5.0 } }, [ "GRAB_DRAG", 3 ] ],
+    "special_attacks": [
+      { "id": "ranged_pull", "cooldown": 10, "grab_data": { "pull_weight_ratio": 5.0 } },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" }
+    ],
     "flags": [
       "ANIMAL",
       "SEES",

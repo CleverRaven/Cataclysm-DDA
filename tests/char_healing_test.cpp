@@ -45,6 +45,7 @@ static void give_one_trait( Character &dummy, const std::string &trait_name )
 static float healing_rate_at_health( Character &dummy, const int healthy_value,
                                      const float rest_quality )
 {
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     dummy.set_lifestyle( healthy_value );
     return dummy.healing_rate( rest_quality );
 }
@@ -54,7 +55,7 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 {
     avatar dummy;
-
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     // What is considered normal baseline healing rate comes from game_balance.json.
     const float normal = get_option<float>( "PLAYER_HEALING_RATE" );
     REQUIRE( normal > 1.0f * hp_per_day );
@@ -64,6 +65,8 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 
     GIVEN( "character with no healing traits" ) {
         dummy.clear_mutations();
+        // just in case we mutated into something of a different size
+        dummy.set_stored_kcal( dummy.get_healthy_kcal() );
         // Ensure there are no healing modifiers from traits/mutations
         REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 1.0f );
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.0f );
@@ -83,6 +86,7 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutation]" )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     // TODO: Include `healing_rate_medicine` for trait-related healing effects, since many of these
     // affect healing while awake (which can only happen there), or have such small effects as to be
@@ -199,10 +203,10 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
     SECTION( "Disintegration" ) {
         give_one_trait( dummy, "ROT3" );
 
-        REQUIRE( dummy.mutation_value( "healing_awake" ) == -0.88f );
+        REQUIRE( dummy.mutation_value( "healing_awake" ) == -1.0f );
         REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.75f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -0.88f ) );
+        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -1.0f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ) );
     }
 }
@@ -212,6 +216,7 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
 TEST_CASE( "health_effects_on_healing_rate", "[heal][health]" )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     // Normal healing rate from game_balance.json
     const float normal = get_option<float>( "PLAYER_HEALING_RATE" );
@@ -263,6 +268,7 @@ TEST_CASE( "health_effects_on_healing_rate", "[heal][health]" )
 static float untreated_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     return dummy.healing_rate_medicine( rest_quality, bodypart_id( bp_name ) );
 }
 
@@ -270,6 +276,7 @@ static float untreated_rate( const std::string &bp_name, const float rest_qualit
 static float bandaged_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     const bodypart_id &bp = bodypart_id( bp_name );
     dummy.add_effect( effect_bandaged, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
@@ -279,6 +286,7 @@ static float bandaged_rate( const std::string &bp_name, const float rest_quality
 static float disinfected_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     const bodypart_id &bp = bodypart_id( bp_name );
     dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
@@ -288,6 +296,7 @@ static float disinfected_rate( const std::string &bp_name, const float rest_qual
 static float together_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     const bodypart_id &bp = bodypart_id( bp_name );
     dummy.add_effect( effect_bandaged, 1_turns, bp );
     dummy.add_effect( effect_disinfected, 1_turns, bp );
@@ -299,6 +308,7 @@ static float together_rate_with_extras( const std::string &bp_name,
                                         const std::vector<std::string> &extra_bps, const float rest_quality )
 {
     avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     const bodypart_id &bp = bodypart_id( bp_name );
     dummy.add_effect( effect_bandaged, 1_turns, bp );
     dummy.add_effect( effect_disinfected, 1_turns, bp );

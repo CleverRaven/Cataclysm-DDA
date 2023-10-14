@@ -2,7 +2,7 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "map_special": "mx_helicopter", "professions": [ "zebra_investigator", "spy" ] },
+    "extend": { "map_special": "mx_helicopter", "professions": [ "zebra_investigator", "spy", "fbi_investigator" ] },
     "id": "heli_crash"
   },
   {
@@ -10,5 +10,73 @@
     "type": "scenario",
     "extend": { "professions": [ "zebra_investigator" ] },
     "id": "lab_staff"
+  },
+  {
+    "type": "scenario",
+    "id": "paraclesian_birth",
+    "name": "Paraclesian Birth",
+    "flags": [ "LONE_START" ],
+    "points": 0,
+    "description": "Your first moments of life.  An elemental fae birth on a dying world.  Now you have to figure out how to survive on your own.  (Select the location that matches your profession or you may have a short journey)  P.S. This scenario is still in development, PRs for additional content welcomed.",
+    "start_name": "Paraclesian Birth",
+    "allowed_locs": [ "sloc_undine", "sloc_ierde", "sloc_salamander", "sloc_sylph", "sloc_arvore", "sloc_homullus" ],
+    "professions": [
+      "paraclesian_ierde",
+      "paraclesian_undine",
+      "paraclesian_salamander",
+      "paraclesian_sylph",
+      "paraclesian_arvore",
+      "paraclesian_homullus"
+    ],
+    "eoc": [ "scenario_paraclesian_birth" ],
+    "traits": [ "ELEMENTAL_MANA1", "ELEMENTAL_MANA2" ],
+    "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "once_bitten",
+    "name": "Once Bitten",
+    "points": 0,
+    "description": "Whether you were visiting Salem's Lot, boating on the Demeter, vacationing to Transylvania, or just another lost boy or girl, you've been bitten by a stranger at twilight the night before.  As a new day breaks you might want to find someone to interview about how you are feeling.  Dark shadows feel more inviting than yesterday and you don't feel like you are long for the day shift.",
+    "start_name": "In Town",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_gun_store",
+      "sloc_garage",
+      "sloc_pawn_shop",
+      "sloc_bank",
+      "sloc_military_surplus",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_town_hall",
+      "sloc_hardware",
+      "sloc_dojo",
+      "sloc_gym",
+      "sloc_clothes",
+      "sloc_restaurant",
+      "sloc_bar",
+      "sloc_electronics",
+      "sloc_arcade",
+      "sloc_animalshelter",
+      "sloc_laundromat",
+      "sloc_stripclub",
+      "sloc_sexshop",
+      "sloc_candyshop",
+      "sloc_bikeshop",
+      "sloc_petstore"
+    ],
+    "eoc": [ "scenario_once_bitten" ],
+    "requirement": "avchievement_gains_vampire_trait",
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

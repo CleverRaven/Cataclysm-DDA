@@ -1,4 +1,4 @@
-### Guide for basic mapgen
+## Guide for basic mapgen
 
 This guide will cover the basics of mapgen, which files you need to edit, the tags in each file and the differences in creating specials or regular city buildings.  For full technical information about mapgen entries refer to: [doc/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MAPGEN.md).
 
@@ -76,7 +76,7 @@ Sample:
 This is the section of tags that defines your map, its terrains, furniture, and various spawn types.  There are several ways to place items (and nested maps).  These deserve their own tutorial.  For this document we'll be using "explicit symbol" placement for loot spawns, the easiest to use.  Everything in the object section can be placed in a mapgen_palette except rows and fill_ter.
 
 Sample object segment:  everything in the object needs to fall within the object's {} braces or it won't be included.  If you misplace the end bracket, you probably won't get a loading error.
-
+<!-- {% raw %} -->
 Sample:
 ```
     "object": {
@@ -192,6 +192,7 @@ Sample:
       "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100 } }
     }
 ```
+<!-- {% endraw %} -->
 
 1. The `"fill_ter"`: this tag defines the default terrain/flooring for use under furniture and for undefined symbols in your rows.  Generally, pick the terrain that has the most furniture associated with it.
 

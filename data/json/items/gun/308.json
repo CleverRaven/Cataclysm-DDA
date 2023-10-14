@@ -2,7 +2,7 @@
   {
     "id": "fn_fal",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "heavy automatic rifle" },
     "description": "Originally designed in the mid 1950s, this gun is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
@@ -37,7 +37,7 @@
   {
     "id": "hk_g3",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "H&K G3" },
     "description": "An early battle rifle developed after the end of WWII.  The G3 is designed to unload large amounts of deadly ammunition, but it is less suitable over long ranges.",
@@ -61,7 +61,7 @@
   },
   {
     "id": "m134",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "M134D-H Minigun" },
@@ -121,7 +121,7 @@
   {
     "id": "m1a",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "M1A" },
     "description": "The child of the M1 Garand World War II rifle, the M1A is a semi-automatic variant of the M14, favored for its accuracy and modular use.",
@@ -159,7 +159,7 @@
   {
     "id": "m240",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "M240" },
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
@@ -200,7 +200,7 @@
   {
     "id": "m60",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "M60" },
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
@@ -268,14 +268,14 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "scar_h",
     "copy-from": "scar_l",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "FN SCAR-H" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
@@ -297,7 +297,7 @@
   {
     "id": "M24",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "M24" },
     "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
@@ -331,14 +331,14 @@
       [ "rail mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ],
     "melee_damage": { "bash": 12 }
   },
   {
     "id": "hk417_13",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "HK417 A2" },
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas-operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
@@ -364,7 +364,7 @@
   {
     "id": "m110a1",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "M110A1" },
     "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
@@ -389,7 +389,7 @@
   {
     "id": "ak308",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "7.62x51mm AK" },
     "description": "A civilian AK pattern rifle, chambered in 7.62x51mm NATO.",
@@ -435,7 +435,7 @@
   {
     "id": "ar10",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-10" },
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas-operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
@@ -464,7 +464,7 @@
   {
     "id": "rfb_308",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "7.62x51mm bullpup rifle" },
     "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the heavy automatic rifle and a 7.62x51mm cartridge.",

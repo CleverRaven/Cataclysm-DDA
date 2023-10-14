@@ -43,7 +43,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 15, "count": 8 } ]
+    "entries": [ { "count": 8, "group": "pur_tablets_bottle_plastic_small_15" } ]
   },
   {
     "id": "twoliter_water_batch",
@@ -104,14 +104,11 @@
     "id": "airdrop_generator",
     "type": "item_group",
     "subtype": "collection",
-    "//": "should be replaced with 5kW generator item in the future.",
+    "//": "This is a small diesel generator, outputting ~1.3kW. It is not military spec, but it is the only generator we have. Should be replaced with milspec 5kW generator item in the future",
     "//2": "yes, they should be 50-75% full, according to FM 10-535.",
     "entries": [
-      { "item": "scrap", "count": [ 5, 15 ] },
-      { "item": "sheet_metal", "count": [ 4, 6 ] },
-      { "item": "jp8", "charges": [ 10000, 15000 ], "container-item": "jerrycan_big" },
-      { "item": "i4_diesel" },
-      { "item": "bearing", "charges": [ 5, 40 ] },
+      { "item": "jp8", "charges": [ 10000, 15000 ], "container-item": "active_backup_generator" },
+      { "item": "standing_directed_floodlight" },
       { "item": "jp8", "charges": [ 19000, 20000 ], "container-item": "jerrycan_big", "count": 5 },
       { "item": "cardboard", "count": [ 1200, 1700 ] }
     ]

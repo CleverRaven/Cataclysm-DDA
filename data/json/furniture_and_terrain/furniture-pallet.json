@@ -10,7 +10,7 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
@@ -38,7 +38,7 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
@@ -66,7 +66,7 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": 100 },
@@ -98,7 +98,7 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 120 }, { "item": "rope_6", "count": 2 }, { "item": "pallet", "count": 1 } ] },
     "bash": {
       "str_min": 8,

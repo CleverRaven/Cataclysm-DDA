@@ -1,0 +1,21 @@
+[
+  {
+    "type": "enchantment",
+    "id": "telekin_ritual_summon_strength_enchant",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
+      {
+        "value": "STRENGTH",
+        "add": {
+          "math": [
+            "((((u_val('spell_level', 'spell: telekinetic_pull')) + u_val('spell_level', 'spell: telekinetic_push')) + u_val('spell_level', 'spell: telekinetic_wave')) + u_val('spell_level', 'spell: telekinetic_momentum'))"
+          ]
+        }
+      },
+      { "value": "ATTACK_SPEED", "multiply": 10 },
+      { "value": "BONUS_DODGE", "add": -5 },
+      { "value": "BONUS_BLOCK", "add": -5 }
+    ]
+  }
+]

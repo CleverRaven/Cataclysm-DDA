@@ -65,7 +65,8 @@
       { "item": "textbook_weapeast", "prob": 5 },
       { "item": "textbook_armwest", "prob": 5 },
       { "item": "textbook_armeast", "prob": 5 },
-      { "item": "textbook_armschina", "prob": 5 }
+      { "item": "textbook_armschina", "prob": 5 },
+      { "item": "textbook_weparabic", "prob": 5 }
     ]
   },
   {
@@ -123,12 +124,7 @@
     "type": "item_group",
     "id": "sca_smith_ammo",
     "subtype": "distribution",
-    "entries": [
-      { "item": "bolt_steel", "prob": 2 },
-      { "item": "bolt_wood_bodkin", "prob": 2 },
-      { "item": "arrow_field_point_fletched", "prob": 2 },
-      { "item": "arrow_metal_bodkin", "prob": 2 }
-    ]
+    "entries": [ { "group": "makeshift_archery_ammo", "prob": 2 } ]
   },
   {
     "type": "item_group",

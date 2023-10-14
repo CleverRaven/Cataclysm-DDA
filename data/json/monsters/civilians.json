@@ -59,13 +59,17 @@
     "vision_day": 50,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "chat_topics": [ "TALK_CIVILIAN_OFFICER" ],
     "//": "Copied from zombie cop",
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "//2": "Uses a baton for melee attacks",
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
-    "death_drops": "mon_zombie_cop_death_drops",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
+    },
     "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO" ] },
     "starting_ammo": { "40fmj": 10 },
@@ -92,6 +96,7 @@
     "name": { "str": "futile fighter" },
     "description": "Obviously, this aggravated yet rallied human has lost their wits and tries to fight the undead with just a stick in their hands.",
     "copy-from": "mon_civilian_panic",
+    "chat_topics": [ "TALK_CIVILIAN_FIGHTER" ],
     "diff": 3,
     "aggro_character": false,
     "aggression": 100,
@@ -102,11 +107,37 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ]
   },
   {
+    "id": "mon_civilian_icu",
+    "type": "MONSTER",
+    "name": { "str": "hospitalized human" },
+    "description": "This being is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
+    "chat_topics": [ "TALK_CIVILIAN_ICU" ],
+    "speed": 0,
+    "//": "So they are not perpetually fleeing despite lying in a hospital bed",
+    "morale": 0,
+    "upgrades": { "into": "mon_zombie_crawler", "into_group": "GROUP_NULL" },
+    "delete": { "flags": [ "SEES", "HEARS" ] },
+    "copy-from": "mon_civilian_stationary"
+  },
+  {
+    "id": "mon_civilian_parent",
+    "type": "MONSTER",
+    "name": { "str": "gawky guardian" },
+    "special_attacks": [ [ "PARROT", 0 ] ],
+    "description": "Obsessed with finding their offspring, they scour the environment for certain death.",
+    "chat_topics": [ "TALK_CIVILIAN_PARENT" ],
+    "copy-from": "mon_civilian_panic"
+  },
+  {
     "name": "GROUP_CIVILIANS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "group": "GROUP_VANILLA_ONLY_HUMANS", "weight": 8, "cost_multiplier": 0 },
-      { "group": "GROUP_FERAL", "weight": 2, "cost_multiplier": 0 }
+      { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_crawler", "weight": 66, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 },
+      { "group": "GROUP_FERAL", "weight": 180, "cost_multiplier": 0 }
     ]
   },
   {
@@ -117,7 +148,15 @@
       { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
-      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
+      {
+        "monster": "mon_civilian_parent",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "ends": "2 days",
+        "pack_size": [ 1, 2 ]
+      },
+      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days", "ends": "4 days" },
+      { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
       {
         "monster": "mon_civilian_panic",
         "weight": 60,

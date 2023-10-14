@@ -82,6 +82,9 @@ Bashing animations (handle_action.cpp):
 `bash_effective` Bash effective but target not yet destroyed.
 `bash_ineffective` Bash not effective.
 
+Shadows (cata_tiles.cpp):
+`shadow` Drawn when creature present in tiles above.
+
 #### Complex IDs
 
 Special prefixes that are used include:

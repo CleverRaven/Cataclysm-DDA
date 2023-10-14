@@ -3,7 +3,6 @@
     "id": "windshield",
     "type": "vehicle_part",
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
-    "broken_color": "light_gray",
     "categories": [ "hull" ],
     "color": "light_cyan",
     "damage_modifier": 70,
@@ -86,7 +85,6 @@
     "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
     "durability": 250,
     "item": "reinforced_glass_sheet",
-    "looks_like": "windshield",
     "name": { "str": "reinforced windshield" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

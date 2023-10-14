@@ -1,0 +1,82 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_CAMPUS_GUARD_wield_phase1",
+    "//": "The campus guards stick to melee weapons, as guns are banned on campus.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spear_knife_proper", "prob": 20 },
+      { "item": "bat", "prob": 20 },
+      { "item": "cudgel", "prob": 20 },
+      { "item": "shortbow", "prob": 20 },
+      { "item": "spear_pipe", "prob": 20 },
+      { "item": "spear_homemade_halfpike", "prob": 20 },
+      { "item": "makeshift_glaive", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CAMPUS_GUARD_worn_phase1",
+    "//": "Initially the campus guards have basic but decent clothing, but they're not geared for heavy combat.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "jeans", "prob": 30 },
+          { "item": "pants", "prob": 30 },
+          { "item": "pants_leather", "prob": 10 },
+          { "item": "pants_cargo", "prob": 30 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "sneakers", "prob": 40 },
+          { "item": "boots", "prob": 40 },
+          { "item": "boots_steel", "prob": 10 },
+          { "item": "sneakers_steel", "prob": 10 }
+        ],
+        "prob": 100
+      },
+      { "distribution": [ { "item": "vest", "prob": 80 }, { "item": "vest_leather", "prob": 40 } ], "prob": 70 },
+      {
+        "distribution": [ { "item": "backpack", "prob": 80 }, { "item": "backpack_leather", "prob": 40 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "glasses_safety", "prob": 10 },
+          { "item": "goggles_ski", "prob": 10 },
+          { "item": "glasses_reading", "prob": 20 },
+          { "item": "sunglasses", "prob": 20 }
+        ],
+        "prob": 50
+      },
+      { "item": "jacket_jean", "prob": 60 },
+      { "item": "jacket_leather", "prob": 20 },
+      { "item": "bandana", "prob": 10 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CAMPUS_GUARD",
+    "name": { "str": "Guard" },
+    "job_description": "I'm on a guard shift.",
+    "weapon_override": "NC_CAMPUS_GUARD_wield_phase1",
+    "worn_override": "NC_CAMPUS_GUARD_worn_phase1",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "skills": [
+      { "skill": "bashing", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  }
+]

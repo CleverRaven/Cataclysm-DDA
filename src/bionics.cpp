@@ -187,7 +187,6 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
@@ -362,9 +361,11 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
     optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
+    optional( jsobj, was_loaded, "give_mut_on_removal", give_mut_on_removal );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
+    optional( jsobj, was_loaded, "required_bionic", required_bionic );
     optional( jsobj, was_loaded, "fuel_options", fuel_opts );
     optional( jsobj, was_loaded, "activated_on_install", activated_on_install, false );
 
@@ -446,6 +447,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
+                spell_on_activate ||
                 charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
@@ -569,8 +571,23 @@ void bionic_data::check_bionic_consistency()
                           bio.id.c_str(), bio.upgraded_bionic.c_str() );
             }
         }
+        if( bio.required_bionic ) {
+            if( bio.required_bionic == bio.id ) {
+                debugmsg( "Bionic %s requires itself as a prerequisite for installation", bio.id.c_str() );
+            } else if( !bio.required_bionic.is_valid() ) {
+                debugmsg( "Bionic %s requires undefined bionic %s",
+                          bio.id.c_str(), bio.required_bionic.c_str() );
+            }
+        }
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
             debugmsg( "Bionic %s has no defined item version", bio.id.c_str() );
+        }
+        for( const std::pair<const bodypart_str_id, resistances> &bprot : bio.protec ) {
+            for( const std::pair<const damage_type_id, float> &dt : bprot.second.resist_vals ) {
+                if( !dt.first.is_valid() ) {
+                    debugmsg( "Invalid protection type \"%s\" for bionic %s", dt.first.c_str(), bio.id.c_str() );
+                }
+            }
         }
     }
 }
@@ -1130,9 +1147,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = items_with( []( const item & it ) {
-            return it.has_flag( flag_CABLE_SPOOL );
-        } );
+        std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
@@ -1140,7 +1155,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            for( item *cable : cables ) {
+            for( const item *cable : cables ) {
                 if( !cable->link || cable->link->has_no_links() ) {
                     free_cable = true;
                 } else if( cable->link->has_states( link_state::no_link, link_state::bio_cable ) ) {
@@ -1199,7 +1214,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             }
         }
     }
-
+    bio_flag_cache.clear();
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
     reset();
@@ -1245,7 +1260,7 @@ ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) con
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( bio, eff_only );
-
+    bio_flag_cache.clear();
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
@@ -2046,9 +2061,9 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     float pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
-                   get_skill_level( most_important_skill )  * 4 +
-                   get_skill_level( important_skill )       * 3 +
-                   get_skill_level( least_important_skill ) * 1;
+                   get_greater_skill_or_knowledge_level( most_important_skill )  * 4 +
+                   get_greater_skill_or_knowledge_level( important_skill )       * 3 +
+                   get_greater_skill_or_knowledge_level( least_important_skill ) * 1;
     } else {
         // override chance as though all values were skill_level if it is provided
         pl_skill = 12 * skill_level;
@@ -2112,6 +2127,14 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
         popup( _( "%s must remove the parent bionic to remove the %s." ), installer.disp_name(),
                bio.id->name );
         return false;
+    }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->required_bionic && bid->required_bionic == bio.id ) {
+            popup( _( "%s cannot be removed because installed bionic %s requires it." ), bio.id->name,
+                   bid->name );
+            return false;
+        }
     }
 
     if( bio.id->cant_remove_reason.has_value() ) {
@@ -2207,6 +2230,13 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
+
+        // give us any muts it's supposed to (silently) if removed
+        for( const trait_id &mid : bio_id->give_mut_on_removal ) {
+            if( !has_trait( mid ) ) {
+                set_mutation( mid );
+            }
+        }
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio_id->itype() ) ) {
@@ -2332,6 +2362,10 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
                !has_bionic( bid->upgraded_bionic ) &&
                it->is_upgrade() ) {
         return ret_val<void>::make_failure( _( "No base version installed." ) );
+    } else if( bid->required_bionic &&
+               !has_bionic( bid->required_bionic ) ) {
+        return ret_val<void>::make_failure( _( "CBM requires prior installation of %s." ),
+                                            bid->required_bionic.obj().name );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
     [this]( const bionic_id & b ) {
@@ -2726,10 +2760,13 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
+bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
+                                  bool suppress_debug )
 {
     if( has_bionic( b ) && !b->dupes_allowed ) {
-        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        if( !suppress_debug ) {
+            debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        }
         return 0;
     }
 
@@ -2748,7 +2785,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
     }
 
     for( const bionic_id &inc_bid : b->included_bionics ) {
-        add_bionic( inc_bid, bio_uid );
+        add_bionic( inc_bid, bio_uid, suppress_debug );
     }
 
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
@@ -2783,7 +2820,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
             wear_item( tmparmor, false );
         }
     }
-
+    bio_flag_cache.clear();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
 
@@ -2869,6 +2906,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    bio_flag_cache.clear();
     update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
@@ -3253,8 +3291,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
     }
 
     //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
+    if( has_trait( trait_MASOCHIST_MED ) || has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
                            _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
@@ -3339,10 +3376,9 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
         return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
-    } );
-    int n = cables.size();
+    } ).size();
     if( n == 0 ) {
         return stored_fuels;
     }
@@ -3372,10 +3408,9 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
         return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
-    } );
-    int n = cables.size();
+    } ).size();
     if( n == 0 ) {
         return solar_sources;
     }
@@ -3399,11 +3434,12 @@ std::vector<item *> Character::get_cable_solar()
     return solar_sources;
 }
 
-std::vector<vehicle *> Character::get_cable_vehicle()
+std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
+    std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
+    []( const item & it ) {
         return it.link && it.link->has_state( link_state::bio_cable ) &&
                ( it.link->has_state( link_state::vehicle_battery ) ||
                  it.link->has_state( link_state::vehicle_port ) );

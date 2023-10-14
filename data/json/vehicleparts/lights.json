@@ -63,7 +63,7 @@
     "broken_color": "blue",
     "durability": 20,
     "description": "A very bright, circular light that illuminates the area outside the vehicle when turned on.",
-    "epower": "-200 W",
+    "epower": "-110 W",
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": "2 L",
@@ -86,10 +86,9 @@
     "name": { "str": "directed floodlight" },
     "item": "directed_floodlight",
     "copy-from": "floodlight",
-    "looks_like": "floodlight",
     "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.  During installation, you can choose what direction to point the light.",
     "//": "8000lm 100W LED floodlight",
-    "epower": "-100 W",
+    "epower": "-55 W",
     "flags": [ "HALF_CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
@@ -144,7 +143,6 @@
     "name": { "str": "wide angle headlight" },
     "item": "car_wide_headlight",
     "copy-from": "headlight",
-    "looks_like": "headlight",
     "description": "A bright light that illuminates a wide cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
     "epower": "-150 W",
     "flags": [ "WIDE_CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]

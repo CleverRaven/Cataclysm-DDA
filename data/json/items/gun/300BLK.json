@@ -2,7 +2,7 @@
   {
     "id": "acr_300blk",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Remington ACR .300BLK" },
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
@@ -52,7 +52,7 @@
   {
     "id": "iwi_tavor_x95_300blk",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "IWI Tavor X95 .300BLK" },
     "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
@@ -112,10 +112,10 @@
   {
     "id": "sig_mcx_rattler_sbr",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SIG MCX Rattler SBR" },
-    "description": "A short-barreled, gas-operated rifle, with a 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
+    "description": "A gas-operated rifle, with a short 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
     "weight": "2590 g",
     "volume": "2850 ml",
     "//": "This is the unfolded version of the weapon. Folded, it's 597 mm",

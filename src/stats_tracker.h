@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_STATS_TRACKER_H
 #define CATA_SRC_STATS_TRACKER_H
 
@@ -211,6 +212,7 @@ class stats_tracker : public event_subscriber
         std::vector<const score *> valid_scores() const;
 
         void clear();
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;

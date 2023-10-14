@@ -72,12 +72,13 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.normalize(); // In particular this clears martial arts style
 
     // delete all worn items.
-    dummy.worn.clear();
+    dummy.clear_worn();
     dummy.calc_encumbrance();
     dummy.invalidate_crafting_inventory();
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    dummy.mutation_category_level.clear();
     dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
@@ -206,7 +207,7 @@ void clear_avatar()
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     CHECK( !shooter.in_vehicle );
-    shooter.worn.clear();
+    shooter.clear_worn();
     shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );

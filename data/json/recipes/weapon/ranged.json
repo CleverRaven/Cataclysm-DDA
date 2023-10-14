@@ -163,14 +163,8 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 2 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -178,7 +172,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "hc_steel_chunk", 1 ] ], [ [ "flint", 1 ] ] ]
   },
   {
@@ -192,14 +186,8 @@
     "difficulty": 9,
     "time": "7 h",
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 2 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -207,7 +195,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "hc_steel_chunk", 1 ] ], [ [ "flint", 1 ] ] ]
   },
   {
@@ -221,14 +209,8 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 2 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -236,7 +218,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "hc_steel_chunk", 1 ] ], [ [ "flint", 1 ] ] ]
   },
   {
@@ -250,14 +232,8 @@
     "difficulty": 8,
     "time": "4 h",
     "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 2 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -265,7 +241,7 @@
       { "proficiency": "prof_gunsmithing_antique" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "hc_steel_chunk", 1 ] ], [ [ "flint", 1 ] ] ]
   },
   {
@@ -279,8 +255,8 @@
     "skills_required": [ [ "traps", 2 ], [ "rifle", 3 ] ],
     "time": "4 h",
     "book_learn": [ [ "manual_rifle", 3 ], [ "mag_rifle", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -795,7 +771,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 10 ], [ "adhesive", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "adhesive", 5 ] ],
     "difficulty": 10,
     "time": "14 h",
     "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
@@ -1219,7 +1195,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
@@ -1438,7 +1414,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -1464,7 +1440,7 @@
       { "proficiency": "prof_fletching" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],

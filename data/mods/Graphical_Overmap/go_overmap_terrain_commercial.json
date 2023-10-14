@@ -578,13 +578,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_foodplace",
-    "copy-from": "s_restaurant_foodplace",
-    "sym": "\u00E7",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_restaurant_foodplace_roof",
     "copy-from": "s_restaurant_foodplace_roof",
     "sym": "\u00E7",

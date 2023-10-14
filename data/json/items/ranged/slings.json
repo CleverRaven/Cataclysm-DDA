@@ -49,7 +49,7 @@
     "dispersion": 75,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel mount", 1 ], [ "stock mount", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
@@ -117,7 +117,7 @@
     "dispersion": 45,
     "durability": 7,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel mount", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   }

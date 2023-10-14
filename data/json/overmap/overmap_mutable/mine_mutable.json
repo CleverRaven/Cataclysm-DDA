@@ -20,7 +20,7 @@
       [ [ -2, 1, -2 ], [ "subterranean_empty" ] ]
     ],
     "joins": [
-      "parking_lot_to_road",
+      "parking_lot_to_entrance",
       "surface_to_shaft",
       "shaft_lower_to_shaft_middle",
       "tunnel_entrance_to_tunnels",
@@ -32,15 +32,18 @@
       "-4_tunnel_to_finale"
     ],
     "overmaps": {
-      "parking_lot": { "overmap": "s_lot_north", "east": "parking_lot_to_road", "connections": { "north": { "connection": "local_road" } } },
-      "road_east": {
-        "overmap": "road_end_north",
-        "west": "parking_lot_to_road",
+      "parking_lot": {
+        "overmap": "s_lot_no_sidewalk_east",
+        "south": "parking_lot_to_entrance",
+        "connections": { "east": { "connection": "local_road" } }
+      },
+      "mine_entrance": { "overmap": "mine_entrance_north", "north": "parking_lot_to_entrance", "below": "surface_to_shaft" },
+      "mine_entrance_roof": { "overmap": "mine_entrance_roof_north" },
+      "loading_zone": {
+        "overmap": "mine_entrance_loading_zone_north",
+        "below": "surface_to_shaft",
         "connections": { "north": { "connection": "local_road" } }
       },
-      "mine_entrance": { "overmap": "mine_entrance_north", "below": "surface_to_shaft" },
-      "mine_entrance_roof": { "overmap": "mine_entrance_roof_north" },
-      "loading_zone": { "overmap": "mine_entrance_loading_zone_north", "below": "surface_to_shaft" },
       "loading_zone_roof": { "overmap": "mine_entrance_loading_zone_roof_north" },
       "shaft_west": { "overmap": "mine_shaft_middle_north", "above": "surface_to_shaft", "below": "shaft_lower_to_shaft_middle" },
       "shaft_east": { "overmap": "mine_shaft_middle_east_north", "above": "surface_to_shaft", "below": "shaft_lower_to_shaft_middle" },
@@ -103,7 +106,6 @@
         {
           "name": "entrance_shaft_tunnels_start",
           "chunk": [
-            { "overmap": "road_east", "pos": [ 1, 0, 0 ] },
             { "overmap": "mine_entrance", "pos": [ 0, 1, 0 ] },
             { "overmap": "mine_entrance_roof", "pos": [ 0, 1, 1 ] },
             { "overmap": "loading_zone", "pos": [ 1, 1, 0 ] },

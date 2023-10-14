@@ -13,12 +13,12 @@
       { "item": "lighter", "prob": 50, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "ref_matches", "prob": 50, "charges-min": 0, "charges-max": 32 },
-      { "item": "cig", "prob": 20, "charges-min": 1, "charges-max": 5 },
+      { "prob": 20, "group": "cig_box_cigarette_1_5" },
       [ "plastic_shopping_bag", 50 ],
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
-      { "item": "meth", "prob": 2, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       [ "string_6", 10 ],
       [ "chain", 20 ],
       { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
@@ -42,6 +42,7 @@
       [ "hairpin", 5 ],
       [ "leather", 5 ],
       [ "file", 15 ],
+      [ "fuel_tin", 10 ],
       [ "jug_plastic", 10 ],
       [ "spray_can", 20 ],
       [ "jar_glass_sealed", 20 ],
@@ -59,9 +60,17 @@
       { "item": "paper", "prob": 20, "count": [ 5, 15 ] },
       { "item": "cotton_patchwork", "prob": 35, "custom-flags": [ "FILTHY" ] },
       [ "mask_dust", 10 ],
-      { "item": "gum", "prob": 6, "charges": [ 1, 10 ] },
-      { "item": "caff_gum", "prob": 6, "charges": [ 1, 10 ] },
-      { "item": "nic_gum", "prob": 4, "charges": [ 1, 10 ] }
+      { "item": "gum", "prob": 6, "count": [ 1, 10 ] },
+      { "item": "caff_gum", "prob": 6, "count": [ 1, 10 ] },
+      { "item": "nic_gum", "prob": 4, "count": [ 1, 10 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "cig_box_cigarette_1_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_cigarette",
+    "entries": [ { "item": "cig", "container-item": "null", "count-min": 1, "count-max": 5 } ]
   }
 ]

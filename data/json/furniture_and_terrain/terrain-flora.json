@@ -1703,7 +1703,17 @@
     "color": "light_green",
     "move_cost": 6,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "SHORT",
+      "SMALL_HIDE"
+    ],
     "examine_action": "shrub_wildveggies",
     "bash": {
       "str_min": 4,
@@ -1733,7 +1743,8 @@
       "PLACE_ITEM",
       "SHRUB",
       "SHORT",
-      "HARVESTED"
+      "HARVESTED",
+      "SMALL_HIDE"
     ],
     "transforms_into": "t_underbrush",
     "bash": {
@@ -1764,7 +1775,8 @@
       "PLACE_ITEM",
       "SHRUB",
       "SHORT",
-      "HARVESTED"
+      "HARVESTED",
+      "SMALL_HIDE"
     ],
     "transforms_into": "t_underbrush",
     "bash": {
@@ -1795,7 +1807,8 @@
       "PLACE_ITEM",
       "SHRUB",
       "SHORT",
-      "HARVESTED"
+      "HARVESTED",
+      "SMALL_HIDE"
     ],
     "transforms_into": "t_underbrush",
     "bash": {
@@ -1826,7 +1839,8 @@
       "PLACE_ITEM",
       "SHRUB",
       "SHORT",
-      "HARVESTED"
+      "HARVESTED",
+      "SMALL_HIDE"
     ],
     "transforms_into": "t_underbrush",
     "bash": {
@@ -1919,7 +1933,7 @@
     "color": "green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -1944,7 +1958,7 @@
     "color": "brown_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_peanut_harvested",
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_peanut_harv" } ],
@@ -1971,7 +1985,7 @@
     "color": "light_gray_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_peanut",
     "examine_action": "harvested_plant",
     "bash": {
@@ -1997,7 +2011,7 @@
     "color": "light_blue_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_blueberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_blueberry_harv" } ],
@@ -2024,7 +2038,7 @@
     "color": "blue_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_blueberry",
     "examine_action": "harvested_plant",
     "bash": {
@@ -2077,7 +2091,7 @@
     "color": "red_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_strawberry",
     "examine_action": "harvested_plant",
     "bash": {
@@ -2155,7 +2169,7 @@
     "color": "light_blue_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_huckleberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
@@ -2182,7 +2196,7 @@
     "color": "blue_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_huckleberry",
     "examine_action": "harvested_plant",
     "looks_like": "t_shrub_blueberry_harvested",
@@ -2261,7 +2275,7 @@
     "color": "light_green_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_grape_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
@@ -2288,7 +2302,7 @@
     "color": "green_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_grape",
     "examine_action": "harvested_plant",
     "looks_like": "t_shrub_blueberry_harvested",
@@ -2368,7 +2382,7 @@
     "color": "light_blue",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_hydrangea_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub",
@@ -2394,7 +2408,7 @@
     "color": "blue_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_hydrangea",
     "examine_action": "harvested_plant",
     "looks_like": "t_shrub",
@@ -2420,7 +2434,7 @@
     "color": "magenta",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_lilac_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub",
@@ -2446,7 +2460,7 @@
     "color": "magenta_green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
     "transforms_into": "t_shrub_lilac",
     "examine_action": "harvested_plant",
     "looks_like": "t_shrub",
@@ -2559,7 +2573,7 @@
     "symbol": ",",
     "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "SMALL_HIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2572,7 +2586,7 @@
     "color": "green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2665,7 +2679,7 @@
     "symbol": ",",
     "color": "green",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "SMALL_HIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2678,7 +2692,7 @@
     "color": "green",
     "move_cost": 10,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE", "SMALL_HIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2690,7 +2704,7 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 10,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "SMALL_HIDE" ],
     "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -2703,7 +2717,7 @@
     "color": [ "brown_green", "green", "green", "green" ],
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "SMALL_HIDE" ],
     "examine_action": "harvest_ter",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "fern_harv" } ],
     "transforms_into": "t_fern_harvested",
@@ -2726,7 +2740,7 @@
     "color": "green",
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "SMALL_HIDE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_fern",
     "bash": {

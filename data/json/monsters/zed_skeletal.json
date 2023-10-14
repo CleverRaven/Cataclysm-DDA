@@ -150,7 +150,7 @@
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "mr_bones",
+    "harvest": "big_mr_bones",
     "grab_strength": 50,
     "special_attacks": [
       { "id": "grab" },

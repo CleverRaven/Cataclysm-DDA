@@ -7,7 +7,6 @@
     "location": "armor",
     "categories": [ "warfare" ],
     "color": "dark_gray",
-    "broken_color": "light_gray",
     "durability": 150,
     "folded_volume": "1 L",
     "//": "4x80cm rebars arranged in a # or //// pattern. Half the surface area is welded (40 cm per rebar)",

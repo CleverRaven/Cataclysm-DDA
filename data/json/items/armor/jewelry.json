@@ -976,7 +976,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
@@ -1340,7 +1348,7 @@
       {
         "id": "zoroastrianist_necklace",
         "name": { "str": "Faravahar necklace" },
-        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant.  It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward.  He stands above a pair of wings that are outstretched from a circle which are believer to represent eternity.",
+        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant.  It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward.  He stands above a pair of wings that are outstretched from a circle which are believed to represent eternity.",
         "color": "yellow",
         "weight": 5
       },
@@ -1864,7 +1872,7 @@
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
     "//": "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
-    "description": "A plastic badge with an embedded filmstrip.  The filmstrip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+    "description": "A plastic badge with an embedded filmstrip.  The text on the badge says the filmstrip changes color as it is exposed to radiation, and never goes back to how it initially looked.  Wear on your lapel so you can notice if it changes.",
     "weight": "25 g",
     "volume": "25 ml",
     "price": 8000,

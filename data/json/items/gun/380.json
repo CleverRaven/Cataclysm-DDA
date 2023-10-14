@@ -133,7 +133,7 @@
   },
   {
     "id": "rifle_380",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: .380 ACP", "str_pl": "pipe rifles: .380 ACP" },
@@ -168,8 +168,58 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 1 } } ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "hpt3895",
+    "looks_like": "cx4",
+    "type": "GUN",
+    "name": { "str": ".380 ACP pistol-caliber carbine" },
+    "description": "A pistol-caliber carbine chambered in .380 ACP.  It is more powerful and accurate than an equivalent pistol but the .380 ACP round is nonetheless fairly weak.  Accepts 10-round magazines, which are not shared with any .380 ACP pistol unlike many other similar pistol-caliber carbines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hpt3895",
+        "name": { "str": "Hi-Point 3895" },
+        "description": "A pistol-caliber carbine chambered in .380 ACP, designed by Hi-Point Firearms.  Its 16.5\" barrel provides extra stopping power over an equivalent pistol, but .380 is still a relatively weak caliber.  Accepts 10-round magazines, which are notably not interchangeable with those of CF380 pistols.",
+        "weight": 1
+      }
+    ],
+    "weight": "2835 g",
+    "volume": "1881 ml",
+    "longest_side": "787 mm",
+    "price": 31500,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "(",
+    "material": [ "plastic", "steel", "zinc" ],
+    "color": "dark_gray",
+    "range": 6,
+    "ammo": [ "380" ],
+    "skill": "rifle",
+    "dispersion": 180,
+    "durability": 8,
+    "blackpowder_tolerance": 30,
+    "min_cycle_recoil": 270,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "magazine_well": "236 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hpt3895mag_10rd" ] } ],
     "melee_damage": { "bash": 10 }
   }
 ]

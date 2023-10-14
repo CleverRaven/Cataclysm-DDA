@@ -576,8 +576,8 @@
     "changes_to": [ "TUSKS_POINTED" ],
     "category": [ "MASTODON" ],
     "attacks": {
-      "attack_text_u": "You gore %s with your tusks",
-      "attack_text_npc": "%1$s gores %2$s with their tusks",
+      "attack_text_u": "You gore %s with your tusks!",
+      "attack_text_npc": "%1$s gores %2$s with their tusks!",
       "chance": 20,
       "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
     }
@@ -598,8 +598,8 @@
     "category": [ "MASTODON" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "attacks": {
-      "attack_text_u": "You stab %s with your pointed tusks",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed tusks",
+      "attack_text_u": "You stab %s with your pointed tusks!",
+      "attack_text_npc": "%1$s stabs %2$s with their pointed tusks!",
       "chance": 22,
       "base_damage": { "damage_type": "stab", "amount": 24 }
     }
@@ -867,5 +867,15 @@
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
     "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SKULLGUN_STUPID",
+    "name": { "str": "Skullgun Stupidity" },
+    "points": -1,
+    "description": "You took the bionic skullgun out of your noggin, but that didn't replace the brain cells you lost when you installed it.",
+    "valid": false,
+    "purifiable": false,
+    "passive_mods": { "int_mod": -4, "per_mod": -2 }
   }
 ]

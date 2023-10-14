@@ -93,7 +93,7 @@
     "copy-from": "default_zombie_children_clothes",
     "extend": {
       "entries": [
-        { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+        { "item": "wyld_candy", "prob": 15, "container-item": "null", "entry-wrapper": "wrapper_wyld", "sealed": false },
         { "item": "scrap_dreamdross", "prob": 35, "count": [ 1, 4 ] }
       ]
     }
@@ -105,8 +105,14 @@
     "subtype": "distribution",
     "extend": {
       "entries": [
-        { "item": "faewild", "prob": 15, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
-        { "item": "lotus_blossom", "prob": 15, "container-item": "bag_zipper", "charges": [ 2, 16 ] }
+        { "item": "faewild", "prob": 15, "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 3, 12 ] },
+        {
+          "item": "lotus_blossom",
+          "prob": 15,
+          "container-item": "null",
+          "entry-wrapper": "bag_zipper",
+          "count": [ 2, 16 ]
+        }
       ]
     }
   },
@@ -117,8 +123,14 @@
     "subtype": "collection",
     "extend": {
       "entries": [
-        { "item": "faewild", "prob": 5, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
-        { "item": "lotus_blossom", "prob": 5, "container-item": "bag_zipper", "charges": [ 2, 16 ] },
+        { "item": "faewild", "prob": 5, "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 3, 12 ] },
+        {
+          "item": "lotus_blossom",
+          "prob": 5,
+          "container-item": "null",
+          "entry-wrapper": "bag_zipper",
+          "count": [ 2, 16 ]
+        },
         { "item": "scrap_dreamdross", "prob": 15, "count": [ 1, 4 ] }
       ]
     }

@@ -1,0 +1,59 @@
+[
+  {
+    "id": "cards_zener",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "deck of Zener cards", "str_pl": "decks of Zener cards" },
+    "description": "A deck of Zener cards, used pre-Catalcysm to test for psychic ability.",
+    "weight": "23 g",
+    "volume": "29 ml",
+    "price": 1314,
+    "price_postapoc": 2,
+    "material": [ "cardboard" ],
+    "symbol": ",",
+    "color": "magenta",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Pick a card.  Any card.",
+      "effect_on_conditions": [ "EOC_ZENER_DECK" ]
+    }
+  },
+  {
+    "id": "force_field_generator",
+    "type": "TOOL",
+    "category": "other",
+    "name": { "str": "device labeled OS647-P", "str_pl": "devices labeled OS647-P" },
+    "description": "A small plastic device about the size of two smartphones stacked on top of each other, with a toggle on one end and \"OS647-P\" written prominently on one side above the XEDRA logo.  There is an indentation on the other side the right size to contain a matrix crystal.",
+    "weight": "500 g",
+    "volume": "200 ml",
+    "material": [
+      { "type": "aluminum", "portion": 65 },
+      { "type": "plastic", "portion": 25 },
+      { "type": "nether_crystal", "portion": 10 }
+    ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Insert a black matrix crystal and flip the toggle.",
+      "effect_on_conditions": [ "EOC_FORCE_FIELD_GENERATOR_ACTIVATION" ]
+    }
+  },
+  {
+    "id": "force_field_generator_broken",
+    "type": "TOOL",
+    "category": "other",
+    "name": { "str": "device labeled OS647-P", "str_pl": "devices labeled OS647-P" },
+    "description": "A small plastic device about the size of two smartphones stacked on top of each other, with a toggle on one end and \"OS647-P\" written prominently on one side above the XEDRA logo.  Parts of the device seem melted and the toggle no longer moves.",
+    "weight": "496 g",
+    "volume": "200 ml",
+    "material": [
+      { "type": "aluminum", "portion": 65 },
+      { "type": "plastic", "portion": 25 },
+      { "type": "nether_crystal", "portion": 10 }
+    ],
+    "symbol": "[",
+    "color": "dark_gray"
+  }
+]

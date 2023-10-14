@@ -24,11 +24,13 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mapgen_helpers.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weather.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
 
@@ -50,9 +52,12 @@ Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
 static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
+
+static const nested_mapgen_id nested_mapgen_auto_wl_test( "auto_wl_test" );
 
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
@@ -292,7 +297,7 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
         }
         THEN( "it cannot contain solid items larger than the opening" ) {
             REQUIRE_FALSE( rock.is_soft() );
-            expect_cannot_contain( pocket_jug, rock, "item too big",
+            expect_cannot_contain( pocket_jug, rock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -400,7 +405,7 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
 
             THEN( "it cannot contain items that are not ammo" ) {
                 item rag( "test_rag" );
-                expect_cannot_contain( pocket_mag, rag, "item is not an ammo",
+                expect_cannot_contain( pocket_mag, rag, "item is not ammunition",
                                        item_pocket::contain_code::ERR_AMMO );
             }
         }
@@ -538,12 +543,12 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
                 REQUIRE( axe.volume() > data_belt.max_contains_volume() );
 
                 THEN( "pocket cannot contain it, because it is too big" ) {
-                    expect_cannot_contain( pocket_belt, axe, "item too big",
+                    expect_cannot_contain( pocket_belt, axe, "item is too big",
                                            item_pocket::contain_code::ERR_TOO_BIG );
                 }
 
                 THEN( "item cannot be inserted into the pocket" ) {
-                    expect_cannot_insert( pocket_belt, axe, "item too big",
+                    expect_cannot_insert( pocket_belt, axe, "item is too big",
                                           item_pocket::contain_code::ERR_TOO_BIG );
                 }
             }
@@ -627,12 +632,12 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
         item_pocket pocket_holster( &data_holster );
 
         THEN( "it cannot contain the item, because it is too big" ) {
-            expect_cannot_contain( pocket_holster, glock, "item too big",
+            expect_cannot_contain( pocket_holster, glock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
 
         THEN( "item cannot be successfully inserted" ) {
-            expect_cannot_insert( pocket_holster, glock, "item too big",
+            expect_cannot_insert( pocket_holster, glock, "item is too big",
                                   item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -1013,7 +1018,7 @@ TEST_CASE( "sealed_containers", "[pocket][seal]" )
     }
 
     GIVEN( "non-sealable jug" ) {
-        item jug( "test_jug_plastic" );
+        item jug( itype_test_jug_plastic );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
         std::vector<item_pocket *>jug_pockets = jug.get_all_contained_pockets();
@@ -1645,7 +1650,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
         item filler( "test_rag" );
 
         // wear the backpack item.
@@ -1695,7 +1700,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -2240,7 +2245,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     map &m = get_map();
     Character &u = get_player_character();
     item water( "water" );
-    item cont_jug( "test_jug_plastic" );
+    item cont_jug( itype_test_jug_plastic );
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet
@@ -2728,5 +2733,78 @@ TEST_CASE( "pocket_leak" )
             bkit_has_water |= it->typeId() == water.typeId();
         }
         CHECK( bkit_has_water == top_watertight );
+    }
+}
+
+namespace
+{
+void check_whitelist( item const &it, bool should, itype_id const &id )
+{
+    REQUIRE( it.get_all_contained_pockets().size() == 1 );
+    if( should ) {
+        REQUIRE( !it.get_all_contained_pockets().front()->settings.get_item_whitelist().empty() );
+        CHECK( *it.get_all_contained_pockets().front()->settings.get_item_whitelist().begin() ==
+               id );
+    } else {
+        REQUIRE( it.empty_container() );
+        CHECK( it.get_all_contained_pockets().front()->settings.get_item_whitelist().empty() );
+    }
+}
+} // namespace
+
+TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
+{
+    clear_avatar();
+    clear_map();
+    tripoint_abs_omt const this_omt =
+        project_to<coords::omt>( get_avatar().get_location() );
+    tripoint const this_bub = get_map().getlocal( project_to<coords::ms>( this_omt ) );
+    manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
+    REQUIRE( !get_map().i_at( this_bub + tripoint_zero ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint_east ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint_south ).empty() );
+    item_location spawned_in_def_container( map_cursor{ this_bub + tripoint_zero },
+                                            &get_map().i_at( this_bub + tripoint_zero ).only_item() );
+    item_location spawned_w_modifier( map_cursor{ this_bub + tripoint_east },
+                                      &get_map().i_at( this_bub + tripoint_east ).only_item() );
+    item_location spawned_w_custom_container( map_cursor{ this_bub + tripoint_south },
+            &get_map().i_at( this_bub + tripoint_south ).only_item() );
+    check_whitelist( *spawned_in_def_container, true,
+                     spawned_in_def_container->get_contents().first_item().typeId() );
+    check_whitelist( *spawned_w_modifier, true,
+                     spawned_w_modifier->get_contents().first_item().typeId() );
+    check_whitelist( *spawned_w_custom_container, true,
+                     spawned_w_custom_container->get_contents().first_item().typeId() );
+
+    bool const edited = GENERATE( false, true );
+    CAPTURE( edited );
+    if( edited ) {
+        spawned_in_def_container->get_all_contained_pockets().front()->settings.set_was_edited();
+        spawned_w_modifier->get_all_contained_pockets().front()->settings.set_was_edited();
+        spawned_w_custom_container->get_all_contained_pockets().front()->settings.set_was_edited();
+    }
+
+    SECTION( "container emptied by avatar" ) {
+        avatar &u = get_avatar();
+        itype_id const id = spawned_in_def_container->get_contents().first_item().typeId();
+        unload_activity_actor::unload( u, spawned_in_def_container );
+        REQUIRE( spawned_in_def_container->empty_container() );
+        check_whitelist( *spawned_in_def_container, edited, id );
+    }
+
+    SECTION( "container emptied by processing" ) {
+        itype_id const id = spawned_w_modifier->get_contents().first_item().typeId();
+        get_map().i_clear( spawned_w_custom_container.position() );
+        get_map().i_clear( spawned_in_def_container.position() );
+        restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
+                    get_weather().forced_temperature );
+        get_weather().forced_temperature = units::from_celsius( 21 );
+        spawned_w_modifier->only_item().set_relative_rot( 10 );
+        REQUIRE( spawned_w_modifier->only_item().has_rotten_away() );
+        spawned_w_modifier->only_item().set_last_temp_check( calendar::turn_zero );
+        calendar::turn += 15_minutes;
+        get_map().process_items();
+        REQUIRE( spawned_w_modifier->empty_container() );
+        check_whitelist( *spawned_w_modifier, edited, id );
     }
 }

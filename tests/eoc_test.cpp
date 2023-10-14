@@ -9,9 +9,9 @@
 #include "player_helpers.h"
 #include "point.h"
 
-
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
+static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
@@ -19,8 +19,20 @@ static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
 effect_on_condition_EOC_activate_mutation_to_start_test( "EOC_activate_mutation_to_start_test" );
+static const effect_on_condition_id effect_on_condition_EOC_alive_test( "EOC_alive_test" );
+static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_attack_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_activate_test( "EOC_item_activate_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_flag_test( "EOC_item_flag_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id
@@ -31,6 +43,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_w_vars( "EOC_math_diag_w_vars" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_spell_xp( "EOC_math_spell_xp" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_switch_math( "EOC_math_switch_math" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_context( "EOC_math_test_context" );
@@ -38,6 +52,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_test_equals_assign( "EOC_math_test_equals_assign" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_increment" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_test_inline_condition( "EOC_math_test_inline_condition" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
@@ -48,6 +64,11 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_run_inv_test1" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test4( "EOC_run_inv_test4" );
+static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
@@ -60,6 +81,15 @@ effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
+static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
+static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
+
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_sword_wood( "sword_wood" );
+static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -69,9 +99,10 @@ static const recipe_id recipe_cattail_jelly( "cattail_jelly" );
 
 static const skill_id skill_survival( "survival" );
 
+static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
+
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
-
 
 namespace
 {
@@ -120,6 +151,20 @@ TEST_CASE( "EOC_teleport", "[eoc]" )
     CHECK( before + tripoint_south_east == after );
 }
 
+TEST_CASE( "EOC_beta_elevate", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+
+    REQUIRE( n.hp_percentage() > 0 );
+
+    dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
+    effect_on_condition_EOC_try_kill->activate( newDialog );
+
+    CHECK( n.hp_percentage() == 0 );
+}
+
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
 {
@@ -143,8 +188,10 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
+    CHECK_FALSE( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     get_avatar().set_stamina( 500 );
     CHECK( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
+    CHECK( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     effect_on_condition_EOC_math_test_equals_assign->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test" ) ) == Approx( 9 ) );
     effect_on_condition_EOC_math_switch_math->activate( d );
@@ -249,6 +296,51 @@ TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 1 );
 }
 
+TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+    item weapon( itype_test_knife_combat );
+    get_avatar().set_wielded_item( weapon );
+    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( n ) );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    CHECK( effect_on_condition_EOC_combat_mutator_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID_TEST" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike Test" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "50% moves, 66% damage" );
+}
+
+TEST_CASE( "EOC_alive_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    CHECK( effect_on_condition_EOC_alive_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "alive" );
+}
+
+TEST_CASE( "EOC_attack_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+    npc &n = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+
+    dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( n ) );
+    CHECK( effect_on_condition_EOC_attack_test->activate( newDialog ) );
+}
+
 TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -273,7 +365,6 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
     CHECK( d.get_value( "npctalk_var_simple" ).empty() );
 }
 
-
 TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -281,7 +372,6 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
-
 
     globvars.clear_global_values();
 
@@ -533,6 +623,21 @@ TEST_CASE( "EOC_run_with_test", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
 
+TEST_CASE( "EOC_run_until_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+
+    CHECK( effect_on_condition_EOC_run_until_test->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 10 ) );
+}
+
 TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
 {
     clear_avatar();
@@ -589,6 +694,185 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
 
+TEST_CASE( "EOC_run_inv_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    item weapon( itype_test_knife_combat );
+    item backpack( itype_backpack );
+    get_avatar().set_wielded_item( weapon );
+    get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
+    get_avatar().i_add( item( itype_test_knife_combat ) );
+    get_avatar().i_add( item( itype_backpack ) );
+
+    tripoint_abs_ms pos_before = get_avatar().get_location();
+    tripoint_abs_ms pos_after = pos_before + tripoint_south_east;
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+
+    std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
+    } );
+
+    REQUIRE( items_before.size() == 4 );
+
+    // All items
+    CHECK( effect_on_condition_EOC_run_inv_test1->activate( d ) );
+
+    std::vector<item *> items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 4 );
+
+    // Test search_data: id, worn_only
+    CHECK( effect_on_condition_EOC_run_inv_test2->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key2" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Test search_data: material, wielded_only
+    CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+    } );
+
+    CHECK( items_after.empty() );
+
+    get_avatar().get_wielded_item().remove_item();
+    item weapon_wood( itype_sword_wood );
+    get_avatar().set_wielded_item( weapon_wood );
+
+    CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Test search_data: category, flags
+    CHECK( effect_on_condition_EOC_run_inv_test4->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key4" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Flag test for item
+    CHECK( effect_on_condition_EOC_item_flag_test->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_is_filthy" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.has_flag( json_flag_FILTHY );
+    } );
+
+    CHECK( items_after.empty() );
+
+    // Math function test for item
+    items_before = get_avatar().items_with( []( const item & it ) {
+        return it.damage() == 0;
+    } );
+
+    REQUIRE( items_before.size() == 4 );
+    CHECK( effect_on_condition_EOC_item_math_test->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.damage() == it.max_damage() - 100;
+    } );
+
+    CHECK( items_after.size() == 4 );
+
+    // Activate test for item
+    CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
+    CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
+
+    // Teleport test for item
+    CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
+    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
+}
+
+TEST_CASE( "EOC_event_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    // character_casts_spell
+    spell temp_spell( spell_test_eoc_spell );
+    temp_spell.set_level( get_avatar(), 5 );
+    temp_spell.cast_all_effects( get_avatar(), tripoint() );
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "45" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "100" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
+
+    // character_starts_activity
+    globvars.clear_global_values();
+    get_avatar().assign_activity( ACT_GENERIC_EOC, 1 );
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "0" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity start" );
+
+    // character_finished_activity
+    get_avatar().cancel_activity();
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity finished" );
+
+    // character_wields_item
+    item weapon_item( itype_test_knife_combat );
+    get_avatar().wield( weapon_item );
+    item_location weapon = get_avatar().get_wielded_item();
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+    CHECK( weapon->get_var( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+
+    // character_wears_item
+    std::list<item>::iterator armor = *get_avatar().worn.wear_item( get_avatar(),
+                                      item( itype_backpack ), false, true, true );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+    CHECK( armor->get_var( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+}
+
+TEST_CASE( "EOC_spell_exp", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+
+    get_avatar().magic->learn_spell( "test_eoc_spell", get_avatar(), true );
+
+    CHECK( effect_on_condition_EOC_math_spell_xp->activate( d ) );
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "1000" );
+}
 
 TEST_CASE( "EOC_recipe_test", "[eoc]" )
 {
@@ -604,7 +888,6 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_recipe_test_1->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
     CHECK( get_avatar().knows_recipe( r ) );
-
 
     CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );

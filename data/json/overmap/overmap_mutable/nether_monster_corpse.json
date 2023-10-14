@@ -16,8 +16,6 @@
     "joins": [
       { "id": "bowels_edge_to_tentacle", "opposite": "bowels_tentacle_to_edge" },
       { "id": "bowels_tentacle_to_edge", "opposite": "bowels_edge_to_tentacle" },
-      { "id": "tentacle_tee_to_tentacle", "opposite": "tentacle_to_tentacle_tee" },
-      { "id": "tentacle_to_tentacle_tee", "opposite": "tentacle_tee_to_tentacle" },
       { "id": "surface_to_tentacle", "opposite": "tentacle_to_surface" },
       { "id": "tentacle_to_surface", "opposite": "surface_to_tentacle", "into_locations": [ "land", "road" ] },
       "surface_to_bowels",
@@ -65,34 +63,30 @@
       "corpse_head_neck_center_decap": { "overmap": "corpse_head_neck_center_decap_south", "north": "neck_to_neck" },
       "tentacle_mid": {
         "overmap": "corpse_tentacle_ns",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] },
+        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
         "south": "tentacle_to_tentacle"
       },
       "tentacle_end": {
         "overmap": "corpse_tentacle_end_south",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] }
+        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
       },
       "tentacle_end_lcorner": {
         "overmap": "corpse_tentacle_ne",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] },
-        "east": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] }
+        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
+        "east": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
       },
       "tentacle_end_straight": {
         "overmap": "corpse_tentacle_ns",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] },
-        "south": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] }
+        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
+        "south": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
       },
-      "tentacle_end_w_entry": {
-        "overmap": "corpse_tentacle_entry_north",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "tentacle_to_tentacle_tee" ] },
-        "above": "tentacle_to_surface"
-      },
+      "tentacle_end_w_entry": { "overmap": "corpse_tentacle_entry_north", "north": { "id": "tentacle_to_tentacle" }, "above": "tentacle_to_surface" },
       "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land", "road" ] },
       "tentacle_tee": {
         "overmap": "corpse_tentacle_nes",
         "north": "tentacle_to_tentacle",
-        "east": "tentacle_tee_to_tentacle",
-        "south": "tentacle_tee_to_tentacle"
+        "east": "tentacle_to_tentacle",
+        "south": "tentacle_to_tentacle"
       },
       "tentacle_corner": { "overmap": "corpse_tentacle_ne", "north": "tentacle_to_tentacle", "east": "tentacle_to_tentacle" },
       "tentacle_rcorner": { "overmap": "corpse_tentacle_wn", "north": "tentacle_to_tentacle", "west": "tentacle_to_tentacle" }
@@ -217,9 +211,10 @@
       [ { "overmap": "tentacle_end_w_entry", "max": { "poisson": 0.8 } } ],
       [ { "overmap": "corpse_entry_surface", "weight": 1 } ],
       [
-        { "overmap": "tentacle_end", "weight": 1000 },
-        { "overmap": "tentacle_end_lcorner", "weight": 1 },
-        { "overmap": "tentacle_end_straight", "weight": 1 }
+        { "overmap": "tentacle_end", "weight": 10000 },
+        { "overmap": "tentacle_tee", "weight": 1 },
+        { "overmap": "tentacle_end_lcorner", "weight": 10 },
+        { "overmap": "tentacle_end_straight", "weight": 10 }
       ]
     ]
   }

@@ -4,7 +4,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mace_magic",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-    "using": [ [ "welding_standard", 15 ] ],
+    "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 2, "skill_penalty": -100 },
       { "proficiency": "prof_welding_basic", "time_multiplier": 2, "skill_penalty": -100 }
@@ -23,7 +23,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "combatsaw_spear_off",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-    "using": [ [ "welding_standard", 40 ] ],
+    "using": [ [ "welding_standard", 160 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "time_multiplier": 2, "skill_penalty": -100 },
       { "proficiency": "prof_welding_basic", "time_multiplier": 2, "skill_penalty": -100 }

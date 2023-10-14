@@ -302,6 +302,20 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAILROADS",
+    "info": "Allows to place procgen railroads during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAILROADS_BEFORE_ROADS",
+    "info": "Defines whether to place railroads before roads.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SPECIALS",
     "info": "Allows to place overmap specials during overmap generation.",
     "stype": "bool",
@@ -355,5 +369,12 @@
     "info": "Sets eternal weather.  Possible values are 'normal', 'clear', 'cloudy', 'light_drizzle', 'drizzle', 'rain', 'rainstorm', 'thunder', 'lightning', 'flurries', 'snowing', 'snowstorm', 'early_portal_storm', 'portal_storm'.  'normal' clears all eternal weather overrides and sets normal weather pattern.  Requires restart of the game after changing value to take effect.",
     "stype": "string_input",
     "value": "normal"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SHOW_MUTATION_SELECTOR",
+    "info": "When mutating, displays a menu which allows players to pick from a list of possible mutations.",
+    "stype": "bool",
+    "value": false
   }
 ]

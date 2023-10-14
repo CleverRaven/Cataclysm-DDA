@@ -71,7 +71,7 @@
   },
   {
     "id": "rifle_9x18",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: 9x18mm", "str_pl": "pipe rifles: 9x18mm" },

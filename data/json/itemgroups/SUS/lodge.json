@@ -5,10 +5,11 @@
     "//": "items found in an archery space",
     "subtype": "collection",
     "entries": [
-      { "item": "compbow", "prob": 50 },
+      { "item": "compbow", "prob": 40 },
       { "item": "compbow_high", "prob": 20 },
-      { "item": "compbow_low", "prob": 40 },
-      { "item": "recurbow", "prob": 30 },
+      { "item": "compbow_low", "prob": 30 },
+      { "item": "compcrossbow", "prob": 25 },
+      { "item": "recurbow", "prob": 25 },
       { "item": "takedown_recurbow", "prob": 3 },
       { "item": "quiver_takedown_bow", "prob": 1 },
       { "item": "reflexrecurvebow", "prob": 10 },
@@ -55,13 +56,6 @@
       { "group": "SUS_hunting_rifle", "prob": 20 },
       { "group": "guns_smg_rare", "prob": 15 }
     ]
-  },
-  {
-    "id": "lodge_archery_ammo",
-    "type": "item_group",
-    "//": "archery ammo",
-    "subtype": "collection",
-    "entries": [ { "item": "arrow_metal", "prob": 20 }, { "item": "arrow_cf", "prob": 10 } ]
   },
   {
     "id": "cannibal_food",

@@ -26,6 +26,12 @@ static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
+static const material_id material_acidchitin( "acidchitin" );
+static const material_id material_bone( "bone" );
+static const material_id material_chitin( "chitin" );
+static const material_id material_fur( "fur" );
+static const material_id material_gutskin( "gutskin" );
+static const material_id material_leather( "leather" );
 static const material_id material_wool( "wool" );
 
 static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
@@ -35,6 +41,7 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 nc_color item_penalties::color_for_stacking_badness() const
@@ -82,6 +89,17 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
                                             it.has_own_flag( flag_wooled ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made of wool!" ) );
+    }
+
+    if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
+                                      it.has_own_flag( flag_ANIMAL_PRODUCT ) ||
+                                      it.made_of( material_fur ) ||
+                                      it.made_of( material_wool ) ||
+                                      it.made_of( material_chitin ) ||
+                                      it.made_of( material_bone ) ||
+                                      it.made_of( material_gutskin ) ||
+                                      it.made_of( material_acidchitin ) ) ) {
+        return ret_val<void>::make_failure( _( "Can't wear that, it's made from an animal!" ) );
     }
 
     if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
@@ -255,7 +273,8 @@ Character::wear( item_location item_wear, bool interactive )
     }
 
     if( was_weapon ) {
-        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send_with_talker( this, &item_wear, e );
     }
 
     return result;
@@ -278,7 +297,10 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         worn.push_back( to_wear );
     }
 
-    get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
+    item_location loc = new_item_it != worn.end() ?
+                        item_location( guy, &*new_item_it ) : item_location();
+    cata::event e = cata::event::make<event_type::character_wears_item>( guy.getID(), guy.last_item );
+    get_event_bus().send_with_talker( &guy, &loc, e );
 
     if( interactive ) {
         if( !quiet ) {
@@ -510,7 +532,6 @@ item *Character::item_worn_with_id( const itype_id &i )
 {
     return worn.item_worn_with_id( i );
 }
-
 
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
@@ -937,7 +958,6 @@ bool outfit::is_worn_module( const item &thing ) const
     } );
 }
 
-
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
@@ -1150,7 +1170,9 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
 {
     units::mass ret = 0_gram;
     for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
+        if( without.empty() ) {
+            ret += i.weight();
+        } else if( !without.count( &i ) ) {
             for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );
@@ -1463,9 +1485,9 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         return &it == &wit;
     } );
 
+    it.on_takeoff( guy );
     item takeoff_copy( it );
     worn.erase( iter );
-    takeoff_copy.on_takeoff( guy );
     if( res == nullptr ) {
         guy.i_add( takeoff_copy, true, &it, &it, true, !guy.has_weapon() );
     } else {
@@ -1481,11 +1503,6 @@ void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const
             cloth.mitigate_damage( dam );
         }
     }
-}
-
-void outfit::clear()
-{
-    worn.clear();
 }
 
 bool outfit::empty() const
@@ -1729,15 +1746,6 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
     return used;
 }
 
-void outfit::append_radio_items( std::list<item *> &rc_items )
-{
-    for( item &elem : worn ) {
-        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &elem );
-        }
-    }
-}
-
 void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
 {
     // Adds dependent worn items recursively
@@ -1773,8 +1781,13 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
         if( worn_item.has_flag( json_flag_HIDDEN ) ) {
             continue;
         }
-        const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
-        overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        if( worn_item.has_var( "sprite_override" ) ) {
+            overlay_ids.emplace_back( "worn_" + worn_item.get_var( "sprite_override" ),
+                                      worn_item.get_var( "sprite_override_variant", "" ) );
+        } else {
+            const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
+            overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        }
     }
 }
 
@@ -2003,8 +2016,9 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
 {
     for( item &clothing : worn ) {
 
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
-            return it.is_gun();
+        std::vector<item *> guns = guy.cache_get_items_with( "is_gun", &item::is_gun,
+        [&guy]( const item & it ) {
+            return !guy.is_wielding( it );
         } );
 
         if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
@@ -2345,7 +2359,7 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
         if( remaining_charges == 0 ) {
             break;
         }
-        if( i.can_contain_partial( newit ) ) {
+        if( i.can_contain_partial( newit ).success() ) {
             const int used_charges =
                 i.fill_with( newit, remaining_charges, false, false, ignore_pkt_settings );
             remaining_charges -= used_charges;
@@ -2421,12 +2435,13 @@ std::vector<pocket_data_with_parent> Character::get_all_pocket_with_parent(
 void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
                         bool ignore_pkt_settings )
 {
+    guy.invalidate_weight_carried_cache();
     if( ignore_pkt_settings ) {
         // Crawl all pockets regardless of priority
         // Crawl First : wielded item
         item_location carried_item = guy.get_wielded_item();
         if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
-            carried_item->can_contain_partial( newit ) ) {
+            carried_item->can_contain_partial( newit ).success() ) {
             int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
             remaining_charges -= used_charges;
         }
@@ -2463,8 +2478,8 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             const item_location parent_data = pocket_data_ptr.parent;
 
             if( parent_data.has_parent() ) {
-                if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
-                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                if( parent_data.parents_can_contain_recursive( &temp_it ).success() ) {
+                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it ).value();
                 } else {
                     max_contain_value = 0;
                 }

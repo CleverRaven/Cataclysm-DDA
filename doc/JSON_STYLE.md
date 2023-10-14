@@ -1,8 +1,9 @@
 # JSON Style Guide
 
-Like in `doc/CODE_STYLE.md`, the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
+Like in [CODE_STYLE.md](CODE_STYLE.md), the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own.  It lives in tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.
+`json_formatter.cgi` can be found in any released build and is already compiled, see [Formatting tool](#Formatting tool).
 
 ## JSON Example
 
@@ -89,3 +90,6 @@ Additionally, you can configure a keybinding for this command by navigating to
 containing `Tools.ExternalCommand` and pick the one that corresponds to the
 position of your command in the list (e.g. `Tools.ExternalCommand1` if it's the
 top item in the list) and then assign shortcut keys to it.
+
+### Visual Studio Code
+If you install the recommended extensions you should have access to the the cdda-toys.cdda-json-formatter which will auto format your json.

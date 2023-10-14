@@ -308,16 +308,15 @@
     "volume": "6 L",
     "price": 60000,
     "price_postapoc": 4000,
-    "material": [ "kevlar", "cotton", "nylon" ],
+    "material": [ "kevlar_layered", "kevlar", "nylon" ],
     "symbol": "[",
     "looks_like": "combat_shirt",
     "color": "green",
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.55 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
-          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.7 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3, "ignore_sheet_thickness": true }
         ],
         "encumbrance": [ 4, 5 ],
         "coverage": 100,
@@ -326,8 +325,7 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.15 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 2.2 }
         ],
         "encumbrance": [ 4, 5 ],
@@ -394,7 +392,7 @@
   {
     "id": "xl_lsurvivor_armor",
     "type": "ARMOR",
-    "name": { "str": "XL light survivor body armor" },
+    "name": { "str": "XL mercenary body armor" },
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -404,7 +402,7 @@
     "type": "ARMOR",
     "copy-from": "lsurvivor_armor",
     "looks_like": "lsurvivor_armor",
-    "name": { "str": "XS light survivor body armor" },
+    "name": { "str": "XS mercenary body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
