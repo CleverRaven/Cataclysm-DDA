@@ -197,7 +197,6 @@
     "variants": [ { "symbols": "T", "symbols_broken": "x" } ]
   },
   {
-    "//": "It shouldnt cause any compability issues like this ",
     "id": "veh_tools_kitchen",
     "type": "vehicle_part",
     "copy-from": "veh_tools_kitchen",
