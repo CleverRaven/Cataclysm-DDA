@@ -105,7 +105,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_furniture": [
-        { "furn": "f_alien_pod", "x": [4, 7], "y": 10, "repeat": [ 0, 4 ] },
+        { "furn": "f_alien_pod", "x": [ 4, 7 ], "y": 10, "repeat": [ 0, 4 ] },
         { "furn": "f_alien_zapper", "x": 8, "y": 9 },
         { "furn": "f_alien_tendril", "x": 7, "y": 7 }
       ],
@@ -202,9 +202,7 @@
     "update_mapgen_id": "mi-go_camp_spawn2_roof1",
     "method": "json",
     "object": {
-      "place_nested": [
-        { "chunks": [ "mi-go_spawn2_roof1" ], "x": 0, "y": 0 }
-      ],
+      "place_nested": [ { "chunks": [ "mi-go_spawn2_roof1" ], "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -213,9 +211,7 @@
     "update_mapgen_id": "mi-go_camp_spawn2_roof2",
     "method": "json",
     "object": {
-      "place_nested": [
-        { "chunks": [ "mi-go_spawn2_roof2" ], "x": 0, "y": 0 }
-      ],
+      "place_nested": [ { "chunks": [ "mi-go_spawn2_roof2" ], "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
