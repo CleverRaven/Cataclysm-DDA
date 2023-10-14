@@ -265,7 +265,7 @@
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
     "description": "Some cattail seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
   },
   {

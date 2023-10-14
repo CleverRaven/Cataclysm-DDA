@@ -1230,7 +1230,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "riding helmet" },
-    "description": "A helmet designed to protect from falls and kicks involving horses, has a small peak to protect from glare",
+    "description": "A helmet designed to protect from falls and kicks involving horses, has a small peak to protect from glare.",
     "weight": "660 g",
     "volume": "1800 ml",
     "longest_side": "28 cm",

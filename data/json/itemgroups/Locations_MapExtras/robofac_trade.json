@@ -144,6 +144,7 @@
           { "item": "robofac_gun_smg", "prob": 100, "count": 1 },
           { "item": "robofac_gun_dmr", "prob": 100, "count": 1 },
           { "item": "robofac_gun_shotgun", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_shotgun_breach", "prob": 100, "count": 1 },
           { "item": "robofac_gun_46", "prob": 100, "count": 1 },
           { "item": "robofac_gun_57", "prob": 100, "count": 1 },
           { "item": "robofac_gun_kit", "prob": 100, "count": 1 }

@@ -40,6 +40,7 @@ afterlife
 aftermarket
 aftermath
 afternoon
+afternoons
 aftertaste
 afterthought
 afterward
@@ -737,6 +738,7 @@ deliriant
 delsihous
 demagnetized
 demihuman
+demining
 demisexuality
 demoed
 denarius
@@ -845,6 +847,8 @@ dreamdrossed
 dreamforged
 dreamsmith
 dreamstuff
+dress
+dresses
 driers
 drivetrain
 dromaeosaurid
@@ -1329,6 +1333,7 @@ hdd
 headbutts
 headin
 headwear
+headwrap
 healthiness
 heartiness
 heartlike
@@ -2609,6 +2614,7 @@ sawblade
 sawblades
 sawteeth
 sayig
+scabbards
 scalable
 scatterer
 schippe
@@ -3354,6 +3360,8 @@ wielders
 wieldier
 willin
 willowbark
+wimple
+wimples
 windowframe
 windproof
 winglike

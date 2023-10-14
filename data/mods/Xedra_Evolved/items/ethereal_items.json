@@ -181,7 +181,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "moon_tears_fasteners": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_dreamdross": 100 } } ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -290,5 +290,35 @@
       "ZERO_WEIGHT"
     ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "salamander_flaming_summon_whip",
+    "type": "GENERIC",
+    "category": "weapons",
+    "symbol": "/",
+    "color": "red",
+    "name": "Tongues of Flame",
+    "description": "A long whip made of red-hot fire.  It crackles menacingly and casts a flickering red glow.",
+    "weight": "60 g",
+    "volume": "1500 ml",
+    "longest_side": "40 cm",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 6 },
+    "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP",
+      "STURDY",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "FIRESTARTER",
+      "LIGHT_15",
+      "FLAMING",
+      "FIRE"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ] }
   }
 ]

@@ -4284,11 +4284,19 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         success = true;
     }
 
+    drop_locations items_remain;
+    if( who.is_avatar() && reopen_menu && !success ) {
+        items_remain.insert( items_remain.end(), items.begin(), items.end() );
+    }
+
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
         handler.handle_by( who );
         act.set_to_null();
+        if( !items_remain.empty() ) {
+            g->insert_item( items_remain );
+        }
         return;
     }
 
@@ -4311,6 +4319,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "handler", handler );
     jsout.member( "all_pockets_rigid", all_pockets_rigid );
+    jsout.member( "reopen_menu", reopen_menu );
 
     jsout.end_object();
 }
@@ -4325,6 +4334,7 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     data.read( "items", actor.items );
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
+    data.read( "reopen_menu", actor.reopen_menu );
 
     return actor.clone();
 }

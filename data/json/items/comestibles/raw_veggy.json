@@ -1003,7 +1003,7 @@
   {
     "type": "COMESTIBLE",
     "id": "young_leaves",
-    "name": { "str_sp": "handful of young leaves" },
+    "name": { "str": "handful of young leaves", "str_pl": "handfuls of young leaves" },
     "weight": "20 g",
     "flags": [ "FREEZERBURN", "RAW" ],
     "color": "light_green",
@@ -1022,7 +1022,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_leaves",
-    "name": { "str_sp": "handful of chicory greens" },
+    "name": { "str": "handful of chicory greens", "str_pl": "handfuls of chicory greens" },
     "copy-from": "young_leaves",
     "description": "Some chicory greens.  They are quite bitter but high in vitamins.",
     "price_postapoc": 20,

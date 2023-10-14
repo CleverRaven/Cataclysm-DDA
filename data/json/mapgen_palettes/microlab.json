@@ -2,12 +2,22 @@
   {
     "type": "palette",
     "id": "microlab",
+    "parameters": {
+      "labtype": { "type": "palette_id", "default": { "distribution": [ [ "microlab_generic", 6 ], [ "microlab_meat", 1 ] ] } }
+    },
+    "palettes": [ { "param": "labtype" } ]
+  },
+  {
+    "type": "palette",
+    "id": "microlab_generic",
     "terrain": {
       "+": "t_door_c",
       ".": "t_metal_floor",
       "3": "t_door_locked",
       "2": "t_door_glass_frosted_lab_c",
       "4": "t_door_metal_pickable",
+      "X": "t_region_shrub_decorative",
+      "P": "t_carpet_concrete_red",
       "5": "t_door_metal_locked",
       "[": "t_door_glass_c",
       "-": "t_wall_metal",
@@ -19,7 +29,7 @@
       "E": "t_elevator_control",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "Y": "t_utility_light",
+      "Y": "t_strconc_floor_olight",
       "#": "t_rock"
     },
     "furniture": {
@@ -78,6 +88,94 @@
       "O": [ { "item": "tools_robotics", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "schematics", "chance": 2 } ],
       "i": { "item": "cleaning", "chance": 20 },
       "N": { "item": "fireman_cabinet", "chance": 100 }
+    },
+    "vendingmachines": { "V": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "microlab_meat",
+    "terrain": {
+      "|": [ [ "t_concrete_wall", 1 ], [ "t_concrete_wall_flesh", 2 ] ],
+      " ": [ [ "t_null", 1 ], [ "t_thconc_floor_flesh", 2 ] ],
+      "+": "t_door_c",
+      ".": "t_metal_floor",
+      "3": "t_door_locked",
+      "2": "t_door_glass_frosted_lab_c",
+      "X": [ [ "t_thconc_floor_flesh", 1 ], [ "t_grass_dead", 2 ] ],
+      "P": [ [ "t_thconc_floor_flesh", 1 ], [ "t_carpet_concrete_red", 2 ] ],
+      "4": "t_door_metal_pickable",
+      "5": "t_door_metal_locked",
+      "[": "t_door_glass_c",
+      "-": "t_wall_metal",
+      "y": "t_pavement_y",
+      "=": [ [ "t_wall_glass", 3 ], [ "t_thconc_floor_flesh", 1 ] ],
+      "(": "t_reinforced_glass",
+      "e": "t_elevator",
+      "E": "t_elevator_control",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "Y": [ [ "t_strconc_floor_olight", 1 ], [ "t_thconc_floor_flesh", 2 ] ],
+      "#": "t_rock"
+    },
+    "furniture": {
+      ";": "f_toilet",
+      "~": "f_shower",
+      "@": "f_bed",
+      "6": "f_console_broken",
+      "a": "f_armchair",
+      "k": "f_cupboard",
+      "D": "f_dresser",
+      "h": "f_chair",
+      "b": "f_bench",
+      "B": "f_bookcase",
+      "c": "f_counter",
+      "l": "f_locker",
+      "n": "f_trashcan",
+      "d": "f_desk",
+      "f": "f_fridge",
+      "F": "f_glass_fridge",
+      "o": "f_oven",
+      "O": "f_utility_shelf",
+      "U": "f_utility_shelf",
+      "i": "f_sink",
+      "r": "f_rack",
+      "?": "f_sofa",
+      "t": "f_table",
+      "R": "f_table",
+      "N": "f_fireman_cabinet",
+      "^": "f_indoor_plant",
+      "x": "f_safe_l"
+    },
+    "toilets": { ";": {  } },
+    "items": {
+      "d": { "item": "office", "chance": 10, "repeat": [ 1, 3 ] },
+      "B": [ { "item": "textbooks", "chance": 10 }, { "item": "manuals", "chance": 50 } ],
+      "F": [
+        { "item": "supplies_reagents_lab", "chance": 10, "repeat": [ 2, 5 ] },
+        { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "U": [
+        { "item": "tools_science", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "supplies_reagents_lab", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "c": [
+        { "item": "tools_science", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "supplies_reagents_lab", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "lab_files_generic", "chance": 5 }
+      ],
+      "R": [
+        { "item": "tools_robotics", "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "robots", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "supplies_electronics", "chance": 5, "repeat": [ 1, 3 ] }
+      ],
+      "O": [ { "item": "tools_robotics", "chance": 5, "repeat": [ 1, 3 ] }, { "item": "schematics", "chance": 2 } ],
+      "i": { "item": "cleaning", "chance": 10 },
+      "N": { "item": "fireman_cabinet", "chance": 100 }
+    },
+    "monster": {
+      " ": [ { "monster": "mon_zombie_living_wall", "chance": 3 }, { "monster": "mon_breather_hub", "chance": 1 } ],
+      "c": { "monster": "mon_zombie_living_wall", "chance": 3 },
+      "@": { "monster": "mon_zombie_living_wall", "chance": 80 }
     },
     "vendingmachines": { "V": {  } }
   }

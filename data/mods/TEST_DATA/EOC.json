@@ -16,7 +16,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test1",
-    "effect": [ { "u_run_inv_eocs": [ "EOC_run_inv_test1_nested" ] } ]
+    "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_run_inv_test1_nested" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -26,12 +26,113 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test2",
-    "effect": [ { "u_run_inv_eocs": [ "EOC_run_inv_test2_nested" ], "item_ids": [ "backpack" ], "worn_only": true } ]
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test2_nested" ],
+        "search_data": [ { "id": "backpack", "worn_only": true } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test2_nested",
     "effect": [ { "npc_add_var": "key2", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test3",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test3_nested" ],
+        "search_data": [ { "material": "wood", "wielded_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test3_nested",
+    "effect": [ { "npc_add_var": "key3", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test4",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test4_nested" ],
+        "search_data": [ { "category": "weapons", "flags": [ "BELT_CLIP" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test4_nested",
+    "effect": [ { "npc_add_var": "key4", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_math_test",
+    "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_math_test_nested",
+    "effect": [ { "math": [ "n_hp()", "=", "100" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_teleport_test",
+    "effect": [
+      { "u_location_variable": { "u_val": "tele_test" }, "x_adjust": 1, "y_adjust": 1 },
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_teleport_test_nested" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_teleport_test_nested",
+    "effect": [ { "npc_teleport": { "u_val": "tele_test" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_item_flag_test_nested1", "EOC_item_flag_test_nested2", "EOC_item_flag_test_nested3" ],
+        "search_data": [ { "worn_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested1",
+    "effect": [ { "npc_set_flag": "FILTHY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested2",
+    "condition": { "npc_has_flag": "FILTHY" },
+    "effect": [ { "npc_add_var": "is_filthy", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested3",
+    "effect": [ { "npc_unset_flag": "FILTHY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_activate_test",
+    "effect": [
+      { "u_location_variable": { "u_val": "activate_pos" }, "x_adjust": 1, "y_adjust": 1 },
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_activate_test_nested" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_activate_test_nested",
+    "effect": [ { "u_activate": "deploy_furn", "target_var": { "u_val": "activate_pos" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -374,6 +475,28 @@
       { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
       { "math": [ "key2", "=", "_resume" ] },
       { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_wields_item_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "compare_string": [ "test_knife_combat", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_wears_item_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "backpack", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wears_item" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wears_item" }
     ]
   },
   {

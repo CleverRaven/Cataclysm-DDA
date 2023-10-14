@@ -674,11 +674,37 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel",
+    "name": { "str": "small solar panel" },
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "A solar panel, mounted on a frame and ready to power other appliances.",
+    "description": "A small solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
     "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_ground_solar_panel",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A solar panel, mounted on a frame and ready to power other appliances.",
+    "item": "ground_solar_panel",
+    "copy-from": "solar_panel",
+    "//": "4 times the panels, 1.2x matching the above appliance",
+    "proportional": { "epower": 4.8 },
+    "requirements": {
+      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "120 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 4 ], [ "soldering_standard", 8 ] ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 32 ] },
+      { "item": "steel_chunk", "count": [ 8, 32 ] },
+      { "item": "scrap", "count": [ 8, 32 ] },
+      { "item": "solar_cell", "count": [ 4, 16 ] }
+    ],
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
   },
   {
@@ -695,12 +721,36 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel_v2",
+    "name": { "str": "small advanced solar panel" },
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "A high-performance solar panel, mounted on a frame and ready to power other appliances.",
+    "description": "A  small, high-performance solar panel, mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
     "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_ground_solar_panel_v2",
+    "copy-from": "solar_panel_v2",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "item": "ground_solar_panel_v2",
+    "//": "4 times from 4 more panels, 1.2 times as is done above",
+    "proportional": { "epower": 4.8 },
+    "requirements": {
+      "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "electronics", 8 ] ],
+        "time": "150 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 4 ], [ "soldering_standard", 64 ] ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 16 ] },
+      { "item": "steel_chunk", "count": [ 8, 16 ] },
+      { "item": "scrap", "count": [ 8, 16 ] },
+      { "item": "solar_cell_v2", "count": [ 4, 24 ] }
+    ]
   },
   {
     "type": "vehicle_part",

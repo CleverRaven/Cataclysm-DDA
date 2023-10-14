@@ -32,6 +32,20 @@
     "max_range": 10
   },
   {
+    "id": "delete_nullifying_fields_monster",
+    "type": "SPELL",
+    "name": "Delete Nullifying Fields Monster",
+    "description": "This cleans up the nullifying fields after a zombie null dies.  It's a bug if you have it.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_null_zombie_delete_fields",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 12,
+    "max_aoe": 12
+  },
+  {
     "id": "pyrokinetic_eruption_monster",
     "type": "SPELL",
     "name": "[Ψ]Fountain of Flames Monster",

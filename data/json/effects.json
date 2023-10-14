@@ -4195,7 +4195,7 @@
           { "value": "ARMOR_COLD", "add": 15 },
           { "value": "ARMOR_ELEC", "add": 15 },
           { "value": "ARMOR_ACID", "add": 15 },
-          { "value": "ARMOR_BULLET", "add": 400 }
+          { "value": "ARMOR_BULLET", "add": 50 }
         ]
       }
     ]
