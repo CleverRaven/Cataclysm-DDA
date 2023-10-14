@@ -13,7 +13,7 @@
   {
     "id": "mon_human_scorched",
     "type": "MONSTER",
-    "name": { "str": "human" },
+    "name": { "str": "charred human" },
     "description": "Placeholder for charred human corpses.  If you see this, it's a bug.",
     "bodytype": "human",
     "copy-from": "mon_zombie_scorched",
