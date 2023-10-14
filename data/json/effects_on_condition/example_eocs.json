@@ -160,5 +160,19 @@
     "required_event": "character_dies",
     "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
     "effect": [ "u_prevent_death" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_item_test",
+    "effect": [
+      { "u_location_variable": { "u_val": "loc", "type": "eoc_sample", "context": "map_item" } },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "u_val": "loc", "type": "eoc_sample", "context": "map_item" },
+        "min_radius": 1,
+        "max_radius": 1,
+        "true_eocs": [ { "id": "EOC_map_item_test_run", "effect": [ { "u_message": "<npc_name> is found on adjacent tile." } ] } ]
+      }
+    ]
   }
 ]

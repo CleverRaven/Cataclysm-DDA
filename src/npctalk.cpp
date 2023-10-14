@@ -122,6 +122,9 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
+using item_menu = std::function<item_location( const item_location_filter & )>;
+using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
+
 enum class jarg {
     member = 1,
     object = 1 << 1,
@@ -731,19 +734,6 @@ static void tell_magic_veh_stop_following()
                     break;
                 }
             }
-        }
-    }
-}
-
-static void run_eoc( const dialogue &d, bool is_npc, item_location &loc,
-                     const std::vector<effect_on_condition_id> &eocs )
-{
-    for( const effect_on_condition_id &eoc : eocs ) {
-        // Check if item is outdated.
-        if( loc.get_item() ) {
-            dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
-                                           d.get_conditionals(), d.get_context() );
-            eoc->activate( newDialog );
         }
     }
 }
@@ -4740,9 +4730,10 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
     }
 }
 
-static void run_item_eocs( const dialogue &d, std::vector<item_location> items,
-                           std::vector<effect_on_condition_id> true_eocs, std::vector<effect_on_condition_id> false_eocs,
-                           std::vector <item_search_data> data, bool is_npc, std::string_view option, std::string_view title )
+static void run_item_eocs( const dialogue &d, bool is_npc, std::vector<item_location> items,
+                           std::string_view option, std::vector<effect_on_condition_id> true_eocs,
+                           std::vector<effect_on_condition_id> false_eocs, std::vector <item_search_data> data,
+                           const item_menu &f, const item_menu_mul &f_mul )
 {
     Character *guy = d.actor( is_npc )->get_character();
     guy = guy ? guy : &get_player_character();
@@ -4763,6 +4754,17 @@ static void run_item_eocs( const dialogue &d, std::vector<item_location> items,
             false_items.push_back( loc );
         }
     }
+    const auto run_eoc = [&d, is_npc]( item_location & loc,
+    const std::vector<effect_on_condition_id> &eocs ) {
+        for( const effect_on_condition_id &eoc : eocs ) {
+            // Check if item is outdated.
+            if( loc.get_item() ) {
+                dialogue newDialog = dialogue( d.actor( is_npc )->clone(), get_talker_for( loc ),
+                                               d.get_conditionals(), d.get_context() );
+                eoc->activate( newDialog );
+            }
+        }
+    };
     auto filter = [true_items]( const item_location & it ) {
         for( const item_location &true_it : true_items ) {
             if( true_it == it ) {
@@ -4773,38 +4775,37 @@ static void run_item_eocs( const dialogue &d, std::vector<item_location> items,
     };
     if( option == "all" ) {
         for( item_location target : true_items ) {
-            run_eoc( d, is_npc, target, true_eocs );
+            run_eoc( target, true_eocs );
         }
         for( item_location target : false_items ) {
-            run_eoc( d, is_npc, target, false_eocs );
+            run_eoc( target, false_eocs );
         }
     } else if( option == "random" ) {
         if( !true_items.empty() ) {
             std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
-            run_eoc( d, is_npc, true_items.back(), true_eocs );
+            run_eoc( true_items.back(), true_eocs );
             true_items.pop_back();
         }
 
         for( item_location target : true_items ) {
-            run_eoc( d, is_npc, target, false_eocs );
+            run_eoc( target, false_eocs );
         }
         for( item_location target : false_items ) {
-            run_eoc( d, is_npc, target, false_eocs );
+            run_eoc( target, false_eocs );
         }
     } else if( option == "manual" ) {
-        item_location selected = game_menus::inv::titled_filter_menu( filter, *guy, std::string( title ) );
-        run_eoc( d, is_npc, selected, true_eocs );
+        item_location selected = f( filter );
+        run_eoc( selected, true_eocs );
         for( item_location target : true_items ) {
             if( target != selected ) {
-                run_eoc( d, is_npc, target, false_eocs );
+                run_eoc( target, false_eocs );
             }
         }
         for( item_location target : false_items ) {
-            run_eoc( d, is_npc, target, false_eocs );
+            run_eoc( target, false_eocs );
         }
     } else if( option == "manual_mult" ) {
-        const drop_locations &selected = game_menus::inv::titled_multi_filter_menu( filter, *guy,
-                                         std::string( title ) );
+        const drop_locations &selected = f_mul( filter );
         for( item_location target : true_items ) {
             bool true_eoc = false;
             for( const drop_location &dloc : selected ) {
@@ -4814,13 +4815,13 @@ static void run_item_eocs( const dialogue &d, std::vector<item_location> items,
                 }
             }
             if( true_eoc ) {
-                run_eoc( d, is_npc, target, true_eocs );
+                run_eoc( target, true_eocs );
             } else {
-                run_eoc( d, is_npc, target, false_eocs );
+                run_eoc( target, false_eocs );
             }
         }
         for( item_location target : false_items ) {
-            run_eoc( d, is_npc, target, false_eocs );
+            run_eoc( target, false_eocs );
         }
     }
 }
@@ -4845,8 +4846,14 @@ void talk_effect_fun_t::set_run_inv_eocs( const JsonObject &jo,
     function = [option, true_eocs, false_eocs, data, is_npc, title]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
         if( guy ) {
-            run_item_eocs( d, guy->all_items_loc(), true_eocs, false_eocs, data, is_npc, option.evaluate( d ),
-                           title.evaluate( d ) );
+            const auto f = [d, guy, title]( const item_location_filter & filter ) {
+                return game_menus::inv::titled_filter_menu( filter, *guy, title.evaluate( d ) );
+            };
+            const auto f_mul = [d, guy, title]( const item_location_filter & filter ) {
+                return game_menus::inv::titled_multi_filter_menu( filter, *guy, title.evaluate( d ) );
+            };
+            run_item_eocs( d, is_npc, guy->all_items_loc(), option.evaluate( d ), true_eocs, false_eocs, data,
+                           f, f_mul );
         }
     };
 }
@@ -4867,21 +4874,34 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
     } else {
         title.str_val = "";
     }
-    std::optional<var_info> target_var;
+    std::optional<var_info> loc_var;
     if( jo.has_object( "loc" ) ) {
-        target_var = read_var_info( jo.get_object( "loc" ) );
+        loc_var = read_var_info( jo.get_object( "loc" ) );
     }
+    dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 0 );
+    dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 0 );
 
-    function = [option, true_eocs, false_eocs, data, target_var, title, is_npc]( dialogue & d ) {
-        tripoint_abs_ms target_location = get_tripoint_from_var( target_var, d );
+    function = [is_npc, option, true_eocs, false_eocs, data, loc_var, dov_min_radius, dov_max_radius,
+            title]( dialogue & d ) {
+        tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
         std::vector<item_location> items;
-        tripoint pos = get_map().getlocal( target_location );
-        for( item &it : get_map().i_at( pos ) ) {
-            item_location loc( map_cursor( pos ), &it );
-            items.push( item_location( map_cursor( pos ), &it ) );
+        tripoint center = get_map().getlocal( target_location );
+        for( const tripoint &pos : get_map().points_in_radius( center, dov_max_radius.evaluate( d ) ) ) {
+            if( rl_dist( center, pos ) >= dov_min_radius.evaluate( d ) ) {
+                for( item &it : get_map().i_at( pos ) ) {
+                    item_location loc( map_cursor( pos ), &it );
+                    items.push_back( item_location( map_cursor( pos ), &it ) );
+                }
+            }
         }
-        run_item_eocs( d, items, true_eocs, false_eocs, data, is_npc, option.evaluate( d ),
-                       title.evaluate( d ) );
+        const auto f = []( const item_location_filter & filter ) {
+            return item_location();
+        };
+        const auto f_mul = []( const item_location_filter & filter ) {
+            return drop_locations();
+        };
+        run_item_eocs( d, is_npc, items, option.evaluate( d ), true_eocs, false_eocs, data,
+                       f, f_mul );
     };
 }
 
