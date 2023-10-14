@@ -141,9 +141,21 @@
         "condition": { "npc_service": true }
       },
       {
+        "text": "I was wondering if you could install a cybernetic implant in my friend here…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_install_allies",
+        "condition": { "npc_service": true }
+      },
+      {
         "text": "I need help removing an implant…",
         "topic": "TALK_DONE",
         "effect": "bionic_remove",
+        "condition": { "npc_service": true }
+      },
+      {
+        "text": "I need help removing an implant from one of my friends…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove_allies",
         "condition": { "npc_service": true }
       },
       { "text": "Oh no, I was wondering if you knew where to get some.", "topic": "TALK_ANCILLA_DOCTOR_FIND_BIONICS" },

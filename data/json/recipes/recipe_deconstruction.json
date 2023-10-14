@@ -2947,7 +2947,7 @@
     "difficulty": 4,
     "time": "2 h",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
+    "tools": [ [ [ "welder", 500 ], [ "integrated_welder", 750 ] ] ],
     "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
   },
   {

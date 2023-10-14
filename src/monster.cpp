@@ -1392,7 +1392,8 @@ void monster::witness_thievery( item *it )
         anger = 100;
         return;
     }
-    random_entry( friends )->witness_thievery( it );
+    std::sort( friends.begin(), friends.end(), npc::theft_witness_compare );
+    friends[0]->witness_thievery( it );
 }
 
 bool monster::is_fleeing( Character &u ) const

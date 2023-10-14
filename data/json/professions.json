@@ -3276,7 +3276,9 @@
       { "level": 4, "name": "electronics" }
     ],
     "items": {
-      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
+      "both": {
+        "items": [ "dress_shirt", "pants", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch", "folded_wheelchair_generic" ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -3920,7 +3922,25 @@
     "name": "Martial Artist",
     "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
     "points": 3,
-    "traits": [ "PROF_MA_ORANGE" ],
+    "starting_styles_choices": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ],
     "skills": [
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "unarmed" },
@@ -3940,7 +3960,25 @@
     "name": "Black Belt",
     "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
     "points": 8,
-    "traits": [ "PROF_MA_BLACK" ],
+    "starting_styles_choices": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ],
     "skills": [
       { "level": 8, "name": "melee" },
       { "level": 8, "name": "unarmed" },
@@ -3990,7 +4028,7 @@
     "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "items": [ "jeans", "longshirt", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
         "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -4893,7 +4931,7 @@
       { "level": 6, "name": "dodge" },
       { "level": 4, "name": "swimming" }
     ],
-    "traits": [ "MARTIAL_FENCING" ],
+    "starting_styles": [ "style_fencing" ],
     "items": {
       "both": {
         "items": [
@@ -6437,6 +6475,50 @@
       "both": {
         "items": [ "jeans", "tshirt", "gosling_jacket", "gloves_fingerless", "socks", "sneakers", "hammer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "explosive_ordinance_disposal",
+    "name": "Explosive Ordinance Disposal Technician",
+    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives",
+    "points": 5,
+    "proficiencies": [
+      "prof_elec_circuits",
+      "prof_intro_chemistry",
+      "prof_athlete_expert",
+      "prof_gun_cleaning",
+      "prof_spotting",
+      "prof_traps",
+      "prof_disarming",
+      "prof_trapsetting"
+    ],
+    "skills": [
+      { "level": 6, "name": "traps" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "undershirt", "socks", "helmet_eod", "jacket_eod", "gloves_eod", "trousers_eod", "foot_protectors_eod" ],
+        "entries": [
+          {
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
+            "ammo-item": "556_mk318",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]

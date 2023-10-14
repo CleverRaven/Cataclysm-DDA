@@ -1,0 +1,77 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_EVAC_BROKER_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 30 },
+      { "item": "gloves_leather", "prob": 20 },
+      { "item": "gloves_work", "prob": 20 },
+      { "item": "gloves_fingerless", "prob": 50 },
+      { "item": "gloves_fingerless_mod", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EVAC_BROKER_archery",
+    "subtype": "distribution",
+    "entries": [ { "item": "shortbow", "prob": 5 }, { "item": "crossbow", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EVAC_BROKER_pistols",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "usp_45", "prob": 30 },
+      { "item": "sw_619", "prob": 30 },
+      { "item": "sw_610", "prob": 30 },
+      { "item": "ruger_redhawk", "prob": 5 },
+      { "item": "makarov", "prob": 5 },
+      { "item": "m9", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EVAC_BROKER_rifle",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "browning_blr", "prob": 35 },
+      { "item": "remington_700", "prob": 35 },
+      { "item": "m1a", "prob": 35 },
+      { "item": "m1903", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EVAC_BROKER_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "water_clean", "prob": 90 },
+      { "item": "water_mineral", "prob": 5 },
+      { "item": "cola", "prob": 70 },
+      { "item": "creamsoda", "prob": 60 },
+      { "item": "lemonlime", "prob": 60 },
+      { "item": "orangesoda", "prob": 60 },
+      { "item": "crispycran", "prob": 40 },
+      { "item": "colamdew", "prob": 60 },
+      { "item": "choc_drink", "prob": 30 },
+      { "item": "jerky", "prob": 55 },
+      { "item": "cracklins", "prob": 25 },
+      { "item": "salted_fish", "prob": 35 },
+      { "item": "porkstick", "prob": 55 },
+      { "item": "ravioli", "prob": 25 },
+      { "item": "can_beans", "prob": 40 },
+      { "item": "can_corn", "prob": 35 },
+      { "item": "can_spam", "prob": 30 },
+      { "item": "salt", "prob": 10 },
+      { "item": "seasoning_salt", "prob": 5 },
+      { "item": "vinegar", "prob": 10 },
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "item": "con_milk", "prob": 20 },
+      { "prob": 26, "group": "fish_pickled_jar_glass_sealed_2" },
+      { "item": "lutefisk", "prob": 1 },
+      { "item": "pemmican", "prob": 10 },
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
+    ]
+  }
+]

@@ -45,6 +45,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_WATER_TO_BOOZE",
+    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_BOOZE" },
+    "effect": [ { "u_learn_recipe": "mixed_alcohol_strong_from_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_WATER_TO_FUEL",
+    "condition": { "u_has_trait": "SALAMANDER_WATER_TO_FUEL" },
+    "effect": [ { "u_learn_recipe": "lamp_oil_from_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_REBORN_IN_FLAMES",
     "eoc_type": "PREVENT_DEATH",
     "condition": {
@@ -91,5 +103,95 @@
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
     "effect": [ { "math": [ "u_val('fatigue')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FIRE_FOOSTEPS",
+    "condition": { "math": [ "u_val('mana')", ">=", "4" ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "4" ] },
+      { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+      { "u_set_field": "fd_fire", "radius": 0, "hit_player": false }
+    ],
+    "false_effect": [ { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_HEALTH_FOR_MANA",
+    "condition": { "math": [ "u_val('mana')", "<", "u_val('mana_max')" ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "+=", "1000" ] },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "torso" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "head" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "arm_l" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "arm_r" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "leg_r" },
+      { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "leg_l" }
+    ],
+    "false_effect": [ { "u_message": "You have no need to restore your mana now!", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ON",
+    "effect": [
+      { "u_add_effect": "effect_salamander_smoke_form", "duration": "PERMANENT" },
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_OFF",
+    "effect": [
+      { "u_lose_effect": "effect_salamander_smoke_form" },
+      { "u_lose_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_add_effect": "effect_salamander_smoke_immunity", "duration": "15 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND",
+    "condition": {
+      "or": [
+        { "u_is_in_field": "fd_hot_air1" },
+        { "u_is_in_field": "fd_hot_air2" },
+        { "u_is_in_field": "fd_hot_air3" },
+        { "u_is_in_field": "fd_hot_air4" },
+        { "u_is_in_field": "fd_fire" },
+        { "u_is_in_field": "fd_salamander_heat" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK" ] } ],
+    "false_effect": [ { "u_message": "You must be in warm air to ascend!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_location_variable": { "u_val": "salamander_smoke_form_ascend" }, "z_adjust": 2, "outdoor_only": true },
+      { "u_message": "You soar upward on the rising smoke", "type": "good" },
+      { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
+    ],
+    "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_BERSERK_STANCE_ON",
+    "condition": { "not": { "u_has_effect": "effect_salamander_berserk_stance" } },
+    "effect": [
+      { "math": [ "u_salamander_pain_value", "=", "u_pain()" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "u_add_effect": "effect_salamander_berserk_stance", "duration": "24 hours" }
+    ],
+    "false_effect": [ { "u_message": "You are already under the effects of Wildfire Soul!", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_BERSERK_STANCE_OFF",
+    "condition": { "u_has_effect": "effect_salamander_berserk_stance" },
+    "effect": [
+      { "math": [ "u_pain()", "+=", "(u_salamander_pain_value * 1.15)" ] },
+      { "u_lose_effect": "effect_salamander_berserk_stance" }
+    ]
   }
 ]

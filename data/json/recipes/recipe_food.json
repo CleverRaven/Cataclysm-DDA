@@ -1848,7 +1848,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_burdock_stalk",
     "copy-from": "cooked_cattail_stalk",
-    "components": [ [ [ "burdock_stalk", 1 ] ] ]
+    "components": [ [ [ "plant_stalk", 1 ] ] ]
   },
   {
     "type": "recipe",
