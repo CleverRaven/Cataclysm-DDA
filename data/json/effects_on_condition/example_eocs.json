@@ -174,5 +174,44 @@
         "true_eocs": [ { "id": "EOC_map_item_test_run", "effect": [ { "u_message": "<npc_name> is found on adjacent tile." } ] } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_condition_test",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North: TRANSPARENT" },
+        "else": { "u_message": "North: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(1,0,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "East: TRANSPARENT" },
+        "else": { "u_message": "East: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "South: TRANSPARENT" },
+        "else": { "u_message": "South: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(-1,0,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "West: TRANSPARENT" },
+        "else": { "u_message": "West: Not TRANSPARENT" }
+      }
+    ]
   }
 ]
