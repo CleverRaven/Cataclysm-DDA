@@ -37,7 +37,9 @@ void buy_horse( npc & );
 void buy_cow( npc & );
 void buy_chicken( npc & );
 void bionic_install( npc & );
+void bionic_install_allies( npc & );
 void bionic_remove( npc & );
+void bionic_remove_allies( npc & );
 void dismount( npc & );
 void find_mount( npc & );
 
