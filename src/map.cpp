@@ -9197,16 +9197,14 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     bool seen_cache_dirty = false;
     bool camera_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
-        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
-        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
-        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
+        seen_cache_dirty |= floor_cache_was_dirty;
         if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
             get_cache( z - 1 ).r_up_cache->invalidate();
         }
-        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic

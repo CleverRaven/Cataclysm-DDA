@@ -7513,8 +7513,6 @@ look_around_result game::look_around(
     bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point )
 {
     bVMonsterLookFire = false;
-    // TODO: Make this `true`
-    const bool allow_zlev_move = get_option<bool>( "FOV_3D" );
 
     temp_exit_fullscreen();
 
@@ -7734,10 +7732,6 @@ look_around_result game::look_around(
                 ui->mark_resize();
             }
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-            if( !allow_zlev_move ) {
-                continue;
-            }
-
             const int dz = action == "LEVEL_UP" ? 1 : -1;
             lz = clamp( lz + dz, min_levz, max_levz - 1 );
             center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
