@@ -205,7 +205,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "2011 10mm 17-round magazine" },
-    "description": "A light-weight, 17- round, steel magazine with a polymer baseplate.  Used in 2011 pistols chambered for 10mm Auto.",
+    "description": "A lightweight, 17-round, steel magazine with a polymer baseplate.  Used in 2011 pistols chambered for 10mm Auto.",
     "weight": "70 g",
     "volume": "110 ml",
     "longest_side": "140 mm",
