@@ -61,9 +61,6 @@ ID_WHITELIST = {
     "rebreather_cartridge_air",
     "rebreather_cartridge_o2",
     "rebreather_cartridge_regen"
-    'STI_DS_10'
-    '2011_17_mag'
-    '2011_22_mag'
 }
 
 
