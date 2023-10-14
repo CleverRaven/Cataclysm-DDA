@@ -2604,6 +2604,7 @@ std::pair< bool, std::string > inventory_selector::query_string( const std::stri
     spopup = std::make_unique<string_input_popup>();
     spopup->max_length( 256 )
     .text( val );
+    spopup->identifier( "item_filter" ).hist_use_uilist( false );
     if( end_with_toggle ) {
         for( input_event const &iev : inp_mngr.get_input_for_action( "TOGGLE_ENTRY", "INVENTORY" ) ) {
             spopup->add_callback( iev.get_first_input(), [this]() {
