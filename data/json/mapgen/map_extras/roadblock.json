@@ -154,8 +154,8 @@
       },
       "place_loot": [ { "group": "cop_armory", "x": [ 6, 10 ], "y": [ 15, 18 ], "chance": 100, "repeat": [ 4, 10 ] } ],
 	  "place_fields": [
-		  { "field": "fd_blood", "x": [ 8, 10 ], "y": [ 16, 18 ], "repeat": [ 1, 4 ] } ],
-		  { "field": "fd_blood", "x": [ 8, 10 ], "y": [ 16, 18 ], "repeat": [ 1, 2 ] } ],
+		  { "field": "fd_blood", "x": [ 8, 10 ], "y": [ 16, 18 ], "repeat": [ 1, 4 ] },
+		  { "field": "fd_blood", "x": [ 20, 22 ], "y": [ 14, 17 ], "repeat": [ 1, 2 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
