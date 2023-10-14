@@ -40,6 +40,7 @@ enum class event_type : int {
     // fueling bionics
     character_casts_spell,
     character_consumes_item,
+    character_dies,
     character_eats_item,
     character_finished_activity,
     character_forgets_spell,
@@ -181,7 +182,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 96,
+static_assert( static_cast<int>( event_type::num_event_types ) == 97,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -286,6 +287,14 @@ struct event_spec<event_type::character_casts_spell> {
             { "cast_time", cata_variant_type::int_},
             { "damage", cata_variant_type::int_}
 
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_dies> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id }
         }
     };
 };

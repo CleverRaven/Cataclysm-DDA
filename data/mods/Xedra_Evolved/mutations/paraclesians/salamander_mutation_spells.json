@@ -18,6 +18,7 @@
     "description": "This is the aoe used by some other Salamander spells.  It's a bug if you have it directly.",
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
+    "skill": "deduction",
     "flags": [ "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "shape": "blast",
@@ -101,11 +102,95 @@
     "sound_description": "a crackle!"
   },
   {
+    "id": "salamander_flaming_whip_spell",
+    "type": "SPELL",
+    "name": "A Hundred Tongues of Flame",
+    "description": "Summon a flaming whip to scourge your enemies.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "skill": "deduction",
+    "effect": "spawn_item",
+    "effect_str": "salamander_flaming_summon_whip",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "(24000 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 20000) * (scaling_factor(u_val('dexterity') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(48000 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 35000) * (scaling_factor(u_val('dexterity') ) ) )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 100,
+    "energy_increment": -6,
+    "base_casting_time": 1000,
+    "final_casting_time": 750,
+    "casting_time_increment": -10
+  },
+  {
+    "id": "salamander_smoke_teleport_spell",
+    "type": "SPELL",
+    "name": "In a Cloud of Smoke",
+    "description": "Like fire leaping over a firebreak, you can vanish and reappear somewhere nearby, leaving a thick cloud of smoke in your former location.",
+    "valid_targets": [ "none" ],
+    "skill": "deduction",
+    "flags": [ "SILENT", "VERBAL", "SOMATIC", "NO_LEGS", "RANDOM_AOE", "EXTRA_EFFECTS_FIRST" ],
+    "effect": "short_range_teleport",
+    "extra_effects": [
+      { "id": "salamander_smoke_immunity_spell", "hit_self": true },
+      { "id": "salamander_smoke_teleport_spell_emit", "hit_self": true }
+    ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "min_range": 10,
+    "max_range": 10,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 150,
+    "energy_increment": -5,
+    "base_casting_time": 50
+  },
+  {
+    "id": "salamander_smoke_immunity_spell",
+    "type": "SPELL",
+    "name": "In a Cloud of Smoke Immunity",
+    "description": "Makes the Salamander immune to smoke so they won't inhale tons of smoke when teleporting.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_salamander_smoke_immunity",
+    "shape": "blast",
+    "min_duration": 300,
+    "max_duration": 300
+  },
+  {
+    "id": "salamander_smoke_teleport_spell_emit",
+    "type": "SPELL",
+    "name": "In a Cloud of Smoke Emit",
+    "description": "Releases the smoke from casting In a Puff of Smoke.  It's a bug if you have it directly.",
+    "skill": "deduction",
+    "valid_targets": [ "none" ],
+    "effect": "emit",
+    "effect_str": "emit_smoke_stream",
+    "shape": "blast"
+  },
+  {
     "id": "salamander_flame_punch_spell_push",
     "type": "SPELL",
     "name": "Blazing Blow Push",
     "description": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.",
     "message": "",
+    "skill": "deduction",
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
@@ -132,8 +217,8 @@
     "max_level": { "math": [ "str_to_level(1)" ] },
     "difficulty": 6,
     "min_range": 1,
-    "min_duration": 500,
-    "max_duration": 1500,
+    "min_duration": 1000,
+    "max_duration": 3000,
     "energy_source": "MANA",
     "base_energy_cost": 800,
     "final_energy_cost": 550,
@@ -346,5 +431,30 @@
     "max_range": {
       "math": [ "(2 + (u_val('spell_level', 'spell: salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ]
     }
+  },
+  {
+    "id": "salamander_ally_flame_immune_spell",
+    "type": "SPELL",
+    "name": "Anointed with Incandescence",
+    "description": "You draw on your own fiery nature and infuse a portion of it into an ally, rendering them immune to warm temperatures and fire.",
+    "valid_targets": [ "ally" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_flame_immunity",
+    "shape": "blast",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 7,
+    "min_range": 1,
+    "max_range": 5,
+    "range_increment": 0.4,
+    "base_casting_time": 6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "final_energy_cost": 500,
+    "energy_increment": -10,
+    "min_duration": 30000,
+    "max_duration": 1080000,
+    "duration_increment": 16500
   }
 ]

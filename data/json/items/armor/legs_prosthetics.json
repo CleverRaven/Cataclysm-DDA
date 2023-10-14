@@ -2,8 +2,8 @@
   {
     "id": "right_leg_prosthetic",
     "type": "ARMOR",
-    "name": { "str_sp": "prosthetic right leg" },
-    "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced makes it look exactly like the original.  This one is for the right leg.",
+    "name": { "str": "prosthetic right leg" },
+    "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the right leg.",
     "weight": "3629 g",
     "volume": "10 L",
     "longest_side": "122 cm",
@@ -22,7 +22,7 @@
   {
     "id": "left_leg_prosthetic",
     "type": "ARMOR",
-    "name": { "str_sp": "prosthetic left leg" },
+    "name": { "str": "prosthetic left leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the left leg.",
     "weight": "3629 g",
     "volume": "10 L",

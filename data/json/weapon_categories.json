@@ -32,16 +32,19 @@
   {
     "type": "weapon_category",
     "id": "MEDIUM_SWORDS",
+    "//": "One-handed swords above 60cm in length with a cutting edge.",
     "name": "MEDIUM SWORDS"
   },
   {
     "type": "weapon_category",
     "id": "LONG_SWORDS",
+    "//": "Hand-and-a-half swords, i.e. any sword that can be used one or two-handed fairly easily with a cutting edge.",
     "name": "LONG SWORDS"
   },
   {
     "type": "weapon_category",
     "id": "SHORT_SWORDS",
+    "//": "One-handed swords at or below 60cm in length with a cutting edge, such as machetes.",
     "name": "SHORT SWORDS"
   },
   {
@@ -77,7 +80,14 @@
   {
     "type": "weapon_category",
     "id": "FENCING_WEAPONRY",
+    "//": "One-handed straight swords built for thrusting or lightly curved agile sabers.  Cutting edge optional for the former.",
     "name": "FENCING WEAPONRY"
+  },
+  {
+    "type": "weapon_category",
+    "id": "LONG_THRUSTING_SWORDS",
+    "//": "Hand-and-a-half or two-handed straight swords built for thrusting.  Cutting edge optional.",
+    "name": "LONG THRUSTING SWORDS"
   },
   {
     "type": "weapon_category",
@@ -91,22 +101,8 @@
   },
   {
     "type": "weapon_category",
-    "id": "MEDIEVAL_SWORDS",
-    "name": "MEDIEVAL SWORDS"
-  },
-  {
-    "type": "weapon_category",
-    "id": "CONSTRUCTED_SWORDS",
-    "name": "CONSTRUCTED SWORDS"
-  },
-  {
-    "type": "weapon_category",
-    "id": "JAPANESE_SWORDS",
-    "name": "JAPANESE SWORDS"
-  },
-  {
-    "type": "weapon_category",
     "id": "GREAT_SWORDS",
+    "//": "Swords with cutting edges that require two hands to use effectively.",
     "name": "GREAT SWORDS"
   },
   {

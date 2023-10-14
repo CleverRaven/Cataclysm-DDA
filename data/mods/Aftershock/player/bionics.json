@@ -91,6 +91,8 @@
     "description": "An implanted AI module and medication dispenser calculates the optimal chemical mix to keep you on your toes and ready for combat.  This bionic must be active to function and while it functions your body is at a heightened performance but if it turns off it will take you several days to get back to normal.  There are a significant number of baseline bonuses granted by this setup but people around will notice your junkie behavior.",
     "occupied_bodyparts": [ [ "head", 5 ], [ "torso", 10 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "afs_eoc_chembaseline" ],
+    "activated_on_install": true,
     "enchantments": [ "heightened_performance" ],
     "included_bionics": [ "afs_speed_injection", "afs_healing_injection", "afs_strength_injection" ],
     "deactivated_eocs": [ "afs_eoc_hangover_baseline" ],
@@ -118,6 +120,7 @@
         ]
       }
     ],
+    "activated_eocs": [ "afs_eoc_chemspeed" ],
     "deactivated_eocs": [ "afs_eoc_hangover_speed" ],
     "act_cost": "100 J",
     "react_cost": "20 J",
@@ -140,9 +143,10 @@
           { "value": "METABOLISM", "multiply": 1.5 },
           { "value": "REGEN_HP", "multiply": 2 }
         ]
-      },
-      { "condition": "ACTIVE", "ench_effects": [ { "effect": "pain_recovery", "intensity": 1 } ] }
+      }
     ],
+    "activated_eocs": [ "afs_eoc_chemhealing" ],
+    "processed_eocs": [ "afs_eoc_chemhealing_pkill" ],
     "deactivated_eocs": [ "afs_eoc_hangover_healing" ],
     "act_cost": "100 J",
     "react_cost": "20 J",
@@ -169,6 +173,7 @@
         ]
       }
     ],
+    "activated_eocs": [ "afs_eoc_chemstrength" ],
     "deactivated_eocs": [ "afs_eoc_hangover_strength" ],
     "act_cost": "100 J",
     "react_cost": "20 J",

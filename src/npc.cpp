@@ -2954,6 +2954,25 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
+
+    prevent_death_reminder = false;
+    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
+    for( effect_on_condition_id &eoc : death_eocs ) {
+        if( eoc->type == eoc_type::NPC_DEATH ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
+        }
+    }
+    get_event_bus().send<event_type::character_dies>( getID() );
+    // Check if npc doesn't die due to EoC as a result
+    if( prevent_death_reminder ) {
+        prevent_death_reminder = false;
+        if( !is_dead() ) {
+            return;
+        }
+    }
+
     if( assigned_camp ) {
         std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
@@ -3013,6 +3032,13 @@ void npc::die( Creature *nkiller )
     }
 
     place_corpse();
+}
+
+void npc::prevent_death()
+{
+    marked_for_death = false;
+    prevent_death_reminder = true;
+    Character::prevent_death();
 }
 
 std::string npc_attitude_id( npc_attitude att )
@@ -3697,6 +3723,26 @@ void npc::set_attitude( npc_attitude new_attitude )
         }
     }
     attitude = new_attitude;
+}
+
+bool npc::theft_witness_compare( const npc *lhs, const npc *rhs )
+{
+    const auto class_score = []( const npc * const guy ) {
+        // Apparently a guard?
+        if( guy->myclass == NC_BOUNTY_HUNTER ) {
+            return 0;
+            // If the guard? doesn't notice, the shopkeep will complain
+            // Because they're probably the person who you have to talk to
+            // and so will ensure the theft is noticed
+        } else if( guy->mission == NPC_MISSION_SHOPKEEP ) {
+            return 1;
+            // Patrolling NPCs more likely to notice/be guards?
+        } else if( guy->mission == NPC_MISSION_GUARD_PATROL ) {
+            return 2;
+        }
+        return 3;
+    };
+    return class_score( lhs ) < class_score( rhs );
 }
 
 npc_follower_rules::npc_follower_rules()

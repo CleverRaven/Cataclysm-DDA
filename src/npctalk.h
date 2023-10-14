@@ -37,7 +37,9 @@ void buy_horse( npc & );
 void buy_cow( npc & );
 void buy_chicken( npc & );
 void bionic_install( npc & );
+void bionic_install_allies( npc & );
 void bionic_remove( npc & );
+void bionic_remove_allies( npc & );
 void dismount( npc & );
 void find_mount( npc & );
 
@@ -107,7 +109,6 @@ void start_training_gen( Character &teacher, std::vector<Character *> &students,
 void wake_up( npc & );
 void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );
-void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
 void pick_style( npc &p );

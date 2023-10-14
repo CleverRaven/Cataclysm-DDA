@@ -21,18 +21,37 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "afs_eoc_chembaseline",
+    "effect": [
+      { "u_lose_effect": "decreased_performance" },
+      {
+        "u_add_morale": "morale_afs_drugs",
+        "bonus": 20,
+        "max_bonus": 60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "afs_eoc_hangover_baseline",
     "effect": [
       { "u_add_effect": "decreased_performance", "duration": "6 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "8 hours" },
       {
-        "u_add_morale": "morale_off_drugs",
+        "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
         "max_bonus": -60,
         "duration": "36 hours",
         "decay_start": "24 hours"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemspeed",
+    "effect": [ { "u_lose_effect": "post_speed_injection" } ]
   },
   {
     "type": "effect_on_condition",
@@ -41,7 +60,7 @@
       { "u_add_effect": "post_speed_injection", "duration": "6 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "8 hours" },
       {
-        "u_add_morale": "morale_off_drugs",
+        "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
         "max_bonus": -60,
         "duration": "36 hours",
@@ -51,18 +70,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "afs_eoc_chemhealing",
+    "effect": [ { "u_lose_effect": "post_healing_injection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemhealing_pkill",
+    "condition": { "one_in_chance": 40 },
+    "effect": [ { "math": [ "u_pain()", "--" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "afs_eoc_hangover_healing",
     "effect": [
-      { "u_add_effect": "post_healing_injection", "duration": "6 hours" },
+      { "u_add_effect": "post_healing_injection", "duration": "6 hours", "target_part": "torso" },
       { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 80 } ] },
       {
-        "u_add_morale": "morale_off_drugs",
+        "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
         "max_bonus": -60,
         "duration": "36 hours",
         "decay_start": "24 hours"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemstrength",
+    "effect": [ { "u_lose_effect": "post_strength_injection" } ]
   },
   {
     "type": "effect_on_condition",
@@ -71,7 +106,7 @@
       { "u_add_effect": "post_strength_injection", "duration": "6 hours" },
       { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 80 } ] },
       {
-        "u_add_morale": "morale_off_drugs",
+        "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
         "max_bonus": -60,
         "duration": "36 hours",
