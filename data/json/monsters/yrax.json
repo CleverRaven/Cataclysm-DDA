@@ -67,7 +67,7 @@
     "default_faction": "yrax",
     "volume": "930 L",
     "//": "A lot of gold in this bad boy.",
-    "weight": "8282000 kg",
+    "weight": "8282 kg",
     "species": [ "ROBOT" ],
     "bodytype": "blob",
     "material": [ "gold", "steel" ],

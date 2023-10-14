@@ -23,7 +23,7 @@
     "description": "A large golden monolith.  Carefully carved asymmetric edges betray its artificial origin.",
     "volume": "930 L",
     "//": "A lot of gold in this bad boy.",
-    "weight": "8282000 kg",
+    "weight": "8282 kg",
     "price": "50 USD",
     "price_postapoc": "50 USD",
     "melee_damage": { "bash": 1000 },
