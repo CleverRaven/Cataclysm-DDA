@@ -750,7 +750,8 @@
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
       { "group": "nested_acr_300blk", "prob": 15 },
       { "group": "nested_ak308", "prob": 25 },
-      { "group": "nested_papm77", "prob": 15 }
+      { "group": "nested_papm77", "prob": 15 },
+      { "group": "nested_rcmg840", "prob": 10 }
     ]
   },
   {
@@ -783,7 +784,8 @@
       { "item": "hk417_13", "prob": 40 },
       { "item": "m2carbine", "prob": 5 },
       { "item": "ak308", "prob": 10 },
-      { "item": "ak308", "variant": "papm77", "prob": 5 }
+      { "item": "ak308", "variant": "papm77", "prob": 5 },
+      { "item": "rcmg-840", "prob": 10 }
     ]
   },
   {

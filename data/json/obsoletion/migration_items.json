@@ -102,8 +102,108 @@
     "replace": "badge_marshal"
   },
   {
-    "id": "rm298",
+    "id": "bio_power_armor_interface",
     "type": "MIGRATION",
-    "replace": "rm614_lmg"
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "bio_power_armor_interface_mkII",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "generic_figurine_plastic",
+    "type": "MIGRATION",
+    "replace": "toy_figurine"
+  },
+  {
+    "id": "bookmark_note_catalytic",
+    "type": "MIGRATION",
+    "replace": "paper"
+  },
+  {
+    "id": "ar15_retool_300blk",
+    "type": "MIGRATION",
+    "replace": "iwi_tavor_x95_300blk"
+  },
+  {
+    "id": "army_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_camo"
+  },
+  {
+    "id": "cheerleader_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_cheerleader"
+  },
+  {
+    "id": "UPS_off",
+    "type": "MIGRATION",
+    "replace": "UPS_ON",
+    "flags": [ "IS_UPS" ]
+  },
+  {
+    "id": "generic_device_cable",
+    "type": "MIGRATION",
+    "replace": "oxygen",
+    "reset_item_vars": true
+  },
+  {
+    "id": "rebreather_filter",
+    "type": "MIGRATION",
+    "replace": "rebreather_filler_soda_lime"
+  },
+  {
+    "id": "coat_fur_sf",
+    "type": "MIGRATION",
+    "replace": "coat_fur",
+    "variant": "coat_sable_fur"
+  },
+  {
+    "id": "flag_pants",
+    "type": "MIGRATION",
+    "replace": "pants",
+    "variant": "pants_flag"
+  },
+  {
+    "id": "waterproof_smart_phone_case",
+    "from_variant": "bejewelled_smart_phone_case",
+    "type": "MIGRATION",
+    "replace": "waterproof_smart_phone_case_migration"
+  },
+  {
+    "id": "survivor_light",
+    "type": "MIGRATION",
+    "replace": "wearable_light"
+  },
+  {
+    "id": "survivor_light_on",
+    "type": "MIGRATION",
+    "replace": "wearable_light_on"
+  },
+  {
+    "id": "bodypillow_makeshift",
+    "type": "MIGRATION",
+    "replace": "bodypillow",
+    "variant": "bodypillow_makeshift"
+  },
+  {
+    "id": "sword_sheets_bolted",
+    "type": "MIGRATION",
+    "replace": "sword_sheets_welded",
+    "variant": "sword_sheets_bolted"
+  },
+  {
+    "id": "sword_sheets_bolted_large",
+    "type": "MIGRATION",
+    "replace": "sword_sheets_welded_large",
+    "variant": "sword_sheets_bolted_large"
+  },
+  {
+    "id": "burdock_stalk",
+    "type": "MIGRATION",
+    "replace": "plant_stalk"
   }
 ]

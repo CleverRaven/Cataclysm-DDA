@@ -3,7 +3,7 @@
     "id": "8x40_24_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Rivtech 24-round magazine" },
+    "name": { "str": "Rivtech 24-round rifle magazine" },
     "description": "A stubby, coffin-shaped 24-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 12-round magazines that feed two stacks of cartridges into a compatible firearm, this downsized magazine proved to be one of the company’s most popular, striking a favourable balance between practical dimensions while also offering a respectable amount of potential firepower.",
     "variant_type": "gun",
     "variants": [
@@ -31,7 +31,7 @@
     "id": "8x40_42_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Rivtech 42-round magazine" },
+    "name": { "str": "Rivtech 42-round rifle magazine" },
     "description": "A standard-capacity 42-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 21-round magazines that feed two stacks of cartridges into a compatible firearm, the magazine was the company’s original test bed offering when presenting their caseless weapon platform for military trials and remained the standard 8x40mm base line within civilian sales.  Formed from advanced polymers, it was attractive for remaining smaller than comparable magazines while also retaining an impressive amount of ammunition.",
     "variant_type": "gun",
     "variants": [
@@ -59,7 +59,7 @@
     "id": "8x40_54_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Rivtech 54-round magazine" },
+    "name": { "str": "Rivtech 54-round rifle magazine" },
     "description": "An extended-capacity 54-round magazine designed to interface with compatible Rivtech rifles.  Formed from two conjoined 27-round magazines that feed two stacks of cartridges into a compatible firearm, the hardware was mildly criticised for being the cause of more than its fair share of mechanical hiccups within civilian guns.  That being said, considering the magazine’s very unconventional design, it actually functions quite well.",
     "variant_type": "gun",
     "variants": [
@@ -84,39 +84,31 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 54 } } ]
   },
   {
-    "id": "8x40_240_mag",
+    "id": "8x40_96_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "8x40mm 240-round packet clip" },
-    "description": "An odd, cuboid packet designed to hold 12 vertical stacks of 20 8x40mm cartridges, the \"magazine\" was designed for use with the Rivtech XM614 platform, where it would be rotated into the weapon’s breech through the buttstock.  Needless to say, such an unconventional design prompted more than a few raised eyebrows during army testing, with its mechanics and, indeed, mechanical failures as perplexing and numerous as the rifle it feeds.",
-    "weight": "1440 g",
-    "volume": "2074 ml",
-    "longest_side": "24 cm",
-    "price": 40000,
-    "price_postapoc": 160,
-    "material": [ "plastic", "steel" ],
+    "name": { "str": "Rivtech 96-round machine gun magazine" },
+    "description": " A svelte, light, and exceedingly lengthy magazine intended to feed 8x40mm light machine guns, it retains 96 rounds of ammunition and rests horizontally over a compatible weapon’s barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "8x40_96_mag",
+        "name": { "str": "8x40mm 96-round magazine" },
+        "description": "This is a svelte and, honestly, preposterously long box magazine constructed from translucent plastics, which brings to mind a visual kinship with P90 magazines.  Manufactured by Rivtech for their line of light machine guns, the magazine slides and locks into place horizontally over a compatible weapons barrel and cycles 8x40mm cartridges downwards into its breach from a 96-round, double-stacked column.  Truthfully, the mechanics behind how it achieves this latter feat are far beyond your pay grade to either understand or care about.",
+        "weight": 1
+      }
+    ],
+    "weight": "163 g",
+    "volume": "607 ml",
+    "longest_side": "53 cm",
+    "//": "Assuming a roughly 24x44x528mm box designed to contain a double-stacked column of 11x11x40mm rounds. Also assuming a 2mm thickness of polymer for the magazine walls with a sectional density of 940 kg/m.",
+    "price": 22600,
+    "price_postapoc": 350,
+    "material": [ "thermo_resin", "steel" ],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": [ "8x40mm" ],
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 240 } } ]
-  },
-  {
-    "id": "8x40_300_mag",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "8x40mm 300-round packet clip" },
-    "description": "An odd, cuboid packet designed to hold 12 vertical stacks of 25 8x40mm cartridges, the \"magazine\" was designed for use with the Rivtech XM614 platform, where it would be rotated into the weapon’s breech through the buttstock.  Needless to say, such an unconventional design prompted more than a few raised eyebrows during army testing, with its mechanics and, indeed, mechanical failures as perplexing and numerous as the rifle it feeds.",
-    "weight": "1800 g",
-    "volume": "2592 ml",
-    "longest_side": "30 cm",
-    "price": 46000,
-    "price_postapoc": 200,
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "dark_gray",
-    "ammo_type": [ "8x40mm" ],
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 300 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 96 } } ]
   }
 ]
