@@ -739,6 +739,7 @@
       [ "takedown_recurbow", 1 ],
       [ "quiver_takedown_bow", 1 ],
       [ "reflexbow", 2 ],
+      { "group": "archery_loaded_quivers", "prob": 1 },
       [ "nylon_quiver", 2 ],
       [ "quiver", 3 ],
       [ "fencing_jacket", 10 ],

@@ -222,7 +222,9 @@
       [ "chem_hexamine", 10 ],
       [ "light_snare_kit", 8 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 },
+      { "group": "book_mag_surv", "prob": 10 },
+      { "group": "vfw_books", "prob": 20 }
     ]
   },
   {
