@@ -1194,36 +1194,36 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_fowler_frog",
+    "id": "egg_fowler_toad",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "These eggs float in long strands, drifting in the still water.",
     "use_action": [ "POISON" ],
-    "rot_spawn": "GROUP_EGG_FOWLER_FROG"
+    "rot_spawn": "GROUP_EGG_FOWLER_TOAD"
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_foul_frog",
-    "copy-from": "egg_fowler_frog",
+    "id": "egg_foul_toad",
+    "copy-from": "egg_fowler_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_FOUL_FROG",
+    "rot_spawn": "GROUP_EGG_FOUL_TOAD",
     "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_freedom_frog",
+    "id": "egg_freedom_toad",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A spiral strand of frog eggs adorns a patch of underwater vegetation.",
     "use_action": [ "POISON" ],
-    "rot_spawn": "GROUP_EGG_FREEDOM_FROG"
+    "rot_spawn": "GROUP_EGG_FREEDOM_TOAD"
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_odd_frog",
-    "copy-from": "egg_freedom_frog",
+    "id": "egg_odd_toad",
+    "copy-from": "egg_freedom_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_ODD_FROG",
+    "rot_spawn": "GROUP_EGG_ODD_TOAD",
     "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
