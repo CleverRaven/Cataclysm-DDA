@@ -559,7 +559,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
+    if( !has_recipe( r, crafting_inv, get_crafting_group() ) ) {
         return false;
     }
 
@@ -2978,6 +2978,15 @@ std::vector<Character *> Character::get_crafting_helpers() const
                && guy.is_npc()
                && !guy.in_sleep_state()
                && guy.is_obeying( *this )
+               && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
+               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+    } );
+}
+
+std::vector<Character *> Character::get_crafting_group() const
+{
+    return g->get_characters_if( [this]( const Character & guy ) {
+        return guy.is_ally( *this )
                && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
                && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );

@@ -339,7 +339,8 @@ static std::vector<std::string> recipe_info(
     const std::string_view qry_comps,
     const int batch_size,
     const int fold_width,
-    const nc_color &color )
+    const nc_color &color,
+    const std::vector<Character *> &crafting_group )
 {
     std::ostringstream oss;
 
@@ -487,20 +488,20 @@ static std::vector<std::string> recipe_info(
                 return colorize( item::nname( type_id ), c_cyan );
             } );
             oss << string_format( _( "Written in: %s\n" ), enumerated_books );
-        } else {
-            std::vector<const Character *> knowing_helpers;
-            for( const Character *helper : guy.get_crafting_helpers() ) {
-                if( helper->knows_recipe( &recp ) ) {
-                    knowing_helpers.push_back( helper );
-                }
+        }
+        std::vector<const Character *> knowing_helpers;
+        for( const Character *helper : crafting_group ) {
+            // guy.getID() != helper->getID(): guy doesn't know the recipe anyway, but this should be faster
+            if( guy.getID() != helper->getID() && helper->knows_recipe( &recp ) ) {
+                knowing_helpers.push_back( helper );
             }
-            if( !knowing_helpers.empty() ) {
-                const std::string enumerated_helpers = enumerate_as_string( knowing_helpers,
-                []( const Character * helper ) {
-                    return colorize( helper->get_name(), c_cyan );
-                } );
-                oss << string_format( _( "Known by: %s\n" ), enumerated_helpers );
-            }
+        }
+        if( !knowing_helpers.empty() ) {
+            const std::string enumerated_helpers = enumerate_as_string( knowing_helpers,
+            []( const Character * helper ) {
+                return colorize( helper->is_avatar() ? _( "You" ) : helper->get_name(), c_cyan );
+            } );
+            oss << string_format( _( "Known by: %s\n" ), enumerated_helpers );
         }
     }
     std::vector<std::string> tmp = foldstring( oss.str(), fold_width );
@@ -839,7 +840,8 @@ struct recipe_info_cache {
 
 static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
         const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
-        const int batch_size, const int fold_width, const nc_color &color )
+        const int batch_size, const int fold_width, const nc_color &color,
+        const std::vector<Character *> &crafting_group )
 {
     static int lang_version = detail::get_current_language_version();
 
@@ -853,7 +855,8 @@ static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &in
         info_cache.qry_comps = qry_comps;
         info_cache.batch_size = batch_size;
         info_cache.fold_width = fold_width;
-        info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color );
+        info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color,
+                                       crafting_group );
         lang_version = detail::get_current_language_version();
     }
     return info_cache.text;
@@ -1262,10 +1265,10 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     bool just_toggled_unread = false;
 
     const inventory &crafting_inv = crafter->crafting_inventory();
-    const std::vector<Character *> helpers = crafter->get_crafting_helpers();
+    const std::vector<Character *> crafting_group = crafter->get_crafting_group();
 
     const recipe_subset &available_recipes = crafter->get_available_recipes( crafting_inv,
-            &helpers );
+            &crafting_group );
     std::map<const recipe *, availability> availability_cache;
 
     const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
@@ -1428,7 +1431,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             }
 
             const std::vector<std::string> &info = cached_recipe_info( r_info_cache,
-                                                   recp, avail, *crafter, qry_comps, batch_size, fold_width, color );
+                                                   recp, avail, *crafter, qry_comps, batch_size, fold_width, color, crafting_group );
 
             const int total_lines = info.size();
             line_recipe_info = clamp( line_recipe_info, 0, total_lines - dataLines );

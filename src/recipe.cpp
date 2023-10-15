@@ -75,7 +75,7 @@ time_duration recipe::batch_duration( const Character &guy, int batch, float mul
 
 static bool helpers_have_proficiencies( const Character &guy, const proficiency_id &prof )
 {
-    for( Character *helper : guy.get_crafting_helpers() ) {
+    for( Character *helper : guy.get_crafting_group() ) {
         if( helper->has_proficiency( prof ) ) {
             return true;
         }
@@ -1023,7 +1023,7 @@ std::vector<proficiency_id> recipe::used_proficiencies() const
 static float get_aided_proficiency_level( const Character &crafter, const proficiency_id &prof )
 {
     float max_prof = crafter.get_proficiency_practice( prof );
-    for( const Character *helper : crafter.get_crafting_helpers() ) {
+    for( const Character *helper : crafter.get_crafting_group() ) {
         max_prof = std::max( max_prof, helper->get_proficiency_practice( prof ) );
     }
     return max_prof;

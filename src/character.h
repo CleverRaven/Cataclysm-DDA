@@ -3481,6 +3481,11 @@ class Character : public Creature, public visitable
         bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
         /** Return nearby Characters ready and willing to help with crafting. */
         std::vector<Character *> get_crafting_helpers() const;
+        /**
+         * Return group of ally characters sharing knowledge of crafting.
+         * Unlike get_crafting_helpers, includes the caller and sleeping Characters.
+         */
+        std::vector<Character *> get_crafting_group() const;
         int get_num_crafting_helpers( int max ) const;
         /**
          * Handle skill gain for player and followers during crafting.
