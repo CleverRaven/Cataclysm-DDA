@@ -2936,7 +2936,7 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
     } else {
         count = get_dbl_or_var( jo, "count", false, 0 );
     }
-    bool add_talker;
+    bool add_talker = true;
     if( member == "u_spawn_item" ) {
         add_talker = true;
     } else if( member == "map_spawn_item" ) {
