@@ -70,6 +70,52 @@
   },
   {
     "type": "terrain",
+    "id": "t_bathroom_unit",
+    "name": "bathroom unit",
+    "description": "A bathroom unit for a gunship.  Unlikely to be working.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_metal_floor",
+    "flags": [ "SUPPORTS_ROOF" ],
+    "symbol": "O",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gunship_refrigeration_unit",
+    "name": "gunship refrigeration unit",
+    "description": "A refrigeration unit for a gunship.  Unlikely to be working.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_metal_floor",
+    "flags": [ "SUPPORTS_ROOF" ],
+    "symbol": "O",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_afs_gun_ship_ruined_hull_wall",
     "name": "ruined hull",
     "description": "This patch of hull has more holes in it than an ancient terran cheese.  It may provide some cover or it might get shot through.",
@@ -310,6 +356,36 @@
     "name": "Wraitheon Gunnery AI",
     "looks_like": "t_console",
     "description": "The display screen for interacting with the gunnery ai is blank, there's no telling right now if the ai module survived the crash or not from here.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "ai_module", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_command_console",
+    "name": "command console",
+    "looks_like": "t_console",
+    "description": "The display screen for interacting with the ships command and control console is dead.  Normally the ship's AI runs most systems but there is no way to know whether it survived.",
     "symbol": "0",
     "color": "green_red",
     "move_cost": 0,

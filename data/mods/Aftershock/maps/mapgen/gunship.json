@@ -42,7 +42,7 @@
         "V": "t_afs_gun_ship_engine",
         "#": "t_prison_grate",
         "U": "t_view_port",
-        "N": "t_navigation_console",
+        "N": "t_afs_gun_ship_navigation_console",
         "P": "t_command_console",
         "G": "t_gunnery_ai",
         "B": "t_bathroom_unit",
