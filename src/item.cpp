@@ -5640,7 +5640,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "DESCRIPTION", rate_info );
             info.emplace_back( "DESCRIPTION",
                                string_format(
-                                   _( "* It has a conversion of rate of <neutral>1 %s</neutral> for <neutral>%.3f %s</neutral>." ),
+                                   _( "* It has a conversion rate of <neutral>1 %s</neutral> for <neutral>%.3f %s</neutral>." ),
                                    type->nname( 1 ),
                                    mdata.conversion_rate_, mdata.into_->nname( mdata.conversion_rate_ ) ) );
         }
