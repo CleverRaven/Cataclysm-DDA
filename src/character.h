@@ -753,6 +753,7 @@ class Character : public Creature, public visitable
         }
         void set_fac_id( const std::string &my_fac_id );
         virtual bool is_ally( const Character &p ) const = 0;
+        virtual bool is_obeying( const Character &p ) const = 0;
 
         // Has item with mission_id
         bool has_mission_item( int mission_id ) const;

@@ -270,6 +270,7 @@ class avatar : public Character
 
         faction *get_faction() const override;
         bool is_ally( const Character &p ) const override;
+        bool is_obeying( const Character &p ) const override;
 
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;

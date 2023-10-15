@@ -1194,6 +1194,15 @@ bool avatar::is_ally( const Character &p ) const
     return guy.is_ally( *this );
 }
 
+bool avatar::is_obeying( const Character &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    const npc &guy = dynamic_cast<const npc &>( p );
+    return guy.is_obeying( *this );
+}
+
 bool avatar::cant_see( const tripoint &p )
 {
 
