@@ -4765,7 +4765,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
     }
 }
 
-static void run_item_eocs( const dialogue &d, bool is_npc, std::vector<item_location> items,
+static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<item_location> &items,
                            std::string_view option, const std::vector<effect_on_condition_id> &true_eocs,
                            const std::vector<effect_on_condition_id> &false_eocs, const std::vector <item_search_data> &data,
                            const item_menu &f, const item_menu_mul &f_mul )
@@ -4774,7 +4774,7 @@ static void run_item_eocs( const dialogue &d, bool is_npc, std::vector<item_loca
     guy = guy ? guy : &get_player_character();
     std::vector<item_location> true_items;
     std::vector<item_location> false_items;
-    for( item_location &loc : items ) {
+    for( const item_location &loc : items ) {
         // Check if item matches any search_data.
         bool true_tgt = data.empty();
         for( item_search_data datum : data ) {
@@ -4920,14 +4920,14 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
             title]( dialogue & d ) {
         tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
         std::vector<item_location> items;
-        tripoint center = get_map().getlocal( target_location );
+        map &here = get_map();
+        tripoint center = here.getlocal( target_location );
         int max_radius = dov_max_radius.evaluate( d );
         int min_radius = dov_min_radius.evaluate( d );
-        for( const tripoint &pos : get_map().points_in_radius( center, max_radius ) ) {
-            if( rl_dist( center, pos ) >= min_radius ) {
-                for( item &it : get_map().i_at( pos ) ) {
-                    item_location loc( map_cursor( pos ), &it );
-                    items.emplace_back( item_location( map_cursor( pos ), &it ) );
+        for( const tripoint &pos : here.points_in_radius( center, max_radius ) ) {
+            if( rl_dist( center, pos ) >= min_radius && here.inbounds( pos ) ) {
+                for( item &it : here.i_at( pos ) ) {
+                    items.emplace_back( map_cursor( pos ), &it );
                 }
             }
         }
