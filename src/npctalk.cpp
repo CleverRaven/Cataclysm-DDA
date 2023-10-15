@@ -4886,19 +4886,53 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
         tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
         std::vector<item_location> items;
         tripoint center = get_map().getlocal( target_location );
-        for( const tripoint &pos : get_map().points_in_radius( center, dov_max_radius.evaluate( d ) ) ) {
-            if( rl_dist( center, pos ) >= dov_min_radius.evaluate( d ) ) {
+        int max_radius = dov_max_radius.evaluate( d );
+        int min_radius = dov_min_radius.evaluate( d );
+        for( const tripoint &pos : get_map().points_in_radius( center, max_radius ) ) {
+            if( rl_dist( center, pos ) >= min_radius ) {
                 for( item &it : get_map().i_at( pos ) ) {
                     item_location loc( map_cursor( pos ), &it );
                     items.emplace_back( item_location( map_cursor( pos ), &it ) );
                 }
             }
         }
-        const auto f = []( const item_location_filter & filter ) {
-            return item_location();
+        Character *guy = d.actor( is_npc )->get_character();
+        guy = guy ? guy : &get_player_character();
+        const auto f = [d, guy, title, center, min_radius,
+           max_radius]( const item_location_filter & filter ) {
+            inventory_filter_preset preset( filter );
+            inventory_pick_selector inv_s( *guy, preset );
+            inv_s.set_title( title.evaluate( d ) );
+            inv_s.set_display_stats( false );
+            inv_s.clear_items();
+            for( const tripoint &pos : get_map().points_in_radius( center, max_radius ) ) {
+                if( rl_dist( center, pos ) >= min_radius ) {
+                    inv_s.add_map_items( pos );
+                }
+            }
+            if( inv_s.empty() ) {
+                popup( _( "You don't have the necessary item at hand." ), PF_GET_KEY );
+                return item_location();
+            }
+            return inv_s.execute();
         };
-        const auto f_mul = []( const item_location_filter & filter ) {
-            return drop_locations();
+        const item_menu_mul f_mul = [d, guy, title, center, min_radius,
+           max_radius]( const item_location_filter & filter ) {
+            inventory_filter_preset preset( filter );
+            inventory_multiselector inv_s( *guy, preset );
+            inv_s.set_title( title.evaluate( d ) );
+            inv_s.set_display_stats( false );
+            inv_s.clear_items();
+            for( const tripoint &pos : get_map().points_in_radius( center, max_radius ) ) {
+                if( rl_dist( center, pos ) >= min_radius ) {
+                    inv_s.add_map_items( pos );
+                }
+            }
+            if( inv_s.empty() ) {
+                popup( _( "You don't have the necessary item at hand." ), PF_GET_KEY );
+                return drop_locations();
+            }
+            return inv_s.execute();
         };
         run_item_eocs( d, is_npc, items, option.evaluate( d ), true_eocs, false_eocs, data,
                        f, f_mul );
