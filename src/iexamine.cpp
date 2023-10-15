@@ -5755,13 +5755,21 @@ static void mill_activate( Character &you, const tripoint &examp )
     }
 
     std::set<std::string, localized_comparator> no_final_product;
+    std::vector<std::pair<itype_id, item>> millables;
     for( const item &it : here.i_at( examp ) ) {
         const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
         if( mdata ) {
-            const int charges = it.count() * mdata->conversion_rate_;
-            if( charges <= 0 ) {
-                no_final_product.emplace( it.tname() );
-            }
+            millables.emplace_back( it.typeId(), it );
+        }
+    }
+    for( const std::pair<itype_id, item> milled_items : millables ) {
+        const item_filter valid = [&milled_items]( const item & itm ) {
+            return itm.typeId() == milled_items.first;
+        };
+        const int num_here = here.items_with( examp, valid ).size();
+        const int resulting_charges = num_here * milled_items.first.obj().milling_data->conversion_rate_;
+        if( resulting_charges <= 0 ) {
+            no_final_product.emplace( milled_items.second.tname() );
         }
     }
     if( !no_final_product.empty()
@@ -5939,7 +5947,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                         result.set_flag( f );
                     }
                 }
-                result.recipe_charges = result.charges;
+                result.recipe_charges = charges;
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( flag_PROCESSING_RESULT );
                 result.set_relative_rot( it.get_relative_rot() );
