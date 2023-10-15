@@ -320,7 +320,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [
         {
           "id": "become_plantkin",
@@ -357,7 +357,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [
         {
           "id": "become_earthkin",
@@ -394,7 +394,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [
         {
           "id": "become_waterkin",
@@ -431,7 +431,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [
         {
           "id": "become_airkin",
@@ -468,7 +468,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [
         {
           "id": "become_flamekin",
@@ -505,7 +505,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [
         {
           "id": "become_dollkin",

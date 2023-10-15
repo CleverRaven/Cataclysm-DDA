@@ -476,11 +476,11 @@ void conditional_t::set_has_visible_trait( const JsonObject &jo, std::string_vie
     };
 }
 
-void conditional_t::set_has_threshold(const JsonObject& jo, std::string_view member, bool is_npc)
+void conditional_t::set_has_threshold( const JsonObject &jo, std::string_view member, bool is_npc )
 {
-    str_or_var trait_to_check = get_str_or_var(jo.get_member(member), member, true);
-    condition = [trait_to_check, is_npc](dialogue const& d) {
-        return d.actor(is_npc)->has_threshold();
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [trait_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_threshold();
     };
 }
 
@@ -3451,8 +3451,8 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_wielded_with_weapon_category( jo, "u_has_wielded_with_weapon_category" );
     } else if( jo.has_member( "npc_has_wielded_with_weapon_category" ) ) {
         set_has_wielded_with_weapon_category( jo, "npc_has_wielded_with_weapon_category", is_npc );
-    } else if (jo.has_member("u_has_threshold")) {
-        set_has_threshold(jo, "u_has_threshold");
+    } else if( jo.has_member( "u_has_threshold" ) ) {
+        set_has_threshold( jo, "u_has_threshold" );
     } else if( jo.has_member( "u_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "u_is_on_terrain" );
     } else if( jo.has_member( "npc_is_on_terrain" ) ) {
