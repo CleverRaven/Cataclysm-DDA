@@ -2,9 +2,6 @@
   {
     "type": "ascii_art",
     "id": "30carbine",
-    "picture": [
-      "<color_yellow>,",
-      "‼"
-    ]
+    "picture": [ "<color_yellow>,", "‼" ]
   }
 ]

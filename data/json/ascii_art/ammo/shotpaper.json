@@ -2,11 +2,6 @@
   {
     "type": "ascii_art",
     "id": "shot_paper_abstract",
-    "picture": [
-      "<color_white>__",
-      "║║",
-      "╟╢",
-      "╚╝"
-    ]
+    "picture": [ "<color_white>__", "║║", "╟╢", "╚╝" ]
   }
 ]
