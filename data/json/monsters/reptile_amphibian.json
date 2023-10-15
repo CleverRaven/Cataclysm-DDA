@@ -479,7 +479,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 30, "into": "mon_fowler_frog" }
+    "upgrades": { "age_grow": 30, "into": "mon_fowler_toad" }
   },
   {
     "id": "mon_foul_tadpole",
@@ -487,7 +487,7 @@
     "copy-from": "mon_fowler_tadpole",
     "name": { "str": "tadpole" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 30, "into": "mon_foul_frog" }
+    "upgrades": { "age_grow": 30, "into": "mon_foul_toad" }
   },
   {
     "id": "mon_freedom_tadpole",
@@ -495,7 +495,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 60, "into": "mon_freedom_frog" }
+    "upgrades": { "age_grow": 60, "into": "mon_freedom_toad" }
   },
   {
     "id": "mon_odd_tadpole",
@@ -506,7 +506,7 @@
     "weight": "40 g",
     "hp": 2,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_odd_frog" }
+    "upgrades": { "age_grow": 60, "into": "mon_odd_toad" }
   },
   {
     "id": "mon_peeper_tadpole",
@@ -678,38 +678,38 @@
     "reproduction": { "baby_egg": "egg_strange_frog", "baby_count": 16, "baby_timer": 26 }
   },
   {
-    "id": "mon_fowler_frog",
+    "id": "mon_fowler_toad",
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odour like boiled peanuts.",
     "name": { "str": "fowler's toad" },
-    "reproduction": { "baby_egg": "egg_fowler_frog", "baby_count": 8, "baby_timer": 36 },
+    "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ]
   },
   {
-    "id": "mon_foul_frog",
+    "id": "mon_foul_toad",
     "type": "MONSTER",
-    "copy-from": "mon_fowler_frog",
+    "copy-from": "mon_fowler_toad",
     "description": "You could almost smell it before you saw it.  This toad reeks.  You're not quite sure what like, but it's hot and musky and it sticks in your nose until you're tasting it.",
     "name": { "str": "foul toad" },
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 60, "into": "mon_foul_bigfrog" },
-    "reproduction": { "baby_egg": "egg_foul_frog", "baby_count": 8, "baby_timer": 36 },
+    "reproduction": { "baby_egg": "egg_foul_toad", "baby_count": 8, "baby_timer": 36 },
     "//": "When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
   },
   {
-    "id": "mon_freedom_frog",
+    "id": "mon_freedom_toad",
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
     "name": { "str": "american toad" },
-    "reproduction": { "baby_egg": "egg_freedom_frog", "baby_count": 8, "baby_timer": 36 },
+    "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ]
   },
   {
-    "id": "mon_odd_frog",
+    "id": "mon_odd_toad",
     "type": "MONSTER",
-    "copy-from": "mon_freedom_frog",
+    "copy-from": "mon_freedom_toad",
     "description": "Wide as a watermelon and halfway up to your knee, this toad's size is alarming.  So too are its odd proportions.  It's as if it hasn't fully grown.",
     "name": { "str": "odd toad" },
     "volume": "4 L",
@@ -717,7 +717,7 @@
     "hp": 12,
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 60, "into": "mon_odd_bigfrog" },
-    "reproduction": { "baby_egg": "egg_odd_frog", "baby_count": 8, "baby_timer": 36 }
+    "reproduction": { "baby_egg": "egg_odd_toad", "baby_count": 8, "baby_timer": 36 }
   },
   {
     "id": "mon_peeper_frog",
@@ -877,7 +877,7 @@
       },
     "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 12, "baby_timer": 20 },
-    "extend": { "flags": [ "NO_BREATHE" },
+    "extend": { "flags": [ "NO_BREATHE" ] },
     "//": "When possible, add grease AOE burst & temporary trail on several hour cooldown.  The toad can expel stinky grease like a squid with ink."
   },
   {
@@ -1010,7 +1010,7 @@
   {
     "id": "mon_foul_giganfrog",
     "type": "MONSTER",
-    "name": { "str": "foul hogtoad" },
+    "name": { "str": "giant hogtoad" },
     "description": "This boar-sized toad appears to have taken on some of the same features and behaviors as wild pigs.  The skin of its face and mouth is covered in dense scale-like osteoderms, some of them quite sharp-looking.  A pale fluid oozes through the gaps between the the bony growths.  The swollen lumps behind the creature's large eyes hint at a toxicity confirmed by its horrid stench.  Like its namesake it appears to enjoy wallowing in mud.",
     "copy-from": "mon_proxy_giganfrog",
     "speed": 100,
