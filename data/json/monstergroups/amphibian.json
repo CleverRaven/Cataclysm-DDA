@@ -124,26 +124,26 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_fowler_frog",
+        "monster": "mon_fowler_toad",
         "weight": 100,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_foul_frog",
+        "monster": "mon_foul_toad",
         "weight": 20,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_freedom_frog",
+        "monster": "mon_freedom_toad",
         "weight": 100,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_odd_frog",
+        "monster": "mon_odd_toad",
         "weight": 20,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
@@ -190,13 +190,13 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_fowler_frog",
+        "monster": "mon_fowler_toad",
         "weight": 100,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_freedom_frog",
+        "monster": "mon_freedom_toad",
         "weight": 100,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -242,26 +242,26 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_fowler_frog",
+        "monster": "mon_fowler_toad",
         "weight": 60,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_foul_frog",
+        "monster": "mon_foul_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_freedom_frog",
+        "monster": "mon_freedom_toad",
         "weight": 60,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_odd_frog",
+        "monster": "mon_odd_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
@@ -296,26 +296,26 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_fowler_frog",
+        "monster": "mon_fowler_toad",
         "weight": 100,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_foul_frog",
+        "monster": "mon_foul_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_freedom_frog",
+        "monster": "mon_freedom_toad",
         "weight": 100,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_odd_frog",
+        "monster": "mon_odd_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
@@ -376,26 +376,26 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_fowler_frog",
+        "monster": "mon_fowler_toad",
         "weight": 60,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_foul_frog",
+        "monster": "mon_foul_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_freedom_frog",
+        "monster": "mon_freedom_toad",
         "weight": 60,
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_odd_frog",
+        "monster": "mon_odd_toad",
         "weight": 40,
         "pack_size": [ 1, 4 ],
         "starts": "14 days",
