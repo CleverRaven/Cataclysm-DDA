@@ -224,12 +224,12 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_heat_2", "charges": [ 0, 1 ] },
-        { "item": "afs_energy_storage_2", "charges": [ 1, 6 ] },
-        { "item": "afs_energy_storage_4", "charges": [ 0, 1 ] },
-        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -266,12 +266,12 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_heat_2", "charges": [ 0, 1 ] },
-        { "item": "afs_energy_storage_2", "charges": [ 1, 6 ] },
-        { "item": "afs_energy_storage_4", "charges": [ 0, 1 ] },
-        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -295,12 +295,12 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_heat_2", "charges": [ 0, 1 ] },
-        { "item": "afs_energy_storage_2", "charges": [ 1, 6 ] },
-        { "item": "afs_energy_storage_4", "charges": [ 0, 1 ] },
-        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -324,13 +324,13 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "ai_module", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "charges": [ 0, 1 ] },
-        { "item": "afs_energy_storage_2", "charges": [ 1, 6 ] },
-        { "item": "afs_energy_storage_4", "charges": [ 0, 1 ] },
-        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -367,10 +367,10 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
-        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
-        { "item": "afs_heat_1", "charges": [ 0, 1 ] },
-        { "item": "afs_energy_storage_1", "charges": [ 1, 6 ] },
-        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
+        { "item": "afs_heat_1", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 6 ] },
+        { "item": "afs_material_1", "count": [ 12, 18 ] }
       ]
     }
   },
@@ -390,7 +390,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_1", "count": [ 2, 4 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -406,7 +406,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "cable", "charges": [ 2, 6 ] },
+        { "item": "cable", "count": [ 2, 6 ] },
         { "item": "plastic_chunk", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -557,7 +557,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_1", "count": [ 2, 4 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -573,7 +573,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "cable", "charges": [ 2, 6 ] },
+        { "item": "cable", "count": [ 2, 6 ] },
         { "item": "plastic_chunk", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
