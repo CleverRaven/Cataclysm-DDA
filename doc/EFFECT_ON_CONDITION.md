@@ -1019,6 +1019,7 @@ Other EOCs have some variables as well that they have access to, they are as fol
 | mutation: "processed_eocs" | { "this", `mutation_id` } |
 | mutation: "deactivated_eocs" | { "this", `mutation_id` } |
 | damage_type: "ondamage_eocs" | { "bp", `bodypart_id` }, { "damage_taken", `double` damage the character will take post mitigation }, { "total_damage", `double` damage pre mitigation } |
+| furniture: "examine_action" | { "this", `furniture_id` }, { "pos", `tripoint` } |
 
 
 # Effects

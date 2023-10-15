@@ -86,6 +86,7 @@ static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_k
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
+static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
@@ -892,4 +893,21 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
     CHECK_FALSE( get_avatar().knows_recipe( r ) );
+}
+
+TEST_CASE( "EOC_map_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
+
+    map &m = get_map();
+    const tripoint_abs_ms start = get_avatar().get_location();
+    const tripoint tgt = m.getlocal( start + tripoint_north );
+    m.furn_set( tgt, furn_test_f_eoc );
+    m.furn( tgt )->examine( get_avatar(), tgt );
+
+    CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
+    CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
 }
