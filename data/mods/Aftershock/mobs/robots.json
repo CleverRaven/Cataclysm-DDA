@@ -832,7 +832,7 @@
   {
     "type": "GENERIC",
     "id": "broken_mech_horse",
-    "name": { "str": "broken HORSE" },
+    "name": { "str": "broken STEED" },
     "description": "A broken STEED, it looks beyond repair.  At least the atomic core's shielding should be intact.",
     "volume": "600 L",
     "weight": "800 kg",
