@@ -1127,13 +1127,14 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
     Character &player_character = get_player_character();
     // If override is not given, use player character for calculations
     const tripoint origin = override_p.value_or( player_character.pos() );
+    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
-                    for( int sz = origin.z - 1; sz >= -OVERMAP_DEPTH; --sz ) {
+                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
                         const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
