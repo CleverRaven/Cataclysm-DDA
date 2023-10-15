@@ -12926,6 +12926,22 @@ std::vector<Creature *> game::get_creatures_if( const std::function<bool( const 
     return result;
 }
 
+std::vector<Character *> game::get_characters_if( const std::function<bool( const Character & )>
+        &pred )
+{
+    std::vector<Character *> result;
+    avatar &a = get_avatar();
+    if( pred( a ) ) {
+        result.push_back( &a );
+    }
+    for( npc &guy : all_npcs() ) {
+        if( pred( guy ) ) {
+            result.push_back( &guy );
+        }
+    }
+    return result;
+}
+
 std::vector<npc *> game::get_npcs_if( const std::function<bool( const npc & )> &pred )
 {
     std::vector<npc *> result;
