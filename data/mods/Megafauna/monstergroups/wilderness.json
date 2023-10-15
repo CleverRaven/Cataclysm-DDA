@@ -2163,7 +2163,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_stange_giganfrog",
+        "monster": "mon_strange_giganfrog",
         "weight": 30,
         "cost_multiplier": 2,
         "starts": "15 days",
@@ -2171,7 +2171,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_stange_giganfrog",
+        "monster": "mon_strange_giganfrog",
         "weight": 40,
         "cost_multiplier": 2,
         "starts": "540 hours",
