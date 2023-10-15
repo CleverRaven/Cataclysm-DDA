@@ -1002,6 +1002,7 @@
   {
     "id": "gloves_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of cut-resistant gloves", "str_pl": "pairs of cut-resistant gloves" },
     "description": "A pair of cut-resistant gloves, useful for butchery or routine work with bladed objects.",
     "weight": "240 g",
