@@ -1138,11 +1138,11 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
     return false;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe,
-                                      Character *crafter, std::string filterstring )
+std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
+        const recipe_id &goto_recipe, Character *crafter, std::string filterstring )
 {
     if( crafter == nullptr ) {
-        return nullptr;
+        return {nullptr, nullptr};
     }
     recipe_result_info_cache result_info( *crafter );
     recipe_info_cache r_info_cache;
@@ -1965,7 +1965,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         }
     } while( !done );
 
-    return chosen;
+    return { crafter, chosen };
 }
 
 std::string peek_related_recipe( const recipe *current, const recipe_subset &available,
