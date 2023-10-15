@@ -108,7 +108,6 @@
     "map_extra": "mx_truth_reconciliation",
     "missions": [ "MISSION_LAST_DANCE" ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
-    "custom_initial_date": { "hour": 20, "day": 10, "season": "spring", "year": 1 },
     "flags": [ "LONE_START" ]
   },
   {
