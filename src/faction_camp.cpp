@@ -2684,7 +2684,8 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
         }
 
         const int batch_size = fortify_om.size() * 2 - 2;
-        basecamp_action_components components( making, {}, batch_size, *this );
+        mapgen_arguments arg;  //  Created with a default value.
+        basecamp_action_components components( making, arg, batch_size, *this );
         if( !components.choose_components() ) {
             return;
         }
@@ -3176,7 +3177,8 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
             return;
         }
 
-        basecamp_action_components components( making, {}, batch_size, *this );
+        mapgen_arguments arg;  //  Created with a default value.
+        basecamp_action_components components( making, arg, batch_size, *this );
         if( !components.choose_components() ) {
             return;
         }
