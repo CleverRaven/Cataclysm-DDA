@@ -896,7 +896,7 @@ class npc : public Character
         // Leading, following, or waiting for the player
         bool is_walking_with() const;
         // In the same faction
-        bool is_ally( const Character &p ) const;
+        bool is_ally( const Character &p ) const override;
         // Is an ally of the player
         bool is_player_ally() const;
         // Isn't moving

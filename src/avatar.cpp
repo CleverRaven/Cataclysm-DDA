@@ -1185,6 +1185,15 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_your_followers );
 }
 
+bool avatar::is_ally( const Character &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    const npc &guy = dynamic_cast<const npc &>( p );
+    return guy.is_ally( *this );
+}
+
 bool avatar::cant_see( const tripoint &p )
 {
 
