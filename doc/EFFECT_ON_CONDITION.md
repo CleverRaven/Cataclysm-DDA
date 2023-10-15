@@ -2295,7 +2295,7 @@ Spawn a plastic bottle on ground
 ```json
 {
   "type": "effect_on_condition",
-  "id": "EOC_map_item_test2",
+  "id": "EOC_map_spawn_item",
   "effect": [
     { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
     { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
