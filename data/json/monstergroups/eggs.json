@@ -507,22 +507,22 @@
     "monsters": [ { "monster": "mon_strange_tadpole" } ]
   },
   {
-    "name": "GROUP_EGG_FOWLER_FROG",
+    "name": "GROUP_EGG_FOWLER_TOAD",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fowler_tadpole" } ]
   },
   {
-    "name": "GROUP_EGG_FOUL_FROG",
+    "name": "GROUP_EGG_FOUL_TOAD",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_foul_tadpole" } ]
   },
   {
-    "name": "GROUP_EGG_FREEDOM_FROG",
+    "name": "GROUP_EGG_FREEDOM_TOAD",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_freedom_tadpole" } ]
   },
   {
-    "name": "GROUP_EGG_ODD_FROG",
+    "name": "GROUP_EGG_ODD_TOAD",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_odd_tadpole" } ]
   },
