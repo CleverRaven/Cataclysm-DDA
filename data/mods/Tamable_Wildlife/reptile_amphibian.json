@@ -121,9 +121,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_fowler_frog",
+    "id": "mon_fowler_toad",
     "type": "MONSTER",
-    "copy-from": "mon_fowler_frog",
+    "copy-from": "mon_fowler_toad",
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -132,9 +132,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_foul_frog",
+    "id": "mon_foul_toad",
     "type": "MONSTER",
-    "copy-from": "mon_foul_frog",
+    "copy-from": "mon_foul_toad",
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -143,9 +143,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_freedom_frog",
+    "id": "mon_freedom_toad",
     "type": "MONSTER",
-    "copy-from": "mon_freedom_frog",
+    "copy-from": "mon_freedom_toad",
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -154,9 +154,9 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_odd_frog",
+    "id": "mon_odd_toad",
     "type": "MONSTER",
-    "copy-from": "mon_odd_frog",
+    "copy-from": "mon_odd_toad",
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
