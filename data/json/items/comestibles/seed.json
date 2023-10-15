@@ -264,7 +264,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
-    "description": "Some cattail seeds. Must be planted in shallow water.",
+    "description": "Some cattail seeds.  Must be planted in shallow water.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": {
       "plant_name": "cattail",
