@@ -21,13 +21,34 @@
     "type": "item_group",
     "//": "Tools commonly used by amateur blacksmiths. A subset of blacksmiths tools",
     "items": [
-      [ "anvil", 90 ],
-      [ "chisel", 90 ],
-      [ "metal_file", 90 ],
-      [ "hotcut", 30 ],
-      [ "metalworking_tongs", 90 ],
-      [ "hammer", 90 ],
-      [ "sandpaper", 90 ]
+      [ "basic_metalworking_a", 40 ],
+      [ "basic_metalworking_b", 60 ]
+    ]
+  },
+  {
+    "id": "basic_metalworking_a",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "anvil" ],
+      [ "chisel" ],
+      [ "metal_file" ],
+      [ "hotcut" ],
+      [ "metalworking_tongs" ],
+      [ "hammer" ],
+      [ "sandpaper" ]
+    ]
+  },
+  {
+    "id": "basic_metalworking_b",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "anvil" ],
+      [ "metal_file" ],
+      [ "metalworking_tongs" ],
+      [ "hammer" ],
+      [ "sandpaper" ]
     ]
   },
   {
@@ -185,7 +206,7 @@
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
-      { "group": "tools_simple_blacksmith", "prob": 20 },
+      { "group": "tools_simple_blacksmith", "prob": 10 },
       [ "jumper_cable_heavy", 2 ],
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
