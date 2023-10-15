@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "9x18mm 57-N-181S" },
     "description": "9x18mm Makarov ammunition with a 93gr steel core FMJ bullet.  The 9x18mm round was very common in the Eastern Bloc during the 20th century, and remained in Russian military service into the 21st.",
+    "ascii_picture": "9x18mm",
     "weight": "10 g",
     "volume": "97 ml",
     "longest_side": "25 mm",
