@@ -22,6 +22,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 - [Effects](#effects)
   - [Character effects](#character-effects)
   - [Item effects](#item-effects)
+  - [Map effects](#map-effects)
   - [Map Updates](#map-updates)
 
 ## Fields
@@ -2244,6 +2245,32 @@ You activate beta talker / NPC activates alpha talker. One must be a Character a
 Force you consume drug item
 ```json
 { "u_activate": "consume_drug" }
+```
+
+## Map effects
+
+#### `map_spawn_item`
+Spawn and place the item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "map_spawn_item" | **mandatory** | string or [variable object](##variable-object) | id of item or item group that should spawn |
+| "loc" | optional | [variable object](##variable-object) | Location that the item spawns. If not used, spawns from player's location |
+| "count" | optional | int or [variable object](##variable-object) | default 1; Number of item copies |
+| "container" | optional | string or [variable object](##variable-object) | id of container. Item is contained in container if specified |
+| "use_item_group" | optional | bool | default false; If true, it will instead pull an item from the item group given. |
+
+##### Examples
+Spawn a plastic bottle on ground
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_map_item_test2",
+  "effect": [
+    { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+    { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
+  ]
+},
 ```
 
 ## Map Updates

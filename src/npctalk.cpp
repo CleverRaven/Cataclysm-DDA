@@ -2851,8 +2851,20 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, std::string_view m
     };
 }
 
+static void map_add_item( item &it, tripoint_abs_ms target_pos )
+{
+    if( get_map().inbounds( target_pos ) ) {
+        get_map().add_item_or_charges( get_map().getlocal( target_pos ), it );
+    } else {
+        tinymap target_bay;
+        target_bay.load( project_to<coords::sm>( target_pos ), false );
+        target_bay.add_item_or_charges( target_bay.getlocal( target_pos ), it );
+    }
+}
+
 static void receive_item( itype_id &item_name, int count, std::string_view container_name,
-                          const dialogue &d, bool use_item_group, bool suppress_message )
+                          const dialogue &d, bool use_item_group, bool suppress_message, bool add_talker = true,
+                          const tripoint_abs_ms &p = tripoint_abs_ms() )
 {
     item new_item;
     if( use_item_group ) {
@@ -2863,16 +2875,24 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
     if( container_name.empty() ) {
         if( new_item.count_by_charges() ) {
             new_item.charges = count;
-            d.actor( false )->i_add_or_drop( new_item );
+            if( add_talker ) {
+                d.actor( false )->i_add_or_drop( new_item );
+            } else {
+                map_add_item( new_item, p );
+            }
         } else {
             for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
                 if( !new_item.ammo_default().is_null() ) {
                     new_item.ammo_set( new_item.ammo_default() );
                 }
-                d.actor( false )->i_add_or_drop( new_item );
+                if( add_talker ) {
+                    d.actor( false )->i_add_or_drop( new_item );
+                } else {
+                    map_add_item( new_item, p );
+                }
             }
         }
-        if( !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
@@ -2887,15 +2907,19 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
         new_item.charges = count;
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
-        d.actor( false )->i_add_or_drop( container );
-        if( !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+        if( add_talker ) {
+            d.actor( false )->i_add_or_drop( container );
+        } else {
+            map_add_item( container, p );
+        }
+        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
         }
     }
 }
 
-void talk_effect_fun_t::set_u_spawn_item( const JsonObject &jo, std::string_view member )
+void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view member )
 {
     str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
     str_or_var container_name;
@@ -2912,11 +2936,22 @@ void talk_effect_fun_t::set_u_spawn_item( const JsonObject &jo, std::string_view
     } else {
         count = get_dbl_or_var( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name, use_item_group,
-               suppress_message]( dialogue & d ) {
+    bool add_talker;
+    if( member == "u_spawn_item" ) {
+        add_talker = true;
+    } else if( member == "map_spawn_item" ) {
+        add_talker = false;
+    }
+    std::optional<var_info> loc_var;
+    if( jo.has_object( "loc" ) ) {
+        loc_var = read_var_info( jo.get_object( "loc" ) );
+    }
+    function = [item_name, count, container_name, use_item_group, suppress_message,
+               add_talker, loc_var]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
-        receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group, suppress_message );
+        const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
+        receive_item( iname, count.evaluate( d ), container_name.evaluate( d ), d, use_item_group,
+                      suppress_message, add_talker, target_location );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
     likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
@@ -5545,13 +5580,7 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view mem
         }
         item_location *it = d.actor( is_npc )->get_item();
         if( it && it->get_item() ) {
-            if( get_map().inbounds( target_pos ) ) {
-                get_map().add_item_or_charges( get_map().getlocal( target_pos ), *it->get_item() );
-            } else {
-                tinymap target_bay;
-                target_bay.load( project_to<coords::sm>( target_pos ), false );
-                target_bay.add_item_or_charges( target_bay.getlocal( target_pos ), *it->get_item() );
-            }
+            map_add_item( *it->get_item(), target_pos );
             add_msg( _( success_message.evaluate( d ) ) );
             it->remove_item();
         }
@@ -5708,7 +5737,7 @@ parsers = {
     { "add_mission", jarg::member, &talk_effect_fun_t::set_add_mission },
     { "u_sell_item", jarg::member, &talk_effect_fun_t::set_u_sell_item },
     { "u_buy_item", jarg::member, &talk_effect_fun_t::set_u_buy_item },
-    { "u_spawn_item", jarg::member, &talk_effect_fun_t::set_u_spawn_item },
+    { "u_spawn_item", jarg::member, &talk_effect_fun_t::set_spawn_item },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun_t::set_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun_t::set_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun_t::set_clear_npc_rule },
@@ -5716,6 +5745,7 @@ parsers = {
     { "set_npc_aim_rule", jarg::member, &talk_effect_fun_t::set_npc_aim_rule },
     { "set_npc_cbm_reserve_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_reserve_rule },
     { "set_npc_cbm_recharge_rule", jarg::member, &talk_effect_fun_t::set_npc_cbm_recharge_rule },
+    { "map_spawn_item", jarg::member, &talk_effect_fun_t::set_spawn_item },
     { "mapgen_update", jarg::member, &talk_effect_fun_t::set_mapgen_update },
     { "alter_timed_events", jarg::member, &talk_effect_fun_t::set_alter_timed_events },
     { "revert_location", jarg::member, &talk_effect_fun_t::set_revert_location },

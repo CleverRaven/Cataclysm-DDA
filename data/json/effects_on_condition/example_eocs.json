@@ -163,7 +163,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_map_item_test",
+    "id": "EOC_map_item_test1",
     "effect": [
       { "u_location_variable": { "context_val": "loc" } },
       {
@@ -179,9 +179,17 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_map_condition_test",
+    "id": "EOC_map_item_test2",
     "effect": [
       { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_condition_test",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "North terrain: TRANSPARENT" },
@@ -207,7 +215,7 @@
         "else": { "u_message": "East furniture: Not TRANSPARENT" }
       },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
         "target_var": { "context_val": "loc" }
       },
       {

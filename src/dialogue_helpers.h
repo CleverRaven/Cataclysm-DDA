@@ -75,7 +75,7 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
-        void set_u_spawn_item( const JsonObject &jo, std::string_view member );
+        void set_spawn_item( const JsonObject &jo, std::string_view member );
         void set_u_buy_item( const JsonObject &jo, std::string_view member );
         void set_u_spend_cash( const JsonObject &jo, std::string_view member );
         void set_u_sell_item( const JsonObject &jo, std::string_view member );
