@@ -4731,8 +4731,8 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
 }
 
 static void run_item_eocs( const dialogue &d, bool is_npc, std::vector<item_location> items,
-                           std::string_view option, std::vector<effect_on_condition_id> true_eocs,
-                           std::vector<effect_on_condition_id> false_eocs, std::vector <item_search_data> data,
+                           std::string_view option, const std::vector<effect_on_condition_id> &true_eocs,
+                           const std::vector<effect_on_condition_id> &false_eocs, const std::vector <item_search_data> &data,
                            const item_menu &f, const item_menu_mul &f_mul )
 {
     Character *guy = d.actor( is_npc )->get_character();
@@ -4890,7 +4890,7 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
             if( rl_dist( center, pos ) >= dov_min_radius.evaluate( d ) ) {
                 for( item &it : get_map().i_at( pos ) ) {
                     item_location loc( map_cursor( pos ), &it );
-                    items.push_back( item_location( map_cursor( pos ), &it ) );
+                    items.emplace_back( item_location( map_cursor( pos ), &it ) );
                 }
             }
         }
