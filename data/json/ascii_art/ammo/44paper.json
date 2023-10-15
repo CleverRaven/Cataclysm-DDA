@@ -2,9 +2,6 @@
   {
     "type": "ascii_art",
     "id": "44army",
-    "picture": [
-      "<color_light_gray>,",
-      "<color_white>I"
-    ]
+    "picture": [ "<color_light_gray>,", "<color_white>I" ]
   }
 ]

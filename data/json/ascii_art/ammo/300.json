@@ -2,10 +2,6 @@
   {
     "type": "ascii_art",
     "id": "300_winmag",
-    "picture": [
-      "<color_yellow>;",
-      "‼",
-      "\""
-    ]
+    "picture": [ "<color_yellow>;", "‼", "\"" ]
   }
 ]

@@ -2,10 +2,6 @@
   {
     "type": "ascii_art",
     "id": "signal_flare",
-    "picture": [
-      "<color_red>││",
-      "║║",
-      "╨╨"
-    ]
+    "picture": [ "<color_red>││", "║║", "╨╨" ]
   }
 ]
