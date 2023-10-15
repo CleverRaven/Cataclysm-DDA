@@ -118,6 +118,7 @@
       [ "knee_pads", 40 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "folded_skateboard_generic", 10 ],
       [ "wheel_skate", 50 ],
       [ "manual_throw", 12 ],
       { "prob": 12, "group": "protein_powder_bottle_plastic_small_1_9" },

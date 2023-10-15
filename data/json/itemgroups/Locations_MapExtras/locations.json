@@ -2061,6 +2061,7 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 20 ],
       [ "roller_shoes_off", 20 ],
+      [ "folded_skateboard_generic", 20 ],
       [ "survnote", 3 ],
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },
