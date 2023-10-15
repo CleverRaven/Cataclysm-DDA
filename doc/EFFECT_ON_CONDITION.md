@@ -896,6 +896,36 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
 ```
 
+### `map_terrain_with_flag`, `map_furniture_with_flag`
+- type: string or [variable object](##variable-object)
+- return true if the terrain or furniture has specific flag
+- `loc` will specify location of terrain or furniture (**mandatory**)
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Check the north terrain or furniture has `TRANSPARENT` flag.
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_ter_furn_check",
+  "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
+      }
+  ]
+},
+```
 
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
@@ -2248,36 +2278,6 @@ Force you consume drug item
 ```
 
 ## Map effects
-
-#### `map_terrain_with_flag`, `map_furniture_with_flag`
-Return true if the terrain or furniture has specific flag
-
-| Syntax | Optionality | Value  | Info |
-| ------ | ----------- | ------ | ---- | 
-| "map_terrain_with_flag" / "map_furniture_with_flag" | **mandatory** | string or [variable object](##variable-object) | id of flag that terrain or furniture should have |
-| "loc" | **mandatory** | [variable object](##variable-object) | Specify location of terrain or furniture. |
-
-##### Examples
-Check the north terrain or furniture has `TRANSPARENT` flag.
-```json
-{
-  "type": "effect_on_condition",
-  "id": "EOC_ter_furn_check",
-  "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
-      {
-        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
-        "then": { "u_message": "North terrain: TRANSPARENT" },
-        "else": { "u_message": "North terrain: Not TRANSPARENT" }
-      },
-      {
-        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
-        "then": { "u_message": "North furniture: TRANSPARENT" },
-        "else": { "u_message": "North furniture: Not TRANSPARENT" }
-      }
-  ]
-},
-```
 
 #### `map_spawn_item`
 Spawn and place the item
