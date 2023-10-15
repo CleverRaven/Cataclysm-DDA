@@ -1122,7 +1122,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
 }
 
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
-                                     const array_of_grids_of<const bool> &floor_caches, const tripoint &origin )
+                                     const array_of_grids_of<const bool> &floor_caches, const tripoint &origin ) const
 {
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
