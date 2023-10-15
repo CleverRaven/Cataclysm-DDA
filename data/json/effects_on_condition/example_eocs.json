@@ -184,8 +184,13 @@
       { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
-        "then": { "u_message": "North: TRANSPARENT" },
-        "else": { "u_message": "North: Not TRANSPARENT" }
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
       },
       {
         "set_string_var": { "mutator": "loc_relative_u", "target": "(1,0,0)" },
@@ -193,8 +198,13 @@
       },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
-        "then": { "u_message": "East: TRANSPARENT" },
-        "else": { "u_message": "East: Not TRANSPARENT" }
+        "then": { "u_message": "East terrain: TRANSPARENT" },
+        "else": { "u_message": "East terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "East furniture: TRANSPARENT" },
+        "else": { "u_message": "East furniture: Not TRANSPARENT" }
       },
       {
         "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
@@ -202,8 +212,13 @@
       },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
-        "then": { "u_message": "South: TRANSPARENT" },
-        "else": { "u_message": "South: Not TRANSPARENT" }
+        "then": { "u_message": "South terrain: TRANSPARENT" },
+        "else": { "u_message": "South terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "South furniture: TRANSPARENT" },
+        "else": { "u_message": "South furniture: Not TRANSPARENT" }
       },
       {
         "set_string_var": { "mutator": "loc_relative_u", "target": "(-1,0,0)" },
@@ -211,8 +226,13 @@
       },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
-        "then": { "u_message": "West: TRANSPARENT" },
-        "else": { "u_message": "West: Not TRANSPARENT" }
+        "then": { "u_message": "West terrain: TRANSPARENT" },
+        "else": { "u_message": "West terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "West furniture: TRANSPARENT" },
+        "else": { "u_message": "West furniture: Not TRANSPARENT" }
       }
     ]
   }

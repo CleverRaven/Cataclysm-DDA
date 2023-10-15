@@ -5653,7 +5653,7 @@ talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_na
 static const
 std::vector<sub_effect_parser>
 parsers = {
-    {"u_add_effect", "npc_add_effect", jarg::member, &talk_effect_fun_t::set_add_effect },
+    { "u_add_effect", "npc_add_effect", jarg::member, &talk_effect_fun_t::set_add_effect },
     { "u_lose_effect", "npc_lose_effect", jarg::member, &talk_effect_fun_t::set_remove_effect },
     { "u_add_var", "npc_add_var", jarg::string, &talk_effect_fun_t::set_add_var },
     { "u_lose_var", "npc_lose_var", jarg::string, &talk_effect_fun_t::set_remove_var },
