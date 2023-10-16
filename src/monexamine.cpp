@@ -663,7 +663,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_CAN_BE_CULLED ) ) {
-        amenu.addentry( cull_pet, true, 'y', _( "Cull %s" ), pet_name );
+        amenu.addentry( cull_pet, true, 'k', _( "Cull %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
