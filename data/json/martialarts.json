@@ -300,7 +300,7 @@
       {
         "id": "buff_brawling_onpause",
         "name": "Preparation to Hit",
-        "description": "You take a moment to prepare your stance before the enemy, allowing you to hit a little more accurately.\n\n+1 accuracy. Lasts 2 turns.  Stacks 2 times",
+        "description": "You take a moment to prepare your stance before the enemy, allowing you to hit a little more accurately.\n\n+1 accuracy.  Lasts 2 turns.  Stacks 2 times",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
