@@ -1337,7 +1337,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of EOD overhand protectors", "str_pl": "pairs of EOD overhand protectors" },
-    "description": "A pair of fragmentation resistant pads for wearing over the backs of one's hands, providing protection from shrapnel in case things go wrong.  Sold as an accessory for explosive ordnance disposal suits, but not often used.",
+    "description": "A pair of fragmentation resistant pads for wearing over the backs of one's hands, providing protection from shrapnel in case things go wrong.  Sold as an accessory for explosive ordnance disposal suits, but not often used due to the difficulty in armoring the entire hand and retaining dexterity.",
     "weight": "610 g",
     "volume": "1000 ml",
     "price": 70000,
@@ -1349,7 +1349,7 @@
     "flags": [ "STURDY", "OUTER", "ONLY_ONE", "NO_SALVAGE" ],
     "armor": [
       {
-        "encumbrance": 5,
+        "encumbrance": 10,
         "coverage": 40,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r" ],
