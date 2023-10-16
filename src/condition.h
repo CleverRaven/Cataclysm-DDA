@@ -48,7 +48,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var", "expects_vars",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
-        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
+        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "map_terrain_with_flag", "map_furniture_with_flag", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
         "u_is_height", "npc_is_height", "math",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag", "u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
@@ -167,6 +167,7 @@ struct conditional_t {
         void set_days_since( const JsonObject &jo, std::string_view member );
         void set_is_season( const JsonObject &jo, std::string_view member );
         void set_is_weather( const JsonObject &jo, std::string_view member );
+        void set_map_ter_furn_with_flag( const JsonObject &jo, std::string_view member );
         void set_mod_is_loaded( const JsonObject &jo, std::string_view member );
         void set_mission_goal( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_has_faction_trust( const JsonObject &jo, std::string_view member );
