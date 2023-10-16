@@ -1679,19 +1679,20 @@ bool read_activity_actor::player_read( avatar &you )
     std::vector<std::string> cant_learn;
 
     std::vector<Character *> learners;
-    for( npc *npc_learner : you.get_crafting_helpers() ) {
-        const book_mastery mastery = npc_learner->get_book_mastery( *book );
-        const bool morale_req = npc_learner->fun_to_read( *book ) || npc_learner->has_morale_to_read();
+    for( Character *learner : you.get_crafting_helpers() ) {
+        const book_mastery mastery = learner->get_book_mastery( *book );
+        const bool morale_req = learner->fun_to_read( *book ) || learner->has_morale_to_read();
 
-        if( npc_learner->is_deaf() && npc_learner != reader ) {
+        if( learner->is_deaf() && learner != reader ) {
             continue;
         }
 
         if( // fun readers
-            ( mastery == book_mastery::MASTERED && npc_learner->fun_to_read( *book ) ) ||
+            ( mastery == book_mastery::MASTERED && learner->fun_to_read( *book ) )
             // reading for experience
-            ( mastery == book_mastery::LEARNING && morale_req ) ) {
-            learners.push_back( npc_learner->as_character() );
+            || ( mastery == book_mastery::LEARNING && morale_req )
+        ) {
+            learners.push_back( learner );
         }
     }
 
@@ -1699,7 +1700,7 @@ bool read_activity_actor::player_read( avatar &you )
     // can understand the book
     learners.push_back( you.as_character() );
 
-    // NPCs can move while learning from a book
+    // Characters can move while learning from a book
     // Check ID of all learners to avoid
     // getting stuck in an infinite loop
     bool learner_left = true;
@@ -1722,8 +1723,8 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const time_duration npc_read_time = you.time_to_read( *book, *reader, learner );
-                penalty = static_cast<double>( moves_total ) / to_moves<int>( npc_read_time );
+                const time_duration read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / to_moves<int>( read_time );
             }
         } else {
             continue;   // reading for fun
