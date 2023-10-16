@@ -22,6 +22,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 - [Effects](#effects)
   - [Character effects](#character-effects)
   - [Item effects](#item-effects)
+  - [Map effects](#map-effects)
   - [Map Updates](#map-updates)
 
 ## Fields
@@ -895,6 +896,36 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
 ```
 
+### `map_terrain_with_flag`, `map_furniture_with_flag`
+- type: string or [variable object](##variable-object)
+- return true if the terrain or furniture has specific flag
+- `loc` will specify location of terrain or furniture (**mandatory**)
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Check the north terrain or furniture has `TRANSPARENT` flag.
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_ter_furn_check",
+  "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
+      }
+  ]
+},
+```
 
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
@@ -1019,6 +1050,7 @@ Other EOCs have some variables as well that they have access to, they are as fol
 | mutation: "processed_eocs" | { "this", `mutation_id` } |
 | mutation: "deactivated_eocs" | { "this", `mutation_id` } |
 | damage_type: "ondamage_eocs" | { "bp", `bodypart_id` }, { "damage_taken", `double` damage the character will take post mitigation }, { "total_damage", `double` damage pre mitigation } |
+| furniture: "examine_action" | { "this", `furniture_id` }, { "pos", `tripoint` } |
 
 
 # Effects
@@ -2243,6 +2275,32 @@ You activate beta talker / NPC activates alpha talker. One must be a Character a
 Force you consume drug item
 ```json
 { "u_activate": "consume_drug" }
+```
+
+## Map effects
+
+#### `map_spawn_item`
+Spawn and place the item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "map_spawn_item" | **mandatory** | string or [variable object](##variable-object) | id of item or item group that should spawn |
+| "loc" | optional | [variable object](##variable-object) | Location that the item spawns. If not used, spawns from player's location |
+| "count" | optional | int or [variable object](##variable-object) | default 1; Number of item copies |
+| "container" | optional | string or [variable object](##variable-object) | id of container. Item is contained in container if specified |
+| "use_item_group" | optional | bool | default false; If true, it will instead pull an item from the item group given. |
+
+##### Examples
+Spawn a plastic bottle on ground
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_map_spawn_item",
+  "effect": [
+    { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+    { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
+  ]
+},
 ```
 
 ## Map Updates
