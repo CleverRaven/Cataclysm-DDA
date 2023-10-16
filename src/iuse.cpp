@@ -4185,12 +4185,18 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
         for( const auto &dfield : gasfield ) {
             const field_entry &entry = dfield.second;
             int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor );
+            // Not set, skip this field
+            if( gas_abs_factor == 0 ) {
+                continue;
+            }
             const field_intensity_level &int_level = entry.get_intensity_level();
             // 6000 is the amount of "gas absorbed" charges in a full 100 capacity gas mask cartridge.
             // factor/concentration gives an amount of seconds the cartidge is expected to last in current conditions.
             /// 6000/that is the amount of "gas absorbed" charges to tick up every second in order to reach that number.
             float gas_absorbed = 6000 / ( static_cast<float>( gas_abs_factor ) / static_cast<float>
                                           ( int_level.concentration ) );
+            add_msg_debug( debugmode::DF_IUSE, "Absorbing %g/60 from field: 6000 / (%d * %d)", gas_absorbed,
+                           gas_abs_factor, int_level.concentration );
             if( gas_absorbed > 0 ) {
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_absorbed );
             }
