@@ -557,12 +557,6 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_basement_bionic",
-    "name": "Shady Basement",
-    "terrain": [ "basement_bionic" ]
-  },
-  {
-    "type": "start_location",
     "id": "sloc_zoo_giftshop",
     "name": "Zoo (Giftshop)",
     "terrain": [ "zoo_0_1" ]
