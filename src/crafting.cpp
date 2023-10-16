@@ -412,16 +412,16 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 }
 
 int Character::available_assistant_count( const recipe &rec ) const
-// NPCs around you should assist in batch production if they have the skills
+// Characters around you should assist in batch production if they have the skills
 {
     if( rec.is_practice() ) {
         return 0;
     }
     // TODO: Cache them in activity, include them in modifier calculations
-    const auto helpers = get_crafting_helpers();
+    const std::vector<Character *> helpers = get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
-    [&]( const npc * np ) {
-        return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
+    [&]( const Character * guy ) {
+        return guy->get_skill_level( rec.skill_used ) >= rec.difficulty;
     } );
 }
 
@@ -933,9 +933,9 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
 
     const int skill_cap = making.get_skill_cap();
     const int batch_size = craft.get_making_batch_size();
-    // NPCs assisting or watching should gain experience...
-    for( npc *helper : get_crafting_helpers() ) {
-        // If the NPC can understand what you are doing, they gain more exp
+    // Characters assisting or watching should gain experience...
+    for( Character *helper : get_crafting_helpers() ) {
+        // If the Character can understand what you are doing, they gain more exp
         if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
             helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
                               skill_cap );
@@ -984,8 +984,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         std::optional<time_duration> max_experience;
     };
 
-    const std::vector<npc *> helpers = get_crafting_helpers();
-    std::vector<Character *> all_crafters{ helpers.begin(), helpers.end() };
+    std::vector<Character *> all_crafters = get_crafting_helpers();
     all_crafters.push_back( this );
 
     bool player_gained_prof = false;
@@ -1105,31 +1104,31 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
         player_weighted_skill_average *= -1;
     }
 
-    float npc_helpers_weighted_average = 0.0f;
-    for( const npc *np : get_crafting_helpers() ) {
-        // can the NPC actually craft this recipe?
-        bool has_all_skills = np->get_skill_level( making.skill_used ) >= making.difficulty;
+    float helpers_weighted_average = 0.0f;
+    for( const Character *guy : get_crafting_helpers() ) {
+        // can they actually craft this recipe?
+        bool has_all_skills = guy->get_skill_level( making.skill_used ) >= making.difficulty;
         if( has_all_skills ) {
             for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
-                if( np->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
+                if( guy->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
                     has_all_skills = false;
                 }
             }
         }
-        if( has_all_skills && !making.character_has_required_proficiencies( *np ) ) {
+        if( has_all_skills && !making.character_has_required_proficiencies( *guy ) ) {
             has_all_skills = false;
         }
         if( has_all_skills ) {
-            const float helper_skill_average = std::max( np->get_recipe_weighted_skill_average( making ),
+            const float helper_skill_average = std::max( guy->get_recipe_weighted_skill_average( making ),
                                                0.0f );
-            npc_helpers_weighted_average += std::pow( helper_skill_average, 2 );
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+            helpers_weighted_average += std::pow( helper_skill_average, 2 );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->name );
         }
     }
 
     // Use a sum of squares to determine the final weighted average.
     negative = false;
-    float summed_skills = player_weighted_skill_average + npc_helpers_weighted_average;
+    float summed_skills = player_weighted_skill_average + helpers_weighted_average;
     if( summed_skills < 0 ) {
         negative = true;
         // Store that it was negative to reapply later, then make it positive because we need a sqrt.
@@ -2969,11 +2968,11 @@ void remove_ammo( item &dis_item, Character &p )
     }
 }
 
-std::vector<npc *> Character::get_crafting_helpers() const
+std::vector<Character *> Character::get_crafting_helpers() const
 {
-    return g->get_npcs_if( [this]( const npc & guy ) {
+    return g->get_characters_if( [this]( const Character & guy ) {
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        return getID() != guy.getID() && !guy.in_sleep_state() && guy.is_obeying( *this ) &&
+        return getID() != guy.getID() && guy.is_npc() && !guy.in_sleep_state() && guy.is_obeying( *this ) &&
                rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
                get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );

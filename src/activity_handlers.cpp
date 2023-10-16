@@ -2691,7 +2691,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     recipe_id id( act->name );
     std::string itname;
     const inventory &inven = you->crafting_inventory();
-    const std::vector<npc *> &helpers = you->get_crafting_helpers();
+    const std::vector<Character *> &helpers = you->get_crafting_helpers();
     if( act->index != 0 ) {
         // act->name is recipe_id
         itname = id->result_name();
