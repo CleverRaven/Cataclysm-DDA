@@ -1099,7 +1099,6 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,
-    "thirst_modifier": -0.95,
     "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
@@ -1135,7 +1134,7 @@
       "HUMAN"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form" ]
+    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
   },
   {
     "type": "mutation",
