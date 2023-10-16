@@ -1408,7 +1408,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 9, "cut": 27 }
   },
