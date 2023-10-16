@@ -1106,6 +1106,18 @@
     "//": "Healing values copied from the Regeneration mutation",
     "attackcost_modifier": 900,
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 40 },
+      { "part": "leg_l", "ignored": 40 },
+      { "part": "leg_r", "ignored": 40 },
+      { "part": "foot_l", "ignored": 40 },
+      { "part": "foot_r", "ignored": 40 },
+      { "part": "arm_l", "ignored": 40 },
+      { "part": "arm_r", "ignored": 40 },
+      { "part": "hand_l", "ignored": 40 },
+      { "part": "hand_r", "ignored": 40 },
+      { "part": "torso", "ignored": 40 }
+    ],
     "ignored_by": [
       "MAMMAL",
       "AMPHIBIAN",
