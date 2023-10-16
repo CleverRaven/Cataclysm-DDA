@@ -4292,6 +4292,14 @@ The contents of use_action fields can either be a string indicating a built-in f
     ]
 },
 "use_action" : {
+    "type" : "deploy_furn",
+    "furn_type" : "f_foo", // What furniture this item will be transmuted into
+},
+"use_action" : {
+    "type" : "deploy_appliance",
+    "base" : "item_id", // Base item of the appliance this item will turn into
+},
+"use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough

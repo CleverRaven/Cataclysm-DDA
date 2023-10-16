@@ -9885,7 +9885,7 @@ bool item::is_emissive() const
 
 bool item::is_deployable() const
 {
-    return type->can_use( "deploy_furn" );
+    return type->can_use( "deploy_furn" ) || type->can_use( "deploy_appliance" );
 }
 
 bool item::is_tool() const
