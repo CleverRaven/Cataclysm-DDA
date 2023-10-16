@@ -51,6 +51,12 @@ Sound-triggered traps
 Item transformation can now pick variant items to transform into
 You can now collect grappling hooks and ladders from the ledge above.
 Adds priority parameter for special placement
+Professions can start with multiple martial arts
+Microlab Mapgen is now parameter based.
+Allow NPC_DEATH EoC to prevent npc die
+Allow NPC doctors to install and remove CBMs from player allies
+Add 3 variants of roadblock and rebalanced loot
+Look up and down with 3d vision off
 
 
 ## Content:
@@ -89,6 +95,10 @@ JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
 Vehicles now contain heater, and some contain AC
+NPC Elvira Fish, Circulations
+HWP breacher configuration
+Added a new loadout to start as an EOD technician
+Add a variant of standing stones for fields
 
 
 ## Interface:
@@ -115,6 +125,11 @@ Walking into ledges examines them.
 Accessible item insert menu
 Show insertion failure reasons in Insert menu and AIM
 Select default bodypart when applying bandage
+Show zones on other z-levels in zone manager
+Remember inventory show/hide all contents option state
+Display what mod the contents belong to, scenario, profession, map
+Find items that cover body part
+Enable history for AIM and inventory filters
 
 
 ## Mods:
@@ -163,6 +178,7 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
+Aftershock: Make speed freak a background
 
 
 ## Balance:
@@ -199,6 +215,10 @@ Add NO_SPELLCASTING flag to Stunned effect
 Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
+Improve efficiency of non-vehicle solar panels
+Gas mask cartriges last quite a bit longer, and lower concentration gas takes less charges
+You will fear the night slightly less
+Audit weapon categories for swords and sword-based martial arts
 
 
 ## Bugfixes:
@@ -276,6 +296,17 @@ Don't teleport items to the ground if the vehicle storage destination is full
 Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
 Use correct actor in bulk trade messages
+Restore Krav Maga usage with some automatic rifles
+Ensure Rubik responds to item theft, instead of Luliya
+Lower volume of MRE packages
+Amend Refugee Doctor and Broker, Rubik, Isolated Artisans and Merchant Caravans with proper traits
+Fix bugs with Para-amputee professions
+Make cattail non-plantable
+Resolve several minor Aftershock Json bugs
+Don't show vitamin level change messages of NPCs to player
+Fix Farstep description and some Paraclesian spells missing deduction skill
+Fix aftershock several chemrig bugs
+Gas masks only use charges on fields with gas_absorption_factor set
 
 
 ## Performance:
@@ -311,6 +342,7 @@ Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
 EVENT EOCs provide beta talker
 [EOC]Inventory selector
+[EoC] Simple if-else statement
 
 
 ## Build:
@@ -321,10 +353,12 @@ Faster local VS builds
 Fast Windows iteration with llvm-lib and lld-link
 Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
+Add a launch and debug configuration to VS Code Dev Container
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
+Make furniture->lockpick_message translatable
 
 
 # 0.G (Gaiman)
