@@ -2833,7 +2833,7 @@
       },
       {
         "id": "stockings_purple",
-        "name": { "str": "pair of purple stockings", "str_pl": "pairs of purple stockings"  },
+        "name": { "str": "pair of purple stockings", "str_pl": "pairs of purple stockings" },
         "description": "This one is colored purple.",
         "weight": 50,
         "color": "magenta",
