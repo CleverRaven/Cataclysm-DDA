@@ -162,5 +162,28 @@
     "volume": "465 ml",
     "category": "spare_parts",
     "to_hit": -1
+  },
+  {
+    "id": "sheet_gossamer",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "gossamer sheet" },
+    "description": "A 12-inch by 24-inch sheet of gossamer fabric, like a swatch plucked from a rainbow.",
+    "weight": "25 g",
+    "volume": "47 ml",
+    "price": 2000,
+    "price_postapoc": 20,
+    "material": [ "fae_cotton" ],
+    "symbol": "=",
+    "color": "white"
+  },
+  {
+    "id": "sheet_gossamer_patchwork",
+    "copy-from": "sheet_gossamer",
+    "type": "GENERIC",
+    "name": { "str": "patchwork gossamer sheet" },
+    "description": "A 12-inch by 24-inch sheet of cotton sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
+    "price": 200,
+    "price_postapoc": 20
   }
 ]

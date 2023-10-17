@@ -104,7 +104,7 @@
     "type": "material",
     "id": "fae_cotton",
     "name": "gossamer",
-    "//": "Material for use in fae clothing",
+    "//": "Material for use in fae clothing.  It's 2/3rds the weight and 2/3rds as encumbering as cotton.",
     "density": 1.05,
     "specific_heat_liquid": 0.02,
     "specific_heat_solid": 0.02,
