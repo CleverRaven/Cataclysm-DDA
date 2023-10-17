@@ -452,6 +452,115 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "tunic_gossamer",
+    "type": "ARMOR",
+    "copy-from": "tunic",
+    "name": { "str": "gossamer tunic" },
+    "description": "A simple garment made of gossamer.  It's very light, and the fabric shimmers in a rainbow of colors in the sunlight.",
+    "weight": "167 g",
+    "volume": "1250 ml",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "price": 20000,
+    "price_postapoc": 200,
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
+    ]
+  },
+  {
+    "id": "sleeveless_tunic_gossamer",
+    "type": "ARMOR",
+    "copy-from": "tunic",
+    "name": { "str": "sleeveless gossamer tunic" },
+    "description": "A simple, sleeveless garment made of gossamer.  It's very light, and the fabric shimmers in a rainbow of colors in the sunlight.",
+    "weight": "125 g",
+    "volume": "1250 ml",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "price": 20000,
+    "price_postapoc": 200,
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
+    ]
+  },
+  {
+    "id": "cloak_gossamer",
+    "type": "ARMOR",
+    "copy-from": "cloak",
+    "name": { "str": "gossamer cloak" },
+    "description": "A gossamer cloak meant to be thrown over your body.  It looks like ripples of multicolored light when worn.",
+    "weight": "783 g",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "price": 30000,
+    "price_postapoc": 300,
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "gloves_light_gossamer",
+    "type": "ARMOR",
+    "copy-from": "gloves_light",
+    "name": { "str": "gossamer gloves" },
+    "description": "A pair of gossamer gloves.",
+    "weight": "79 g",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "price": 10000,
+    "price_postapoc": 100,
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "pants_gossamer",
+    "type": "ARMOR",
+    "copy-from": "pants",
+    "name": { "str_sp": "gossamer trousers" },
+    "description": "A pair of gossamer pants with two pockets.  They shimmer opalescently.",
+    "weight": "373 g",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "price": 15000,
+    "price_postapoc": 150,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "mt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",

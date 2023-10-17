@@ -102,6 +102,32 @@
   },
   {
     "type": "material",
+    "id": "fae_cotton",
+    "name": "gossamer",
+    "//": "Material for use in fae clothing",
+    "density": 1.05,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "chip_resist": 6,
+    "breathability": "GOOD",
+    "wind_resist": 70,
+    "repaired_with": "fae_cotton_patchwork",
+    "salvaged_into": "fae_cotton_patchwork",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 0.02 },
+      { "fuel": 2, "smoke": 1, "burn": 0.04 },
+      { "fuel": 3, "smoke": 1, "burn": 0.06 }
+    ],
+    "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 2, "bullet": 3 },
+    "repair_difficulty": 4
+  },
+  {
+    "type": "material",
     "id": "dreamstuff",
     "name": "Dreamdross",
     "//": "Brass is the base metal of dreamdross with one fourth the density and added breathability",
