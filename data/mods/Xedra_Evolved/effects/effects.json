@@ -755,7 +755,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "mixed",
-    "max_intensity": 999,
+    "max_intensity": 100000,
     "show_intensity": false,
     "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]

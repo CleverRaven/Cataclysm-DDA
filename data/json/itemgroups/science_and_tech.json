@@ -23,6 +23,7 @@
       { "group": "wallets_science", "prob": 2 },
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "badge_doctor", 2 ],
+      [ "lanyard", 1 ],
       [ "cleansuit", 5 ],
       { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 20, "charges": [ 0, 100 ] },
