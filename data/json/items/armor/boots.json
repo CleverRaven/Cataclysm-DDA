@@ -2781,8 +2781,8 @@
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
     ],
-        "variant_type": "generic",
-        "variants": [
+    "variant_type": "generic",
+    "variants": [
       {
         "id": "stockings_black",
         "name": { "str": "pair of black stockings" },
