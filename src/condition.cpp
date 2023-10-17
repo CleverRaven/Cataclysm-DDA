@@ -3488,7 +3488,7 @@ conditional_t::conditional_t( const JsonObject &jo )
     }
 }
 
-conditional_t::conditional_t( const std::string_view type )
+conditional_t::conditional_t( std::string_view type )
 {
     bool found = false;
     for( const condition_parser &p : parsers_simple ) {

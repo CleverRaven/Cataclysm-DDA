@@ -70,7 +70,7 @@ struct conditional_t {
 
     public:
         conditional_t() = default;
-        explicit conditional_t( const std::string_view type );
+        explicit conditional_t( std::string_view type );
         explicit conditional_t( const JsonObject &jo );
 
         void set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
