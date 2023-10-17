@@ -70,7 +70,7 @@ struct conditional_t {
 
     public:
         conditional_t() = default;
-        explicit conditional_t( const std::string &type );
+        explicit conditional_t( const std::string_view type );
         explicit conditional_t( const JsonObject &jo );
 
         void set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
@@ -154,9 +154,7 @@ struct conditional_t {
         void set_mission_complete( bool is_npc );
         void set_mission_incomplete( bool is_npc );
         void set_mission_failed( bool is_npc );
-        void set_npc_available( const JsonObject &, std::string_view, bool is_npc ) {
-            set_npc_available( is_npc );
-        }
+        void set_npc_service( const JsonObject &, std::string_view, bool is_npc );
         void set_npc_available( bool is_npc );
         void set_npc_following( bool is_npc );
         void set_npc_friend( bool is_npc );

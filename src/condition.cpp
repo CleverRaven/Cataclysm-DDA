@@ -84,9 +84,7 @@ struct condition_parser {
         has_beta = true;
     }
     condition_parser( std::string_view key_alpha_, f_t_simple f_ ) : key_alpha( key_alpha_ ),
-        f_simple( f_ ) {
-        has_beta = true;
-    }
+        f_simple( f_ ) {}
     condition_parser( std::string_view key_alpha_, std::string_view key_beta_,
                       f_t_beta_simple f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), f_beta_simple( f_ ) {
         has_beta = true;
@@ -1220,6 +1218,15 @@ void conditional_t::set_mission_failed( bool is_npc )
     condition = [is_npc]( dialogue const & d ) {
         mission *miss = d.actor( is_npc )->selected_mission();
         return miss && miss->has_failed();
+    };
+}
+
+void conditional_t::set_npc_service( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    condition = [is_npc, dov]( dialogue & d ) {
+        return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() ) &&
+               d.actor( false )->cash() >= dov.evaluate( d );
     };
 }
 
@@ -3299,7 +3306,7 @@ parsers = {
     {"npc_role_nearby", jarg::string, &conditional_t::set_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_t::set_npc_allies },
     {"npc_allies_global", jarg::member | jarg::array, &conditional_t::set_npc_allies_global },
-    {"u_service", "npc_service", jarg::member, &conditional_t::set_npc_available },
+    {"u_service", "npc_service", jarg::member, &conditional_t::set_npc_service },
     {"u_has_cash", jarg::member | jarg::array, &conditional_t::set_u_has_cash },
     {"u_are_owed", jarg::member | jarg::array, &conditional_t::set_u_are_owed },
     {"u_aim_rule", "npc_aim_rule", jarg::member, &conditional_t::set_npc_aim_rule },
@@ -3324,6 +3331,8 @@ parsers = {
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_t::set_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_t::set_has_move_mode },
     {"is_weather", jarg::member, &conditional_t::set_is_weather },
+    {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
+    {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
     {"mod_is_loaded", jarg::member, &conditional_t::set_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_t::set_has_faction_trust },
     {"compare_int", jarg::member, &conditional_t::set_compare_num },
@@ -3464,12 +3473,14 @@ conditional_t::conditional_t( const JsonObject &jo )
     }
     if( !found ) {
         for( const std::string &sub_member : dialogue_data::simple_string_conds() ) {
-            const conditional_t sub_condition( jo.get_string( sub_member ) );
-            condition = [sub_condition]( dialogue & d ) {
-                return sub_condition( d );
-            };
-            found_sub_member = true;
-            break;
+            if( jo.has_string( sub_member ) ) {
+                const conditional_t sub_condition( jo.get_string( sub_member ) );
+                condition = [sub_condition]( dialogue & d ) {
+                    return sub_condition( d );
+                };
+                found_sub_member = true;
+                break;
+            }
         }
     }
     if( !found_sub_member ) {
@@ -3477,7 +3488,7 @@ conditional_t::conditional_t( const JsonObject &jo )
     }
 }
 
-conditional_t::conditional_t( const std::string &type )
+conditional_t::conditional_t( const std::string_view type )
 {
     bool found = false;
     for( const condition_parser &p : parsers_simple ) {
