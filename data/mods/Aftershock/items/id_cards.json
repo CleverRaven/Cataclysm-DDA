@@ -54,7 +54,7 @@
     "description": "A slim card that is used to initalize a STEED, which will then imprint the rider's biometric data and follow them unerringly.",
     "weight": "6 g",
     "volume": "5 ml",
-    "color": "green"
+    "color": "green",
     "use_action": [ "PETFOOD" ],
     "petfood": [ "STEED_registry" ]
   }
