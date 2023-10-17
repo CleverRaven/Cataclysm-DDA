@@ -92,7 +92,7 @@
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "zombify_into": "mon_zow",
-    "harvest": "cow_with_skull",
+    "harvest": "mutant_cow_with_skull",
     "dissect": "dissect_cattle_sample_small",
     "families": [ "prof_intro_biology" ],
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
