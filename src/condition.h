@@ -13,6 +13,11 @@
 #include "mission.h"
 
 class JsonObject;
+namespace dialogue_data
+{
+const std::unordered_set<std::string> &simple_string_conds();
+const std::unordered_set<std::string> &complex_conds();
+} // namespace dialogue_data
 
 enum class jarg {
     member = 1,
@@ -218,11 +223,5 @@ extern template std::function<void( dialogue &, double )>
 conditional_t::get_set_dbl<>( const kwargs_shim &,
                               const std::optional<dbl_or_var_part> &,
                               const std::optional<dbl_or_var_part> &, bool );
-
-namespace dialogue_data
-{
-const std::unordered_set<std::string> &simple_string_conds();
-const std::unordered_set<std::string> &complex_conds();
-} // namespace dialogue_data
 
 #endif // CATA_SRC_CONDITION_H
