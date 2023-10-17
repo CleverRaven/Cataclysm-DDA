@@ -420,12 +420,14 @@ static std::vector<std::string> recipe_info(
                   "recipe <color_yellow>may appear to be craftable "
                   "when it is not</color>.\n" );
     }
-    if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() ) {
-        oss << _( "<color_red>Cannot be crafted because the same item is needed "
-                  "for multiple components</color>\n" );
-    }
     std::string reason;
-    if( !can_craft_this && avail.crafter.is_npc() && !recp.npc_can_craft( reason ) ) {
+    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason );
+    if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() && !npc_cant ) {
+        oss << _( "<color_red>Cannot be crafted because the same item is needed "
+                  "for multiple components.</color>\n" );
+    }
+
+    if( !can_craft_this && npc_cant ) {
         oss << colorize( reason, c_red ) << "\n";
     }
 
