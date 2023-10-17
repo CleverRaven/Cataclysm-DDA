@@ -2801,7 +2801,7 @@
       },
       {
         "id": "stockings_red",
-        "name": { "str": "pair of red stockings", "str_pl": "pairs of red stockings"  },
+        "name": { "str": "pair of red stockings", "str_pl": "pairs of red stockings" },
         "description": "This one is colored red.",
         "weight": 30,
         "color": "red",
