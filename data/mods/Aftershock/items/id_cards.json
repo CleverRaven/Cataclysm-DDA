@@ -46,5 +46,16 @@
     "volume": "5 ml",
     "category": "keys",
     "to_hit": -3
+  },
+  {
+    "id": "STEED_registry",
+    "type": "COMESTIBLE",
+    "name": { "str": "STEED registry key", "str_pl": "STEED registry keys" },
+    "description": "A slim card that is used to initalize a STEED, which will then imprint the rider's biometric data and follow them unerringly.",
+    "weight": "6 g",
+    "volume": "5 ml",
+    "color": "green"
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "STEED_registry" ]
   }
 ]
