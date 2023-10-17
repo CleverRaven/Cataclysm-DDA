@@ -2857,7 +2857,7 @@
       },
       {
         "id": "stockings_pride_lesbian",
-        "name": { "str": "pair of lesbian flag stockings", "str_pl": "pairs of lesbian flag stockings"  },
+        "name": { "str": "pair of lesbian flag stockings", "str_pl": "pairs of lesbian flag stockings" },
         "description": "This one has patterns akin to the lesbian flag.",
         "weight": 75,
         "color": "red",
