@@ -1,6 +1,12 @@
 [
   {
     "type": "proficiency_category",
+    "id": "prof_combat",
+    "name": "Weapons Proficiencies",
+    "description": "Proficiencies for various weapons."
+  },
+  {
+    "type": "proficiency_category",
     "id": "prof_weakpoint",
     "name": "Weakpoint",
     "description": "Proficiencies that help target weak points on specific creatures."
