@@ -2817,7 +2817,7 @@
       },
       {
         "id": "stockings_green",
-        "name": { "str": "pair of green stockings", "str_pl": "pairs of green stockings"  },
+        "name": { "str": "pair of green stockings", "str_pl": "pairs of green stockings" },
         "description": "This one is colored green.",
         "weight": 40,
         "color": "green",
