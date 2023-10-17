@@ -474,7 +474,8 @@
         "encumbrance": 2
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
-    ]
+    ],
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "sleeveless_tunic_gossamer",
@@ -503,7 +504,8 @@
         "encumbrance": 2
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
-    ]
+    ],
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "cloak_gossamer",
@@ -516,7 +518,8 @@
     "material": [ "fae_cotton" ],
     "price": 30000,
     "price_postapoc": 300,
-    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "gloves_light_gossamer",
@@ -529,7 +532,8 @@
     "material": [ "fae_cotton" ],
     "price": 10000,
     "price_postapoc": 100,
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "pants_gossamer",
@@ -558,7 +562,8 @@
         "moves": 80
       }
     ],
-    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "mt_chainmail_arms",
