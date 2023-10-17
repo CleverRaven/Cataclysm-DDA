@@ -58,6 +58,19 @@ const std::unordered_set<std::string> complex_conds = { {
 };
 } // namespace dialogue_data
 
+enum class jarg {
+    member = 1,
+    object = 1 << 1,
+    string = 1 << 2,
+    array = 1 << 3,
+    _bool = 1 << 4
+};
+
+template<>
+struct enum_traits<jarg> {
+    static constexpr bool is_flag_enum = true;
+};
+
 str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
                            std::string_view default_val = "" );
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
@@ -117,8 +130,8 @@ struct conditional_t {
         void set_compare_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_compare_time_since_var( const JsonObject &jo, std::string_view member,
                                          bool is_npc = false );
-        void set_has_activity( bool is_npc = false );
-        void set_is_riding( bool is_npc = false );
+        void set_has_activity( const JsonObject &, std::string_view, bool is_npc = false );
+        void set_is_riding( const JsonObject &, std::string_view, bool is_npc = false );
         void set_npc_has_class( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_u_has_mission( const JsonObject &jo, std::string_view member );
         void set_u_monsters_in_direction( const JsonObject &jo, std::string_view member );
@@ -180,7 +193,7 @@ struct conditional_t {
         void set_mission_complete( bool is_npc );
         void set_mission_incomplete( bool is_npc );
         void set_mission_failed( bool is_npc );
-        void set_npc_available( bool is_npc );
+        void set_npc_available( const JsonObject &, std::string_view, bool is_npc );
         void set_npc_following( bool is_npc );
         void set_npc_friend( bool is_npc );
         void set_npc_hostile( bool is_npc );

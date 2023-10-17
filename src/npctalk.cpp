@@ -122,21 +122,6 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
-using item_menu = std::function<item_location( const item_location_filter & )>;
-using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
-
-enum class jarg {
-    member = 1,
-    object = 1 << 1,
-    string = 1 << 2,
-    array = 1 << 3
-};
-
-template<>
-struct enum_traits<jarg> {
-    static constexpr bool is_flag_enum = true;
-};
-
 struct sub_effect_parser {
     using f_t = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view );
     using f_t_beta = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view, bool );
