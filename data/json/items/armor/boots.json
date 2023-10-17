@@ -2841,7 +2841,7 @@
       },
       {
         "id": "stockings_pink",
-        "name": { "str": "pair of pink stockings", "str_pl": "pairs of pink stockings"   },
+        "name": { "str": "pair of pink stockings", "str_pl": "pairs of pink stockings" },
         "description": "This one is colored pink.",
         "weight": 35,
         "color": "magenta",
