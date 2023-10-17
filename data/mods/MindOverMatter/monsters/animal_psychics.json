@@ -54,6 +54,7 @@
     "species": [ "MAMMAL" ],
     "volume": "680388 ml",
     "weight": "680388 g",
+    "//2": "HP based on current cow HP of 110.  If cow HP is raised, raise this proportionately.",
     "hp": 250,
     "speed": 130,
     "material": [ "flesh" ],
