@@ -2825,7 +2825,7 @@
       },
       {
         "id": "stockings_blue",
-        "name": { "str": "pair of blue stockings", "str_pl": "pairs of blue stockings"  },
+        "name": { "str": "pair of blue stockings", "str_pl": "pairs of blue stockings" },
         "description": "This one is colored blue.",
         "weight": 60,
         "color": "blue",
