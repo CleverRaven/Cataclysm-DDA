@@ -3263,9 +3263,6 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
-// When updating this, please also update `dynamic_line_string_keys` in
-// `lang/string_extractor/parsers/talk_topic.py` so the lines are properly
-// extracted for translation
 static const
 std::vector<condition_parser>
 parsers = {
@@ -3343,6 +3340,9 @@ parsers = {
     {"get_game_option", jarg::member, &conditional_t::set_get_option },
 };
 
+// When updating this, please also update `dynamic_line_string_keys` in
+// `lang/string_extractor/parsers/talk_topic.py` so the lines are properly
+// extracted for translation
 static const
 std::vector<condition_parser>
 parsers_simple = {
