@@ -3507,29 +3507,29 @@ conditional_t::conditional_t( const std::string &type )
 const std::unordered_set<std::string> &dialogue_data::simple_string_conds()
 {
     static std::unordered_set<std::string> ret;
-    if( !ret.empty() ) {
-        return ret;
-    }
-    for( const condition_parser &p : parsers_simple ) {
-        ret.emplace( p.key_alpha );
-        if( p.has_beta ) {
-            ret.emplace( p.key_beta );
+    if( ret.empty() ) {
+        for( const condition_parser &p : parsers_simple ) {
+            ret.emplace( p.key_alpha );
+            if( p.has_beta ) {
+                ret.emplace( p.key_beta );
+            }
         }
     }
+    return ret;
 }
 
 const std::unordered_set<std::string> &dialogue_data::complex_conds()
 {
     static std::unordered_set<std::string> ret;
-    if( !ret.empty() ) {
-        return ret;
-    }
-    for( const condition_parser &p : parsers ) {
-        ret.emplace( p.key_alpha );
-        if( p.has_beta ) {
-            ret.emplace( p.key_beta );
+    if( ret.empty() ) {
+        for( const condition_parser &p : parsers ) {
+            ret.emplace( p.key_alpha );
+            if( p.has_beta ) {
+                ret.emplace( p.key_beta );
+            }
         }
     }
+    return ret;
 }
 
 template std::function<double( dialogue & )>
