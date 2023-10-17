@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+int level_cache::lightmap_latest_zlevel = 0;
+
 level_cache::level_cache()
 {
     const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;

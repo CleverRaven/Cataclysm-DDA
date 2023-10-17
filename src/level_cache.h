@@ -101,6 +101,8 @@ struct level_cache {
         void clear_vehicle_cache();
         void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );
 
+        static int lightmap_latest_zlevel;
+
     private:
         // Whether the cache is empty or not; if true, nothing has been added to the cache
         // since the most recent call to clear_vehicle_cache()

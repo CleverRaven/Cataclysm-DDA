@@ -1947,7 +1947,7 @@ class map
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
     public:
-        void get_lightmap( int zlev );
+        void get_lightmap( const int zlev );
     protected:
         int my_MAPSIZE;
         int my_HALF_MAPSIZE;

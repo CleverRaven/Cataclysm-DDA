@@ -388,6 +388,7 @@ void map::generate_lightmap( const int zlev )
     bool top_floor = zlev == OVERMAP_DEPTH;
     lm.fill( four_quadrants{} );
     sm.fill( 0 );
+    level_cache::lightmap_latest_zlevel = zlev;
 
     /* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
          significant slowdown, so for stuff like fire and lava:
@@ -653,6 +654,9 @@ float map::light_transparency( const tripoint &p ) const
 
 void map::get_lightmap( const int zlev )
 {
+    if( level_cache::lightmap_latest_zlevel == zlev ) {
+        return;
+    }
     return generate_lightmap( zlev );
 }
 
