@@ -2793,7 +2793,7 @@
       },
       {
         "id": "stockings_white",
-        "name": { "str": "pair of white stockings", "str_pl": "pairs of white stockings"  },
+        "name": { "str": "pair of white stockings", "str_pl": "pairs of white stockings" },
         "description": "This one is colored white",
         "weight": 70,
         "color": "light_gray",
