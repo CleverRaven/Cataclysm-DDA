@@ -2863,6 +2863,7 @@ Vehicle components when installed on a vehicle.
                               // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
+"remove_as": "solar_panel",   // Overrides "item", item returned when removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
 "breaks_into" : [             // When the vehicle part is destroyed, items from this item group
                               // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
