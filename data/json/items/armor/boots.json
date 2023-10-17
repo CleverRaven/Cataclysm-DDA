@@ -2876,7 +2876,7 @@
         "name": { "str": "pair of transgender flag stockings" },
         "description": "This one has patterns akin to the transgender flag.",
         "weight": 90,
-        "color": "blue"
+        "color": "blue",
         "append": true
       },
       {
@@ -2884,7 +2884,7 @@
         "name": { "str": "pair of asexual flag stockings" },
         "description": "This one has patterns akin to the asexual flag.",
         "weight": 75,
-        "color": "magenta"
+        "color": "magenta",
         "append": true
       },
       {
@@ -2892,7 +2892,7 @@
         "name": { "str": "pair of aromantic flag stockings" },
         "description": "This one has patterns akin to the aromantic flag.",
         "weight": 65,
-        "color": "green"
+        "color": "green",
         "append": true
       },
       {
@@ -2900,7 +2900,7 @@
         "name": { "str": "pair of transgender flag stockings" },
         "description": "This one has patterns akin to the pansexual flag.",
         "weight": 75,
-        "color": "blue"
+        "color": "blue",
         "append": true
       }
     ]
