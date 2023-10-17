@@ -2809,7 +2809,7 @@
       },
       {
         "id": "stockings_yellow",
-        "name": { "str": "pair of yellow stockings", "str_pl": "pairs of yellow stockings"  },
+        "name": { "str": "pair of yellow stockings", "str_pl": "pairs of yellow stockings" },
         "description": "This one is colored yellow.",
         "weight": 10,
         "color": "yellow",
