@@ -263,6 +263,9 @@ conditional_t::get_set_dbl<>( const kwargs_shim &,
                               const std::optional<dbl_or_var_part> &,
                               const std::optional<dbl_or_var_part> &, bool );
 
+// When updating this, please also update `dynamic_line_string_keys` in
+// `lang/string_extractor/parsers/talk_topic.py` so the lines are properly
+// extracted for translation
 namespace dialogue_data
 {
 inline const
@@ -389,48 +392,6 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_t::set_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_t::set_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_t::set_is_alive },
-};
-
-// When updating this, please also update `dynamic_line_string_keys` in
-// `lang/string_extractor/parsers/talk_topic.py` so the lines are properly
-// extracted for translation
-const std::unordered_set<std::string> simple_string_conds = { {
-        "u_male", "u_female", "npc_male", "npc_female",
-        "has_no_assigned_mission", "has_assigned_mission",
-        "has_many_assigned_missions", "has_no_available_mission",
-        "has_available_mission", "has_many_available_missions",
-        "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
-        "npc_available", "npc_following", "npc_friend", "npc_hostile",
-        "npc_train_skills", "npc_train_styles", "npc_train_spells",
-        "at_safe_space", "is_day", "npc_has_activity",
-        "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
-        "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon",
-        "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",
-        "u_driving", "npc_driving", "has_pickup_list", "is_by_radio", "has_reason"
-    }
-};
-const std::unordered_set<std::string> complex_conds = { {
-        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait", "u_has_visible_trait", "npc_has_visible_trait",
-        "u_has_flag", "npc_has_flag", "u_has_species", "npc_has_species", "u_bodytype", "npc_bodytype", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
-        "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
-        "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
-        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
-        "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
-        "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
-        "u_at_om_location", "u_near_om_location", "npc_at_om_location", "npc_near_om_location",
-        "npc_role_nearby", "npc_allies", "npc_allies_global", "npc_service",
-        "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
-        "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
-        "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
-        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var", "expects_vars",
-        "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
-        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "map_terrain_with_flag", "map_furniture_with_flag", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
-        "u_is_height", "npc_is_height", "math",
-        "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag", "u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category",
-        "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art", "get_condition", "get_game_option"
-    }
 };
 } // namespace dialogue_data
 
