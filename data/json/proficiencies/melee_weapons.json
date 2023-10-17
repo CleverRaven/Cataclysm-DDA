@@ -42,7 +42,7 @@
     "id": "prof_auto_pistols_familiar",
     "//": "Maybe scrap this.",
     "category": "prof_combat",
-    "name": { "str": "Automatic Pristol Familiarity" },
+    "name": { "str": "Automatic Pistol Familiarity" },
     "description": "You're familiar with how to hold an automatic pistol, pistolwhip someone, and not accidently shoot yourself in the process.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
