@@ -349,6 +349,7 @@
   {
     "id": "apron_plastic",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "plastic apron" },
     "description": "An apron made of plastic, provides good protection against accidental chemical splashes.",
     "copy-from": "apron_leather",
@@ -359,6 +360,7 @@
   {
     "id": "apron_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",

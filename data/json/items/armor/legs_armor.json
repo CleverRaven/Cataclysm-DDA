@@ -1172,6 +1172,7 @@
   {
     "id": "chaps_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str_sp": "chainsaw chaps" },
     "description": "A pair of tough chaps made of Kevlar.  Chainsaw kickbacks are potentially fatal; personal protective equipment like these chaps help protect your femoral arteries.  The layered Kevlar is designed to fray on contact with the chain and bind up the tool.",
     "weight": "1519 g",
@@ -2190,6 +2191,7 @@
   {
     "id": "survivor_adhoc_leather_pants",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
     "description": "A pair of tough canvas pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
     "weight": "1970 g",
@@ -2244,6 +2246,7 @@
     "id": "canvas_pants_padded",
     "repairs_like": "jeans",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "cloth-padded pants", "str_pl": "pairs of cloth-padded pants" },
     "description": "A pair of tough canvas pants with sections of cotton sewn onto it in a crossing pattern, clearly done by an amateur.",
     "weight": "1970 g",

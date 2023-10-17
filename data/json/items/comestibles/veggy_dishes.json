@@ -15,9 +15,9 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_burdock_stalk",
-    "name": { "str": "cooked burdock stalk" },
+    "name": { "str": "cooked plant stalk" },
     "copy-from": "cooked_cattail_stalk",
-    "description": "A cooked stalk from a burdock plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
+    "description": "A cooked stalk from a plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
   },
   {
     "type": "COMESTIBLE",
@@ -679,7 +679,7 @@
   {
     "type": "COMESTIBLE",
     "id": "carrot_glazed",
-    "name": { "str": "glazed carrot" },
+    "name": { "str_sp": "glazed carrots" },
     "weight": "72 g",
     "color": "light_red",
     "spoils_in": "2 days",
@@ -786,7 +786,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "broccoli", "name": { "str_sp": "%s, broccoli" } },
       { "type": "COMPONENT_ID", "condition": "burdock_cooked", "name": { "str_sp": "%s, cooked burdock greens" } },
-      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
+      { "type": "COMPONENT_ID", "condition": "plant_stalk", "name": { "str_sp": "%s, plant stalk" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cabbage", "name": { "str_sp": "%s, cabbage" } },
       { "type": "COMPONENT_ID", "condition": "can_corn", "name": { "str_sp": "%s, corn kernels" } },
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
@@ -851,7 +851,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "broccoli", "name": { "str_sp": "%s, broccoli" } },
       { "type": "COMPONENT_ID", "condition": "burdock_cooked", "name": { "str_sp": "%s, cooked burdock greens" } },
-      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
+      { "type": "COMPONENT_ID", "condition": "plant_stalk", "name": { "str_sp": "%s, plant stalk" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cabbage", "name": { "str_sp": "%s, cabbage" } },
       { "type": "COMPONENT_ID", "condition": "can_corn", "name": { "str_sp": "%s, corn kernels" } },
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
@@ -998,7 +998,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "broccoli", "name": { "str_sp": "%s, broccoli" } },
       { "type": "COMPONENT_ID", "condition": "burdock_cooked", "name": { "str_sp": "%s, cooked burdock greens" } },
-      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
+      { "type": "COMPONENT_ID", "condition": "plant_stalk", "name": { "str_sp": "%s, plant stalk" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cabbage", "name": { "str_sp": "%s, cabbage" } },
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
       { "type": "COMPONENT_ID", "condition": "carrot_wild", "name": { "str_sp": "%s, wild root" } },
@@ -1079,7 +1079,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "bell_pepper", "name": { "str_sp": "%s, bell pepper" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "broccoli", "name": { "str_sp": "%s, broccoli" } },
       { "type": "COMPONENT_ID", "condition": "burdock_cooked", "name": { "str_sp": "%s, cooked burdock greens" } },
-      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
+      { "type": "COMPONENT_ID", "condition": "plant_stalk", "name": { "str_sp": "%s, plant stalk" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cabbage", "name": { "str_sp": "%s, cabbage" } },
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
       { "type": "COMPONENT_ID", "condition": "carrot_wild", "name": { "str_sp": "%s, wild root" } },

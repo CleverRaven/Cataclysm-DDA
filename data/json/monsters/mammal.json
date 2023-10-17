@@ -11,6 +11,17 @@
     "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
+    "id": "mon_human_scorched",
+    "type": "MONSTER",
+    "name": { "str": "charred human" },
+    "description": "Placeholder for charred human corpses.  If you see this, it's a bug.",
+    "bodytype": "human",
+    "copy-from": "mon_zombie_scorched",
+    "symbol": "h",
+    "zombify_into": "mon_zombie_scorched",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
+  },
+  {
     "id": "mon_child",
     "type": "MONSTER",
     "name": { "str": "child" },

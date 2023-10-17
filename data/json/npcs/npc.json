@@ -254,5 +254,17 @@
     "mission_offered": "MISSION_JOIN_TRACKER",
     "chat": "TALK_STRANGER_FRIENDLY",
     "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_debug",
+    "//": "Someone helps you test the game.",
+    "name_suffix": "Debug",
+    "class": "NC_NONE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "no_faction",
+    "death_eocs": [ "EOC_event_NPC_DEATH_test" ]
   }
 ]

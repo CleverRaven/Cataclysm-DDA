@@ -1342,6 +1342,26 @@ void conditional_t::set_is_weather( const JsonObject &jo, std::string_view membe
     };
 }
 
+void conditional_t::set_map_ter_furn_with_flag( const JsonObject &jo, std::string_view member )
+{
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
+    bool terrain = true;
+    if( member == "map_terrain_with_flag" ) {
+        terrain = true;
+    } else if( member == "map_furniture_with_flag" ) {
+        terrain = false;
+    }
+    condition = [terrain, furn_type, loc_var]( dialogue const & d ) {
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        if( terrain ) {
+            return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
+        } else {
+            return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
+        }
+    };
+}
+
 void conditional_t::set_mod_is_loaded( const JsonObject &jo, std::string_view member )
 {
     str_or_var compared_mod = get_str_or_var( jo.get_member( member ), member, true );
@@ -3461,6 +3481,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_move_mode( jo, "npc_has_move_mode", is_npc );
     } else if( jo.has_member( "is_weather" ) ) {
         set_is_weather( jo, "is_weather" );
+    } else if( jo.has_member( "map_terrain_with_flag" ) ) {
+        set_map_ter_furn_with_flag( jo, "map_terrain_with_flag" );
+    } else if( jo.has_member( "map_furniture_with_flag" ) ) {
+        set_map_ter_furn_with_flag( jo, "map_furniture_with_flag" );
     } else if( jo.has_member( "mod_is_loaded" ) ) {
         set_mod_is_loaded( jo, "mod_is_loaded" );
     } else if( jo.has_member( "u_has_faction_trust" ) || jo.has_array( "u_has_faction_trust" ) ) {

@@ -339,7 +339,7 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Wether by a serious accident, birth defect, or other means, you have lost your right leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your right leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
     "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
     "restricts_gear": [ "foot_r" ],
     "prereqs": "HAS_RIGHT_LEG",
@@ -353,7 +353,7 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Wether by a serious accident, birth defect, or other means, you have lost your left leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your left leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
     "restricts_gear": [ "foot_l" ],
     "prereqs": "HAS_LEFT_LEG",
@@ -8788,6 +8788,15 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 10 } ] } ],
     "debug": true,
     "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_PREVENT_DEATH",
+    "name": { "str": "Debug Prevent Death" },
+    "points": 99,
+    "valid": false,
+    "description": "You are prevented from death.",
+    "debug": true
   },
   {
     "type": "mutation",

@@ -1230,9 +1230,8 @@ void veh_interact::do_repair()
                 }
                 sel_vehicle_part = &pt;
                 sel_vpart_info = &vp;
-                const std::vector<npc *> helpers = player_character.get_crafting_helpers();
-                for( const npc *np : helpers ) {
-                    add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
+                for( const Character *helper : player_character.get_crafting_helpers() ) {
+                    add_msg( m_info, _( "%s helps with this task…" ), helper->get_name() );
                 }
                 sel_cmd = 'r';
                 break;
@@ -1868,9 +1867,8 @@ void veh_interact::do_remove()
                     return;
                 }
             }
-            const std::vector<npc *> helpers = player_character.get_crafting_helpers();
-            for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
+            for( const Character *helper : player_character.get_crafting_helpers() ) {
+                add_msg( m_info, _( "%s helps with this task…" ), helper->get_name() );
             }
             sel_cmd = 'o';
             break;
@@ -2155,7 +2153,7 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-    const auto helpers = player_character.get_crafting_helpers();
+    const std::vector<Character *> helpers = player_character.get_crafting_helpers();
     //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                             qual.obj().name, lvl );

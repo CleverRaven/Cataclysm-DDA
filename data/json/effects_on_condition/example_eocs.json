@@ -8,7 +8,8 @@
         "names": [ "name_1", "name_2", "name_3", "should_fail" ],
         "keys": [ "a", "b", "c", "d" ],
         "descriptions": [ "option 1", "option 2", "option 3", "should not be available" ],
-        "variables": [ { "val": "8" } ]
+        "variables": [ { "val": "8" } ],
+        "allow_cancel": true
       }
     ]
   },
@@ -98,7 +99,7 @@
       { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
       { "math": [ "u_skill_test", "=", "u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience after: <u_val:skill_test>" },
-      { "u_message": "[Wight and volume test]" },
+      { "u_message": "[Weight and volume test]" },
       { "run_eocs": [ "EOC_variable_weight_volume_test1" ] },
       { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_variable_weight_volume_test2" ] }
     ]
@@ -138,6 +139,108 @@
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spawn_npc_test",
+    "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_event_NPC_DEATH_test",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ "u_prevent_death" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_event_character_dies_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_dies",
+    "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
+    "effect": [ "u_prevent_death" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_item_test1",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "u_map_run_item_eocs": "manual_mult",
+        "loc": { "context_val": "loc" },
+        "min_radius": 1,
+        "max_radius": 10,
+        "title": "Test: Item collection",
+        "true_eocs": [ { "id": "EOC_map_item_test_run", "effect": [ { "npc_teleport": { "context_val": "loc" } } ] } ]
+      },
+      { "u_message": "Items rolled at your feet." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_item_test2",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+      { "map_spawn_item": "bottle_plastic", "loc": { "context_val": "loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_condition_test",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(1,0,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "East terrain: TRANSPARENT" },
+        "else": { "u_message": "East terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "East furniture: TRANSPARENT" },
+        "else": { "u_message": "East furniture: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "South terrain: TRANSPARENT" },
+        "else": { "u_message": "South terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "South furniture: TRANSPARENT" },
+        "else": { "u_message": "South furniture: Not TRANSPARENT" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(-1,0,0)" },
+        "target_var": { "context_val": "loc" }
+      },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "West terrain: TRANSPARENT" },
+        "else": { "u_message": "West terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "West furniture: TRANSPARENT" },
+        "else": { "u_message": "West furniture: Not TRANSPARENT" }
       }
     ]
   }

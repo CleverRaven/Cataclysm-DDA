@@ -3504,15 +3504,6 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
-    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
-    for( effect_on_condition_id &eoc : death_eocs ) {
-        if( eoc->type == eoc_type::NPC_DEATH ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
-        }
-    }
-
     if( has_effect( effect_heavysnare ) ) {
         inv->add_item( item( "rope_6", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -3521,6 +3512,18 @@ void Character::die( Creature *nkiller )
         inv->add_item( item( "beartrap", calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
+}
+
+void Character::prevent_death()
+{
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->is_vital ) {
+            if( get_part_hp_cur( bp ) <= 0 ) {
+                set_part_hp_cur( bp, 1 );
+            }
+        }
+    }
+    cached_dead_state.reset();
 }
 
 void Character::apply_skill_boost()
@@ -8360,14 +8363,14 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl > 0 ) {
         if( has_effect( def ) ) {
-            get_effect( def ).set_intensity( lvl, true );
+            get_effect( def ).set_intensity( lvl, is_avatar() );
         } else {
             add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc ) ) {
-            get_effect( exc ).set_intensity( -lvl, true );
+            get_effect( exc ).set_intensity( -lvl, is_avatar() );
         } else {
             add_effect( exc, 1_turns, true, -lvl );
         }
@@ -11565,7 +11568,7 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    // Check for conditions that disqualify us only if no NPCs can read to us
+    // Check for conditions that disqualify us only if no other Characters can read to us
     if( condition & read_condition_result::ILLITERATE ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
@@ -11585,17 +11588,17 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading NPC is chosen
+    //Check for other Characters to read for you, negates Illiterate and Far Sighted
+    //The fastest-reading Character is chosen
     if( is_deaf() ) {
         reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
     time_duration time_taken = time_duration::from_turns( INT_MAX );
-    auto candidates = get_crafting_helpers();
+    std::vector<Character *> candidates = get_crafting_helpers();
 
-    for( const npc *elem : candidates ) {
+    for( const Character *elem : candidates ) {
         // Check for disqualifying factors:
         condition = elem->check_read_condition( book );
         if( condition & read_condition_result::ILLITERATE ) {
@@ -11844,9 +11847,8 @@ int Character::get_lift_str() const
 int Character::get_lift_assist() const
 {
     int result = 0;
-    const std::vector<npc *> helpers = get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        result += np->get_lift_str();
+    for( const Character *guy : get_crafting_helpers() ) {
+        result += guy->get_lift_str();
     }
     return result;
 }
