@@ -90,7 +90,7 @@ struct condition_parser {
     condition_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
         arg( arg_ ), f( f_ ) {}
     condition_parser( std::string_view key_alpha_, std::string_view key_beta_, jarg arg_,
-                       f_t_beta f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), arg( arg_ ), f_beta( f_ ) {
+                      f_t_beta f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), arg( arg_ ), f_beta( f_ ) {
         has_beta = true;
     }
 
@@ -3397,7 +3397,7 @@ conditional_t::conditional_t( const JsonObject &jo )
             break;
         }
     }
-    if(!found) {
+    if( !found ) {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
