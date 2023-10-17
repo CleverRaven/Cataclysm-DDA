@@ -83,36 +83,6 @@ std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
     return get_deferred_math().back().exp;
 }
 
-struct condition_parser {
-    using f_t = void ( conditional_t::* )( const JsonObject &, std::string_view );
-    using f_t_beta = void ( conditional_t::* )( const JsonObject &, std::string_view, bool );
-
-    condition_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
-        arg( arg_ ), f( f_ ) {}
-    condition_parser( std::string_view key_alpha_, std::string_view key_beta_, jarg arg_,
-                      f_t_beta f_ ) : key_alpha( key_alpha_ ), key_beta( key_beta_ ), arg( arg_ ), f_beta( f_ ) {
-        has_beta = true;
-    }
-
-    bool check( const JsonObject &jo, bool beta = false ) const {
-        std::string_view key = beta ? key_beta : key_alpha;
-        if( ( ( arg & jarg::member ) && jo.has_member( key ) ) ||
-            ( ( arg & jarg::object ) && jo.has_object( key ) ) ||
-            ( ( arg & jarg::string ) && jo.has_string( key ) ) ||
-            ( ( arg & jarg::array ) && jo.has_array( key ) ) ) {
-            return true;
-        }
-        return false;
-    }
-
-    bool has_beta = false;
-    std::string_view key_alpha;
-    std::string_view key_beta;
-    jarg arg;
-    f_t f;
-    f_t_beta f_beta;
-};
-
 } // namespace
 
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
@@ -3244,85 +3214,9 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
-static const
-std::vector<condition_parser>
-parsers = {
-    {"u_has_any_trait", "npc_has_any_trait", jarg::array, &conditional_t::set_has_any_trait },
-    {"u_has_trait", "npc_has_trait", jarg::member, &conditional_t::set_has_trait },
-    {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_t::set_has_visible_trait },
-    {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_t::set_has_martial_art },
-    {"u_has_flag", "npc_has_flag", jarg::member, &conditional_t::set_has_flag },
-    {"u_has_species", "npc_has_species", jarg::member, &conditional_t::set_has_species },
-    {"u_bodytype", "npc_bodytype", jarg::member, &conditional_t::set_bodytype },
-    {"u_has_class", "npc_has_class", jarg::member, &conditional_t::set_npc_has_class },
-    {"u_has_activity", "npc_has_activity", jarg::string, &conditional_t::set_has_activity },
-    {"u_is_riding", "npc_is_riding", jarg::string, &conditional_t::set_is_riding },
-    {"u_has_mission", jarg::string, &conditional_t::set_u_has_mission },
-    {"u_monsters_in_direction", jarg::string, &conditional_t::set_u_monsters_in_direction },
-    {"u_safe_mode_trigger", jarg::member, &conditional_t::set_u_safe_mode_trigger },
-    {"u_has_strength", "npc_has_strength", jarg::member | jarg::array, &conditional_t::set_has_strength },
-    {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_t::set_has_dexterity },
-    {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_t::set_has_intelligence },
-    {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_t::set_has_perception },
-    {"u_has_hp", "npc_has_hp", jarg::member | jarg::array, &conditional_t::set_has_hp },
-    {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_t::set_has_part_temp },
-    {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_t::set_is_wearing },
-    {"u_has_item", "npc_has_item", jarg::member, &conditional_t::set_has_item },
-    {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_t::set_has_item_with_flag },
-    {"u_has_items", "npc_has_items", jarg::member, &conditional_t::set_has_items },
-    {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_t::set_has_item_category },
-    {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_t::set_has_bionics },
-    {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
-    {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
-    {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
-    {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_t::set_at_om_location },
-    {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_t::set_near_om_location },
-    {"u_has_var", "npc_has_var", jarg::string, &conditional_t::set_has_var },
-    {"expects_vars", jarg::member, &conditional_t::set_expects_vars },
-    {"u_compare_var", "npc_compare_var", jarg::string, &conditional_t::set_compare_var },
-    {"u_compare_time_since_var", "npc_compare_time_since_var", jarg::string, &conditional_t::set_compare_time_since_var },
-    {"npc_role_nearby", jarg::string, &conditional_t::set_npc_role_nearby },
-    {"npc_allies", jarg::member | jarg::array, &conditional_t::set_npc_allies },
-    {"npc_allies_global", jarg::member | jarg::array, &conditional_t::set_npc_allies_global },
-    {"u_service", "npc_service", jarg::member, &conditional_t::set_npc_available },
-    {"u_has_cash", jarg::member | jarg::array, &conditional_t::set_u_has_cash },
-    {"u_are_owed", jarg::member | jarg::array, &conditional_t::set_u_are_owed },
-    {"u_aim_rule", "npc_aim_rule", jarg::member, &conditional_t::set_npc_aim_rule },
-    {"u_engagement_rule", "npc_engagement_rule", jarg::member, &conditional_t::set_npc_engagement_rule },
-    {"u_cbm_reserve_rule", "npc_cbm_reserve_rule", jarg::member, &conditional_t::set_npc_cbm_reserve_rule },
-    {"u_cbm_recharge_rule", "npc_cbm_recharge_rule", jarg::member, &conditional_t::set_npc_cbm_recharge_rule },
-    {"u_rule", "npc_rule", jarg::member, &conditional_t::set_npc_rule },
-    {"u_override", "npc_override", jarg::member, &conditional_t::set_npc_override },
-    {"days_since_cataclysm", jarg::member | jarg::array, &conditional_t::set_days_since },
-    {"is_season", jarg::member, &conditional_t::set_is_season },
-    {"u_mission_goal", "mission_goal", jarg::member, &conditional_t::set_mission_goal },
-    {"u_mission_goal", "npc_mission_goal", jarg::member, &conditional_t::set_mission_goal },
-    {"roll_contested", jarg::member, &conditional_t::set_roll_contested },
-    {"u_know_recipe", jarg::member, &conditional_t::set_u_know_recipe },
-    {"one_in_chance", jarg::member | jarg::array, &conditional_t::set_one_in_chance },
-    {"x_in_y_chance", jarg::object, &conditional_t::set_x_in_y_chance },
-    {"u_has_worn_with_flag", "npc_has_worn_with_flag", jarg::member, &conditional_t::set_has_worn_with_flag },
-    {"u_has_wielded_with_flag", "npc_has_wielded_with_flag", jarg::member, &conditional_t::set_has_wielded_with_flag },
-    {"u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category", jarg::member, &conditional_t::set_has_wielded_with_weapon_category },
-    {"u_is_on_terrain", "npc_is_on_terrain", jarg::member, &conditional_t::set_is_on_terrain },
-    {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_t::set_is_on_terrain_with_flag },
-    {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_t::set_is_in_field },
-    {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_t::set_has_move_mode },
-    {"is_weather", jarg::member, &conditional_t::set_is_weather },
-    {"mod_is_loaded", jarg::member, &conditional_t::set_mod_is_loaded },
-    {"u_has_faction_trust", jarg::member | jarg::array, &conditional_t::set_has_faction_trust },
-    {"compare_int", jarg::member, &conditional_t::set_compare_num },
-    {"compare_num", jarg::member, &conditional_t::set_compare_num },
-    {"math", jarg::member, &conditional_t::set_math },
-    {"compare_string", jarg::member, &conditional_t::set_compare_string },
-    {"get_condition", jarg::member, &conditional_t::set_get_condition },
-    {"get_game_option", jarg::member, &conditional_t::set_get_option },
-};
-
 conditional_t::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
-    const bool is_npc = true;
     bool found_sub_member = false;
     const auto parse_array = []( const JsonObject & jo, const std::string_view type ) {
         std::vector<conditional_t> conditionals;
@@ -3369,15 +3263,15 @@ conditional_t::conditional_t( const JsonObject &jo )
         };
     }
     if( !found_sub_member ) {
-        for( const std::string &sub_member : dialogue_data::complex_conds ) {
-            if( jo.has_member( sub_member ) ) {
+        for( const condition_parser &p : dialogue_data::parsers ) {
+            if( jo.has_member( p.key_alpha ) || ( p.has_beta && jo.has_member( p.key_beta ) ) ) {
                 found_sub_member = true;
                 break;
             }
         }
     }
     bool found = false;
-    for( const condition_parser &p : parsers ) {
+    for( const condition_parser &p : dialogue_data::parsers ) {
         if( p.has_beta ) {
             if( p.check( jo ) ) {
                 ( this->*p.f_beta )( jo, p.key_alpha, false );
@@ -3398,8 +3292,14 @@ conditional_t::conditional_t( const JsonObject &jo )
         }
     }
     if( !found ) {
-        for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
-            if( jo.has_string( sub_member ) ) {
+        for( const condition_parser &p : dialogue_data::parsers_simple ) {
+            std::string sub_member;
+            if( jo.has_string( p.key_alpha ) ) {
+                sub_member = std::string( p.key_alpha );
+            } else if( p.has_beta && jo.has_string( p.key_beta ) ) {
+                sub_member = std::string( p.key_beta );
+            }
+            if( !sub_member.empty() ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
                 condition = [sub_condition]( dialogue & d ) {
                     return sub_condition( d );
@@ -3416,134 +3316,25 @@ conditional_t::conditional_t( const JsonObject &jo )
 
 conditional_t::conditional_t( const std::string &type )
 {
-    const bool is_npc = true;
-    if( type == "u_male" ) {
-        set_is_gender( true );
-    } else if( type == "npc_male" ) {
-        set_is_gender( true, is_npc );
-    } else if( type == "u_female" ) {
-        set_is_gender( false );
-    } else if( type == "npc_female" ) {
-        set_is_gender( false, is_npc );
-    } else if( type == "has_no_assigned_mission" ) {
-        set_no_assigned_mission();
-    } else if( type == "has_assigned_mission" ) {
-        set_has_assigned_mission();
-    } else if( type == "has_many_assigned_missions" ) {
-        set_has_many_assigned_missions();
-    } else if( type == "has_no_available_mission" || type == "npc_has_no_available_mission" ) {
-        set_no_available_mission( true );
-    } else if( type == "u_has_no_available_mission" ) {
-        set_no_available_mission( false );
-    } else if( type == "has_available_mission" || type == "npc_has_available_mission" ) {
-        set_has_available_mission( true );
-    } else if( type == "u_has_available_mission" ) {
-        set_has_available_mission( false );
-    } else if( type == "has_many_available_missions" || type == "npc_has_many_available_missions" ) {
-        set_has_many_available_missions( true );
-    } else if( type == "u_has_many_available_missions" ) {
-        set_has_many_available_missions( false );
-    } else if( type == "mission_complete" || type == "npc_mission_complete" ) {
-        set_mission_complete( true );
-    } else if( type == "u_mission_complete" ) {
-        set_mission_complete( false );
-    } else if( type == "mission_incomplete" || type == "npc_mission_incomplete" ) {
-        set_mission_incomplete( true );
-    } else if( type == "u_mission_incomplete" ) {
-        set_mission_incomplete( false );
-    } else if( type == "mission_failed" || type == "npc_mission_failed" ) {
-        set_mission_failed( true );
-    } else if( type == "u_mission_failed" ) {
-        set_mission_failed( false );
-    } else if( type == "npc_available" ) {
-        set_npc_available( true );
-    } else if( type == "u_available" ) {
-        set_npc_available( false );
-    } else if( type == "npc_following" ) {
-        set_npc_following( true );
-    } else if( type == "u_following" ) {
-        set_npc_following( false );
-    } else if( type == "npc_friend" ) {
-        set_npc_friend( true );
-    } else if( type == "u_friend" ) {
-        set_npc_friend( false );
-    } else if( type == "npc_hostile" ) {
-        set_npc_hostile( true );
-    } else if( type == "u_hostile" ) {
-        set_npc_hostile( false );
-    } else if( type == "npc_train_skills" ) {
-        set_npc_train_skills( true );
-    } else if( type == "u_train_skills" ) {
-        set_npc_train_skills( false );
-    } else if( type == "npc_train_styles" ) {
-        set_npc_train_styles( true );
-    } else if( type == "u_train_styles" ) {
-        set_npc_train_styles( false );
-    } else if( type == "npc_train_spells" ) {
-        set_npc_train_spells( true );
-    } else if( type == "u_train_spells" ) {
-        set_npc_train_spells( false );
-    } else if( type == "at_safe_space" || type == "npc_at_safe_space" ) {
-        set_at_safe_space( true );
-    } else if( type == "u_at_safe_space" ) {
-        set_at_safe_space( false );
-    } else if( type == "u_can_stow_weapon" ) {
-        set_can_stow_weapon();
-    } else if( type == "npc_can_stow_weapon" ) {
-        set_can_stow_weapon( is_npc );
-    } else if( type == "u_can_drop_weapon" ) {
-        set_can_drop_weapon();
-    } else if( type == "npc_can_drop_weapon" ) {
-        set_can_drop_weapon( is_npc );
-    } else if( type == "u_has_weapon" ) {
-        set_has_weapon();
-    } else if( type == "npc_has_weapon" ) {
-        set_has_weapon( is_npc );
-    } else if( type == "u_driving" ) {
-        set_is_driving();
-    } else if( type == "npc_driving" ) {
-        set_is_driving( is_npc );
-    } else if( type == "npc_has_activity" ) {
-        set_has_activity( is_npc );
-    } else if( type == "npc_is_riding" ) {
-        set_is_riding( is_npc );
-    } else if( type == "is_day" ) {
-        set_is_day();
-    } else if( type == "u_has_stolen_item" ) {
-        set_has_stolen_item( is_npc );
-    } else if( type == "u_is_outside" ) {
-        set_is_outside();
-    } else if( type == "is_outside" || type == "npc_is_outside" ) {
-        set_is_outside( is_npc );
-    } else if( type == "u_is_underwater" ) {
-        set_is_underwater();
-    } else if( type == "npc_is_underwater" ) {
-        set_is_underwater( is_npc );
-    } else if( type == "u_has_camp" ) {
-        set_u_has_camp();
-    } else if( type == "has_pickup_list" || type == "npc_has_pickup_list" ) {
-        set_has_pickup_list( true );
-    } else if( type == "u_has_pickup_list" ) {
-        set_has_pickup_list( false );
-    } else if( type == "is_by_radio" ) {
-        set_is_by_radio();
-    } else if( type == "has_reason" ) {
-        set_has_reason();
-    } else if( type == "mission_has_generic_rewards" ) {
-        set_mission_has_generic_rewards();
-    } else if( type == "u_can_see" ) {
-        set_can_see();
-    } else if( type == "npc_can_see" ) {
-        set_can_see( is_npc );
-    } else if( type == "u_is_deaf" ) {
-        set_is_deaf();
-    } else if( type == "npc_is_deaf" ) {
-        set_is_deaf( is_npc );
-    } else if( type == "u_is_alive" ) {
-        set_is_alive();
-    } else if( type == "npc_is_alive" ) {
-        set_is_alive( is_npc );
-    } else {
+    bool found = false;
+    for( const condition_parser &p : dialogue_data::parsers_simple ) {
+        if( p.has_beta ) {
+            if( type == p.key_alpha ) {
+                ( this->*p.f_beta_simple )( false );
+                found = true;
+            } else if( type == p.key_beta ) {
+                ( this->*p.f_beta_simple )( true );
+                found = true;
+            }
+        } else if( type == p.key_alpha ) {
+            ( this->*p.f_simple )();
+            found = true;
+        }
+        if( found ) {
+            break;
+        }
+    }
+    if( !found ) {
         condition = []( dialogue const & ) {
             return false;
         };

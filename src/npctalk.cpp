@@ -122,6 +122,9 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
+using item_menu = std::function<item_location( const item_location_filter & )>;
+using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
+
 struct sub_effect_parser {
     using f_t = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view );
     using f_t_beta = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view, bool );
@@ -6262,28 +6265,36 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         conditional_t dcondition;
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
-        for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
-            if( jo.has_bool( sub_member ) ) {
-                // This also marks the member as visited.
-                if( !jo.get_bool( sub_member ) ) {
-                    jo.throw_error_at( sub_member, "value must be true" );
+        for( const condition_parser &p : dialogue_data::parsers_simple ) {
+            std::string sub_member;
+            if( jo.has_string( p.key_alpha ) ) {
+                sub_member = std::string( p.key_alpha );
+            } else if( p.has_beta && jo.has_string( p.key_beta ) ) {
+                sub_member = std::string( p.key_beta );
+            }
+            if( !sub_member.empty() ) {
+                if( jo.has_bool( sub_member ) ) {
+                    // This also marks the member as visited.
+                    if( !jo.get_bool( sub_member ) ) {
+                        jo.throw_error_at( sub_member, "value must be true" );
+                    }
+                    dcondition = conditional_t( sub_member );
+                    function = [dcondition, yes, no]( dialogue & d ) {
+                        return ( dcondition( d ) ? yes : no )( d );
+                    };
+                    return;
+                } else if( jo.has_member( sub_member ) ) {
+                    dcondition = conditional_t( sub_member );
+                    const dynamic_line_t yes_member = from_member( jo, sub_member );
+                    function = [dcondition, yes_member, no]( dialogue & d ) {
+                        return ( dcondition( d ) ? yes_member : no )( d );
+                    };
+                    return;
                 }
-                dcondition = conditional_t( sub_member );
-                function = [dcondition, yes, no]( dialogue & d ) {
-                    return ( dcondition( d ) ? yes : no )( d );
-                };
-                return;
-            } else if( jo.has_member( sub_member ) ) {
-                dcondition = conditional_t( sub_member );
-                const dynamic_line_t yes_member = from_member( jo, sub_member );
-                function = [dcondition, yes_member, no]( dialogue & d ) {
-                    return ( dcondition( d ) ? yes_member : no )( d );
-                };
-                return;
             }
         }
-        for( const std::string &sub_member : dialogue_data::complex_conds ) {
-            if( jo.has_member( sub_member ) ) {
+        for( const condition_parser &p : dialogue_data::parsers ) {
+            if( jo.has_member( p.key_alpha ) || ( p.has_beta && jo.has_member( p.key_beta ) ) ) {
                 dcondition = conditional_t( jo );
                 function = [dcondition, yes, no]( dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
