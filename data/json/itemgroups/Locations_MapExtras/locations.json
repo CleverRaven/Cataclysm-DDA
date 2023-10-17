@@ -243,6 +243,7 @@
       [ "recipe_medicalmut", 1 ],
       [ "survnote", 1 ],
       [ "badge_doctor", 1 ],
+      [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
       [ "left_leg_prosthetic", 40 ],
@@ -1983,6 +1984,7 @@
       [ "barometer", 3 ],
       [ "sextant", 2 ],
       [ "badge_doctor", 5 ],
+      [ "lanyard", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
       { "group": "writing_utensils", "prob": 10 }
@@ -2059,6 +2061,7 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 20 ],
       [ "roller_shoes_off", 20 ],
+      [ "folded_skateboard_generic", 20 ],
       [ "survnote", 3 ],
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },

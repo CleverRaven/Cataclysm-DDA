@@ -3369,6 +3369,8 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
+    optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
+              ter_furn_flag::TFLAG_PLANTABLE );
 }
 
 void islot_seed::deserialize( const JsonObject &jo )

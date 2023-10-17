@@ -3230,7 +3230,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint &pos,
 
     int moves = to_moves<int>( 30_minutes );
 
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
@@ -4782,7 +4782,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
@@ -4826,7 +4826,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint & )
     }
 
     int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
@@ -8473,7 +8473,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                               required.cleanser );
         return std::nullopt;
     }
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     required.time *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {

@@ -314,7 +314,9 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else {
         if( type->tool && type->tool->rand_charges.size() > 1 ) {
             const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
-            charges = rng( type->tool->rand_charges[charge_roll - 1], type->tool->rand_charges[charge_roll] );
+            const int charge_count = rng( type->tool->rand_charges[charge_roll - 1],
+                                          type->tool->rand_charges[charge_roll] );
+            ammo_set( ammo_default(), charge_count );
         } else {
             charges = type->charges_default();
         }

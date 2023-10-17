@@ -222,7 +222,9 @@
       [ "chem_hexamine", 10 ],
       [ "light_snare_kit", 8 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 },
+      { "group": "book_mag_surv", "prob": 10 },
+      { "group": "vfw_books", "prob": 20 }
     ]
   },
   {
@@ -803,6 +805,7 @@
       [ "socket_screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "memory_card_science", 40 ],
+      [ "lanyard", 1 ],
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       [ "element", 5 ],

@@ -391,7 +391,7 @@ class Creature : public viewer
         /*@}*/
 
         /**
-         * How far the creature sees under the given light. Places outside this range can
+         * How far the creature sees under the given light. Creature cannot see places outside this range.
          * @param light_level See @ref game::light_level.
          */
         virtual int sight_range( float light_level ) const = 0;
