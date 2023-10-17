@@ -42,6 +42,12 @@
     ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_arvore_tree_reduce_thirst",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "180 seconds", "spell_effects": [ { "id": "arvore_reduce_thirst_spell" } ] } ] }
+  },
+  {
     "id": "spell_arvore_thorns_mut_counter",
     "type": "SPELL",
     "name": { "str": "Arvore Thorns Damage" },
@@ -559,5 +565,17 @@
         "( ( (u_val('spell_level', 'spell: arvore_traverse_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )"
       ]
     }
+  },
+  {
+    "id": "arvore_reduce_thirst_spell",
+    "type": "SPELL",
+    "name": "One with the Forest Reduce Thirst",
+    "description": "This is the actual spell that reduces thirst for tree form.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "flags": [ "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_TREE_REDUCE_THIRST",
+    "shape": "blast"
   }
 ]
