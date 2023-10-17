@@ -249,15 +249,6 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     calendar::turn += 2_seconds;
     get_timed_events().process();
     check_ter_in_radius( start, eoc_range, t_grass );
-    CHECK( "Cleaning up avatar's pos and location after successful test…" );
-    // Bizarre point handling ahead, sanity beware...
-    // Without this, we have an offset of {-12,-12, 0 } between player's pos and location.
-    tripoint_abs_omt return_omt;
-    point_omt_ms return_square;
-    std::tie( return_omt, return_square ) = project_remain<coords::omt>( start );
-    g->place_player_overmap( return_omt );
-    g->place_player( tripoint {start.x() + return_square.x(), start.y() + return_square.y(), 0} );
-    REQUIRE( get_map().inbounds( start ) );
 }
 
 TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
