@@ -99,8 +99,7 @@ struct condition_parser {
         if( ( ( arg & jarg::member ) && jo.has_member( key ) ) ||
             ( ( arg & jarg::object ) && jo.has_object( key ) ) ||
             ( ( arg & jarg::string ) && jo.has_string( key ) ) ||
-            ( ( arg & jarg::array ) && jo.has_array( key ) ) ) ||
-            ( ( arg & jarg::_bool ) && jo.get_bool( key , false) ) ) {
+            ( ( arg & jarg::array ) && jo.has_array( key ) ) ) {
             return true;
         }
         return false;
@@ -549,14 +548,14 @@ void conditional_t::set_bodytype( const JsonObject &jo, std::string_view member,
     };
 }
 
-void conditional_t::set_has_activity( const JsonObject &, std::string_view, bool is_npc )
+void conditional_t::set_has_activity( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->has_activity();
     };
 }
 
-void conditional_t::set_is_riding( const JsonObject &, std::string_view, bool is_npc )
+void conditional_t::set_is_riding( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->is_mounted();
@@ -1212,7 +1211,7 @@ void conditional_t::set_mission_failed( bool is_npc )
     };
 }
 
-void conditional_t::set_npc_available( const JsonObject &, std::string_view, bool is_npc )
+void conditional_t::set_npc_available( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
         return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() );
@@ -3285,7 +3284,7 @@ parsers = {
     {"npc_role_nearby", jarg::string, &conditional_t::set_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_t::set_npc_allies },
     {"npc_allies_global", jarg::member | jarg::array, &conditional_t::set_npc_allies_global },
-    {"u_service", "npc_service", jarg::_bool, &conditional_t::set_npc_available },
+    {"u_service", "npc_service", jarg::member, &conditional_t::set_npc_available },
     {"u_has_cash", jarg::member | jarg::array, &conditional_t::set_u_has_cash },
     {"u_are_owed", jarg::member | jarg::array, &conditional_t::set_u_are_owed },
     {"u_aim_rule", "npc_aim_rule", jarg::member, &conditional_t::set_npc_aim_rule },
