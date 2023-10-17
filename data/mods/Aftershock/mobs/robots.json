@@ -812,6 +812,12 @@
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
+    "petfood": {
+      "food": [
+        "STEED_registry"
+      ],
+      "feed": "The %s activates as you swipe the registry key.  A nearly inaudible hum is the only indication the STEED is active."
+    },
     "flags": [
       "SEES",
       "HEARS",
