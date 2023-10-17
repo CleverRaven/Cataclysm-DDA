@@ -558,7 +558,7 @@
     "description": "Get Gemmas fertility supplements.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fert_supplement",
-    "count": 25,
+    "count": 1,
     "difficulty": 1,
     "value": 0,
     "start": {
@@ -570,7 +570,7 @@
         "search_range": 1000,
         "min_distance": 3
       },
-      "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
+      "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15 } ] }
     },
     "end": {
       "effect": [
