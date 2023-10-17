@@ -6479,5 +6479,49 @@
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "explosive_ordinance_disposal",
+    "name": "Explosive Ordinance Disposal Technician",
+    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives",
+    "points": 5,
+    "proficiencies": [
+      "prof_elec_circuits",
+      "prof_intro_chemistry",
+      "prof_athlete_expert",
+      "prof_gun_cleaning",
+      "prof_spotting",
+      "prof_traps",
+      "prof_disarming",
+      "prof_trapsetting"
+    ],
+    "skills": [
+      { "level": 6, "name": "traps" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "undershirt", "socks", "helmet_eod", "jacket_eod", "gloves_eod", "trousers_eod", "foot_protectors_eod" ],
+        "entries": [
+          {
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
+            "ammo-item": "556_mk318",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
   }
 ]

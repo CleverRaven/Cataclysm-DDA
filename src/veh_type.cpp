@@ -1090,8 +1090,7 @@ static time_duration scale_time( const std::map<skill_id, int> &sk, time_duratio
                                          MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    // 10% reduction per assisting Character
     const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );

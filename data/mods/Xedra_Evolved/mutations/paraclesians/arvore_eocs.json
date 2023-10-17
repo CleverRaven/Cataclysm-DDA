@@ -440,6 +440,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_IMMOBILE",
-    "effect": [ { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 100 } ]
+    "effect": [ { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 50000 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_REDUCE_THIRST",
+    "condition": { "math": [ "u_val('thirst')", ">=", "-50" ] },
+    "effect": [ { "math": [ "u_val('thirst')", "-=", "1" ] } ]
   }
 ]

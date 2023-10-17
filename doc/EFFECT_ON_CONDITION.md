@@ -22,6 +22,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 - [Effects](#effects)
   - [Character effects](#character-effects)
   - [Item effects](#item-effects)
+  - [Map effects](#map-effects)
   - [Map Updates](#map-updates)
 
 ## Fields
@@ -46,7 +47,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 * `RECURRING` - activated automatically on schedule (see `recurrence`)
 * `SCENARIO_SPECIFIC` - automatically invoked once on scenario start.
 * `AVATAR_DEATH` - automatically invoked whenever the current avatar dies (it will be run with the avatar as `u`), if after it the player is no longer dead they will not die, if there are multiple EOCs they all be run until the player is not dead.
-* `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer.
+* `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. If after it npc is no longer dead they will not die, if there are multiple they all be run until npc is not dead.
 * `OM_MOVE` - EOCs trigger when the player moves overmap tiles
 * `PREVENT_DEATH` - whenever the current avatar dies it will be run with the avatar as `u`, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead.
 * `EVENT` - EOCs trigger when a specific event given by "required_event" takes place. 
@@ -895,6 +896,36 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
 ```
 
+### `map_terrain_with_flag`, `map_furniture_with_flag`
+- type: string or [variable object](##variable-object)
+- return true if the terrain or furniture has specific flag
+- `loc` will specify location of terrain or furniture (**mandatory**)
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Check the north terrain or furniture has `TRANSPARENT` flag.
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_ter_furn_check",
+  "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
+      }
+  ]
+},
+```
 
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
@@ -927,6 +958,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
 | character_casts_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
+| character_dies |  | { "character", `character_id` }, | character / NONE |
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
@@ -1018,6 +1050,7 @@ Other EOCs have some variables as well that they have access to, they are as fol
 | mutation: "processed_eocs" | { "this", `mutation_id` } |
 | mutation: "deactivated_eocs" | { "this", `mutation_id` } |
 | damage_type: "ondamage_eocs" | { "bp", `bodypart_id` }, { "damage_taken", `double` damage the character will take post mitigation }, { "total_damage", `double` damage pre mitigation } |
+| furniture: "examine_action" | { "this", `furniture_id` }, { "pos", `tripoint` } |
 
 
 # Effects
@@ -1864,10 +1897,10 @@ Your character or the NPC will gain a morale bonus
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
-Gives `morale_off_drugs` thought with +1 mood bonus
+Gives `morale_afs_drugs` thought with +1 mood bonus
 ```json
 {
-  "u_add_morale": "morale_off_drugs",
+  "u_add_morale": "morale_afs_drugs",
 }
 ```
 
@@ -2149,6 +2182,41 @@ You and NPC both die
 }
 ```
 
+#### `u_prevent_death`, `npc_prevent_death`
+You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+NPC is prevented from death.
+
+`NPC_DEATH`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_event_NPC_DEATH_test",
+  "eoc_type": "NPC_DEATH",
+  "effect": [ "u_prevent_death" ]
+}
+```
+
+`EVENT`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_event_character_dies_test",
+  "eoc_type": "EVENT",
+  "required_event": "character_dies",
+  "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
+  "effect": [ "u_prevent_death" ]
+}
+```
+
 ## Item effects
 
 #### `u_set_flag`, `npc_set_flag`
@@ -2207,6 +2275,32 @@ You activate beta talker / NPC activates alpha talker. One must be a Character a
 Force you consume drug item
 ```json
 { "u_activate": "consume_drug" }
+```
+
+## Map effects
+
+#### `map_spawn_item`
+Spawn and place the item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "map_spawn_item" | **mandatory** | string or [variable object](##variable-object) | id of item or item group that should spawn |
+| "loc" | optional | [variable object](##variable-object) | Location that the item spawns. If not used, spawns from player's location |
+| "count" | optional | int or [variable object](##variable-object) | default 1; Number of item copies |
+| "container" | optional | string or [variable object](##variable-object) | id of container. Item is contained in container if specified |
+| "use_item_group" | optional | bool | default false; If true, it will instead pull an item from the item group given. |
+
+##### Examples
+Spawn a plastic bottle on ground
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_map_spawn_item",
+  "effect": [
+    { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+    { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
+  ]
+},
 ```
 
 ## Map Updates

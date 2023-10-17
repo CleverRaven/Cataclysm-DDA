@@ -62,6 +62,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS,
+    iteminfo_parts::DESCRIPTION_MILLEABLE,
     iteminfo_parts::DESCRIPTION_BREWABLE_DURATION,
     iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS,
     iteminfo_parts::DESCRIPTION_FAULTS,

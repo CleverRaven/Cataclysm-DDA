@@ -30,6 +30,7 @@
   {
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",

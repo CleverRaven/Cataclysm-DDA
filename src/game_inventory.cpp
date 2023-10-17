@@ -2580,12 +2580,14 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 };
 
-item_location game_menus::inv::install_bionic( Character &you, Character &patient, bool surgeon )
+item_location game_menus::inv::install_bionic( Character &installer, Character &patron,
+        Character &patient, bool surgeon )
 {
     if( surgeon ) {
-        return autodoc_internal( you, patient, bionic_install_surgeon_preset( you, patient ), 5, surgeon );
+        return autodoc_internal( patron, patient, bionic_install_surgeon_preset( installer, patient ), 5,
+                                 surgeon );
     } else {
-        return autodoc_internal( you, patient, bionic_install_preset( you, patient ), 5 );
+        return autodoc_internal( patron, patient, bionic_install_preset( installer, patient ), 5 );
     }
 
 }
