@@ -1048,6 +1048,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1092,7 +1093,18 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_pitbullmix",
@@ -1121,6 +1133,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1167,7 +1180,18 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_beagle",
@@ -1196,6 +1220,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HARDTOSHOOT",
       "PET_MOUNTABLE",
@@ -1249,6 +1274,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HEARS",
       "KEENNOSE",
@@ -1285,6 +1311,7 @@
       "CLIMBS",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1331,7 +1358,18 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_boxer",
@@ -1392,6 +1430,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "GROUP_MORALE",
       "HEARS",
@@ -1433,6 +1472,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "HARDTOSHOOT",
       "HEARS",
       "HIT_AND_RUN",
@@ -1478,7 +1518,19 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HARDTOSHOOT",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_dachshund",
@@ -1508,6 +1560,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "HARDTOSHOOT",
       "HEARS",
       "PET_MOUNTABLE",
@@ -1559,6 +1612,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "HARDTOSHOOT",
       "HEARS",
       "KEENNOSE",
@@ -1594,6 +1648,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "KEENNOSE",
@@ -1639,7 +1694,18 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gpyrenees",
@@ -1671,6 +1737,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1717,7 +1784,19 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_rottweiler",
@@ -1749,6 +1828,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1795,7 +1875,18 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_auscattle",
@@ -1825,6 +1916,7 @@
       "DOGFOOD",
       "CLIMBS",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
@@ -1871,7 +1963,18 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_samoyed",
