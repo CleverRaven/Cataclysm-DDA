@@ -659,6 +659,7 @@
           "mx_portal": 3,
           "mx_portal_in": 3,
           "mx_helicopter": 1,
+          "mx_russian_helicopter": 1,
           "mx_exocrash_1": 1,
           "mx_beehive_natural": 20,
           "mx_exocrash_2": 1
@@ -697,6 +698,7 @@
           "mx_jabberwock": 1,
           "mx_exocrash_1": 1,
           "mx_helicopter": 1,
+          "mx_russian_helicopter": 1,
           "mx_beehive_natural": 30,
           "mx_exocrash_2": 1
         }
@@ -725,6 +727,7 @@
           "mx_portal": 8,
           "mx_portal_in": 7,
           "mx_helicopter": 5,
+          "mx_russian_helicopter": 2,
           "mx_exocrash_1": 1,
           "mx_beehive_natural": 25,
           "mx_exocrash_2": 1
@@ -767,6 +770,7 @@
         "chance": 75,
         "extras": {
           "mx_helicopter": 10,
+          "mx_russian_helicopter": 3,
           "mx_military": 50,
           "mx_science": 400,
           "mx_collegekids": 500,
@@ -815,6 +819,7 @@
         "chance": 3,
         "extras": {
           "mx_helicopter": 15,
+          "mx_russian_helicopter": 3,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,

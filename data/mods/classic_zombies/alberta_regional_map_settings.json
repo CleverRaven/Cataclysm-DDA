@@ -597,7 +597,8 @@
           "mx_military": 1,
           "mx_drugdeal": 8,
           "mx_mass_grave": 5,
-          "mx_helicopter": 1
+          "mx_helicopter": 1,
+          "mx_russian_helicopter": 1
         }
       },
       "forest_thick": {
@@ -628,7 +629,8 @@
           "mx_military": 1,
           "mx_mass_grave": 5,
           "mx_supplydrop": 5,
-          "mx_helicopter": 1
+          "mx_helicopter": 1,
+          "mx_russian_helicopter": 1
         }
       },
       "forest_water": {
@@ -652,7 +654,8 @@
           "mx_grass2": 20,
           "mx_grass": 10,
           "mx_toxic_waste": 10,
-          "mx_helicopter": 5
+          "mx_helicopter": 5,
+          "mx_russian_helicopter": 2
         }
       },
       "field": {
@@ -684,6 +687,7 @@
         "chance": 75,
         "extras": {
           "mx_helicopter": 10,
+          "mx_russian_helicopter": 3,
           "mx_military": 20,
           "mx_science": 400,
           "mx_collegekids": 500,
@@ -724,6 +728,7 @@
         "chance": 3,
         "extras": {
           "mx_helicopter": 15,
+          "mx_russian_helicopter": 3,
           "mx_military": 20,
           "mx_collegekids": 1,
           "mx_crater": 180,

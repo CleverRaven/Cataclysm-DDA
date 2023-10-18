@@ -957,6 +957,7 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_grass_2``` ... A meadow with tall grass.
 - ```mx_grave``` ... A grave in the open field, with a corpse and some everyday loot.
 - ```mx_helicopter``` ... Metal wreckage and some items.
+- ```mx_russian_helicopter``` ... Metal wreckage and some items.
 - ```mx_house_spider``` ... A house with wasps, dermatiks, and walls converted to paper.
 - ```mx_house_wasp``` ... A house with spiders, webs, eggs and some rare loot.
 - ```mx_jabberwock``` ... A *chance* of a jabberwock.

@@ -104,6 +104,7 @@ static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
+static const map_extra_id map_extra_mx_russian_helicopter( "mx_russian_helicopter" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
@@ -120,7 +121,9 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
 static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
+static const mongroup_id GROUP_MIL_RUS_PASSENGER( "GROUP_MIL_RUS_PASSENGER" );
 static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
+static const mongroup_id GROUP_MIL_RUS_PILOT( "GROUP_MIL_RUS_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
@@ -144,6 +147,7 @@ static const ter_str_id ter_t_trunk( "t_trunk" );
 static const trap_str_id tr_engine( "tr_engine" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
+static const vgroup_id VehicleGroup_crashed_russian_helicopters( "crashed_russian_helicopters" );
 
 static const vproto_id vehicle_prototype_car_fbi( "car_fbi" );
 static const vproto_id vehicle_prototype_excavator( "excavator" );
@@ -407,7 +411,126 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     return true;
 }
+static bool mx_russian_helicopter( map &m, const tripoint &abs_sub )
+{
+    point c( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ) );
 
+    for( int x = 0; x < SEEX * 2; x++ ) {
+        for( int y = 0; y < SEEY * 2; y++ ) {
+            if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
+                m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+            } else {
+                if( x >= c.x - dice( 1, 5 ) && x <= c.x + dice( 1, 5 ) && y >= c.y - dice( 1, 5 ) &&
+                    y <= c.y + dice( 1, 5 ) ) {
+                    if( one_in( 7 ) &&
+                        m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                        m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                    }
+                }
+                if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
+                    y <= c.y + dice( 1, 6 ) ) {
+                    if( !one_in( 5 ) ) {
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    } else if( m.is_bashable( point( x, y ) ) ) {
+                        m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+
+                } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
+                                         c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    if( !one_in( 3 ) ) {
+                        if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    units::angle dir1 = random_direction();
+
+    vproto_id crashed_hull = VehicleGroup_crashed_russian_helicopters->pick();
+
+    tripoint wreckage_pos;
+    {
+        // veh should fall out of scope, don't actually use it, create the vehicle so
+        // we can rotate it and calculate its bounding box, but don't place it on the map.
+        vehicle veh( crashed_hull );
+        veh.turn( dir1 );
+        // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
+        // half it's length so that it spawns more over the center of the debris area
+        const bounding_box bbox = veh.get_bounding_box();
+        const point length( std::abs( bbox.p2.x - bbox.p1.x ), std::abs( bbox.p2.y - bbox.p1.y ) );
+        const point offset( veh.dir_vec().x * length.x / 2, veh.dir_vec().y * length.y / 2 );
+        const point min( std::abs( bbox.p1.x ), std::abs( bbox.p1.y ) );
+        const int x_max = SEEX * 2 - bbox.p2.x - 1;
+        const int y_max = SEEY * 2 - bbox.p2.y - 1;
+
+        // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
+        wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
+    }
+
+    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
+
+    const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
+        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
+    };
+
+    if( wreckage != nullptr ) {
+        const int clowncar_factor = dice( 1, 8 );
+
+        switch( clowncar_factor ) {
+            case 1:
+            case 2:
+            case 3:
+                // Full clown car
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
+                    const tripoint pos = vp.pos();
+                    // Spawn pilots in seats with controls.CTRL_ELECTRONIC
+                    if( controls_at( wreckage, pos ) ) {
+                        m.place_spawns( GROUP_MIL_RUS_PILOT, 1, pos.xy(), pos.xy(), 1, true );
+                    } else {
+                        m.place_spawns( GROUP_MIL_RUS_PASSENGER, 1, pos.xy(), pos.xy(), 1, true );
+                    }
+                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                }
+                break;
+            case 4:
+            case 5:
+            case 6:
+                // Just pilots
+                for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
+                    const tripoint pos = vp.pos();
+                    m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
+                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                }
+                break;
+            case 7:
+            // Empty clown car
+            case 8:
+            default:
+                break;
+        }
+        if( !one_in( 4 ) ) {
+            wreckage->smash( m, 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+                             10 ) );
+        } else {
+            wreckage->smash( m, 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+                             10 ) );
+        }
+    }
+
+    return true;
+}
 static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
 {
     tripoint tri_target( target, m.get_abs_sub().z() );
@@ -2123,6 +2246,7 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_roadworks, mx_roadworks },
     { map_extra_mx_minefield, mx_minefield },
     { map_extra_mx_helicopter, mx_helicopter },
+    { map_extra_mx_russian_helicopter, mx_russian_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },

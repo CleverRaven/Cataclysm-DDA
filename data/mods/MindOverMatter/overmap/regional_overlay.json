@@ -67,6 +67,7 @@
         "chance": 3,
         "extras": {
           "mx_helicopter": 15,
+          "mx_russian_helicopter": 3,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 150,

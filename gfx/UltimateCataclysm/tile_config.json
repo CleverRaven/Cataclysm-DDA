@@ -10813,6 +10813,7 @@
         { "id": "mx_crater", "fg": 3960 },
         { "id": "mx_fallen_shed", "fg": 3961 },
         { "id": "mx_helicopter", "fg": 3962 },
+        { "id": "mx_russian_helicopter", "fg": 3962 },
         { "id": "mx_point_burned_ground", "fg": 3963 },
         { "id": "mx_point_dead_vegetation", "fg": 3964 },
         { "id": "mx_pond", "fg": 3965 },

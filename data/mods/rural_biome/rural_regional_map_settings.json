@@ -409,6 +409,7 @@
         "chance": 20,
         "extras": {
           "mx_helicopter": 4,
+          "mx_russian_helicopter": 1,
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
@@ -433,6 +434,7 @@
         "chance": 20,
         "extras": {
           "mx_helicopter": 4,
+          "mx_russian_helicopter": 1,
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
@@ -457,6 +459,7 @@
         "chance": 22,
         "extras": {
           "mx_helicopter": 4,
+          "mx_russian_helicopter": 1,
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
@@ -480,6 +483,7 @@
         "chance": 7,
         "extras": {
           "mx_helicopter": 3,
+          "mx_russian_helicopter": 1,
           "mx_portal": 1,
           "mx_crater": 15,
           "mx_portal_in": 1,
@@ -499,6 +503,7 @@
         "chance": 75,
         "extras": {
           "mx_helicopter": 25,
+          "mx_russian_helicopter": 3,
           "mx_roadblock": 15,
           "mx_roadblock_mil": 5,
           "mx_bandits_block": 80,

@@ -159,7 +159,8 @@
           "mx_portal": 3,
           "mx_portal_in": 3,
           "mx_jabberwock": 1,
-          "mx_helicopter": 1
+          "mx_helicopter": 1,
+          "mx_russian_helicopter": 3
         }
       },
       "forest_thick": { "chance": 0, "extras": {  } },

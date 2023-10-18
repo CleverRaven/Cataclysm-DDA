@@ -1880,5 +1880,10 @@
       [ "scompact_tandem_electric_3wheel_stow", 150 ],
       [ "scompact_tandem_electric_3wheel_hboard", 150 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "crashed_russian_helicopters",
+    "vehicles": [ [ "helicopter_mi_38", 1 ] ]
   }
 ]

@@ -54,6 +54,11 @@
     "monsters": [ { "monster": "mon_zombie_military_pilot" } ]
   },
   {
+    "name": "GROUP_MIL_RUS_PILOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_russian_military_pilot" } ]
+  },
+  {
     "name": "GROUP_MIL_PASSENGER",
     "type": "monstergroup",
     "monsters": [
@@ -64,6 +69,15 @@
       { "monster": "mon_zombie_armored", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scientist", "weight": 20 },
       { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie", "weight": 5 }
+    ]
+  },
+  {
+    "name": "GROUP_MIL_RUS_PASSENGER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_russian_soldier", "weight": 245 },
+      { "monster": "mon_zombie_scientist", "weight": 20 },
       { "monster": "mon_zombie", "weight": 5 }
     ]
   },

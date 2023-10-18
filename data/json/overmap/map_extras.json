@@ -144,6 +144,18 @@
     "flags": [ "MAN_MADE" ]
   },
   {
+    "id": "mx_russian_helicopter",
+    "type": "map_extra",
+    "name": { "str": "Russian Helicopter Crash" },
+    "description": "A Russian Helicopter crashed here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_russian_helicopter" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "light_red",
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
+  },
+  {
     "id": "mx_science",
     "type": "map_extra",
     "name": { "str": "Scientists" },

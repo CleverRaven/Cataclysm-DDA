@@ -299,6 +299,31 @@
     ]
   },
   {
+    "id": "clothing_russian_soldier_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes and combat gear worn by russian soldiers that can be found at helicopter crash sites.",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "helmet_army", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 8, "charges": [ 0, 100 ] },
+          { "item": "goggles_ir", "prob": 8, "charges": [ 0, 100 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
     "id": "clothing_soldier_set_pristine",
     "type": "item_group",
     "subtype": "collection",
@@ -430,6 +455,29 @@
     "type": "item_group",
     "subtype": "distribution",
     "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
+    "items": [
+      { "item": "chestrig", "prob": 40 },
+      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "mil_flight_suit", "prob": 80 },
+      { "item": "nomex_gloves" },
+      { "item": "webbing_belt" },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "clothing_military_russian_pilot_distribution",
+    "type": "item_group",
+    "subtype": "distribution",
     "items": [
       { "item": "chestrig", "prob": 40 },
       { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },

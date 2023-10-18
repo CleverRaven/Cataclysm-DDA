@@ -1122,5 +1122,23 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "chocolate", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_russian_pistols",
+    "subtype": "distribution",
+    "entries": [ { "item": "makarov", "prob": 90, "charges": [ 0, 8 ] }, { "item": "tokarev", "prob": 30, "charges": [ 0, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_russian_standard_assault_rifles",
+    "subtype": "distribution",
+    "entries": [ { "item": "ak74", "prob": 100, "charges": [ 0, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_russian_standard_assault_rifles_sighted",
+    "subtype": "distribution",
+    "entries": [ { "item": "ak74", "prob": 100, "charges": [ 0, 30 ], "contents-item": "holo_sight" } ]
   }
 ]
