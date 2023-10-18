@@ -39,10 +39,7 @@
                     "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_auto_rifles_master', 'format: percent')", ">=", "100" ] },
                     "then": [
                       { "math": [ "u_prof_level", "=", "3" ] },
-                      {
-                        "if": { "math": [ "u_prof_level", "<=", "u_prof_lowest" ] },
-                        "then": { "math": [ "u_prof_lowest", "=", "u_prof_level" ] }
-                      }
+                      { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] },
                     ],
                     "else": [
                       { "math": [ "u_val('proficiency', 'proficiency_id: prof_auto_rifles_master', 'format: 6400')", "+=", "rand(4)" ] },
