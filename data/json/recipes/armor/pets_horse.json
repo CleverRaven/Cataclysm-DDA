@@ -105,6 +105,15 @@
     "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
+    "book_learn": [
+      [ "textbook_tailor", 4 ],
+      [ "tailor_portfolio", 5 ],
+      [ "textbook_survival", 3 ],
+      [ "trappers_companion", 3 ],
+      [ "survival_book", 3 ],
+      [ "textbook_armwest", 6 ],
+      [ "textbook_armschina", 6 ]
+    ],
     "reversible": true,
     "using": [ [ "tailoring_leather_patchwork", 55 ], [ "tailoring_cotton_patchwork", 55 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
