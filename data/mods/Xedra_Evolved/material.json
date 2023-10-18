@@ -128,6 +128,17 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, cotton sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "fae_cotton_quilted",
+    "name": "Quilted Gossamer",
+    "copy-from": "fae_cotton",
+    "repaired_with": "null",
+    "wind_resist": 75,
+    "//": "Resist ratios between gossamer and quilted gossamer are the same as between cotton and quilted cotton.",
+    "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "bullet": 5 }
+  },
+  {
+    "type": "material",
     "id": "dreamstuff",
     "name": "Dreamdross",
     "//": "Brass is the base metal of dreamdross with one fourth the density and added breathability",

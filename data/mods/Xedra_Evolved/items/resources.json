@@ -211,5 +211,20 @@
     "material": [ "fae_cotton" ],
     "symbol": "=",
     "color": "white"
+  },
+  {
+    "id": "gambeson_batting_gossamer",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "gossamer gambeson batting", "str_pl": "clumps of gossamer gambeson batting" },
+    "description": "A pile of shredded gossamer, like wisps of solid moonlight, which could be used to stuff the fabric layers of a gambeson.",
+    "weight": "33 g",
+    "volume": "50 ml",
+    "material": [ "fae_cotton" ],
+    "price": 0,
+    "price_postapoc": 8,
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
