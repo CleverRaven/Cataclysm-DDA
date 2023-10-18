@@ -255,7 +255,7 @@ return true if alpha talker is female
 "condition": "npc_female",
 ```
 
-return true if beta talker is male or female; return false, if talker is not capable to have a gender (if monster, for example, can be used if you want to target only alpha or beta talkers)
+return true if beta talker is male or female; return false, if talker is not capable to have a gender (if monster, for example, can be used if you want to target only player or NPC)
 ```json
 "condition": { "or": [ "npc_male", "npc_female" ] },
 ```
@@ -624,12 +624,12 @@ checks do you have aikido stance active
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
-
+You have equipped an item that you can stow
 ```json
 "u_can_stow_weapon"
 ```
 
-You have equipped an item with
+You have equipped an item that you can not stow
 ```json
 { "not": "u_can_stow_weapon" }
 ```
@@ -655,7 +655,7 @@ You have equipped an item with
 { "not": "u_can_drop_weapon" }
 ```
 
-
+`u_has_wielded_with_flag` may be used to replicate the effect
 ```json
 { "u_has_wielded_with_flag": "NO_UNWIELD" }
 ```
@@ -2154,7 +2154,7 @@ You increase the HP of your minor parts to 50, if possible
 
 You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
 ```json
-{ "u_set_hp": { "math": { "u_hp('leg_r') + 10" } }, "target_part": "leg_r" }
+{ "u_set_hp": { "math": [ "u_hp('leg_r') + 10" ] }, "target_part": "leg_r" }
 ```
 
 #### `u_die`, `npc_die`

@@ -86,6 +86,7 @@
   "required_char_flags": [ "" ],    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
   "required_char_flags_all": [ ""], // This technique requires all of the listed character flags to trigger
   "forbidden_char_flags": [ "" ],   // List of character flags disabling this technique
+  "needs_ammo": true,         // Technique works only if weapon is loaded; Consume 1 charge per attack 
   "crit_tec": true,           // This technique only works on a critical hit
   "crit_ok": true,            // This technique works on both normal and critical hits
   "attack_override": false,   // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
@@ -95,7 +96,7 @@
   "repeat_max": 1,
   "knockback_dist": 1,        // Distance target is knocked back
   "knockback_spread": 1,      // The knockback may not send the target straight back
-  "knockback_follow": 1,      // Attacker will follow target if they are knocked back
+  "knockback_follow": true,   // Attacker will follow target if they are knocked back
   "stun_dur": 2,              // Duration that target is stunned for
   "down_dur": 2,              // Duration that target is downed for
   "side_switch": true,        // Technique moves the target behind user
