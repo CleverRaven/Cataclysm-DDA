@@ -20,35 +20,36 @@
     "id": "tools_simple_blacksmith",
     "type": "item_group",
     "//": "Tools commonly used by amateur blacksmiths. A subset of blacksmiths tools",
-    "items": [
-      [ "basic_metalworking_a", 40 ],
-      [ "basic_metalworking_b", 60 ]
-    ]
+    "items": [ { "group": "basic_metalworking_a", "prob": 40 }, { "group": "basic_metalworking_b", "prob": 60 } ]
   },
   {
     "id": "basic_metalworking_a",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      [ "anvil" ],
-      [ "chisel" ],
-      [ "metal_file" ],
-      [ "hotcut" ],
-      [ "metalworking_tongs" ],
-      [ "hammer" ],
-      [ "sandpaper" ]
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_large",
+    "entries": [
+      { "item": "anvil", "count": 1 },
+      { "item": "chisel", "count": 1 },
+      { "item": "metal_file", "count": 1 },
+      { "item": "hotcut", "count": 1 },
+      { "item": "metalworking_tongs", "count": 1 },
+      { "item": "hammer", "count": 1 },
+      { "item": "sandpaper", "count": 1 }
     ]
   },
   {
     "id": "basic_metalworking_b",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      [ "anvil" ],
-      [ "metal_file" ],
-      [ "metalworking_tongs" ],
-      [ "hammer" ],
-      [ "sandpaper" ]
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_large",
+    "entries": [
+      { "item": "anvil", "count": 1 },
+      { "item": "metal_file", "count": 1 },
+      { "item": "metalworking_tongs", "count": 1 },
+      { "item": "hammer", "count": 1 },
+      { "item": "sandpaper", "count": 1 }
     ]
   },
   {
