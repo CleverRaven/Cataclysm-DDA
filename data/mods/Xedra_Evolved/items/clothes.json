@@ -170,7 +170,7 @@
     "id": "dress_gossamer",
     "type": "ARMOR",
     "copy-from": "dress",
-    "name": { "str": "gossamer dress" },
+    "name": { "str": "gossamer dress", "str_pl": "gossamer dresses" },
     "description": "A gossamer dress, shimmering in a mix of rainbow colors.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
@@ -214,6 +214,83 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 3, 3 ] }
     ],
     "flags": [ "VARSIZE", "POCKETS", "FANCY", "OUTER" ]
+  },
+  {
+    "id": "robe_wizard_gossamer",
+    "type": "ARMOR",
+    "copy-from": "robe_wizard",
+    "name": { "str": "gossamer robe" },
+    "description": "A flowing gossamer robe, like a waterfall of light.  There are a surprising amount of pockets cunningly hidden in the iridescent folds.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 4 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100,
+        "encumbrance": [ 3, 3 ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "coverage": 95,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "gloves_light_gossamer",
@@ -267,6 +344,20 @@
     "extend": { "flags": [ "FANCY" ] }
   },
   {
+    "id": "pants_no_pocket_gossamer",
+    "type": "ARMOR",
+    "copy-from": "pants",
+    "name": { "ctxt": "clothing", "str_sp": "gossamer hose" },
+    "//~": "Hose here refers to the Medieval clothing.",
+    "description": "A pair of tight-fitting gossamer pants with no pockets.  They would have been the absolute height of fashion five hundred years ago.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "pocket_data": [  ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
     "id": "skirt_gossamer",
     "type": "ARMOR",
     "copy-from": "skirt",
@@ -276,6 +367,17 @@
     "color": "white",
     "material": [ "fae_cotton" ],
     "pocket_data": [  ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "skirt_long_gossamer",
+    "type": "ARMOR",
+    "copy-from": "skirt_long",
+    "name": { "str": "long gossamer skirt" },
+    "description": "A long gossamer skirt that shimmers like a woven rainbow.  It's warmer and more fashionable than a shorter gossamer skirt.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
     "extend": { "flags": [ "FANCY" ] }
   },
   {

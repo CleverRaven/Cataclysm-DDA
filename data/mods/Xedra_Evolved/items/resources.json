@@ -182,8 +182,34 @@
     "copy-from": "sheet_gossamer",
     "type": "GENERIC",
     "name": { "str": "patchwork gossamer sheet" },
-    "description": "A 12-inch by 24-inch sheet of cotton sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
+    "description": "A 12-inch by 24-inch sheet of gossamer sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
     "price": 200,
     "price_postapoc": 20
+  },
+  {
+    "id": "gossamer_patchwork",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "gossamer patch", "str_pl": "gossamer patches" },
+    "description": "A 6-inch square gossamer patch, suitable for repairing and tailoring clothing.",
+    "weight": "3 g",
+    "volume": "6 ml",
+    "price": 200,
+    "price_postapoc": 2,
+    "material": [ "fae_cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "scrap_gossamer",
+    "copy-from": "scrap_worthless",
+    "type": "GENERIC",
+    "name": { "str_sp": "gossamer scraps" },
+    "description": "Filmy bits of gossamer, barely there.  Not useful for much.",
+    "volume": "1 ml",
+    "material": [ "fae_cotton" ],
+    "symbol": "=",
+    "color": "white"
   }
 ]
