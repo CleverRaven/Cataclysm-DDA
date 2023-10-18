@@ -881,7 +881,7 @@ struct islot_gunmod : common_ranged_data {
     int consume_divisor = 1;
 
     /** Enlarge or reduce shot spread */
-    float shot_spread_multiplier_modifier = 1.0f;
+    float shot_spread_multiplier_modifier = 0.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;

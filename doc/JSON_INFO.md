@@ -3946,7 +3946,7 @@ Gun mods can be defined like this:
 "energy_drain_multiplier": 1.2, // if weapon uses `energy_drain`, multiplies it on this amount
 "field_of_view": 270,           // #53180 has an image of it, but it represent how big FoV of the scope - when characters start to aim, it doesn't use the scope whatsoever, aiming into "general direction", and then transfer to using scope to pinpoint the target. The bigger FoV is, the sooner character would be able to use the scope (target acquisition with higher power scopes is very very difficult); put simple: the bigger FoV, the faster player can aim, to some degree; measured in MOA (minutes of angle)
 "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ], // minimal skill level required to install this gunmod
-"shot_spread_multiplier_modifier": -0.8, // for shotguns, changes the spread of the pellets
+"shot_spread_multiplier_modifier": -0.8, // For shotguns, changes the spread of the pellets. Given a default multiplier of 1.0(100%), a multiplier modifier of -0.8 results in 0.2(20%) shot spread. Multipliers from all mods are summed up, but in vanilla game, only choke should be able to manipulate with shot spread - **shotgun barrel length doesn't affect pellet spread**
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
