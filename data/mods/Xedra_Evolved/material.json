@@ -134,7 +134,7 @@
     "copy-from": "fae_cotton",
     "repaired_with": "null",
     "wind_resist": 75,
-    "//": "Resist ratios between gossamer and quilted gossamer are the same as between cotton and quilted cotton.",
+    "//2": "Resist ratios between gossamer and quilted gossamer are the same as between cotton and quilted cotton.",
     "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "bullet": 5 }
   },
   {

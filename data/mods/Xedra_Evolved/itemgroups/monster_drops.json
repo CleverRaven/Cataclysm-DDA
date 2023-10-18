@@ -97,7 +97,7 @@
               { "group": "clothing_glasses", "prob": 5 },
               { "group": "fae_furs", "damage": [ 0, 4 ] }
             ],
-            "prob": 60
+            "prob": 50
           },
           {
             "collection": [
@@ -109,7 +109,7 @@
               { "group": "clothing_glasses", "prob": 5 },
               { "group": "fae_furs", "prob": 10, "damage": [ 0, 4 ] }
             ],
-            "prob": 40
+            "prob": 50
           }
         ]
       },
@@ -136,7 +136,7 @@
               { "group": "clothing_glasses", "prob": 5 },
               { "group": "fae_furs", "damage": [ 0, 4 ] }
             ],
-            "prob": 60
+            "prob": 50
           },
           {
             "collection": [
@@ -148,7 +148,7 @@
               { "group": "clothing_glasses", "prob": 5 },
               { "group": "fae_furs", "prob": 10, "damage": [ 0, 4 ] }
             ],
-            "prob": 40
+            "prob": 50
           }
         ]
       },

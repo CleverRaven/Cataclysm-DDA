@@ -21,7 +21,7 @@
     "subcategory": "CSC_XEDRA_MISC",
     "name": "gossamer clothes",
     "description": "Recipes related to turning gossamer into clothing.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [
       "tunic_gossamer",
       "sleeveless_tunic_gossamer",
@@ -51,7 +51,7 @@
     "subcategory": "CSC_XEDRA_ARMOR",
     "name": "gossamer armor",
     "description": "Recipes related to turning gossamer into armor.",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "nested_category_data": [ "gambeson_gossamer", "gambeson_hood_gossamer", "gambeson_pants_gossamer", "gambeson_batting_gossamer" ],
     "difficulty": 1
   }

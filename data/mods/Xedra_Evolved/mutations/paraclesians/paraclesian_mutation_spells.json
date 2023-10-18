@@ -105,7 +105,7 @@
     "valid_targets": [ "self" ],
     "components": "spell_components_paraclesian_spell_make_gossamer",
     "skill": "deduction",
-    "max_level": 10,
+    "max_level": 8,
     "effect": "effect_on_condition",
     "effect_str": "EOC_PARACLESIAN_TURN_COTTON_TO_GOSSAMER",
     "shape": "blast",
@@ -118,6 +118,22 @@
     "id": "spell_components_paraclesian_spell_make_gossamer",
     "type": "requirement",
     "//": "Cotton for the Weave Gossamer spell",
-    "components": [ [ [ "cotton_patchwork", 10 ], [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 8 ], [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
+  },
+  {
+    "id": "paraclesian_spell_make_gossamer_real",
+    "type": "SPELL",
+    "name": "Weave Gossamer",
+    "description": "Under the light of the moon, you can weave cotton into gossamer.",
+    "flags": [ "PERMANENT_ALL_LEVELS" ],
+    "valid_targets": [ "self" ],
+    "components": "spell_components_paraclesian_spell_make_gossamer",
+    "skill": "deduction",
+    "max_level": 8,
+    "effect": "spawn_item",
+    "effect_str": "gossamer_patchwork",
+    "shape": "blast",
+    "min_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] },
+    "max_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] }
   }
 ]

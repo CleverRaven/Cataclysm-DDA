@@ -353,7 +353,7 @@
     "description": "Your manipulation of gossamer has advanced to the point where you can make it yourself out of mundane cotton and moonlight.",
     "prereqs": [ "PARACLESIAN_LEARN_GOSSAMER_RECIPES" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
-    "thresh_req": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
+    "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
   }
 ]
