@@ -98,5 +98,105 @@
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
     ],
     "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY5",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY5" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "plant_imbuement", "earth_imbuement", "water_imbuement", "air_imbuement", "fire_imbuement", "doll_imbuement" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "384 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_fire_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to fire.",
+        "type": "good"
+      },
+      { "u_add_trait": "SALAMANDER" },
+      { "u_learn_recipe": "mutagen_flamekin" },
+      { "u_learn_recipe": "charred_sacrifice" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_doll_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming wierdly doll-like?."
+      },
+      { "u_add_trait": "HOMULLUS" },
+      { "u_learn_recipe": "mutagen_dollkin" },
+      { "u_learn_recipe": "doll_repair_paste" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_air_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the winds."
+      },
+      { "u_add_trait": "SYLPH" },
+      { "u_learn_recipe": "mutagen_airkin" },
+      { "u_learn_recipe": "ethereal_draught" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_water_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the waters."
+      },
+      { "u_add_trait": "UNDINE" },
+      { "u_learn_recipe": "mutagen_waterkin" },
+      { "u_learn_recipe": "cerulean_poultice" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_earth_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the earth."
+      },
+      { "u_add_trait": "IERDE" },
+      { "u_learn_recipe": "mutagen_earthkin" },
+      { "u_learn_recipe": "cthonic_poultice" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_plant_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the natural world."
+      },
+      { "u_add_trait": "ARVORE" },
+      { "u_learn_recipe": "mutagen_plantkin" },
+      { "u_learn_recipe": "verdant_poultice" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
   }
 ]
