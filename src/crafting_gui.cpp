@@ -33,7 +33,6 @@
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
@@ -54,8 +53,6 @@ static const limb_score_id limb_score_manip( "manip" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-
-class npc;
 
 class recipe_result_info_cache;
 
@@ -491,15 +488,15 @@ static std::vector<std::string> recipe_info(
             } );
             oss << string_format( _( "Written in: %s\n" ), enumerated_books );
         } else {
-            std::vector<const npc *> knowing_helpers;
-            for( const npc *helper : guy.get_crafting_helpers() ) {
+            std::vector<const Character *> knowing_helpers;
+            for( const Character *helper : guy.get_crafting_helpers() ) {
                 if( helper->knows_recipe( &recp ) ) {
                     knowing_helpers.push_back( helper );
                 }
             }
             if( !knowing_helpers.empty() ) {
                 const std::string enumerated_helpers = enumerate_as_string( knowing_helpers,
-                []( const npc * helper ) {
+                []( const Character * helper ) {
                     return colorize( helper->get_name(), c_cyan );
                 } );
                 oss << string_format( _( "Known by: %s\n" ), enumerated_helpers );
@@ -1256,7 +1253,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
     bool just_toggled_unread = false;
 
     const inventory &crafting_inv = crafter.crafting_inventory();
-    const std::vector<npc *> helpers = crafter.get_crafting_helpers();
+    const std::vector<Character *> helpers = crafter.get_crafting_helpers();
 
     const recipe_subset &available_recipes = crafter.get_available_recipes( crafting_inv,
             &helpers );

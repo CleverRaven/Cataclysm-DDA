@@ -2558,6 +2558,11 @@ void iexamine::dirtmound( Character &you, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
+    if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
+        add_msg( _( "This type of seed can not be planted in this location." ) );
+        return;
+    }
+
     plant_seed( you, examp, seed_id );
 }
 
@@ -5710,6 +5715,16 @@ static bool is_non_rotten_crafting_component( const item &it )
     return is_crafting_component( it ) && !it.rotten();
 }
 
+static int get_milled_amount( const itype_id &milled_id, const tripoint &examp,
+                              map &here )
+{
+    const item_filter valid = [&milled_id]( const item & itm ) {
+        return itm.typeId() == milled_id;
+    };
+    const int num_here = here.items_with( examp, valid ).size();
+    return num_here * milled_id.obj().milling_data->conversion_rate_;
+}
+
 static void mill_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
@@ -5758,8 +5773,8 @@ static void mill_activate( Character &you, const tripoint &examp )
     for( const item &it : here.i_at( examp ) ) {
         const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
         if( mdata ) {
-            const int charges = it.count() * mdata->conversion_rate_;
-            if( charges <= 0 ) {
+            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
+            if( resulting_charges <= 0 ) {
                 no_final_product.emplace( it.tname() );
             }
         }
@@ -5926,11 +5941,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            const int charges = it.count() * mdata.conversion_rate_;
+            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
             // if not enough material, just remove the item (0 loops)
             // (may happen if the player did not add enough charges to the mill
             // or if the conversion rate is changed between versions)
-            for( int i = 0; i < charges; i++ ) {
+            for( int i = 0; i < resulting_charges; i++ ) {
                 item result( mdata.into_, start_time + milling_time );
                 result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
@@ -5939,7 +5954,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                         result.set_flag( f );
                     }
                 }
-                result.recipe_charges = result.charges;
+                result.recipe_charges = resulting_charges;
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( flag_PROCESSING_RESULT );
                 result.set_relative_rot( it.get_relative_rot() );

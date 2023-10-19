@@ -1815,7 +1815,7 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
     const inventory &inven = you.crafting_inventory();
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    const std::vector<Character *> helpers = you.get_crafting_helpers();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
@@ -7513,8 +7513,6 @@ look_around_result game::look_around(
     bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point )
 {
     bVMonsterLookFire = false;
-    // TODO: Make this `true`
-    const bool allow_zlev_move = get_option<bool>( "FOV_3D" );
 
     temp_exit_fullscreen();
 
@@ -7734,10 +7732,6 @@ look_around_result game::look_around(
                 ui->mark_resize();
             }
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-            if( !allow_zlev_move ) {
-                continue;
-            }
-
             const int dz = action == "LEVEL_UP" ? 1 : -1;
             lz = clamp( lz + dz, min_levz, max_levz - 1 );
             center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
@@ -9657,7 +9651,7 @@ void game::butcher()
         }
         return;
     }
-    const std::vector<npc *> helpers = u.get_crafting_helpers();
+    const std::vector<Character *> helpers = u.get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
@@ -12921,6 +12915,22 @@ std::vector<Creature *> game::get_creatures_if( const std::function<bool( const 
     for( Creature &critter : all_creatures() ) {
         if( pred( critter ) ) {
             result.push_back( &critter );
+        }
+    }
+    return result;
+}
+
+std::vector<Character *> game::get_characters_if( const std::function<bool( const Character & )>
+        &pred )
+{
+    std::vector<Character *> result;
+    avatar &a = get_avatar();
+    if( pred( a ) ) {
+        result.push_back( &a );
+    }
+    for( npc &guy : all_npcs() ) {
+        if( pred( guy ) ) {
+            result.push_back( &guy );
         }
     }
     return result;

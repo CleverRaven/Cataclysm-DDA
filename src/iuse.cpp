@@ -3230,7 +3230,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint &pos,
 
     int moves = to_moves<int>( 30_minutes );
 
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
@@ -4185,12 +4185,18 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
         for( const auto &dfield : gasfield ) {
             const field_entry &entry = dfield.second;
             int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor );
+            // Not set, skip this field
+            if( gas_abs_factor == 0 ) {
+                continue;
+            }
             const field_intensity_level &int_level = entry.get_intensity_level();
             // 6000 is the amount of "gas absorbed" charges in a full 100 capacity gas mask cartridge.
             // factor/concentration gives an amount of seconds the cartidge is expected to last in current conditions.
             /// 6000/that is the amount of "gas absorbed" charges to tick up every second in order to reach that number.
             float gas_absorbed = 6000 / ( static_cast<float>( gas_abs_factor ) / static_cast<float>
                                           ( int_level.concentration ) );
+            add_msg_debug( debugmode::DF_IUSE, "Absorbing %g/60 from field: 6000 / (%d * %d)", gas_absorbed,
+                           gas_abs_factor, int_level.concentration );
             if( gas_absorbed > 0 ) {
                 it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_absorbed );
             }
@@ -4776,7 +4782,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
@@ -4820,7 +4826,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint & )
     }
 
     int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
@@ -8467,7 +8473,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                               required.cleanser );
         return std::nullopt;
     }
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     required.time *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {

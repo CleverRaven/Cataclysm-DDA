@@ -249,9 +249,11 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint & ) const
+void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
+    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
+    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

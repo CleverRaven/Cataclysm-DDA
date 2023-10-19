@@ -312,5 +312,20 @@
     "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
     "symbol": ",",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wax_paraffin",
+    "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
+    "category": "spare_parts",
+    "weight": "225 g",
+    "color": "white",
+    "material": [ "paraffin_wax" ],
+    "symbol": "%",
+    "description": "A large chunk of paraffin wax.",
+    "price": 500,
+    "price_postapoc": 10,
+    "volume": "250 ml",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]
