@@ -17,7 +17,8 @@
       "medical_gauze",
       "ammonia_liquid",
       "chem_sulphur",
-      "insecticide"
+      "insecticide",
+      "wax"
     ],
     "//1": "CAUTION: this list is for items that are safe for straightforward deactivation",
     "//2": "items that may be active for additional reasons other than temperature tracking should use separate special case handling"
