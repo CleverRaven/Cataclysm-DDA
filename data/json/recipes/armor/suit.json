@@ -1920,7 +1920,7 @@
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
-    "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 9 ] ]
+    "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 5 ] ]
   },
   {
     "result": "xs_hsurvivor_jumpsuit",
