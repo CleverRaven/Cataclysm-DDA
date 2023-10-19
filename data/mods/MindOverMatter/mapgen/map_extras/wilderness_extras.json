@@ -1,5 +1,5 @@
 [
-	{
+  {
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_fear_hawk_copse",
@@ -32,9 +32,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fear_hawk_copse_trees_palette" ],
-      "place_monsters": [
-        { "monster": "GROUP_FEAR_HAWKS", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_FEAR_HAWKS", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 } ]
     }
   }
 ]
