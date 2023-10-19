@@ -12,5 +12,47 @@
       "CSC_XEDRA_ALCHEMY",
       "CSC_XEDRA_ELEMENTAL"
     ]
+  },
+  {
+    "id": "nested_gossamer_clothing",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "name": "gossamer clothes",
+    "description": "Recipes related to turning gossamer into clothing.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "tunic_gossamer",
+      "sleeveless_tunic_gossamer",
+      "doublet_gossamer",
+      "dress_gossamer",
+      "gown_gossamer",
+      "cloak_gossamer",
+      "jacket_light_gossamer",
+      "robe_wizard_gossamer",
+      "gloves_light_gossamer",
+      "loincloth_gossamer",
+      "pants_gossamer",
+      "pants_no_pocket_gossamer",
+      "skirt_gossamer",
+      "skirt_long_gossamer",
+      "socks_gossamer",
+      "stockings_gossamer",
+      "sheet_gossamer_patchwork"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_gossamer_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR",
+    "name": "gossamer armor",
+    "description": "Recipes related to turning gossamer into armor.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "gambeson_gossamer", "gambeson_hood_gossamer", "gambeson_pants_gossamer", "gambeson_batting_gossamer" ],
+    "difficulty": 1
   }
 ]

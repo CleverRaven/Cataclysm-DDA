@@ -100,5 +100,315 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "id": "tunic_gossamer",
+    "type": "ARMOR",
+    "copy-from": "tunic",
+    "name": { "str": "gossamer tunic" },
+    "description": "A simple garment made of gossamer.  It's very light, and the fabric shimmers in a rainbow of colors in the sunlight.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "volume": "1250 ml",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "sleeveless_tunic_gossamer",
+    "type": "ARMOR",
+    "copy-from": "tunic",
+    "name": { "str": "sleeveless gossamer tunic" },
+    "description": "A simple, sleeveless garment made of gossamer.  It's very light, and the fabric shimmers in a rainbow of colors in the sunlight.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "volume": "1250 ml",
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "doublet_gossamer",
+    "type": "ARMOR",
+    "copy-from": "sweatshirt",
+    "name": { "str": "gossamer doublet" },
+    "description": "A thick overshirt of gossamer, shimmering in a rainbow of colors.  This would have made you the king of the Renn Faire.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "valid_mods": [  ],
+    "armor": [ { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "dress_gossamer",
+    "type": "ARMOR",
+    "copy-from": "dress",
+    "name": { "str": "gossamer dress", "str_pl": "gossamer dresses" },
+    "description": "A gossamer dress, shimmering in a mix of rainbow colors.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "gown_gossamer",
+    "type": "ARMOR",
+    "copy-from": "gown",
+    "name": { "str": "gossamer evening gown" },
+    "description": "A full-length gossamer gown, like a waterfall of coruscating light.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [ { "encumbrance": 9, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "cloak_gossamer",
+    "type": "ARMOR",
+    "copy-from": "cloak",
+    "name": { "str": "gossamer cloak" },
+    "description": "A gossamer cloak meant to be thrown over your body.  It looks like ripples of multicolored light when worn.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "jacket_light_gossamer",
+    "type": "ARMOR",
+    "copy-from": "jacket_light",
+    "name": { "str": "gossamer jacket" },
+    "description": "A thin gossamer jacket.  Despite its lack of heft, its surprisingly warm.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 3, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 3, 3 ] }
+    ],
+    "flags": [ "VARSIZE", "POCKETS", "FANCY", "OUTER" ]
+  },
+  {
+    "id": "robe_wizard_gossamer",
+    "type": "ARMOR",
+    "copy-from": "robe_wizard",
+    "name": { "str": "gossamer robe" },
+    "description": "A flowing gossamer robe, like a waterfall of light.  There are a surprising amount of pockets cunningly hidden in the iridescent folds.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 4 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100,
+        "encumbrance": [ 3, 3 ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "coverage": 95,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "gloves_light_gossamer",
+    "type": "ARMOR",
+    "copy-from": "gloves_light",
+    "name": { "str": "pair of gossamer gloves", "str_pl": "pairs of gossamer gloves" },
+    "description": "A pair of gossamer gloves.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "loincloth_gossamer",
+    "type": "ARMOR",
+    "copy-from": "loincloth",
+    "name": { "str": "gossamer breechcloth" },
+    "description": "A gossamer covering for your loins, for when you want to feel like you're wearing moonbeams.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "pants_gossamer",
+    "type": "ARMOR",
+    "copy-from": "pants",
+    "name": { "str_sp": "gossamer trousers" },
+    "description": "A pair of gossamer pants with two pockets.  They shimmer opalescently.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      }
+    ],
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "pants_no_pocket_gossamer",
+    "type": "ARMOR",
+    "copy-from": "pants",
+    "name": { "ctxt": "clothing", "str_sp": "gossamer hose" },
+    "//~": "Hose here refers to the Medieval clothing.",
+    "description": "A pair of tight-fitting gossamer pants with no pockets.  They would have been the absolute height of fashion five hundred years ago.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "pocket_data": [  ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "skirt_gossamer",
+    "type": "ARMOR",
+    "copy-from": "skirt",
+    "name": { "str_sp": "gossamer skirt" },
+    "description": "A loose gossamer skirt, like a waterfall of light.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "pocket_data": [  ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "skirt_long_gossamer",
+    "type": "ARMOR",
+    "copy-from": "skirt_long",
+    "name": { "str": "long gossamer skirt" },
+    "description": "A long gossamer skirt that shimmers like a woven rainbow.  It's warmer and more fashionable than a shorter gossamer skirt.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "socks_gossamer",
+    "type": "ARMOR",
+    "copy-from": "socks",
+    "name": { "str": "pair of gossamer socks", "str_pl": "pairs of gossamer socks" },
+    "description": "Gossamer socks.  Whether your shoes are made of leather or canvas or moonlight or nightmares, they'll keep your feet from rubbing in them.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "stockings_gossamer",
+    "type": "ARMOR",
+    "copy-from": "stockings",
+    "name": { "str": "pair of gossamer stockings", "str_pl": "pairs of gossamer stockings" },
+    "description": "A pair of gossamer stockings that shimmer in a rainbow of muted colors.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      { "encumbrance": 3, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
   }
 ]

@@ -95,5 +95,45 @@
     "final_energy_cost": 400,
     "energy_increment": -12,
     "base_casting_time": 150
+  },
+  {
+    "id": "paraclesian_spell_make_gossamer",
+    "type": "SPELL",
+    "name": "Weave Gossamer",
+    "description": "Under the light of the moon, you can weave cotton into gossamer.",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "components": "spell_components_paraclesian_spell_make_gossamer",
+    "skill": "deduction",
+    "max_level": 8,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PARACLESIAN_TURN_COTTON_TO_GOSSAMER",
+    "shape": "blast",
+    "difficulty": 7,
+    "energy_source": "MANA",
+    "base_energy_cost": 800,
+    "base_casting_time": 360000
+  },
+  {
+    "id": "spell_components_paraclesian_spell_make_gossamer",
+    "type": "requirement",
+    "//": "Cotton for the Weave Gossamer spell",
+    "components": [ [ [ "cotton_patchwork", 8 ], [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
+  },
+  {
+    "id": "paraclesian_spell_make_gossamer_real",
+    "type": "SPELL",
+    "name": "Weave Gossamer",
+    "description": "Under the light of the moon, you can weave cotton into gossamer.",
+    "flags": [ "PERMANENT_ALL_LEVELS" ],
+    "valid_targets": [ "self" ],
+    "components": "spell_components_paraclesian_spell_make_gossamer",
+    "skill": "deduction",
+    "max_level": 8,
+    "effect": "spawn_item",
+    "effect_str": "gossamer_patchwork",
+    "shape": "blast",
+    "min_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] },
+    "max_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] }
   }
 ]
