@@ -33,7 +33,7 @@ affordability
 affordably
 afterbirth
 aftereffect
-aftereffects 
+aftereffects
 afterglow
 afterimage
 afterlife
@@ -637,6 +637,7 @@ coverplate
 crablike
 cracklins
 craftable
+crafter
 craftsfolk
 craftswoman
 craftwork
@@ -3000,7 +3001,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-thaumaturge 
+thaumaturge
 thaumaturgical
 thawb
 themm
