@@ -8363,14 +8363,14 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl > 0 ) {
         if( has_effect( def ) ) {
-            get_effect( def ).set_intensity( lvl, is_avatar() );
+            get_effect( def ).set_intensity( lvl, true );
         } else {
             add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc ) ) {
-            get_effect( exc ).set_intensity( -lvl, is_avatar() );
+            get_effect( exc ).set_intensity( -lvl, true );
         } else {
             add_effect( exc, 1_turns, true, -lvl );
         }
@@ -11568,7 +11568,7 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    // Check for conditions that disqualify us only if no other Characters can read to us
+    // Check for conditions that disqualify us only if no NPCs can read to us
     if( condition & read_condition_result::ILLITERATE ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
@@ -11588,17 +11588,17 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    //Check for other Characters to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading Character is chosen
+    //Check for NPCs to read for you, negates Illiterate and Far Sighted
+    //The fastest-reading NPC is chosen
     if( is_deaf() ) {
         reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
     time_duration time_taken = time_duration::from_turns( INT_MAX );
-    std::vector<Character *> candidates = get_crafting_helpers();
+    auto candidates = get_crafting_helpers();
 
-    for( const Character *elem : candidates ) {
+    for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
         condition = elem->check_read_condition( book );
         if( condition & read_condition_result::ILLITERATE ) {
@@ -11847,8 +11847,9 @@ int Character::get_lift_str() const
 int Character::get_lift_assist() const
 {
     int result = 0;
-    for( const Character *guy : get_crafting_helpers() ) {
-        result += guy->get_lift_str();
+    const std::vector<npc *> helpers = get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        result += np->get_lift_str();
     }
     return result;
 }

@@ -320,7 +320,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [ "become_plant_fae" ]
     }
   },
@@ -344,7 +344,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [ "become_earth_fae" ]
     }
   },
@@ -368,7 +368,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [ "become_water_fae" ]
     }
   },
@@ -392,7 +392,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [ "become_air_fae" ]
     }
   },
@@ -416,7 +416,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [ "become_fire_fae" ]
     }
   },
@@ -440,7 +440,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Drink the potion. Will not work on those too distant from humanity already.",
+      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
       "effect_on_conditions": [ "become_doll_fae" ]
     }
   }
