@@ -168,6 +168,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
   },
   {
@@ -208,7 +209,7 @@
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ],
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
     "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
   },
   {
@@ -232,7 +233,8 @@
     },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_fear",
@@ -275,7 +277,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_fear_extra",
@@ -306,7 +308,8 @@
     "max_range": 80,
     "min_aoe": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_invisibility",
@@ -452,7 +455,7 @@
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_network",
