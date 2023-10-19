@@ -123,7 +123,11 @@
       { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
       { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" },
       { "name": "post-it", "id": "lab_postit_psi_52", "text": "It's like a shadow and it won't go away" },
-      { "name": "post-it", "id": "lab_postit_psi_53", "text": "SMOKE USHER found something.  It's everywhere.  It's in us" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_53",
+        "text": "SMOKE USHER found something.  It's everywhere.  It's in us"
+      },
       { "name": "post-it", "id": "lab_postit_psi_54", "text": "Zombies can't awaken.  What a surprise" },
       { "name": "post-it", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
       { "name": "post-it", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
