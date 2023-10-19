@@ -62,6 +62,11 @@
     ]
   },
   {
+    "name": "GROUP_FEAR_HAWKS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fear_hawk", "weight": 8 }, { "monster": "mon_null", "weight": 25 } ]
+  },
+  {
     "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_swarm_structure", "weight": 60, "cost_multiplier": 2 } ]

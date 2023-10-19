@@ -70,6 +70,15 @@
     "autonote": true
   },
   {
+    "id": "mx_fear_hawk_copse",
+    "type": "map_extra",
+    "name": { "str": "Suspicious stand of trees" },
+    "description": "A suspicious copse of trees.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map" },
+    "min_max_zlevel": [ 0, 0 ],
+    "autonote": true
+  },
+  {
     "id": "mx_glass_and_crystal",
     "type": "map_extra",
     "name": { "str": "crystal cluster" },
