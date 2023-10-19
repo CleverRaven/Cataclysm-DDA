@@ -321,20 +321,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Drink the potion. Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [
-        {
-          "id": "become_plantkin",
-          "condition": { "not": "u_has_threshold" },
-          "effect": [
-            {
-              "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the natural world."
-            },
-            { "u_add_trait": "ARVORE" },
-            { "u_learn_recipe": "mutagen_plantkin" },
-            { "u_learn_recipe": "verdant_poultice" }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "become_plant_fae" ]
     }
   },
   {
@@ -358,20 +345,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Drink the potion. Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [
-        {
-          "id": "become_earthkin",
-          "condition": { "not": "u_has_threshold" },
-          "effect": [
-            {
-              "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the earth."
-            },
-            { "u_add_trait": "IERDE" },
-            { "u_learn_recipe": "mutagen_earthkin" },
-            { "u_learn_recipe": "cthonic_poultice" }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "become_earth_fae" ]
     }
   },
   {
@@ -395,20 +369,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Drink the potion. Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [
-        {
-          "id": "become_waterkin",
-          "condition": { "not": "u_has_threshold" },
-          "effect": [
-            {
-              "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the waters."
-            },
-            { "u_add_trait": "UNDINE" },
-            { "u_learn_recipe": "mutagen_waterkin" },
-            { "u_learn_recipe": "cerulean_poultice" }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "become_water_fae" ]
     }
   },
   {
@@ -432,20 +393,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Drink the potion. Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [
-        {
-          "id": "become_airkin",
-          "condition": { "not": "u_has_threshold" },
-          "effect": [
-            {
-              "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the winds."
-            },
-            { "u_add_trait": "SYLPH" },
-            { "u_learn_recipe": "mutagen_airkin" },
-            { "u_learn_recipe": "ethereal_draught" }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "become_air_fae" ]
     }
   },
   {
@@ -469,20 +417,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Drink the potion. Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [
-        {
-          "id": "become_flamekin",
-          "condition": { "not": "u_has_threshold" },
-          "effect": [
-            {
-              "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to fire."
-            },
-            { "u_add_trait": "SALAMANDER" },
-            { "u_learn_recipe": "mutagen_flamekin" },
-            { "u_learn_recipe": "charred_sacrifice" }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "become_fire_fae" ]
     }
   },
   {
@@ -506,20 +441,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Drink the potion. Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [
-        {
-          "id": "become_dollkin",
-          "condition": { "not": "u_has_threshold" },
-          "effect": [
-            {
-              "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming wierdly doll-like?."
-            },
-            { "u_add_trait": "HOMULLUS" },
-            { "u_learn_recipe": "mutagen_dollkin" },
-            { "u_learn_recipe": "doll_repair_paste" }
-          ]
-        }
-      ]
+      "effect_on_conditions": [ "become_doll_fae" ]
     }
   }
 ]
