@@ -8363,14 +8363,14 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl > 0 ) {
         if( has_effect( def ) ) {
-            get_effect( def ).set_intensity( lvl, true );
+            get_effect( def ).set_intensity( lvl, is_avatar() );
         } else {
             add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc ) ) {
-            get_effect( exc ).set_intensity( -lvl, true );
+            get_effect( exc ).set_intensity( -lvl, is_avatar() );
         } else {
             add_effect( exc, 1_turns, true, -lvl );
         }
@@ -9702,16 +9702,6 @@ void Character::on_stat_change( const std::string &stat, int value )
 bool Character::has_opposite_trait( const trait_id &flag ) const
 {
     return !get_opposite_traits( flag ).empty();
-}
-
-bool Character::has_threshold() const
-{
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( mut.first->threshold ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &flag ) const

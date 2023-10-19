@@ -1284,10 +1284,6 @@ class Character : public Creature, public visitable
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
         bool has_conflicting_trait( const trait_id &flag ) const;
-        /**
-         * Returns true if the player has a threshold mutation
-         */
-        bool has_threshold() const;
         /** Returns all player's traits conflicting with the entered trait */
         std::unordered_set<trait_id> get_conflicting_traits( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */

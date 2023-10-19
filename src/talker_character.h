@@ -83,7 +83,6 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
-        bool has_threshold() const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool has_species( const species_id &species ) const override;

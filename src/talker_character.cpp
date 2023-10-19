@@ -212,11 +212,6 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
-bool talker_character_const::has_threshold() const
-{
-    return me_chr_const->has_threshold();
-}
-
 bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
 {
     return me_chr_const->knows_recipe( &*recipe_to_check );
