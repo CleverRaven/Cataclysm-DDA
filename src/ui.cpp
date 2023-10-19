@@ -297,6 +297,9 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
     uilist_scrollbar = std::make_unique<scrollbar>();
 
+    categories.clear();
+    current_category = 0;
+
     input_category = "UILIST";
     additional_actions.clear();
 }
@@ -321,6 +324,8 @@ input_context uilist::create_main_input_context() const
         ctxt.register_action( "SELECT" );
     }
     ctxt.register_action( "UILIST.FILTER" );
+    ctxt.register_action( "LEFT" );
+    ctxt.register_action( "RIGHT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     uilist_scrollbar->set_draggable( ctxt );
@@ -376,6 +381,9 @@ void uilist::filterlist()
     int f = 0;
     for( size_t i = 0; i < entries.size(); i++ ) {
         bool visible = true;
+        if( !categories.empty() && !category_filter( entries[i], categories[current_category].first ) ) {
+            continue;
+        }
         if( filtering && !filter.empty() ) {
             if( filtering_nocase ) {
                 // case-insensitive match
@@ -641,6 +649,9 @@ void uilist::calc_data()
     vmax = entries.size();
     int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
                            static_cast<int>( textformatted.size() );
+    if( !categories.empty() ) {
+        additional_lines += 2;
+    }
     if( desc_enabled ) {
         additional_lines += desc_lines + 1; // add one for description separator line
     }
@@ -736,6 +747,13 @@ void uilist::show( ui_adaptor &ui )
         wprintz( window, border_color, " >" );
     }
 
+    const auto print_line = [&]( int line ) {
+        mvwputch( window, point( 0, line ), border_color, LINE_XXXO );
+        for( int i = 1; i < w_width - 1; ++i ) {
+            mvwputch( window, point( i, line ), border_color, LINE_OXOX );
+        }
+        mvwputch( window, point( w_width - 1, line ), border_color, LINE_XOXX );
+    };
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
@@ -743,13 +761,13 @@ void uilist::show( ui_adaptor &ui )
             trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4,
                             text_color, _color_error, "%s", textformatted[i] );
         }
-
-        mvwputch( window, point( 0, text_lines + 1 ), border_color, LINE_XXXO );
-        for( int i = 1; i < w_width - 1; ++i ) {
-            mvwputch( window, point( i, text_lines + 1 ), border_color, LINE_OXOX );
-        }
-        mvwputch( window, point( w_width - 1, text_lines + 1 ), border_color, LINE_XOXX );
+        print_line( text_lines + 1 );
         estart += text_lines + 1; // +1 for the horizontal line.
+    }
+    if( !categories.empty() ) {
+        mvwprintz( window, point( 1, estart ), c_yellow, "<< %s >>", categories[current_category].second );
+        print_line( estart + 1 );
+        estart += 2;
     }
 
     if( recalc_start ) {
@@ -1102,6 +1120,14 @@ void uilist::query( bool loop, int timeout )
             recalc_start = true;
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
+        } else if( !categories.empty() && ( ret_act == "LEFT" || ret_act == "RIGHT" ) ) {
+            current_category += ret_act == "LEFT" ? -1 : 1;
+            if( current_category < 0 ) {
+                current_category = categories.size() - 1;
+            } else if( current_category >= categories.size() ) {
+                current_category = 0;
+            }
+            filterlist();
         } else if( iter != keymap.end() ) {
             const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
             if( it != fentries.end() ) {
@@ -1227,6 +1253,32 @@ void uilist::settext( const std::string &str )
 void uilist::set_selected( int index )
 {
     selected = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+}
+
+void uilist::add_category( const std::string &key, const std::string &name )
+{
+    categories.emplace_back( key, name );
+    std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
+    const std::pair<std::string, std::string> &b ) {
+        return a.second > b.second;
+    } );
+    const auto itr = std::unique( categories.begin(), categories.end() );
+    categories.erase( itr, categories.end() );
+}
+
+void uilist::set_category( const std::string &key )
+{
+    const auto it = std::find_if( categories.begin(),
+    categories.end(), [key]( std::pair<std::string, std::string> &pair ) {
+        return pair.first == key;
+    } );
+    current_category = std::distance( categories.begin(), it );
+}
+
+void uilist::set_category_filter( const
+                                  std::function<bool( const uilist_entry &, const std::string & )> &fun )
+{
+    category_filter = fun;
 }
 
 struct pointmenu_cb::impl_t {
