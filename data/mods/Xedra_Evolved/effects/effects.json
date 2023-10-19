@@ -1025,6 +1025,14 @@
     "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_paraclesian_learned_gossamer",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
+    "rating": "mixed"
+  },
+  {
     "type": "mutation",
     "id": "karma_arms",
     "name": { "str": "Karma" },
