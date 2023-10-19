@@ -9706,9 +9706,8 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
 
 bool Character::has_threshold() const
 {
-    for (const std::pair<const trait_id, trait_data>& mut : my_mutations) {
-        if (mut.first->threshold)
-        {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        if( mut.first->threshold ) {
             return true;
         }
     }

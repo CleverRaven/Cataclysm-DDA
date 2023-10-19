@@ -107,7 +107,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
-        void set_has_threshold(const JsonObject& jo, std::string_view member, bool is_npc = false);
+        void set_has_threshold( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_visible_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
