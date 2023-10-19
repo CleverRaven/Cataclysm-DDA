@@ -2,6 +2,10 @@
   {
     "type": "ascii_art",
     "id": "12mm",
-    "picture": [ "<color_dark_gray>.", "<color_light_gray>X</color>", "\"" ]
+    "picture": [
+      "<color_dark_gray>.",
+      "<color_light_gray>X</color>",
+      "\""
+    ]
   }
 ]

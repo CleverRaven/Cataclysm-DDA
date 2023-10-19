@@ -2,6 +2,10 @@
   {
     "type": "ascii_art",
     "id": "flintlock_ammo",
-    "picture": [ "<color_white>_", "U", "\"" ]
+    "picture": [
+      "<color_white>_",
+      "U",
+      "\""
+    ]
   }
 ]

@@ -2,6 +2,11 @@
   {
     "type": "ascii_art",
     "id": "700nx",
-    "picture": [ "<color_yellow>íì", "║║", "║║", "╨╨" ]
+    "picture": [
+      "<color_yellow>íì",
+      "║║",
+      "║║",
+      "╨╨"
+    ]
   }
 ]

@@ -2,22 +2,62 @@
   {
     "type": "ascii_art",
     "id": "welding_rod_steel",
-    "picture": [ "<color_dark_gray>|", "<color_light_gray>║", "║", "║", "║", "║", "║", "║", "║", "║", "║", "║" ]
+    "picture": [
+      "<color_dark_gray>|",
+      "<color_light_gray>║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║"
+    ]
   },
   {
     "type": "ascii_art",
     "id": "welding_rod_alloy",
-    "picture": [ "<color_light_gray>|", "║", "║", "║", "║", "║", "║", "║", "║", "║", "║", "║" ]
+    "picture": [
+      "<color_light_gray>|",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║"
+    ]
   },
   {
     "type": "ascii_art",
     "id": "welding_wire_steel",
-    "picture": [ "    <color_dark_gray>-.", "  ____\\", ".'    '|", "│      │", "|      |", " '────'" ]
+    "picture": [
+      "    <color_dark_gray>-.",
+      "  ____\\",
+      ".'    '|",
+      "│      │",
+      "|      |",
+      " '────'"
+    ]
   },
   {
     "type": "ascii_art",
     "id": "welding_wire_alloy",
-    "picture": [ "    <color_light_gray>-.", "  ____\\", ".'    '|", "│      │", "|      |", " '────'" ]
+    "picture": [
+      "    <color_light_gray>-.",
+      "  ____\\",
+      ".'    '|",
+      "│      │",
+      "|      |",
+      " '────'"
+    ]
   },
   {
     "type": "ascii_art",

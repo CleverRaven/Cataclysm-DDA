@@ -2,6 +2,9 @@
   {
     "type": "ascii_art",
     "id": "46mm",
-    "picture": [ "<color_yellow>,", "‼" ]
+    "picture": [
+      "<color_yellow>,",
+      "‼"
+    ]
   }
 ]

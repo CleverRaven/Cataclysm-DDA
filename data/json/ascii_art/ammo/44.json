@@ -2,11 +2,17 @@
   {
     "type": "ascii_art",
     "id": "44magnum",
-    "picture": [ "<color_light_gray>,", "<color_yellow>‼" ]
+    "picture": [
+      "<color_light_gray>,",
+      "<color_yellow>‼"
+    ]
   },
   {
     "type": "ascii_art",
     "id": "44fmj",
-    "picture": [ "<color_yellow>,", "‼" ]
+    "picture": [
+      "<color_yellow>,",
+      "‼"
+    ]
   }
 ]

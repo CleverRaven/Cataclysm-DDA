@@ -2,11 +2,17 @@
   {
     "type": "ascii_art",
     "id": "762_m43",
-    "picture": [ "<color_red>;", "<color_green>‼" ]
+    "picture": [
+      "<color_red>;",
+      "<color_green>‼"
+    ]
   },
   {
     "type": "ascii_art",
     "id": "762_m87",
-    "picture": [ "<color_light_gray>;", "<color_yellow>‼" ]
+    "picture": [
+      "<color_light_gray>;",
+      "<color_yellow>‼"
+    ]
   }
 ]
