@@ -1897,7 +1897,10 @@
       [ "tailoring_kevlar_fabric", 370 ],
       [ "blacksmithing_standard", 12 ],
       [ "mc_steel_standard", 3 ],
-      [ "fabric_lycra", 20 ]
+      [ "fabric_lycra", 20 ],
+      [ "fabric_nylon", 30 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 8 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_elastics", "time_multiplier": 1.3, "skill_penalty": 0.2 },
@@ -1917,10 +1920,6 @@
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 300 ] ]
-    ],
     "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 9 ] ]
   },
   {
@@ -1932,7 +1931,10 @@
       [ "tailoring_kevlar_fabric", 259 ],
       [ "blacksmithing_standard", 8 ],
       [ "mc_steel_standard", 2 ],
-      [ "fabric_lycra", 15 ]
+      [ "fabric_lycra", 15 ],
+      [ "fabric_nylon", 23 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 8 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
@@ -1940,10 +1942,6 @@
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
-    ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 225 ] ]
     ]
   },
   {
@@ -1956,7 +1954,10 @@
       [ "tailoring_kevlar_fabric", 555 ],
       [ "blacksmithing_standard", 20 ],
       [ "mc_steel_standard", 5 ],
-      [ "fabric_lycra", 30 ]
+      [ "fabric_lycra", 30 ],
+      [ "fabric_nylon", 45 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 8 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
@@ -1964,10 +1965,6 @@
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
-    ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 450 ] ]
     ]
   },
   {
