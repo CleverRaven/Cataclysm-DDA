@@ -1290,6 +1290,66 @@ void uilist::set_category_filter( const
     category_filter = fun;
 }
 
+void uimenu::addentry( int retval, bool enabled, const std::vector<std::string> &col_content )
+{
+    cata_assert( static_cast<int>( col_content.size() ) == col_count );
+    cols.emplace_back( retval, enabled, col_content );
+}
+
+void uimenu::finalize_addentries()
+{
+    menu.entries.clear();
+    std::vector<int> maxes( col_count, 0 );
+    // get max width of each column
+    for( col &c : cols ) {
+        int i = 0;
+        for( const std::string &entry : c.col_content ) {
+            maxes[i] = std::max( maxes[i], utf8_width( entry, true ) );
+            ++i;
+        }
+    }
+    // adding spacing between columns
+    int free_width = suggest_width - std::reduce( maxes.begin(), maxes.end() );
+    int spacing = std::min( 3, col_count > 1 ? free_width / ( col_count - 1 ) : 0 );
+    if( spacing > 0 ) {
+        for( int i = 0; i < col_count - 1; ++i ) {
+            maxes[i] += spacing;
+        }
+    }
+
+    for( col &c : cols ) {
+        std::string row;
+        int i = 0;
+        for( const std::string &entry : c.col_content ) {
+            // Pad with spaces
+            // Add length of tags to number of spaces to pad with
+            // That is length(entry_with_tags) - length(entry_without_tags)
+            // Otherwise the entry padding will be shorter by number of chars in tags
+            int entry_len_plus_tags = maxes[i] + utf8_width( entry, false ) - utf8_width( entry, true );
+            row += string_format( "%-*s", entry_len_plus_tags, entry );
+            ++i;
+        }
+        menu.addentry( c.retval, c.enabled, -1, row );
+    }
+}
+
+void uimenu::set_selected( int index )
+{
+    menu.selected = index;
+}
+
+void uimenu::set_title( const std::string &title )
+{
+    menu.title = title;
+}
+
+int uimenu::query()
+{
+    finalize_addentries();
+    menu.query();
+    return menu.ret;
+}
+
 struct pointmenu_cb::impl_t {
     const std::vector< tripoint > &points;
     int last; // to suppress redrawing

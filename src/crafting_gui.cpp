@@ -27,7 +27,6 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
-#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -94,6 +93,12 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
             size_t subtab,
             const recipe_subset &available_recipes, TAB_MODE mode,
             std::map<std::string, bool> &unread );
+/**
+ * return index of newly chosen crafter.
+ * return < 0 if error happens or nobody is choosen.
+ */
+static int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_i,
+                           const recipe *rec, bool rec_valid );
 
 static std::string peek_related_recipe( const recipe *current, const recipe_subset &available,
                                         Character &crafter );
@@ -182,6 +187,9 @@ struct availability {
             const deduped_requirement_data &req = r->deduped_requirements();
             has_all_skills = r->skill_used.is_null() ||
                              crafter.get_skill_level( r->skill_used ) >= r->get_difficulty( crafter );
+            crafter_has_primary_skill = r->skill_used.is_null()
+                                        || crafter.get_knowledge_level( rec->skill_used )
+                                        >= static_cast<int>( rec->get_difficulty( crafter ) * 0.8f );
             has_proficiencies = r->character_has_required_proficiencies( crafter );
             std::string reason;
             if( crafter.is_npc() && !r->npc_can_craft( reason ) ) {
@@ -210,6 +218,8 @@ struct availability {
         }
         Character &crafter;
         bool can_craft;
+        // group can introduce recipe this crafter cannot craft because of low primary skill
+        bool crafter_has_primary_skill;
         bool would_use_rotten;
         bool would_use_favorite;
         bool useless_practice;
@@ -258,6 +268,10 @@ struct availability {
                 return h_blue;
             } else if( !can_craft ) {
                 return h_dark_gray;
+            } else if( !crafter_has_primary_skill && is_nested_category ) {
+                return h_magenta;
+            } else if( !crafter_has_primary_skill ) {
+                return h_light_red;
             } else if( is_nested_category ) {
                 return h_light_blue;
             }  else if( would_use_rotten || useless_practice ) {
@@ -274,6 +288,10 @@ struct availability {
                 return c_blue;
             } else if( !can_craft ) {
                 return c_dark_gray;
+            } else if( !crafter_has_primary_skill && is_nested_category ) {
+                return c_magenta;
+            } else if( !crafter_has_primary_skill ) {
+                return c_light_red;
             } else if( is_nested_category ) {
                 return c_light_blue;
             } else if( would_use_rotten || useless_practice ) {
@@ -343,8 +361,18 @@ static std::vector<std::string> recipe_info(
     const std::vector<Character *> &crafting_group )
 {
     std::ostringstream oss;
+    oss << string_format( _( "Crafter: %s\n" ), guy.name_and_maybe_activity() );
 
     oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
+    if( !avail.crafter_has_primary_skill ) {
+        if( recp.is_practice() ) {
+            oss << _( "<color_red>Crafter cannot practice this because they "
+                      "lack the theoretical knowledge for it.</color>\n" );
+        } else {
+            oss << _( "<color_red>Crafter cannot craft this because they "
+                      "lack the theoretical knowledge to understand the recipe.</color>\n" );
+        }
+    }
 
     if( !recp.required_skills.empty() ) {
         oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
@@ -566,6 +594,7 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "CHOOSE_CRAFTER" );
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
     ctxt.register_action( "SELECT" );
@@ -834,6 +863,7 @@ recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat
 
 struct recipe_info_cache {
     const recipe *recp = nullptr;
+    character_id guy_id;
     std::string qry_comps;
     int batch_size;
     int fold_width;
@@ -848,12 +878,14 @@ static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &in
     static int lang_version = detail::get_current_language_version();
 
     if( info_cache.recp != &recp ||
+        info_cache.guy_id != guy.getID() ||
         info_cache.qry_comps != qry_comps ||
         info_cache.batch_size != batch_size ||
         info_cache.fold_width != fold_width ||
         lang_version != detail::get_current_language_version()
       ) {
         info_cache.recp = &recp;
+        info_cache.guy_id = guy.getID();
         info_cache.qry_comps = qry_comps;
         info_cache.batch_size = batch_size;
         info_cache.fold_width = fold_width;
@@ -1205,6 +1237,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
         add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
+        add_action_desc( "CHOOSE_CRAFTER", pgettext( "crafting gui", "Choose crafter" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
@@ -1246,6 +1279,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     std::map<size_t, inclusive_rectangle<point>> translated_tab_map;
     std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
     std::map<size_t, inclusive_rectangle<point>> list_map;
+    // List of all recipes to show, to choose from
     std::vector<const recipe *> current;
     // how much to indent any item
     std::vector<int> indent;
@@ -1268,10 +1302,19 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
 
     const inventory &crafting_inv = crafter->crafting_inventory();
     const std::vector<Character *> crafting_group = crafter->get_crafting_group();
+    int crafter_i = find( crafting_group.begin(), crafting_group.end(),
+                          crafter ) - crafting_group.begin();
 
-    const recipe_subset &available_recipes = crafter->get_available_recipes( crafting_inv,
-            &crafting_group );
-    std::map<const recipe *, availability> availability_cache;
+    // Get everyone's recipes
+    recipe_subset assemble_available_recipes;;
+    for( const Character *guy : crafting_group ) {
+        assemble_available_recipes.include( guy->get_available_recipes( crafting_inv ) );
+    }
+    const recipe_subset &available_recipes = assemble_available_recipes;
+    std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
+    // next line also inserts empty cache for crafter->getID()
+    std::map<const recipe *, availability> *availability_cache =
+        &guy_availability_cache[crafter->getID()];
 
     const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
     const nc_color new_recipe_str_col = c_light_green;
@@ -1560,8 +1603,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const recipe *e : current ) {
-                    if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, availability( *crafter, e ) );
+                    if( !availability_cache->count( e ) ) {
+                        availability_cache->emplace( e, availability( *crafter, e ) );
                     }
                 }
 
@@ -1577,8 +1620,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                 return !a_read;
                             }
                         }
-                        const bool can_craft_a = availability_cache.at( a ).can_craft;
-                        const bool can_craft_b = availability_cache.at( b ).can_craft;
+                        const bool can_craft_a = availability_cache->at( a ).can_craft;
+                        const bool can_craft_b = availability_cache->at( b ).can_craft;
                         if( can_craft_a != can_craft_b ) {
                             return can_craft_a;
                         }
@@ -1598,12 +1641,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 // set up indents and append the expanded entries
                 // have to do this after we sort the list
                 indent.assign( current.size(), 0 );
-                expand_recipes( current, indent, availability_cache, *crafter, unread_recipes_first,
+                expand_recipes( current, indent, *availability_cache, *crafter, unread_recipes_first,
                                 highlight_unread_recipes, available_recipes, uistate.hidden_recipes );
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
-                    return availability_cache.at( e );
+                    return availability_cache->at( e );
                 } );
             }
 
@@ -1764,7 +1807,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             line = -1;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() || ( !available[line].can_craft && !current[line]->is_nested() ) ) {
+            if( available.empty() || ( ( !available[line].can_craft ||
+                                         !available[line].crafter_has_primary_skill )
+                                       && !current[line]->is_nested() ) ) {
                 query_popup()
                 .message( "%s", _( "Crafter can't craft that!" ) )
                 .option( "QUIT" )
@@ -1865,6 +1910,19 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 keepline = true;
             }
             recalc = true;
+        } else if( action == "CHOOSE_CRAFTER" ) {
+            // allow for switching crafter when no recipes are shown (e.g. filter)
+            bool rec_valid = !current.empty();
+            const recipe *rec = rec_valid ? current[line] : nullptr;
+            int new_crafter_i = choose_crafter( crafting_group, crafter_i, rec, rec_valid );
+            if( new_crafter_i >= 0 && new_crafter_i != crafter_i ) {
+                crafter_i = new_crafter_i;
+                crafter = crafting_group[crafter_i];
+                // next line also inserts empty cache for crafter->getID() if non existant
+                availability_cache = &guy_availability_cache[crafter->getID()];
+                recalc = true;
+                keepline = true;
+            }
         } else if( action == "TOGGLE_FAVORITE" && selection_ok( current, line, true ) ) {
             keepline = true;
             recalc = filterstring.empty() && subtab.cur() == "CSC_*_FAVORITE";
@@ -1971,6 +2029,64 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     } while( !done );
 
     return { crafter, chosen };
+}
+
+int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_i,
+                    const recipe *rec, bool rec_valid )
+{
+    std::vector<std::string> header = { _( "Crafter" ) };
+    if( rec_valid ) {
+        header.emplace_back( rec->is_practice() ? _( "Can practice" ) : _( "Can craft" ) );
+        header.emplace_back( _( "Missing" ) );
+    }
+    header.emplace_back( _( "Status" ) );
+    uimenu choose_char_menu( static_cast<int>( header.size() ) );
+    choose_char_menu.set_title( _( "Choose the crafter" ) );
+    choose_char_menu.addentry( -1, false, header );
+
+    int i = 0;
+    for( Character *chara : crafting_group ) {
+        std::vector<std::string> entry = { chara->name_and_maybe_activity() };
+        if( rec_valid ) {
+            availability avail = availability( *chara, rec );
+            std::vector<std::string> reasons;
+
+            bool has_stuff = rec->deduped_requirements().can_make_with_inventory(
+                                 chara->crafting_inventory(), rec->get_component_filter( recipe_filter_flags::none ), 1,
+                                 craft_flags::start_only );
+            if( !has_stuff ) {
+                reasons.emplace_back( _( "stuff" ) );
+            }
+            if( !avail.crafter_has_primary_skill ) {
+                reasons.emplace_back( _( "skill" ) );
+            }
+            if( !avail.has_proficiencies ) {  // this is required proficiency
+                reasons.emplace_back( _( "proficiency" ) );
+            }
+            std::string dummy;
+            if( chara->is_npc() && !rec->npc_can_craft( dummy ) ) {
+                reasons.emplace_back( _( "is NPC" ) );
+            }
+
+            entry.emplace_back(
+                // *INDENT-OFF* readable ternary operator
+                rec->is_nested()
+                    ? colorize( "-", c_yellow )
+                    : avail.can_craft && avail.crafter_has_primary_skill
+                        ? colorize( _( "yes" ), c_green )
+                        : colorize( _( "no" ), c_red ) );
+                // *INDENT-ON* readable ternary operator
+            entry.emplace_back( colorize( string_join( reasons, ", " ), c_red ) );
+        }
+        entry.emplace_back( chara->in_sleep_state()
+                            ? colorize( _( "asleep" ), c_red )
+                            : colorize( _( "awake" ), c_green ) );
+        choose_char_menu.addentry( i, !chara->in_sleep_state(), entry );
+        ++i;
+    }
+
+    choose_char_menu.set_selected( crafter_i + 1 );  // +1 for header entry
+    return choose_char_menu.query();
 }
 
 std::string peek_related_recipe( const recipe *current, const recipe_subset &available,

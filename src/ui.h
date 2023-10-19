@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -527,6 +528,46 @@ class uilist // NOLINT(cata-xy)
         int selected = 0;
 
         void set_selected( int index );
+};
+
+/**
+ *  Hack ui list to behave as a multi column menu
+ */
+class uimenu
+{
+    public:
+        explicit uimenu( int columns ) {
+            cata_assert( columns >= 1 );
+            col_count = columns;
+        }
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param col_content each string will be displayed on the entry's respective column
+        */
+        void addentry( int retval, bool enabled, const std::vector<std::string> &col_content );
+        void set_selected( int index );
+        void set_title( const std::string &title );
+        int query();
+
+    private:
+        /**
+         * Called in query to calculate sizes for multiple columns.
+         */
+        void finalize_addentries();
+        struct col {
+            col( int i_retval, bool i_enabled, const std::vector<std::string> &i_col_content ) :
+                retval( i_retval ), enabled( i_enabled ), col_content( i_col_content )
+            {};
+            int retval;
+            bool enabled;
+            const std::vector<std::string> col_content;
+        };
+        std::vector<col> cols;
+        uilist menu;
+        int col_count;
+
+        int suggest_width = 74;  // 80 (for min size) - 6 (for edges)
 };
 
 /**

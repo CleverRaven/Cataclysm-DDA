@@ -1137,7 +1137,7 @@ float recipe::exertion_level() const
 }
 
 // Format a vector of std::pair<skill_id, int> for the crafting menu.
-// skill colored green (or yellow if beyond characters skill)
+// skill colored green, yellow or red according to character skill
 // with the skill level (player / difficulty)
 static std::string required_skills_as_string( const std::vector<std::pair<skill_id, int>> &skills,
         const Character &c )
@@ -1148,7 +1148,14 @@ static std::string required_skills_as_string( const std::vector<std::pair<skill_
     return enumerate_as_string( skills,
     [&]( const std::pair<skill_id, int> &skill ) {
         const int player_skill = c.get_skill_level( skill.first );
-        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        std::string difficulty_color;
+        if( skill.second <= player_skill ) {
+            difficulty_color = "green";
+        } else if( static_cast<int>( skill.second * 0.8 ) <= player_skill ) {
+            difficulty_color = "yellow";
+        } else {
+            difficulty_color = "red";
+        }
         return string_format( "<color_cyan>%s</color> <color_%s>(%d/%d)</color>", skill.first->name(),
                               difficulty_color, player_skill, skill.second );
     } );
