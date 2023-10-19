@@ -263,6 +263,7 @@
       { "item": "superglue", "prob": 40 },
       { "item": "knitting_needles", "prob": 40 },
       { "item": "duct_tape", "prob": 40, "charges": [ 5, 160 ] },
+      { "item": "wax_paraffin", "prob": 10 },
       { "item": "zipper_short_plastic", "prob": 35 },
       { "item": "zipper_short_plastic", "prob": 15 },
       { "item": "felt_patch", "count": [ 1, 3 ], "prob": 30 },
