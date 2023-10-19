@@ -30,6 +30,42 @@
     "restriction": "Item must be a chainmail compatible armor piece"
   },
   {
+    "id": "ABLATIVE_EXOSKELETON_HEAD",
+    "type": "json_flag",
+    "info": "This armor part will attach to a <info>combat exoskeleton</info> frame",
+    "restriction": "Item must be combat exoskeleton head protector"
+  },
+  {
+    "id": "ABLATIVE_EXOSKELETON_TORSO",
+    "type": "json_flag",
+    "info": "This armor part will attach to a <info>combat exoskeleton</info> frame",
+    "restriction": "Item must be combat exoskeleton torso protector"
+  },
+  {
+    "id": "ABLATIVE_EXOSKELETON_ARMS",
+    "type": "json_flag",
+    "info": "This armor part will attach to a <info>combat exoskeleton</info> frame",
+    "restriction": "Item must be combat exoskeleton arms protector"
+  },
+  {
+    "id": "ABLATIVE_EXOSKELETON_HANDS",
+    "type": "json_flag",
+    "info": "This armor part will attach to a <info>combat exoskeleton</info> frame",
+    "restriction": "Item must be combat exoskeleton hands protector"
+  },
+  {
+    "id": "ABLATIVE_EXOSKELETON_LEGS",
+    "type": "json_flag",
+    "info": "This armor part will attach to a <info>combat exoskeleton</info> frame",
+    "restriction": "Item must be combat exoskeleton legs protector"
+  },
+  {
+    "id": "ABLATIVE_EXOSKELETON_FEET",
+    "type": "json_flag",
+    "info": "This armor part will attach to a <info>combat exoskeleton</info> frame",
+    "restriction": "Item must be combat exoskeleton feet protector"
+  },
+  {
     "id": "ABLATIVE_LARGE",
     "type": "json_flag",
     "info": "This plate will fit in <info>large</info> armor pockets",
