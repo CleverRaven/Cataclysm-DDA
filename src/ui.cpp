@@ -299,6 +299,7 @@ void uilist::init()
 
     categories.clear();
     current_category = 0;
+    category_lines = 2;
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -641,6 +642,13 @@ void uilist::calc_data()
             desc_enabled = false;
         }
     }
+    if( !categories.empty() ) {
+        category_lines = 0;
+        for( const std::pair<std::string, std::string> &pair : categories ) {
+            // -2 for borders, -2 for padding
+            category_lines = std::max<int>( category_lines, foldstring( pair.second, w_width - 4 ).size() );
+        }
+    }
 
     if( w_auto && w_width > TERMX ) {
         w_width = TERMX;
@@ -650,7 +658,7 @@ void uilist::calc_data()
     int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
                            static_cast<int>( textformatted.size() );
     if( !categories.empty() ) {
-        additional_lines += 2;
+        additional_lines += category_lines + 1;
     }
     if( desc_enabled ) {
         additional_lines += desc_lines + 1; // add one for description separator line
@@ -715,6 +723,7 @@ void uilist::apply_scrollbar()
     } else {
         estart = 1;
     }
+    estart += category_lines > 0 ? category_lines + 1 : 0;
 
     uilist_scrollbar->offset_x( sbside )
     .offset_y( estart )
@@ -766,8 +775,8 @@ void uilist::show( ui_adaptor &ui )
     }
     if( !categories.empty() ) {
         mvwprintz( window, point( 1, estart ), c_yellow, "<< %s >>", categories[current_category].second );
-        print_line( estart + 1 );
-        estart += 2;
+        print_line( estart + category_lines );
+        estart += category_lines + 1;
     }
 
     if( recalc_start ) {
@@ -1124,7 +1133,7 @@ void uilist::query( bool loop, int timeout )
             current_category += ret_act == "LEFT" ? -1 : 1;
             if( current_category < 0 ) {
                 current_category = categories.size() - 1;
-            } else if( current_category >= categories.size() ) {
+            } else if( current_category >= static_cast<int>( categories.size() ) ) {
                 current_category = 0;
             }
             filterlist();
@@ -1260,7 +1269,7 @@ void uilist::add_category( const std::string &key, const std::string &name )
     categories.emplace_back( key, name );
     std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
     const std::pair<std::string, std::string> &b ) {
-        return a.second > b.second;
+        return localized_compare( a.second, b.second );
     } );
     const auto itr = std::unique( categories.begin(), categories.end() );
     categories.erase( itr, categories.end() );

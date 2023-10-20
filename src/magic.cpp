@@ -2580,8 +2580,8 @@ int known_magic::select_spell( Character &guy )
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
     spell_menu.add_category( "all", _( "All" ) );
-    for( auto s : known_spells ) {
-        if( s->spell_class().is_valid() ) {
+    for( const spell *s : known_spells ) {
+        if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
             spell_menu.add_category( s->spell_class().str(), s->spell_class().obj().name() );
         }
     }
