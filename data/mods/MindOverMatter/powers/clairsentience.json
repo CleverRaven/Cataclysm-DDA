@@ -328,6 +328,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "clair_ranged_enhance": 4, "clair_voyance": 7, "clair_clear_sight": 12 }
   },
   {
@@ -478,6 +479,7 @@
     "base_casting_time": 1000,
     "final_casting_time": 500,
     "casting_time_increment": -25,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "clair_dodge_power": 8, "clair_see_map": 12, "clair_omniscience": 20 }
   },
   {

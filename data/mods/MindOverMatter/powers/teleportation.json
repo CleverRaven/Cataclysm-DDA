@@ -67,6 +67,7 @@
     "base_casting_time": 80,
     "final_casting_time": 35,
     "casting_time_increment": -4.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_collapse": 7, "teleport_stride": 10, "teleport_displacement": 12, "teleport_banish": 18 }
   },
   {
@@ -157,6 +158,7 @@
     "base_casting_time": 55,
     "final_casting_time": 0,
     "casting_time_increment": -2.75,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_displacement": 5, "teleport_stride": 7, "teleport_farstep": 9, "teleport_banish": 15 }
   },
   {
@@ -186,6 +188,7 @@
     "base_casting_time": 75,
     "final_casting_time": 25,
     "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_banish": 10 }
   },
   {
@@ -224,6 +227,7 @@
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_displacement": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
   },
   {
@@ -291,6 +295,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "teleport_summon": 7 }
   },
   {
@@ -346,6 +351,7 @@
     "energy_increment": -250,
     "base_casting_time": 250,
     "final_casting_time": 125,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "casting_time_increment": -6.5
   }
 ]

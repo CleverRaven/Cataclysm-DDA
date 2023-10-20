@@ -33,6 +33,7 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "telekinetic_hammer": 7, "telekinetic_shield": 15 }
   },
   {
@@ -69,6 +70,7 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "telekinetic_wave": 7, "telekinetic_hammer": 10, "telekinetic_strength": 13, "telekinetic_explosion": 15 }
   },
   {
@@ -162,7 +164,6 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "damage_type": "biological",
     "min_damage": 12,
     "max_damage": 12,
     "energy_source": "STAMINA",
@@ -209,6 +210,7 @@
     "energy_increment": -158.333333,
     "base_casting_time": 50,
     "final_casting_time": 10,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "casting_time_increment": -6.666667
   },
   {
@@ -296,6 +298,7 @@
     "casting_time_increment": -1.5,
     "sound_type": "combat",
     "sound_description": "a heavy thud!",
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12 }
   },
   {
@@ -315,7 +318,8 @@
     },
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 2) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_vehicle_lift",
@@ -426,6 +430,7 @@
     "casting_time_increment": -7.5,
     "sound_type": "combat",
     "sound_description": "a loud crash!",
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "telekinetic_push": 4, "telekinetic_pull": 4 }
   },
   {
@@ -449,7 +454,8 @@
     "min_aoe": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "max_aoe": 30
+    "max_aoe": 30,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_levitation",
