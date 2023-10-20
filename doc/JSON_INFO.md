@@ -3959,7 +3959,7 @@ Gun mods can be defined like this:
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
 "barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
-"overheat_threshold_modifier": 100,   //The overheat threshold can be added or subtracted.
+"overheat_threshold_modifier": 100,   // Add flat amount to gun's "overheat_threshold"; if threshold is 100, and modifier is 10, the result is 110; if modifier is -25, the result is 75
 "overheat_threshold_multiplier": 1.5, //Change the overheat threshold as a percentage; if 1.5, multiply the original gun threshold by 1.5.
 "cooling_value_modifier": 2,          //Cooling_value can be added or subtracted. A value of + means better cooling, and a value of - means less cooling.
 "cooling_value_multiplier": 0.5,      //Change the Cooling_value as a percentage.
