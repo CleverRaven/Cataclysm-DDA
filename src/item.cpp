@@ -6492,7 +6492,7 @@ std::string item::overheat_symbol() const
     for( const item *mod : gunmods() ) {
         modifier += mod->type->gunmod->overheat_threshold_modifier;
         multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
-        }
+    }
     if( faults.count( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
