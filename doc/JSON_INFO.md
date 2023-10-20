@@ -3963,7 +3963,7 @@ Gun mods can be defined like this:
 "overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" on this number; if threshold is 100, and multiplier is 1.5, the result is 150; if multiplier is 0.8, the result is 80
 "cooling_value_modifier": 2,          // Add flat amount to gun's "cooling_value"; works same as overheat_threshold_modifier
 "cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" on this number; works same as overheat_threshold_multiplier
-"heat_per_shot_modifier":  -2,        //You can add or subtract heat_per_shot. If you want to reduce the heat generated, specify a negative number.
+"heat_per_shot_modifier":  -2,        //  Add flat amount to gun's "heat_per_shot"; works same as overheat_threshold_modifier```
 "heat_per_shot_multiplier": 2.0,      //You can change HEAT_PER_SHOT as a percentage.
 ```
 
