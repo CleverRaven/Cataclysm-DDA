@@ -3961,7 +3961,7 @@ Gun mods can be defined like this:
 "barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
 "overheat_threshold_modifier": 100,   // Add a flat amount to gun's "overheat_threshold"; if the threshold is 100, and the modifier is 10, the result is 110; if the modifier is -25, the result is 75
 "overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" by this number; if the threshold is 100, and the multiplier is 1.5, the result is 150; if the multiplier is 0.8, the result is 80
-"cooling_value_modifier": 2,          // Add flat amount to gun's "cooling_value"; works same as overheat_threshold_modifier
+"cooling_value_modifier": 2,          // Add a flat amount to gun's "cooling_value"; works the same as overheat_threshold_modifier
 "cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" on this number; works same as overheat_threshold_multiplier
 "heat_per_shot_modifier":  -2,        //  Add flat amount to gun's "heat_per_shot"; works same as overheat_threshold_modifier```
 "heat_per_shot_multiplier": 2.0,      // Multiply gun's "heat_per_shot" on this number; works same as overheat_threshold_multiplier
