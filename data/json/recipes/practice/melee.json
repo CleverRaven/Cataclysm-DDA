@@ -822,7 +822,7 @@
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
-    "name": "fencing",
+    "name": "fencing (beginner)",
     "description": "Practice the basics of the noble art of fencing.  Learn how to angle your body, aim your lunges, and parry pretend swords.  Not that the undead are using swords.  Hopefully.",
     "skill_used": "stabbing",
     "skills_required": [ [ "melee", 1 ] ],
