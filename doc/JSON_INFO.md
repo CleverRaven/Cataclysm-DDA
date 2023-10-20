@@ -3960,7 +3960,7 @@ Gun mods can be defined like this:
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
 "barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
 "overheat_threshold_modifier": 100,   // Add flat amount to gun's "overheat_threshold"; if threshold is 100, and modifier is 10, the result is 110; if modifier is -25, the result is 75
-"overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" on this number; if threshold is 100, and multiplier is 1.5, the result is 150; if multiplier is 0.8, the result is 80
+"overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" by this number; if the threshold is 100, and the multiplier is 1.5, the result is 150; if the multiplier is 0.8, the result is 80
 "cooling_value_modifier": 2,          // Add flat amount to gun's "cooling_value"; works same as overheat_threshold_modifier
 "cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" on this number; works same as overheat_threshold_multiplier
 "heat_per_shot_modifier":  -2,        //  Add flat amount to gun's "heat_per_shot"; works same as overheat_threshold_modifier```
