@@ -2,14 +2,14 @@
 
 #include <algorithm>
 
-int level_cache::lightmap_latest_zlevel = 0;
-
 level_cache::level_cache()
 {
     const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
     transparency_cache_dirty.set();
     outside_cache_dirty = true;
     floor_cache_dirty = false;
+    has_lightmap = false;
+    has_sunlight_cache = false;
     constexpr four_quadrants four_zeros( 0.0f );
     std::fill_n( &lm[0][0], map_dimensions, four_zeros );
     std::fill_n( &sm[0][0], map_dimensions, 0.0f );

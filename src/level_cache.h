@@ -27,6 +27,8 @@ struct level_cache {
         bool outside_cache_dirty = false;
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
+        bool has_lightmap = false;
+        bool has_sunlight_cache = false;
         // This is a single value indicating that the entire level is floored.
         bool no_floor_gaps = false;
 
@@ -100,8 +102,6 @@ struct level_cache {
 
         void clear_vehicle_cache();
         void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );
-
-        static int lightmap_latest_zlevel;
 
     private:
         // Whether the cache is empty or not; if true, nothing has been added to the cache
