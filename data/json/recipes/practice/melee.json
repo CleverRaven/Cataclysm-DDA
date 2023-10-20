@@ -322,7 +322,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_great_axes_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "battleaxe", "fire_ax", "ax", "primative_axe" ] ]
+    "tools": [ [ "battleaxe", "fire_ax", "ax", "primitive_axe" ] ]
   },
   {
     "id": "prac_cutting_int_great_axe",
@@ -402,7 +402,7 @@
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "great hammers (intermediate)",
     "description": "Practice advanced methods of using an oversized hammer in combat.",
-    "skill_used": "blashing",
+    "skill_used": "bashing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
@@ -440,7 +440,7 @@
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "flails (intermediate)",
     "description": "Practice advanced methods of using a flail in combat.",
-    "skill_used": "blashing",
+    "skill_used": "bashing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
@@ -475,7 +475,7 @@
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "maces (intermediate)",
     "description": "Practice advanced methods of using a mace or a club in combat.",
-    "skill_used": "blashing",
+    "skill_used": "bashing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
@@ -719,7 +719,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_medium_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "arming_sword", "cavalry_saber", "cutlass" ] ]
+    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass" ] ]
   },
   {
     "id": "prac_cutting_int_med_sword",
@@ -738,7 +738,7 @@
       { "proficiency": "prof_medium_swords_familiar", "required": true },
       { "proficiency": "prof_medium_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "arming_sword", "cavalry_saber", "cutlass" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_cutting_beg_short_sword",
@@ -905,7 +905,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_hooking_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "fire_ax", "battleaxe", "brush_axe", "scythe", "axe", "hoe" ] ]
+    "tools": [ [ "fire_ax", "battleaxe", "brush_axe", "scythe", "ax", "hoe" ] ]
   },
   {
     "id": "prac_cutting_int_hooking",
@@ -925,7 +925,7 @@
       { "proficiency": "prof_hooking_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "tools": [
-      [ "fire_ax", "battleaxe", "brush_axe", "scythe", "axe", "hoe" ],
+      [ "fire_ax", "battleaxe", "brush_axe", "scythe", "ax", "hoe" ],
       [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
     ]
   },
