@@ -773,7 +773,8 @@ bool Character::handle_gun_overheat( item &it )
         heat_multiplier *= mod->type->gunmod->heat_per_shot_multiplier;
     }
     double heat = it.get_var( "gun_heat", 0.0 );
-    double threshold = std::max((it.type->gun->overheat_threshold* overheat_multiplier) + overheat_modifier, 5.0);
+    double threshold = std::max( ( it.type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
     const islot_gun &gun_type = *it.type->gun;
 
     if( threshold < 0.0 ) {
