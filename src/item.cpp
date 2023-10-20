@@ -13658,8 +13658,9 @@ bool item::process_gun_cooling( Character *carrier )
         cooling_modifier += mod->type->gunmod->cooling_value_modifier;
         cooling_multiplier *= mod->type->gunmod->cooling_value_multiplier;
     }
-    double threshold = std::max((type->gun->overheat_threshold * overheat_multiplier) + overheat_modifier, 5.0);
-    heat -= std::max((type->gun->cooling_value * cooling_multiplier) + cooling_modifier, 0.5);
+    double threshold = std::max( ( type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
+    heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
     if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
         faults.erase( fault_overheat_safety );
