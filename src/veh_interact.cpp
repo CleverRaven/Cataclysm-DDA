@@ -3318,7 +3318,7 @@ void veh_interact::complete_vehicle( Character &you )
                     item_group::ItemList pieces = vp.pieces_for_broken_part();
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
                 } else {
-                    resulting_items.push_back( veh.part_to_item( vp ) );
+                    resulting_items.push_back( veh.removed_part( vp ) );
 
                     // damage reduces chance of success (0.8^damage_level)
                     const double component_success_chance = std::pow( 0.8, vp.damage_level() );

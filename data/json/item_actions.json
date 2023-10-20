@@ -37,6 +37,11 @@
   },
   {
     "type": "item_action",
+    "id": "deploy_appliance",
+    "name": { "str": "Deploy item" }
+  },
+  {
+    "type": "item_action",
     "id": "CROWBAR_WEAK",
     "name": { "str": "Pry crate or nails" }
   },
