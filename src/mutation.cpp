@@ -1083,11 +1083,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     bool allow_good = false;
     bool allow_bad = false;
     bool allow_neutral = true;
+    bool try_opposite = true;
 
     if( select_mutation ) {
         // Mutation selector overrides good / bad mutation rolls
         allow_good = true;
         allow_bad = true;
+        try_opposite = false;
     } else if( roll_bad_mutation() ) {
         // If we picked bad, mutation can be bad or neutral
         allow_bad = true;
@@ -1106,6 +1108,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         allow_good = true; // because i'm WILD YEAH
         allow_bad = true;
         allow_neutral = true;
+        try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
@@ -1122,6 +1125,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         add_msg_debug( debugmode::DF_MUTATION, "mutate: Genetic Downward Spiral found, all bad traits" );
         allow_good = false;
         allow_bad = true;
+        try_opposite = false;
     }
 
     std::vector<trait_id> valid; // Valid mutations
@@ -1244,6 +1248,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         }
         if( valid.empty() ) {
+            if( try_opposite && cat_list.get_weight() == 0 ) {
+                // Rebuild cat_list to try opposite in case good or bad mutation candidates are exhausted.
+                try_opposite = false;
+                allow_good = !allow_good;
+                allow_bad = !allow_bad;
+                cat_list = get_vitamin_weighted_categories();
+            }
             if( cat_list.get_weight() > 0 ) {
                 // try to pick again
                 cat = *cat_list.pick();
