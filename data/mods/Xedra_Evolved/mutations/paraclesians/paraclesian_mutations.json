@@ -330,5 +330,30 @@
     "category": [ "ARVORE", "SYLPH" ],
     "leads_to": [ "ARVORE_DEX_BONUS" ],
     "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_LEARN_GOSSAMER_RECIPES",
+    "name": { "str": "Gossamer Artisan" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like your fae ancestors, you can turn gossamer into clothing and armor.  Activate this trait to learn a gossamer recipe (once per week).",
+    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_GOSSAMER_RECIPES" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_MAKE_GOSSAMER",
+    "name": { "str": "Gossamerwright" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Your manipulation of gossamer has advanced to the point where you can make it yourself out of mundane cotton and moonlight.",
+    "prereqs": [ "PARACLESIAN_LEARN_GOSSAMER_RECIPES" ],
+    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
+    "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
+    "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
   }
 ]

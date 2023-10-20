@@ -751,7 +751,7 @@
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder"
     ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope your found the prototype's performance to be satisfactory.\"",
+    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope you found the prototype's performance to be satisfactory.\"",
     "responses": [
       {
         "text": "Will this weapon work on other robots, as well?",

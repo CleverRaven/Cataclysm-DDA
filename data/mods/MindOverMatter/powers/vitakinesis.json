@@ -146,6 +146,7 @@
     "base_casting_time": 85,
     "final_casting_time": 55,
     "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
   },
   {
@@ -183,6 +184,7 @@
     "base_casting_time": 100,
     "final_casting_time": 25,
     "casting_time_increment": -7.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
   },
   {

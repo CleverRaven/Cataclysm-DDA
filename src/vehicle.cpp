@@ -8066,6 +8066,15 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
     return tmp;
 }
 
+item vehicle::removed_part( const vehicle_part &vp ) const
+{
+    item ret = part_to_item( vp );
+    if( vp.info().removed_item ) {
+        ret.convert( *vp.info().removed_item );
+    }
+    return ret;
+}
+
 bool vehicle::refresh_zones()
 {
     if( zones_dirty ) {

@@ -789,6 +789,35 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
+void Character::set_skills_from_hobbies()
+{
+    // 2 for an average person
+    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
+    // 1.2 for an average person, always a bit higher than base amount
+    float knowledge_modifier = 1.0f + get_int() / 40.0f;
+    // Grab skills from hobbies and train
+    for( const profession *profession : hobbies ) {
+        for( const profession::StartingSkill &e : profession->skills() ) {
+            // Train our skill
+            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
+            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
+                    knowledge_modifier, true );
+        }
+    }
+}
+
+void Character::set_proficiencies_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const proficiency_id &proficiency : profession->proficiencies() ) {
+            // Do not duplicate proficiencies
+            if( !_proficiencies->has_learned( proficiency ) ) {
+                add_proficiency( proficiency );
+            }
+        }
+    }
+}
+
 void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
@@ -808,19 +837,7 @@ void Character::initialize( bool learn_recipes )
         mod_skill_level( e.first, e.second );
     }
 
-    // 2 for an average person
-    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
-    // 1.2 for an average person, always a bit higher than base amount
-    float knowledge_modifier = 1.0f + get_int() / 40.0f;
-    // Grab skills from hobbies and train
-    for( const profession *profession : hobbies ) {
-        for( const profession::StartingSkill &e : profession->skills() ) {
-            // Train our skill
-            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
-            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
-                    knowledge_modifier, true );
-        }
-    }
+    set_skills_from_hobbies();
 
     // setup staring bank money
     cash = rng( -200000, 200000 );
@@ -869,14 +886,7 @@ void Character::initialize( bool learn_recipes )
     }
 
     // Add hobby proficiencies
-    for( const profession *profession : hobbies ) {
-        for( const proficiency_id &proficiency : profession->proficiencies() ) {
-            // Do not duplicate proficiencies
-            if( !_proficiencies->has_learned( proficiency ) ) {
-                add_proficiency( proficiency );
-            }
-        }
-    }
+    set_proficiencies_from_hobbies();
 
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
@@ -4496,7 +4506,7 @@ void avatar::character_to_template( const std::string &name )
     save_template( name, pool_type::TRANSFER );
 }
 
-void avatar::add_default_background()
+void Character::add_default_background()
 {
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {
