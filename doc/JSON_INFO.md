@@ -3964,7 +3964,7 @@ Gun mods can be defined like this:
 "cooling_value_modifier": 2,          // Add flat amount to gun's "cooling_value"; works same as overheat_threshold_modifier
 "cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" on this number; works same as overheat_threshold_multiplier
 "heat_per_shot_modifier":  -2,        //  Add flat amount to gun's "heat_per_shot"; works same as overheat_threshold_modifier```
-"heat_per_shot_multiplier": 2.0,      //You can change HEAT_PER_SHOT as a percentage.
+"heat_per_shot_multiplier": 2.0,      // Multiply gun's "heat_per_shot" on this number; works same as overheat_threshold_multiplier
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
