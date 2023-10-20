@@ -913,7 +913,7 @@
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
-    "name": "hooking eapons (intermediate)",
+    "name": "hooking weapons (intermediate)",
     "description": "Practice advanced methods of using a hooking weapon in combat.",
     "skill_used": "slashing",
     "skills_required": [ [ "melee", 1 ] ],
