@@ -54,7 +54,9 @@
     "description": "A slim card that is used to initialize a STEED, which will then imprint the rider's biometric data and follow them unerringly.",
     "weight": "6 g",
     "volume": "5 ml",
+    "symbol": ",",
     "color": "green",
+    "comestible_type": "INVALID",
     "use_action": [ "PETFOOD" ],
     "petfood": [ "STEED_registry" ]
   }
