@@ -200,7 +200,6 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "byproducts": [ [ "scrap_kevlar", 17 ], [ "scrap_lycra", 7 ] ]
   },
   {
