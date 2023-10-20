@@ -769,6 +769,29 @@
   },
   {
     "type": "profession",
+    "id": "butcher",
+    "name": "Butcher",
+    "description": "You spent most of your adult life in a butcher shop.  Your trusty knife has seen many different creatures and you know how to butcher them.",
+    "points": 2,
+    "skills": [ { "name": "cutting", "level": 2 }, { "name": "cooking", "level": 2 }, { "name": "survival", "level": 2 } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_intro_biology", "prof_wp_basic_bird" ],
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "sneakers" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "hat_chef", "variant": "white_hat_chef" },
+          { "item": "jacket_chef", "variant": "white_jacket_chef" },
+          { "item": "apron_plastic" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "churl",
     "name": "Churl",
     "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous Cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
