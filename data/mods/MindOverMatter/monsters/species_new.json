@@ -1,0 +1,8 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "PSI_NULL",
+    "description": "a being immune to psionics",
+    "//": "This is an extra species to attach to any monster that is supposed to be immune to psionics--it will prevent them from being targeted by psionic powers.  If the monster is supposed to be fully immune, they will still need appropriate monster flags or armor against psionic damage types to prevent them from being caught in the AoE of powers targeted elsewhere."
+  }
+]
