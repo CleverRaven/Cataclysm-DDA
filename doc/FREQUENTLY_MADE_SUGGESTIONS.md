@@ -2,6 +2,21 @@
 This is a list of frequently made suggestions, and the current stance on how viable they are.
 Broad categories are “This is already implemented”, “Someone is working on it now”, “This will go in as soon as someone implements it”, “This doesn’t fit the main game, but would be fine for a mod that ships with the game”, “We might add support for it to the code, but we won’t/can’t distribute it with the game”, “This isn’t reasonable to implement”, and “We’re not adding support for this to the code even for a mod”.
 
+- [Frequently Made Suggestions](#Frequently-Made-Suggestions)
+  - [Project Management](#Project-Management)
+  - [Game Features](#Game-Features)
+    - [Performance](#Performance)
+    - [Multiplayer](#Multiplayer)
+    - [Rogue Like](#Rogue-Like)
+    - [Player abilities](#Player-abilities)
+    - [Electrical power transmission](#Electrical-power-transmission)
+    - [User interface](#User-interface)
+    - [Monsters](#Monsters)
+    - [Vehicle additions](#Vehicle-additions)
+    - [Gun Behavior](#Gun-Behavior)
+    - [Environment](#Environment)
+  - [Failed Rationalizations](#Failed-Rationalizations)
+
 ## Project Management
 
 #### We should vote on this: Nope
@@ -225,7 +240,7 @@ This brings us to the topic of warhorses, which for all practical purposes do no
 
 Mods of course are free to have warhorses or other warbeasts as they wish.
 
-#### Use a lance on a bicycle or motorcycle: see [lance charge]()
+#### Use a lance on a bicycle or motorcycle: see [lance charge](#Add-a-lance-charge-for-massive-damage-bonuses-yes-but-not-the-way-most-people-imagine-it)
 
 I'd expect the impact a bicycle rider can sustain without knocking themselves off their bike to be much lower than what a horse rider could handle.
 
