@@ -819,7 +819,8 @@ bool Character::handle_gun_overheat( item &it )
             return false;
         }
     }
-    it.set_var( "gun_heat", heat + std::max((gun_type.heat_per_shot * heat_multiplier) + heat_modifier, 0.0));
+    it.set_var( "gun_heat", heat + std::max( ( gun_type.heat_per_shot * heat_multiplier ) +
+                heat_modifier, 0.0 ) );
     return true;
 }
 
