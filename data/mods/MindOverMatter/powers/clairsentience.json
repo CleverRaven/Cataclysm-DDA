@@ -429,10 +429,12 @@
     "final_energy_cost": 1500,
     "energy_increment": -175,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 800) + 10000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 800) + 10000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1500) + 60000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 1500) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "base_casting_time": 200,
     "final_casting_time": 125,
