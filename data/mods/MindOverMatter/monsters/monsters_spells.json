@@ -46,6 +46,18 @@
     "max_aoe": 12
   },
   {
+    "id": "biokinetic_speed_boost_monster_01",
+    "type": "SPELL",
+    "name": "[Ψ]Biokinetic Speed Boost Monster Lesser",
+    "description": "Cause a monster to get a small number of extra moves.  It's a bug if you have this.",
+    "valid_targets": [ "self" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "effect": "mod_moves",
+    "shape": "blast",
+    "min_damage": 150,
+    "max_damage": 350
+  },
+  {
     "id": "pyrokinetic_eruption_monster",
     "type": "SPELL",
     "name": "[Ψ]Fountain of Flames Monster",
