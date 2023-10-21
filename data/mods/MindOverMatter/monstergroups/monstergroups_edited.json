@@ -173,16 +173,33 @@
   {
     "name": "GROUP_BEARS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "45 days", "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "21 days", "cost_multiplier": 5 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_CAVE",
-    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "45 days", "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "21 days", "cost_multiplier": 5 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
-    "monsters": [ { "monster": "mon_hidebehind", "weight": 1, "starts": "45 days", "cost_multiplier": 10 } ]
+    "monsters": [ { "monster": "mon_hidebehind", "weight": 1, "starts": "21 days", "cost_multiplier": 10 } ]
+  },
+  {
+    "name": "GROUP_COWS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hodag", "weight": 10, "starts": "14 days", "cost_multiplier": 8 } ]
+  },
+  {
+    "name": "GROUP_COWS_DAIRY",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hodag", "weight": 10, "starts": "14 days", "cost_multiplier": 20 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10 } ]
   }
 ]
