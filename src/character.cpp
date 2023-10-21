@@ -6021,7 +6021,7 @@ float Character::rest_quality() const
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
             rest += 0.2f;
-        } else if( floor_bedding_warmth( your_pos ) > units::temperature_delta{} ) {
+        } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
             rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
         }
@@ -8919,7 +8919,7 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 
 units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
 {
-    units::temperature_delta item_warmth{};
+    units::temperature_delta item_warmth = 0_C_delta;
 
     const auto warm = [&item_warmth]( const auto & stack ) {
         for( const item &elem : stack ) {
@@ -8950,11 +8950,11 @@ units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
 
 units::temperature_delta Character::floor_warmth( const tripoint &pos ) const
 {
-    const auto item_warmth = floor_item_warmth( pos );
+    const units::temperature_delta item_warmth = floor_item_warmth( pos );
     auto bedding_warmth = floor_bedding_warmth( pos );
 
     // If the PC has fur, etc, that will apply too
-    auto floor_mut_warmth = bodytemp_modifier_traits_floor();
+    const units::temperature_delta floor_mut_warmth = bodytemp_modifier_traits_floor();
     // DOWN does not provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
     if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 2_C_delta ) ) {

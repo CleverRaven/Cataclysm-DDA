@@ -287,7 +287,7 @@ struct body_part_type {
         int squeamish_penalty = 0;
         bool feels_discomfort = true;
 
-        units::temperature_delta fire_warmth_bonus = 0.6_C_delta;
+        units::temperature_delta fire_warmth_bonus = 0_C_delta;
 
         //Innate environmental protection
         int env_protection = 0;
