@@ -707,7 +707,9 @@ void advanced_inventory::recalc_pane( side p )
     advanced_inventory_pane &there = panes[-p + 1];
     advanced_inv_area &other = squares[there.get_area()];
     avatar &player_character = get_avatar();
-    if( pane.container ) {
+    if( pane.container &&
+        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_NORTHEAST ) {
+
         const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
 
         // If container is no longer adjacent or on the player's z-level, nullify it.
