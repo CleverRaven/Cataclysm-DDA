@@ -73,9 +73,9 @@ static const std::string title_PROFICIENCIES = translate_marker( "PROFICIENCIES"
 static const unsigned int grid_width = 26;
 
 // Rescale temperature value to one that the player sees
-static int temperature_print_rescaling( int temp )
+static int temperature_print_rescaling( units::temperature temp )
 {
-    return ( temp / 100.0 ) * 2 - 100;
+    return ( units::to_legacy_bodypart_temp( temp ) / 100.0 ) * 2 - 100;
 }
 
 static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
