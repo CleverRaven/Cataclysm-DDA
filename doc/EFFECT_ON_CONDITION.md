@@ -629,7 +629,7 @@ You have equipped an item that you can stow
 "u_can_stow_weapon"
 ```
 
-You have equipped an item that you can not stow
+You have equipped an item that you can not stow, either because it's bionic pseudoitem, you have no space to store it, or by any another reason
 ```json
 { "not": "u_can_stow_weapon" }
 ```
