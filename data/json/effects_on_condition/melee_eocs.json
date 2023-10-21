@@ -884,8 +884,34 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MELEE_PROF_BENEFIT",
-    "//": "Provides proficiency benefit.",
+    "//": "Refunds stamina based on the presumed model of stamina cost:  [ (((Item Weight / 16) + 50 ) * -1) + Melee Skill ]. This excludes the stance modifier, due to not being able to detect if the character is crouching at time of writing. ",
     "global": false,
-    "effect": [ { "u_message": "Stamina is <u_val:stamina>" } ]
+    "condition": { "or": [ { "math": [ "u_prof_lowest", "!=", "4" ] }, { "math": [ "u_prof_lowest", "!=", "0" ] } ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_GET_WIELD_WEIGHT",
+            "effect": [ { "math": [ "u_stamina_delta", "=", "max( 50, round(stamcost(n_val('weight'), u_skill('melee'))))" ] } ]
+          }
+        ]
+      },
+      { "math": [ "u_stamina_delta", "=", "round(stamrefund( u_stamina_delta, u_prof_lowest))" ] },
+      { "u_message": "Proficiency stamina refund: <u_val:stamina_delta>" }
+    ]
+  },
+  {
+    "type": "jmath_function",
+    "id": "stamcost",
+    "num_args": 2,
+    "return": "_0 / 1000 / 16 + 50 - _1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "stamrefund",
+    "num_args": 2,
+    "return": " _0 * ( .0125 * ( 2 ^ _1))"
   }
 ]
