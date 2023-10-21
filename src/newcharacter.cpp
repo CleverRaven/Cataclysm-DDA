@@ -935,10 +935,11 @@ void avatar::initialize( character_type type )
 
     // Select a random known style, except for style_kicks.
     std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
-    std::vector<matype_id>::iterator it_kicks = std::find( all_styles.begin(), all_styles.end(), style_kicks );
-    if ( it_kicks != all_styles.end() ) {
+    std::vector<matype_id>::iterator it_kicks = std::find( all_styles.begin(), all_styles.end(),
+            style_kicks );
+    if( it_kicks != all_styles.end() ) {
         all_styles.erase( it_kicks );
-    } 
+    }
     martial_arts_data->set_style( random_entry( all_styles, style_none ) );
 
     for( const trait_id &t : get_base_traits() ) {
