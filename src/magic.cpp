@@ -2204,11 +2204,13 @@ class spellcasting_callback : public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
+            const std::string space( menu->pad_right - 2, ' ' );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
                       LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
+                mvwputch( menu->window, point( menu->w_width - menu->pad_right + 1, i ), menu->text_color, space );
             }
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
@@ -2577,6 +2579,21 @@ int known_magic::select_spell( Character &guy )
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
+    spell_menu.add_category( "all", _( "All" ) );
+    for( const spell *s : known_spells ) {
+        if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
+            spell_menu.add_category( s->spell_class().str(), s->spell_class().obj().name() );
+        }
+    }
+    spell_menu.set_category_filter( [known_spells]( const uilist_entry & entry,
+    const std::string & key )->bool {
+        if( key == "all" )
+        {
+            return true;
+        }
+        return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
+    } );
+    spell_menu.set_category( "all" );
 
     std::set<int> used_invlets{ cb.reserved_invlets };
 
