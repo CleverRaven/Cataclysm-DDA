@@ -2797,7 +2797,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View temperature map",
+    "name": "View temperature map (using Map font)",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
   },
