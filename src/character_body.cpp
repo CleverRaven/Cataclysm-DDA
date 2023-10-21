@@ -452,7 +452,8 @@ void Character::update_bodytemp()
     const units::temperature_delta metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 2_C_delta;
     // Fatigue
     // -1.725C when exhausted, scaled up and capped at 900 fatigue.
-    const float scaled_fatigue = clamp( get_fatigue(), 0, 900 ) / ( float )fatigue_levels::EXHAUSTED;
+    const float scaled_fatigue = clamp( get_fatigue(), 0,
+                                        900 ) / static_cast<float>( fatigue_levels::EXHAUSTED );
     const units::temperature_delta fatigue_warmth = has_sleep ? 0_C_delta : -1.725_C_delta *
             scaled_fatigue;
 
