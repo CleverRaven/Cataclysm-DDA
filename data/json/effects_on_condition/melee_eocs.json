@@ -886,7 +886,7 @@
     "id": "EOC_MELEE_PROF_BENEFIT",
     "//": "Refunds stamina based on the presumed model of stamina cost:  [ (((Item Weight / 16) + 50 ) * -1) + Melee Skill ]. This excludes the stance modifier, due to not being able to detect if the character is crouching at time of writing. ",
     "global": false,
-    "condition": { "or": [ { "math": [ "u_prof_lowest", "!=", "4" ] }, { "math": [ "u_prof_lowest", "!=", "0" ] } ] },
+    "condition": { "not": { "or": [ { "math": [ "u_prof_lowest", "==", "4" ] }, { "math": [ "u_prof_lowest", "==", "0" ] } ] } },
     "effect": [
       {
         "u_run_inv_eocs": "all",
@@ -899,7 +899,7 @@
         ]
       },
       { "math": [ "u_stamina_delta", "=", "round(stamrefund( u_stamina_delta, u_prof_lowest))" ] },
-      { "u_message": "Proficiency stamina refund: <u_val:stamina_delta>" }
+      { "math": [ "u_val('stamina')", "+=", "u_stamina_delta" ] }
     ]
   },
   {
