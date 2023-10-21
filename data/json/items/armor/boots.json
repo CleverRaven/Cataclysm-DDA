@@ -962,7 +962,6 @@
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 20, "thickness": 21.0 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "coverage": 100
