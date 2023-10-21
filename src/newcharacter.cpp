@@ -86,6 +86,7 @@ static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const matype_id style_none( "style_none" );
+static const matype_id style_kicks( "style_kicks" );
 
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
@@ -932,7 +933,12 @@ void avatar::initialize( character_type type )
         }
     }
 
+    // Select a random known style, except for style_kicks.
     std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
+    std::vector<matype_id>::iterator it_kicks = std::find( all_styles.begin(), all_styles.end(), style_kicks );
+    if ( it_kicks != all_styles.end() ) {
+        all_styles.erase( it_kicks );
+    } 
     martial_arts_data->set_style( random_entry( all_styles, style_none ) );
 
     for( const trait_id &t : get_base_traits() ) {
