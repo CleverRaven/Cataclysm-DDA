@@ -573,7 +573,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "bashing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_auto_rifles_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "ar15", "ak74", "m1carbine" ] ]
+    "qualities": [ { "id": "RIFLE", "level": 1 } ]
   },
   {
     "id": "prac_bashing_int_rifle",
@@ -592,7 +592,8 @@
       { "proficiency": "prof_auto_rifles_familiar", "required": true },
       { "proficiency": "prof_auto_rifles_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "ar15", "ak74", "m1carbine" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "qualities": [ { "id": "RIFLE", "level": 1 } ],
+    "tools": [ [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_bashing_beg_pistol",
@@ -608,7 +609,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "bashing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_auto_pistols_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "fn57", "glock_22", "sig_40" ] ]
+    "qualities": [ { "id": "PISTOL", "level": 1 } ]
   },
   {
     "id": "prac_bashing_int_pistol",
@@ -627,7 +628,8 @@
       { "proficiency": "prof_auto_pistols_familiar", "required": true },
       { "proficiency": "prof_auto_pistols_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "fn57", "glock_22", "sig_40" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "qualities": [ { "id": "PISTOL", "level": 1 } ],
+    "tools": [ [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_stabbing_beg_knife",
