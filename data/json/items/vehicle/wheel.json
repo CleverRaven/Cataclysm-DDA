@@ -791,7 +791,6 @@
   {
     "id": "wheel_set_concrete_mix",
     "type": "WHEEL",
-    "category": "veh_parts",
     "name": { "str_sp": "concrete mixer wheels" },
     "description": "A set of two small wheels from a concrete mixer.",
     "copy-from": "wheel_small",
