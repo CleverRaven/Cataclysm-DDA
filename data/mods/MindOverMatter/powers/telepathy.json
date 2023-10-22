@@ -238,7 +238,7 @@
     "id": "telepathic_fear",
     "type": "SPELL",
     "name": "[Ψ]Primal Terror",
-    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does.",
+    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does, and it leaves a lingering horror behind in the target.",
     "message": "You unleash your target's fears.",
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
@@ -280,25 +280,21 @@
   {
     "id": "telepathic_fear_extra",
     "type": "SPELL",
-    "name": "[Ψ]Primal Terror fearparalyze",
-    "description": "Applies the fearparalyze effect so you can tell a target is afraid.  It's a bug if you have it directly.",
+    "name": "[Ψ]Primal Terror Effect",
+    "description": "Applies a longer debuff when using Primal Terror.  It's a bug if you have it directly.",
     "message": "",
     "teachable": false,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "flags": [ "SILENT", "RANDOM_DURATION" ],
     "valid_targets": [ "hostile", "ground" ],
     "effect": "attack",
-    "effect_str": "fearparalyze",
+    "effect_str": "effect_telepathic_primal_terror",
     "shape": "blast",
     "min_duration": {
-      "math": [
-        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 75) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [
-        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 150) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
