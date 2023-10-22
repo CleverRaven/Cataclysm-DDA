@@ -19,6 +19,7 @@
     "type": "AMMO",
     "name": { "str": "40x53mm M1001 flechette" },
     "description": "A 40x53mm canister shot load, with 115 17-grain flechettes.",
+    "ascii_picture": "40x53mm_m1001",
     "damage": { "damage_type": "bullet", "amount": 150, "armor_penetration": 12 },
     "range": 14,
     "recoil": 18750,
@@ -30,6 +31,7 @@
     "type": "AMMO",
     "name": { "str_sp": "40x53mm M430A1 HEDP" },
     "description": "A high velocity 40x53mm high explosive dual-purpose grenade.  It can penetrate 3 inches of steel armor, and the fragmentation of the projectile body also makes it suitable for use against infantry.",
+    "ascii_picture": "40x53mm_m430a1",
     "volume": "132 ml",
     "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 45 },
     "extend": { "effects": [ "EXPLOSIVE_m430a1" ] }
@@ -40,6 +42,7 @@
     "type": "AMMO",
     "name": { "str_sp": "40x53mm buckshot, reloaded" },
     "description": "An improvised 40x53mm buckshot load somewhat resembling M576.",
+    "ascii_picture": "40x53mm_improvised",
     "damage": { "damage_type": "bullet", "amount": 141 }
   },
   {
@@ -48,6 +51,7 @@
     "type": "AMMO",
     "name": { "str": "40x53mm slug, reloaded", "str_pl": "40x53mm slugs, reloaded" },
     "description": "An improvised 40x53mm load resembling an oversized shotgun slug.",
+    "ascii_picture": "40x53mm_improvised",
     "damage": { "damage_type": "bullet", "amount": 141, "armor_penetration": 6 },
     "proportional": { "price": 0.7, "dispersion": 1.1 }
   },
@@ -57,6 +61,7 @@
     "type": "AMMO",
     "name": { "str_sp": "40x53mm flechette, reloaded" },
     "description": "An improvised 40x53mm flechette load containing 115 steel darts, similar to a M1001 flechette load.",
+    "ascii_picture": "40x53mm_improvised",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 }
   },
   {
@@ -73,6 +78,7 @@
     "type": "AMMO",
     "name": { "str": "40x53mm slug, black powder", "str_pl": "40x53mm slugs, black powder" },
     "description": "An improvised 40x53mm load resembling an oversized shotgun slug.  Due to the use of black powder instead of smokeless, expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "ascii_picture": "40x53mm_improvised",
     "damage": { "damage_type": "bullet", "amount": 119, "armor_penetration": 3 },
     "proportional": { "price": 0.3, "recoil": 0.76, "dispersion": 1.2 },
     "extend": { "effects": [ "BLACKPOWDER", "MUZZLE_SMOKE" ] },
@@ -84,6 +90,7 @@
     "type": "AMMO",
     "name": { "str_sp": "40x53mm flechette, black powder" },
     "description": "An improvised 40x53mm flechette load containing 115 steel darts, similar to a M1001 flechette load.  Due to the use of black powder instead of smokeless, expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "ascii_picture": "40x53mm_improvised",
     "damage": { "damage_type": "bullet", "amount": 114, "armor_penetration": 6 },
     "proportional": { "price": 0.3, "recoil": 0.76, "dispersion": 1.2 },
     "extend": { "effects": [ "BLACKPOWDER", "MUZZLE_SMOKE" ] },
