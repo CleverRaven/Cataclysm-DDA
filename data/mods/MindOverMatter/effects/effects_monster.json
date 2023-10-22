@@ -35,6 +35,7 @@
       { "limb_score": "reaction", "modifier": 0.35 },
       { "limb_score": "vision", "modifier": 0.75 }
     ],
+    "immune_flags": [ "TEEPSHIELD" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
