@@ -354,6 +354,7 @@ class martialart
         translation name;
         translation description;
         std::vector<translation> initiate;
+        int priority = 0;
         std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;
         bool teachable = true;
