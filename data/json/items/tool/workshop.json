@@ -248,7 +248,7 @@
     "id": "con_mix",
     "type": "TOOL",
     "name": { "str": "concrete mixer" },
-    "description": "A portable concrete mixer.  It is large and heavy, but it can be operated solo.",
+    "description": "A portable concrete mixer.  It is large and heavy, but it can be operated solo.  Unfold to use.",
     "weight": "40823 g",
     "volume": "250 L",
     "longest_side": "118 cm",
