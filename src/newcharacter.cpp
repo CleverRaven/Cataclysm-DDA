@@ -86,7 +86,6 @@ static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 static const matype_id style_none( "style_none" );
-static const matype_id style_kicks( "style_kicks" );
 
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
