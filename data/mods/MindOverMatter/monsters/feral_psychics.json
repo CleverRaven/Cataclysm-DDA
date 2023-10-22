@@ -884,7 +884,7 @@
   {
     "id": "mon_feral_human_teep3",
     "type": "MONSTER",
-    "name": "nightmare enkindler",
+    "name": { "str": "instiller of nightmares", "str_pl": "instillers of nightmares" },
     "description": "Just another feral, with the typical bloodshot eyes and intense expression.  You have only a moment to think that before your heart starts racing in your chest and the hair stands up on the back of your neck as every instinct screams at you to run.",
     "default_faction": "zombie",
     "looks_like": "chud",
