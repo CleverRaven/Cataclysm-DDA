@@ -811,6 +811,7 @@
         }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
+      "city_center": { "chance": 20, "extras": { "mx_fungal_zone": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
       "build": {
         "chance": 90,

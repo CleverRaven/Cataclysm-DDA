@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".30 Carbine" },
     "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.",
+    "ascii_picture": "30carbine",
     "weight": "12 g",
     "volume": "160 ml",
     "longest_side": "43 mm",
