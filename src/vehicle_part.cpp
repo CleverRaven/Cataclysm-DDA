@@ -136,7 +136,11 @@ std::string vehicle_part::name( bool with_prefix ) const
             break;
         }
     }
-    if( is_leaking() || ( health_percent() < 0.5 && info().has_flag( VPFLAG_FLOATS ) ) ) {
+    // Update the vehicle.cpp line 6127 when you change this %
+    if( health_percent() < 0.5 && info().has_flag( VPFLAG_FLOATS ) ) {
+        res += _( " (leaking)" );
+    }
+    if( is_leaking() ) {
         res += _( " (draining)" );
     }
     if( debug_mode ) {
