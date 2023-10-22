@@ -999,6 +999,35 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telepath_sense_minds",
+    "name": [ "Sensing Minds" ],
+    "desc": [ "You are looking out for other minds." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of other minds fades away.",
+    "decay_messages": [
+      [ "You can barely tell if any other mind is out there at all.", "bad" ],
+      [ "Your sense of other minds is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 50,
+    "dur_add_perc": 10,
+    "int_dur_factor": "36 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_MINDS",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: telepathic_mind_sense') * 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telepath_invisibility",
     "name": [ "Obscurity" ],
     "desc": [ "You are hiding your presence from your enemies." ],

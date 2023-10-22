@@ -131,6 +131,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "TRIFFID",
+    "description": "a triffid"
+  },
+  {
+    "type": "SPECIES",
     "id": "MOLLUSK",
     "description": "a mollusk",
     "fear_triggers": [ "HURT", "FIRE" ],

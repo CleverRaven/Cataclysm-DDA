@@ -198,12 +198,12 @@ void Creature::set_pos_only( const tripoint &p )
     location = get_map().getglobal( p );
 }
 
-void Creature::set_location( const tripoint_abs_ms &loc )
+void Creature::set_location(const tripoint_abs_ms& loc)
 {
     location = loc;
 }
 
-void Creature::on_move( const tripoint_abs_ms & ) {}
+void Creature::on_move(const tripoint_abs_ms&) {}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
@@ -223,7 +223,7 @@ void Creature::reset()
 
 void Creature::bleed() const
 {
-    get_map().add_splatter( bloodType(), pos() );
+    get_map().add_splatter(bloodType(), pos());
 }
 
 void Creature::reset_bonuses()
@@ -253,7 +253,7 @@ void Creature::reset_bonuses()
 void Creature::process_turn()
 {
     decrement_summon_timer();
-    if( is_dead_state() ) {
+    if (is_dead_state()) {
         return;
     }
     reset_bonuses();
@@ -266,17 +266,17 @@ void Creature::process_turn()
     reset_stats();
 
     // add an appropriate number of moves
-    if( !has_effect( effect_ridden ) ) {
+    if (!has_effect(effect_ridden)) {
         moves += get_speed();
     }
 }
 
-bool Creature::cant_do_underwater( bool msg ) const
+bool Creature::cant_do_underwater(bool msg) const
 {
-    if( is_underwater() ) {
-        if( msg ) {
-            add_msg_player_or_npc( m_info, _( "You can't do that while underwater." ),
-                                   _( "<npcname> can't do that while underwater." ) );
+    if (is_underwater()) {
+        if (msg) {
+            add_msg_player_or_npc(m_info, _("You can't do that while underwater."),
+                _("<npcname> can't do that while underwater."));
         }
         return true;
     }
@@ -291,7 +291,16 @@ bool Creature::is_underwater() const
 bool Creature::is_likely_underwater() const
 {
     return is_underwater() ||
-           ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
+        (has_flag(mon_flag_AQUATIC) && get_map().has_flag(ter_furn_flag::TFLAG_SWIMMABLE, pos()));
+}
+
+// Detects whether a target is sapient or not (or barely sapient, since ferals count)
+bool Creature::has_mind() const
+{
+    if( is_npc() ) {
+        return true;
+    }
+        return false;
 }
 
 bool Creature::is_ranged_attacker() const
