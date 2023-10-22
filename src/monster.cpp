@@ -3325,8 +3325,7 @@ bool monster::has_mind() const
         return false;
     } else if( has_flag( mon_flag_HAS_MIND ) ) {
         return true;
-    }
-    else if ( in_species( species_ZOMBIE ) ) {
+    } else if( in_species( species_ZOMBIE ) ) {
         return false;
     }
     else if ( has_flag( mon_flag_HUMAN ) ) {
