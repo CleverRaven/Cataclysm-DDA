@@ -727,7 +727,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_concrete_mix",
-    "name": { "str": "concrete mixer wheel mounts" },
+    "name": { "str_sp": "concrete mixer wheel mounts" },
     "categories": [ "movement" ],
     "location": "axle",
     "damage_modifier": 80,
@@ -743,7 +743,7 @@
   {
     "id": "wheel_set_concrete_mix",
     "type": "vehicle_part",
-    "name": { "str": "concrete mixer wheels" },
+    "name": { "str_sp": "concrete mixer wheels" },
     "looks_like": "wheel",
     "item": "wheel_set_concrete_mix",
     "location": "under",

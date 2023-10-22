@@ -284,7 +284,7 @@
     "id": "frame_concrete_mix",
     "type": "vehicle_part",
     "copy-from": "frame_abstract",
-    "name": { "str": "concrete mixer chassis" },
+    "name": { "str_sp": "concrete mixer chassis" },
     "item": "frame_concrete_mix",
     "durability": 150,
     "description": "The chassis of a concrete mixer.",
