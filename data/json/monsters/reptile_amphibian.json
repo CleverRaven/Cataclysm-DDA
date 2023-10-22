@@ -989,6 +989,30 @@
     "name": { "str": "colossal croaker" },
     "description": "Bloated to titanic size, rivaling a moose, this mutated bullfrog takes several seconds just to blink each vacant eye.  In place of the cognition it has lost, the beast has gained an even more voracious appetite and the might to sustain it.",
     "copy-from": "mon_proxy_megafrog",
+    "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 5,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
+        "type": "leap",
+        "cooldown": 10,
+        "move_cost": 0,
+        "max_range": 12,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
+      [ "SHRIEK_ALERT", 20 ],
+      [ "SHRIEK_STUN", 5 ]
+    ],
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 32, "baby_timer": 20 },
     "//": "Colossal Croaker needs a colossal croak."
   },
