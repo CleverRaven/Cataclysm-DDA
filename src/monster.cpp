@@ -3321,7 +3321,7 @@ bool monster::is_nether() const
 
 bool monster::has_mind() const
 {
-    if (in_species(species_ZOMBIE) || in_species(species_PSI_NULL)) {
+    if( in_species( species_ZOMBIE ) || in_species( species_PSI_NULL ) ) {
         return false;
     } else if( in_species( species_TRIFFID ) || has_flag( mon_flag_HUMAN ) ||
                in_species( species_CYBORG ) || in_species( species_BLOB_LIEUTENANT ) ||
