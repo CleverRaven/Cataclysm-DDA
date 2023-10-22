@@ -3314,8 +3314,8 @@ bool monster::is_electrical() const
 
 bool monster::is_nether() const
 {
-    return in_species(species_HORROR) || in_species(species_NETHER) ||
-        in_species(species_nether_player_hate);
+    return in_species( species_HORROR ) || in_species( species_NETHER ) ||
+           in_species( species_nether_player_hate );
 }
 
 // statement below is to set up detection hierarchy
