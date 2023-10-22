@@ -217,7 +217,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_long_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "bokken", "sword_wood", "katana", "longsword" ] ]
+    "tools": [ [ "bokken", "katana", "longsword" ] ]
   },
   {
     "id": "prac_cutting_int_long_sword",
@@ -392,7 +392,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "bashing", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_great_hammers_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "club_wooden_large", "warhammer", "hammer_sledge", "hammer_sledge_heavy" ] ]
+    "tools": [ [ "club_wooden_large", "mace_pipe_large", "warhammer", "hammer_sledge", "hammer_sledge_heavy" ] ]
   },
   {
     "id": "prac_bashing_int_great_hammer",
@@ -721,7 +721,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_medium_swords_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass" ] ]
+    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass", "sword_wood", "sword_crude", "sword_sheets_welded" ] ]
   },
   {
     "id": "prac_cutting_int_med_sword",
@@ -907,7 +907,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_hooking_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ "fire_ax", "battleaxe", "brush_axe", "scythe", "ax", "hoe" ] ]
+    "tools": [ [ "fire_ax", "battleaxe", "brush_axe", "bronze_brush_axe", "primitive_axe", "scythe", "ax", "hoe" ] ]
   },
   {
     "id": "prac_cutting_int_hooking",
@@ -927,7 +927,7 @@
       { "proficiency": "prof_hooking_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "tools": [
-      [ "fire_ax", "battleaxe", "brush_axe", "scythe", "ax", "hoe" ],
+      [ "fire_ax", "battleaxe", "brush_axe", "bronze_brush_axe", "scythe", "ax", "hoe" ],
       [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
     ]
   },
