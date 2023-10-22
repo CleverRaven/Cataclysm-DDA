@@ -125,18 +125,6 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
 
-enum class jarg {
-    member = 1,
-    object = 1 << 1,
-    string = 1 << 2,
-    array = 1 << 3
-};
-
-template<>
-struct enum_traits<jarg> {
-    static constexpr bool is_flag_enum = true;
-};
-
 struct sub_effect_parser {
     using f_t = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view );
     using f_t_beta = void ( talk_effect_fun_t::* )( const JsonObject &, std::string_view, bool );
@@ -6277,7 +6265,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         conditional_t dcondition;
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
-        for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
+        for( const std::string &sub_member : dialogue_data::simple_string_conds() ) {
             if( jo.has_bool( sub_member ) ) {
                 // This also marks the member as visited.
                 if( !jo.get_bool( sub_member ) ) {
@@ -6297,7 +6285,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
                 return;
             }
         }
-        for( const std::string &sub_member : dialogue_data::complex_conds ) {
+        for( const std::string &sub_member : dialogue_data::complex_conds() ) {
             if( jo.has_member( sub_member ) ) {
                 dcondition = conditional_t( jo );
                 function = [dcondition, yes, no]( dialogue & d ) {
