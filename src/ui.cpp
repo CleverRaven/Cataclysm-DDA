@@ -299,7 +299,7 @@ void uilist::init()
 
     categories.clear();
     current_category = 0;
-    category_lines = 2;
+    category_lines = 0;
 
     input_category = "UILIST";
     additional_actions.clear();
