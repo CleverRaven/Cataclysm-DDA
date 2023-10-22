@@ -297,10 +297,7 @@ bool Creature::is_likely_underwater() const
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
 bool Creature::has_mind() const
 {
-    if( is_npc() ) {
-        return true;
-    }
-        return false;
+    return true;
 }
 
 bool Creature::is_ranged_attacker() const

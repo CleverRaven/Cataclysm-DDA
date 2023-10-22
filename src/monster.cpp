@@ -165,6 +165,7 @@ static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
 static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
 static const mon_flag_str_id mon_flag_GOODHEARING( "GOODHEARING" );
 static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
+static const mon_flag_str_id mon_flag_HAS_MIND( "HAS_MIND" );
 static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
 static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
 static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
@@ -200,7 +201,6 @@ static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
 static const mon_flag_str_id mon_flag_WARM( "WARM" );
 
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
-static const species_id species_BLOB_LIEUTENANT( "BLOB_LIEUTENANT" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
@@ -213,7 +213,6 @@ static const species_id species_NETHER( "NETHER" );
 static const species_id species_PLANT( "PLANT" );
 static const species_id species_PSI_NULL( "PSI_NULL" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_TRIFFID( "TRIFFID" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 static const species_id species_nether_player_hate( "nether_player_hate" );
 
@@ -3319,12 +3318,19 @@ bool monster::is_nether() const
         in_species(species_nether_player_hate);
 }
 
+// statement below is to set up detection hierarchy
 bool monster::has_mind() const
 {
-    if (in_species(species_ZOMBIE) || in_species(species_PSI_NULL)) {
+    if ( in_species( species_PSI_NULL ) ) {
         return false;
     }
-    else if (in_species(species_TRIFFID) || has_flag(mon_flag_HUMAN) || in_species(species_CYBORG) || in_species(species_BLOB_LIEUTENANT) || in_species(species_MIGO) || in_species(species_NETHER)) {
+    else if ( has_flag( mon_flag_HAS_MIND ) ) {
+        return true;
+    }
+    else if ( in_species( species_ZOMBIE ) ) {
+        return false;
+    }
+    else if ( has_flag( mon_flag_HUMAN ) ) {
         return true;
     }
     return false;
