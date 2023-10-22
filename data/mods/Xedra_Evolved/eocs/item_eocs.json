@@ -30,8 +30,8 @@
     "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "2 seconds" },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 100 } ] },
-      { "queue_eocs": [ "EOC_BIOLUM3_cast" ], "time_in_future": 2 }
+      { "math": [ "u_val('stamina')", "-=", "400" ] },
+     { "u_cast_spell": { "id": "mace_pipe_magic_throw", "targeted": true } }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
   }
