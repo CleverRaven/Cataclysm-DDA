@@ -705,7 +705,7 @@
     "id": "mon_pattern_bigfrog",
     "type": "MONSTER",
     "name": { "str": "staticskin frog" },
-    "description": "Trails of bioluminescent light trace through the patterns on this oversized frog's skin.  The skin between its darker markings has shifted from the usual green to a more teal or blue-green hue.",
+    "description": "Trails of bioluminescence trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are here fragmented collages of grey and black pigment over a pale blue-green skin.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
@@ -727,7 +727,7 @@
     "id": "mon_foul_bigfrog",
     "type": "MONSTER",
     "name": { "str": "greasy stinktoad" },
-    "description": "This bumpy, lumpy oversized toad is a real stinker!  Like rotted onions coated in rancid peanut butter.  Even approaching it makes your eyes water and your throat tighten until you're coughing to catch breath.  It doesn't help that it's leathery skin looks to be coated in a thick greasy substance, no doubt related to the creature's horrid odor.",
+    "description": "This bumpy, lumpy oversized toad is a real stinker!  A miasma like rotted onions coated in rancid peanut butter surrounds it.  Even approaching it makes your eyes water and your throat tighten until you're coughing to catch breath.  It doesn't help that its leathery skin looks to be coated in a thick greasy substance, no doubt related to the creature's horrid odor.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
@@ -747,11 +747,12 @@
         "max_range": 6,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
-      },
+      }
+    ],
     "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "NO_BREATHE" ] },
-    "//": "When possible, add grease AOE burst & temporary trail on several hour cooldown.  The toad can expel stinky grease like a squid with ink."
+    "//": "When possible, add an AOE burst & temporary trail of slippery, toxic grease on several hour cooldown.  The toad can expel grease like a squid with ink.  The grease offgasses into something between tear gas and a blister agent, hence the smell.  NO_BREATHE flag is to prevent self-gassing."
   },
   {
     "abstract": "mon_proxy_giganfrog",
@@ -836,7 +837,7 @@
     "id": "mon_pattern_giganfrog",
     "type": "MONSTER",
     "name": { "str": "taser tongue" },
-    "description": "This bluish, trash can-sized frog sports a series of faintly glowing spots among its chaotic skin patterns.  The glow seems to be most concentrated around its unusually bulky neck and mouth.",
+    "description": "This bluish, trash can-sized frog sports a series of faintly glowing spots among its chaotic skin patterns.  The glow seems to be most concentrated around its unusually bulky neck and mouth.  Its dark eyes scan for an appetizing target.",
     "copy-from": "mon_proxy_giganfrog",
     "volume": "120 L",
     "weight": "100 kg",
@@ -884,7 +885,7 @@
     "id": "mon_foul_giganfrog",
     "type": "MONSTER",
     "name": { "str": "giant hogtoad" },
-    "description": "This boar-sized toad appears to have taken on some of the same features and behaviors as wild pigs.  The skin of its face and mouth is covered in dense scale-like osteoderms, some of them quite sharp-looking.  A pale fluid oozes through the gaps between the the bony growths.  The swollen lumps behind the creature's large eyes hint at a toxicity confirmed by its horrid stench.  Like its namesake it appears to enjoy wallowing in mud.",
+    "description": "This boar-sized toad appears to have taken on some similar features to wild hogs.  It makes grunts and snorts not dissimilar to its namesake, it roots around the dirt and it even appears to enjoy wallowing in mud.  However, the most striking commonality is the dense horn-like growths sprouting from the toad's face and jaw.  They look to be most effective for burrowing and protection.  Though in places they come to curved points that look quite capable of offense.",
     "copy-from": "mon_proxy_giganfrog",
     "speed": 100,
     "symbol": "G",
@@ -894,11 +895,34 @@
     "armor": { "bash": 6, "cut": 3, "acid": 5, "heat": 2, "electric": 2 },
     "families": [ "prof_intro_biology", "prof_wp_basic_amphibian", "prof_wp_skeleton" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_bone", "wps_bone_armor" ],
+    "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 4,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "move_cost": 0,
+        "max_range": 8,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
+    ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_FOUL_MEGA" },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 18, "baby_timer": 20 },
-    "//": "Carry on stinking, let it dig furrows and wallow."
+    "extend": { "flags": [ "NO_BREATHE" ] },
+    "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
   },
   {
     "abstract": "mon_proxy_megafrog",
@@ -1027,9 +1051,9 @@
       },
       {
         "type": "leap",
-        "cooldown": 10,
+        "cooldown": 8,
         "move_cost": 0,
-        "max_range": 10,
+        "max_range": 8,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
@@ -1037,6 +1061,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 32, "baby_timer": 20 },
-    "//": "Simple wallowing, likes to create deep pits and lay in them."
+    "extend": { "flags": [ "NO_BREATHE" ] },
+    "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
   }
 ]
