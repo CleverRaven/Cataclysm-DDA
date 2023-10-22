@@ -8951,7 +8951,7 @@ units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
 units::temperature_delta Character::floor_warmth( const tripoint &pos ) const
 {
     const units::temperature_delta item_warmth = floor_item_warmth( pos );
-    auto bedding_warmth = floor_bedding_warmth( pos );
+    units::temperature_delta bedding_warmth = floor_bedding_warmth( pos );
 
     // If the PC has fur, etc, that will apply too
     const units::temperature_delta floor_mut_warmth = bodytemp_modifier_traits_floor();
@@ -8984,9 +8984,10 @@ units::temperature_delta Character::bodytemp_modifier_traits_floor() const
 units::temperature Character::temp_corrected_by_climate_control( units::temperature temperature,
         int heat_strength, int chill_strength ) const
 {
-    const auto base_variation = units::from_celsius_delta( units::to_celsius( BODYTEMP_NORM ) );
-    const auto variation_heat = base_variation * ( heat_strength / 100.0f );
-    const auto variation_chill = -base_variation * ( chill_strength / 100.0f );
+    const units::temperature_delta base_variation = units::from_celsius_delta( units::to_celsius(
+                BODYTEMP_NORM ) );
+    const units::temperature_delta variation_heat = base_variation * ( heat_strength / 100.0f );
+    const units::temperature_delta variation_chill = -base_variation * ( chill_strength / 100.0f );
 
     if( temperature > BODYTEMP_NORM ) {
         return std::max( BODYTEMP_NORM, temperature + variation_chill );
