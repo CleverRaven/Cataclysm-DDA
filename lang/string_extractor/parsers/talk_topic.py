@@ -13,7 +13,7 @@ def gender_options(subject):
 
 
 dynamic_line_string_keys = [
-    # from `simple_string_conds` in `condition.h`
+    # from `parsers_simple` in `condition.cpp`
     "u_male", "u_female", "npc_male", "npc_female",
     "has_no_assigned_mission", "has_assigned_mission",
     "has_many_assigned_missions", "has_no_available_mission",
