@@ -822,9 +822,12 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     temp_spell.set_level( get_avatar(), 5 );
     temp_spell.cast_all_effects( get_avatar(), tripoint() );
 
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "45" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "100" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "MAGUS" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "150" );
+    CHECK( globvars.get_global_value( "npctalk_var_key5" ) == "100" );
+    CHECK( globvars.get_global_value( "npctalk_var_key6" ) == "45" );
 
     // character_starts_activity
     globvars.clear_global_values();
