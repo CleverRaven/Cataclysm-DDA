@@ -60,7 +60,7 @@
     "result": "railroad_track_item_half",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "50 min",
+    "time": "50 m",
     "tools": [ [ [ "angle_grinder", 45 ] ] ],
     "components": [ [ [ "mc_steel_lump", 30 ] ] ]
   },
