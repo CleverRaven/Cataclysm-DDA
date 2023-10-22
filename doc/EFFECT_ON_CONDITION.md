@@ -1500,7 +1500,7 @@ If you or NPC does not have all of the listed bionics, mutations, spells or reci
 Tries to give you a mutation `A`, `B` or `C`, if you don't have one, with message `You got %s!`; If roll is successful, `EOC_SUCCESS` is run, otherwise `EOC_FAIL` is run
 ```json
 {
-  "u_roll_remainder": [ "mutationA", "mutationB", "mutationC", ],
+  "u_roll_remainder": [ "mutationA", "mutationB", "mutationC" ],
   "type": "mutation",
   "message": "You got %s!",
   "true_eocs": [ "EOC_SUCCESS" ],
