@@ -285,7 +285,7 @@
     "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC" ],
+    "use_action": [ "HOTPLATE_ATOMIC", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
     "melee_damage": { "bash": 5 }
   },
