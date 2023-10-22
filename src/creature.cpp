@@ -223,7 +223,7 @@ void Creature::reset()
 
 void Creature::bleed() const
 {
-    get_map().add_splatter(bloodType(), pos());
+    get_map().add_splatter( bloodType(), pos() );
 }
 
 void Creature::reset_bonuses()
