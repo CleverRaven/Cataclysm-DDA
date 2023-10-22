@@ -3743,6 +3743,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
                                             spell_being_cast.xp() );
                 }
+                get_event_bus().send<event_type::spellcasting_finish>( you->getID(), false, sp,
+                        spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
+                        spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
+                        spell_being_cast.damage( *you ) );
                 return;
             }
 
@@ -3809,8 +3813,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
-            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), sp,
-                    spell_being_cast.spell_class() );
+            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,
+                    spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
+                    spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
+                    spell_being_cast.damage( *you ) );
         }
     }
 }

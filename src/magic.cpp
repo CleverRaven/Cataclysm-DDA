@@ -1713,9 +1713,8 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
     if( caster ) {
         character_id c_id = caster->getID();
         // send casting to the event bus
-        get_event_bus().send<event_type::character_casts_spell>( c_id, this->id(),
-                this->get_difficulty( source ), this->energy_cost( *caster ),
-                this->casting_time( *caster ),
+        get_event_bus().send<event_type::character_casts_spell>( c_id, this->id(), this->spell_class(),
+                this->get_difficulty( source ), this->energy_cost( *caster ), this->casting_time( *caster ),
                 this->damage( source ) );
     }
 

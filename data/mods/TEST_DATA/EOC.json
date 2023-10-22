@@ -450,9 +450,12 @@
     "eoc_type": "EVENT",
     "required_event": "character_casts_spell",
     "effect": [
-      { "math": [ "key1", "=", "_damage" ] },
-      { "math": [ "key2", "=", "_cast_time" ] },
-      { "math": [ "key3", "=", "_difficulty" ] }
+      { "set_string_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
+      { "set_string_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
+      { "math": [ "key3", "=", "_difficulty" ] },
+      { "math": [ "key4", "=", "_cost" ] },
+      { "math": [ "key5", "=", "_cast_time" ] },
+      { "math": [ "key6", "=", "_damage" ] }
     ]
   },
   {
