@@ -23,8 +23,8 @@
     "//": "Let's just hope no one will find you can use it infinitely, even when your stamina is dead",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT" ],
-    "min_damage": -400,
-    "max_damage": -400,
+    "min_damage": -300,
+    "max_damage": -300,
     "shape": "blast",
     "effect": "recover_energy",
     "effect_str": "STAMINA"
