@@ -2009,7 +2009,7 @@ The character learn Eskrima
 
 Character learn martial art, stored in `ma_id` context value
 ```json
-{ "u_learn_martial_art": { "context_val": "ma_id" }
+{ "u_learn_martial_art": { "context_val": "ma_id" } }
 ```
 
 
