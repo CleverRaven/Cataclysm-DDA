@@ -82,7 +82,8 @@
     "base_casting_time": 100,
     "final_casting_time": 100,
     "sound_type": "combat",
-    "sound_description": "a crackle"
+    "sound_description": "a crackle",
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_flash_monster",
@@ -111,7 +112,8 @@
     "energy_increment": -80,
     "base_casting_time": 150,
     "final_casting_time": 50,
-    "casting_time_increment": -17
+    "casting_time_increment": -17,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_blast_monster",
@@ -141,7 +143,8 @@
     "base_casting_time": 150,
     "final_casting_time": 35,
     "casting_time_increment": -11.5,
-    "sound_type": "combat"
+    "sound_type": "combat",
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_pull_monster",
@@ -159,7 +162,8 @@
     "max_level": 20,
     "min_range": 2,
     "max_range": 20,
-    "range_increment": 1.5
+    "range_increment": 1.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telekinetic_hammer_monster",
@@ -180,7 +184,8 @@
     "max_range": 10,
     "range_increment": 0.875,
     "sound_type": "combat",
-    "sound_description": "a thud"
+    "sound_description": "a thud",
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_confusion_monster",
@@ -203,7 +208,8 @@
     "duration_increment": 1,
     "min_range": 3,
     "max_range": 15,
-    "range_increment": 1
+    "range_increment": 1,
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_deprivation_monster",
@@ -222,7 +228,8 @@
     "range_increment": 1.83,
     "min_duration": 100,
     "max_duration": 1000,
-    "duration_increment": 10
+    "duration_increment": 10,
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_deafening_monster",
@@ -241,7 +248,8 @@
     "range_increment": 1.83,
     "min_duration": 100,
     "max_duration": 1000,
-    "duration_increment": 10
+    "duration_increment": 10,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_blast_monster",
@@ -262,7 +270,8 @@
     "duration_increment": 1,
     "min_range": 5,
     "max_range": 20,
-    "range_increment": 2.5
+    "range_increment": 2.5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_horror_monster",
@@ -283,7 +292,8 @@
     "range_increment": 1,
     "min_duration": 100,
     "max_duration": 3000,
-    "duration_increment": 100
+    "duration_increment": 100,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_horror_aoe_monster",
@@ -304,7 +314,8 @@
     "aoe_increment": 1,
     "min_duration": 100,
     "max_duration": 3000,
-    "duration_increment": 100
+    "duration_increment": 100,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_primal_fear_monster",
@@ -320,7 +331,8 @@
     "max_damage": -500,
     "min_range": 10,
     "max_range": 25,
-    "range_increment": 1
+    "range_increment": 1,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_shrieking_monster",
@@ -363,7 +375,8 @@
     "energy_increment": -166.67,
     "base_casting_time": 80,
     "final_casting_time": 35,
-    "casting_time_increment": -7.5
+    "casting_time_increment": -7.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_blink_attack_monster",
@@ -381,7 +394,8 @@
     "min_duration": 1000,
     "base_casting_time": 50,
     "final_casting_time": 0,
-    "casting_time_increment": -4
+    "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_blink_monster",
@@ -400,7 +414,8 @@
     "min_range": 10,
     "base_casting_time": 50,
     "final_casting_time": 0,
-    "casting_time_increment": -4
+    "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "vitakinetic_health_down",
@@ -419,7 +434,8 @@
     "min_damage": 1,
     "max_damage": 1,
     "min_duration": 1080000,
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "vitakinetic_healing_down",
@@ -438,6 +454,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "min_duration": 1620000,
-    "base_casting_time": 50
+    "base_casting_time": 50,
+    "ignored_monster_species": [ "PSI_NULL" ]
   }
 ]
