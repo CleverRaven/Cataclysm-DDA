@@ -121,7 +121,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "frame_concrete_mixer",
+    "id": "frame_concrete_mix",
     "name": { "str": "concrete mixer chassis" },
     "description": "The chassis of a concrete mixer.",
     "weight": "9700 g",
