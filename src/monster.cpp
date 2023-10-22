@@ -3323,8 +3323,7 @@ bool monster::has_mind() const
 {
     if( in_species( species_PSI_NULL ) ) {
         return false;
-    }
-    else if ( has_flag( mon_flag_HAS_MIND ) ) {
+    } else if( has_flag( mon_flag_HAS_MIND ) ) {
         return true;
     }
     else if ( in_species( species_ZOMBIE ) ) {
