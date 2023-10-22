@@ -6121,7 +6121,7 @@ void vehicle::refresh( const bool remove_fakes )
 
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             //If it doesn't leak
-            if( vpi.has_flag( VPFLAG_NO_DRAIN ) ) {
+            if( vpi.has_flag( VPFLAG_NO_LEAK ) ) {
                 floating.push_back( p );
                 // If it's health is less than 50% then The hull has been breached and the air is leaking out
                 // Also update the vehicle_part.cpp line 140 when you change this %

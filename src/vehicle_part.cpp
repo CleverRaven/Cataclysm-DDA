@@ -137,7 +137,8 @@ std::string vehicle_part::name( bool with_prefix ) const
         }
     }
     // Update the vehicle.cpp line 6127 when you change this %
-    if( health_percent() < 0.5 && info().has_flag( VPFLAG_FLOATS ) ) {
+    if( health_percent() < 0.5 && info().has_flag( VPFLAG_FLOATS ) &&
+        !info().has_flag( VPFLAG_NO_LEAK ) ) {
         res += _( " (leaking)" );
     }
     if( is_leaking() ) {
