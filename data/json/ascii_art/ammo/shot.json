@@ -1,0 +1,74 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "shot_00",
+    "picture": [
+      "<color_red>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_beanbag",
+    "picture": [
+      "<color_white>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_bird",
+    "picture": [
+      "<color_red>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_dragon",
+    "picture": [
+      "<color_yellow>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_flechette",
+    "picture": [
+      "<color_white>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_he",
+    "picture": [
+      "<color_light_green>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_scrap",
+    "picture": [
+      "<color_red>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_slug",
+    "picture": [
+      "<color_light_green>║║",
+      "║║",
+      "<color_yellow>╨╨"
+    ]
+  }
+]

@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP" },
     "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  It lacks power compared to the .38 and the 9x19mm.",
+    "ascii_picture": "32_acp",
     "weight": "8 g",
     "volume": "116 ml",
     "longest_side": "25 mm",

@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".700 NX" },
     "description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
+    "ascii_picture": "700nx",
     "weight": "125 g",
     "volume": "165 ml",
     "longest_side": "107 mm",

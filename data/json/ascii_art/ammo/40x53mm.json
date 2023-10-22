@@ -1,0 +1,31 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "40x53mm_m1001",
+    "picture": [
+      "<color_yellow>/^\\",
+      "<color_dark_gray>║ ║",
+      "<color_green>║ ║",
+      "╨─╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "40x53mm_m430a1",
+    "picture": [
+      "<color_yellow>/^\\",
+      "<color_light_gray>║ ║",
+      "<color_green>║ ║",
+      "╨─╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "40x53mm_improvised",
+    "picture": [
+      "<color_light_gray>┌=┐",
+      "<color_green>║ ║",
+      "╨─╨"
+    ]
+  }
+]

@@ -5,6 +5,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".44 Magnum FMJ" },
     "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.",
+    "ascii_picture": "44fmj",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
@@ -12,6 +13,7 @@
     "type": "AMMO",
     "name": { "str": ".44 Magnum" },
     "description": ".44 Magnum ammunition with a 240gr JHP bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
+    "ascii_picture": "44magnum",
     "weight": "25 g",
     "volume": "87 ml",
     "longest_side": "41 mm",
