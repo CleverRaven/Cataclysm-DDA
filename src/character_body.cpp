@@ -437,7 +437,7 @@ void Character::update_bodytemp()
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
-    const units::temperature ambient_norm = has_sleep ? 33.2_C : 30.8_C;
+    const units::temperature ambient_norm = has_sleep ? 31_C : 19_C;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
@@ -541,6 +541,11 @@ void Character::update_bodytemp()
             adjusted_temp = water_temperature - ambient_norm; // Swap out air temp for water temp.
             windchill = 0_C_delta;
         }
+
+        // In previous versions, the contribution from ambient normal temperature was calculated in an
+        // arbitrary scale where 100u = 1C, but body temperature was 500u = 1C. We need to scale the
+        // delta down to preserve this bug.
+        adjusted_temp /= 5.0;
 
         // In previous versions the body temperature calculations mixed units, which caused a lot of bugs.
         // This results in needing to preserve those bugs for game balance, which is why we are doing this
