@@ -88,7 +88,7 @@
       "flags": [ "SMELLS", "KEENNOSE", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ]
     },
-    "delete": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "HIT_AND_RUN", "HAS_MIND" ] },
     "armor": { "stab": 8, "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   },
   {

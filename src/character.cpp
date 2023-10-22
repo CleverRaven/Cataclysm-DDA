@@ -11799,8 +11799,8 @@ bool Character::is_nether() const
 
 bool Character::has_mind() const
 {
-    // for now this is false. In the future should have rules
-    return false;
+    // Characters are all humans and thus have minds
+    return true;
 }
 
 void Character::set_underwater( bool u )
