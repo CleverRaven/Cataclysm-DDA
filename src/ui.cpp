@@ -325,8 +325,8 @@ input_context uilist::create_main_input_context() const
         ctxt.register_action( "SELECT" );
     }
     ctxt.register_action( "UILIST.FILTER" );
-    ctxt.register_action( "LEFT" );
-    ctxt.register_action( "RIGHT" );
+    ctxt.register_action( "UILIST.LEFT" );
+    ctxt.register_action( "UILIST.RIGHT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     uilist_scrollbar->set_draggable( ctxt );
