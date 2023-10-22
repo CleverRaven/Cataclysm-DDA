@@ -27,8 +27,6 @@
       "o": "t_linoleum_white",
       "C": "t_linoleum_white",
       "y": "t_linoleum_white",
-      ",": "t_pavement_y",
-      "_": "t_pavement",
       "+": "t_door_c",
       "=": "t_door_locked",
       "D": "t_door_metal_c",
@@ -85,5 +83,42 @@
     },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
     "toilets": { "T": {  } }
-  }
+  },
+  [
+    {
+      "type": "palette",
+      "id": "phavian_skyscraper_office_room_palette",
+      "terrain": {
+        "ꞝ": "t_carpet_linoleum_gray_green",
+        ".": "t_linoleum_white",
+        ":": "t_reinforced_glass",
+        "=": "t_door_glass_frosted_lab_c",
+        "|": "t_brick_wall",
+        "+": "t_door_c"
+      },
+      "furniture": {
+        "-": "f_room_divider",
+        "&": "f_trashcan",
+        "c": "f_chair",
+        "d": "f_desk",
+        "l": "f_locker",
+        "p": "f_drill_press",
+        "t": "f_table",
+        "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "ɱ": "f_console_broken",
+        "ç": "f_lab_bench",
+        "A": "f_stool",
+        "B": "f_bunkbed",
+        "C": "f_counter",
+        "E": "f_electron_microscope",
+        "I": "f_filing_cabinet",
+        "M": "f_machinery_electronic",
+        "S": "f_sink",
+        "U": "f_utility_shelf",
+        "Y": "f_rack_coat",
+        "Ŧ": "f_telepathic_amplifier",
+        "Ɱ": "f_machinery_heavy"
+      }
+    }
+  ]
 ]

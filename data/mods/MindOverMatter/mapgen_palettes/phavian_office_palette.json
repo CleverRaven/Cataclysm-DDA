@@ -1,0 +1,37 @@
+[
+  {
+    "type": "palette",
+    "id": "office_phavian_palette",
+    "terrain": {
+      "ꞝ": "t_carpet_linoleum_gray_green",
+      ".": "t_linoleum_white",
+      ":": "t_reinforced_glass",
+      "=": "t_door_glass_frosted_lab_c",
+      "|": "t_concrete_wall",
+      "+": "t_door_c"
+    },
+    "furniture": {
+      "-": "f_room_divider",
+      "&": "f_trashcan",
+      "c": "f_chair",
+      "d": "f_desk",
+      "l": "f_locker",
+      "p": "f_drill_press",
+      "t": "f_table",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "ɱ": "f_console_broken",
+      "ç": "f_lab_bench",
+      "A": "f_stool",
+      "B": "f_bunkbed",
+      "C": "f_counter",
+      "E": "f_electron_microscope",
+      "I": "f_filing_cabinet",
+      "M": "f_machinery_electronic",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "Y": "f_rack_coat",
+      "Ŧ": "f_telepathic_amplifier",
+      "Ɱ": "f_machinery_heavy"
+    }
+  }
+]
