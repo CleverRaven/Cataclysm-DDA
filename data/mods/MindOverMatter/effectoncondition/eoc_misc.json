@@ -151,7 +151,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
@@ -189,7 +189,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
@@ -233,7 +233,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
@@ -271,7 +271,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
@@ -309,7 +309,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
@@ -353,7 +353,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
@@ -391,7 +391,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(1 * ((( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
+                "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_val('vitamin', 'name:vitamin_psionic_drain'))"
               ]
             },
             "y": 1000
