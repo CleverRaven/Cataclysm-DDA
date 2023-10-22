@@ -2034,7 +2034,7 @@ Character forget Eskrima
 
 Character forget martial art, stored in `ma_id` context value
 ```json
-{ "u_forget_martial_art": { "context_val": "ma_id" }
+{ "u_forget_martial_art": { "context_val": "ma_id" } }
 ```
 
 
