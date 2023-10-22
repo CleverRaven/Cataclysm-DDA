@@ -33,7 +33,7 @@
     "base_casting_time": 300,
     "final_casting_time": 150,
     "casting_time_increment": -15,
-    "learn_spells": { "telepathic_blast": 7, "telepathic_confusion": 15 }
+    "learn_spells": { "telepathic_mind_sense": 5, "telepathic_blast": 7, "telepathic_confusion": 15 }
   },
   {
     "id": "telepathic_concentration_end",
@@ -157,7 +157,7 @@
     "final_energy_cost": 1500,
     "energy_increment": -115,
     "base_casting_time": 500,
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_invisibility": 10, "telepathic_mind_control": 15 }
+    "learn_spells": { "telepathic_network": 15 }
   },
   {
     "id": "telepathic_blast",
