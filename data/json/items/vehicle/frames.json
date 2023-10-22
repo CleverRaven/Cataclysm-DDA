@@ -118,5 +118,16 @@
     "price": 1000,
     "price_postapoc": 50,
     "copy-from": "foldframe"
+  },
+  {
+    "type": "GENERIC",
+    "id": "frame_concrete_mixer",
+    "name": { "str": "concrete mixer chassis" },
+    "description": "The chassis of a concrete mixer.",
+    "weight": "9700 g",
+    "volume": "10 L",
+    "color": "light_gray",
+    "symbol": "]",
+    "category": "veh_parts"
   }
 ]
