@@ -134,5 +134,22 @@
     },
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 2, 5 ] } ],
     "variants": [ { "symbols": "8", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "drum_concrete_mix",
+    "type": "vehicle_part",
+    "name": { "str": "concrete mixer drum" },
+    "item": "30gal_barrel",
+    "description": "A plastoc 100-liter drum of a portable concrete mixer.",
+    "categories": [ "utility" ],
+    "location": "center",
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "durability": 150,
+    "flags": [ "OBSTACLE", "NO_INSTALL_HIDDEN" ],
+    "pseudo_tools": [ { "id": "concrete_mix_tool" } ],
+    "size": "166 L",
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 100 ] } ],
+    "variants": [ { "symbols": "U", "symbols_broken": "u" } ]
   }
 ]
