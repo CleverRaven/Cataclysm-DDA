@@ -291,7 +291,7 @@ bool Creature::is_underwater() const
 bool Creature::is_likely_underwater() const
 {
     return is_underwater() ||
-        (has_flag(mon_flag_AQUATIC) && get_map().has_flag(ter_furn_flag::TFLAG_SWIMMABLE, pos()));
+           ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
 }
 
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
