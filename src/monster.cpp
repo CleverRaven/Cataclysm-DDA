@@ -3321,7 +3321,7 @@ bool monster::is_nether() const
 // statement below is to set up detection hierarchy
 bool monster::has_mind() const
 {
-    if ( in_species( species_PSI_NULL ) ) {
+    if( in_species( species_PSI_NULL ) ) {
         return false;
     }
     else if ( has_flag( mon_flag_HAS_MIND ) ) {
