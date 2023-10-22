@@ -261,6 +261,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name_, strict );
     assign( jo, "item", base_item, strict );
+    assign( jo, "remove_as", removed_item, strict );
     assign( jo, "location", location, strict );
     assign( jo, "durability", durability, strict );
     assign( jo, "damage_modifier", dmg_mod, strict );

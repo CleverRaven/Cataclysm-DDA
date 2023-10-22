@@ -2863,6 +2863,7 @@ Vehicle components when installed on a vehicle.
                               // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
+"remove_as": "solar_panel",   // Overrides "item", item returned when removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
 "breaks_into" : [             // When the vehicle part is destroyed, items from this item group
                               // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
@@ -4290,6 +4291,14 @@ The contents of use_action fields can either be a string indicating a built-in f
         "long_extension_cable",
         "ELECTRICAL_DEVICES" // "ELECTRICAL_DEVICES" is a special keyword that lets this cable extend all electrical devices that have link_up actions.
     ]
+},
+"use_action" : {
+    "type" : "deploy_furn",
+    "furn_type" : "f_foo", // What furniture this item will be transmuted into
+},
+"use_action" : {
+    "type" : "deploy_appliance",
+    "base" : "item_id", // Base item of the appliance this item will turn into
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age

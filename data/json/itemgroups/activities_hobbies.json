@@ -257,6 +257,7 @@
       [ "waffleiron", 25 ],
       [ "binoculars", 20 ],
       [ "firecracker_pack", 5 ],
+      [ "folding_solar_panel", 3 ],
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "popcan_stove", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "coffeemaker", "prob": 5, "charges": [ 0, 500 ] },

@@ -39,6 +39,7 @@
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_description": "a crackle!",
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": {
       "pyrokinetic_call_flames": 5,
       "pyrokinetic_flamethrower": 7,
@@ -89,6 +90,7 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -8,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_cloak": 7, "pyrokinetic_thermogenesis": 10, "pyrokinetic_blast": 15 }
   },
   {
@@ -267,6 +269,7 @@
     "casting_time_increment": -6,
     "sound_type": "combat",
     "sound_description": "a crackle!",
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
   },
   {
@@ -559,6 +562,7 @@
     "casting_time_increment": -9,
     "sound_type": "combat",
     "sound_description": "a crackle!",
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "pyrokinetic_aoe_blast": 7 }
   },
   {

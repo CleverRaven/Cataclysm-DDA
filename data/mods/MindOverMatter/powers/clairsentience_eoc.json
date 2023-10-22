@@ -19,14 +19,10 @@
         "queue_eocs": "EOC_CLAIR_SPEED_READING_REMOvE",
         "time_in_future": [
           {
-            "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 36000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
-            ]
+            "math": [ "( (u_val('spell_level', 'spell: clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) )" ]
           },
           {
-            "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 72000) + 1080000) * (scaling_factor(u_val('intelligence') ) )"
-            ]
+            "math": [ "( (u_val('spell_level', 'spell: clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) )" ]
           }
         ]
       }

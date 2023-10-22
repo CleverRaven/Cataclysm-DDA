@@ -2123,6 +2123,12 @@ class vehicle
         */
         item part_to_item( const vehicle_part &vp ) const;
 
+        /**
+         * If the vehicle part has an item it is removed as, transform the item
+         * to the item it is removed_as
+         */
+        item removed_part( const vehicle_part &vp ) const;
+
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
         std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
