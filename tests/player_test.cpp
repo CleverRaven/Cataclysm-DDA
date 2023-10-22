@@ -24,7 +24,7 @@ static void temperature_check( Character *p, const int ambient_temp,
     units::temperature prev_temp = 0_K;
     units::temperature_delta prev_diff = 0_C_delta;
     for( int i = 0; i < 10000; i++ ) {
-        const auto torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
+        const units::temperature torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
         if( prev_diff != prev_temp - torso_temp_cur ) {
             prev_diff = prev_temp - torso_temp_cur;
         } else if( prev_temp == torso_temp_cur ) {

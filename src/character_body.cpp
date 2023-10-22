@@ -631,14 +631,18 @@ void Character::update_bodytemp()
 
         }
 
+        // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
+        // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
+        const double convergence_multiplier = 1 - std::exp( -0.002 );
+
         const units::temperature_delta comfortable_warmth = bonus_fire_warmth + lying_warmth;
         const units::temperature_delta bonus_warmth = comfortable_warmth + metabolism_warmth +
                 mutation_heat_bonus + bp_temp_bonus;
         if( bonus_warmth > 0_C_delta ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            const units::temperature_delta delta = ( BODYTEMP_NORM - get_part_temp_conv( bp ) ) / std::exp(
-                    -0.002 );
+            const units::temperature_delta delta = ( BODYTEMP_NORM - get_part_temp_conv(
+                    bp ) ) / convergence_multiplier;
             units::temperature desired = BODYTEMP_NORM + delta;
             if( units::abs( BODYTEMP_NORM - desired ) < 2_C_delta ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
@@ -667,17 +671,7 @@ void Character::update_bodytemp()
 
         const units::temperature temp_before = get_part_temp_cur( bp );
         const units::temperature cur_temp_conv = get_part_temp_conv( bp );
-        units::temperature_delta temp_difference = temp_before -
-                cur_temp_conv; // Negative if the player is warming up.
-        // Note that exp(-0.002) == 0.998... so temperature actually converges almost instantly.
-        // Note sure why this comment existed, but it is preserved here to explain why this value
-        // is being used, even if it doesn't do what the comment says it does.
-        //
-        // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
-        // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
-        if( temp_before != cur_temp_conv ) {
-            set_part_temp_cur( bp, temp_difference * std::exp( -0.002 ) + cur_temp_conv );
-        }
+        units::temperature_delta temp_difference = cur_temp_conv - temp_before;
 
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
@@ -686,11 +680,12 @@ void Character::update_bodytemp()
               get_part_temp_cur( bp ) < BODYTEMP_COLD ) ) {
             mod_part_temp_conv( bp, clothing_warmth_adjusted_bonus );
             const units::temperature new_temp_conv = get_part_temp_conv( bp );
-            if( temp_before != new_temp_conv ) {
-                temp_difference = get_part_temp_cur( bp ) - new_temp_conv;
-                set_part_temp_cur( bp, temp_difference * std::exp( -0.002 ) + new_temp_conv );
-            }
+            temp_difference = new_temp_conv - get_part_temp_cur( bp );
         }
+
+        // Finally apply the temperature changes, subject to decay.
+        set_part_temp_cur( bp, temp_before + temp_difference * convergence_multiplier );
+
         const units::temperature temp_after = get_part_temp_cur( bp );
         // PENALTIES
         if( temp_after < BODYTEMP_FREEZING ) {
