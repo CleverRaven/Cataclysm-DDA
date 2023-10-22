@@ -6120,7 +6120,13 @@ void vehicle::refresh( const bool remove_fakes )
         relative_parts[pt].insert( vii, p );
 
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
-            floating.push_back( p );
+            //If it doesn't leak
+            if( vpi.has_flag( VPFLAG_NO_LEAK ) ) {
+                floating.push_back( p );
+            } else if( !( vp.part().health_percent() <
+                          0.6 ) ) {// It's leaking if it's health is less than 60%  and can't float
+                floating.push_back( p );
+            }
         }
 
         if( vp.part().is_unavailable() ) {
