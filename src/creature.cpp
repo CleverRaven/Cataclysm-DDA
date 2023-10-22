@@ -271,7 +271,7 @@ void Creature::process_turn()
     }
 }
 
-bool Creature::cant_do_underwater(bool msg) const
+bool Creature::cant_do_underwater( bool msg ) const
 {
     if (is_underwater()) {
         if (msg) {
