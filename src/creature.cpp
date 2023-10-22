@@ -203,7 +203,7 @@ void Creature::set_location( const tripoint_abs_ms &loc )
     location = loc;
 }
 
-void Creature::on_move(const tripoint_abs_ms&) {}
+void Creature::on_move( const tripoint_abs_ms & ) {}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
