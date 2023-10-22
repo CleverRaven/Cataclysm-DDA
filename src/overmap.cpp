@@ -70,6 +70,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
+static const oter_str_id oter_city_center( "city_center" );
 static const oter_str_id oter_empty_rock( "empty_rock" );
 static const oter_str_id oter_field( "field" );
 static const oter_str_id oter_forest( "forest" );
@@ -937,7 +938,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
 bool oter_t::has_connection( om_direction::type dir ) const
 {
     // TODO: It's a DAMN UGLY hack. Remove it as soon as possible.
-    if( id == oter_road_nesw_manhole ) {
+    if( id == oter_road_nesw_manhole || id == oter_city_center ) {
         return true;
     }
     return om_lines::has_segment( line, dir );
@@ -5181,6 +5182,10 @@ void overmap::place_cities()
             do {
                 build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp );
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+
+            // Replace city's original intersection OMT with a dedicated 'city_center' OMT
+            // This allows setting map extras specifically to cities (or their centers)
+            ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_city_center );
         }
     }
 }
