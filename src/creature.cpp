@@ -300,7 +300,7 @@ bool Creature::has_mind() const
     if( is_npc() ) {
         return true;
     }
-        return false;
+    return false;
 }
 
 bool Creature::is_ranged_attacker() const
