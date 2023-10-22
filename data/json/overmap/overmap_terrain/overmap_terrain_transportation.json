@@ -22,6 +22,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "city_center",
+    "copy-from": "generic_transportation",
+    "name": "road",
+    "sym": "┼",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "extras": "city_center",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_bridge",
     "copy-from": "generic_transportation",
     "name": "bridge",
