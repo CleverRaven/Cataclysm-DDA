@@ -5673,6 +5673,7 @@ void effect_on_conditons_actor::load( const JsonObject &obj )
 {
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
+    need_wielding = obj.get_bool( "need_wielding", false );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
@@ -5698,6 +5699,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         debugmsg( "%s called action effect_on_conditons that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
+    }
+    if( need_wielding && !p.is_wielding( it ) ) {
+        return ret_val<void>::make_failure( _( "You need to wield the %1$s before activating it." ),
+                                            it.tname() );
     }
 
     Character *char_ptr = nullptr;
