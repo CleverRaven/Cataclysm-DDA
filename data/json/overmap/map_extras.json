@@ -588,6 +588,14 @@
     "flags": [ "MAN_MADE" ]
   },
   {
+    "id": "mx_fungal_zone",
+    "type": "map_extra",
+    "name": { "str": "Fungal infestation" },
+    "description": "Fungal-infested location.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fungal_zone" },
+    "min_max_zlevel": [ 0, 0 ]
+  },
+  {
     "id": "mx_reed",
     "type": "map_extra",
     "name": { "str": "Reed" },
