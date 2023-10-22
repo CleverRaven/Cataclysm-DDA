@@ -817,7 +817,8 @@ void mutation_branch::check_consistency()
         }
 
         // We need to display active mutations in the UI.
-        if( mdata.activated && !mdata.player_display ) {
+        if( mdata.activated && !mdata.player_display &&
+            flags.count( STATIC( json_character_flag( "HIDDEN" ) ) ) ) {
             debugmsg( "mutation %s is not displayed but set as active" );
         }
 
