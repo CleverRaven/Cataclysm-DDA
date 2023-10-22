@@ -253,7 +253,7 @@ void Creature::reset_bonuses()
 void Creature::process_turn()
 {
     decrement_summon_timer();
-    if (is_dead_state()) {
+    if( is_dead_state() ) {
         return;
     }
     reset_bonuses();
