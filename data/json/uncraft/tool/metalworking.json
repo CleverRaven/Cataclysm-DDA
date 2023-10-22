@@ -19,7 +19,7 @@
     "result": "anvil",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "50 min",
+    "time": "50 m",
     "tools": [ [ [ "angle_grinder", 45 ] ] ],
     "components": [ [ [ "steel_lump", 26 ] ] ]
   },
@@ -27,7 +27,7 @@
     "result": "anvil_bronze",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "50 min",
+    "time": "50 m",
     "tools": [ [ [ "angle_grinder", 45 ] ] ],
     "components": [ [ [ "scrap_bronze", 86 ] ] ]
   },
@@ -43,7 +43,7 @@
     "result": "anvil_crude",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "50 min",
+    "time": "50 m",
     "tools": [ [ [ "angle_grinder", 45 ] ] ],
     "components": [ [ [ "steel_lump", 27 ] ] ]
   }
