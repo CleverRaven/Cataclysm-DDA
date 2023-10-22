@@ -16,20 +16,6 @@
     "extra_effects": [ { "id": "mace_pipe_magic_throw_stamina", "hit_self": true } ]
   },
   {
-    "id": "mace_pipe_magic_throw_stamina",
-    "type": "SPELL",
-    "name": "Throw The Hammer Stamina",
-    "description": "Decreases some of your stamina",
-    "//": "Let's just hope no one will find you can use it infinitely, even when your stamina is dead",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT" ],
-    "min_damage": -300,
-    "max_damage": -300,
-    "shape": "blast",
-    "effect": "recover_energy",
-    "effect_str": "STAMINA"
-  },
-  {
     "id": "blackout_rage_drink",
     "type": "SPELL",
     "name": "Blackout rage drank",
