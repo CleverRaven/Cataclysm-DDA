@@ -198,7 +198,7 @@ void Creature::set_pos_only( const tripoint &p )
     location = get_map().getglobal( p );
 }
 
-void Creature::set_location(const tripoint_abs_ms& loc)
+void Creature::set_location( const tripoint_abs_ms &loc )
 {
     location = loc;
 }
