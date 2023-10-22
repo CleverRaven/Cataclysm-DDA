@@ -648,7 +648,6 @@
     "barrel_volume": "505 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
-    "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
