@@ -932,9 +932,6 @@ void avatar::initialize( character_type type )
         }
     }
 
-    std::vector<matype_id> all_styles = martial_arts_data->get_known_styles( false );
-    martial_arts_data->set_style( random_entry( all_styles, style_none ) );
-
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
@@ -945,9 +942,23 @@ void avatar::initialize( character_type type )
         if( !styles.empty() ) {
             const matype_id ma_type = choose_ma_style( type, styles, *this );
             martial_arts_data->add_martialart( ma_type );
-            martial_arts_data->set_style( ma_type );
         }
     }
+
+    // Select a random known style
+    std::vector<matype_id> selectable_styles = martial_arts_data->get_known_styles( false );
+    if( !selectable_styles.empty() ) {
+        std::vector<matype_id>::iterator it_max_priority = std::max_element( selectable_styles.begin(),
+        selectable_styles.end(), []( const matype_id & a, const matype_id & b ) {
+            return a->priority < b->priority;
+        } );
+        int max_priority = ( *it_max_priority )->priority;
+        selectable_styles.erase( std::remove_if( selectable_styles.begin(),
+        selectable_styles.end(), [max_priority]( const matype_id & style ) {
+            return style->priority != max_priority;
+        } ), selectable_styles.end() );
+    }
+    martial_arts_data->set_style( random_entry( selectable_styles, style_none ) );
 
     for( const mtype_id &elem : prof->pets() ) {
         starting_pets.push_back( elem );
