@@ -3985,7 +3985,7 @@ bool pickup_selector::wield( int &count )
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
-        popup_getkey( _( "You can't wield the %s." ), it->display_name() );
+        popup_getkey( u.can_wield( *it ).c_str() );
     }
 
     return false;
