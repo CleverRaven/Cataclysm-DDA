@@ -273,7 +273,7 @@
     "variables": {
       "vehicle_name": "Concrete mixer",
       "folded_parts": "[{\"id\":\"frame_wood_deck\",\"base\":{\"typeid\":\"frame_wood_deck\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"wheel_mount_skateboard\",\"base\":{\"typeid\":\"wheel_mount_skateboard\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"wheel_skateboard\",\"base\":{\"typeid\":\"wheel_skateboard\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0}]"
-    }
+    },
     "melee_damage": { "bash": 15 },
     "//2": "Based on https://www.amazon.com/dp/B01EGB6TJ4 - save for the numbers that the Amazon arcticle got straight up wrong (weight and drum opening) which were taken from the owner's manual - https://assets.northerntool.com/products/494/documents/manuals/49413.pdf"
   },
