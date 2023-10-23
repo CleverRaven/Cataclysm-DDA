@@ -243,5 +243,17 @@
         "else": { "u_message": "West furniture: Not TRANSPARENT" }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_foreach_test",
+    "effect": [
+      {
+        "foreach": "item_group",
+        "var": { "context_val": "id" },
+        "target": "forest",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      }
+    ]
   }
 ]
