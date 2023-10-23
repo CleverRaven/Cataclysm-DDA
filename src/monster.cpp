@@ -3318,20 +3318,11 @@ bool monster::is_nether() const
            in_species( species_nether_player_hate );
 }
 
-// statement below is to set up detection hierarchy
 bool monster::has_mind() const
 {
-    if( in_species( species_PSI_NULL ) ) {
-        return false;
-    } else if( has_flag( mon_flag_HAS_MIND ) ) {
-        return true;
-    } else if( in_species( species_ZOMBIE ) ) {
-        return false;
-    } else if( has_flag( mon_flag_HUMAN ) ) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND )) || 
+        ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) && 
+        has_flag( mon_flag_HUMAN ) ) );
 }
 
 field_type_id monster::bloodType() const
