@@ -5102,9 +5102,12 @@ void talk_effect_fun_t::set_foreach( const JsonObject &jo, std::string_view memb
 {
     std::string type = jo.get_string( member.data() );
     var_info itr = read_var_info( jo.get_object( "var" ) );
-    std::string target = jo.get_string( "target" );
     talk_effect_t effect;
     effect.load_effect( jo, "effect" );
+    std::string target;
+    if( type == "item_group" ) {
+        target = jo.get_string( "target" );
+    }
     function = [type, itr, effect, target]( dialogue & d ) {
         std::vector<std::string_view> list;
 
