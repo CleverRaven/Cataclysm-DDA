@@ -10,8 +10,6 @@
     "max_damage": 15,
     "min_aoe": 4,
     "max_aoe": 4,
-    "min_range": 6,
-    "max_range": 12,
     "base_casting_time": 500,
     "shape": "blast",
     "effect": "summon",
