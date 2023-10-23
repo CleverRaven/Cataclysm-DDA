@@ -3329,9 +3329,8 @@ bool monster::has_mind() const
         return false;
     } else if( has_flag( mon_flag_HUMAN ) ) {
         return true;
-    }
-    else { 
-        return false; 
+    } else {
+        return false;
     }
 }
 
