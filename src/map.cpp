@@ -7311,10 +7311,10 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
 
     // Height of each z-level in grids
     const float zlevel_to_grid_ratio = 2.0f;
-    float dist_to_ledge_base = rl_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) );
+    float dist_to_ledge_base = trig_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) );
     // Adjustment to ledge distance because ledge is assumed to be between two grids
     dist_to_ledge_base += ( viewer_p.z < target_p.z ) ? -0.5f : 0.5f;
-    const int flat_dist = rl_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
+    const float flat_dist = trig_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
     // Absolute level of viewer's eye
     const float abs_eye_z = viewer_p.z * zlevel_to_grid_ratio + eye_level;
     // "Opposite" of the angle between the eye level and ledge
