@@ -46,5 +46,4 @@
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
   }
-  }
 ]
