@@ -136,8 +136,7 @@ std::string vehicle_part::name( bool with_prefix ) const
             break;
         }
     }
-    // Update the vehicle.cpp line 6127 when you change this %
-    if( health_percent() < 0.5 && info().has_flag( VPFLAG_FLOATS ) &&
+    if( health_percent() < floating_leak_threshold() && info().has_flag( VPFLAG_FLOATS ) &&
         !info().has_flag( VPFLAG_NO_LEAK ) ) {
         res += _( " (leaking)" );
     }
@@ -188,6 +187,11 @@ bool vehicle_part::is_repairable() const
 double vehicle_part::health_percent() const
 {
     return 1.0 - damage_percent();
+}
+
+double vehicle_part::floating_leak_threshold() const
+{
+    return 0.5;
 }
 
 double vehicle_part::damage_percent() const
