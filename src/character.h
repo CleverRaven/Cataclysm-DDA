@@ -879,6 +879,8 @@ class Character : public Creature, public visitable
         bool is_electrical() const override;
         // true if the character is from the nether
         bool is_nether() const override;
+        // true if the character has a sapient mind
+        bool has_mind() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
