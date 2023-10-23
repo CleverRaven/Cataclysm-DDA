@@ -539,8 +539,11 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
-        // returns true if the creature has an electric field
+        // returns true if the creature is from the nether
         virtual bool is_nether() const = 0;
+
+        // returns true if the creature has a sapient mind
+        virtual bool has_mind() const = 0;
 
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;

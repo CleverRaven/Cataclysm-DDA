@@ -77,6 +77,7 @@
       "SEES",
       "HEARS",
       "BASHES",
+      "HAS_MIND",
       "PUSH_MON",
       "ELECTRONIC",
       "WARM",
@@ -118,7 +119,17 @@
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "HAS_MIND",
+      "NOHEAD",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS",
+      "HIT_AND_RUN"
+    ],
     "armor": { "bash": 12, "cut": 28, "acid": 12, "heat": 8, "bullet": 12 }
   },
   {
@@ -175,7 +186,17 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "HAS_MIND",
+      "NOHEAD",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS",
+      "HIT_AND_RUN"
+    ],
     "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
   },
   {

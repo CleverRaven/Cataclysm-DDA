@@ -294,6 +294,12 @@ bool Creature::is_likely_underwater() const
            ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
 }
 
+// Detects whether a target is sapient or not (or barely sapient, since ferals count)
+bool Creature::has_mind() const
+{
+    return false;
+}
+
 bool Creature::is_ranged_attacker() const
 {
     if( has_flag( mon_flag_RANGED_ATTACKER ) ) {
