@@ -29,10 +29,22 @@
     "id": "EOC_WOLF_SLEDGE_TRHOW",
     "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "2 seconds" },
-      { "math": [ "u_val('stamina')", "-=", "400" ] },
-     { "u_cast_spell": { "id": "mace_pipe_magic_throw", "targeted": true } }
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "mace_magic", "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_WOLF_SLEDGE_TRHOW_nested",
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "2 seconds" },
+              { "math": [ "u_val('stamina')", "-=", "400" ] },
+              { "u_cast_spell": { "id": "mace_pipe_magic_throw", "targeted": true } }
+            ]
+          }
+        ]
+      }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
+  }
   }
 ]
