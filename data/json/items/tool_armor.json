@@ -146,7 +146,7 @@
   {
     "id": "makeshift_blindfold_up",
     "type": "ARMOR",
-    "name": { "str": "makeshift blindfold (raised)" },
+    "name": { "str": "makeshift blindfold (raised)", "str_pl": "makeshift blindfolds (raised)" },
     "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  It's currently raised, letting you see.  Use to lower it.",
     "weight": "32 g",
     "volume": "200 ml",
@@ -186,7 +186,7 @@
   {
     "id": "blindfold_up",
     "type": "ARMOR",
-    "name": { "str": "blindfold (raised)" },
+    "name": { "str": "blindfold (raised)", "str_pl": "blindfolds (raised)" },
     "description": "A simple fabric covering tied over the eyes to block sight.  It's currently raised, letting you see.  Use to lower it.",
     "weight": "72 g",
     "volume": "100 ml",
@@ -226,7 +226,7 @@
   {
     "id": "blindfold_duct_up",
     "type": "ARMOR",
-    "name": { "str": "duct tape blindfold (raised)" },
+    "name": { "str": "duct tape blindfold (raised)", "str_pl": "duct tape blindfolds (raised)" },
     "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  It's currently raised, letting you see.  Use to lower it.",
     "weight": "20 g",
     "volume": "60 ml",
