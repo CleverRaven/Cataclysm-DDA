@@ -1179,8 +1179,6 @@ class effect_on_conditons_actor : public iuse_actor
 
         ~effect_on_conditons_actor() override = default;
         void load( const JsonObject &obj ) override;
-        /**does the item requires to be wielded to be activable*/
-        bool need_wielding = false;
         std::optional<int> use( Character *p, item &it, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
