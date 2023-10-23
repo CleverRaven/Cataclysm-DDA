@@ -56,7 +56,7 @@
     "color": "dark_gray",
     "range": 7,
     "ammo": [ "44" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 180,
     "durability": 8,
     "blackpowder_tolerance": 32,
