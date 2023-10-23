@@ -1518,6 +1518,63 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
     return location;
 }
 
+drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereader )
+{
+    std::set<itype_id> already_saved;
+    for( const item *ebook : ereader->ebooks() ) {
+        if( !ebook->is_book() ) {
+            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+            continue;
+        }
+
+        already_saved.insert( ebook->typeId() );
+    }
+    const inventory_filter_preset preset( [&who, &already_saved]( const item_location & loc ) {
+        return loc->is_book()
+               && loc->type->book->is_scannable
+               && !already_saved.count( loc->typeId() )
+               && loc->is_owned_by( who, true );
+    } );
+
+    const int available_charges = ereader->ammo_remaining();
+    auto make_raw_stats = [&available_charges, &ereader](
+                              const std::vector<std::pair<item_location, int>> &locs
+    ) {
+        std::vector<item_location> books;
+        books.reserve( locs.size() );
+        for( const auto &pair : locs ) {
+            books.push_back( pair.first );
+        }
+        const int required_charges = ebooksave_activity_actor::required_charges( books, ereader );
+        const time_duration required_time = ebooksave_activity_actor::required_time( books );
+        auto int_to_str = []( int val ) -> std::string {
+            return string_format( "%d", val );
+        };
+        const std::string charges = string_join( display_stat( "", required_charges,
+                                    available_charges,
+                                    int_to_str ), "" );
+        const std::string time = colorize( to_string( required_time, true ),
+                                           c_light_gray );
+        using stats = inventory_selector::stats;
+        return stats{{
+                {{ _( "Charges" ), charges }},
+                {{ _( "Estimated time" ), time }}
+            }};
+    };
+
+    inventory_multiselector inv_s( who, preset, _( "SELECT BOOKS TO SCAN" ),
+                                   make_raw_stats, /*allow_select_contained=*/true );
+    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
+    inv_s.add_character_items( who );
+    inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.set_title( _( "Scan which books?" ) );
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have no books to scan." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+    return inv_s.execute();
+}
+
 class steal_inventory_preset : public pickup_inventory_preset
 {
     public:
