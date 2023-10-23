@@ -5971,7 +5971,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         }
     }
     //Create the product items
-    for( const std::pair<itype_id, std::vector<double>> &rot_data : millable_rot ) {
+    for( const std::pair<const string_id<itype>, std::vector<double>> &rot_data : millable_rot ) {
         const itype_id &type = rot_data.first;
         const std::vector<double> &relative_rots = rot_data.second;
         const double relative_rot = std::accumulate( relative_rots.begin(), relative_rots.end(),
