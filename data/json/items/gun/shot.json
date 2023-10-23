@@ -648,7 +648,6 @@
     "barrel_volume": "505 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -732,7 +731,6 @@
     "price_postapoc": 2250,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 860,
     "durability": 6,
     "clip_size": 6,
