@@ -7274,10 +7274,8 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p ) cons
     }
     // Viewer eye level is higher when standing on furniture
     const furn_id viewer_furn = furn( viewer_p );
-    if( viewer_furn.obj().id || ( move_cost( viewer_p ) > 2 &&
-                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, viewer_p ) ) ) {
-        const int viewer_furn_coverage = viewer_furn->coverage;
-        eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
+    if( viewer_furn.obj().id ) {
+        eye_level += viewer_furn->coverage * 0.01f;
     }
 
     return ledge_coverage( viewer_p, target_p, eye_level );
