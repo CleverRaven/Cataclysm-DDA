@@ -325,8 +325,8 @@ input_context uilist::create_main_input_context() const
         ctxt.register_action( "SELECT" );
     }
     ctxt.register_action( "UILIST.FILTER" );
-    ctxt.register_action( "LEFT" );
-    ctxt.register_action( "RIGHT" );
+    ctxt.register_action( "UILIST.LEFT" );
+    ctxt.register_action( "UILIST.RIGHT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     uilist_scrollbar->set_draggable( ctxt );
@@ -1129,8 +1129,8 @@ void uilist::query( bool loop, int timeout )
             recalc_start = true;
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
-        } else if( !categories.empty() && ( ret_act == "LEFT" || ret_act == "RIGHT" ) ) {
-            current_category += ret_act == "LEFT" ? -1 : 1;
+        } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
+            current_category += ret_act == "UILIST.LEFT" ? -1 : 1;
             if( current_category < 0 ) {
                 current_category = categories.size() - 1;
             } else if( current_category >= static_cast<int>( categories.size() ) ) {
