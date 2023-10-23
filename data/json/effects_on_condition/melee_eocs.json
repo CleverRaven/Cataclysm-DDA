@@ -50,7 +50,8 @@
           "IS_GREAT_SWORDS",
           "IS_GREAT_HAMMERS",
           "IS_GREAT_AXES",
-          "IS_HAND_AXES"
+          "IS_HAND_AXES",
+          "IS_UNARMED"
         ]
       },
       { "run_eocs": "EOC_MELEE_PROF_BENEFIT" }
@@ -903,6 +904,43 @@
         ],
         "else": [
           { "math": [ "u_val('proficiency', 'proficiency_id: prof_great_axes_familiar', 'format: 1600')", "+=", "rand(4)" ] },
+          { "math": [ "u_prof_level", "=", "0" ] },
+          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "IS_UNARMED",
+    "global": false,
+    "condition": { "not": "u_can_drop_weapon" },
+    "effect": [
+      {
+        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_familiar', 'format: percent')", ">=", "100" ] },
+        "then": [
+          {
+            "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_pro', 'format: percent')", ">=", "100" ] },
+            "then": [
+              {
+                "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_master', 'format: percent')", ">=", "100" ] },
+                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "else": [
+                  { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_master', 'format: 6400')", "+=", "rand(4)" ] },
+                  { "math": [ "u_prof_level", "=", "2" ] },
+                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                ]
+              }
+            ],
+            "else": [
+              { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_pro', 'format: 3200')", "+=", "rand(4)" ] },
+              { "math": [ "u_prof_level", "=", "1" ] },
+              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+            ]
+          }
+        ],
+        "else": [
+          { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_familiar', 'format: 1600')", "+=", "rand(4)" ] },
           { "math": [ "u_prof_level", "=", "0" ] },
           { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
         ]

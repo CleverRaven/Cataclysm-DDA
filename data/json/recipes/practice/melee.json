@@ -150,34 +150,6 @@
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
-    "id": "prac_unarmed_beg",
-    "type": "practice",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
-    "name": "unarmed (beginner)",
-    "description": "Do a bit of shadowboxing as practice just in case you're left without a weapon versus the undead.  There's not much you can learn without someone to correct your mistakes, though.",
-    "skill_used": "unarmed",
-    "time": "1 h",
-    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
-    "autolearn": [ [ "unarmed", 0 ] ]
-  },
-  {
-    "id": "prac_unarmed_int",
-    "type": "practice",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
-    "name": "unarmed (intermediate)",
-    "description": "Learn how to throw a punch without breaking your wrist or kick without falling over with the help of a punching bag or training dummy.",
-    "skill_used": "unarmed",
-    "time": "1 h",
-    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
-    "autolearn": [ [ "unarmed", 3 ] ],
-    "book_learn": [ [ "mag_unarmed", 1 ], [ "manual_brawl", 1 ] ],
-    "tools": [ [ "pseudo_training_dummy_light", "pseudo_punching_bag" ] ]
-  },
-  {
     "id": "prac_dancing",
     "type": "practice",
     "activity_level": "BRISK_EXERCISE",
@@ -202,6 +174,39 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
     "autolearn": [ [ "dodge", 0 ] ]
+  },
+  {
+    "id": "prac_unarmed_beg",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "unarmed (beginner)",
+    "description": "Do a bit of shadowboxing as practice just in case you're left without a weapon versus the undead.  There's not much you can learn without someone to correct your mistakes, though.",
+    "skill_used": "unarmed",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "autolearn": [ [ "unarmed", 0 ] ],
+    "proficiencies": [ { "proficiency": "prof_unarmed_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ]
+  },
+  {
+    "id": "prac_unarmed_int",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "unarmed (intermediate)",
+    "description": "Learn how to throw a punch without breaking your wrist or kick without falling over with the help of a punching bag or training dummy.",
+    "skill_used": "unarmed",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "unarmed", 3 ] ],
+    "book_learn": [ [ "mag_unarmed", 1 ], [ "manual_brawl", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_unarmed_familiar", "required": true },
+      { "proficiency": "prof_unarmed_pro", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "tools": [ [ "pseudo_training_dummy_light", "pseudo_punching_bag" ] ]
   },
   {
     "id": "prac_cutting_beg_long_sword",

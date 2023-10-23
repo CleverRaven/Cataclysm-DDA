@@ -774,5 +774,40 @@
     "default_skill_penalty": 0.2,
     "time_to_learn": "32 h",
     "required_proficiencies": [ "prof_hand_axes_pro" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_unarmed_familiar",
+    "category": "prof_combat",
+    "name": { "str": "Unarmed Technique Familiarity" },
+    "description": "You're familiar with how to punch someone without hurting your wrists.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_unarmed_pro",
+    "category": "prof_combat",
+    "name": { "str": "Unarmed Technique Proficiency" },
+    "description": "You're proficient in unarmed combat, and know how pace yourself better when you're fighting unarmed.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_unarmed_familiar" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_unarmed_master",
+    "category": "prof_combat",
+    "name": { "str": "Unarmed Technique Mastery" },
+    "description": "You've fully grown accustomed to the rigors of unarmed combat and can fight unarmed for longer.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_unarmed_pro" ]
   }
 ]
