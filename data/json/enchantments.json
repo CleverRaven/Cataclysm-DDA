@@ -59,6 +59,18 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_RIGHT_PEGLEG",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_stub_r" }, { "gain": "leg_peg_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_LEFT_PEGLEG",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_stub_l" }, { "gain": "leg_peg_l" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
