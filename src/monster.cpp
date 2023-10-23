@@ -3330,7 +3330,9 @@ bool monster::has_mind() const
     } else if( has_flag( mon_flag_HUMAN ) ) {
         return true;
     }
-    return false;
+    else { 
+        return false; 
+    }
 }
 
 field_type_id monster::bloodType() const
