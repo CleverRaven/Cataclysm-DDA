@@ -386,6 +386,30 @@
   },
   {
     "type": "mutation",
+    "id": "RIGHT_PEG_LEG",
+    "name": { "str": "Right Peg Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right leg.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "enchantments": [ "ENCH_RIGHT_PEGLEG" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PEG_LEG",
+    "name": { "str": "Left Peg Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left leg.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "enchantments": [ "ENCH_LEFT_PEGLEG" ]
+  },
+  {
+    "type": "mutation",
     "id": "BIOLUM0",
     "name": { "str": "Reflex Photophore" },
     "points": -1,
