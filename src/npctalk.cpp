@@ -5109,7 +5109,7 @@ void talk_effect_fun_t::set_foreach( const JsonObject &jo, std::string_view memb
         std::vector<std::string_view> list;
 
         if( type == "vitamin" ) {
-            for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+            for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
                 list.push_back( v.first.str() );
             }
         } else if( type == "trait" ) {
