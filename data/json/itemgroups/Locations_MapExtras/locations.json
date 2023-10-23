@@ -1457,7 +1457,6 @@
     "items": [
       [ "tonfa", 50 ],
       [ "tonfa_wood", 10 ],
-      [ "blackjack", 50 ],
       { "item": "shocktonfa_off", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "tazer", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ] },
