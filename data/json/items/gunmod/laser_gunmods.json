@@ -154,7 +154,7 @@
     "location": "heatsink",
     "mod_targets": [ "pistol", "rifle" ],
     "overheat_threshold_modifier": 50
-  }, 
+  },
   {
     "id": "thermal_equilibrium_gel_sheet",
     "type": "GUNMOD",
