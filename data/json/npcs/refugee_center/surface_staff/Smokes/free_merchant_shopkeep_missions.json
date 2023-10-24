@@ -234,6 +234,7 @@
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
       "effect": [
+        { "u_sell_item": "solar_panel", "count": 10 }
         { "u_spawn_item": "FMCNote", "count": 100 },
         { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
       ]
