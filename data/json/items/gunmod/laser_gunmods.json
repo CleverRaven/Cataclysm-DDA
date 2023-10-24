@@ -136,7 +136,7 @@
     "location": "radiator",
     "mod_targets": [ "pistol", "rifle" ],
     "cooling_value_multiplier": 1.5
-  }, 
+  },
   {
     "id": "add_heat_sink_for_small",
     "type": "GUNMOD",
