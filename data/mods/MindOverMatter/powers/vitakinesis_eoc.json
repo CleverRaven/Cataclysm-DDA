@@ -14,7 +14,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP",
-    "condition": { "or": [ { "math": [ "u_val('fatigue')", ">=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] } ] },
+    "condition": { "or": [ { "math": [ "u_val('fatigue')", ">=", "0" ] } ] },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": "510 minutes" } ],
     "false_effect": [ { "u_message": "You're feeling refreshed and have no need to meditate.", "type": "mixed" } ]
   },
@@ -51,7 +51,7 @@
         {
           "x_in_y_chance": {
             "x": 1,
-            "y": { "math": [ "80 - (max(u_val('spell_level', 'spell: vita_sleeping_trance'), 25) * 2) - ( u_skill('metaphysics') )" ] }
+            "y": { "math": [ "max( (55 - ( u_val('spell_level', 'spell: vita_sleeping_trance') * 2) - u_skill('metaphysics') ), 15 )" ] }
           }
         }
       ]
