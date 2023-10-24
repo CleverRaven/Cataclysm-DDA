@@ -998,7 +998,7 @@ template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
         const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
 {
-    const char *const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const char *const sort_order = sorter.sort_by_points ? _( "default" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
                                           colorize( ctxt.get_desc( "SORT" ), c_green ), _( "sort" ),
                                           sort_order );
