@@ -641,7 +641,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
     // Also note, gunmod_unload is called twice, once in
     // gunmod_remove_activity_actor::gunmod_remove
-    // and once in 
+    // and once in
     // Character::gunmod_remove
     // Remove one of them before making gunmod_unload take time
     item_location loc = item_location( who, &gunmod );
