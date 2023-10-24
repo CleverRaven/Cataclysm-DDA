@@ -639,7 +639,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
         return true;
     }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
-    // Also note, gunmod_unload is called twice, once in 
+    // Also note, gunmod_unload is called twice, once in
     // gunmod_remove_activity_actor::gunmod_remove
     // and once in 
     // Character::gunmod_remove
