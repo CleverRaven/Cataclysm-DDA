@@ -91,6 +91,25 @@
     "byproducts": [ [ "scrap_lycra", 6 ] ]
   },
   {
+    "id": "prac_quilting",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "fabric quilting",
+    "description": "Practice the beautiful art of quilting by efficiently sewing a pair of padded sheets together in different patterns.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_quilting", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "textbook_armwest", 1 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "gambeson_batting", 2 ] ] ],
+    "using": [ [ "filament_canvas", 20 ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "gambeson_batting", 2 ] ]
+  },
+  {
     "id": "prac_leather_beg",
     "type": "practice",
     "activity_level": "NO_EXERCISE",
