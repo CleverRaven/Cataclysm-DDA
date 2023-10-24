@@ -41,6 +41,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -115,26 +116,6 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Cha
         }
     }
     return bps;
-}
-
-static std::pair<int, int> subindex_around_cursor(
-    const int num_entries, const int available_space, const int cursor_pos, const bool focused )
-/**
- * Return indexes [start, end) that should be displayed from list long `num_entries`,
- * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
- *
- * Example:
- * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
- * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
- * return {1, 4}
- */
-{
-    if( !focused || num_entries <= available_space ) {
-        return { 0, std::min( available_space, num_entries ) };
-    }
-    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
-                                num_entries - available_space );
-    return {slice_start, slice_start + available_space };
 }
 
 void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win,

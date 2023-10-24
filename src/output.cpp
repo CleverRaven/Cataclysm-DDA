@@ -1566,12 +1566,12 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
     int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
+    for( int i = 1; i < width - 1; i++ ) {
+        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );  // ─
     }
 
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
+    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO );  // ┌
+    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX );  // ┐
 
     const int tab_step = 3;
     int x = 2;
