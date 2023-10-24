@@ -273,7 +273,7 @@
     "use_action": [ "SMOKING" ]
   },
   {
-    "id": "chloroform_rag",
+    "id": "debug_chloroform_rag",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "debug chloroform soaked rag" },
