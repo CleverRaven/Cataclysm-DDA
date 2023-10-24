@@ -1827,6 +1827,7 @@ void known_magic::serialize( JsonOut &json ) const
     }
     json.end_array();
     json.member( "invlets", invlets );
+    json.member( "favorites", favorites );
 
     json.end_object();
 }
@@ -1846,6 +1847,7 @@ void known_magic::deserialize( const JsonObject &data )
         }
     }
     data.read( "invlets", invlets );
+    data.read( "favorites", favorites );
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
@@ -2158,13 +2160,13 @@ std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class
 
 static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
 {
-    for( auto &e : menu->entries ) {
-        if( get_player_character().magic->is_favorite( known_spells[e.retval]->id() ) ) {
-            e.extratxt.left = 2;
-            e.extratxt.txt = _( "*" );
-            e.extratxt.color = c_white;
+    for( uilist_entry &entry : menu->entries ) {
+        if( get_player_character().magic->is_favorite( known_spells[entry.retval]->id() ) ) {
+            entry.extratxt.left = 0;
+            entry.extratxt.txt = _( "*" );
+            entry.extratxt.color = c_white;
         } else {
-            e.extratxt.txt = "";
+            entry.extratxt.txt = "";
         }
     }
 }
@@ -2178,7 +2180,6 @@ class spellcasting_callback : public uilist_callback
         std::vector<spell *> known_spells;
         void spell_info_text( const spell &sp, int width );
         void draw_spell_info( const uilist *menu );
-        bool do_reflesh_favorite = true;
     public:
         // invlets reserved for special functions
         const std::set<int> reserved_invlets{ 'I', '=', '*' };
@@ -2214,17 +2215,12 @@ class spellcasting_callback : public uilist_callback
                 scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
             } else if( action == "SCROLL_FAVORITE" ) {
                 get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
-                do_reflesh_favorite = true;
-                refresh( menu );
+                reflesh_favorite( menu, known_spells );
             }
             return false;
         }
 
         void refresh( uilist *menu ) override {
-            if( do_reflesh_favorite ) {
-                do_reflesh_favorite = false;
-                reflesh_favorite( menu, known_spells );
-            }
             const std::string space( menu->pad_right - 2, ' ' );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
