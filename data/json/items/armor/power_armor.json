@@ -207,8 +207,8 @@
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_heavy",
     "name": "heavy exoskeleton helmet",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "3500 g",
+    "volume": "4500 ml",
     "extend": {
       "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
     }
@@ -217,8 +217,8 @@
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_medium",
     "name": "exoskeleton helmet",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "3000 g",
+    "volume": "3500 ml",
     "extend": {
       "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
     }
@@ -227,8 +227,8 @@
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_light",
     "name": "light exoskeleton helmet",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "2500 g",
+    "volume": "2500 ml",
     "extend": {
       "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
     }
@@ -248,8 +248,8 @@
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_heavy",
     "name": "heavy exoskeleton torso",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "13000 g",
+    "volume": "30000 ml",
     "extend": {
       "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
     }
@@ -258,8 +258,8 @@
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_medium",
     "name": "exoskeleton torso",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "11500 g",
+    "volume": "21000 ml",
     "extend": {
       "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
     }
@@ -268,8 +268,8 @@
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_light",
     "name": "light exoskeleton torso",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "10000 g",
+    "volume": "12000 ml",
     "extend": {
       "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
     }
@@ -289,8 +289,8 @@
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_heavy",
     "name": "heavy exoskeleton arms",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "4500 g",
+    "volume": "5500 ml",
     "extend": {
       "armor": [ { "covers": [ "arms" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
     }
@@ -299,8 +299,8 @@
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_medium",
     "name": "exoskeleton arms",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "3750 g",
+    "volume": "4500 ml",
     "extend": {
       "armor": [ { "covers": [ "arms" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
     }
@@ -309,8 +309,8 @@
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_light",
     "name": "light exoskeleton arms",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "3000 g",
+    "volume": "3500 ml",
     "extend": {
       "armor": [ { "covers": [ "arms" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
     }
@@ -330,8 +330,8 @@
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_heavy",
     "name": "heavy exoskeleton legs",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "4500 g",
+    "volume": "5500 ml",
     "extend": {
       "armor": [ { "covers": [ "legs" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
     }
@@ -340,8 +340,8 @@
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_medium",
     "name": "exoskeleton legs",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "3750 g",
+    "volume": "4500 ml",
     "extend": {
       "armor": [ { "covers": [ "legs" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
     }
@@ -350,8 +350,8 @@
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_light",
     "name": "light exoskeleton legs",
-    "weight": "6853 g",
-    "volume": "6600 ml",
+    "weight": "3000 g",
+    "volume": "3500 ml",
     "extend": {
       "armor": [ { "covers": [ "legs" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
     }
