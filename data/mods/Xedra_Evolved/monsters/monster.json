@@ -168,7 +168,7 @@
     },
     "regenerates": 25,
     "regen_morale": true,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "HAS_MIND", "PLASTIC", "FLIES", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "FLIES", "ACIDPROOF", "NOHEAD", "NOGIB" ],
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 4 }
   },
   {
