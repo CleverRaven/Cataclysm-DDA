@@ -410,10 +410,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2100 ml",
+        "max_contains_volume": "870 ml",
         "max_contains_weight": "7000 g",
-        "max_item_length": "80 mm",
-        "volume_encumber_modifier": 0.3
+        "max_item_length": "80 mm"
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
@@ -437,8 +436,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "4000 ml",
-        "max_contains_weight": "10000 g",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
         "max_item_length": "90 mm",
         "volume_encumber_modifier": 0.3
       }
