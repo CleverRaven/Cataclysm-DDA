@@ -100,7 +100,7 @@
     "damage_modifier": { "damage_type": "heat", "amount": 10 },
     "energy_drain_multiplier": 2.0,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
-  }, 
+  },
   {
     "id": "add_intake_fan",
     "type": "GUNMOD",
