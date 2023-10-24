@@ -658,16 +658,14 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
+    gun.remove_item( mod );
 
     // TODO: If a mod's added mod location allowed another mod to be added, remove both mods
     // when the 'base' mod is removed. Also make sure to factor in time to remove both mods
     // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations_added = modtype->gunmod->add_mod;
         std::map<gunmod_location, int> mod_locations_gun_free = gun.get_mod_locations();
-
-        // This is done after fetching gun.get_mod_locations, in case the mod adds a new location
-        // so mod_locations_gun_free[the_mod->type->gunmod->location] will be valid
-        gun.remove_item( mod );
 
         std::for_each( mod_locations_gun_free.begin(), mod_locations_gun_free.end(),
         [&gun]( std::pair<const gunmod_location, int> &slot ) {
@@ -676,14 +674,18 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
                      );
 
         for( item *the_mod : gun.gunmods() ) {
-            int free_slots = mod_locations_gun_free[the_mod->type->gunmod->location];
-            if( free_slots < 0 ) {
+            gunmod_location curr_gunmod_loc = the_mod->type->gunmod->location;
+            // If the gunmod's location does not exist in the gun, and it was added by the removed mod
+            // Remove it
+            if( mod_locations_gun_free.find(curr_gunmod_loc) == mod_locations_gun_free.end() && 
+                mod_locations_added[curr_gunmod_loc] > 0 ) {
+                    gunmod_remove( who, gun, *the_mod );
+            } else if( mod_locations_gun_free[curr_gunmod_loc] < 0 ) {
+                // Otherwise check if there are no free slots in the current gun
                 gunmod_remove( who, gun, *the_mod );
                 mod_locations_gun_free[the_mod->type->gunmod->location]++;
             }
         }
-    } else {
-        gun.remove_item( mod );
     }
 
     //~ %1$s - gunmod, %2$s - gun.
