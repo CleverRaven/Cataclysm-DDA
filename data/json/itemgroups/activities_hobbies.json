@@ -270,6 +270,7 @@
       [ "machete_gimmick", 5 ],
       [ "vest", 15 ],
       [ "backpack", 38 ],
+      { "item": "backpack_giant", "prob": 1 },
       [ "backpack_leather", 18 ],
       [ "backpack_hiking", 12 ],
       [ "backpack_hunting", 3 ],

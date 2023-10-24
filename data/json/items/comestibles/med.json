@@ -276,7 +276,7 @@
     "id": "chloroform_rag",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "chloroform soaked rag" },
+    "name": { "str": "debug chloroform soaked rag" },
     "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
     "weight": "240 g",
     "volume": "250 ml",

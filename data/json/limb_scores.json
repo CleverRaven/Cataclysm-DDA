@@ -90,29 +90,5 @@
     "name": "Crawling",
     "affected_by_wounds": true,
     "affected_by_encumb": true
-  },
-  {
-    "type": "effect_type",
-    "id": "glare_test",
-    "name": [ "Glareeeeee" ],
-    "desc": [ "The sun is in your eyes." ],
-    "apply_message": "The sunlight's glare makes it hard to see.",
-    "rating": "bad",
-    "limb_score_mods": [
-      { "limb_score": "manip", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "lift", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "block", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "night_vis", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.025 },
-      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "footing", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
-      { "limb_score": "crawl", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 }
-    ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
