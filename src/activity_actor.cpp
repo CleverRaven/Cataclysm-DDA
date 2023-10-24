@@ -681,7 +681,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
                 mod_locations_added[curr_gunmod_loc] > 0 ) {
                     gunmod_remove( who, gun, *the_mod );
             } else if( mod_locations_gun_free[curr_gunmod_loc] < 0 ) {
-                // Otherwise check if there are no free slots in the current gun
+                // Otherwise remove if there are no free slots in the current gunmod's location
                 gunmod_remove( who, gun, *the_mod );
                 mod_locations_gun_free[the_mod->type->gunmod->location]++;
             }
