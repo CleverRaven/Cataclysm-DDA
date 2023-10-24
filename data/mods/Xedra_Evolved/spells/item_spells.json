@@ -78,7 +78,7 @@
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "LOUD", "NO_LEGS", "RANDOM_DAMAGE" ],
-    "components": [ "rip_ticket" ],
+    "components": [ "rip_ticket", 1 ],
     "min_damage": 15,
     "max_damage": 35,
     "min_aoe": 2,
