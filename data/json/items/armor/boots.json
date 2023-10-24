@@ -2903,7 +2903,7 @@
         "color": "blue",
         "append": true
       },
-            {
+      {
         "id": "stockings_pride_genderqueer",
         "name": { "str": "pair of genderqueer flag stockings", "str_pl": "pairs of genderqueer flag stockings" },
         "description": "This one has patterns akin to the genderqueer flag.",
