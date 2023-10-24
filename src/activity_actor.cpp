@@ -679,7 +679,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
             // Remove it
             if( mod_locations_gun_free.find( curr_gunmod_loc ) == mod_locations_gun_free.end() &&
                 mod_locations_added[curr_gunmod_loc] > 0 ) {
-                    gunmod_remove( who, gun, *the_mod );
+                gunmod_remove( who, gun, *the_mod );
             } else if( mod_locations_gun_free[curr_gunmod_loc] < 0 ) {
                 // Otherwise check if there are no free slots in the current gun
                 gunmod_remove( who, gun, *the_mod );
