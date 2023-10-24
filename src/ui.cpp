@@ -325,8 +325,10 @@ input_context uilist::create_main_input_context() const
         ctxt.register_action( "SELECT" );
     }
     ctxt.register_action( "UILIST.FILTER" );
-    ctxt.register_action( "UILIST.LEFT" );
-    ctxt.register_action( "UILIST.RIGHT" );
+    if( !categories.empty() ) {
+        ctxt.register_action( "UILIST.LEFT" );
+        ctxt.register_action( "UILIST.RIGHT" );
+    }
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     uilist_scrollbar->set_draggable( ctxt );
@@ -1267,12 +1269,6 @@ void uilist::set_selected( int index )
 void uilist::add_category( const std::string &key, const std::string &name )
 {
     categories.emplace_back( key, name );
-    std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
-    const std::pair<std::string, std::string> &b ) {
-        return localized_compare( a.second, b.second );
-    } );
-    const auto itr = std::unique( categories.begin(), categories.end() );
-    categories.erase( itr, categories.end() );
 }
 
 void uilist::set_category( const std::string &key )
