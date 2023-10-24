@@ -118,7 +118,7 @@
     "location": "radiator",
     "mod_targets": [ "pistol", "rifle" ],
     "cooling_value_modifier": 0.5
-  }, 
+  },
   {
     "id": "heat_dissipation_sheets",
     "type": "GUNMOD",
