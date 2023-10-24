@@ -30,6 +30,8 @@
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "grip", 1 ],
+      [ "heatsink", 1 ],
+      [ "radiator", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -68,7 +70,7 @@
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ],
-    "overheat_threshold": 200,
+    "overheat_threshold": 300,
     "cooling_value": 2,
     "heat_per_shot": 6,
     "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
@@ -110,7 +112,7 @@
       "USE_UPS"
     ],
     "overheat_threshold": 100,
-    "cooling_value": 2,
+    "cooling_value": 3,
     "heat_per_shot": 17,
     "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 6 }
@@ -146,7 +148,9 @@
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "grip", 1 ],
+      [ "heatsink", 1 ],
       [ "lens", 1 ],
+      [ "radiator", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -154,6 +158,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "default_mods": [ "power_save_emitter" ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
     "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
@@ -173,6 +178,8 @@
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
+      [ "heatsink", 1 ],
+      [ "radiator", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -209,7 +216,8 @@
     "overheat_threshold": 60,
     "cooling_value": 2,
     "heat_per_shot": 6,
-    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "heatsink", 1 ], [ "lens", 1 ], [ "radiator", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "default_mods": [ "add_intake_fan", "add_heat_sink_for_small" ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
     "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
@@ -222,7 +230,9 @@
     "type": "GUN",
     "name": { "str": "salvaged CMES laser cannon" },
     "description": "This gatling-laser has been stripped from its CMES mech-suit and is far too heavy to use on its own.  You will need to deploy it or mount it to a vehicle, but it could be devastating if you have deep battery reserves.",
-    "valid_mod_locations": [ [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "overheat_threshold": 200,
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "heatsink", 1 ], [ "lens", 1 ], [ "radiator", 1 ], [ "sling", 1 ] ],
+    "default_mods": [ "thermal_equilibrium_gel_sheet" ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   },
@@ -233,7 +243,9 @@
     "type": "GUN",
     "name": { "str": "salvaged RMES marksman laser" },
     "description": "Formerly belonging to an RMES mech-suit, this powerful long-range laser rifle was never designed for human hands.  You might be able to make it work if you deployed it or mounted it to a vehicle, though, and its long range and potency could be pretty handy if you can keep it powered.",
-    "valid_mod_locations": [ [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "cooling_value": 2,
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "heatsink", 1 ], [ "lens", 1 ], [ "radiator", 1 ], [ "sling", 1 ] ],
+    "default_mods": [ "heat_dissipation_sheets" ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   }
