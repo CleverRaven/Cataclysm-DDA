@@ -663,7 +663,6 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
     // when the 'base' mod is removed. Also make sure to factor in time to remove both mods
     // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
-        std::map<gunmod_location, int> mod_locations_added = modtype->gunmod->add_mod;
         std::map<gunmod_location, int> mod_locations_gun_free = gun.get_mod_locations();
 
         // This is done after fetching gun.get_mod_locations, in case the mod adds a new location
