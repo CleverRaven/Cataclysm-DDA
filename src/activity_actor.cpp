@@ -669,11 +669,11 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
         // so mod_locations_gun_free[the_mod->type->gunmod->location] will be valid
         gun.remove_item( mod );
 
-        std::for_each(mod_locations_gun_free.begin(), mod_locations_gun_free.end(), 
-            [&gun](std::pair<const gunmod_location, int>& slot) {
-                slot.second = gun.get_free_mod_locations(slot.first);
-            }
-        );
+        std::for_each( mod_locations_gun_free.begin(), mod_locations_gun_free.end(),
+        [&gun]( std::pair<const gunmod_location, int> &slot ) {
+            slot.second = gun.get_free_mod_locations( slot.first );
+        }
+                     );
 
         for( item *the_mod : gun.gunmods() ) {
             int free_slots = mod_locations_gun_free[the_mod->type->gunmod->location];
