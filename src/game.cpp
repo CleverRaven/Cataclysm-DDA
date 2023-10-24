@@ -1815,7 +1815,7 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
     const inventory &inven = you.crafting_inventory();
-    const std::vector<Character *> helpers = you.get_crafting_helpers();
+    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
