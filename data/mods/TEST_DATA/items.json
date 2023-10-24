@@ -1867,7 +1867,7 @@
         "moves": 1000
       }
     ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "test_condom",
@@ -1892,7 +1892,7 @@
         "max_item_length": "26 cm"
       }
     ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "test_can_drink",

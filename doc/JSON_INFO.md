@@ -1377,7 +1377,7 @@ for example the property below makes a container burst open when filled over 75%
 
 ```json
   {
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   }
 ```
 
