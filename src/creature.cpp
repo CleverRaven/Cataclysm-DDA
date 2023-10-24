@@ -124,6 +124,7 @@ static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
@@ -1360,6 +1361,10 @@ void Creature::longpull( const std::string &name, const tripoint &p )
 
 bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
 {
+    // DEBUG insivibility can't be seen through
+    if( player.has_trait( trait_DEBUG_CLOAK ) ) {
+        return false;
+    }
     if( !fov_3d && posz() != player.posz() ) {
         return false;
     }
