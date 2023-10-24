@@ -639,6 +639,11 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
         return true;
     }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
+    // Also note, gunmod_unload is called twice, once in 
+    // gunmod_remove_activity_actor::gunmod_remove
+    // and once in 
+    // Character::gunmod_remove
+    // Remove one of them before making gunmod_unload take time
     item_location loc = item_location( who, &gunmod );
     return !( gunmod.ammo_remaining() && !who.unload( loc, true ) );
 }
@@ -653,24 +658,33 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
-    gun.remove_item( mod );
 
+    // TODO: If a mod's added mod location allowed another mod to be added, remove both mods
+    // when the 'base' mod is removed. Also make sure to factor in time to remove both mods
     // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
-        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
-        for( const auto &slot : mod_locations ) {
-            int free_slots = gun.get_free_mod_locations( slot.first );
+        std::map<gunmod_location, int> mod_locations_added = modtype->gunmod->add_mod;
+        std::map<gunmod_location, int> mod_locations_gun_free = gun.get_mod_locations();
 
-            for( item *the_mod : gun.gunmods() ) {
-                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
-                    gunmod_remove( who, gun, *the_mod );
-                    free_slots++;
-                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
-                           mod_locations.end() ) {
-                    gunmod_remove( who, gun, *the_mod );
-                }
+        // This is done after fetching gun.get_mod_locations, in case the mod adds a new location
+        // so mod_locations_gun_free[the_mod->type->gunmod->location] will be valid
+        gun.remove_item( mod );
+
+        std::for_each(mod_locations_gun_free.begin(), mod_locations_gun_free.end(), 
+            [&gun](std::pair<const gunmod_location, int>& slot) {
+                slot.second = gun.get_free_mod_locations(slot.first);
+            }
+        );
+
+        for( item *the_mod : gun.gunmods() ) {
+            int free_slots = mod_locations_gun_free[the_mod->type->gunmod->location];
+            if( free_slots < 0 ) {
+                gunmod_remove( who, gun, *the_mod );
+                mod_locations_gun_free[the_mod->type->gunmod->location]++;
             }
         }
+    } else {
+        gun.remove_item( mod );
     }
 
     //~ %1$s - gunmod, %2$s - gun.
