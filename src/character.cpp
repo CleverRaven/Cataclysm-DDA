@@ -1869,6 +1869,14 @@ void Character::set_part_hp_cur( const bodypart_id &id, int set )
     Creature::set_part_hp_cur( id, set );
 }
 
+void Character::mod_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_cur( id, set );
+}
+
 void Character::on_try_dodge()
 {
     ret_val<void> can_dodge = can_try_doge();
