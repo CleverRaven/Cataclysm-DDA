@@ -248,7 +248,7 @@ I'd buy a lightly modified motorcycle allowing effective lance attacks, but see 
 
 #### Storing blood for later to cure hypovolemia - Not realistic
 
-Storing blood for later is far outside the reach of the survivor even if they knew how to. Blood needs to be heavily processed and stored in precise conditions, otherwise you'd end up with a bag of coagulated dried clot. The sorts of facilities necessary for this and the technical and medical knowhow is outside the scope of even a moderately size settlement, and that's assuming they even have a phlebotomist. Not to mention, drawing enough of your own blood to make a noticeable difference when reinjected later would leave you weakened for about as long as it would take to recover from hypovolemia anyway. 
+Storing blood for later is far outside the reach of the survivor even if they knew how to. Blood needs to be heavily processed and stored in precise conditions, otherwise you'd end up with a bag of coagulated dried clot. The sorts of facilities necessary for this and the technical and medical knowhow is outside the scope of even a moderately size settlement, and that's assuming they even have a phlebotomist. Not to mention, drawing enough of your own blood to make a noticeable difference when reinjected later would leave you weakened for about as long as it would take to recover from hypovolemia anyway.
 
 #### Direct transfusions from NPC followers: qualified maybe.
 
@@ -258,7 +258,7 @@ Coercing followers into being your personal blood bags is not going to happen. O
 
 This is a realistic and sensible way to help with hypovolemia that circumvents all the previously mentioned issues. Though, it should still require someone with medical training and wouldn't be an immediate cure, and would require scavenging, it would not be player-craftable.
 
-### Electrical power transmission 
+### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.
 
 #### Bring back a municipal power grid: not feasible to implement
@@ -275,7 +275,7 @@ The plan is to extend this by building “appliances” that you can hook into t
 
 In addition to "appliances", there may also be "facilities".  Again, under the hood, facilities are going to be related to vehicles (admittedly, stationary vehicles) but are going to be built via the construction menu and interacted with as collections of terrain and furniture.  Facilities will hopefully allow for medium sized, powered buildings.
 
-### User interface 
+### User interface
 
 #### Nestable container model for inventory: Will go in as soon an there’s a good implementation/someone is working on it.
 
@@ -289,7 +289,7 @@ CDDA runs across a wide variety of platforms, each of which has their own specia
 
 It might be possible for a really talented developer to come up some way to specify MP3s and an MP3 player in a platform independent way that didn't involve dragging in a huge amount of strange libraries, but all of the attempts so far have been platform specific and required a huge amount of extra library code.
 
-### Monsters 
+### Monsters
 
 #### Separate limbs for monsters: not useful
 
@@ -354,7 +354,7 @@ For this to happen, we need code to detect significant changes in aircraft, code
 
 #### We should be able to make airplanes/autogyros/hot air balloons/blimps/submarines: Yes
 
-All of these have been suggested.  All of them would be possible if someone wrote a bunch of code to enable them.  
+All of these have been suggested.  All of them would be possible if someone wrote a bunch of code to enable them.
 
 #### Vehicles should be able to span multiple z-levels: Yes
 
@@ -368,7 +368,7 @@ For some examples of 12-gague 00-shot patterns, take a look at http://www.thebox
 
 tldr at 45 yards, which is outside the maximum effective range of the round in the first place (I’ve seen anywhere from 25 yards to 35 yards claimed), the spread was between 27 and 33 inches. Even at this extreme range, the spread is still less than one in-game square, so you’re effectively never going to hit two targets standing side-by-side. What might happen is you get some kind of “graze” one one target, and the shot that didn’t hit the target will continue and possibly hit another target behind it.
 
-### Environment 
+### Environment
 
 #### Bring back acid melting items: Grossly unrealistic
 
