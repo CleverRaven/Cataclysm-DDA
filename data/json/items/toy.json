@@ -101,6 +101,55 @@
         "name": { "str": "T-rex figurine" },
         "description": "A relatively large plastic figurine of a T-rex.",
         "weight": 1
+      },
+      {
+        "id": "toy_figure_mech",
+        "name": { "str": "Mech figurine" },
+        "description": "A large figurine of a humanoid robot, armed with a rifle, with a smaller figure sitting inside the head.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_knight",
+        "name": { "str": "Knight figurine" },
+        "description": "A large figurine of a knight in shining armor standing watch, with its sword planted at the ground at it's feet.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_t800",
+        "name": { "str": "Robot figurine" },
+        "description": "A very intricate looking model of a robotic skeleton with red eyes and a futuristic weapon in its hand.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_caiman",
+        "name": { "str": "Lizardman figurine" },
+        "description": "An expensive figurine of a buff man in streetwear with a lizard head, holding a pair of knives in his hands.",
+        "//": "yes this is a dorohedoro reference",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_anime",
+        "name": { "str": "Anime figurine" },
+        "description": "An expensive figurine of a cartoon woman in flashy clothing.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_heavyweapons",
+        "name": { "str": "Video game figurine" },
+        "description": "A large figurine of a videogame character, holding a massive gatling gun in his giant arms.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figurine_smoker",
+        "name": { "str": "Zombie figurine" },
+        "description": "A nasty looking figurine of a mutant zombie, with a large tongue sprouting from its face.  You thankfully haven't encountered something like that yet.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_alien",
+        "name": { "str": "Alien figurine" },
+        "description": "An expensive looking figurine of a gnarly, jet-black alien covered in menacing looking spines.",
+        "weight": 1
       }
     ]
   },
