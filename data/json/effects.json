@@ -1799,16 +1799,16 @@
       "Bad Eye Irritation (Smoke)"
     ],
     "desc": [
-      "Your eyes mildly irritate.",
-      "Your eyes watering.",
-      "Your eyes tear and stings heavily.",
-      "Your eyes burn out of smoke, and you hardly see anything."
+      "Your eyes are mildly irritated.",
+      "Your eyes are watering.",
+      "Your eyes sting badly and tears stream from them continuously.",
+      "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them."
     ],
     "apply_message": [
-      [ "Your eyes mildly irritate.", "bad" ],
+      [ "Your eyes are mildly irritated.", "bad" ],
       [ "Your eyes watering out of smoke.", "bad" ],
-      [ "Your eyes tear and stings heavily.", "bad" ],
-      [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
+      [ "Your eyes sting badly and tears stream from them continuously.", "bad" ],
+      [ "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them.", "bad" ]
     ],
     "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
     "max_duration": "3 m",
@@ -1829,15 +1829,15 @@
     "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
     "desc": [
       "You draw in a faint whiff of smoke.",
-      "Noticeable amount of smoke fills your lungs.",
-      "Dense cloud of smoke enter your lungs.",
-      "You inhale an overwhelming amount of smoke."
+      "A noticeable volume of smoke fills your lungs.",
+      "A dense cloud of smoke enters your lungs.",
+      "You inhale an overwhelming volume of smoke."
     ],
     "apply_message": [
       [ "You draw in a faint whiff of smoke.", "bad" ],
-      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
-      [ "Dense cloud of smoke enter your lungs.", "bad" ],
-      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+      [ "A noticeable volume of smoke fills your lungs.", "bad" ],
+      [ "A dense cloud of smoke enters your lungs.", "bad" ],
+      [ "You inhale an overwhelming volume of smoke.", "bad" ]
     ],
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,

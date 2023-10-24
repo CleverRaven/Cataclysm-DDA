@@ -3717,7 +3717,7 @@
   {
     "type": "mutation",
     "id": "BOMBADIER_BLAST",
-    "name": { "str": "Bombadier Beetle Blast" },
+    "name": { "str": "Bombardier Beetle Blast" },
     "points": 5,
     "visibility": 1,
     "ugliness": 2,
