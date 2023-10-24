@@ -677,7 +677,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
             gunmod_location curr_gunmod_loc = the_mod->type->gunmod->location;
             // If the gunmod's location does not exist in the gun, and it was added by the removed mod
             // Remove it
-            if( mod_locations_gun_free.find(curr_gunmod_loc) == mod_locations_gun_free.end() && 
+            if( mod_locations_gun_free.find( curr_gunmod_loc ) == mod_locations_gun_free.end() &&
                 mod_locations_added[curr_gunmod_loc] > 0 ) {
                     gunmod_remove( who, gun, *the_mod );
             } else if( mod_locations_gun_free[curr_gunmod_loc] < 0 ) {
