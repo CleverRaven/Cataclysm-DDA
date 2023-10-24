@@ -123,7 +123,11 @@
       { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
       { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" },
       { "name": "post-it", "id": "lab_postit_psi_52", "text": "It's like a shadow and it won't go away" },
-      { "name": "post-it", "id": "lab_postit_psi_53", "text": "SMOKE USHER found something.  It's everywhere.  It's in us" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_53",
+        "text": "SMOKE USHER found something.  It's everywhere.  It's in us"
+      },
       { "name": "post-it", "id": "lab_postit_psi_54", "text": "Zombies can't awaken.  What a surprise" },
       { "name": "post-it", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
       { "name": "post-it", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
@@ -170,8 +174,30 @@
   },
   {
     "type": "snippet",
+    "category": "lab_file_clairsentience",
+    "//": "Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian designation for use of clairsentience to find appropriate portal targets for immersion dives is COLD BELOW",
+    "text": [
+      {
+        "name": "Notes scribbled on notebook paper",
+        "id": "lab_file_clairsentience_01",
+        "text": "I'm looking up at the sky.  I can see the same constellations on Earth, but they're shimmering somehow, like there's a haze or a fog or something between us.  Then, the stars start to slowly go out.  Not in a wave, but randomly--one here, one there, faster and faster until the entire sky was dark.  Then the moon disappeared as well and everything went black.\n\nI'm standing on the edge of a cliff.  Below me is the churning sea, the waters black under the stormclouds.  The sea rises slowly as rain falls in sheets, lightning striking the waters.  They break over the edge of the cliff, then over my head.  I drown.\n\nI am standing in a forest.  The trees rustle all around me and the birds sing, and then clouds pass over the sun.  The sun dims and then starts to go black.  It's an eclipse.  The light fades and all the birdsong dies.  I stand in pitch blackness with the rustle of leaves around me."
+      },
+      {
+        "name": "testing report I2-8129",
+        "id": "lab_file_clairsentience_02",
+        "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
+      },
+      {
+        "name": "COLD BELOW progress report",
+        "id": "lab_file_clairsentience_03",
+        "text": "Dr. Richardson,\nAfter all of the time and money I wish I had more promising news to report.  Netherum mathematics is an inexact science"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_file_telepathy",
-    "//": "Phavian designation for telepathic study is GRAY DAWN",
+    "//": "Phavian designation for telepathic study is GRAY DAWN.",
     "text": [
       {
         "name": "testing report C3-6204",
@@ -202,23 +228,6 @@
   },
   {
     "type": "snippet",
-    "category": "lab_file_clairsentience",
-    "//": "Phavian designation for clairsentience study is NOBLE HORIZON",
-    "text": [
-      {
-        "name": "Notes scribbled on notebook paper",
-        "id": "lab_file_clairsentience_01",
-        "text": "I'm looking up at the sky.  I can see the same constellations on Earth, but they're shimmering somehow, like there's a haze or a fog or something between us.  Then, the stars start to slowly go out.  Not in a wave, but randomly--one here, one there, faster and faster until the entire sky was dark.  Then the moon went out and everything was total blackness.\n\nI'm standing on the edge of a cliff.  Below me is the churning sea, the waters black under the stormclouds.  The sea rises slowly as rain falls in sheets, lightning striking the waters.  They break over the edge of the cliff, then over my head.  All is blackness.\n\nI am standing in a forest.  The trees rustle all around me and the birds sing, and then clouds pass over the sun.  The sun dims and then starts to go black.  It's an eclipse.  The light fades and all the birdsong dies.  I stand in pitch blackness with the rustle of leaves around me."
-      },
-      {
-        "name": "testing report I2-8129",
-        "id": "lab_file_clairsentience_02",
-        "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs. diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON candidates perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
-      }
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "lab_file_telekinesis",
     "//": "Phavian designation for telekinetic study for use in combat is ONYX LIGHTNING",
     "text": [
@@ -230,10 +239,10 @@
       {
         "name": "re: the Third",
         "id": "lab_file_telekinesis_02",
-        "text": "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha"
+        "text": "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway unless you buy Dr. Ho's ridiculous \"The soul is a Nether construct\" theory.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha"
       },
       {
-        "name": "re: the Third",
+        "name": "testing report B8-9123",
         "id": "lab_file_telekinesis_03",
         "text": ".00: No penetration\n9mm: No penetration\n10mm: No penetration\n.357: No penetration\n.22: No penetration\n.308: No penetration\n.30-06: No penetration\n.50: Mathematician refused to continue with experiment despite repeated entreaties from supervisors."
       }
