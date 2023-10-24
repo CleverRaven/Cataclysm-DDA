@@ -326,7 +326,7 @@ float Character::crafting_speed_multiplier( const item &craft,
 
     // If we're working below 20% speed, just give up
     if( total_multi <= 0.2f ) {
-        add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        add_msg_if_player( m_bad, _( "Your progress is so slow that you give up in frustration." ) );
         return 0.0f;
     }
 
