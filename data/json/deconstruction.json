@@ -1037,7 +1037,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90 m",
-    "using": [ [ "object_deconstruction_advanced", 1 ] ],
+    "using": [ [ "cement_removal", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 35, 40 ] } ],
     "pre_terrain": "f_fireplace",
     "post_terrain": "f_null"
