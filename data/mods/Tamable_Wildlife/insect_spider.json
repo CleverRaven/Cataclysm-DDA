@@ -248,13 +248,6 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_lady_bug",
-    "type": "MONSTER",
-    "copy-from": "mon_lady_bug",
-    "name": { "str": "lady bug" },
-    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
-  },
-  {
     "id": "mon_lady_bug_giant",
     "type": "MONSTER",
     "copy-from": "mon_lady_bug_giant",
@@ -262,7 +255,7 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
-    "id": "mon_lady_bug_larva",
+    "id": "mon_lady_bug_larva_friendly",
     "type": "MONSTER",
     "copy-from": "mon_lady_bug_larva",
     "name": { "str": "ladybug larva", "str_pl": "ladybug larvae" },
