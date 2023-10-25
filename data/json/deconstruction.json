@@ -1032,7 +1032,7 @@
   {
     "type": "construction",
     "id": "constr_remove_object_fireplace",
-    "group": "advanced_object_deconstruction",
+    "group": "deconstruct_fireplace",
     "//": "Breaks a fireplace apart giving you back most of the rocks used in its construction.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
