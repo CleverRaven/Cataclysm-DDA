@@ -14,7 +14,55 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP",
-    "effect": [ { "math": [ "u_val('sleep_deprivation')", "-=", "500" ] } ]
+    "condition": { "or": [ { "math": [ "u_val('fatigue')", ">=", "0" ] } ] },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": "510 minutes" } ],
+    "false_effect": [ { "u_message": "You're feeling refreshed and have no need to meditate.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "no_resume": true,
+    "rooted": true,
+    "do_turn_eoc": "EOC_VITAKIN_WAKEFUL_REST_MEDITATE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_WAKEFUL_REST_MEDITATE",
+    "condition": { "math": [ "u_val('fatigue')", ">=", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_VITAKIN_SLEEP_FATIGUE", "EOC_VITAKIN_SLEEP_DEPRIVATION" ] } ],
+    "false_effect": [
+      {
+        "u_message": "You are fully refreshed, and can end your meditations now.",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP_FATIGUE",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('fatigue')", ">=", "0" ] },
+        {
+          "x_in_y_chance": {
+            "x": 1,
+            "y": { "math": [ "max( (55 - ( u_val('spell_level', 'spell: vita_sleeping_trance') * 2) - u_skill('metaphysics') ), 15 )" ] }
+          }
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('fatigue')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP_DEPRIVATION",
+    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "5" ] },
+    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
   },
   {
     "type": "effect_on_condition",
