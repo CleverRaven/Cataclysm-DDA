@@ -846,7 +846,7 @@ class Creature : public viewer
 
         void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
-        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
         void mod_part_damage_disinfected( const bodypart_id &id, int mod );
