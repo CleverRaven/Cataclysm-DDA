@@ -19,8 +19,7 @@
       { "monster": "mon_bloodhound_drone", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_manhack", "weight": 200, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_skitterbot_rat", "weight": 500, "cost_multiplier": 0 },
-      { "monster": "mon_mech_horse", "weight": 15, "cost_multiplier": 0 }
+      { "monster": "mon_skitterbot_rat", "weight": 500, "cost_multiplier": 0 }
     ]
   }
 ]
