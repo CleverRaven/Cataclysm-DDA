@@ -1863,10 +1863,18 @@ bool Character::is_dead_state() const
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    if( set <= 0 ) {
+    Creature::set_part_hp_cur( id, set );
+    if( get_part_hp_cur( id ) <= 0 ) {
         cached_dead_state.reset();
     }
-    Creature::set_part_hp_cur( id, set );
+}
+
+void Character::mod_part_hp_cur( const bodypart_id &id, int set )
+{
+    Creature::mod_part_hp_cur( id, set );
+    if( get_part_hp_cur( id ) <= 0 ) {
+        cached_dead_state.reset();
+    }
 }
 
 void Character::on_try_dodge()
