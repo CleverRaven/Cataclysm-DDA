@@ -693,7 +693,7 @@ class talker
         virtual bool knows_martial_art( const matype_id & ) const {
             return false;
         }
-        virtual bool using_martial_art( const matype_id &id ) const {
+        virtual bool using_martial_art( const matype_id & ) const {
             return false;
         }
 };
