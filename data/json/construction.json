@@ -2496,7 +2496,7 @@
       }
     ]
   ],
-  "components": [
+    "components": [
     [
       [
         "brick",
@@ -2522,7 +2522,8 @@
         "water_clean",
         1
       ]
-    ],
+    ]
+  ],
     "pre_special": "check_empty",
     "post_terrain": "f_fireplace"
   },
