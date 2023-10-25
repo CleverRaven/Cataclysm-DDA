@@ -160,7 +160,8 @@
     "skill_used": "dodge",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "book_learn": [ [ "mag_dodge", 0 ], [ "manual_dodge", 0 ] ]
+    "book_learn": [ [ "mag_dodge", 0 ], [ "manual_dodge", 0 ] ],
+    "autolearn": [ [ "dodge", 2 ] ]
   },
   {
     "id": "prac_dodge_beg",
