@@ -116,6 +116,7 @@
     "volume": "750 ml",
     "weight": "792 g",
     "to_hit": -1,
+    "weapon_category": [ "HAND_AXES" ],
     "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
     "melee_damage": { "bash": 10, "cut": 17 }
   },
