@@ -374,11 +374,7 @@
     "id": "cement_removal",
     "type": "requirement",
     "//": "Tools for deconstructing items built with mortar or cement",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 }
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ]
   },
   {
     "id": "marking_hard",
