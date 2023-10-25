@@ -461,6 +461,38 @@
     "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
   },
   {
+    "result": "armor_xl_scrapsuit",
+    "type": "recipe",
+    "copy-from": "armor_scrapsuit",
+    "time": "2 h",
+    "using": [ [ "cordage", 8 ], [ "mixed_steel", 5 ] ],
+    "components": [ [ [ "cotton_patchwork", 23 ] ] ]
+  },
+  {
+    "result": "armor_xl_scrapsuit",
+    "copy-from": "armor_scrapsuit_assembly",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "using": [ [ "cordage", 3 ] ],
+    "components": [ [ [ "xl_cuirass_scrap", 1 ] ], [ [ "xl_armguard_scrap", 1 ] ], [ [ "xl_legguard_scrap", 1 ] ] ]
+  },
+  {
+    "result": "armor_xs_scrapsuit",
+    "type": "recipe",
+    "copy-from": "armor_scrapsuit",
+    "time": "1 h 30 m",
+    "using": [ [ "cordage", 5 ], [ "mixed_steel", 3 ] ],
+    "components": [ [ [ "cotton_patchwork", 18 ] ] ]
+  },
+  {
+    "result": "armor_xs_scrapsuit",
+    "copy-from": "armor_scrapsuit_assembly",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "xs_cuirass_scrap", 1 ] ], [ [ "xs_armguard_scrap", 1 ] ], [ [ "xl_legguard_scrap", 1 ] ] ]
+  },
+  {
     "result": "armor_metal_sheets",
     "id_suffix": "assembly",
     "type": "recipe",

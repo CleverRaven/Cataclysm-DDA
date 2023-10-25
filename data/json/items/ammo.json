@@ -1002,18 +1002,6 @@
   },
   {
     "type": "AMMO",
-    "id": "generic_no_ammo",
-    "price": 0,
-    "name": { "str": "placeholder ammunition" },
-    "symbol": "=",
-    "color": "red",
-    "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
-    "volume": "0 ml",
-    "ammo_type": "NULL",
-    "flags": [ "UNRECOVERABLE", "ZERO_WEIGHT" ]
-  },
-  {
-    "type": "AMMO",
     "id": "charcoal",
     "category": "spare_parts",
     "//0": "about a dollar per kg of charcoal commercially. fetches $0.001 per chunk to survivors",

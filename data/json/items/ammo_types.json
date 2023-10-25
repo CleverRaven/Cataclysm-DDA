@@ -637,12 +637,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "papershot",
-    "name": "20ga percussion",
-    "default": "nail"
-  },
-  {
-    "type": "ammunition_type",
     "id": "36paper",
     "name": ".36 cap & ball",
     "default": "36navy"

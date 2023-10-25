@@ -78,6 +78,7 @@
       { "item": "shillelagh_weighted", "prob": 2 },
       { "item": "helmet_plate", "prob": 1 },
       { "item": "armor_junk_plate", "prob": 2 },
+      { "item": "chainmail_junk_hauberk", "prob": 3 },
       { "item": "huge_crossbow", "prob": 2 },
       { "item": "quiver", "prob": 2 },
       { "item": "quiver_large", "prob": 1 },

@@ -336,7 +336,13 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_junk_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_decor" },
+      {
+        "distribution": [ { "item": "armor_junk_plate", "prob": 100 }, { "item": "chainmail_junk_hauberk", "prob": 100 } ]
+      },
+      { "item": "helmet_plate", "prob": 100 }
+    ]
   },
   {
     "id": "soa_weapons_decor",

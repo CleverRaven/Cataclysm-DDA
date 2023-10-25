@@ -507,7 +507,9 @@
       { "item": "book_anthology_sst", "prob": 2 },
       { "item": "book_anthology_bk", "prob": 2 },
       { "item": "book_anthology_cw", "prob": 2 },
-      { "item": "novel_pulp", "prob": 1 }
+      { "item": "novel_pulp", "prob": 1 },
+      { "item": "novel_crime_midnight", "prob": 1 },
+      { "item": "novel_crime_murdergrape", "prob": 1 }
     ]
   },
   {
@@ -524,7 +526,8 @@
       { "item": "book_fict_soft_west_calico", "prob": 1 },
       { "item": "book_fict_soft_west_riot", "prob": 1 },
       { "item": "book_fict_soft_west_vaq", "prob": 1 },
-      { "item": "book_fict_soft_west_vride", "prob": 1 }
+      { "item": "book_fict_soft_west_vride", "prob": 1 },
+      { "item": "book_fict_soft_west_gore", "prob": 1 }
     ]
   },
   {
