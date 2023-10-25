@@ -914,7 +914,7 @@
     "type": "effect_on_condition",
     "id": "IS_UNARMED",
     "global": false,
-    "condition": { "not": "u_can_drop_weapon" },
+    "condition": { "and": [ { "not": "u_can_drop_weapon" }, { "not":  { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONS" } } ] },
     "effect": [
       {
         "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_familiar', 'format: percent')", ">=", "100" ] },
