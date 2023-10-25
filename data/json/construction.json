@@ -2488,42 +2488,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [
-    [
-      {
-        "id": "SMOOTH",
-        "level": 2
-      }
-    ]
-  ],
-    "components": [
-    [
-      [
-        "brick",
-        30
-      ]
-    ],
-    [
-      [
-        "mortar_build",
-        1
-      ],
-      [
-        "mortar_lime",
-        1
-      ]
-    ],
-    [
-      [
-        "water",
-        1
-      ],
-      [
-        "water_clean",
-        1
-      ]
-    ]
-  ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "brick", 30 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_fireplace"
   },
