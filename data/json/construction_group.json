@@ -1646,8 +1646,8 @@
   },
   {
     "type": "construction_group",
-    "id": "advanced_object_deconstruction",
-    "name": "Advanced Object Deconstruction"
+    "id": "deconstruct_fireplace",
+    "name": "Deconstruct Fireplace"
   },
   {
     "type": "construction_group",
