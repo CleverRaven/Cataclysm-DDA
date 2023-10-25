@@ -30,6 +30,6 @@
     "type": "item_group",
     "id": "prepnet_basic_robots",
     "subtype": "distribution",
-    "items": [ [ "bot_rifleturret", 40 ], [ "bot_bloodhound_drone", 25 ], [ "mon_mech_horse", 15 ] ]
+    "items": [ [ "bot_rifleturret", 40 ], [ "bot_bloodhound_drone", 25 ] ]
   }
 ]
