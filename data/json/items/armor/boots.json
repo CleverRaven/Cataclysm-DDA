@@ -2902,6 +2902,54 @@
         "weight": 75,
         "color": "blue",
         "append": true
+      },
+      {
+        "id": "stockings_pride_genderqueer",
+        "name": { "str": "pair of genderqueer flag stockings", "str_pl": "pairs of genderqueer flag stockings" },
+        "description": "This one has patterns akin to the genderqueer flag.",
+        "weight": 55,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "stockings_pride_genderfluid",
+        "name": { "str": "pair of genderfluid flag stockings", "str_pl": "pairs of genderfluid flag stockings" },
+        "description": "This one has patterns akin to the genderfluid flag.",
+        "weight": 45,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "stockings_pride_agender",
+        "name": { "str": "pair of agender flag stockings", "str_pl": "pairs of agender flag stockings" },
+        "description": "This one has patterns akin to the agender flag.",
+        "weight": 45,
+        "color": "dark_gray",
+        "append": true
+      },
+      {
+        "id": "stockings_pride_nonbinary",
+        "name": { "str": "pair of non-binary flag stockings", "str_pl": "pairs of non-binary flag stockings" },
+        "description": "This one has patterns akin to the non-binary flag.",
+        "weight": 75,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "stockings_pride_intersex",
+        "name": { "str": "pair of intersex flag stockings", "str_pl": "pairs of intersex flag stockings" },
+        "description": "This one has patterns akin to the intersex flag.",
+        "weight": 55,
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "stockings_pride_polysexual",
+        "name": { "str": "pair of polysexual flag stockings", "str_pl": "pairs of polysexual flag stockings" },
+        "description": "This one has patterns akin to the polysexual flag.",
+        "weight": 25,
+        "color": "green",
+        "append": true
       }
     ]
   },
