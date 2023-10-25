@@ -850,7 +850,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "fencing (intermediate)",
     "description": "Practice the more advanced forms of fencing until you've got it down.",
-    "description": "Get in touch with your inner commando and practice some advanced knife-fighting techniques on a training dummy.",
     "skill_used": "stabbing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
