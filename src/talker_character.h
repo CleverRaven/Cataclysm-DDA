@@ -186,6 +186,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_body_temp() const override;
         int get_body_temp_delta() const override;
         bool knows_martial_art( const matype_id &id ) const override;
+        bool using_martial_art( const matype_id &id ) const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;

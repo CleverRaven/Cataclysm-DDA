@@ -555,5 +555,20 @@
     "condition": { "u_know_recipe": "cattail_jelly" },
     "effect": { "u_forget_recipe": "cattail_jelly" },
     "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_martial_art_test_1",
+    "//": "tests adding a martial art to the player",
+    "condition": { "not": { "u_has_martial_art": "style_aikido" } },
+    "effect": { "u_learn_martial_art": "style_aikido" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_martial_art_test_2",
+    "//": "tests forgetting a martial art from the player",
+    "condition": { "not": { "u_using_martial_art": "style_aikido" } },
+    "effect": { "u_forget_martial_art": "style_aikido" }
   }
 ]
