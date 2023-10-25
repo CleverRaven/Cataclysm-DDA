@@ -478,7 +478,7 @@ static std::vector<std::string> recipe_info(
                    "because of the proficiencies the crafter has.</color>\n" ), max_skill_malus - skill_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
-        oss << _( "<color_red>Cannot be crafted because the crafter lacs"
+        oss << _( "<color_red>Cannot be crafted because the crafter lacks"
                   " the required proficiencies.</color>\n" );
     }
 
