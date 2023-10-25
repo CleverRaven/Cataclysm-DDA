@@ -684,7 +684,6 @@
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
-
     "name": "batons (beginner)",
     "description": "Practice the basics of using a baton or small club in combat.",
     "skill_used": "bashing",
