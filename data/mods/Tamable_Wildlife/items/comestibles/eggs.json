@@ -20,7 +20,7 @@
     "id": "egg_lady_bug_tame",
     "name": { "str": "tame ladybug egg" },
     "copy-from": "egg_lady_bug",
-    "description": "A ladybug egg. You can see a translucent, happy looking larva inside.  This one has been carefully tended for.  The larva inside seems more timid and calmer upon touch.",
+    "description": "A ladybug egg.  You can see a translucent, happy looking larva inside.  This one has been carefully tended for.  The larva inside seems more timid and calmer upon touch.",
     "rot_spawn": "GROUP_EGG_LADY_BUG_TAME"
   },
   {
