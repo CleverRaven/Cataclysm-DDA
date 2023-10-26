@@ -279,5 +279,17 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
+  },
+  {
+    "result": "test_200_kcal",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": "2 s",
+    "autolearn": true,
+    "components": [ [ [ "test_100_kcal", 2 ] ] ]
   }
 ]
