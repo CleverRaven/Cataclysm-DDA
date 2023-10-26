@@ -3808,7 +3808,7 @@
       "Faint sparks surround your every move, your body aches more with every passing second.",
       "Sparks swarm around you, your body hurts and even the air seems to reject your existence."
     ],
-    "decay_messages": [ [ "The rejecting you feel from all around you has become a little easier to bear.", "mixed" ] ],
+    "decay_messages": [ [ "The rejection you feel from all around you has become a little easier to bear.", "mixed" ] ],
     "remove_message": "The world is no longer trying to eject you from this plane of existence, for now.",
     "max_intensity": 2,
     "rating": "bad",
