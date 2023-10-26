@@ -89,7 +89,6 @@ static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
