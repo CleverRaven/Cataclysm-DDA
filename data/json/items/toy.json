@@ -116,7 +116,7 @@
       },
       {
         "id": "toy_figure_t800",
-        "name": { "str": "Robot figurine" },
+        "name": { "str": "robot figurine" },
         "description": "A very intricate looking model of a robotic skeleton with red eyes and a futuristic weapon in its hand.",
         "weight": 1
       },
