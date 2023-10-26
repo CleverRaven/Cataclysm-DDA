@@ -536,7 +536,7 @@
     "//": "Basic reward for experiencing a different reality when your own fabric of reality is damaged.",
     "effect": [
       {
-        "u_message": "You feel invigorated by what you just experienced, so...  What is this feeling of regret for leaving that place?",
+        "u_message": "You feel invigorated by what you just experienced, so…  What is this feeling of regret for leaving that place?",
         "type": "good"
       },
       {
@@ -554,7 +554,7 @@
     "//": "Standard reward for experiencing a different reality and integrating a little with it.",
     "effect": [
       {
-        "u_message": "You feel like the shackles of your body are loosening a little.  The world seems to accept your distorted presence for now.  You wonder if what you currently feel would have been greater if only you had gone deeper...",
+        "u_message": "You feel like the shackles of your body are loosening a little.  The world seems to accept your distorted presence for now.  You wonder if what you currently feel would have been greater if only you had gone deeper…",
         "type": "good"
       },
       {
@@ -573,7 +573,7 @@
     "//": "Improved reward for experiencing a different reality and integrating a little with it.",
     "effect": [
       {
-        "u_message": "You suddenly feel in calm, your body a little faster, and your surroundings less hostile than what you remember.  Before this new sensation passes away though, you hear a little voice in your head saying \"deeper...\"",
+        "u_message": "You suddenly feel in calm, your body a little faster, and your surroundings less hostile than what you remember.  Before this new sensation passes away though, you hear a little voice in your head saying \"deeper…\"",
         "type": "good"
       },
       {
@@ -592,7 +592,7 @@
     "//": "Big reward for experiencing a different reality and partially integrating your self with it.",
     "effect": [
       {
-        "u_message": "You return to your reality with a sense of ecstasy, your body feels great, your shackles have come loose and you feel powerful because of it.  But you can feel it, this exhilarating feeling is only the beginning, you need to go deeper...",
+        "u_message": "You return to your reality with a sense of ecstasy, your body feels great, your shackles have come loose and you feel powerful because of it.  But you can feel it, this exhilarating feeling is only the beginning, you need to go deeper…",
         "type": "good"
       },
       {
@@ -611,7 +611,7 @@
     "//": "Great reward for experiencing a different reality, partially integrating with it and bringing some of that reality with you.",
     "effect": [
       {
-        "u_message": "You feel in communion with the world around you, the world is no longer rejecting you, at least for now, YOU are rejecting IT.  Your whole body craves for what you could have gained if only you had gone a little deeper...",
+        "u_message": "You feel in communion with the world around you, the world is no longer rejecting you, at least for now, YOU are rejecting IT.  Your whole body craves for what you could have gained if only you had gone a little deeper…",
         "type": "good"
       },
       {
