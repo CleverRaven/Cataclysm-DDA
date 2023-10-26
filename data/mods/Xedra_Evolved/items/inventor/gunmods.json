@@ -224,7 +224,7 @@
     "id": "inventor_lasmod_mega_everything",
     "type": "GUNMOD",
     "name": { "str_sp": "glass cannon energy conversion" },
-    "description": "Alter the energy loop in the platform - instead of doing multiple shots, it store all the power, and use most of it in a single shot.  Effectively tranform the weapon into one or two shot recoilless rifle.",
+    "description": "Alter the energy loop in the platform - instead of doing multiple shots, it store all the power, and use most of it in a single shot.  Effectively transform the weapon into one or two shot recoilless rifle.",
     "weight": "380 g",
     "volume": "250 ml",
     "integral_volume": "150 ml",
