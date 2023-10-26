@@ -3853,7 +3853,7 @@
       [ "Your grip suddenly failed you.", 6 ],
       [ "Something just flashed in front of your eyes.", 8 ],
       [ "Why did the hit go that way?", 15 ],
-      [ "You could have swear you hit it!", 25 ]
+      [ "You could swear that you hit it!", 25 ]
     ]
   },
   {
