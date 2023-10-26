@@ -135,7 +135,7 @@
       },
       {
         "id": "toy_figure_heavyweapons",
-        "name": { "str": "Video game figurine" },
+        "name": { "str": "video game figurine" },
         "description": "A large figurine of a videogame character, holding a massive gatling gun in his giant arms.",
         "weight": 1
       },
