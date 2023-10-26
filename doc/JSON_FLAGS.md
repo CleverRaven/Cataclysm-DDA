@@ -1648,6 +1648,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
 - ```NO_INSTALL_HIDDEN``` Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts).
 - ```NO_INSTALL_PLAYER``` Part can't be installed by player but visible in install menu (e.g. helicopter rotors).
+- ```NO_LEAK``` Causes a boat hull to float even when damaged.
 - ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
 - ```NO_REPAIR``` Cannot be repaired.
 - ```NO_UNINSTALL``` Cannot be uninstalled.

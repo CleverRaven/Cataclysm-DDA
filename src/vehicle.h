@@ -465,6 +465,9 @@ struct vehicle_part {
         /** Current part health as a percentage of maximum, with 1.0 being perfect condition */
         double health_percent() const;
 
+        /** The leaking thresold for the boat hull */
+        double floating_leak_threshold() const;
+
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
