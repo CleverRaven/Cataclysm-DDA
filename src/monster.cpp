@@ -3318,6 +3318,7 @@ bool monster::is_nether() const
            in_species( species_nether_player_hate );
 }
 
+// The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no
 bool monster::has_mind() const
 {
     return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
