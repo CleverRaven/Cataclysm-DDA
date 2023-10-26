@@ -2256,12 +2256,12 @@ int Creature::get_part_wetness( const bodypart_id &id ) const
     return get_part_helper( *this, id, &bodypart::get_wetness );
 }
 
-int Creature::get_part_temp_cur( const bodypart_id &id ) const
+units::temperature Creature::get_part_temp_cur( const bodypart_id &id ) const
 {
     return get_part_helper( *this, id, &bodypart::get_temp_cur );
 }
 
-int Creature::get_part_temp_conv( const bodypart_id &id ) const
+units::temperature Creature::get_part_temp_conv( const bodypart_id &id ) const
 {
     return get_part_helper( *this, id, &bodypart::get_temp_conv );
 }
@@ -2320,12 +2320,12 @@ void Creature::set_part_wetness( const bodypart_id &id, int set )
     set_part_helper( *this, id, &bodypart::set_wetness, set );
 }
 
-void Creature::set_part_temp_cur( const bodypart_id &id, int set )
+void Creature::set_part_temp_cur( const bodypart_id &id, units::temperature set )
 {
     set_part_helper( *this, id, &bodypart::set_temp_cur, set );
 }
 
-void Creature::set_part_temp_conv( const bodypart_id &id, int set )
+void Creature::set_part_temp_conv( const bodypart_id &id, units::temperature set )
 {
     set_part_helper( *this, id, &bodypart::set_temp_conv, set );
 }
@@ -2374,12 +2374,12 @@ void Creature::mod_part_wetness( const bodypart_id &id, int mod )
     set_part_helper( *this, id, &bodypart::mod_wetness, mod );
 }
 
-void Creature::mod_part_temp_cur( const bodypart_id &id, int mod )
+void Creature::mod_part_temp_cur( const bodypart_id &id, units::temperature_delta mod )
 {
     set_part_helper( *this, id, &bodypart::mod_temp_cur, mod );
 }
 
-void Creature::mod_part_temp_conv( const bodypart_id &id, int mod )
+void Creature::mod_part_temp_conv( const bodypart_id &id, units::temperature_delta mod )
 {
     set_part_helper( *this, id, &bodypart::mod_temp_conv, mod );
 }
@@ -2389,7 +2389,7 @@ void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
     set_part_helper( *this, id, &bodypart::mod_frostbite_timer, mod );
 }
 
-void Creature::set_all_parts_temp_cur( int set )
+void Creature::set_all_parts_temp_cur( units::temperature set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( elem.first->has_flag( json_flag_IGNORE_TEMP ) ) {
@@ -2399,7 +2399,7 @@ void Creature::set_all_parts_temp_cur( int set )
     }
 }
 
-void Creature::set_all_parts_temp_conv( int set )
+void Creature::set_all_parts_temp_conv( units::temperature set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( elem.first->has_flag( json_flag_IGNORE_TEMP ) ) {

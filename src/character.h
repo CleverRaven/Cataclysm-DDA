@@ -3175,19 +3175,20 @@ class Character : public Creature, public visitable
          * Warmth from terrain, furniture, vehicle furniture and traps.
          * Can be negative.
          **/
-        static int floor_bedding_warmth( const tripoint &pos );
+        static units::temperature_delta floor_bedding_warmth( const tripoint &pos );
         /** Warmth from clothing on the floor **/
-        static int floor_item_warmth( const tripoint &pos );
+        static units::temperature_delta floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
-        int floor_warmth( const tripoint &pos ) const;
+        units::temperature_delta floor_warmth( const tripoint &pos ) const;
 
         /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated ) const;
+        units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        int bodytemp_modifier_traits_floor() const;
+        units::temperature_delta bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature, int heat_strength,
-                                               int chill_strength ) const;
+        units::temperature temp_corrected_by_climate_control( units::temperature temperature,
+                int heat_strength,
+                int chill_strength ) const;
 
         bool in_sleep_state() const override;
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
