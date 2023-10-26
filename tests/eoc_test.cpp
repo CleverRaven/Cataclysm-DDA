@@ -941,7 +941,7 @@ TEST_CASE( "EOC_martial_art_test", "[eoc]" )
 
     get_avatar().martial_arts_data->set_style( matype_style_aikido );
 
-    CHECK( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
+    CHECK_FALSE( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
     CHECK( get_avatar().has_martialart( matype_style_aikido ) );
 
     get_avatar().martial_arts_data->set_style( matype_style_none );
