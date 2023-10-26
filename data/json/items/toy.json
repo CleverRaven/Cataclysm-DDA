@@ -104,7 +104,7 @@
       },
       {
         "id": "toy_figure_mech",
-        "name": { "str": "Mech figurine" },
+        "name": { "str": "mech figurine" },
         "description": "A large figurine of a humanoid robot, armed with a rifle, with a smaller figure sitting inside the head.",
         "weight": 1
       },
