@@ -129,7 +129,7 @@
       },
       {
         "id": "toy_figure_anime",
-        "name": { "str": "Anime figurine" },
+        "name": { "str": "anime figurine" },
         "description": "An expensive figurine of a cartoon woman in flashy clothing.",
         "weight": 1
       },
