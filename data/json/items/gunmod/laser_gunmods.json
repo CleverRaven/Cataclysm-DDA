@@ -105,7 +105,7 @@
     "id": "add_intake_fan",
     "type": "GUNMOD",
     "name": { "str": "additional intake fan" },
-    "description": "An additional fan that mounts to the radiator intake. It slightly increases the cooling performance of the gun.",
+    "description": "An additional fan that mounts to the radiator intake.  It slightly increases the cooling performance for compatible energy weapons.",
     "weight": "600 g",
     "volume": "270 ml",
     "integral_volume": "150 ml",
