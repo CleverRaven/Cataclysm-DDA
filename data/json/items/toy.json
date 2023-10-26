@@ -147,7 +147,7 @@
       },
       {
         "id": "toy_figure_alien",
-        "name": { "str": "Alien figurine" },
+        "name": { "str": "alien figurine" },
         "description": "An expensive looking figurine of a gnarly, jet-black alien covered in menacing looking spines.",
         "weight": 1
       }
