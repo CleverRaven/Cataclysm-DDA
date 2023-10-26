@@ -110,8 +110,8 @@
       },
       {
         "id": "toy_figure_knight",
-        "name": { "str": "Knight figurine" },
-        "description": "A large figurine of a knight in shining armor standing watch, with its sword planted at the ground at it's feet.",
+        "name": { "str": "knight figurine" },
+        "description": "A large figurine of a knight in shining armor standing watch, with its sword planted at the ground at its feet.",
         "weight": 1
       },
       {
