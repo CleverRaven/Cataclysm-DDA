@@ -869,20 +869,8 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_npcs();
     clear_map();
 
-    const auto spawn_npc = [&]( const point & p, const std::string & npc_class )->npc* {
-        const string_id<npc_template> test_guy( npc_class );
-        const character_id model_id = get_map().place_npc( p, test_guy );
-        g->load_npcs();
-
-        npc *guy = g->find_npc( model_id );
-        REQUIRE( guy != nullptr );
-        CHECK( !guy->in_vehicle );
-        return guy;
-    };
-
     // character_melee_attacks_character
-    const tripoint melee_target_pos = get_avatar().pos() + point_east;
-    npc &npc_dst_1 = *spawn_npc( melee_target_pos.xy(), "thug" );
+    npc &npc_dst_1 = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
     item weapon_item( itype_test_knife_combat );
     get_avatar().wield( weapon_item );
     get_avatar().melee_attack( npc_dst_1, false );
@@ -902,45 +890,43 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     CHECK( mon.get_value( "npctalk_var_test_event_last_event" ) == "character_melee_attacks_monster" );
 
     // character_ranged_attacks_character
-    constexpr tripoint shooter_pos{ 60, 60, 0 };
-    const tripoint target_pos = shooter_pos + point_east * 5;
+    const tripoint target_pos = get_avatar().pos() + point_east;
 
-    clear_map_and_put_player_underground();
-    npc &npc_src = *spawn_npc( shooter_pos.xy(), "thug" );
-    npc &npc_dst_2 = *spawn_npc( target_pos.xy(), "thug" );
+    clear_map();
+    npc &npc_dst_2 = spawn_npc( target_pos.xy(), "thug" );
 
-    REQUIRE( get_creature_tracker().creature_at( npc_dst_2.pos() ) );
+    REQUIRE( get_creature_tracker().creature_at( target_pos ) );
 
     for( loop = 0; loop < 1000; loop++ ) {
-        npc_src.set_body();
-        arm_shooter( npc_src, "shotgun_s" );
-        npc_src.recoil = 0;
-        npc_src.fire_gun( npc_dst_2.pos(), 1, *npc_src.get_wielded_item() );
+        get_avatar().set_body();
+        arm_shooter( get_avatar(), "shotgun_s" );
+        get_avatar().recoil = 0;
+        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
         if( !npc_dst_2.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }
     }
 
-    CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
     CHECK( npc_dst_2.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
 
     // character_ranged_attacks_monster
-    clear_map_and_put_player_underground();
+    clear_map();
     monster &mon_dst = spawn_test_monster( "mon_zombie", target_pos );
 
     for( loop = 0; loop < 1000; loop++ ) {
-        npc_src.set_body();
-        arm_shooter( npc_src, "shotgun_s" );
-        npc_src.recoil = 0;
-        npc_src.fire_gun( mon_dst.pos(), 1, *npc_src.get_wielded_item() );
+        get_avatar().set_body();
+        arm_shooter( get_avatar(), "shotgun_s" );
+        get_avatar().recoil = 0;
+        get_avatar().fire_gun( mon_dst.pos(), 1, *get_avatar().get_wielded_item() );
         if( !mon_dst.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }
     }
 
-    CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_monster" );
     CHECK( mon_dst.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_monster" );
