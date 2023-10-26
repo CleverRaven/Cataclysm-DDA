@@ -4237,5 +4237,23 @@
     },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "VITRIFYING",
+    "name": [ "Among Glass" ],
+    "desc": [ "It is very peaceful here." ],
+    "rating": "good",
+    "max_intensity": 7,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "INTELLIGENCE",
+            "add": { "math": [ "u_val('effect_intensity','effect:VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
+          }
+        ]
+      }
+    ]
   }
 ]
