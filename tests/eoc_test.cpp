@@ -97,8 +97,8 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
-static const matype_id matype_style_aikido( "style_aikido" );
-static const matype_id matype_style_none( "style_none" );
+static const matype_id style_aikido( "style_aikido" );
+static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -932,20 +932,20 @@ TEST_CASE( "EOC_martial_art_test", "[eoc]" )
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
-    REQUIRE_FALSE( get_avatar().has_martialart( matype_style_aikido ) );
+    REQUIRE_FALSE( get_avatar().has_martialart( style_aikido ) );
     REQUIRE( globvars.get_global_value( "fail_var" ).empty() );
 
     CHECK( effect_on_condition_EOC_martial_art_test_1->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
-    CHECK( get_avatar().has_martialart( matype_style_aikido ) );
+    CHECK( get_avatar().has_martialart( style_aikido ) );
 
-    get_avatar().martial_arts_data->set_style( matype_style_aikido );
+    get_avatar().martial_arts_data->set_style( style_aikido );
 
     CHECK_FALSE( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
-    CHECK( get_avatar().has_martialart( matype_style_aikido ) );
+    CHECK( get_avatar().has_martialart( style_aikido ) );
 
-    get_avatar().martial_arts_data->set_style( matype_style_none );
+    get_avatar().martial_arts_data->set_style( style_none );
 
     CHECK( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
-    CHECK( !get_avatar().has_martialart( matype_style_aikido ) );
+    CHECK( !get_avatar().has_martialart( style_aikido ) );
 }
