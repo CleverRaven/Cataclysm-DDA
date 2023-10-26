@@ -11,7 +11,7 @@
           "or": [
             { "is_weather": "portal_storm" },
             { "and": [ { "is_weather": "early_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
-            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 6, "y": 10 } } ] },
             { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 8, "y": 10 } } ] },
             { "and": [ { "u_has_effect": "pd_strengthened_reality" }, { "x_in_y_chance": { "x": 1, "y": 10 } } ] }
           ]
@@ -564,7 +564,7 @@
         "duration": "180 minutes",
         "decay_start": "80 minutes"
       },
-      { "u_add_effect": "pd_strengthened_reality", "duration": "3 days" }
+      { "u_add_effect": "pd_strengthened_reality", "duration": "2 days" }
     ]
   },
   {
@@ -583,7 +583,7 @@
         "duration": "240 minutes",
         "decay_start": "100 minutes"
       },
-      { "u_add_effect": "pd_strengthened_reality", "duration": "6 days", "intensity": 2 }
+      { "u_add_effect": "pd_strengthened_reality", "duration": "5 days", "intensity": 2 }
     ]
   },
   {
@@ -602,7 +602,7 @@
         "duration": "260 minutes",
         "decay_start": "120 minutes"
       },
-      { "u_add_effect": "pd_strengthened_reality", "duration": "9 days", "intensity": 3 }
+      { "u_add_effect": "pd_strengthened_reality", "duration": "8 days", "intensity": 3 }
     ]
   },
   {
@@ -621,7 +621,7 @@
         "duration": "280 minutes",
         "decay_start": "140 minutes"
       },
-      { "u_add_effect": "pd_strengthened_reality", "duration": "12 days", "intensity": 4 }
+      { "u_add_effect": "pd_strengthened_reality", "duration": "11 days", "intensity": 4 }
     ]
   },
   {
@@ -695,7 +695,7 @@
               "u_message": "You suddenly feel a profound sense of belonging take root inside you, temporally amplifying your grasp of reality.  For some time you will be the master of your surroundings.",
               "type": "good"
             },
-            { "u_add_effect": "pd_strengthened_reality", "duration": "15 days", "intensity": 4 }
+            { "u_add_effect": "pd_strengthened_reality", "duration": "14 days", "intensity": 4 }
           ]
         }
       },
