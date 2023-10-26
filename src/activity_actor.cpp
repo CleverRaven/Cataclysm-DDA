@@ -6154,7 +6154,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
-    if( it.get_item() == nullptr ) {
+    if( !it ) {
         debugmsg( "Lost tool location used for healing" );
         act.set_to_null();
         return;
