@@ -3,92 +3,65 @@
     "abstract": "exoskeleton",
     "type": "TOOL_ARMOR",
     "category": "armor",
+    "name": { "str": "abstract exoskeleton" },
+    "symbol": "[",
     "price": 10000000,
     "price_postapoc": 15000,
     "flags": [ "STURDY", "WATERPROOF", "RAINPROOF", "SUN_GLASSES", "USE_UPS", "NO_UNLOAD", "COMBAT_TOGGLEABLE" ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
     "warmth": 40,
     "environmental_protection": 10,
-    "armor": [
-      {
-        "layers": [ "SKINTIGHT" ],
-        "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "material": [ { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 } ],
-        "//": "Supports the cooling system. Similar to https://en.wikipedia.org/wiki/Liquid_cooling_and_ventilation_garment#/media/File:Lcvg.jpg."
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 } ],
-        "//": "Enclosed protective suit, similar to a flight suit but covers the whole body."
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "covers": [ "eyes", "mouth" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 } ],
-        "//": "Transparent mask enclosing the suit, a tube connects it to a pump and filter system at the back of the exoskeleton."
-      },
-      {
-        "layers": [ "OUTER" ],
-        "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
-        "encumbrance": 1,
-        "coverage": 10,
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 20 } ],
-        "//": "The actual exoskeleton, also comprises the frame to support the armor parts."
-      }
-    ],
+    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "ablative": true,
-        "moves": 200,
-        "description": "Attachment points for a head protector.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ]
+        "rigid": true,
+        "description": "Compartment for a UPS.",
+        "flag_restriction": [ "IS_UPS" ],
+        "max_contains_volume": "2.51 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "description": "Compartment for a UPS.",
+        "flag_restriction": [ "IS_UPS" ],
+        "max_contains_volume": "2.51 L",
+        "moves": 200
       },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "moves": 200,
+        "description": "Hooks and straps to attach head armor parts to",
+        "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ],
+        "max_contains_volume": "3.2 l",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
         "description": "Attachment points for a torso protector.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ]
+        "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ],
+        "max_contains_volume": "10.7 l",
+        "moves": 200
       },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "moves": 200,
         "description": "Attachment points for arm protectors.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ]
+        "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ],
+        "max_contains_volume": "3.7 l",
+        "moves": 200
       },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
-        "moves": 200,
-        "description": "Attachment points for hand protectors.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_HANDS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "moves": 200,
         "description": "Attachment points for leg protectors.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "moves": 200,
-        "description": "Attachment points for feet protectors.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_FEET" ]
+        "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ],
+        "max_contains_volume": "3.7 l",
+        "moves": 200
       }
-    ],
-    "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "\n", "target": "", "active": true, "need_charges": 1, "need_charges_msg": "" }
+    ]
   },
   {
     "copy-from": "exoskeleton",
@@ -113,44 +86,102 @@
     "id": "power_armor_heavy",
     "name": { "str": "combat exoskeleton mk.1" },
     "description": "",
-    "weight": "20000 g",
-    "volume": "2500 ml",
-    "extend": {
-      "armor": [
-        {
-          "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
-          "coverage": 10,
-          "material": { "type": "steel", "thickness": 30 }
-        }
-      ]
+    "weight": "18000 g",
+    "volume": "3500 ml",
+    "armor": [
+      {
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 35,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nomex", "thickness": 0.8 },
+          { "type": "steel", "thickness": 30, "covered_by_mat": 10 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth", "eyes" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "OS booting sequnce initiated\nLiquid cooling system engaged\nRespiration system engaged\nExoskeleton engaged\n booting sequence terminated, all systems nominal.",
+      "target": "power_armor_heavy_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The exoskeleton batteries are empty"
     }
   },
   {
-    "id": "power_armor_heavy_on",
     "copy-from": "power_armor_heavy",
-    "looks_like": "power_armor_heavy",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "heavy combat exoskeleton (on)", "str_pl": "heavy combat exoskeletons (on)" },
+    "id": "power_armor_heavy_on",
+    "name": { "str": "combat exoskeleton mk.1 (on)", "str_pl": "combat exoskeletons mk.1 (on)" },
     "description": "The exoskeleton is on and its actuators whirring softly as you move.",
-    "power_draw": "4 kW",
+    "power_draw": "100 W",
+    "weight_capacity_modifier": 1.8,
     "revert_to": "power_armor_heavy",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_heavy" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The exoskeleton turns off", "target": "power_armor_heavy" },
+    "armor": [
+      {
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 15,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nomex", "thickness": 0.8 },
+          { "type": "steel", "thickness": 30, "covered_by_mat": 10 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth", "eyes" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton",
     "id": "power_armor_basic",
+    "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk.2" },
-    "description": "",
-    "weight": "20000 g",
-    "volume": "2500 ml",
-    "extend": {
-      "armor": [
-        {
-          "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
-          "coverage": 10,
-          "material": { "type": "steel", "thickness": 25 }
-        }
-      ]
+    "description": "lol",
+    "weight": "16000 g",
+    "volume": "3000 ml",
+    "armor": [
+      {
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nomex", "thickness": 0.8 },
+          { "type": "steel", "thickness": 25, "covered_by_mat": 10 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth", "eyes" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "OS booting sequnce initiated\nLiquid cooling system engaged\nRespiration system engaged\nExoskeleton engaged\n booting sequence terminated, all systems nominal.",
+      "target": "power_armor_basic_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The exoskeleton batteries are empty"
     }
   },
   {
@@ -160,36 +191,97 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton (on)", "str_pl": "combat exoskeletons (on)" },
     "description": "The exoskeleton is on and its actuators whirring softly as you move.",
-    "power_draw": "4 kW",
+    "power_draw": "84 kW",
+    "weight_capacity_modifier": 1.6,
     "revert_to": "power_armor_basic",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_basic" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_basic" },
+    "armor": [
+      {
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nomex", "thickness": 0.8 },
+          { "type": "steel", "thickness": 25, "covered_by_mat": 10 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth", "eyes" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton",
     "id": "power_armor_light",
     "name": { "str": "combat exoskeleton mk.3" },
-    "description": "",
-    "weight": "20000 g",
+    "description": "Distributed to heavy weapons units, breaching units",
+    "weight": "14000 g",
     "volume": "2500 ml",
-    "extend": {
-      "armor": [
-        {
-          "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
-          "coverage": 10,
-          "material": { "type": "steel", "thickness": 20 }
-        }
-      ]
+    "armor": [
+      {
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 25,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nomex", "thickness": 0.8 },
+          { "type": "steel", "thickness": 20, "covered_by_mat": 10 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth", "eyes" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "OS booting sequnce initiated\nLiquid cooling system engaged\nRespiration system engaged\nExoskeleton engaged\n booting sequence terminated, all systems nominal.",
+      "target": "power_armor_light_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The exoskeleton batteries are empty"
     }
   },
   {
     "copy-from": "power_armor_light",
     "id": "power_armor_light_on",
-    "looks_like": "power_armor_light",
-    "name": { "str": "light combat exoskeleton (on)", "str_pl": "light combat exoskeletons (on)" },
+    "name": { "str": "light combat exoskeleton (on)" },
     "description": "The exoskeleton is on and its actuators whirring softly as you move.",
-    "power_draw": "4 kW",
+    "encumbrance": 5,
+    "power_draw": "70 W",
+    "weight_capacity_modifier": 1.4,
     "revert_to": "power_armor_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_light" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_light" },
+    "armor": [
+      {
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nomex", "thickness": 0.8 },
+          { "type": "steel", "thickness": 20, "covered_by_mat": 10 }
+        ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "covers": [ "mouth", "eyes" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_helmet",
@@ -197,41 +289,70 @@
     "category": "armor",
     "price": 60000,
     "price_postapoc": 5000,
-    "flags": [ "ABLATIVE_EXOSKELETON_HELMET", "CANT_WEAR", "OUTER" ],
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 5, "material": { "type": "kevlar_layered", "thickness": 2 } },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 0 }
-    ]
+    "flags": [ "ABLATIVE_EXOSKELETON_HELMET", "CANT_WEAR", "OUTER" ]
   },
   {
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_heavy",
     "name": "heavy exoskeleton helmet",
-    "weight": "3500 g",
-    "volume": "4500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
-    }
+    "weight": "7 kg",
+    "volume": "3.1 l",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 6 } ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 6 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_medium",
     "name": "exoskeleton helmet",
-    "weight": "3000 g",
-    "volume": "3500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
-    }
+    "weight": "5.4 kg",
+    "volume": "2.9 l",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 4 } ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 4 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_light",
     "name": "light exoskeleton helmet",
-    "weight": "2500 g",
-    "volume": "2500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
-    }
+    "weight": "3.8 kg",
+    "volume": "2.7 l",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 2 } ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 2 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_torso",
@@ -239,40 +360,52 @@
     "category": "armor",
     "price": 60000,
     "price_postapoc": 5000,
-    "flags": [ "ABLATIVE_EXOSKELETON_TORSO", "CANT_WEAR", "OUTER" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 5, "material": { "type": "kevlar_layered", "thickness": 2 } }
-    ]
+    "flags": [ "ABLATIVE_EXOSKELETON_TORSO", "CANT_WEAR", "OUTER" ]
   },
   {
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_heavy",
     "name": "heavy exoskeleton torso",
-    "weight": "13000 g",
-    "volume": "30000 ml",
-    "extend": {
-      "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
-    }
+    "weight": "21.9 kg",
+    "volume": "10.6 l",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 6 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_medium",
     "name": "exoskeleton torso",
-    "weight": "11500 g",
-    "volume": "21000 ml",
-    "extend": {
-      "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
-    }
+    "weight": "17.1 kg",
+    "volume": "9.9 l",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 4 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_light",
     "name": "light exoskeleton torso",
-    "weight": "10000 g",
-    "volume": "12000 ml",
-    "extend": {
-      "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
-    }
+    "weight": "12.3 kg",
+    "volume": "9.3 l",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 2 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_arms",
@@ -280,40 +413,52 @@
     "category": "armor",
     "price": 60000,
     "price_postapoc": 5000,
-    "flags": [ "ABLATIVE_EXOSKELETON_ARMS", "CANT_WEAR", "OUTER" ],
-    "armor": [
-      { "covers": [ "arms" ], "coverage": 100, "encumbrance": 5, "material": { "type": "kevlar_layered", "thickness": 2 } }
-    ]
+    "flags": [ "ABLATIVE_EXOSKELETON_ARMS", "CANT_WEAR", "OUTER" ]
   },
   {
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_heavy",
     "name": "heavy exoskeleton arms",
-    "weight": "4500 g",
-    "volume": "5500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "arms" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
-    }
+    "weight": "7.3 kg",
+    "volume": "3.6 l",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 6 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_medium",
     "name": "exoskeleton arms",
-    "weight": "3750 g",
-    "volume": "4500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "arms" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
-    }
+    "weight": "5.7 g",
+    "volume": "3.4 l",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 4 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_light",
     "name": "light exoskeleton arms",
-    "weight": "3000 g",
-    "volume": "3500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "arms" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
-    }
+    "weight": "4.1 kg",
+    "volume": "3.2 l",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 2 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_legs",
@@ -321,105 +466,51 @@
     "category": "armor",
     "price": 60000,
     "price_postapoc": 5000,
-    "flags": [ "ABLATIVE_EXOSKELETON_LEGS", "CANT_WEAR", "OUTER" ],
-    "armor": [
-      { "covers": [ "legs" ], "coverage": 100, "encumbrance": 5, "material": { "type": "kevlar_layered", "thickness": 2 } }
-    ]
+    "flags": [ "ABLATIVE_EXOSKELETON_LEGS", "CANT_WEAR", "OUTER" ]
   },
   {
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_heavy",
     "name": "heavy exoskeleton legs",
-    "weight": "4500 g",
-    "volume": "5500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "legs" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 6 } } ]
-    }
+    "weight": "7.3 kg",
+    "volume": "3.6 l",
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 6 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_medium",
     "name": "exoskeleton legs",
-    "weight": "3750 g",
-    "volume": "4500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "legs" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 4 } } ]
-    }
+    "weight": "5.7 kg",
+    "volume": "3.4 l",
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 4 } ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_light",
     "name": "light exoskeleton legs",
-    "weight": "3000 g",
-    "volume": "3500 ml",
-    "extend": {
-      "armor": [ { "covers": [ "legs" ], "coverage": 100, "encumbrance": 15, "material": { "type": "qt_steel", "thickness": 2 } } ]
-    }
-  },
-  {
-    "id": "power_armor_frame",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "power armor hauling frame" },
-    "description": "A heavy-duty hauling frame designed to interface with military exoskeletons.",
-    "weight": "1640 g",
-    "volume": "45 L",
-    "price": 1000000,
-    "price_postapoc": 10000,
-    "to_hit": 1,
-    "material": [ "steel" ],
-    "symbol": "[",
-    "looks_like": "backpack_tactical_large",
-    "color": "light_gray",
-    "pocket_data": [
+    "weight": "4.1 kg",
+    "volume": "3.2 l",
+    "armor": [
       {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "30 L",
-        "max_item_length": "70 cm",
-        "max_contains_weight": "150 kg",
-        "moves": 300
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "thickness": 2 } ]
       }
-    ],
-    "power_armor": true,
-    "material_thickness": 10,
-    "flags": [ "WATERPROOF", "STURDY", "BELTED" ],
-    "//": "this should be moved to an accessory like aftershock suits when someone gets around to overhauling power armor.",
-    "//2": "If this item covers anything, it becomes impossible to wear it with power armor because power armor is hardcoded.",
-    "melee_damage": { "bash": 1 }
-  },
-  {
-    "id": "power_armor_generator",
-    "type": "TOOL_ARMOR",
-    "category": "armor",
-    "name": { "str": "power armor generator frame" },
-    "description": "A heavy-duty hauling frame designed to interface with military exoskeletons.  This version exchanges capacity for a diesel ICE generator that powers the armor.",
-    "weight": "1640 g",
-    "volume": "45 L",
-    "price": 1000000,
-    "price_postapoc": 10000,
-    "to_hit": 1,
-    "material": [ "steel" ],
-    "symbol": "[",
-    "looks_like": "backpack_tactical_large",
-    "color": "light_gray",
-    "ammo": [ "jp8" ],
-    "fuel_efficiency": 0.4,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_item_length": "70 cm",
-        "max_contains_weight": "100 kg",
-        "moves": 300
-      },
-      { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "diesel": 10000 } }
-    ],
-    "power_armor": true,
-    "material_thickness": 10,
-    "flags": [ "WATERPROOF", "STURDY", "BELTED", "IS_UPS" ],
-    "melee_damage": { "bash": 1 },
-    "//": "#61486, Drew4484 "
+    ]
   }
 ]
