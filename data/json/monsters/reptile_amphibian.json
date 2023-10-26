@@ -316,7 +316,7 @@
     "name": { "str": "tadpole" },
     "description": "A speckled, grey-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
     "color": "dark_gray",
-    "upgrades": { "age_grow": 90, "into": "mon_leo_frog" }
+    "upgrades": { "age_grow": 22, "into": "mon_leo_frog" }
   },
   {
     "id": "mon_pattern_tadpole",
@@ -324,7 +324,7 @@
     "copy-from": "mon_leo_tadpole",
     "name": { "str": "tadpole" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 90, "into": "mon_pattern_frog" }
+    "upgrades": { "age_grow": 22, "into": "mon_pattern_frog" }
   },
   {
     "id": "mon_bullfrog_tadpole",
@@ -336,7 +336,7 @@
     "volume": "240 ml",
     "weight": "40 g",
     "hp": 2,
-    "upgrades": { "age_grow": 365, "into": "mon_bullfrog_frog" }
+    "upgrades": { "age_grow": 91, "into": "mon_bullfrog_frog" }
   },
   {
     "id": "mon_strange_tadpole",
@@ -344,7 +344,7 @@
     "copy-from": "mon_bullfrog_tadpole",
     "name": { "str": "tadpole" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 90, "into": "mon_strange_frog" }
+    "upgrades": { "age_grow": 22, "into": "mon_strange_frog" }
   },
   {
     "id": "mon_fowler_tadpole",
@@ -352,7 +352,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 30, "into": "mon_fowler_toad" }
+    "upgrades": { "age_grow": 8, "into": "mon_fowler_toad" }
   },
   {
     "id": "mon_foul_tadpole",
@@ -360,7 +360,7 @@
     "copy-from": "mon_fowler_tadpole",
     "name": { "str": "tadpole" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 30, "into": "mon_foul_toad" }
+    "upgrades": { "age_grow": 8, "into": "mon_foul_toad" }
   },
   {
     "id": "mon_freedom_tadpole",
@@ -368,7 +368,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 60, "into": "mon_freedom_toad" }
+    "upgrades": { "age_grow": 15, "into": "mon_freedom_toad" }
   },
   {
     "id": "mon_odd_tadpole",
@@ -379,7 +379,7 @@
     "weight": "40 g",
     "hp": 2,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_odd_toad" }
+    "upgrades": { "age_grow": 15, "into": "mon_odd_toad" }
   },
   {
     "id": "mon_peeper_tadpole",
@@ -388,7 +388,7 @@
     "name": { "str": "tadpole" },
     "description": "A tiny larval frog.  Almost solid black, this one is barely a speck in the water around it.",
     "color": "dark_gray",
-    "upgrades": { "age_grow": 60, "into": "mon_peeper_frog" }
+    "upgrades": { "age_grow": 15, "into": "mon_peeper_frog" }
   },
   {
     "id": "mon_vocal_tadpole",
@@ -396,7 +396,7 @@
     "copy-from": "mon_peeper_tadpole",
     "name": { "str": "tadpole" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_vocal_frog" }
+    "upgrades": { "age_grow": 15, "into": "mon_vocal_frog" }
   },
   {
     "id": "mon_gray_tadpole",
@@ -405,7 +405,7 @@
     "name": { "str": "tadpole" },
     "description": "This rather unique tadpole might be mistaken for a small fish.  It sports a very broad tail with bright red-orange coloration at its end, dotted with black spots.",
     "color": "red",
-    "upgrades": { "age_grow": 60, "into": "mon_gray_frog" }
+    "upgrades": { "age_grow": 15, "into": "mon_gray_frog" }
   },
   {
     "id": "mon_shift_tadpole",
@@ -413,7 +413,7 @@
     "copy-from": "mon_gray_tadpole",
     "name": { "str": "tadpole" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_shift_frog" }
+    "upgrades": { "age_grow": 15, "into": "mon_shift_frog" }
   },
   {
     "abstract": "mon_proxy_bigtad",
@@ -449,7 +449,7 @@
     "description": "A speckled, grey-brown tadpole the size of a bass.  With its increased size and strength it even swims like one now.",
     "name": { "str": "giant tadpole" },
     "color": "dark_gray",
-    "upgrades": { "age_grow": 90, "into": "mon_pattern_bigfrog" },
+    "upgrades": { "age_grow": 22, "into": "mon_pattern_bigfrog" },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -459,7 +459,7 @@
     "description": "This giant tadpole would have been an oddity before the collapse.  Now it's simply part of the scenery. Just an average, greenish bigtad.",
     "name": { "str": "giant tadpole" },
     "color": "green",
-    "upgrades": { "age_grow": 365, "into": "mon_strange_bigfrog" }
+    "upgrades": { "age_grow": 91, "into": "mon_strange_bigfrog" }
   },
   {
     "id": "mon_foul_bigtad",
@@ -467,7 +467,7 @@
     "copy-from": "mon_proxy_bigtad",
     "description": "This big tadpole has already grown some warty bumps on its softball-sized body.  Its nearly whip-thin tail appears to have no trouble propelling its much larger core.",
     "name": { "str": "giant tadpole" },
-    "upgrades": { "age_grow": 30, "into": "mon_foul_bigfrog" }
+    "upgrades": { "age_grow": 8, "into": "mon_foul_bigfrog" }
   },
   {
     "id": "mon_odd_bigtad",
@@ -475,7 +475,7 @@
     "copy-from": "mon_proxy_bigtad",
     "description": "Some kind of giant tadpole.  This speckled one has a body the size of a grapefruit and a thin, tapered tail.  It flits about the water in quick bursts.",
     "name": { "str": "giant tadpole" },
-    "upgrades": { "age_grow": 40, "into": "mon_odd_bigfrog" }
+    "upgrades": { "age_grow": 10, "into": "mon_odd_bigfrog" }
   },
   {
     "abstract": "mon_proxy_frog",
@@ -521,7 +521,7 @@
     "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.",
     "name": { "str": "strangely-patterned frog" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_pattern_bigfrog" },
+    "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
     "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
@@ -547,7 +547,7 @@
     "weight": "3 kg",
     "hp": 12,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_strange_bigfrog" },
+    "upgrades": { "age_grow": 15, "into": "mon_strange_bigfrog" },
     "reproduction": { "baby_egg": "egg_strange_frog", "baby_count": 16, "baby_timer": 26 }
   },
   {
@@ -566,7 +566,7 @@
     "description": "You could almost smell it before you saw it.  This toad reeks.  You're not quite sure what like, but it's hot and musky and it sticks in your nose until you're tasting it.",
     "name": { "str": "foul toad" },
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_foul_bigfrog" },
+    "upgrades": { "age_grow": 15, "into": "mon_foul_bigfrog" },
     "reproduction": { "baby_egg": "egg_foul_toad", "baby_count": 8, "baby_timer": 36 },
     "//": "When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
   },
@@ -589,7 +589,7 @@
     "weight": "3 kg",
     "hp": 12,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 60, "into": "mon_odd_bigfrog" },
+    "upgrades": { "age_grow": 15, "into": "mon_odd_bigfrog" },
     "reproduction": { "baby_egg": "egg_odd_toad", "baby_count": 8, "baby_timer": 36 }
   },
   {
@@ -688,7 +688,7 @@
     "name": { "str": "mutant bullfrog" },
     "description": "A mutant bullfrog larger than most dogs.  It looks unwell, as if this growth spurt was less than comfortable.",
     "copy-from": "mon_proxy_bigfrog",
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 }
   },
   {
@@ -698,7 +698,7 @@
     "description": "This toad seems to have been mutated to absurd size by the Cataclysm.  It's only half your size but that hardly feels comforting.",
     "copy-from": "mon_proxy_bigfrog",
     "color": "brown",
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 }
   },
   {
@@ -720,7 +720,7 @@
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "luminance": 3,
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
     "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 12, "baby_timer": 20 }
   },
   {
@@ -749,7 +749,7 @@
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "NO_BREATHE" ] },
     "//": "When possible, add an AOE burst & temporary trail of slippery, toxic grease on several hour cooldown.  The toad can expel grease like a squid with ink.  The grease offgasses into something between tear gas and a blister agent, hence the smell.  NO_BREATHE flag is to prevent self-gassing."
@@ -819,7 +819,7 @@
     "name": { "str": "giant bullfrog" },
     "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "copy-from": "mon_proxy_giganfrog",
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_STRANGE_MEGA" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_STRANGE_MEGA" },
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 18, "baby_timer": 20 }
   },
   {
@@ -829,7 +829,7 @@
     "description": "This toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
     "copy-from": "mon_proxy_giganfrog",
     "color": "brown",
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_ODD_MEGA" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_ODD_MEGA" },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 18, "baby_timer": 20 }
   },
@@ -839,8 +839,8 @@
     "name": { "str": "taser tongue" },
     "description": "This bluish, trash can-sized frog sports a series of faintly glowing spots among its chaotic skin patterns.  The glow seems to be most concentrated around its unusually bulky neck and mouth.  Its dark eyes scan for an appetizing target.",
     "copy-from": "mon_proxy_giganfrog",
-    "volume": "120 L",
-    "weight": "100 kg",
+    "volume": "200 L",
+    "weight": "180 kg",
     "hp": 80,
     "speed": 70,
     "symbol": "P",
@@ -885,7 +885,7 @@
     "id": "mon_foul_giganfrog",
     "type": "MONSTER",
     "name": { "str": "giant hogtoad" },
-    "description": "This boar-sized toad appears to have taken on some similar features to wild hogs.  It makes grunts and snorts not dissimilar to its namesake, it roots around the dirt and it even appears to enjoy wallowing in mud.  However, the most striking commonality is the dense horn-like growths sprouting from the toad's face and jaw.  They look to be most effective for burrowing and protection.  Though in places they come to curved points that look quite capable of offense.",
+    "description": "This large, boar-sized toad shares some features with its namesake.  It grunts, roots and wallows, but more striking are the dense tusk-like growths sprouting from its face and jaw.  Though they seem to be most effective for burrowing and protection, in places they come to curved points that look quite sharp.",
     "copy-from": "mon_proxy_giganfrog",
     "speed": 100,
     "symbol": "G",
@@ -918,7 +918,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
-    "upgrades": { "age_grow": 60, "into_group": "GROUP_FROGS_UPGRADE_FOUL_MEGA" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_FOUL_MEGA" },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "NO_BREATHE" ] },
