@@ -122,7 +122,7 @@
       },
       {
         "id": "toy_figure_caiman",
-        "name": { "str": "Lizardman figurine" },
+        "name": { "str": "lizardman figurine" },
         "description": "An expensive figurine of a buff man in streetwear with a lizard head, holding a pair of knives in his hands.",
         "//": "yes this is a dorohedoro reference",
         "weight": 1
