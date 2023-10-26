@@ -806,6 +806,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
 {
+    size_t loop;
     clear_avatar();
     clear_map();
 
@@ -899,20 +900,20 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     npc_dst.die( &npc_src );
 
     // character_ranged_attacks_monster
-    monster &mon = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_south_east );
+    monster &mon_dst = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_south_east );
 
     do {
         arm_shooter( npc_src, "shotgun_s" );
         npc_src.recoil = 0;
-        npc_src.fire_gun( mon.pos(), 1, *npc_src.get_wielded_item() );
-    } while( mon.get_value( "npctalk_var_test_event_last_event" ).empty() );
+        npc_src.fire_gun( mon_dst.pos(), 1, *npc_src.get_wielded_item() );
+    } while( mon_dst.get_value( "npctalk_var_test_event_last_event" ).empty() );
 
     CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
-    CHECK( mon.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( mon_dst.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
 
-    mon.die( &npc_src );
+    mon_dst.die( &npc_src );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
