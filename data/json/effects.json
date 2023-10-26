@@ -1808,7 +1808,10 @@
       [ "Your eyes are mildly irritated.", "bad" ],
       [ "Your eyes watering out of smoke.", "bad" ],
       [ "Your eyes sting badly and tears stream from them continuously.", "bad" ],
-      [ "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them.", "bad" ]
+      [
+        "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them.",
+        "bad"
+      ]
     ],
     "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
     "max_duration": "3 m",
