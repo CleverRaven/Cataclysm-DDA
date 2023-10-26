@@ -519,7 +519,7 @@ std::map<distraction_type, std::string> player_activity::get_distractions() cons
     }
     if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
-            const int bp_temp = u.get_part_temp_cur( bp );
+            const units::temperature bp_temp = u.get_part_temp_cur( bp );
             if( bp_temp > BODYTEMP_VERY_HOT ) {
                 res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
                 break;

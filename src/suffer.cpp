@@ -2233,8 +2233,8 @@ void Character::apply_wetness_morale( units::temperature temperature )
             bp_morale = part_good + part_neutral - effective_drench;
         }
 
-        // Clamp to [COLD,HOT] and cast to double
-        const double part_temperature =
+        // Clamp to [COLD,HOT]
+        const units::temperature part_temperature =
             std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, get_part_temp_cur( bp ) ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /

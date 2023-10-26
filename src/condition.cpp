@@ -673,7 +673,8 @@ void conditional_t::set_has_part_temp( const JsonObject &jo, std::string_view me
     optional( jo, false, "bodypart", bp );
     condition = [dov, bp, is_npc]( dialogue & d ) {
         bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->get_cur_part_temp( bid ) >= dov.evaluate( d );
+        return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp(
+                bid ) ) >= dov.evaluate( d );
     };
 }
 
@@ -1882,7 +1883,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             }
             return [is_npc, bp]( dialogue const & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-                return d.actor( is_npc )->get_cur_part_temp( bid );
+                return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp( bid ) );
             };
         } else if( checked_value == "dodge" ) {
             return [is_npc]( dialogue const & d ) {
@@ -2177,11 +2178,11 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             };
         } else if( checked_value == "body_temp" ) {
             return [is_npc]( dialogue const & d ) {
-                return d.actor( is_npc )->get_body_temp();
+                return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_body_temp() );
             };
         } else if( checked_value == "body_temp_delta" ) {
             return [is_npc]( dialogue const & d ) {
-                return d.actor( is_npc )->get_body_temp_delta();
+                return units::to_legacy_bodypart_temp_delta( d.actor( is_npc )->get_body_temp_delta() );
             };
         } else if( checked_value == "npc_trust" ) {
             return [is_npc]( dialogue const & d ) {

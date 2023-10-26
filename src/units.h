@@ -443,6 +443,21 @@ inline constexpr value_type to_fahrenheit( const
     return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
 }
 
+// Conversions from legacy temperature units. Do not use without a good reason.
+
+inline constexpr units::temperature from_legacy_bodypart_temp( int temp )
+{
+    return units::from_celsius( 37.0 + ( temp - 5000.0 ) * 0.002 );
+}
+
+template<typename value_type>
+inline constexpr int to_legacy_bodypart_temp( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    const auto c = units::to_celsius( v );
+    return static_cast<int>( ( c - 37.0 ) * 500.0 + 5000.0 );
+}
+
 // Temperature delta
 // Absolute zero - possibly should just be INT_MIN
 const temperature_delta temperature_delta_min = units::temperature_delta( 0,
@@ -485,7 +500,7 @@ from_fahrenheit_delta(
 
 template<typename value_type>
 inline constexpr value_type to_celsius_delta( const
-        quantity<value_type, temperature_in_kelvin_tag> &v )
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
 {
     return v.value();
 }
@@ -495,6 +510,20 @@ inline constexpr value_type to_fahrenheit_delta( const
         quantity<value_type, temperature_delta_in_kelvin_tag> &v )
 {
     return ( v * 1.8f ).value();
+}
+
+// Conversions from legacy temperature units. Do not use without a good reason.
+
+inline constexpr units::temperature_delta from_legacy_bodypart_temp_delta( int temp )
+{
+    return units::from_kelvin_delta( temp * 0.002 );
+}
+
+template<typename value_type>
+inline constexpr int to_legacy_bodypart_temp_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return static_cast<int>( units::to_kelvin_delta( v ) * 500.0 );
 }
 
 // Energy
@@ -789,6 +818,11 @@ inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
     return o << "rad";
 }
 
+inline std::ostream &operator<<( std::ostream &o, temperature )
+{
+    return o << "K";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
@@ -871,10 +905,30 @@ inline constexpr units::temperature operator"" _K( const unsigned long long v )
     return units::from_kelvin( v );
 }
 
+inline constexpr units::temperature operator"" _C( const unsigned long long v )
+{
+    return units::from_celsius( v );
+}
+
+inline constexpr units::temperature_delta operator"" _C_delta( const unsigned long long v )
+{
+    return units::from_celsius_delta( v );
+}
+
 inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
     const long double v )
 {
     return units::from_kelvin( v );
+}
+
+inline constexpr units::temperature operator"" _C( const long double v )
+{
+    return units::from_celsius( v );
+}
+
+inline constexpr units::temperature_delta operator"" _C_delta( const long double v )
+{
+    return units::from_celsius_delta( v );
 }
 
 inline constexpr units::energy operator"" _mJ( const unsigned long long v )
@@ -1133,9 +1187,16 @@ units::energy operator*( const time_duration &time, const units::power &power );
 units::power operator/( const units::energy &energy, const time_duration &time );
 time_duration operator/( const units::energy &energy, const units::power &power );
 
+constexpr inline units::temperature_delta abs( units::temperature_delta x )
+{
+    return from_kelvin_delta( std::abs( to_kelvin_delta( x ) ) );
+}
+
 units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 );
 
 units::temperature operator+( const units::temperature &T,
+                              const units::temperature_delta &T_delta );
+units::temperature operator-( const units::temperature &T,
                               const units::temperature_delta &T_delta );
 units::temperature operator+( const units::temperature_delta &T_delta,
                               const units::temperature &T );

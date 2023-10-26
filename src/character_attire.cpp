@@ -2229,7 +2229,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
     info.part_hp_cur = person.get_part_hp_cur( bp );
     info.part_hp_max = person.get_part_hp_max( bp );
     info.wetness = person.get_part_wetness_percentage( bp );
-    info.temperature = { person.get_part_temp_conv( bp ), display::bodytemp_color( person, bp ) };
+    info.temperature = { units::to_legacy_bodypart_temp( person.get_part_temp_conv( bp ) ), display::bodytemp_color( person, bp ) };
     std::pair<std::string, nc_color> tmp_approx = display::temp_text_color( person, bp.id() );
     info.temp_approx = colorize( tmp_approx.first, tmp_approx.second );
     info.parent_bp_name = uppercase_first_letter( bp->name.translated() );
