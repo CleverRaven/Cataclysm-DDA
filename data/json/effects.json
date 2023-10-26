@@ -3816,6 +3816,46 @@
   },
   {
     "type": "effect_type",
+    "id": "pd_strengthened_reality",
+    "name": [ "World's Acceptance", "World's Embracement", "Dimensional Foothold", "Dimensional Assimilation" ],
+    "desc": [
+      "The world around you seems calmer with your presence and actions.",
+      "The world around you seems to regard you as one of their own, your body is a little easier to move now.",
+      "You can more easily exert your will around you, this dimension is, if not welcoming you, obeying you a little.  You have managed to secure a foothold in this reality.",
+      "The very fabric of reality is blending in with your body, your will is greatly easier to exert around you and your body is trying to permanently assimilate with this world, it just needs a little push..."
+    ],
+    "max_intensity": 4,
+    "rating": "good",
+    "int_dur_factor": "3 days",
+    "base_mods": { "speed_mod": [ 2 ] },
+    "scaling_mods": { "speed_mod": [ 3 ], "dodge_mod": [ 0.7 ] },
+    "apply_message": "Your eyes open to a whole new world!",
+    "remove_message": "You start to feel rejected by the world again.",
+    "decay_messages": [
+      [ "The world no longer embraces you as its child.  At least it still tolerates your presence.", "mixed" ],
+      [
+        "You have lost your foothold and can no longer command the world around you, the world sees you now as only an unruly child.",
+        "mixed"
+      ],
+      [
+        "You can no longer bend the world to your will.  You have failed in blending in with this reality and have now only a foothold left.",
+        "mixed"
+      ]
+    ],
+    "miss_messages": [
+      [ "Did the world just oppose you?", 1 ],
+      [ "For a moment you felt a great hostility all around you.", 1 ],
+      [ "Did your enemy just vanish for a moment?.", 2 ],
+      [ "You felt weird for a moment.", 3 ],
+      [ "Was that a spark?", 5 ],
+      [ "Your grip suddenly failed you.", 6 ],
+      [ "Something just flashed in front of your eyes.", 8 ],
+      [ "Why did the hit went that way?", 15 ],
+      [ "You could have swear you hit it!", 25 ]
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "grown_of_fuse",
     "name": [ "Grown of Fusion" ],
     "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
