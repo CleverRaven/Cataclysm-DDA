@@ -140,7 +140,7 @@
   {
     "id": "add_heat_sink_for_small",
     "type": "GUNMOD",
-    "name": { "str": "additional heat sink for small" },
+    "name": { "str": "expanded heat sink" },
     "description": "This is a common type additional heat sink in the form of thin metal plates are evenly spaced. It increases the heat capacity. Although it is designed for small guns, it does not mean that it cannot be attached to other guns.",
     "weight": "300 g",
     "volume": "200 ml",
