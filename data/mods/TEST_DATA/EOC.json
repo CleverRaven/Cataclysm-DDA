@@ -482,6 +482,31 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_character_melee_attacks_character_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_character" },
+      {
+        "npc_add_var": "last_event",
+        "type": "test",
+        "context": "event",
+        "value": "character_melee_attacks_character"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_melee_attacks_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_monster" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_monster" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_character_wields_item_event_test",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",

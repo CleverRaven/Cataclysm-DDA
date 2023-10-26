@@ -89,6 +89,7 @@ static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
@@ -858,6 +859,61 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
 
     CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
     CHECK( armor->get_var( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+
+    // character_melee_attacks_character
+    standard_npc npc( "TestCharacter", get_avatar().pos() + tripoint_east, {}, 8, 10, 10, 10, 10 );
+    get_avatar().melee_attack( npc, false );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_character" );
+    CHECK( npc.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_character" );
+
+    npc.die( &get_avatar() );
+
+    // character_melee_attacks_monster
+    monster &mon = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_east );
+    get_avatar().melee_attack( mon, false );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_monster" );
+    CHECK( mon.get_value( "npctalk_var_test_event_last_event" ) == "character_melee_attacks_monster" );
+
+    mon.die( &get_avatar() );
+
+    // character_ranged_attacks_character
+    standard_npc npc_src( "TestCharacter", get_avatar().pos() + tripoint_east, {}, 8, 10, 10, 10, 10 );
+    standard_npc npc_dst( "TestCharacter", get_avatar().pos() + tripoint_south_east, {}, 8, 10, 10, 10,
+                          10 );
+
+    do {
+        arm_shooter( npc_src, "shotgun_s" );
+        npc_src.recoil = 0;
+        npc_src.fire_gun( npc_dst.pos(), 1, *npc_src.get_wielded_item() );
+    } while( npc_dst.get_value( "npctalk_var_test_event_last_event" ).empty() );
+
+    CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+    CHECK( npc_dst.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+
+    npc_dst.die( &npc_src );
+
+    // character_ranged_attacks_monster
+    monster &mon = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_south_east );
+
+    do {
+        arm_shooter( npc_src, "shotgun_s" );
+        npc_src.recoil = 0;
+        npc_src.fire_gun( mon.pos(), 1, *npc_src.get_wielded_item() );
+    } while( mon.get_value( "npctalk_var_test_event_last_event" ).empty() );
+
+    CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+    CHECK( mon.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+
+    mon.die( &npc_src );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )

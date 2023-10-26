@@ -23,6 +23,8 @@ class event_bus
         void unsubscribe( event_subscriber * );
 
         void send( const cata::event & ) const;
+        void send_with_talker( Character *, Character *, const cata::event & ) const;
+        void send_with_talker( Character *, monster *, const cata::event & ) const;
         void send_with_talker( Character *, item_location *, const cata::event & ) const;
         template<event_type Type, typename... Args>
         void send( Args &&... args ) const {
