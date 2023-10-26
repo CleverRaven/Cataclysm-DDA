@@ -306,7 +306,6 @@
     "harvest": "mammal_tiny",
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
-    "upgrades": { "age_grow": 60, "into": "mon_proxy_frog" },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -863,8 +862,8 @@
         "effects": [ { "id": "zapped", "duration": [ 2, 10 ] } ],
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
-        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
-        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
         "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
       },
