@@ -141,7 +141,7 @@
       },
       {
         "id": "toy_figurine_smoker",
-        "name": { "str": "Zombie figurine" },
+        "name": { "str": "zombie figurine" },
         "description": "A nasty looking figurine of a mutant zombie, with a large tongue sprouting from its face.  You thankfully haven't encountered something like that yet.",
         "weight": 1
       },
