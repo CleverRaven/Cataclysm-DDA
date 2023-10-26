@@ -28,9 +28,9 @@
     "bonus_per": { "rng": [ 0, 4 ] },
     "shopkeeper_item_group": [
       { "group": "EXODII_basic_trade", "rigid": true },
-      { "group": "EXODII_CBM_Store_tier1_extra", "rigid": true, "trust": 1 },
-      { "group": "EXODII_CBM_Store_Tier2", "rigid": true, "trust": 10 },
-      { "group": "EXODII_CBM_Store_Tier3", "rigid": true, "trust": 20, "strict": true },
+      { "group": "EXODII_trade_Tier1", "rigid": true, "trust": 1 },
+      { "group": "EXODII_trade_Tier2", "rigid": true, "trust": 10 },
+      { "group": "EXODII_trade_Tier3", "rigid": true, "trust": 20, "strict": true },
       { "group": "EXODII_Store_Salvage_Tech", "rigid": true, "trust": 20 },
       { "group": "EXODII_CBM_Store_Tier4", "rigid": true, "trust": 40, "strict": true }
     ],

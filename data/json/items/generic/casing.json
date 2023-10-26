@@ -563,7 +563,7 @@
     "copy-from": "casing",
     "looks_like": "50beowulf_casing",
     "type": "GENERIC",
-    "name": { "str": "27.3 x 110 Diyua casing" },
+    "name": { "str": "27.3x110 Diyua casing" },
     "description": "An empty giant brass shotshell, with illegible alien text on the headstamp.  These are rare, so you might want to hold onto them.",
     "weight": "19 g",
     "volume": "13ml"

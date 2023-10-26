@@ -327,6 +327,11 @@
     "explosion": { "power": 60 }
   },
   {
+    "id": "EXPLOSIVE_EXODII_THERMOBARIC",
+    "type": "ammo_effect",
+    "explosion": { "power": 66 }
+  },
+  {
     "id": "EXPLOSIVE_HESHOT",
     "type": "ammo_effect",
     "explosion": { "power": 60 }
