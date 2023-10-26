@@ -886,11 +886,14 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     standard_npc npc_dst( "TestCharacter", get_avatar().pos() + tripoint_south_east, {}, 8, 10, 10, 10,
                           10 );
 
-    do {
+    for( loop = 0; loop < 1000; loop++ ) {
         arm_shooter( npc_src, "shotgun_s" );
         npc_src.recoil = 0;
         npc_src.fire_gun( npc_dst.pos(), 1, *npc_src.get_wielded_item() );
-    } while( npc_dst.get_value( "npctalk_var_test_event_last_event" ).empty() );
+        if( !npc_dst.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+            break;
+        }
+    }
 
     CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
@@ -902,11 +905,14 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     // character_ranged_attacks_monster
     monster &mon_dst = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_south_east );
 
-    do {
+    for( loop = 0; loop < 1000; loop++ ) {
         arm_shooter( npc_src, "shotgun_s" );
         npc_src.recoil = 0;
         npc_src.fire_gun( mon_dst.pos(), 1, *npc_src.get_wielded_item() );
-    } while( mon_dst.get_value( "npctalk_var_test_event_last_event" ).empty() );
+        if( !mon_dst.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+            break;
+        }
+    }
 
     CHECK( npc_src.get_value( "npctalk_var_test_event_last_event" ) ==
            "character_ranged_attacks_character" );
