@@ -132,6 +132,7 @@ struct conditional_t {
         void set_at_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_near_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_move_mode( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_using_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo, std::string_view member );
         void set_npc_allies( const JsonObject &jo, std::string_view member );
         void set_npc_allies_global( const JsonObject &jo, std::string_view member );
@@ -147,6 +148,7 @@ struct conditional_t {
         void set_is_season( const JsonObject &jo, std::string_view member );
         void set_is_weather( const JsonObject &jo, std::string_view member );
         void set_map_ter_furn_with_flag( const JsonObject &jo, std::string_view member );
+        void set_map_in_city( const JsonObject &jo, std::string_view member );
         void set_mod_is_loaded( const JsonObject &jo, std::string_view member );
         void set_mission_goal( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_has_faction_trust( const JsonObject &jo, std::string_view member );

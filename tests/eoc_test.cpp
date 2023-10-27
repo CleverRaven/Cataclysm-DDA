@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_martial_arts.h"
 #include "effect_on_condition.h"
 #include "game.h"
 #include "map_helpers.h"
@@ -35,6 +36,10 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
+static const effect_on_condition_id
+effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
@@ -91,6 +96,9 @@ static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
+
+static const matype_id style_aikido( "style_aikido" );
+static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -989,4 +997,31 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
     CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
+}
+
+TEST_CASE( "EOC_martial_art_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+
+    REQUIRE_FALSE( get_avatar().has_martialart( style_aikido ) );
+    REQUIRE( globvars.get_global_value( "fail_var" ).empty() );
+
+    CHECK( effect_on_condition_EOC_martial_art_test_1->activate( d ) );
+    CHECK( globvars.get_global_value( "fail_var" ).empty() );
+    CHECK( get_avatar().has_martialart( style_aikido ) );
+
+    get_avatar().martial_arts_data->set_style( style_aikido );
+
+    CHECK_FALSE( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
+    CHECK( get_avatar().has_martialart( style_aikido ) );
+
+    get_avatar().martial_arts_data->set_style( style_none );
+
+    CHECK( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
+    CHECK( !get_avatar().has_martialart( style_aikido ) );
 }
