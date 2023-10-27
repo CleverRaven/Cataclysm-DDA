@@ -272,7 +272,7 @@
     "id": "prof_fencing_weapons_master",
     "category": "prof_combat",
     "name": { "str": "Fencing Weapon Mastery" },
-    "description": "Before the cataclysm you could have been an Olympic fencer.",
+    "description": "Before the Cataclysm, you could have been an Olympic fencer.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
