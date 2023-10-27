@@ -959,11 +959,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
             if( monster *const m = hit_entry.first->as_monster() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_monster>(
-                    getID(), gun_id, m->type->id );
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
+                                m->type->id );
+                get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_character>(
-                    getID(), gun_id, c->getID(), c->get_name() );
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
+                                c->getID(), c->get_name() );
+                get_event_bus().send_with_talker( this, c, e );
             }
             if( multishot ) {
                 // TODO: Pull projectile name from the ammo entry.

@@ -860,6 +860,82 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     CHECK( armor->get_var( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
 }
 
+TEST_CASE( "EOC_combat_event_test", "[eoc]" )
+{
+    size_t loop;
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_npcs();
+    clear_map();
+
+    // character_melee_attacks_character
+    npc &npc_dst_melee = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+    item weapon_item( itype_test_knife_combat );
+    get_avatar().wield( weapon_item );
+    get_avatar().melee_attack( npc_dst_melee, false );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_character" );
+    CHECK( npc_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_character" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.name );
+
+    // character_melee_attacks_monster
+    clear_map();
+    monster &mon_dst_melee = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_east );
+    get_avatar().melee_attack( mon_dst_melee, false );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_monster" );
+    CHECK( mon_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+
+    // character_ranged_attacks_character
+    const tripoint target_pos = get_avatar().pos() + point_east;
+    clear_map();
+    npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
+    for( loop = 0; loop < 1000; loop++ ) {
+        get_avatar().set_body();
+        arm_shooter( get_avatar(), "shotgun_s" );
+        get_avatar().recoil = 0;
+        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
+        if( !npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+            break;
+        }
+    }
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+    CHECK( npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.name );
+
+    // character_ranged_attacks_monster
+    clear_map();
+    monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
+    for( loop = 0; loop < 1000; loop++ ) {
+        get_avatar().set_body();
+        arm_shooter( get_avatar(), "shotgun_s" );
+        get_avatar().recoil = 0;
+        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item() );
+        if( !mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+            break;
+        }
+    }
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_monster" );
+    CHECK( mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+}
+
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
 {
     clear_avatar();
