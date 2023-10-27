@@ -316,8 +316,9 @@
       { "math": [ "u_val('stored_kcal')", "=", "65000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       {
-        "foreach": "vitamin",
+        "foreach": "ids",
         "var": { "context_val": "id" },
+        "target": "vitamin",
         "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
       }
     ]

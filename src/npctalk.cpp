@@ -38,6 +38,7 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -5105,24 +5106,44 @@ void talk_effect_fun_t::set_foreach( const JsonObject &jo, std::string_view memb
     talk_effect_t effect;
     effect.load_effect( jo, "effect" );
     std::string target;
-    if( type == "item_group" ) {
+    std::vector<str_or_var> array;
+    if( jo.has_string( "target" ) ) {
         target = jo.get_string( "target" );
+    } else if( jo.has_array( "target" ) ) {
+        for( const JsonValue &jv : jo.get_array( "target" ) ) {
+            array.emplace_back( get_str_or_var( jv, "target" ) );
+        }
     }
-    function = [type, itr, effect, target]( dialogue & d ) {
-        std::vector<std::string_view> list;
+    function = [type, itr, effect, target, array]( dialogue & d ) {
+        std::vector<std::string> list;
 
-        if( type == "vitamin" ) {
-            for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
-                list.push_back( v.first.str() );
-            }
-        } else if( type == "trait" ) {
-            for( const mutation_branch &m : mutation_branch::get_all() ) {
-                list.push_back( m.id.str() );
+        if( type == "ids" ) {
+            if( target == "flag" ) {
+                for( const json_flag &f : json_flag::get_all() ) {
+                    list.push_back( f.id.str() );
+                }
+            } else if( target == "trait" ) {
+                for( const mutation_branch &m : mutation_branch::get_all() ) {
+                    list.push_back( m.id.str() );
+                }
+            } else if( target == "vitamin" ) {
+                for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
+                    list.push_back( v.first.str() );
+                }
             }
         } else if( type == "item_group" ) {
             item_group_id ig( target );
             for( const itype *type : item_group::every_possible_item_from( ig ) ) {
                 list.push_back( type->get_id().str() );
+            }
+        } else if( type == "monstergroup" ) {
+            mongroup_id mg( target );
+            for( const auto &m : MonsterGroupManager::GetMonstersFromGroup( mg, true ) ) {
+                list.push_back( m.str() );
+            }
+        } else if( type == "array" ) {
+            for( const str_or_var &v : array ) {
+                list.emplace_back( v.evaluate( d ) );
             }
         }
 

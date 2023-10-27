@@ -248,10 +248,32 @@
     "type": "effect_on_condition",
     "id": "EOC_foreach_test",
     "effect": [
+      { "u_message": "[foreach_test]id of flags" },
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "flags",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]item_group" },
       {
         "foreach": "item_group",
         "var": { "context_val": "id" },
         "target": "forest",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]monstergroup" },
+      {
+        "foreach": "monstergroup",
+        "var": { "context_val": "id" },
+        "target": "GROUP_ANIMALPOUND_DOGS",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]string array" },
+      {
+        "foreach": "array",
+        "var": { "context_val": "id" },
+        "target": [ "a", "b", "c", "d", "e" ],
         "effect": [ { "u_message": "<context_val:id>" } ]
       }
     ]
