@@ -377,7 +377,7 @@
     "id": "prof_polearms_master",
     "category": "prof_combat",
     "name": { "str": "Polearm Mastery" },
-    "description": "You can handle the awkward balance of a polearm well, like its an extention of your body.",
+    "description": "You can handle the awkward balance of a polearm well, like its an extension of your body.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
