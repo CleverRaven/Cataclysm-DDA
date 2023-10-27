@@ -4295,9 +4295,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_qualities_from_json( jo, "charged_qualities", def );
     }
 
-    if( jo.has_member( "properties" ) ) {
-        set_properties_from_json( jo, "properties", def );
-    }
+    optional( jo, def.was_loaded, "properties", def.properties );
 
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();
@@ -4639,22 +4637,6 @@ void Item_factory::relative_qualities_from_json( const JsonObject &jo,
         } else {
             jo.throw_error_at( member, "Quality specified wasn't inherited" );
         }
-    }
-}
-
-void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string_view member,
-        itype &def )
-{
-    if( jo.has_array( member ) ) {
-        for( JsonArray curr : jo.get_array( member ) ) {
-            const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
-            if( def.properties.count( prop.first ) > 0 ) {
-                curr.throw_error( 0, "Duplicated property" );
-            }
-            def.properties.insert( prop );
-        }
-    } else {
-        jo.throw_error_at( member, "Properties list is not an array" );
     }
 }
 

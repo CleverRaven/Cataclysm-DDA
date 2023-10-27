@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str": ".500 S&W Magnum" },
     "description": ".500 S&W Magnum ammunition with a 500gr bullet.  The .500 S&W Magnum round is a colossally powerful handgun cartridge capable of killing almost any target with one hit.  It has extremely high damage, and recoil to match.",
+    "ascii_picture": "500_Magnum",
     "weight": "45 g",
     "volume": "82 ml",
     "longest_side": "58 mm",

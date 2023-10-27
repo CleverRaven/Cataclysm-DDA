@@ -1295,29 +1295,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "m2browning_sawn",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "traps", 1 ], [ "gun", 4 ] ],
-    "difficulty": 6,
-    "time": "3 h",
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ] ],
-    "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_gunsmithing_basic" },
-      { "proficiency": "prof_gunsmithing_improv" }
-    ],
-    "components": [ [ [ "m2browning", 1 ] ], [ [ "2x4", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "surv_rocket_launcher",
     "skills_required": [ [ "traps", 1 ], [ "launcher", 4 ] ],
     "category": "CC_WEAPON",

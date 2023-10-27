@@ -358,7 +358,7 @@
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "( -0.5 + ( u_val('spell_level', 'spell: biokin_perfected_motion') * -0.015) * ( ( u_val('intelligence') + 10) / 20 ) )"
+                "max(( -0.5 + ( u_val('spell_level', 'spell: biokin_perfected_motion') * -0.015) * ( ( u_val('intelligence') + 10) / 20 ) ), -0.96)"
               ]
             }
           }
@@ -841,7 +841,9 @@
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [
+                "max(( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) ), -0.15)"
+              ]
             }
           },
           {
@@ -999,6 +1001,35 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telepath_sense_minds",
+    "name": [ "Sensing Minds" ],
+    "desc": [ "You are looking out for other minds." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of other minds fades away.",
+    "decay_messages": [
+      [ "You can barely tell if any other mind is out there at all.", "bad" ],
+      [ "Your sense of other minds is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 50,
+    "dur_add_perc": 10,
+    "int_dur_factor": "36 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_MINDS",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: telepathic_mind_sense') * 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telepath_invisibility",
     "name": [ "Obscurity" ],
     "desc": [ "You are hiding your presence from your enemies." ],
@@ -1033,6 +1064,18 @@
     "int_dur_factor": "35 s",
     "removes_effects": [ "taint", "tindrift", "hallu", "hallucination_attacks", "visuals", "fearparalyze", "amigara" ],
     "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_primal_terror",
+    "name": [ "Terrorized" ],
+    "desc": [ "You are overcome with overwhelming dread." ],
+    "apply_message": "Your heart races as a sudden feeling of dread grips you.",
+    "remove_message": "The heart-freezing terror fades as suddenly as it began.",
+    "rating": "bad",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -30 ], "dodge_mod": [ -2 ], "hit_mod": [ -2 ], "bash_mod": [ -8 ] },
+    "immune_flags": [ "TEEPSHIELD", "TEEP_IMMUNE" ]
   },
   {
     "type": "effect_type",

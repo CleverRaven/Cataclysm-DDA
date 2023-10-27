@@ -450,19 +450,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "DEFENSE_MODE_WIN_SCREEN",
-    "global": true,
-    "recurrence": 100,
-    "condition": { "math": [ "final_wave_defeated", "==", "1" ] },
-    "effect": [ { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_WIN" } } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "DEFENSE_MODE_QUEUE_WIN_SCREEN",
-    "effect": [ { "math": [ "final_wave_defeated", "=", "1" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "DEFENSE_MODE_RANDOM_EVENT",
     "recurrence": [ "2 days", "4 days" ],
     "//": "A general EOC for selecting a random event.  Can and should be expanded.",

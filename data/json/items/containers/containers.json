@@ -3279,7 +3279,7 @@
       }
     ],
     "flags": [ "BANK_NOTE_SHAPED" ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "balloon",

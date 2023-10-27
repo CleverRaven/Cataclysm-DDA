@@ -77,6 +77,7 @@
       [ "bat", 60 ],
       [ "pom_poms", 40 ],
       [ "backpack", 40 ],
+      { "item": "backpack_giant", "prob": 1 },
       [ "pockknife", 5 ],
       [ "wristwatch", 20 ],
       [ "teleumbrella", 5 ],

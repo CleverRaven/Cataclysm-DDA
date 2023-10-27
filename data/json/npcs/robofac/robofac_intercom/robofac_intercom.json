@@ -332,6 +332,7 @@
         "text": "I have some portal storm recordings.",
         "condition": {
           "or": [
+            { "u_has_items": { "item": "nre_anomaly_printout_data", "count": 1 } },
             { "u_has_items": { "item": "small_printout_portal_storm_data", "count": 1 } },
             { "u_has_items": { "item": "medium_printout_portal_storm_data", "count": 1 } },
             { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } }

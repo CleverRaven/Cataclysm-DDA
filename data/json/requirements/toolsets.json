@@ -371,15 +371,10 @@
     "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
   },
   {
-    "id": "object_deconstruction_advanced",
+    "id": "cement_removal",
     "type": "requirement",
-    "//": "Tools for doing advanced deconstruction",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
-      { "id": "SCREW", "level": 1 }
-    ]
+    "//": "Tools for deconstructing items built with mortar or cement",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ]
   },
   {
     "id": "marking_hard",

@@ -1186,7 +1186,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "u_spawn_item": "icon", "count": 350 },
+        { "u_spawn_item": "icon", "count": 80 },
         { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
       ]
     },
