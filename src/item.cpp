@@ -2508,7 +2508,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     if( max_nutr.kcal() != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.emplace_back( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                               "", iteminfo::no_newline, std::max(0,min_nutr.kcal()) );
+                               "", iteminfo::no_newline, std::max( 0, min_nutr.kcal() ) );
             if( max_nutr.kcal() != min_nutr.kcal() ) {
                 info.emplace_back( "FOOD", _( "-" ),
                                    "", iteminfo::no_newline, max_nutr.kcal() );
