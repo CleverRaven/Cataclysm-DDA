@@ -402,6 +402,7 @@
   },
   {
     "type": "scenario",
+    "copy-from": "mutant",
     "id": "portal_dependent",
     "name": "Challenge - Portal Dependent",
     "points": -8,
@@ -410,10 +411,23 @@
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
-    "eoc": [ "scenario_strong_portal_storm" ],
+    "eoc": [ "scenario_strong_portal_storm", "scenario_portal_dependent" ],
     "requirement": "achievement_witnessed_portal_storm",
     "reveal_locale": false,
-    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
+    "professions": [
+      "portal_traveler",
+      "churl",
+      "true_foodperson",
+      "unemployed",
+      "naked",
+      "mutant_patient",
+      "mutant_volunteer",
+      "mutant_amputee",
+      "labtech",
+      "security",
+      "medic",
+      "paranormal_investigator"
+    ]
   },
   {
     "type": "scenario",
