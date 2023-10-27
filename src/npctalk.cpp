@@ -4129,7 +4129,11 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view m
     if( jo.has_bool( "targeted" ) ) {
         targeted = jo.get_bool( "targeted" );
     }
-    function = [is_npc, fake, targeted, true_eocs, false_eocs]( dialogue const & d ) {
+    std::optional<var_info> loc_var;
+    if( jo.has_object( "loc" ) ) {
+        loc_var = read_var_info( jo.get_object( "loc" ) );
+    }
+    function = [is_npc, fake, targeted, loc_var, true_eocs, false_eocs]( dialogue const & d ) {
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell.  %s", d.get_callstack() );
@@ -4148,7 +4152,9 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view m
                     caster->add_msg_if_player( fake.trigger_message );
                 }
             } else {
-                sp.cast_all_effects( *caster, caster->pos() );
+                const tripoint target_pos = loc_var ?
+                                            get_map().getlocal( get_tripoint_from_var( loc_var, d ) ) : caster->pos();
+                sp.cast_all_effects( *caster, target_pos );
                 caster->add_msg_if_player( fake.trigger_message );
             }
         }
