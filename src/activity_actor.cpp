@@ -1679,19 +1679,20 @@ bool read_activity_actor::player_read( avatar &you )
     std::vector<std::string> cant_learn;
 
     std::vector<Character *> learners;
-    for( npc *npc_learner : you.get_crafting_helpers() ) {
-        const book_mastery mastery = npc_learner->get_book_mastery( *book );
-        const bool morale_req = npc_learner->fun_to_read( *book ) || npc_learner->has_morale_to_read();
+    for( Character *learner : you.get_crafting_helpers() ) {
+        const book_mastery mastery = learner->get_book_mastery( *book );
+        const bool morale_req = learner->fun_to_read( *book ) || learner->has_morale_to_read();
 
-        if( npc_learner->is_deaf() && npc_learner != reader ) {
+        if( learner->is_deaf() && learner != reader ) {
             continue;
         }
 
         if( // fun readers
-            ( mastery == book_mastery::MASTERED && npc_learner->fun_to_read( *book ) ) ||
+            ( mastery == book_mastery::MASTERED && learner->fun_to_read( *book ) )
             // reading for experience
-            ( mastery == book_mastery::LEARNING && morale_req ) ) {
-            learners.push_back( npc_learner->as_character() );
+            || ( mastery == book_mastery::LEARNING && morale_req )
+        ) {
+            learners.push_back( learner );
         }
     }
 
@@ -1699,7 +1700,7 @@ bool read_activity_actor::player_read( avatar &you )
     // can understand the book
     learners.push_back( you.as_character() );
 
-    // NPCs can move while learning from a book
+    // Characters can move while learning from a book
     // Check ID of all learners to avoid
     // getting stuck in an infinite loop
     bool learner_left = true;
@@ -1722,8 +1723,8 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const time_duration npc_read_time = you.time_to_read( *book, *reader, learner );
-                penalty = static_cast<double>( moves_total ) / to_moves<int>( npc_read_time );
+                const time_duration read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / to_moves<int>( read_time );
             }
         } else {
             continue;   // reading for fun
@@ -2654,21 +2655,61 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue 
     return actor.clone();
 }
 
+int ebooksave_activity_actor::total_pages(
+    const std::vector<item_location> &books )
+{
+    int pages = 0;
+    for( const item_location &book : books ) {
+        pages += pages_in_book( book->typeId() );
+    }
+    return pages;
+}
+
+time_duration ebooksave_activity_actor::required_time(
+    const std::vector<item_location> &books )
+{
+    return total_pages( books ) * time_per_page;
+}
+
+int ebooksave_activity_actor::required_charges(
+    const std::vector<item_location> &books,
+    const item_location &ereader )
+{
+    const int charges = total_pages( books ) / pages_per_charge;
+    return charges * ereader->ammo_required();
+}
+
+void ebooksave_activity_actor::start_scanning_next_book( player_activity &act )
+{
+    while( !books.empty() && !books.back() ) {
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "Skipping unavailable book at %s",
+                       books.back().describe() );
+        books.pop_back();
+    }
+    if( books.empty() ) {
+        act.moves_left = 0;
+        return;
+    }
+    const item_location &current_book = books.back();
+    const int pages_in_current_book = pages_in_book( current_book->typeId() );
+    turns_left_on_current_book = to_turns<int>( pages_in_current_book * time_per_page );
+    act.moves_left = to_moves<int>( required_time( books ) );
+}
+
+
 void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
-    const int pages = pages_in_book( book->typeId() );
-    const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
-    add_msg_debug( debugmode::DF_ACT_EBOOK, "ebooksave pages = %d", pages );
+    const time_duration scanning_time = required_time( books );
     add_msg_debug( debugmode::DF_ACT_EBOOK, "scanning_time time = %s",
                    to_string_writable( scanning_time ) );
     act.moves_total = to_moves<int>( scanning_time );
-    act.moves_left = act.moves_total;
+    start_scanning_next_book( act );
 }
 
-void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // only consume charges every 25 pages
-    if( calendar::once_every( 25 * time_per_page ) ) {
+    if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
             add_msg_if_player_sees(
                 who,
@@ -2681,19 +2722,49 @@ void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who
 
         ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
     }
+
+    turns_left_on_current_book--;
+    if( turns_left_on_current_book > 0 ) {
+        return; // not fully scanned yet
+    }
+
+    // We have now spent enough time to fully scan current book
+    item_location scanned_book = books.back();
+    books.pop_back();
+    if( scanned_book ) {
+        ereader->put_in( *scanned_book, item_pocket::pocket_type::EBOOK );
+        if( who.is_avatar() ) {
+            if( !who.has_identified( scanned_book->typeId() ) ) {
+                who.identify( *scanned_book );
+            }
+        }
+        handled_books++;
+    } else {
+        add_msg_debug( debugmode::DF_ACT_EBOOK,
+                       "Spent time to scan book at %s, but it is no longer available?",
+                       scanned_book.describe() );
+    }
+    start_scanning_next_book( act );
 }
 
 void ebooksave_activity_actor::finish( player_activity &act, Character &who )
 {
-    item book_copy = *book;
-    ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
     if( who.is_avatar() ) {
-        if( !who.has_identified( book->typeId() ) ) {
-            who.identify( *book );
-        }
-        add_msg( m_info, _( "You scan the book into your device." ) );
+        add_msg( m_info, _( "You scan %d %s into your device." ), handled_books,
+                 n_gettext( "book", "books", handled_books ) );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
+        add_msg_if_player_sees( who, _( "%s scans %d %s into their device." ),
+                                who.disp_name( false, true ), handled_books, n_gettext( "book", "books", handled_books ) );
+    }
+    act.set_to_null();
+}
+
+void ebooksave_activity_actor::canceled( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You stop scanning the remaining books." ) );
+    } else { // who.is_npc()
+        add_msg_if_player_sees( who, _( "%s stops scanning books." ),
                                 who.disp_name( false, true ) );
     }
     act.set_to_null();
@@ -2702,8 +2773,10 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
 void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "book", book );
+    jsout.member( "books", books );
     jsout.member( "ereader", ereader );
+    jsout.member( "handled_books", handled_books );
+    jsout.member( "turns_left_on_current_book", turns_left_on_current_book );
     jsout.end_object();
 }
 
@@ -2712,8 +2785,16 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
     ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
 
     JsonObject data = jsin.get_object();
-    data.read( "book", actor.book );
+    data.read( "books", actor.books );
+    if( data.has_member( "book" ) ) {
+        // legacy compatibility: in 0.G, this activity only handled one book each
+        item_location book;
+        data.read( "book", book );
+        actor.books.push_back( book );
+    }
     data.read( "ereader", actor.ereader );
+    data.read( "handled_books", actor.handled_books );
+    data.read( "turns_left_on_current_book", actor.turns_left_on_current_book );
     return actor.clone();
 }
 

@@ -117,6 +117,8 @@ item_location read( Character &you );
 item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
+/** Select books to save to E-Book reader menu. */
+drop_locations ebooksave( Character &who, item_location &ereader );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, Character &victim );
 /** Item activation menu. */
@@ -145,7 +147,8 @@ item_location salvage( Character &you, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( Character &you, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
+item_location install_bionic( Character &installer, Character &patron, Character &patient,
+                              bool surgeon = false );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( Character &you );
 /** Change sprite menu. */

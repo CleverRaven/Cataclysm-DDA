@@ -20,7 +20,7 @@
     "//": "11.5x the propellant and 11.5x the payload of 12 gauge 00 shot load. 13409 mg gunpowder rounded to 134 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "gunpowder_shotgun", 134 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
@@ -47,7 +47,7 @@
     "//": "11.5x the propellant and 11.5x the payload of 12 gauge slug load. 19366 mg gunpowder rounded to 194 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "gunpowder_shotgun", 194 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
@@ -73,7 +73,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 115 ] ],
       [ [ "gunpowder_shotgun", 86 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
@@ -100,7 +100,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "chem_black_powder", 134 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
@@ -126,7 +126,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "chem_black_powder", 194 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
@@ -151,7 +151,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 115 ] ],
       [ [ "chem_black_powder", 86 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],

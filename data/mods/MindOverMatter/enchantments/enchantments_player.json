@@ -35,7 +35,9 @@
     "values": [
       {
         "value": "CLIMATE_CONTROL_CHILL",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [ "(60 + ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 4) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+        }
       },
       {
         "value": "CLIMATE_CONTROL_HEAT",

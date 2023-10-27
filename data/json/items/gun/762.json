@@ -93,7 +93,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 90,
     "durability": 8,
     "min_cycle_recoil": 1832,
@@ -179,7 +179,7 @@
     "color": "brown",
     "ammo": [ "762" ],
     "dispersion": 240,
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -10 },
     "durability": 7,
     "min_cycle_recoil": 1832,
     "valid_mod_locations": [

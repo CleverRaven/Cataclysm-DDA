@@ -1,0 +1,18 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "57mm",
+    "picture": [
+      "<color_yellow>,",
+      "‼"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "57mm_ss",
+    "picture": [
+      "<color_white>,",
+      "<color_yellow>‼"
+    ]
+  }
+]

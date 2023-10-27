@@ -14,7 +14,7 @@ static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_club_wooden( "club_wooden" );
-static const itype_id itype_sword_wood( "sword_wood" );
+static const itype_id itype_sword_crude( "sword_crude" );
 static const itype_id itype_test_weapon1( "test_weapon1" );
 static const itype_id itype_test_weapon2( "test_weapon2" );
 
@@ -117,7 +117,7 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         monster &target_1 = spawn_test_monster( "mon_feral_human_pipe", target_1_pos );
         monster &target_2 = spawn_test_monster( "mon_zombie_fat", target_2_pos );
         monster &target_3 = spawn_test_monster( "mon_blob", target_3_pos );
-        item weap( itype_sword_wood );
+        item weap( itype_sword_crude );
         dude.wield( weap );
         // test stunning a feral (succeed)
         std::vector<matec_id> tech_1 = dude.evaluate_techniques( target_1, dude.used_weapon() );

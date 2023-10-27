@@ -9,6 +9,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "A tube-launched, optically tracked, wire-guided missile contained in a steel tube.  Designed to be highly effective against vehicles and structures.",
+    "ascii_picture": "atgm_heat",
     "material": [ "steel", "powder" ],
     "volume": "15 L",
     "longest_side": "116 cm",

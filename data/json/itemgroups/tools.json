@@ -17,6 +17,42 @@
     ]
   },
   {
+    "id": "tools_simple_blacksmith",
+    "type": "item_group",
+    "//": "Tools commonly used by amateur blacksmiths. A subset of blacksmiths tools",
+    "items": [ { "group": "basic_metalworking_a", "prob": 40 }, { "group": "basic_metalworking_b", "prob": 60 } ]
+  },
+  {
+    "id": "basic_metalworking_a",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_large",
+    "entries": [
+      { "item": "anvil", "count": 1 },
+      { "item": "chisel", "count": 1 },
+      { "item": "metal_file", "count": 1 },
+      { "item": "hotcut", "count": 1 },
+      { "item": "metalworking_tongs", "count": 1 },
+      { "item": "hammer", "count": 1 },
+      { "item": "sandpaper", "count": 1 }
+    ]
+  },
+  {
+    "id": "basic_metalworking_b",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_large",
+    "entries": [
+      { "item": "anvil", "count": 1 },
+      { "item": "metal_file", "count": 1 },
+      { "item": "metalworking_tongs", "count": 1 },
+      { "item": "hammer", "count": 1 },
+      { "item": "sandpaper", "count": 1 }
+    ]
+  },
+  {
     "id": "tools_carpentry",
     "type": "item_group",
     "//": "Portable tools used for carpentry",
@@ -171,6 +207,7 @@
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
+      { "group": "tools_simple_blacksmith", "prob": 10 },
       [ "jumper_cable_heavy", 2 ],
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
@@ -222,7 +259,9 @@
       [ "chem_hexamine", 10 ],
       [ "light_snare_kit", 8 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 },
+      { "group": "book_mag_surv", "prob": 10 },
+      { "group": "vfw_books", "prob": 20 }
     ]
   },
   {
@@ -803,6 +842,7 @@
       [ "socket_screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "memory_card_science", 40 ],
+      [ "lanyard", 1 ],
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       [ "element", 5 ],

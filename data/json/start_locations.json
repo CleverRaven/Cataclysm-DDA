@@ -135,7 +135,6 @@
       "house_07",
       "house_08",
       "house_09",
-      "house_09b",
       "house_10",
       "house_11",
       "house_12",
@@ -554,12 +553,6 @@
       { "om_terrain": "Cemetery", "om_terrain_match_type": "PREFIX" },
       { "om_terrain": "cemetery_small", "om_terrain_match_type": "PREFIX" }
     ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_basement_bionic",
-    "name": "Shady Basement",
-    "terrain": [ "basement_bionic" ]
   },
   {
     "type": "start_location",
