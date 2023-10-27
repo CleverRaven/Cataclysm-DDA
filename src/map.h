@@ -349,6 +349,12 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
+        void set_visitable_zones_cache_dirty( bool dirty = true ) {
+            visitable_cache_dirty = dirty;
+        };
+        bool get_visitable_zones_cache_dirty() const {
+            return visitable_cache_dirty;
+        };
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -366,7 +372,7 @@ class map
 
         /**
          * A pre-filter for bresenham LOS.
-         * true, if there might be is a potential bresenham path between two points.
+         * true, if there might be a potential bresenham path between two points.
          * false, if such path definitely not possible.
          */
         bool has_potential_los( const tripoint &from, const tripoint &to,
@@ -1753,6 +1759,7 @@ class map
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
         bool is_transparent( const tripoint &p ) const;
+        bool is_transparent_wo_fields( const tripoint &p ) const;
         // End of light/transparency
 
         /**
@@ -2221,6 +2228,13 @@ class map
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
+
+        // Tracks the dirtiness of the visitable zones cache, but that cache does not live here,
+        // it is distributed among the active monsters. This must be flipped when
+        // persistent visibility from terrain or furniture changes
+        // (this excludes vehicles and fields) or when persistent traversability changes,
+        // which means walls and floors.
+        bool visitable_cache_dirty = false;
 
     public:
         void queue_main_cleanup();

@@ -33,7 +33,7 @@
     "base_casting_time": 300,
     "final_casting_time": 150,
     "casting_time_increment": -15,
-    "learn_spells": { "telepathic_blast": 7, "telepathic_confusion": 15 }
+    "learn_spells": { "telepathic_mind_sense": 5, "telepathic_blast": 7, "telepathic_confusion": 15 }
   },
   {
     "id": "telepathic_concentration_end",
@@ -126,6 +126,40 @@
     ]
   },
   {
+    "id": "telepathic_mind_sense",
+    "type": "SPELL",
+    "name": "[Ψ]Sense Minds",
+    "description": "You can use your powers to detect the tell-tale hum of a living, sapient mind, no matter how strange or alien it may be.",
+    "message": "You reach out with your powers, looking for nearby minds.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telepath_sense_minds",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_mind_sense') * 4000) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_mind_sense') * 4000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1500,
+    "energy_increment": -115,
+    "base_casting_time": 500,
+    "learn_spells": { "telepathic_network": 15 }
+  },
+  {
     "id": "telepathic_blast",
     "type": "SPELL",
     "name": "[Ψ]Synaptic Overload",
@@ -168,6 +202,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
   },
   {
@@ -208,7 +243,7 @@
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ],
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
     "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
   },
   {
@@ -232,19 +267,20 @@
     },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_fear",
     "type": "SPELL",
     "name": "[Ψ]Primal Terror",
-    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does.",
+    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does, and it leaves a lingering horror behind in the target.",
     "message": "You unleash your target's fears.",
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "effect": "mod_moves",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true }, { "id": "telepathic_fear_extra", "hit_self": false } ],
     "shape": "blast",
@@ -275,30 +311,26 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_fear_extra",
     "type": "SPELL",
-    "name": "[Ψ]Primal Terror fearparalyze",
-    "description": "Applies the fearparalyze effect so you can tell a target is afraid.  It's a bug if you have it directly.",
+    "name": "[Ψ]Primal Terror Effect",
+    "description": "Applies a longer debuff when using Primal Terror.  It's a bug if you have it directly.",
     "message": "",
     "teachable": false,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "flags": [ "SILENT", "RANDOM_DURATION", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "hostile", "ground" ],
     "effect": "attack",
-    "effect_str": "fearparalyze",
+    "effect_str": "effect_telepathic_primal_terror",
     "shape": "blast",
     "min_duration": {
-      "math": [
-        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 6 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 75) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [
-        "( ( ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) * 10 ) /  ( (u_val('spell_level', 'spell: telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 150) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -306,7 +338,8 @@
     "max_range": 80,
     "min_aoe": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_invisibility",
@@ -393,7 +426,7 @@
     "id": "telepathic_blast_radius_guaranteed",
     "type": "SPELL",
     "name": "[Ψ]Psychic Scream Additional Damage",
-    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold.  It's a bug if you have it directly.",
+    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
@@ -452,7 +485,7 @@
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_network",

@@ -336,7 +336,13 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_junk_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_decor" },
+      {
+        "distribution": [ { "item": "armor_junk_plate", "prob": 100 }, { "item": "chainmail_junk_hauberk", "prob": 100 } ]
+      },
+      { "item": "helmet_plate", "prob": 100 }
+    ]
   },
   {
     "id": "soa_weapons_decor",
@@ -731,6 +737,8 @@
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "folded_skateboard_generic", 10 ],
+      [ "javelin_bag", 1 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
       [ "shortbow", 5 ],
@@ -738,6 +746,8 @@
       [ "takedown_recurbow", 1 ],
       [ "quiver_takedown_bow", 1 ],
       [ "reflexbow", 2 ],
+      { "group": "archery_loaded_quivers", "prob": 1 },
+      [ "nylon_quiver", 2 ],
       [ "quiver", 3 ],
       [ "fencing_jacket", 10 ],
       [ "fencing_mask", 10 ],

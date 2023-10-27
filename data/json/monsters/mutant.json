@@ -44,7 +44,7 @@
     "regenerates": 1,
     "regen_morale": true,
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
@@ -88,7 +88,7 @@
       "flags": [ "SMELLS", "KEENNOSE", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ]
     },
-    "delete": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "HIT_AND_RUN", "HAS_MIND" ] },
     "armor": { "stab": 8, "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   },
   {
@@ -124,7 +124,18 @@
     "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "WARM", "SWARMS", "GROUP_MORALE", "BASHES", "GROUP_BASH", "HIT_AND_RUN", "PATH_AVOID_DANGER_1" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "HAS_MIND",
+      "SWARMS",
+      "GROUP_MORALE",
+      "BASHES",
+      "GROUP_BASH",
+      "HIT_AND_RUN",
+      "PATH_AVOID_DANGER_1"
+    ],
     "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 2 }
   },
   {
@@ -202,6 +213,7 @@
     "harvest": "mutant_human",
     "dissect": "dissect_chimera_sample_large",
     "extend": { "flags": [ "CAMOUFLAGE", "CLIMBS", "SMELLS", "KEENNOSE", "HARDTOSHOOT" ] },
+    "delete": { "flags": [ "HAS_MIND" ] },
     "armor": { "bash": 10, "cut": 11, "stab": 8, "bullet": 5, "electric": 1 }
   },
   {

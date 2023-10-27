@@ -6119,7 +6119,9 @@ void vehicle::refresh( const bool remove_fakes )
                                          static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
 
-        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
+        //If it doesn't leak or it's health is less than 50% then The hull has been breached and the air is leaking out
+        if( vpi.has_flag( VPFLAG_FLOATS ) && ( vpi.has_flag( VPFLAG_NO_LEAK ) ||
+                                               !( vp.part().health_percent() < vp.part().floating_leak_threshold() ) ) ) {
             floating.push_back( p );
         }
 
@@ -8064,6 +8066,15 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
     tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     tmp.set_degradation( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
+}
+
+item vehicle::removed_part( const vehicle_part &vp ) const
+{
+    item ret = part_to_item( vp );
+    if( vp.info().removed_item ) {
+        ret.convert( *vp.info().removed_item );
+    }
+    return ret;
 }
 
 bool vehicle::refresh_zones()

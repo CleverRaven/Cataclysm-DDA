@@ -40,6 +40,11 @@
     "//": "Is a nemesis monster"
   },
   {
+    "id": "HAS_MIND",
+    "type": "monster_flag",
+    "//": "It's sapient and capable of reason (no matter how limited--ferals count)"
+  },
+  {
     "id": "NOHEAD",
     "type": "monster_flag",
     "//": "Headshots not allowed!"

@@ -755,7 +755,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "mixed",
-    "max_intensity": 999,
+    "max_intensity": 100000,
     "show_intensity": false,
     "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
@@ -1023,6 +1023,14 @@
       }
     ],
     "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_learned_gossamer",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
+    "rating": "mixed"
   },
   {
     "type": "mutation",

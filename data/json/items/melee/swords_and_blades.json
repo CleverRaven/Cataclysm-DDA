@@ -1408,7 +1408,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 9, "cut": 27 }
   },
@@ -1667,7 +1667,7 @@
     "flags": [ "ALWAYS_TWOHAND", "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD", "REACH_ATTACK" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "weapon_category": [ "LONG_THRUSTING_SWORDS", "GREAT_SWORDS" ],
     "melee_damage": { "bash": 10, "cut": 36 }
   },

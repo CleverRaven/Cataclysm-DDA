@@ -119,7 +119,7 @@
         "cost_multiplier": 5,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "group": "GROUP_FROGS_FOREST", "weight": 300 }
+      { "group": "GROUP_FROGS_FOREST", "weight": 10 }
     ]
   },
   {
@@ -372,8 +372,8 @@
       },
       { "monster": "mon_diving_beetle_small", "weight": 4, "cost_multiplier": 10 },
       { "monster": "mon_water_scorpion", "weight": 4, "cost_multiplier": 10 },
-      { "group": "GROUP_TADPOLES_RIVER", "weight": 200, "conditions": [ "SUMMER", "AUTUMN" ] },
-      { "group": "GROUP_FROGS_RIVER", "weight": 150, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
+      { "group": "GROUP_TADPOLES_RIVER", "weight": 25, "conditions": [ "SUMMER", "AUTUMN" ] },
+      { "group": "GROUP_FROGS_RIVER", "weight": 15, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {
@@ -425,8 +425,8 @@
         "cost_multiplier": 2,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "group": "GROUP_TADPOLES_SWAMP", "weight": 200, "pack_size": [ 3, 6 ] },
-      { "group": "GROUP_FROGS_SWAMP", "weight": 250, "pack_size": [ 1, 3 ] }
+      { "group": "GROUP_TADPOLES_SWAMP", "weight": 100, "pack_size": [ 3, 6 ] },
+      { "group": "GROUP_FROGS_SWAMP", "weight": 100, "pack_size": [ 1, 3 ] }
     ]
   },
   {
@@ -547,7 +547,7 @@
       { "group": "GROUP_POND_FISH_2", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_strider_small", "weight": 30, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_water_scorpion_larva", "weight": 30, "cost_multiplier": 0 },
-      { "group": "GROUP_TADPOLES_ALL", "weight": 200, "cost_multiplier": 0, "pack_size": [ 3, 6 ] }
+      { "group": "GROUP_TADPOLES_ALL", "weight": 75, "cost_multiplier": 0, "pack_size": [ 3, 6 ] }
     ]
   },
   {

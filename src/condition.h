@@ -15,48 +15,21 @@
 class JsonObject;
 namespace dialogue_data
 {
-// When updating this, please also update `dynamic_line_string_keys` in
-// `lang/string_extractor/parsers/talk_topic.py` so the lines are properly
-// extracted for translation
-const std::unordered_set<std::string> simple_string_conds = { {
-        "u_male", "u_female", "npc_male", "npc_female",
-        "has_no_assigned_mission", "has_assigned_mission",
-        "has_many_assigned_missions", "has_no_available_mission",
-        "has_available_mission", "has_many_available_missions",
-        "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
-        "npc_available", "npc_following", "npc_friend", "npc_hostile",
-        "npc_train_skills", "npc_train_styles", "npc_train_spells",
-        "at_safe_space", "is_day", "npc_has_activity",
-        "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
-        "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon",
-        "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",
-        "u_driving", "npc_driving", "has_pickup_list", "is_by_radio", "has_reason"
-    }
-};
-const std::unordered_set<std::string> complex_conds = { {
-        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait", "u_has_visible_trait", "npc_has_visible_trait",
-        "u_has_flag", "npc_has_flag", "u_has_species", "npc_has_species", "u_bodytype", "npc_bodytype", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
-        "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
-        "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
-        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
-        "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
-        "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
-        "u_at_om_location", "u_near_om_location", "npc_at_om_location", "npc_near_om_location",
-        "npc_role_nearby", "npc_allies", "npc_allies_global", "npc_service",
-        "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
-        "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
-        "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
-        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var", "expects_vars",
-        "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
-        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
-        "u_is_height", "npc_is_height", "math",
-        "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag", "u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category",
-        "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art", "get_condition", "get_game_option"
-    }
-};
+const std::unordered_set<std::string> &simple_string_conds();
+const std::unordered_set<std::string> &complex_conds();
 } // namespace dialogue_data
+
+enum class jarg {
+    member = 1,
+    object = 1 << 1,
+    string = 1 << 2,
+    array = 1 << 3
+};
+
+template<>
+struct enum_traits<jarg> {
+    static constexpr bool is_flag_enum = true;
+};
 
 str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
                            std::string_view default_val = "" );
@@ -102,7 +75,7 @@ struct conditional_t {
 
     public:
         conditional_t() = default;
-        explicit conditional_t( const std::string &type );
+        explicit conditional_t( std::string_view type );
         explicit conditional_t( const JsonObject &jo );
 
         void set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc = false );
@@ -118,7 +91,13 @@ struct conditional_t {
         void set_compare_time_since_var( const JsonObject &jo, std::string_view member,
                                          bool is_npc = false );
         void set_has_activity( bool is_npc = false );
+        void set_has_activity( const JsonObject &, std::string_view, bool is_npc = false ) {
+            set_has_activity( is_npc );
+        }
         void set_is_riding( bool is_npc = false );
+        void set_is_riding( const JsonObject &, std::string_view, bool is_npc = false ) {
+            set_is_riding( is_npc );
+        }
         void set_npc_has_class( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_u_has_mission( const JsonObject &jo, std::string_view member );
         void set_u_monsters_in_direction( const JsonObject &jo, std::string_view member );
@@ -153,6 +132,7 @@ struct conditional_t {
         void set_at_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_near_om_location( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_move_mode( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_using_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo, std::string_view member );
         void set_npc_allies( const JsonObject &jo, std::string_view member );
         void set_npc_allies_global( const JsonObject &jo, std::string_view member );
@@ -167,6 +147,8 @@ struct conditional_t {
         void set_days_since( const JsonObject &jo, std::string_view member );
         void set_is_season( const JsonObject &jo, std::string_view member );
         void set_is_weather( const JsonObject &jo, std::string_view member );
+        void set_map_ter_furn_with_flag( const JsonObject &jo, std::string_view member );
+        void set_map_in_city( const JsonObject &jo, std::string_view member );
         void set_mod_is_loaded( const JsonObject &jo, std::string_view member );
         void set_mission_goal( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_has_faction_trust( const JsonObject &jo, std::string_view member );
@@ -179,6 +161,7 @@ struct conditional_t {
         void set_mission_complete( bool is_npc );
         void set_mission_incomplete( bool is_npc );
         void set_mission_failed( bool is_npc );
+        void set_npc_service( const JsonObject &, std::string_view, bool is_npc );
         void set_npc_available( bool is_npc );
         void set_npc_following( bool is_npc );
         void set_npc_friend( bool is_npc );
@@ -201,6 +184,12 @@ struct conditional_t {
         void set_has_reason();
         void set_is_alive( bool is_npc = false );
         void set_is_gender( bool is_male, bool is_npc = false );
+        void set_is_male( bool is_npc = false ) {
+            set_is_gender( true, is_npc );
+        }
+        void set_is_female( bool is_npc = false ) {
+            set_is_gender( false, is_npc );
+        }
         void set_has_skill( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_roll_contested( const JsonObject &jo, std::string_view member );
         void set_u_know_recipe( const JsonObject &jo, std::string_view member );

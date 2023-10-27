@@ -328,6 +328,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "clair_ranged_enhance": 4, "clair_voyance": 7, "clair_clear_sight": 12 }
   },
   {
@@ -428,10 +429,12 @@
     "final_energy_cost": 1500,
     "energy_increment": -175,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 800) + 10000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 800) + 10000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1500) + 60000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_ranged_enhance') * 1500) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "base_casting_time": 200,
     "final_casting_time": 125,
@@ -478,6 +481,7 @@
     "base_casting_time": 1000,
     "final_casting_time": 500,
     "casting_time_increment": -25,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "clair_dodge_power": 8, "clair_see_map": 12, "clair_omniscience": 20 }
   },
   {

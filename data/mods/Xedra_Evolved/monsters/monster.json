@@ -107,7 +107,7 @@
       }
     ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "KEEP_DISTANCE", "PACIFIST" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "NO_BREATHE", "KEEP_DISTANCE", "PACIFIST" ],
     "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
@@ -136,7 +136,7 @@
     "dodge": 1,
     "vision_night": 18,
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "NO_BREATHE" ],
     "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
@@ -197,7 +197,7 @@
     "path_settings": { "max_dist": 60, "allow_open_doors": true, "avoid_traps": true, "allow_climb_stairs": true },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "sapient_light_damage" }, "cooldown": 5 } ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "ALL_SEEING", "KEEP_DISTANCE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "NO_BREATHE", "ALL_SEEING", "KEEP_DISTANCE" ],
     "armor": { "bash": 1, "electric": 1 }
   },
   {
