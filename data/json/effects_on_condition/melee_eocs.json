@@ -692,7 +692,7 @@
     "type": "effect_on_condition",
     "id": "IS_BIONICS",
     "global": false,
-    "condition": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" },
+    "condition": { "or": [ { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" }, { "u_using_martial_art": "style_biojutsu" } ] },
     "effect": [
       {
         "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_bionics_familiar', 'format: percent')", ">=", "100" ] },
@@ -914,7 +914,12 @@
     "type": "effect_on_condition",
     "id": "IS_UNARMED",
     "global": false,
-    "condition": { "and": [ { "not": "u_can_drop_weapon" }, { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONS" } } ] },
+    "condition": {
+      "or": [
+        { "and": [ { "not": "u_can_drop_weapon" }, { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONS" } } ] },
+        { "u_using_martial_art": "style_kicks" }
+      ]
+    },
     "effect": [
       {
         "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_unarmed_familiar', 'format: percent')", ">=", "100" ] },
