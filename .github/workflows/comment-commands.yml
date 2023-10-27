@@ -32,28 +32,28 @@ jobs:
           gh issue reopen "$ISSUE_NUMBER"
 
       - if: steps.comvent.outputs.close-duplicate != ''
-        name: Handle confirmation command - Label
+        name: Handle duplicate issue command - Label
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation),(S2 - Confirmed),stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "(S3 - Duplicate)"
           gh issue close "$ISSUE_NUMBER"
 
       - if: steps.comvent.outputs.close-invalid != ''
-        name: Handle confirmation command - Label
+        name: Handle invalid issue command - Label
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation),(S2 - Confirmed),stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "(S4 - Invalid)"
           gh issue close "$ISSUE_NUMBER"
 
       - if: steps.comvent.outputs.good-first-issue != ''
-        name: Handle confirmation command - Label
+        name: Handle good first issue command - Label
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "Good First Issue"
           gh issue reopen "$ISSUE_NUMBER"
 
       - if: steps.comvent.outputs.help-wanted != ''
-        name: Handle confirmation command - Label
+        name: Handle help wanted command - Label
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "Help Wanted"
@@ -74,7 +74,7 @@ jobs:
           config-path: .github/comment-commands.yml
 
       - if: steps.comvent.outputs.help-wanted != ''
-        name: Handle confirmation command - Label
+        name: Handle help wanted command - Label
         run: |
           gh pr edit "$ISSUE_NUMBER" --remove-label "stale"
           gh pr edit "$ISSUE_NUMBER" --add-label "Help Wanted"
