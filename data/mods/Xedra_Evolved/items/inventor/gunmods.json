@@ -180,7 +180,7 @@
     "color": "light_gray",
     "location": "heat sink",
     "mod_targets": [ "pistol", "rifle", "smg" ],
-    "cooling_value_multiplier": 0.75,
+    "cooling_value_multiplier": 1.25,
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
   },
   {
@@ -197,7 +197,7 @@
     "color": "light_gray",
     "location": "heat sink",
     "mod_targets": [ "pistol", "rifle", "smg" ],
-    "cooling_value_multiplier": 0.4,
+    "cooling_value_multiplier": 1.6,
     "ammo_to_fire_multiplier": 1.25,
     "min_skills": [ [ "deduction", 4 ], [ "weapon", 4 ] ]
   },
