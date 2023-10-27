@@ -4228,6 +4228,8 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
+        // TODO: Fix bug where, in some cases, if removing a mod would remove other mods, it should be removed
+        // in the gun_copy as it is done in gunmod_remove_activity_actor::gunmod_remove
         gun_copy.remove_item( *mods_copy[prompt.ret] );
 
         if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
