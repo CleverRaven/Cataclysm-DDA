@@ -20,6 +20,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
   - [Event EOC Types:](#event-eoc-types)
   - [Context Variables For Other EOCs](#context-variables-for-other-eocs)
 - [Effects](#effects)
+  - [General](#general)
   - [Character effects](#character-effects)
   - [Item effects](#item-effects)
   - [Map effects](#map-effects)
@@ -1543,6 +1544,41 @@ Tries to give you a mutation `A`, `B` or `C`, if you don't have one, with messag
 ```
 
 
+#### `if`
+Set effects to be executed when conditions are met and when conditions are not met.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "if" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself | 
+| "then" | **mandatory** | effect | Effect(s) executed when conditions are met. | 
+| "else" | optional | effect | Effect(s) executed when conditions are not met. | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Displays a different message the first time it is run and the second time onwards
+```json
+{
+  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+  "then": { "u_message": "You have variable." },
+  "else": [
+    { "u_message": "You don't have variable." },
+    {
+      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
+      "then": [
+        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        { "u_message": "Vriable added." }
+      ]
+    }
+  ]
+}
+```
+
+
 #### `switch`
 Check the value, and, depending on it, pick the case that would be run
 
@@ -1576,6 +1612,43 @@ Checks the level of `some_spell` spell, and, related to this, cast a spell of pi
       ]
     }
   ]
+}
+```
+
+
+#### `foreach`
+Executes the effect repeatedly while storing the values ​​of a specific list one by one in the variable.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "foreach" | **mandatory** | string | Type of list. `"ids"`, `"item_group"`, `"monstergroup"`, `"array"` are available. | 
+| "var" | **mandatory** | [variable objects](#variable-object) | Variable to store value in the list. | 
+| "effect" | **mandatory** | effect | Effect(s) executed. |
+| "target" | **mandatory** | See below | Changes depending on the value of "foreach". See below. | 
+
+The correspondence between "foreach" and "target" is as follows.
+
+| "foreach" | Value | Info |
+| --- | --- | --- 
+| "ids" | string | List the IDs of objects that appear in the game. `"flag"`, `"trait"`, `"vitamin"` are available. |
+| "item_group" | string | List the IDs of items in the item group. |
+| "monstergroup" | string | List the IDs of monsters in the monster group. |
+| "array" | array of strings or [variable objects](#variable-object) | List simple strings. |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Resets all of your vitamins.
+```json
+{
+  "foreach": "ids",
+  "var": { "context_val": "id" },
+  "target": "vitamin",
+  "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
 }
 ```
 
@@ -2213,41 +2286,6 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 {
   "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
   "target_var": { "global_val": "place_name" }
-}
-```
-
-
-#### `if`
-Set effects to be executed when conditions are met and when conditions are not met.
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "if" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself | 
-| "then" | **mandatory** | effect | Effect(s) executed when conditions are met. | 
-| "else" | optional | effect | Effect(s) executed when conditions are not met. | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-##### Examples
-Displays a different message the first time it is run and the second time onwards
-```json
-{
-  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
-  "then": { "u_message": "You have variable." },
-  "else": [
-    { "u_message": "You don't have variable." },
-    {
-      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
-      "then": [
-        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
-        { "u_message": "Vriable added." }
-      ]
-    }
-  ]
 }
 ```
 
