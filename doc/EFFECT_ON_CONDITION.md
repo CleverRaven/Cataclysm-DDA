@@ -345,6 +345,21 @@ Checks do alpha talker has `FEATHERS` mutation
 { "u_has_martial_art": "style_aikido" }
 ```
 
+### `u_using_martial_art`, `npc_using_martial_art`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker using the martial art
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+```json
+{ "u_using_martial_art": "style_aikido" }
+```
+
 ### `u_has_flag`, `npc_has_flag`
 - type: string or [variable object](##variable-object)
 - return true if alpha or beta talker has specific flag; special flag `MUTATION_THRESHOLD` can be used to check do alpha talker has any mutant threshold; for monsters both json flags (applied by effects) and monster flags can be checked
@@ -924,6 +939,25 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
         "else": { "u_message": "North furniture: Not TRANSPARENT" }
       }
   ]
+},
+```
+
+### `map_in_city`
+- type: location string or [variable object](##variable-object)
+- return true if the location is in a city
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Check the location is in a city.
+```json
+{ "u_location_variable": { "context_val": "loc" } },
+{
+  "if": { "map_in_city": { "context_val": "loc" } },
+  "then": { "u_message": "Inside city" },
+  "else": { "u_message": "Outside city" }
 },
 ```
 

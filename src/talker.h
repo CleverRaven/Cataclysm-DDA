@@ -693,6 +693,9 @@ class talker
         virtual bool knows_martial_art( const matype_id & ) const {
             return false;
         }
+        virtual bool using_martial_art( const matype_id & ) const {
+            return false;
+        }
 };
 template <class T, class B = talker>
 class talker_cloner : public B

@@ -189,7 +189,15 @@
     "type": "effect_on_condition",
     "id": "EOC_map_condition_test",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+        "then": { "u_message": "Inside city" },
+        "else": { "u_message": "Outside city" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "North terrain: TRANSPARENT" },
