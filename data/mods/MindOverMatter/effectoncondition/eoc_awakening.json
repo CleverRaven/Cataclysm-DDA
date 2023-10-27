@@ -1,5 +1,14 @@
 [
   {
+    "id": "ACT_CRYSTAL_AWAKENING_MEDITATION",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "interruptable": false,
+    "interruptable_with_kb": false
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_AWAKENING",
     "condition": { "u_has_trait": "BIOKINETIC" },
@@ -40,7 +49,7 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -54,7 +63,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -99,7 +108,7 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -114,7 +123,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
       { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 }
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
   {
@@ -160,7 +169,7 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -175,7 +184,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
       { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 }
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
   {
@@ -219,7 +228,7 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -233,7 +242,8 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
   {
@@ -277,7 +287,7 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -292,7 +302,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
       { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 }
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
   {
@@ -338,7 +348,7 @@
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -353,7 +363,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
       { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 }
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
   {
@@ -397,7 +407,7 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
       { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -412,7 +422,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
       { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 }
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
   {
