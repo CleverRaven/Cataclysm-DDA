@@ -1070,6 +1070,7 @@
       { "item": "hat_newsboy", "prob": 20 },
       { "item": "hat_sombrero", "prob": 3 },
       { "item": "backpack", "prob": 38 },
+      { "item": "backpack_giant", "prob": 1 },
       { "item": "backpack_leather", "prob": 18 },
       { "item": "purse", "prob": 40 },
       { "item": "armrig", "prob": 5 },

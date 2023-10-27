@@ -469,7 +469,7 @@ std::function<double( dialogue & )> warmth_eval( char scope,
 {
     return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         bodypart_id bp( bpid.str( d ) );
-        return d.actor( beta )->get_cur_part_temp( bp );
+        return units::to_legacy_bodypart_temp( d.actor( beta )->get_cur_part_temp( bp ) );
     };
 }
 

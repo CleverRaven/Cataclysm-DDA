@@ -8583,7 +8583,7 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint & )
     }
     const recipe &rec = it->get_making();
     const inventory &inv = p->crafting_inventory();
-    if( !p->has_recipe( &rec, inv, p->get_crafting_helpers() ) ) {
+    if( !p->has_recipe( &rec, inv, p->get_crafting_group() ) ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -8859,30 +8859,16 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
-    std::set<itype_id> ebooks;
-    for( const item *ebook : it->ebooks() ) {
-        if( !ebook->is_book() ) {
-            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
-            continue;
-        }
-
-        ebooks.insert( ebook->typeId() );
-    }
-
-    const item_location book = game_menus::inv::titled_filter_menu(
-    [&ebooks, &p]( const item & itm ) {
-        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() ) &&
-               itm.is_owned_by( *p, true );
-    },
-    *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
-
-    if( !book ) {
-        p->add_msg_if_player( m_info, _( "Nevermind." ) );
+    item_location ereader = item_location( *p, it );
+    const drop_locations to_scan = game_menus::inv::ebooksave( *p, ereader );
+    if( to_scan.empty() ) {
         return std::nullopt;
     }
-
-    p->assign_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) );
-
+    std::vector<item_location> books;
+    for( const auto &pair : to_scan ) {
+        books.push_back( pair.first );
+    }
+    p->assign_activity( ebooksave_activity_actor( books, ereader ) );
     return std::nullopt;
 }
 

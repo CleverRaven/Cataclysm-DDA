@@ -27,7 +27,7 @@
     "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
-    "return": "(u_val('focus') * 18) * (_0)"
+    "return": "(u_val('focus') * 5.8) * (_0)"
   },
   {
     "type": "jmath_function",

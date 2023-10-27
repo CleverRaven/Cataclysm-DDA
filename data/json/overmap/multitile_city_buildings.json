@@ -1070,7 +1070,7 @@
   },
   {
     "type": "city_building",
-    "id": "house_09b",
+    "id": "house_09",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_09_north" },
