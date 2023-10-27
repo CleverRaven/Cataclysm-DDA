@@ -260,7 +260,7 @@
     "id": "prof_fencing_weapons_pro",
     "category": "prof_combat",
     "name": { "str": "Fencing Weapon Proficiency" },
-    "description": "You strike fourth with ease after many hours of training.",
+    "description": "You strike forth with ease after many hours of training.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
