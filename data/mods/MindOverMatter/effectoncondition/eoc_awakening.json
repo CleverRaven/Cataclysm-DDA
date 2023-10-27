@@ -452,7 +452,7 @@
           [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
         ]
       },
-      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": 5 },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
       { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
