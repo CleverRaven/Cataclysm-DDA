@@ -455,7 +455,7 @@
     "id": "mon_strange_bigtad",
     "type": "MONSTER",
     "copy-from": "mon_proxy_bigtad",
-    "description": "This giant tadpole would have been an oddity before the collapse.  Now it's simply part of the scenery. Just an average, greenish bigtad.",
+    "description": "This giant, green tadpole would have been an oddity before the collapse.  Now it's simply part of the scenery.",
     "name": { "str": "giant tadpole" },
     "color": "green",
     "upgrades": { "age_grow": 91, "into": "mon_strange_bigfrog" }
@@ -704,7 +704,7 @@
     "id": "mon_pattern_bigfrog",
     "type": "MONSTER",
     "name": { "str": "staticskin frog" },
-    "description": "Trails of bioluminescence trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are here fragmented collages of grey and black pigment over a pale blue-green skin.",
+    "description": "Bioluminescent trails trace through the dark speckled patterns on this oversized frog's skin.  What would be cleanly defined spots on another frog, are instead fragmented collages of grey and black pigment over pale skin.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
@@ -726,7 +726,7 @@
     "id": "mon_foul_bigfrog",
     "type": "MONSTER",
     "name": { "str": "greasy stinktoad" },
-    "description": "This bumpy, lumpy oversized toad is a real stinker!  A miasma like rotted onions coated in rancid peanut butter surrounds it.  Even approaching it makes your eyes water and your throat tighten until you're coughing to catch breath.  It doesn't help that its leathery skin looks to be coated in a thick greasy substance, no doubt related to the creature's horrid odor.",
+    "description": "This lumpy oversized toad is a real stinker!  A miasma like rotted onions coated in rancid peanut butter surrounds it.  Even approaching it makes your eyes water and your throat tighten until you're coughing to catch breath.  It doesn't help that its leathery skin looks to be coated in a thick greasy substance, no doubt related to the creature's horrid odor.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
@@ -792,8 +792,8 @@
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
-        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
-        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
         "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
       },
@@ -836,7 +836,7 @@
     "id": "mon_pattern_giganfrog",
     "type": "MONSTER",
     "name": { "str": "taser tongue" },
-    "description": "This bluish, trash can-sized frog sports a series of faintly glowing spots among its chaotic skin patterns.  The glow seems to be most concentrated around its unusually bulky neck and mouth.  Its dark eyes scan for an appetizing target.",
+    "description": "This pale, trash can-sized frog sports a series of faintly glowing spots among its chaotic skin patterns.  The glow seems to be most concentrated around its unusually bulky neck and mouth.  Its dark eyes scan for an appetizing target.",
     "copy-from": "mon_proxy_giganfrog",
     "volume": "200 L",
     "weight": "180 kg",
@@ -902,8 +902,8 @@
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
-        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
-        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
         "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
       },
@@ -962,8 +962,8 @@
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
-        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
-        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
         "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
       },
@@ -996,8 +996,8 @@
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
-        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
-        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
         "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
       },
@@ -1012,8 +1012,7 @@
       [ "SHRIEK_ALERT", 20 ],
       [ "SHRIEK_STUN", 5 ]
     ],
-    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 32, "baby_timer": 20 },
-    "//": "Colossal Croaker needs a colossal croak."
+    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 32, "baby_timer": 20 }
   },
   {
     "id": "mon_odd_megafrog",
@@ -1067,8 +1066,8 @@
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
-        "miss_msg_u": "The %s's tongue lashes out at you, but you dodge!",
-        "miss_msg_npc": "The %s's tongue lashes out at <npcname>, but they dodge!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
         "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
       },
