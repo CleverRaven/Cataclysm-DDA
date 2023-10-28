@@ -12595,7 +12595,7 @@ void Character::pause()
     }
 
     // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress
-    if( !is_armed() && has_effect( effect_bleed ) ) {
+    if( !controlling_vehicle && !is_armed() && has_effect( effect_bleed ) ) {
         // Calculate max staunchable bleed level
         // Top out at 20 intensity for base, unencumbered survivors
         int max = 20;
