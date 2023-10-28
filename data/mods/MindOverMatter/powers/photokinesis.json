@@ -3,7 +3,7 @@
     "id": "photokinetic_light_weapon",
     "type": "SPELL",
     "name": "[Ψ]Solid Light Armament",
-    "description": "tbd",
+    "description": "Shape a weapon out of solid light",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],

@@ -335,6 +335,23 @@
   },
   {
     "type": "effect_type",
+    "id": "blind_photokin_overload",
+    "name": [ "Blind" ],
+    "desc": [ "Overwhelming light obscures your vision." ],
+    "removes_effects": [ "darkness" ],
+    "apply_message": "You're blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "BLIND", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokin_overload",
     "name": [ "Feverish" ],
     "desc": [ "You feel much too warm." ],

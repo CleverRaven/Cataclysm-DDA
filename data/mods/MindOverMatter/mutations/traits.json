@@ -23,6 +23,17 @@
   },
   {
     "type": "mutation",
+    "id": "PHOTOKINETIC",
+    "name": "Awakened Photokinetic",
+    "points": 0,
+    "description": "Mental control of light.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [  ] ]
+  },
+  {
+    "type": "mutation",
     "id": "PYROKINETIC",
     "name": "Awakened Pyrokinetic",
     "points": 0,

@@ -34,6 +34,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      { "u_learn_recipe": "practice_photokinetic_light_weapon" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_pyrokinetic_flash" },
