@@ -4,13 +4,13 @@
         "id": "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_SELECTOR",
         "effect": [
           {
-            "run_eoc_selector": [ "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_SPEAR", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_SWORD", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_HAMMER", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_AXE", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_DAGGERS", "EOC_PORTAL_NULL_AWAKENING" ],
+            "run_eoc_selector": [ "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_SPEAR", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_SWORD", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_HAMMER", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_AXE", "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_DARTS", "EOC_PORTAL_NULL_AWAKENING" ],
             "names": [ "Spear of Light", "Luxblade", "Brighthammer", "Lightsplitter","Photon darts", "Nevermind" ],
             "keys": [ "1", "2", "3", "4", "5", "6" ],
             "descriptions": [
               "Shape a spear out of solid light.",
               "Shape a sword out of solid light.",
-              "shape a warhammer out of solid light.",
+              "shape a great hammer out of solid light.",
               "Shape a battleaxe out of solid light.",
               "Shape a set of darts out of solid light.",
               "Do nothing for now."
@@ -44,7 +44,7 @@
         "effect": [
           { "u_remove_item_with": "photokinetic_weapon_hammer" },
           { "u_cast_spell": { "id": "photokin_light_weapon_hammer" } },
-          { "u_message": "A warhammer of solid light is shaped in your grasp", "type": "neutral" },
+          { "u_message": "A great hammer of solid light is shaped in your grasp", "type": "neutral" },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
         ]
       },
@@ -60,10 +60,10 @@
       },
       {
         "type": "effect_on_condition",
-        "id": "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_DAGGERS",
+        "id": "EOC_SPELL_PHOTOKIN_LIGHT_WEAPON_DARTS",
         "effect": [
-          { "u_remove_item_with": "photokinetic_weapon_daggers" },
-          { "u_cast_spell": { "id": "photokin_light_weapon_daggers" } },
+          { "u_remove_item_with": "photokinetic_weapon_dart" },
+          { "u_cast_spell": { "id": "photokin_light_weapon_darts" } },
           { "u_message": "A set of darts of solid light is shaped on your open palm", "type": "neutral" },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }        
         ]
