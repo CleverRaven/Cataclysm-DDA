@@ -146,9 +146,8 @@
     "color": "light_blue",
     "broken_color": "light_blue",
     "durability": 150,
-    "flags": [ "OBSTACLE", "CARGO", "NO_INSTALL_HIDDEN" ],
+    "flags": [ "OBSTACLE", "NO_INSTALL_HIDDEN" ],
     "pseudo_tools": [ { "id": "concrete_mix_tool" } ],
-    "size": "166 L",
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 100 ] } ],
     "variants": [ { "symbols": "U", "symbols_broken": "u" } ]
   }
