@@ -589,42 +589,42 @@
     "name": "GROUP_FROGS_UPGRADE_PATTERN",
     "type": "monstergroup",
     "default": "mon_pattern_bigfrog",
-    "monsters": [ { "monster": "mon_pattern_bigfrog", "weight": 7 }, { "monster": "mon_pattern_giganfrog", "weight": 3 } ]
+    "monsters": [ { "monster": "mon_pattern_bigfrog", "weight": 100 }, { "monster": "mon_pattern_giganfrog", "weight": 30 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_STRANGE",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
-    "monsters": [ { "monster": "mon_strange_bigfrog", "weight": 6 }, { "monster": "mon_strange_giganfrog", "weight": 4 } ]
+    "monsters": [ { "monster": "mon_strange_bigfrog", "weight": 100 }, { "monster": "mon_strange_giganfrog", "weight": 40 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_STRANGE_MEGA",
     "type": "monstergroup",
     "default": "mon_strange_giganfrog",
-    "monsters": [ { "monster": "mon_strange_giganfrog", "weight": 9 }, { "monster": "mon_strange_megafrog", "weight": 1 } ]
+    "monsters": [ { "monster": "mon_strange_giganfrog", "weight": 100 }, { "monster": "mon_strange_megafrog", "weight": 10 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_FOUL",
     "type": "monstergroup",
     "default": "mon_foul_bigfrog",
-    "monsters": [ { "monster": "mon_foul_bigfrog", "weight": 5 }, { "monster": "mon_foul_giganfrog", "weight": 5 } ]
+    "monsters": [ { "monster": "mon_foul_bigfrog", "weight": 100 }, { "monster": "mon_foul_giganfrog", "weight": 40 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_FOUL_MEGA",
     "type": "monstergroup",
     "default": "mon_foul_giganfrog",
-    "monsters": [ { "monster": "mon_foul_giganfrog", "weight": 7 }, { "monster": "mon_foul_megafrog", "weight": 3 } ]
+    "monsters": [ { "monster": "mon_foul_giganfrog", "weight": 100 }, { "monster": "mon_foul_megafrog", "weight": 30 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_ODD",
     "type": "monstergroup",
     "default": "mon_odd_bigfrog",
-    "monsters": [ { "monster": "mon_odd_bigfrog", "weight": 6 }, { "monster": "mon_odd_giganfrog", "weight": 4 } ]
+    "monsters": [ { "monster": "mon_odd_bigfrog", "weight": 100 }, { "monster": "mon_odd_giganfrog", "weight": 40 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_ODD_MEGA",
     "type": "monstergroup",
     "default": "mon_odd_giganfrog",
-    "monsters": [ { "monster": "mon_odd_giganfrog", "weight": 9 }, { "monster": "mon_odd_megafrog", "weight": 1 } ]
+    "monsters": [ { "monster": "mon_odd_giganfrog", "weight": 100 }, { "monster": "mon_odd_megafrog", "weight": 10 } ]
   }
 ]

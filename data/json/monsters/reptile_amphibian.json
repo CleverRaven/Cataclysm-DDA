@@ -567,7 +567,8 @@
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_foul_bigfrog" },
     "reproduction": { "baby_egg": "egg_foul_toad", "baby_count": 8, "baby_timer": 36 },
-    "//": "When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
+    "extend": { "flags": [ "NO_BREATHE" ] },
+    "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
   },
   {
     "id": "mon_freedom_toad",
@@ -730,14 +731,13 @@
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
-    "hp": 30,
     "speed": 70,
     "symbol": "g",
     "color": "brown",
     "aggression": -10,
     "melee_dice_sides": 4,
     "armor": { "bash": 2, "acid": 4, "heat": 1 },
-    "emit_fields": [ { "emit_id": "emit_tear_gas_leak", "delay": "1 s" } ],
+    "emit_fields": [ { "emit_id": "emit_tear_gas_toad", "delay": "1 s" } ],
     "special_attacks": [
       {
         "type": "leap",
@@ -884,7 +884,7 @@
     "id": "mon_foul_giganfrog",
     "type": "MONSTER",
     "name": { "str": "giant hogtoad" },
-    "description": "This large, boar-sized toad shares some features with its namesake.  It grunts, roots and wallows, but more striking are the dense tusk-like growths sprouting from its face and jaw.  Though they seem to be most effective for burrowing and protection, in places they come to curved points that look quite sharp.",
+    "description": "This large, odious, boar-sized toad shares some features with its namesake.  It grunts, roots and wallows, but more striking are the dense tusk-like growths sprouting from its face and jaw.  Though they seem to be most effective for burrowing and protection, in places they come to curved points that look quite sharp.",
     "copy-from": "mon_proxy_giganfrog",
     "speed": 100,
     "symbol": "G",
@@ -894,11 +894,12 @@
     "armor": { "bash": 6, "cut": 3, "acid": 5, "heat": 2, "electric": 2 },
     "families": [ "prof_intro_biology", "prof_wp_basic_amphibian", "prof_wp_skeleton" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_bone", "wps_bone_armor" ],
+    "emit_fields": [ { "emit_id": "emit_tear_gas_leak", "delay": "1 s" } ],
     "special_attacks": [
       {
         "id": "ranged_pull",
         "cooldown": 10,
-        "range": 4,
+        "range": 3,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
@@ -1021,6 +1022,7 @@
     "description": "This toad is of truly enormous stature, larger than many cars.  You can't help but wonder if it could fit as many people inside.",
     "copy-from": "mon_proxy_megafrog",
     "color": "brown",
+    "armor": { "bash": 18, "cut": 18, "bullet": 12, "electric": 4 },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 32, "baby_timer": 20 },
     "//": "Simple wallowing, likes to create deep pits and lay in them."
