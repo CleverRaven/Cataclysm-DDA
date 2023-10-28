@@ -60,7 +60,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         tripoint_abs_omt global_omt_location() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
         int get_hp_max( const bodypart_id &bp ) const override;
-        int get_cur_part_temp( const bodypart_id &bp ) const override;
+        units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -183,9 +183,10 @@ class talker_character_const: public talker_cloner<talker_character_const>
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
-        int get_body_temp() const override;
-        int get_body_temp_delta() const override;
+        units::temperature get_body_temp() const override;
+        units::temperature_delta get_body_temp_delta() const override;
         bool knows_martial_art( const matype_id &id ) const override;
+        bool using_martial_art( const matype_id &id ) const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;

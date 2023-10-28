@@ -568,5 +568,36 @@
       "ter_set": "t_vitrified_roof",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_vitrified_pool_talker",
+    "name": "shallow black pool",
+    "description": "At first glance, this looks like a rippling pool of black water.  Closer examination reveals it to be fine glass dust, blown in slow waves by the breeze.",
+    "looks_like": "t_water_pool",
+    "symbol": "~",
+    "color": "black",
+    "move_cost": 7,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP" ],
+    "connect_groups": "POOLWATER",
+    "connects_to": "POOLWATER",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_pool_talk" ] },
+    "emissions": [ "emit_glimmer" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_vitrified_soil_talker",
+    "name": "soft glass soil",
+    "description": "This little mound of soil is unlike the jagged dirt around it.  It is smooth, welcoming, and pleasant to the touch.",
+    "looks_like": "t_sand",
+    "symbol": "~",
+    "color": "light_gray",
+    "connect_groups": "SANDGLASS",
+    "connects_to": "SANDGLASS",
+    "move_cost": 3,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_soil_talk" ] },
+    "flags": [ "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
+    "emissions": [ "emit_glimmer" ]
   }
 ]

@@ -673,7 +673,8 @@ void conditional_t::set_has_part_temp( const JsonObject &jo, std::string_view me
     optional( jo, false, "bodypart", bp );
     condition = [dov, bp, is_npc]( dialogue & d ) {
         bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->get_cur_part_temp( bid ) >= dov.evaluate( d );
+        return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp(
+                bid ) ) >= dov.evaluate( d );
     };
 }
 
@@ -1411,6 +1412,17 @@ void conditional_t::set_map_ter_furn_with_flag( const JsonObject &jo, std::strin
     };
 }
 
+void conditional_t::set_map_in_city( const JsonObject &jo, std::string_view member )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
+        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
+        return c && c.get_distance_from_bounds() <= 0;
+    };
+}
+
 void conditional_t::set_mod_is_loaded( const JsonObject &jo, std::string_view member )
 {
     str_or_var compared_mod = get_str_or_var( jo.get_member( member ), member, true );
@@ -1882,7 +1894,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             }
             return [is_npc, bp]( dialogue const & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-                return d.actor( is_npc )->get_cur_part_temp( bid );
+                return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp( bid ) );
             };
         } else if( checked_value == "dodge" ) {
             return [is_npc]( dialogue const & d ) {
@@ -2177,11 +2189,11 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             };
         } else if( checked_value == "body_temp" ) {
             return [is_npc]( dialogue const & d ) {
-                return d.actor( is_npc )->get_body_temp();
+                return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_body_temp() );
             };
         } else if( checked_value == "body_temp_delta" ) {
             return [is_npc]( dialogue const & d ) {
-                return d.actor( is_npc )->get_body_temp_delta();
+                return units::to_legacy_bodypart_temp_delta( d.actor( is_npc )->get_body_temp_delta() );
             };
         } else if( checked_value == "npc_trust" ) {
             return [is_npc]( dialogue const & d ) {
@@ -3263,6 +3275,15 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
+void conditional_t::set_using_martial_art( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [style_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->using_martial_art( matype_id( style_to_check.evaluate( d ) ) );
+    };
+}
+
 static const
 std::vector<condition_parser>
 parsers = {
@@ -3270,6 +3291,7 @@ parsers = {
     {"u_has_trait", "npc_has_trait", jarg::member, &conditional_t::set_has_trait },
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_t::set_has_visible_trait },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_t::set_has_martial_art },
+    {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_t::set_using_martial_art },
     {"u_has_flag", "npc_has_flag", jarg::member, &conditional_t::set_has_flag },
     {"u_has_species", "npc_has_species", jarg::member, &conditional_t::set_has_species },
     {"u_bodytype", "npc_bodytype", jarg::member, &conditional_t::set_bodytype },
@@ -3330,6 +3352,7 @@ parsers = {
     {"is_weather", jarg::member, &conditional_t::set_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
+    {"map_in_city", jarg::member, &conditional_t::set_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_t::set_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_t::set_has_faction_trust },
     {"compare_int", jarg::member, &conditional_t::set_compare_num },

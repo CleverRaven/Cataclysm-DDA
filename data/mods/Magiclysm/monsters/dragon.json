@@ -111,7 +111,19 @@
         "monster_message": "%1$s breathes a stream of caustic acid!"
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "ACIDPROOF", "PUSH_MON", "FLIES" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "HAS_MIND",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "SWIMS",
+      "ACIDPROOF",
+      "PUSH_MON",
+      "FLIES"
+    ],
     "armor": { "bash": 2, "cut": 12, "acid": 600, "bullet": 10 }
   },
   {
