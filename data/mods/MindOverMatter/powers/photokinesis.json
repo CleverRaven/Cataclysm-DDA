@@ -1,5 +1,41 @@
 [
-    {
+  {
+    "id": "photokinetic_snuff_light",
+    "type":"SPELL",
+    "name":"[Ψ]Snuff Light",
+    "description":"interrupt the flow of photons to a target area",
+    "message":"",
+    "teachable":false,
+    "valid_targets":[ "self", "ground" ],
+    "spell_class":"PHOTOKINETIC",
+    "skill":"metaphysics",
+    "flags":[ "CONCENTRATE", "SILENT","NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "field_id": "fd_darkness",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "shape": "blast",
+    "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 5000)" ] },
+    "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_snuff_light') * 1000) + 10000)" ] },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_aoe": 50,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 500,
+    "energy_increment": -150,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7.5
+
+
+  },  
+  {
     "id": "photokinetic_light_weapon",
     "type": "SPELL",
     "name": "[Ψ]Solid Light Armament",

@@ -29,7 +29,8 @@
     "description": "Mental control of light.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "spells_learned": [["photokinetic_snuff_light",2]]
   },
   {
     "type": "mutation",
