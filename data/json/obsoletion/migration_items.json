@@ -228,5 +228,11 @@
     "id": "burdock_stalk",
     "type": "MIGRATION",
     "replace": "plant_stalk"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "MIGRATION",
+    "replace": "bag_zipper",
+    "sealed": false
   }
 ]

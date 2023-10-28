@@ -111,6 +111,11 @@
     "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
   },
   {
+    "id": "NO_LEAK",
+    "type": "json_flag",
+    "info": "Causes a boat hull to float even when damaged."
+  },
+  {
     "id": "NONBELTABLE",
     "type": "json_flag",
     "info": "There's no place to attach a seat belt, so you get thrown from the vehicle in a crash."

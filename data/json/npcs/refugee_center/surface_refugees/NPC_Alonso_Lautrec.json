@@ -319,6 +319,7 @@
     "id": "MISSION_REFUGEE_Alonso_pants",
     "type": "mission_definition",
     "name": { "str": "Alonso must have his special pants" },
+    "description": "Find Alonso's leather pants in the 'toy shop' Alonso has marked on your map.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 1000,

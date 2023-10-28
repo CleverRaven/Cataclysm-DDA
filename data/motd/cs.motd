@@ -32,20 +32,20 @@
 
 <color_white>Otázka:</color> <color_yellow>Proč vůbec experimentální verze existuje?</color>
 
-<color_white>A:</color><color_light_gray>Je to jako hrát na alfa/beta verzi - chyby a nedokončené prvky jsou její součástí. Z důvodu trvajících snah vše propojit, jsou experimentální verze ve stavu neustálého vývoje. Experimentální verze je hrací plocha, kde se hledají chyby a místa, která potřebují zahladit. Menší i velké změny jsou stále vydávány pro tuto verzi aby byla ověřována stabilita a vyrovnanost. Díky tomu nelze zajistit ideální rovnováhu verze ani její stabilitu. Vlastně nic není v experimentální verzi zaručeno.
+<color_white>Odpověď:</color><color_light_gray>Je to jako hrát na alfa/beta verzi - chyby a nedokončené prvky jsou její součástí. Z důvodu trvajících snah vše propojit, jsou experimentální verze ve stavu neustálého vývoje. Experimentální verze je hrací plocha, kde se hledají chyby a místa, která potřebují zahladit. Menší i velké změny jsou stále vydávány pro tuto verzi aby byla ověřována stabilita a vyrovnanost. Díky tomu nelze zajistit ideální rovnováhu verze ani její stabilitu. Vlastně nic není v experimentální verzi zaručeno.
 
 <color_white>Otázka:</color> <color_yellow>Jsou tedy experimentální verze hry hratelné?</color>
 
-<color_white>A: </color><color_light_gray>Yes.  But while experimental builds overall are stable, it is also not guaranteed as features may be introduced in an underdeveloped state, in parts; and may introduce bugs, including severe ones that may crash the game or corrupt savegames.  It's rare, but due to the complexity of the game, the initial quality control before merging with experimental build may be inadequate, and there is always room for human error.  This is why experimental builds exist in the first place.</color>
+<color_white>Odpověď: </color><color_light_gray>Ano. Ale zatímco jsou většinou experimentální verze stabilní, není to garantováno jelikož prvky mohou být v nedokončené stavu, částech a mohou představit chyby; včetně závažných, které způsobí pád hry nebo poškodí uložené pozice. Je to vzácné ale vzhledem ke komplexnosti hry, prvotní kontrola kvality před spojením s experimentální verzí může být neadekvátní a stále tu je prostor na lidskou chybu. Proto v prvé řadě experimentální verze existují. </color>
 
 <color_white>Otázka:</color> <color_yellow>Měl bych hrát spíše experimentální verze, nebo se držet stabilní verze?</color> 
 
-<color_white>A: </color><color_light_gray>The reward is instant access to the newest content, the risk is losing your game progress if a nasty bug emerges.  It is always your choice to play experimental builds, with a stable build available, so play at your own discretion.  You take all of the burden if something goes wrong, so be warned.  Take precautions, make backups.  Sometimes it's even best to postpone updating for few days until a big feature has been stabilized or a significant bug has been removed.</color>
+<color_white>Odpověď: </color><color_light_gray>Odměnou je okamžitý přístup k novému obsahu, rizikem ztráta vašeho herního pokroku pokud se objeví nepříjemná chyba. Je to vždy vaše volba hrát experimentální verze se stabilními verzemi k dispozici, hrajte tedy dle vlastního uvážení. Nesete veškerou zodpovědnost vy, pokud se něco pokazí, takže se mějte na pozoru. Přijměte preventivní opatření, vytvářejte zálohy. Někdy je dokonce lepší odložit aktualizaci na pár dnů, dokud nebude velká funknce stabilizovanána nebo závažná chyba odstraněna.</color>
 
 <color_white>Otázka:</color> <color_yellow>Je něco dalšího, co bych měl vědět?</color>
 
-<color_white>A: </color><color_light_gray>Yes.  Remember that everything you see and are about to see is potentially subject to change.  All features, including newly implemented, are a work in progress and may change in the course of game development.  And, as said previously, nothing is guaranteed, including balance and stability.</color>
+<color_white>Odpověď: </color><color_light_gray>Ano. Pamatujte, že vše co vidíte je potenciálně předmětem změny. Veškeré funkce, včetně nově implementovaných, jsou rozpracované a mohou se změnit během herního vývoje. A tak, jak bylo výše zmíněno, nic není garantováno, včetně vybalancování a stability. </color>
 
 <color_white>Otázka:</color> <color_yellow>Co když je pro mě riziko experimentálních verzí nepřijatelné?</color>
 
-<color_white>A: </color><color_light_gray>If the risk is unacceptable - play the stable version.  If you are willing to take the risk - enjoy the newly added content of the experimental builds and partake in development - report bugs, submit suggestions, or even contribute your own content to the game.  Good luck.</color>
+<color_white>Odpověď: </color><color_light_gray>Pokud je riziko nepřijatelné - hrajte stabilní verzi. Pokud jste ochotni riskovat - užijte si nově přidaný obsah experimentální verze a podílejte se na vývoji - hlašte chyby, předložte návrhy, nebo dokonce přispějte svým obsahem do hry. Hodně štěstí. </color>

@@ -343,6 +343,8 @@ class spell_type
 
         std::set<species_id> targeted_species_ids;
 
+        std::set<species_id> ignored_species_ids;
+
         // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
@@ -566,6 +568,8 @@ class spell
         std::string list_targeted_monster_names() const;
         //if targeted_species_ids is empty, it returns an empty string
         std::string list_targeted_species_names() const;
+        //if ignored_species_ids is empty, it returns an empty string
+        std::string list_ignored_species_names() const;
 
         std::string damage_string( const Character &caster ) const;
         std::string aoe_string( const Creature &caster ) const;
@@ -611,6 +615,7 @@ class spell
         bool is_valid_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
         bool target_by_species_id( const tripoint &p ) const;
+        bool ignore_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
         std::optional<tripoint> random_valid_target( const Creature &caster,
@@ -624,6 +629,8 @@ class known_magic
         std::map<spell_id, spell> spellbook;
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
+        // list of favorite spells
+        std::unordered_set<spell_id> favorites;
         // the base mana a Character would start with
         int mana_base = 0; // NOLINT(cata-serialize)
         // current mana
@@ -692,6 +699,9 @@ class known_magic
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
         void rem_invlet( const spell_id &sp );
+
+        void toggle_favorite( const spell_id &sp );
+        bool is_favorite( const spell_id &sp );
     private:
         // gets length of longest spell name
         int get_spellname_max_width();

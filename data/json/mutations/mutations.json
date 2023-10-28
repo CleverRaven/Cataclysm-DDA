@@ -339,12 +339,31 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Wether by a serious accident, birth defect, or other means, you have lost your right leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your right leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
     "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
     "restricts_gear": [ "foot_r" ],
     "prereqs": "HAS_RIGHT_LEG",
     "allowed_items": [ "LEG_PROSTHETIC" ],
-    "enchantments": [ "ENCH_NO_RIGHT_LEG" ]
+    "enchantments": [ "ENCH_NO_RIGHT_LEG" ],
+    "cancels": [
+      "BADKNEES",
+      "LIGHTSTEP",
+      "STRONGKNEES",
+      "STRONG_LEGS",
+      "PADDED_FEET",
+      "ANIMAL_FEET",
+      "FELINE_LEAP",
+      "LEAPING_LEGS",
+      "LEAPING_LEGS2",
+      "BIRD_LEGS",
+      "FLEET2",
+      "FLEET",
+      "HOOVES",
+      "RABBIT_FEET",
+      "TOUGH_FEET",
+      "RAP_TALONS",
+      "WEBBED_FEET"
+    ]
   },
   {
     "type": "mutation",
@@ -353,12 +372,31 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Wether by a serious accident, birth defect, or other means, you have lost your left leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your left leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
     "restricts_gear": [ "foot_l" ],
     "prereqs": "HAS_LEFT_LEG",
     "allowed_items": [ "LEG_PROSTHETIC" ],
-    "enchantments": [ "ENCH_NO_LEFT_LEG" ]
+    "enchantments": [ "ENCH_NO_LEFT_LEG" ],
+    "cancels": [
+      "BADKNEES",
+      "LIGHTSTEP",
+      "STRONGKNEES",
+      "STRONG_LEGS",
+      "PADDED_FEET",
+      "ANIMAL_FEET",
+      "FELINE_LEAP",
+      "LEAPING_LEGS",
+      "LEAPING_LEGS2",
+      "BIRD_LEGS",
+      "FLEET2",
+      "FLEET",
+      "HOOVES",
+      "RABBIT_FEET",
+      "TOUGH_FEET",
+      "RAP_TALONS",
+      "WEBBED_FEET"
+    ]
   },
   {
     "type": "mutation",
@@ -383,6 +421,30 @@
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
     "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
     "enchantments": [ "ENCH_LEFT_PROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_PEG_LEG",
+    "name": { "str": "Right Peg Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right leg.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_WEAR" ],
+    "enchantments": [ "ENCH_RIGHT_PEGLEG" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PEG_LEG",
+    "name": { "str": "Left Peg Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left leg.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
+    "enchantments": [ "ENCH_LEFT_PEGLEG" ]
   },
   {
     "type": "mutation",
@@ -5219,7 +5281,7 @@
     "leads_to": [ "SCUTTLE" ],
     "visibility": 8,
     "ugliness": 9,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
     "noise_modifier": 0.9,
     "destroys_gear": true,
     "flags": [ "TOUGH_FEET" ]
@@ -5242,7 +5304,7 @@
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "movecost_flatground_modifier": 1.25,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
     "noise_modifier": 0.25,
     "destroys_gear": true
   },
@@ -7136,6 +7198,7 @@
     "description": "Your flesh is a pleasing gel-like consistency.  Your bodily functions seem to be moving around, and your leg-equivalents flow comfortably - if a little slower than your old meat-legs.",
     "purifiable": false,
     "leads_to": [ "INT_SLIME", "PER_SLIME" ],
+    "restricts_gear": [ "leg_stub_r", "leg_stub_l" ],
     "prereqs": [ "VISCOUS" ],
     "prereqs2": [ "BENDY2", "SLIME_HANDS" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -7321,6 +7384,7 @@
     "changes_to": [ "ROOTS2" ],
     "cancels": [ "LEG_TENTACLES", "HOOVES" ],
     "category": [ "PLANT" ],
+    "restricts_gear": [ "leg_stub_r", "leg_stub_l" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
   {
@@ -7810,7 +7874,7 @@
       { "part": "foot_l", "neutral": 6 },
       { "part": "foot_r", "neutral": 6 }
     ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "restricts_gear": [ "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
     "movecost_modifier": 1.2,
     "noise_modifier": 0.0,
     "flags": [ "TOUGH_FEET" ]
@@ -8791,6 +8855,15 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_PREVENT_DEATH",
+    "name": { "str": "Debug Prevent Death" },
+    "points": 99,
+    "valid": false,
+    "description": "You are prevented from death.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,
@@ -9267,5 +9340,16 @@
     "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
     "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
     "threshreq": [ "THRESH_ALPHA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOT_GLASS",
+    "name": { "str": "Comfortably Fluid" },
+    "player_display": true,
+    "points": 1,
+    "description": "You can hear your heartbeat in your ears, feel the blood sloshing around in your veins.  The uneven hitches in your breath, the aches in your joints, the rumbling of your stomach.  It's nasty and messy and ugly.  And you are extremely grateful for that.",
+    "starting_trait": false,
+    "valid": false,
+    "passive_mods": { "dex_mod": 1 }
   }
 ]

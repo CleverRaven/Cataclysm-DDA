@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
@@ -44,6 +45,7 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "submap.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
@@ -214,6 +216,8 @@ bool monster::know_danger_at( const tripoint &p ) const
     bool avoid_fall = has_flag( mon_flag_PATH_AVOID_FALL );
     bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER_1 );
     bool avoid_complex = has_flag( mon_flag_PATH_AVOID_DANGER_2 );
+    bool avoid_sharp = get_pathfinding_settings().avoid_sharp;
+    bool avoid_traps = get_pathfinding_settings().avoid_traps;
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -222,15 +226,18 @@ bool monster::know_danger_at( const tripoint &p ) const
      */
     if( avoid_complex ) {
         avoid_simple = true;
+        avoid_traps = true;
     }
     if( avoid_simple ) {
         avoid_fire = true;
         avoid_fall = true;
+        avoid_sharp = true;
     }
 
     // technically this will shortcut in evaluation from fire or fall
     // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
+    if( avoid_fire || avoid_fall || avoid_simple ||
+        avoid_complex || avoid_traps || avoid_sharp ) {
         const ter_id target = here.ter( p );
         if( !here.has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
@@ -254,28 +261,27 @@ bool monster::know_danger_at( const tripoint &p ) const
             // Some things are only avoided if we're not attacking
             if( attitude( &get_player_character() ) != MATT_ATTACK ) {
                 // Sharp terrain is ignored while attacking
-                if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
+                if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
                     !( type->size == creature_size::tiny || flies() ||
                        get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
                     return false;
                 }
             }
+
+            // Don't step on any traps (if we can see)
+            const trap &target_trap = here.tr_at( p );
+            if( avoid_traps && has_flag( mon_flag_SEES ) &&
+                !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
+                return false;
+            }
         }
 
         const field &target_field = here.field_at( p );
-
         // Higher awareness is needed for identifying these as threats.
         if( avoid_complex ) {
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
                 return false;
-            }
-            if( !here.has_vehicle_floor( p ) ) {
-                // Don't step on any traps (if we can see)
-                const trap &target_trap = here.tr_at( p );
-                if( has_flag( mon_flag_SEES ) && !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
-                    return false;
-                }
             }
         }
 
@@ -479,6 +485,85 @@ bool monster::mating_angry() const
     return mating_angry;
 }
 
+/** This is lazily evaluated in monster::plan(). Each monster in a zone is visited
+ * as it flood fills, then the zone number is incremented. At the end all monsters in
+ * the same zone will have the same zone number assigned, which can be used to have monsters in
+ * different zones ignore each other very cheaply.
+ */
+static void flood_fill_zone( Creature &origin )
+{
+    static int zone_number = 1;
+    static int zone_tick = 1;
+    map &here = get_map();
+    if( here.get_visitable_zones_cache_dirty() ) {
+        zone_tick = zone_tick > 0 ? -1 : 1;
+        here.set_visitable_zones_cache_dirty( false );
+        zone_number = 1;
+    }
+    // This check insures we only flood fill when the target monster has an uninitialized zone,
+    // or if it has a zone from last turn.  In other words it only triggers on
+    // the first monster in a zone each turn. We can detect this because the sign
+    // of the zone numbers changes on every invalidation.
+    int old_zone = origin.get_reachable_zone();
+    // Compare with zone_tick == old_zone && old_zone != 0
+    if( ( zone_tick > 0 && old_zone > 0 ) ||
+        ( zone_tick < 0 && old_zone < 0 ) ) {
+        return;
+    }
+    creature_tracker &tracker = get_creature_tracker();
+
+    ff::flood_fill_visit_10_connected( origin.pos_bub(),
+    [&here]( const tripoint_bub_ms & loc, int direction ) {
+        if( direction == 0 ) {
+            return here.inbounds( loc ) && ( here.is_transparent_wo_fields( loc.raw() ) ||
+                                             here.passable( loc ) );
+        }
+        if( direction == 1 ) {
+            const maptile &up = here.maptile_at( loc );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
+                  here.is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        if( direction == -1 ) {
+            const maptile &up = here.maptile_at( loc + tripoint_above );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            const maptile &down = here.maptile_at( loc );
+            const ter_t &down_ter = up.get_ter_t();
+            if( down_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
+                  here.is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    },
+    [&tracker]( const tripoint_bub_ms & loc ) {
+        Creature *creature = tracker.creature_at<Creature>( loc );
+        if( creature ) {
+            creature->set_reachable_zone( zone_number * zone_tick );
+        }
+    } );
+    if( zone_number == std::numeric_limits<int>::max() ) {
+        zone_number = 1;
+    } else {
+        zone_number++;
+    }
+}
+
 void monster::plan()
 {
     const auto &factions = g->critter_tracker->factions();
@@ -489,6 +574,7 @@ void monster::plan()
     std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( pos().z );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
+    flood_fill_zone( *this );
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
         sees( player_character ) ) {
@@ -609,6 +695,9 @@ void monster::plan()
                         continue;
                     }
                     monster &mon = *shared;
+                    if( get_reachable_zone() != mon.get_reachable_zone() ) {
+                        continue;
+                    }
                     float rating = rate_target( mon, mon_plan.dist, mon_plan.smart_planning );
                     if( rating == mon_plan.dist ) {
                         ++valid_targets;
@@ -1016,11 +1105,34 @@ void monster::move()
             }
         }
     }
+
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
-    const tripoint local_dest = here.getlocal( get_dest() );
+    tripoint local_dest = here.getlocal( get_dest() );
     if( try_to_move ) {
-        if( !is_wandering() ) {
+        // Move using vision by follow smells and sounds
+        bool move_without_target = false;
+        if( is_wandering() && has_intelligence() && can_see() ) {
+            if( has_flag( mon_flag_SMELLS ) ) {
+                unset_dest();
+                tripoint tmp = scent_move();
+                if( tmp.x != -1 ) {
+                    local_dest = tmp;
+                    move_without_target = true;
+                    add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell using vision", name() );
+                }
+            }
+            if( !move_without_target && wandf > 0 && friendly == 0 ) {
+                unset_dest();
+                if( wander_pos != get_location() ) {
+                    local_dest = here.getlocal( wander_pos );
+                    move_without_target = true;
+                    add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound using vision", name() );
+                }
+            }
+        }
+
+        if( !is_wandering() || move_without_target ) {
             while( !path.empty() && path.front() == pos() ) {
                 path.erase( path.begin() );
             }
@@ -1052,6 +1164,7 @@ void monster::move()
         if( tmp.x != -1 ) {
             destination = tmp;
             moved = true;
+            add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell to not use vision", name() );
         }
     }
     if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
@@ -1059,6 +1172,7 @@ void monster::move()
         if( wander_pos != get_location() ) {
             destination = here.getlocal( wander_pos );
             moved = true;
+            add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound to not use vision", name() );
         }
     }
 

@@ -196,6 +196,11 @@ units::temperature operator+( const units::temperature &T, const units::temperat
     return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
 }
 
+units::temperature operator-( const units::temperature &T, const units::temperature_delta &T_delta )
+{
+    return from_kelvin( to_kelvin( T ) - to_kelvin_delta( T_delta ) );
+}
+
 units::temperature operator+( const units::temperature_delta &T_delta, const units::temperature &T )
 {
     return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );

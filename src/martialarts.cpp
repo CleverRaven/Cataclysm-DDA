@@ -349,6 +349,7 @@ void martialart::load( const JsonObject &jo, const std::string &src )
         int skill_level = skillArray.get_int( 1 );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
+    optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "primary_skill", primary_skill, skill_unarmed );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
     optional( jo, was_loaded, "teachable", teachable, true );

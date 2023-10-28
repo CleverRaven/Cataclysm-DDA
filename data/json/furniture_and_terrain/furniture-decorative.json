@@ -4,14 +4,15 @@
     "id": "f_bigmirror",
     "name": "standing mirror",
     "symbol": "{",
-    "description": "A full-length mirror mounted in a sleek metal frame.  You can easily see all of the dirt and blood on your clothes, and the weariness in your eyes.",
+    "description": "A full-length mirror mounted in a sleek aluminum frame.  You can easily see all of the dirt and blood on your clothes, and the weariness in your eyes.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
     "crafting_pseudo_item": "mirror",
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "examine_action": "change_appearance",
+    "deconstruct": { "items": [ { "item": "bigmirror", "count": 1 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 16,
@@ -19,14 +20,14 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 121, 131 ] } ]
     }
   },
   {
     "type": "furniture",
     "id": "f_bigmirror_b",
     "name": "broken standing mirror",
-    "description": "A metal frame for a full-length mirror, with most of the mirror missing.  What remains in the frame are large, dangerous-looking shards of fractured glass.",
+    "description": "An aluminum frame for a full-length mirror, with most of the mirror missing.  What remains in the frame are large, dangerous-looking shards of fractured glass.",
     "symbol": "{",
     "color": "light_gray",
     "move_cost_mod": 2,
@@ -38,7 +39,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 7, 10 ] }, { "item": "glass_shard", "count": [ 26, 46 ] } ]
     }
   },
   {

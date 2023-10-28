@@ -182,7 +182,56 @@
     "type": "item_group",
     "id": "archery_quivers",
     "subtype": "distribution",
-    "entries": [ { "item": "quiver", "prob": 100 }, { "item": "quiver_large", "prob": 50 }, { "item": "nylon_quiver", "prob": 10 } ]
+    "entries": [
+      { "item": "quiver", "prob": 50 },
+      { "item": "quiver_large", "prob": 50 },
+      { "item": "nylon_quiver", "prob": 75 },
+      { "item": "quiver_takedown_bow", "prob": 10 },
+      { "group": "archery_loaded_quivers", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery_loaded_quivers",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "loaded_quiver", "prob": 50 },
+      { "group": "loaded_quiver_large", "prob": 50 },
+      { "group": "loaded_nylon_quiver", "prob": 75 },
+      { "group": "loaded_takedown_quiver", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_quiver",
+    "container-item": "quiver",
+    "on_overflow": "discard",
+    "subtype": "distribution",
+    "entries": [ { "group": "archery_ammo", "prob": 80 }, { "group": "crossbow_bolts", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_quiver_large",
+    "container-item": "quiver_large",
+    "on_overflow": "discard",
+    "subtype": "distribution",
+    "entries": [ { "group": "archery_ammo", "prob": 80 }, { "group": "crossbow_bolts", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_nylon_quiver",
+    "container-item": "nylon_quiver",
+    "on_overflow": "discard",
+    "subtype": "distribution",
+    "entries": [ { "group": "archery_ammo", "prob": 80 }, { "group": "crossbow_bolts", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_takedown_quiver",
+    "container-item": "quiver_takedown_bow",
+    "on_overflow": "discard",
+    "subtype": "collection",
+    "entries": [ { "group": "archery_ammo" }, { "group": "archery_mods", "prob": 20 } ]
   },
   {
     "type": "item_group",

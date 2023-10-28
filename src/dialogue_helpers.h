@@ -58,13 +58,16 @@ struct talk_effect_fun_t {
         void set_run_inv_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
         void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
+        void set_if( const JsonObject &jo, std::string_view member );
         void set_switch( const JsonObject &jo, std::string_view member );
+        void set_foreach( const JsonObject &jo, std::string_view member );
         void set_roll_remainder( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_weighted_list_eocs( const JsonObject &jo, std::string_view member );
         void set_mod_healthy( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_attack( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_die( bool is_npc );
+        void set_prevent_death( bool is_npc );
         void set_lightning();
         void set_next_weather();
         void set_hp( const JsonObject &jo, std::string_view member, bool is_npc );
@@ -73,7 +76,7 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, std::string_view member, bool is_npc = false );
-        void set_u_spawn_item( const JsonObject &jo, std::string_view member );
+        void set_spawn_item( const JsonObject &jo, std::string_view member );
         void set_u_buy_item( const JsonObject &jo, std::string_view member );
         void set_u_spend_cash( const JsonObject &jo, std::string_view member );
         void set_u_sell_item( const JsonObject &jo, std::string_view member );
@@ -129,6 +132,7 @@ struct talk_effect_fun_t {
         void set_set_flag( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_unset_flag( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_activate( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_map_run_item_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void operator()( dialogue &d ) const {
             if( !function ) {
                 return;

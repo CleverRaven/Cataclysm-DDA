@@ -122,7 +122,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "harvest": "triffid_small",
     "upgrades": { "age_grow": 14, "into": "mon_triffid_young" },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ],
+    "flags": [ "HEARS", "SMELLS", "HAS_MIND", "NOHEAD", "STUMBLES" ],
     "armor": { "electric": 1 }
   },
   {
@@ -150,7 +150,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "HEARS", "SMELLS", "HAS_MIND", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "electric": 2 }
   },
   {
@@ -177,7 +177,7 @@
     "harvest": "triffid_paralytic",
     "dissect": "dissect_plant_sample_single",
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
@@ -205,7 +205,7 @@
     "dissect": "dissect_plant_sample_small",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "HEARS", "SMELLS", "HAS_MIND", "BASHES", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 4 }
   },
   {
@@ -313,7 +313,7 @@
     "dissect": "dissect_plant_sample_huge",
     "special_attacks": [ [ "TRIFFID_HEARTBEAT", 50 ] ],
     "death_function": { "effect": { "id": "death_triffid_heart", "hit_self": true } },
-    "flags": [ "NOHEAD", "IMMOBILE", "QUEEN" ],
+    "flags": [ "NOHEAD", "HAS_MIND", "IMMOBILE", "QUEEN" ],
     "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   }
 ]

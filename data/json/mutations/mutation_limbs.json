@@ -279,5 +279,131 @@
         "duration_dmg_scaling": 0.5
       }
     ]
+  },
+  {
+    "id": "leg_peg_r",
+    "type": "body_part",
+    "name": "right peg leg",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "r. peg leg" },
+    "heading": "right peg leg",
+    "heading_multiple": "right peg legs",
+    "hp_bar_ui_text": "R. PEG",
+    "encumbrance_text": "You're using a prosthetic right leg.",
+    "encumbrance_threshold": 10,
+    "main_part": "leg_peg_r",
+    "connected_to": "torso",
+    "opposite_part": "leg_peg_l",
+    "limb_types": [ [ "leg", 0.3 ], [ "foot", 0.3 ] ],
+    "limb_scores": [ [ "move_speed", 0.6 ], [ "crawl", 0.3 ], [ "footing", 0.4 ] ],
+    "stat_hp_mods": { "str_mod": 0, "dex_mod": 0, "int_mod": 0, "per_mod": 0 },
+    "heal_bonus": 0,
+    "mend_rate": 0,
+    "hit_size": 13,
+    "hit_difficulty": 0.9,
+    "side": "right",
+    "stylish_bonus": 0,
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "base_hp": 84,
+    "drench_capacity": 0,
+    "bionic_slots": 0,
+    "flags": [ "LIMB_LOWER", "HEAL_OVERRIDE" ],
+    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 2 },
+      { "weight": "300 g", "encumbrance": 8 },
+      { "weight": "800 g", "encumbrance": 16 },
+      { "weight": "1300 g", "encumbrance": 40 },
+      { "weight": "1600 g", "encumbrance": 60 },
+      { "weight": "2200 g", "encumbrance": 100 },
+      { "weight": "5600 g", "encumbrance": 160 },
+      { "weight": "10000 g", "encumbrance": 320 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ]
+  },
+  {
+    "id": "leg_peg_l",
+    "type": "body_part",
+    "name": "left peg leg",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "l. peg leg" },
+    "heading": "left peg leg",
+    "heading_multiple": "left peg legs",
+    "hp_bar_ui_text": "L. PEG",
+    "encumbrance_text": "You're using a prosthetic left leg.",
+    "encumbrance_threshold": 10,
+    "main_part": "leg_peg_l",
+    "connected_to": "torso",
+    "opposite_part": "leg_peg_r",
+    "limb_types": [ [ "leg", 0.3 ], [ "foot", 0.3 ] ],
+    "limb_scores": [ [ "move_speed", 0.6 ], [ "crawl", 0.3 ], [ "footing", 0.4 ] ],
+    "stat_hp_mods": { "str_mod": 0, "dex_mod": 0, "int_mod": 0, "per_mod": 0 },
+    "heal_bonus": 0,
+    "mend_rate": 0,
+    "hit_size": 13,
+    "hit_difficulty": 0.9,
+    "side": "left",
+    "stylish_bonus": 0,
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "base_hp": 84,
+    "drench_capacity": 0,
+    "bionic_slots": 0,
+    "flags": [ "LIMB_LOWER", "HEAL_OVERRIDE" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 2 },
+      { "weight": "300 g", "encumbrance": 8 },
+      { "weight": "800 g", "encumbrance": 16 },
+      { "weight": "1300 g", "encumbrance": 40 },
+      { "weight": "1600 g", "encumbrance": 60 },
+      { "weight": "2200 g", "encumbrance": 100 },
+      { "weight": "5600 g", "encumbrance": 160 },
+      { "weight": "10000 g", "encumbrance": 320 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ]
   }
 ]

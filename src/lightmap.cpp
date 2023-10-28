@@ -646,6 +646,11 @@ bool map::is_transparent( const tripoint &p ) const
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
+bool map::is_transparent_wo_fields( const tripoint &p ) const
+{
+    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+}
+
 float map::light_transparency( const tripoint &p ) const
 {
     return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
@@ -1052,6 +1057,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
             directions_to_cast );
+        seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1117,6 +1123,41 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
+    }
+}
+
+void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
+                                     const array_of_grids_of<const bool> &floor_caches, const std::optional<tripoint> &override_p ) const
+{
+    Character &player_character = get_player_character();
+    // If override is not given, use player character for calculations
+    const tripoint origin = override_p.value_or( player_character.pos() );
+    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
+    // For each tile
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    // Iterate down z-levels starting from 1 level below origin
+                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
+                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
+                        const int cache_z = sz + OVERMAP_DEPTH;
+                        // Until invisible tile reached
+                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
+                            break;
+                        }
+                        // Or floor reached
+                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
+                            // In which case check if it should be obscured by a ledge
+                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character, p ) > 100 ) {
+                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

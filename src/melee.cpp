@@ -646,11 +646,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const bool hits = hit_spread >= 0;
 
     if( monster *m = t.as_monster() ) {
-        get_event_bus().send<event_type::character_melee_attacks_monster>(
-            getID(), cur_weap.typeId(), hits, m->type->id );
+        cata::event e = cata::event::make<event_type::character_melee_attacks_monster>( getID(),
+                        cur_weap.typeId(), hits, m->type->id );
+        get_event_bus().send_with_talker( this, m, e );
     } else if( Character *c = t.as_character() ) {
-        get_event_bus().send<event_type::character_melee_attacks_character>(
-            getID(), cur_weap.typeId(), hits, c->getID(), c->get_name() );
+        cata::event e = cata::event::make<event_type::character_melee_attacks_character>( getID(),
+                        cur_weap.typeId(), hits, c->getID(), c->get_name() );
+        get_event_bus().send_with_talker( this, c, e );
     }
 
     const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :

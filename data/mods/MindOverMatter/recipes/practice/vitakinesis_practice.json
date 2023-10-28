@@ -230,7 +230,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: wakeful rest",
     "id": "practice_vita_sleeping_trance",
-    "description": "Contemplate your powers and develop your ability to instantly travel to a new location.",
+    "description": "Contemplate your powers and develop your ability to forego sleep in favor of meditation.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",

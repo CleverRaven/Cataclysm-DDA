@@ -260,7 +260,7 @@
     ]
   },
   {
-    "result": "xl_boots_fur",
+    "result": "xl_boots_faux_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_faux_fur",

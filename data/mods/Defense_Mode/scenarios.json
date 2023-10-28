@@ -28,6 +28,7 @@
     ],
     "eoc": [ "scenario_defense_mode" ],
     "forced_traits": [ "HAS_NEMESIS" ],
+    "missions": [ "MISSION_DEFENSE_MODE_SURVIVE" ],
     "flags": [ "LONE_START" ],
     "start_name": "Holdout",
     "reveal_locale": false
