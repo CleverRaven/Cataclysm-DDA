@@ -458,5 +458,103 @@
       { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 20,80 )" ] },
       { "math": [ "u_val('fatigue')", "+=", "rng( 2,10 )" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG", "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG", "EOC_PORTAL_NULL_AWAKENING" ],
+        "names": [ "Restore Right Leg", "Restore Left Leg", "Nevermind" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [ "Attempt to restore your right leg.", "Attempt to restore your left leg.", "Do nothing for now." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
+    "condition": { "u_has_trait": "NO_RIGHT_LEG" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_LEG", "duration": "540 minutes" } ],
+    "false_effect": [
+      {
+        "u_message": "You have a right leg or equivalent thereof.  If it's a prosthetic, please take it off before restoring your leg.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_limb_restore'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "Your right leg had been restored.", "type": "good" },
+      { "u_lose_trait": "NO_RIGHT_LEG" },
+      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
+      { "u_add_trait": "HAS_RIGHT_LEG" },
+      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG",
+    "condition": { "u_has_trait": "NO_LEFT_LEG" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_LEFT_LEG", "duration": "540 minutes" } ],
+    "false_effect": [
+      {
+        "u_message": "You have a left leg or equivalent thereof.  If it's a prosthetic, please take it off before restoring your leg.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_RESTORE_LIMB_LEFT_LEG",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEFT_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_limb_restore'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "Your left leg had been restored.", "type": "good" },
+      { "u_lose_trait": "NO_LEFT_LEG" },
+      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
+      { "u_add_trait": "HAS_LEFT_LEG" },
+      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
+    "//": "About 2.5 times as costly as the super heal drain.  You are regrowing a whole body part, you know.",
+    "effect": [
+      { "math": [ "u_val('stored_kcal')", "-=", "rng( 125,625 )" ] },
+      { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 125,500 )" ] },
+      { "math": [ "u_val('vitamin', 'name:calcium')", "-=", "rng( 250,500 )" ] },
+      { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 50,200 )" ] },
+      { "math": [ "u_val('fatigue')", "+=", "rng( 5,25 )" ] }
+    ]
   }
 ]
