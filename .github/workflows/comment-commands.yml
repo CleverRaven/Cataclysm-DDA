@@ -36,14 +36,12 @@ jobs:
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation),(S2 - Confirmed),stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "(S3 - Duplicate)"
-          gh issue close "$ISSUE_NUMBER"
 
       - if: steps.comvent.outputs.close-invalid != ''
         name: Handle invalid issue command - Label
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation),(S2 - Confirmed),stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "(S4 - Invalid)"
-          gh issue close "$ISSUE_NUMBER"
 
       - if: steps.comvent.outputs.good-first-issue != ''
         name: Handle good first issue command - Label
