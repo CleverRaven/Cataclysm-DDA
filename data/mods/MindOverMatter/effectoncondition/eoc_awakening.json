@@ -145,7 +145,7 @@
     "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_SUCCESS",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal begins glowing, the faint light at its core gradually brightening, first shedding light on your surroundings and then throwing everything into sharp relief.  As it blazes in your hands, it begins growing slowly warmer.  The warmth spreads down your arms and across your entire body, filling it with a comfortable heat, and then the air around you takes on the heat and the light.  The air wavers like a summer haze, but even as it sparks and flames dance on the air, you feel only a comfortable warmth.  You reach out your free hand, letting the fire play between your fingers, and when the crystal's glow dims and fades into nothingness, you don't even notice it.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal's inner light gradually intensifies, starting by revealing the hidden details of your surroundings and then unveiling the world in vivid clarity. It's not merely light, but a gentle luminescence that emanates a tranquil warmth. The air around you becomes suffused with a subtle, almost otherworldly radiance, as if you're witnessing a scene from a dream. Within this radiant spectacle, subtle patterns of light perform an elegant dance, and you find yourself captivated by their graceful movements. You reach out your free hand, allowing your fingers to interact with  the delicate light which seems to respond to your thoughts, and as the crystal's glow ultimately dissipates into obscurity, you're left with a lingering sense of wonder.",        
         "popup": true
       },
       { "u_add_trait": "PHOTOKINETIC" },
@@ -161,7 +161,7 @@
     "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_FAILURE",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You feel a pleasant heat in your veins, but as you look down at your hands, the heat turns into a searing pain.  The crystal flashes once, the light drives spikes into your brain, and then goes dark.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter. You start emanating light, but as time progresses, it hardens around your skin and tightens, causing you pain, its brightness leaving your head pounding and your eyes burning. As the light fades you look once more into the crystal, realizing it is now dark.",
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
