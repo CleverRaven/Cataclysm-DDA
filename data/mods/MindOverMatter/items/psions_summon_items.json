@@ -288,7 +288,7 @@
   {
     "id": "photokinetic_weapon_dart",
     "type": "GENERIC",
-    "name": { "str": "Brighthammer" },
+    "name": { "str": "Photon Dart" },
     "description": "A  dart out of solid light to use as a throwing weapon, It also illuminates the surroundings somewhat.",
     "weight": "100 g",
     "volume": "200 ml",
