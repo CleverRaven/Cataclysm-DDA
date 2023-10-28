@@ -664,7 +664,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: vita_vita_limb_restore')", ">=", "1" ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: vita_limb_restore')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
