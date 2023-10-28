@@ -774,6 +774,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_invisibility",
+    "name": [ "Invisibility" ],
+    "desc": [ "Nothing can see you." ],
+    "apply_message": "You refract light in a way that makes you appear invisible.",
+    "remove_message": "You let light flow naturally again.",
+    "decay_messages": [
+      [ "Your control over light refraction is straining you.", "bad" ],
+      [ "Staying invisible is getting tiring.", "bad" ]
+    ],
+    "flags": [ "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
