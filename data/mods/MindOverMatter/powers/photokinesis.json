@@ -11,6 +11,7 @@
     "skill":"metaphysics",
     "flags":[ "CONCENTRATE", "SILENT","NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "field_id": "fd_darkness",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
@@ -22,17 +23,48 @@
     },
     "max_range": 40,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_aoe": 50,
     "energy_source": "STAMINA",
+    "difficulty":1,
     "base_energy_cost": 2000,
     "final_energy_cost": 500,
     "energy_increment": -150,
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7.5
-
+  },
+  {
+    "id": "photokinetic_light_dodge",
+    "type":"SPELL",
+    "name":"[Ψ]Trick of the Light",
+    "description": "Manipulate the light around you, creating small illusions around your body to become harder to hit",
+    "message":"",
+    "teachable":false,
+    "valid_targets":[ "self" ],
+    "spell_class":"PHOTOKINETIC",
+    "skill":"metaphysics",
+    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect":"attack",
+    "effect_str": "effect_photokin_dodge",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape":"blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_dodge') * 1200) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_dodge') * 1200) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source":"STAMINA",
+    "difficulty":2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1000,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -12.5
 
   },  
   {

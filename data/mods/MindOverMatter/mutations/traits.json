@@ -30,7 +30,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [["photokinetic_snuff_light",2]]
+    "spells_learned": [["photokinetic_snuff_light",2], ["photokinetic_light_dodge",2]]
   },
   {
     "type": "mutation",

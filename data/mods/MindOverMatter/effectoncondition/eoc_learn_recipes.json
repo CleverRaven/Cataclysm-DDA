@@ -37,7 +37,8 @@
     "id": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_photokinetic_light_weapon" },
-      { "u_learn_recipe": "practice_photokinetic_snuff_light"}
+      { "u_learn_recipe": "practice_photokinetic_snuff_light"},
+      { "u_learn_recipe": "practice_photokinetic_light_dodge"}
     ]
   },
   {

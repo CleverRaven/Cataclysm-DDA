@@ -737,6 +737,37 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_dodge",
+    "name": [ "Trick of the light" ],
+    "desc": [ "Your enemies struggle to see where your real form is" ],
+    "apply_message": "",
+    "remove_message": "your illusory form fades.",
+    "decay_messages": [
+      [ "Your illusions are starting to dim.", "bad" ],
+      [ "Your light tricks are becoming more obvious", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 38,
+    "dur_add_perc": 10,
+    "int_dur_factor": "24 s",
+    "blocks_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
