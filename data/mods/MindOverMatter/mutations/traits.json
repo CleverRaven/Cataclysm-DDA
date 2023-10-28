@@ -29,8 +29,7 @@
     "description": "Mental control of light.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false,
-    "spells_learned": [ [  ] ]
+    "valid": false
   },
   {
     "type": "mutation",
