@@ -667,6 +667,99 @@ This section describes each json file and their contents. Each json has their ow
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
 
+### Snippets
+
+Snippets are the way for the game to store multiple instances of text, and use it on demand for different purposes: in item descriptions, NPC dialogues or in Effect on conditions
+
+------
+
+**Snippets may be made in two ways:**
+
+First is when snippet contain plain text with no ids - it is used, when the snippet can be generated on the fly, and the game don't need to memorize which one it should be - like in dialogue, for example (we don't need the game to remember what <swear> some character used when talked to you)
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads", // Category is the id of a snippet
+  "text": [
+    "flatbread",
+    "yeast bread",
+    "cornbread",
+    "fruit bread"
+  ]
+}
+```
+
+Second is when snippet contain both the text, and the id of this text - in this case the game would be able to save it, and call only specific one - for example, if used in item description or in lab report file
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads",
+  "text": [
+  { "id" : "bread1", "text" : "flatbread" },
+  { "id" : "bread2", "text" : "yeast bread" },
+  { "id" : "bread3", "text" : "cornbread" },
+  { "id" : "bread4", "text" : "fruit bread" }
+  ]
+}
+```
+
+------
+
+**There is also a multiple ways to use said snippet:**
+
+Items can utilize it using `snippet_category`, in this case the whole description of an item would be replaced with randomly picked snipped out of category:
+
+```json
+"snippet_category": "test_breads",
+```
+
+Alternatively, the `snippet_category` may itself contain a range of descriptions, avoiding making a new category:
+
+```c++
+"snippet_category": [
+  { "id": "bread1", "text": "flatbread" },
+  { "id": "bread2", "text": "yeast bread" },
+  { "id": "bread3", "text": "cornbread" },
+  { "id": "bread4", "text": "fruit bread" }
+]
+```
+note, that using `id` is mandatory in every way, if you don't want to make the game change the description of an item every time they do anything in the game
+
+------
+
+Both dialogues, snippets and item descriprtions may reference the snippets right inside themselves - to differentiate the snippets, that are used in this way, their id contain `<>` in the name, like `<test_breads>``
+
+```json
+"description": "An identification tag for a pet, engraved with their name and their owner's address and phone number. It says \"<dog_name>\"",
+```
+
+```json
+"dynamic_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you."
+```
+
+```json
+{
+  "type": "snippet",
+  "category": "<music_description>",
+  "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
+},
+```
+
+------
+
+Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+
+------
+
+Snippets also support the color codes
+
+```json
+"<color_yellow_red>Biohazard</color>",
+```
+
+
 ### Addiction types
 
 Addictions are defined in JSON using `"addiction_type"`:
@@ -3178,6 +3271,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
+"snippet_category": "snippet_category",        // Can be used instead of description, if author want to have multiple ways to describe an item. See #Snippets
 "ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
@@ -4530,44 +4624,6 @@ Once the duration of the timer has passed the `"countdown_action"` is executed. 
 ```
 
 Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
-
-### Random Descriptions
-
-Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
-```
-"snippet_category": "newspaper",
-```
-The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
-```C++
-{
-    "type" : "snippet",
-    "category" : "newspaper",
-    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
-    "text": "your flavor text"
-}
-```
-or several snippets at once:
-```C++
-{
-    "type" : "snippet",
-    "category" : "newspaper",
-    "text": [
-        "your flavor text",
-        "more flavor",
-        // entries can also be of this form to have a id to reference that specific snippet.
-        { "id" : "snippet-id", "text" : "another flavor text" }
-    ],
-    "text": [ "your flavor text", "another flavor text", "more flavor" ]
-}
-```
-Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
-
-One can also put the snippets directly in the item definition:
-```
-"snippet_category": [ "text 1", "text 2", "text 3" ],
-```
-This will automatically create a snippet category specific to that item and populate that category with the given snippets.
-The format also support snippet ids like above.
 
 # `json/` JSONs
 
