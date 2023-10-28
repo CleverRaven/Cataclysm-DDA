@@ -18,7 +18,7 @@
     "type": "item_group",
     "id": "prepnet_id_cards",
     "subtype": "distribution",
-    "items": [ [ "id_science", 90 ], [ "id_military", 5 ], [ "id_industrial", 5 ] ]
+    "items": [ [ "id_science", 90 ], [ "id_military", 5 ], [ "id_industrial", 5 ], [ "STEED_registry", 1 ] ]
   },
   {
     "type": "item_group",
