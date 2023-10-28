@@ -2754,7 +2754,8 @@ You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `
 | "message" | optional | string or [variable object](##variable-object) | part of `_cast_spell`; message to send when spell is casted | 
 | "npc_message" | optional | string or [variable object](##variable-object) | part of `_cast_spell`; message if npc uses | 
 | "min_level", "max_level" | optional | int, float or [variable object](##variable-object) | part of `_cast_spell`; level of the spell that would be casted (min level define what the actual spell level would be casted, adding max_level make EoC pick a random level between min and max) | 
-| "targeted" | optional | boolean | default false; if true, allow you to aim casted spell, otherwise cast it in random place, like `RANDOM_TARGET` spell flag was used | 
+| "targeted" | optional | boolean | default false; if true, allow you to aim casted spell, otherwise cast it in the location set by "loc" | 
+| "loc" | optional | [variable object](##variable-object) | Set target location of the spell. If not used, target to caster's location |
 | "true_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if spell was casted successfully, all EoCs from this field would be triggered; | 
 | "false_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if spell was not casted successfully, all EoCs from this field would be triggered | 
 
