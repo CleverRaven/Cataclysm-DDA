@@ -479,7 +479,7 @@
   {
     "id": "vita_limb_restore",
     "type": "SPELL",
-    "name": "[Ψ]Ameliorate Extremeity",
+    "name": "[Ψ]Ameliorate Extremity",
     "description": "You sink your mind the deepest within yourself you can possibly get, and enter a meditative trance to rejuvenate lost limbs, one at a time.  Be sure to remove any prosthetics before doing this, it's hard to work around them.",
     "message": "You sink your mind deep within your body and enter a trance.",
     "teachable": false,

@@ -631,7 +631,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: ameliorate extremeity",
+    "name": "contemplation: ameliorate extremity",
     "id": "practice_vita_limb_restore",
     "description": "Contemplate your powers and improve your ability to restore whole limbs, but at an extreme cost.",
     "category": "CC_*",
