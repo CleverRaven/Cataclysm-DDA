@@ -234,7 +234,7 @@
     "price_postapoc": 1,
     "symbol": "/",
     "color": "yellow",
-    "flags": [ "NONCONDUCTIVE", "LIGHT_50", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE","REACH_ATTACK", "SPEAR", "SHEATH_SPEAR", "MAGIC_FOCUS"],
+    "flags": [ "NONCONDUCTIVE", "LIGHT_30", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE","REACH_ATTACK", "SPEAR", "SHEATH_SPEAR", "MAGIC_FOCUS"],
     "melee_damage": { "bash": 10, "stab": 42 }
   },
   {
@@ -250,7 +250,7 @@
     "price_postapoc": 1,
     "symbol": "/",
     "color": "yellow",
-    "flags": [ "NONCONDUCTIVE", "LIGHT_50", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "SHEATH_SWORD", "MAGIC_FOCUS" ],
+    "flags": [ "NONCONDUCTIVE", "LIGHT_30", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "SHEATH_SWORD", "MAGIC_FOCUS" ],
     "melee_damage": { "bash": 6, "cut": 45 }
   },
   {
@@ -266,7 +266,7 @@
     "price_postapoc": 1,
     "symbol": "/",
     "color": "yellow",
-    "flags": [ "NONCONDUCTIVE", "LIGHT_50", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "SHEATH_AXE", "MAGIC_FOCUS" ],
+    "flags": [ "NONCONDUCTIVE", "LIGHT_30", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "SHEATH_AXE", "MAGIC_FOCUS" ],
     "melee_damage": { "bash": 22, "cut": 34 }
   },
   {
@@ -282,7 +282,7 @@
     "price_postapoc": 1,
     "symbol": "/",
     "color": "yellow",
-    "flags": [ "NONCONDUCTIVE", "LIGHT_50", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
+    "flags": [ "NONCONDUCTIVE", "LIGHT_30", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
     "melee_damage": { "bash": 60 }
   },
   {
@@ -298,7 +298,7 @@
     "price_postapoc": 1,
     "symbol": "/",
     "color": "yellow",
-    "flags": [ "NONCONDUCTIVE", "LIGHT_50", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
+    "flags": [ "NONCONDUCTIVE", "LIGHT_30", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 25 }, { "damage_type": "bash", "amount":6 } ],
     "melee_damage": { "cut": 8 }
   },
