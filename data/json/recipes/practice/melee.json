@@ -961,7 +961,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "polearms (intermediate)",
-    "description": "Perform solo exercises against a dummy to train your distance management and edurance with a polearm.",
+    "description": "Perform solo exercises against a dummy to train your distance management and endurance with a polearm.",
     "skill_used": "bashing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
