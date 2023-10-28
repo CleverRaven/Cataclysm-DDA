@@ -483,7 +483,7 @@
     "description": "You sink your mind the deepest within yourself you can possibly get, and enter a meditative trance to rejuvenate lost limbs, one at a time.  Be sure to remove any prosthetics before doing this, it's hard to work around them.",
     "message": "You sink your mind deep within your body and enter a trance.",
     "teachable": false,
-    "valid_targets": [ "self", "ally" ],
+    "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -503,7 +503,6 @@
     "base_energy_cost": 10000,
     "final_energy_cost": 8000,
     "energy_increment": -150,
-    "base_casting_time": 1200,
-    "min_range": 1
+    "base_casting_time": 1200
   }
 ]
