@@ -446,7 +446,7 @@
     "id": "dreamforged_q_staff_exp",
     "copy-from": "dreamforged_q_staff",
     "name": { "str": "bo of practice", "str_pl": "bos of practice" },
-    "description": "A long, straight stick. A simple weapon empowered by your experience in fighting against dreadful creatures.",
+    "description": "A long, straight stick.  A simple weapon empowered by your experience in fighting against dreadful creatures.",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
   }
 ]
