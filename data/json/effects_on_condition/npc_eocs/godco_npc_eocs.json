@@ -104,5 +104,20 @@
       { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_EDDIE_CANNING_MISSION_ADD",
+    "condition": {
+      "and": [
+        { "math": [ "godco_has_canningpots", "==", "1" ] },
+        { "not": { "npc_has_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" } }
+      ]
+    },
+    "deactivate_condition": { "npc_has_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" },
+    "effect": [
+      { "offer_mission": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP" },
+      { "npc_add_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" }
+    ]
   }
 ]
