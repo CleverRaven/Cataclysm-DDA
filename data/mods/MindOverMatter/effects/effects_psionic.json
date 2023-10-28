@@ -764,7 +764,7 @@
           {
             "value": "EVASION",
             "add":{
-              "math": [ "(1 + ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) + ( ( u_val('intelligence') + 10) / 100 ) )" ]
             }
           }
         ]
