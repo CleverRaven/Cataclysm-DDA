@@ -741,7 +741,7 @@
     "name": [ "Trick of the light" ],
     "desc": [ "Your enemies struggle to see where your real form is" ],
     "apply_message": "",
-    "remove_message": "your illusory form fades.",
+    "remove_message": "your illusionary form fades.",
     "decay_messages": [
       [ "Your illusions are starting to dim.", "bad" ],
       [ "Your light tricks are becoming more obvious", "bad" ]
@@ -758,7 +758,7 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "(1 + ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
           }
         ]
