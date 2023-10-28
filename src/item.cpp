@@ -2272,14 +2272,15 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 get_avatar().add_snippet( snip_id );
             }
         } else if( idescription != item_vars.end() ) {
-            info.emplace_back( "DESCRIPTION", idescription->second );
+            info.emplace_back( "DESCRIPTION", SNIPPET.expand( idescription->second ) );
         } else if( has_itype_variant() ) {
             // append the description instead of fully overwriting it
             if( itype_variant().append ) {
-                info.emplace_back( "DESCRIPTION", _( string_format( "%s  %s", type->description.translated(),
-                                                     itype_variant().alt_description.translated() ) ) );
+                info.emplace_back( "DESCRIPTION", _( string_format( "%s  %s",
+                                                     SNIPPET.expand( type->description.translated() ),
+                                                     SNIPPET.expand( itype_variant().alt_description.translated() ) ) ) );
             } else {
-                info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
+                info.emplace_back( "DESCRIPTION", SNIPPET.expand( itype_variant().alt_description.translated() ) );
             }
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
@@ -2297,7 +2298,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    craft_data_->making->result_name(),
                                    percent_progress ) );
             } else {
-                info.emplace_back( "DESCRIPTION", type->description.translated() );
+                info.emplace_back( "DESCRIPTION", SNIPPET.expand( type->description.translated() ) );
             }
         }
         insert_separation_line( info );
