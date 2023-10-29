@@ -67,7 +67,7 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_invisibility": 7}
+    "learn_spells": { "photokinetic_invisibility": 7, "photokinetic_light_image": 12}
 
   },
   {
@@ -107,6 +107,38 @@
     "learn_spells": { "photokinetic_light_weapon": 12}
 
 
+  },
+  {
+    "id": "photokinetic_light_image",
+    "type": "SPELL",
+    "name": "[Ψ]Lucid Shadows",
+    "description": "Form clones of yourself out of light",
+    "valid_targets": [ "ground" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "summon",
+    "effect_str": "mon_photokin_image",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 5000)" ] },
+    "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000)" ] },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 20,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "energy_source": "STAMINA",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 2000,
+    "final_energy_cost": 1000,
+    "energy_increment": -125.0,
+    "base_casting_time": 150,
+    "final_casting_time": 90,
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_light_weapon": 7, "photokinetic_invisibility": 12 }
   },
   {
     "id": "photokinetic_invisibility",
@@ -162,8 +194,7 @@
     "energy_increment": -150,
     "base_casting_time": 250,
     "final_casting_time": 75,
-    "casting_time_increment": -10,
-    "learn_spells": { "pyrokinetic_lance": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_blast": 8, "pyrokinetic_aura": 12 }
+    "casting_time_increment": -10
   },
   {
     "id": "photokin_light_weapon_spear",
