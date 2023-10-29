@@ -5718,5 +5718,9 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
     }
+    // Prevents crash from trying to spend charge with item removed
+    if( loc.where() == item_location::type::invalid ) {
+        return 0;
+    }
     return 1;
 }
