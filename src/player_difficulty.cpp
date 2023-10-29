@@ -342,17 +342,17 @@ std::string player_difficulty::format_output( float percent_band, float per )
 {
     std::string output;
     if( per < -1 * percent_band ) {
-        output = string_format( "<color_%s>%s</color>", "light_red", _( "underpowered" ) );
+        output = string_format( "<color_%s>%s</color>", "light_red", _( "---" ) );
     } else if( per < 0.0f ) {
-        output = string_format( "<color_%s>%s</color>", "light_red", _( "weak" ) );
+        output = string_format( "<color_%s>%s</color>", "light_red", _( "--" ) );
     } else if( per < percent_band ) {
-        output = string_format( "<color_%s>%s</color>", "yellow", _( "average" ) );
+        output = string_format( "<color_%s>%s</color>", "yellow", _( "-" ) );
     } else if( per < 2 * percent_band ) {
-        output = string_format( "<color_%s>%s</color>", "light_green", _( "strong" ) );
+        output = string_format( "<color_%s>%s</color>", "light_green", _( "+" ) );
     } else if( per < 3 * percent_band ) {
-        output = string_format( "<color_%s>%s</color>", "light_green", _( "powerful" ) );
+        output = string_format( "<color_%s>%s</color>", "light_green", _( "++" ) );
     } else {
-        output = string_format( "<color_%s>%s</color>", "light_green", _( "overpowered" ) );
+        output = string_format( "<color_%s>%s</color>", "light_green", _( "+++" ) );
     }
 
     if( get_option<bool>( "DEBUG_DIFFICULTIES" ) ) {
