@@ -1481,7 +1481,7 @@
       {
         "id": "pharaoh_necklace",
         "name": { "str": "Ankh necklace" },
-        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, it's major use in modern times was of a try to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
+        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, the source of its major use in modern times was through a new religious movement attempting to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
         "color": "yellow",
         "weight": 5
       },

@@ -120,7 +120,7 @@
     ],
     "death_function": {
       "effect": { "id": "death_yrax_sphenocorona", "hit_self": true },
-      "message": "The %s abruptly falls to the ground",
+      "message": "The %s abruptly falls to the ground!",
       "corpse_type": "NO_CORPSE"
     },
     "flags": [
