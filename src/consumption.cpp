@@ -1681,10 +1681,12 @@ time_duration Character::get_consume_time( const item &it ) const
         if( consume_drug != nullptr ) { //its a drug
             const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                     ( consume_drug->get_actor_ptr() );
-            if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() && has_bionic( bio_syringe ) ) {
-                time = time_duration::from_seconds( 15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
-            }
-            else if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() ) {
+            if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
+                has_bionic( bio_syringe ) ) {
+                time = time_duration::from_seconds(
+                           15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
+            } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
+                       consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
             } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
                        consume_drug_use->tools_needed.end() ||
