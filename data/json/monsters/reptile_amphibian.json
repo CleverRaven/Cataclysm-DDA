@@ -553,7 +553,7 @@
     "id": "mon_fowler_toad",
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
-    "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odour like boiled peanuts.",
+    "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
     "name": { "str": "fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ]
