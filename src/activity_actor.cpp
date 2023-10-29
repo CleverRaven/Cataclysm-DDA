@@ -4246,8 +4246,9 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 //~ %1$s: item to put in the container, %2$s: container to put item in
                 who.add_msg_if_player( string_format( _( "You put your %1$s into the %2$s." ),
                                                       holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
+                who.add_to_inv_search_caches(*holstered_item.first);
                 handler.add_unsealed( holster );
-                handler.unseal_pocket_containing( holstered_item.first );
+                handler.unseal_pocket_containing( holstered_item.first );                          
                 holstered_item.first.remove_item();
             }
         } else {
