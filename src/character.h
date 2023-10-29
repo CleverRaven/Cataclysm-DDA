@@ -2612,6 +2612,10 @@ class Character : public Creature, public visitable
          */
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
+        /** Which body part has the most staunchable bleeding, and what is the max improvement */
+        bodypart_id most_staunchable_bp();
+        bodypart_id most_staunchable_bp( int &max );
+
         void pause(); // '.' command; pauses & resets recoil
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
