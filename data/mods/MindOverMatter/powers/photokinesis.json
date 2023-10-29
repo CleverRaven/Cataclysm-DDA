@@ -77,7 +77,7 @@
     "description": "Concentrate photons into a high-energy beam",
     "message":"",
     "teachable":false,
-    "valid_targets":[ "ground", "enemy" ],
+    "valid_targets":[ "ground", "hostile" ],
     "spell_class":"PHOTOKINETIC",
     "skill":"metaphysics",
     "flags":[ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
