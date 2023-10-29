@@ -190,84 +190,18 @@
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
     "subtype": "distribution",
-    "entries": [
-      {
-        "item": "adderall",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "antibiotics",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "strong_antibiotic",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 45
-      },
-      {
-        "item": "antifungal",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "antiparasitic",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "diazepam",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "calcium_tablet",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "inj_iron",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "prozac",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "thorazine",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      },
-      {
-        "item": "xanax",
-        "count-min": 15,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      }
+    "items": [
+      { "group": "adderall_dr_group", "prob": 10 },
+      { "group": "antibiotics_dr_group", "prob": 10 },
+      { "group": "strong_antibiotics_dr_group", "prob": 10 },
+      { "group": "antifungal_dr_group", "prob": 10 },
+      { "group": "antiparasitic_dr_group", "prob": 10 },
+      { "group": "diazepam_dr_group", "prob": 10 },
+      { "group": "calcium_dr_group", "prob": 10 },
+      { "group": "iron_dr_group", "prob": 10 },
+      { "group": "prozac_dr_group", "prob": 10 },
+      { "group": "thorazine_dr_group", "prob": 10 },
+      { "group": "xanax_dr_group", "prob": 10 }
     ]
   },
   {
@@ -404,6 +338,83 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "tramadol", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "adderall_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "adderall", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antibiotics_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antibiotics", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotics_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antiparasitic_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diazepam_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "calcium_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "iron_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "inj_iron", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "prozac_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "prozac", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "thorazine_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "thorazine", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "xanax_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "xanax", "container-item": "null", "count": [ 15, 60 ] } ]
   },
   {
     "type": "item_group",
