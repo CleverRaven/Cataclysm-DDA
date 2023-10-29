@@ -9,7 +9,7 @@
     "valid_targets":[ "self", "ground" ],
     "spell_class":"PHOTOKINETIC",
     "skill":"metaphysics",
-    "flags":[ "CONCENTRATE", "SILENT","NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags":[ "CONCENTRATE", "SILENT","NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX","RANDOM_DURATION" ],
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "field_id": "fd_darkness",
@@ -47,7 +47,7 @@
     "valid_targets":[ "self" ],
     "spell_class":"PHOTOKINETIC",
     "skill":"metaphysics",
-    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect":"attack",
     "effect_str": "effect_photokin_dodge",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
@@ -71,6 +71,43 @@
 
   },
   {
+    "id": "photokinetic_light_beam",
+    "type":"SPELL",
+    "name": "Photon Beam",
+    "description": "Concentrate photons into a high-energy beam",
+    "message":"",
+    "teachable":false,
+    "valid_targets":[ "ground", "enemy" ],
+    "spell_class":"PHOTOKINETIC",
+    "skill":"metaphysics",
+    "flags":[ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "effect":"attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape":"line",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 30,
+    "energy_source":"STAMINA",
+    "difficulty":2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1000,
+    "energy_increment": -125,
+    "base_casting_time": 200,
+    "final_casting_time": 50,
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_light_weapon": 12}
+
+
+  },
+  {
     "id": "photokinetic_invisibility",
     "type":"SPELL",
     "name":"[Ψ]Veil of Light",
@@ -80,16 +117,16 @@
     "valid_targets":[ "self" ],
     "spell_class":"PHOTOKINETIC",
     "skill":"metaphysics",
-    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect":"attack",
     "effect_str": "effect_photokin_invisibility",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape":"blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 1500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source":"STAMINA",
     "difficulty":4,

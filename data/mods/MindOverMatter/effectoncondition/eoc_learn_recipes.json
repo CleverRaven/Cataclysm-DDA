@@ -39,7 +39,8 @@
       { "u_learn_recipe": "practice_photokinetic_light_weapon" },
       { "u_learn_recipe": "practice_photokinetic_snuff_light"},
       { "u_learn_recipe": "practice_photokinetic_light_dodge"},
-      { "u_learn_recipe": "practice_photokinetic_invisibility"}
+      { "u_learn_recipe": "practice_photokinetic_invisibility"},
+      { "u_learn_recipe": "practice_photokinetic_light_beam"}
     ]
   },
   {
