@@ -81,6 +81,7 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "bleed_rate": 60,
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "meatslug",
     "dissect": "dissect_troglobite_sample_large",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
@@ -144,6 +145,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_meatslug",
     "dissect": "dissect_troglobite_sample_small",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
@@ -1266,6 +1268,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 5 }, [ "SUICIDE", 180 ] ],
     "dodge": 7,
     "bleed_rate": 0,
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "death_function": { "corpse_type": "NO_CORPSE" },
     "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "WEBWALK", "GRABS", "ATTACKMON", "HARDTOSHOOT", "STUN_IMMUNE", "NOHEAD" ]
   },
