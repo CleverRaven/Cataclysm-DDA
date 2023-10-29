@@ -2,7 +2,7 @@
 
 
 
-# Defining Steel Grades
+## Defining Steel Grades
 
 Steel is an extremely versatile resource. In Cataclysm: Dark Days Ahead, we use a very simplified system of steel grades, roughly based on the SAE International grading. In general, a carbon steel is iron with a specific amount of carbon added. While other steel alloys may add additional materials or treat the steel in various ways to produce different results, carbon steels are the workhorses of the modern world.
 

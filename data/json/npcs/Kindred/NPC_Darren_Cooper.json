@@ -99,7 +99,7 @@
       "value": "yes",
       "no": {
         "u_has_trait": "seer_mark",
-        "yes": "How do you do.  Name's Cooper.  What's your- wait… that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am then.",
+        "yes": "How do you do.  Name's Cooper.  What's your- wait… that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am, then.",
         "no": "How do you do.  Name's Cooper.  And you are?"
       },
       "yes": {

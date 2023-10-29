@@ -3,6 +3,7 @@
 #include "calendar.h"
 #include "json.h"
 #include "string_formatter.h"
+#include "units_utility.h"
 
 namespace units
 {
@@ -193,6 +194,11 @@ units::temperature_delta operator-( const units::temperature &T1, const units::t
 units::temperature operator+( const units::temperature &T, const units::temperature_delta &T_delta )
 {
     return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature operator-( const units::temperature &T, const units::temperature_delta &T_delta )
+{
+    return from_kelvin( to_kelvin( T ) - to_kelvin_delta( T_delta ) );
 }
 
 units::temperature operator+( const units::temperature_delta &T_delta, const units::temperature &T )

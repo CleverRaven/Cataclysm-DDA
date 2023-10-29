@@ -23,7 +23,13 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_Accipitermg", 20 ], [ "afs_gibrifle", 40 ], [ "afs_25mm_goa", 5 ] ]
+    "items": [
+      [ "afs_Accipitermg", 20 ],
+      [ "afs_gibrifle", 40 ],
+      [ "afs_shotgun", 15 ],
+      [ "afs_25mm_goa", 5 ],
+      [ "afs_drotik_shotpistol", 5 ]
+    ]
   },
   {
     "id": "afs_any_ballistic_h_gun",
@@ -31,7 +37,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_gibs_shotgun", 10 ] ]
+    "items": [ [ "afs_gibs_shotgun", 10 ], [ "afs_raketa_shotgun", 5 ] ]
   },
   {
     "id": "afs_any_ballistic_mag",
@@ -57,7 +63,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_UICASTA30", 40 ], [ "afs_UICASTA100drum", 5 ] ]
+    "items": [ [ "afs_UICASTA30", 40 ], [ "afs_UICASTA100drum", 5 ], [ "afs_shot_speedloader8", 10 ] ]
   },
   {
     "id": "afs_any_ballistic_h_mag",
@@ -65,7 +71,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_25mm_mag", 20 ] ]
+    "items": [ [ "afs_25mm_mag", 20 ], [ "afs_raketa30mag", 10 ] ]
   },
   {
     "id": "afs_any_ballistic_ammo",
@@ -91,7 +97,14 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_7.50mm_caseless", 40 ] ]
+    "items": [
+      [ "afs_7.50mm_caseless", 40 ],
+      [ "shot_00", 40 ],
+      [ "shot_slug", 25 ],
+      [ "shot_beanbag", 10 ],
+      [ "shot_flechette", 5 ],
+      [ "shot_he", 5 ]
+    ]
   },
   {
     "id": "afs_any_ballistic_h_ammo",
@@ -100,5 +113,11 @@
     "ammo": 100,
     "magazine": 100,
     "items": [ [ "afs_25mm_shot", 40 ], [ "afs_25mm_apfsds", 5 ], [ "afs_25mm_frag", 10 ] ]
+  },
+  {
+    "id": "afs_shotgun_gunmod",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "afs_magnetic_choke", 10 ] ]
   }
 ]

@@ -45,7 +45,7 @@ static const skill_id skill_survival( "survival" );
 // - used, lit, plugged in, active, sawn-off
 // - favorite *
 
-TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
+TEST_CASE( "food_with_hidden_effects", "[item][tname][hidden]" )
 {
     Character &player_character = get_player_character();
     player_character.clear_mutations();
@@ -100,7 +100,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
     }
 }
 
-TEST_CASE( "items with a temperature flag", "[item][tname][temperature]" )
+TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 {
     GIVEN( "food that can melt" ) {
         item shake( "milkshake" );
@@ -231,7 +231,7 @@ TEST_CASE( "items with a temperature flag", "[item][tname][temperature]" )
     }
 }
 
-TEST_CASE( "wet item", "[item][tname][wet]" )
+TEST_CASE( "wet_item", "[item][tname][wet]" )
 {
     item rag( "rag" );
     rag.set_flag( flag_WET );
@@ -240,7 +240,7 @@ TEST_CASE( "wet item", "[item][tname][wet]" )
     CHECK( rag.tname() == "rag (wet)" );
 }
 
-TEST_CASE( "filthy item", "[item][tname][filthy]" )
+TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 {
     item rag( "rag" );
     rag.set_flag( flag_FILTHY );
@@ -249,7 +249,7 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
     CHECK( rag.tname() == "rag (filthy)" );
 }
 
-TEST_CASE( "diamond item", "[item][tname][diamond]" )
+TEST_CASE( "diamond_item", "[item][tname][diamond]" )
 {
     item katana( "katana" );
     katana.set_flag( flag_DIAMOND );
@@ -258,7 +258,7 @@ TEST_CASE( "diamond item", "[item][tname][diamond]" )
     CHECK( katana.tname() == "diamond katana" );
 }
 
-TEST_CASE( "truncated item name", "[item][tname][truncate]" )
+TEST_CASE( "truncated_item_name", "[item][tname][truncate]" )
 {
     SECTION( "plain item name can be truncated" ) {
         item katana( "katana" );
@@ -270,7 +270,7 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
     // TODO: color-coded or otherwise embellished item name can be truncated
 }
 
-TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
+TEST_CASE( "engine_displacement_volume", "[item][tname][engine]" )
 {
     item vtwin = item( "v2_combustion" );
     item v12diesel = item( "v12_diesel" );
@@ -285,7 +285,7 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
-TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
+TEST_CASE( "wheel_diameter", "[item][tname][wheel]" )
 {
     item wheel17 = item( "wheel" );
     item wheel24 = item( "wheel_wide" );
@@ -300,7 +300,7 @@ TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
     CHECK( wheel32.tname() == "32\" armored wheel" );
 }
 
-TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
+TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
 {
     GIVEN( "some clothing" ) {
         item shirt( "longshirt" );
@@ -308,8 +308,8 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         REQUIRE( shirt.is_armor() );
         REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
-        // Ensure the health bar option is enabled
-        override_option opt( "ITEM_HEALTH_BAR", "true" );
+        // Ensure the item health option is set to bars
+        override_option opt( "ITEM_HEALTH", "bars" );
 
         // Damage bar uses a scale of 0 `||` to 4 `XX`, in increments of 25%
         int dam25 = shirt.max_damage() / 4;
@@ -337,7 +337,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
             }
         }
 
-        WHEN( "is is one-quarter damaged" ) {
+        WHEN( "it is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
             REQUIRE( shirt.damage_level() == 2 );
@@ -430,22 +430,176 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         }
     }
 
-    GIVEN( "ITEM_HEALTH_BAR option is disabled" ) {
-        override_option opt( "ITEM_HEALTH_BAR", "false" );
+    GIVEN( "ITEM_HEALTH option set to 'desc'" ) {
+        override_option opt( "ITEM_HEALTH", "descriptions" );
+        item shirt( "longshirt" );
+        item corpse( "corpse" );
+        REQUIRE( shirt.is_armor() );
+        int dam25 = shirt.max_damage() / 4;
 
-        THEN( "clothing health bars are hidden" ) {
-            item shirt( "longshirt" );
-            item deg_test( "test_baseball" );
-            REQUIRE( shirt.is_armor() );
-            REQUIRE( deg_test.type->category_force == item_category_veh_parts );
+        WHEN( "it is undamaged" ) {
+            shirt.set_damage( 0 );
+            REQUIRE( shirt.damage() == 0 );
+            REQUIRE( shirt.damage_level() == 0 );
 
-            CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
-            CHECK( deg_test.tname() == "baseball" );
+            corpse.set_damage( 0 );
+            REQUIRE( corpse.damage() == 0 );
+            REQUIRE( corpse.damage_level() == 0 );
+
+            THEN( "it appears undamaged" ) {
+                CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "corpse of a human (fresh)" );
+            }
+        }
+
+        WHEN( "it is minimally damaged" ) {
+            shirt.set_damage( 1 );
+            REQUIRE( shirt.damage() == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
+
+            corpse.set_damage( 1 );
+            REQUIRE( corpse.damage() == 1 );
+            REQUIRE( corpse.damage_level() == 1 );
+
+            THEN( "it appears damaged" ) {
+                CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "bruised corpse of a human (fresh)" );
+            }
+        }
+
+        WHEN( "it is one-quarter damaged" ) {
+            shirt.set_damage( dam25 );
+            REQUIRE( shirt.damage() == dam25 );
+            REQUIRE( shirt.damage_level() == 2 );
+
+            corpse.set_damage( dam25 );
+            REQUIRE( corpse.damage() == dam25 );
+            REQUIRE( corpse.damage_level() == 2 );
+
+            THEN( "it appears slightly damaged" ) {
+                CHECK( shirt.tname() == "ripped long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "damaged corpse of a human (fresh)" );
+            }
+        }
+
+        WHEN( "it is half damaged" ) {
+            shirt.set_damage( dam25 * 2 );
+            REQUIRE( shirt.damage() == dam25 * 2 );
+            REQUIRE( shirt.damage_level() == 3 );
+
+            corpse.set_damage( dam25 * 2 );
+            REQUIRE( corpse.damage() == dam25 * 2 );
+            REQUIRE( corpse.damage_level() == 3 );
+
+
+            THEN( "it appears moderately damaged" ) {
+                CHECK( shirt.tname() == "torn long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "mangled corpse of a human (fresh)" );
+            }
+        }
+
+        WHEN( "it is three-quarters damaged" ) {
+            shirt.set_damage( dam25 * 3 );
+            REQUIRE( shirt.damage() == dam25 * 3 );
+            REQUIRE( shirt.damage_level() == 4 );
+
+            corpse.set_damage( dam25 * 3 );
+            REQUIRE( corpse.damage() == dam25 * 3 );
+            REQUIRE( corpse.damage_level() == 4 );
+
+            THEN( "it appears heavily damaged" ) {
+                CHECK( shirt.tname() == "shredded long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "pulped corpse of a human (fresh)" );
+            }
+        }
+
+        WHEN( "it is totally damaged" ) {
+            shirt.set_damage( dam25 * 4 );
+            REQUIRE( shirt.damage() == dam25 * 4 );
+            REQUIRE( shirt.damage_level() == 5 );
+
+            corpse.set_damage( dam25 * 4 );
+            REQUIRE( corpse.damage() == dam25 * 4 );
+            REQUIRE( corpse.damage_level() == 5 );
+
+            THEN( "it appears almost destroyed" ) {
+                CHECK( shirt.tname() == "tattered long-sleeved shirt (poor fit)" );
+                CHECK( corpse.tname() == "pulped corpse of a human (fresh)" );
+            }
+        }
+    }
+
+    GIVEN( "ITEM_HEALTH option set to 'both'" ) {
+        override_option opt( "ITEM_HEALTH", "both" );
+        item shirt( "longshirt" );
+        REQUIRE( shirt.is_armor() );
+        int dam25 = shirt.max_damage() / 4;
+
+        WHEN( "it is undamaged" ) {
+            shirt.set_damage( 0 );
+            REQUIRE( shirt.damage() == 0 );
+            REQUIRE( shirt.damage_level() == 0 );
+
+            THEN( "it appears undamaged" ) {
+                CHECK( shirt.tname() == "<color_c_green>++</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is minimally damaged" ) {
+            shirt.set_damage( 1 );
+            REQUIRE( shirt.damage() == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
+
+            THEN( "it appears damaged" ) {
+                CHECK( shirt.tname() == "<color_c_light_green>||</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is one-quarter damaged" ) {
+            shirt.set_damage( dam25 );
+            REQUIRE( shirt.damage() == dam25 );
+            REQUIRE( shirt.damage_level() == 2 );
+
+            THEN( "it appears slightly damaged" ) {
+                CHECK( shirt.tname() == "<color_c_yellow>|\\</color>\u00A0ripped long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is half damaged" ) {
+            shirt.set_damage( dam25 * 2 );
+            REQUIRE( shirt.damage() == dam25 * 2 );
+            REQUIRE( shirt.damage_level() == 3 );
+
+            THEN( "it appears moderately damaged" ) {
+                CHECK( shirt.tname() == "<color_c_light_red>|.</color>\u00A0torn long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is three-quarters damaged" ) {
+            shirt.set_damage( dam25 * 3 );
+            REQUIRE( shirt.damage() == dam25 * 3 );
+            REQUIRE( shirt.damage_level() == 4 );
+
+            THEN( "it appears heavily damaged" ) {
+                CHECK( shirt.tname() ==
+                       "<color_c_red>\\.</color>\u00A0shredded long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is totally damaged" ) {
+            shirt.set_damage( dam25 * 4 );
+            REQUIRE( shirt.damage() == dam25 * 4 );
+            REQUIRE( shirt.damage_level() == 5 );
+
+            THEN( "it appears almost destroyed" ) {
+                CHECK( shirt.tname() ==
+                       "<color_c_dark_gray>XX</color>\u00A0tattered long-sleeved shirt (poor fit)" );
+            }
         }
     }
 }
 
-TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
+TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
 {
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );
@@ -547,6 +701,21 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+        SECTION( "container has whitelist" ) {
+            std::string const wlmark = "⁺";
+            REQUIRE( backpack_hiking.get_all_contained_pockets().size() >= 2 );
+            backpack_hiking.get_all_contained_pockets().front()->settings.whitelist_item(
+                itype_rock );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
+                   colorize( wlmark, c_dark_gray ) + " " + nesting_sym + " " + rock_nested_tname );
+            backpack_hiking.get_all_contained_pockets()[1]->settings.set_was_edited();
+            // different pocket was edited
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
+                   colorize( wlmark, c_dark_gray ) + " " + nesting_sym + " " + rock_nested_tname );
+            backpack_hiking.get_all_contained_pockets()[0]->settings.set_was_edited();
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack" +
+                   colorize( wlmark, c_light_gray ) + " " + nesting_sym + " " + rock_nested_tname );
         }
     }
 

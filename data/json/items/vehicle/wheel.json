@@ -64,6 +64,23 @@
     "melee_damage": { "bash": 14 }
   },
   {
+    "id": "wheel_mount_skateboard",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "pair of skateboard trucks", "str_pl": "pairs of skateboard trucks" },
+    "description": "A pair metal skateboard trucks, for attaching wheels to.",
+    "weight": "600 g",
+    "volume": "250 ml",
+    "longest_side": "200 mm",
+    "price": 200,
+    "price_postapoc": 20,
+    "to_hit": -2,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "wheel_rim_medium",
     "type": "GENERIC",
     "category": "veh_parts",
@@ -632,6 +649,25 @@
     "color": "dark_gray",
     "diameter": 3,
     "width": 1,
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "wheel_skateboard",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": { "str": "set of skateboard wheels", "str_pl": "sets of skateboard wheels" },
+    "description": "A set of four small wheels, for a skateboard.",
+    "weight": "800 g",
+    "volume": "800 ml",
+    "longest_side": "60 mm",
+    "price": 8000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 2,
+    "width": 2,
     "melee_damage": { "bash": 1 }
   },
   {

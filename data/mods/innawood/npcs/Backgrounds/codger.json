@@ -51,7 +51,7 @@
   {
     "id": "BGSS_CODGER_STORY4b",
     "type": "talk_topic",
-    "dynamic_line": "Be patient!  I'm almost done.  Now up the top o' Mount Greenwood there used to be a nice campin' place, that woulda been before you were born.  Whole area burnt up that one year, they said it were lightnin' but you an' I both know it were just kids partyin'.  Rusty G an' I left ol' yeller behind and wen' in to check it out.  Burnt out woods looked haunted, we figgered there were some o' them damn kids rummagin' around in there, neckin' or whatnot.  Rusty G brought his boom stick, and lucky thing cuz o' what we saw..",
+    "dynamic_line": "Be patient!  I'm almost done.  Now up the top o' Mount Greenwood there used to be a nice campin' place, that woulda been before you were born.  Whole area burnt up that one year, they said it were lightnin' but you an' I both know it were just kids partyin'.  Rusty G an' I left ol' yeller behind and wen' in to check it out.  Burnt out woods looked haunted, we figgered there were some o' them damn kids rummagin' around in there, neckin' or whatnot.  Rusty G brought his boom stick, and lucky thing cuz o' what we saw.",
     "responses": [
       { "text": "What did you see?", "topic": "BGSS_CODGER_STORY5" },
       { "text": "We really, really have to go.", "topic": "BGSS_CODGER_STORY5" },

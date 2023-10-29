@@ -347,5 +347,16 @@
         "text": "This note has a chemical smell and a bloody thumbprint on it.  You see directions to nearby isolated sites, mainly forests and fields.  The name of the company(?) who printed this, XEDRA, sounds ominous."
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<statue_plaque>",
+    "//": "Please add more (happily scrap existing)",
+    "text": [ "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<statue_worthy_act>",
+    "text": [ "provided for our city in a time of need", "founded our great city" ]
   }
 ]

@@ -10,7 +10,7 @@
 #include <random>
 #include <type_traits>
 
-#include "units.h"
+#include "units_fwd.h"
 
 class map;
 class time_duration;
@@ -69,6 +69,8 @@ inline double rng_normal( double hi )
 {
     return rng_normal( 0.0, hi );
 }
+
+float normal_roll_chance( float center, float stddev, float difficulty );
 
 double normal_roll( double mean, double stddev );
 

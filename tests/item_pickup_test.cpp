@@ -20,7 +20,7 @@ static const itype_id itype_rope_6( "rope_6" );
 //
 // namely, that these functions create *copies* of the items, and the original item
 // references will not refer to the items placed in inventory.
-TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][inventory]" )
+TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][inventory]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -45,7 +45,7 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
     REQUIRE_FALSE( character_has_item_with_var_val( they, "uid", rope_uid ) );
 
     WHEN( "avatar wears a hiking backpack from the ground with wear_item" ) {
-        they.worn.clear();
+        they.clear_worn();
         // Get the backpack from the iterator returned by wear_item,
         // for the reference to the backpack that the avatar is wearing now
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
@@ -97,7 +97,7 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
     // But Character::pick_up cannot wield or wear items in the act of picking them up;
     // the available storage needs to be worn ahead of time.
     GIVEN( "avatar is not wearing anything that can store items" ) {
-        they.worn.clear();
+        they.clear_worn();
 
         WHEN( "avatar tries to get the backpack with pick_up" ) {
             item_location backpack_loc( map_cursor( ground ), &backpack_map );
@@ -133,7 +133,7 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
 // The reproduction use case here is: Wearing only a backpack containing a rope, when picking up
 // an M4 from the ground, the M4 should go into the backpack, not into the rope, and neither the
 // rope nor the M4 should be dropped.
-TEST_CASE( "pickup m4 with a rope in a hiking backpack", "[pickup][container]" )
+TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();

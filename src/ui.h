@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -379,6 +380,11 @@ class uilist // NOLINT(cata-xy)
                            const std::string &desc = std::string() );
         void settext( const std::string &str );
 
+        void add_category( const std::string &key, const std::string &name );
+        void set_category( const std::string &key );
+        void set_category_filter( const std::function<bool( const uilist_entry &, const std::string & )>
+                                  &fun );
+
         void reset();
 
         // Can be called before `uilist::query` to keep the uilist on UI stack after
@@ -501,10 +507,15 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         int desc_lines = 0;
+        int category_lines = 0;
 
         bool started = false;
 
         bool recalc_start = false;
+
+        std::vector<std::pair<std::string, std::string>> categories;
+        std::function<bool( const uilist_entry &, const std::string & )> category_filter;
+        int current_category = 0;
 
         int find_entry_by_coordinate( const point &p ) const;
 
@@ -515,6 +526,48 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
+
+        void set_selected( int index );
+};
+
+/**
+ *  Hack ui list to behave as a multi column menu
+ */
+class uimenu
+{
+    public:
+        explicit uimenu( int columns ) {
+            cata_assert( columns >= 1 );
+            col_count = columns;
+        }
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param col_content each string will be displayed on the entry's respective column
+        */
+        void addentry( int retval, bool enabled, const std::vector<std::string> &col_content );
+        void set_selected( int index );
+        void set_title( const std::string &title );
+        int query();
+
+    private:
+        /**
+         * Called in query to calculate sizes for multiple columns.
+         */
+        void finalize_addentries();
+        struct col {
+            col( int i_retval, bool i_enabled, const std::vector<std::string> &i_col_content ) :
+                retval( i_retval ), enabled( i_enabled ), col_content( i_col_content )
+            {};
+            int retval;
+            bool enabled;
+            const std::vector<std::string> col_content;
+        };
+        std::vector<col> cols;
+        uilist menu;
+        int col_count;
+
+        int suggest_width = 74;  // 80 (for min size) - 6 (for edges)
 };
 
 /**
@@ -582,7 +635,6 @@ inc_clamp_wrap( T val, I inc, T size )
     return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
 }
 
-
 /**
  * Helper for typical UI list navigation without wrap-around
  * Add delta to val, then clamp to the range [min,max]
@@ -610,7 +662,7 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 inc_clamp( V val, bool inc, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
-    return inc_clamp( val, static_cast<int>( val + ( inc ? 1 : -1 ) ), static_cast<S>( 0 ), max );
+    return inc_clamp( val, inc ? 1 : -1, static_cast<S>( 0 ), max );
 }
 
 /**
@@ -633,7 +685,7 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 inc_clamp( V val, bool inc, S min, S max )
 {
-    return inc_clamp( val, val + ( inc ? 1 : -1 ), min, max );
+    return inc_clamp( val, inc ? 1 : -1, min, max );
 }
 
 /**
@@ -655,5 +707,20 @@ inc_clamp( T val, I inc, T size )
  */
 template<typename V, typename S>
 bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size, bool wrap );
+
+/**
+ * Return indexes [start, end) that should be displayed from list long `num_entries`,
+ * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
+ *
+ * @param focused: if false, behave as if cursor_pos = 0,
+ * useful when other menu is displayed and this should show the beggining
+ *
+ * Example:
+ * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
+ * return {1, 4}
+ */
+std::pair<int, int> subindex_around_cursor( int num_entries, int available_space, int cursor_pos,
+        bool focused = true );
 
 #endif // CATA_SRC_UI_H

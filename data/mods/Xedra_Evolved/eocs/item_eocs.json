@@ -11,5 +11,17 @@
     "id": "EOC_WINCH_TELEPORT",
     "type": "effect_on_condition",
     "effect": [ { "u_teleport": { "u_val": "winch_teleport" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_LOCAL_FILES_XEDRA",
+    "condition": {
+      "and": [
+        { "math": [ "u_skill('computer')", ">=", "2" ] },
+        { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 }
+      ]
+    },
+    "effect": [ { "u_message": "local_files_xedra", "snippet": true, "same_snippet": true, "popup": true } ],
+    "false_effect": [ { "u_message": "You found nothing interesting." } ]
   }
 ]

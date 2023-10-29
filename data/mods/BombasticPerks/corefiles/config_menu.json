@@ -77,7 +77,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_REQUIREMENTS",
-    "dynamic_line": "Should the perk menu pop up on level up?",
+    "dynamic_line": "Should there be requirements to get perks?",
     "responses": [
       {
         "text": "Prerequisites",

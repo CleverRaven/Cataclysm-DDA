@@ -541,10 +541,7 @@
         "NN  Q|   "
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
-      "place_loot": [
-        { "item": "broken_eyebot", "x": 0, "y": 2, "chance": 100 },
-        { "item": "broken_secubot", "x": 0, "y": 6, "chance": 100 }
-      ]
+      "place_loot": [ { "item": "broken_secubot", "x": 0, "y": 6, "chance": 100 } ]
     }
   },
   {

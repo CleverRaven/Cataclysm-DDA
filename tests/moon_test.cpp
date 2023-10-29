@@ -37,7 +37,7 @@
 
 // The full lunar cycle takes a duration defined by lunar_month(), by default the synodic month
 // ~29.53 days when using the default season length of 91 days.
-TEST_CASE( "moon phase repeats once per synodic month", "[calendar][moon][phase][synodic]" )
+TEST_CASE( "moon_phase_repeats_once_per_synodic_month", "[calendar][moon][phase][synodic]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -73,7 +73,7 @@ TEST_CASE( "moon phase repeats once per synodic month", "[calendar][moon][phase]
 // length, one lunar (synodic) month is about 29.53 days. Longer or shorter seasons scale the lunar
 // month accordingly.
 //
-TEST_CASE( "lunar month is scaled by season default ratio", "[calendar][moon][month][season]" )
+TEST_CASE( "lunar_month_is_scaled_by_season_default_ratio", "[calendar][moon][month][season]" )
 {
     const time_point zero = calendar::turn_zero;
 
@@ -117,7 +117,7 @@ TEST_CASE( "lunar month is scaled by season default ratio", "[calendar][moon][mo
 // With 8 discrete phases during a 29-day period, each phase lasts three or four days.
 // Over a 1-month period of 30 or 31 days, the moon should go through all 8 phases.
 //
-TEST_CASE( "moon phases each day for a month", "[calendar][moon][phase]" )
+TEST_CASE( "moon_phases_each_day_for_a_month", "[calendar][moon][phase]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -162,7 +162,7 @@ TEST_CASE( "moon phases each day for a month", "[calendar][moon][phase]" )
 // To prevent the light level from abruptly changing in the middle of the night, the moon's phase
 // change occurs at noon (rather than midnight) on the appropriate day during the lunar cycle.
 //
-TEST_CASE( "moon phase changes at noon", "[calendar][moon][phase][change]" )
+TEST_CASE( "moon_phase_changes_at_noon", "[calendar][moon][phase][change]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -203,7 +203,7 @@ TEST_CASE( "moon phase changes at noon", "[calendar][moon][phase][change]" )
 
 // At dawn, light transitions from moonlight to sunlight level.
 // At dusk, light transitions from sunlight to moonlight level.
-TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk]" )
+TEST_CASE( "moonlight_at_dawn_and_dusk", "[calendar][moon][moonlight][dawn][dusk]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -299,7 +299,7 @@ static float phase_moonlight( const float phase_scale, const moon_phase expect_p
 }
 
 // Moonlight level varies with moon phase, from 1.0 at new moon to 10.0 at full moon.
-TEST_CASE( "moonlight for each phase", "[calendar][moon][phase][moonlight]" )
+TEST_CASE( "moonlight_for_each_phase", "[calendar][moon][phase][moonlight]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );

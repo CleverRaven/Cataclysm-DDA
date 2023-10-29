@@ -2,8 +2,9 @@
 
 ## Rules for all content
 * All contributions to the mod should revolve around perks, and core game items. Perks can give items, but a perk can't require a custom item that isn't provided by the perk.
-* All perks must be just kinda okay.
-* Any perk that's more than just kinda okay needs downsides or to be complex / niche.
+* Standard perks must be just kinda okay.
+* Any standard perk that's more than just kinda okay needs downsides or to be complex / niche.
+* Playstyle perks can be much more powerful since players can potentially disable them.
 * Perks should try to be funny and lean into the absurdity.
 
 ## Naming Convention
@@ -18,141 +19,27 @@ When adding stuff to the mod you should organize your files as follows:
 
 ### Menu Entry
 Each perk needs to be selectable in the menu itself. To do this append a response to `TALK_PERK_MENU_MAIN` with the following format:
+You need to fill in the:
+`PERK_ID`: The requirements text and the perk condition.
+`REQUIREMENTS TEXT`: A description of the requirements to select the perk. If you don't have requirements put: "No Requirements".
+`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0", "==", "0" ].
+`ANY ADDITIONAL INFO TEXT`: Any additional info you want to include. If you don't have any additional details put "".
 ``` json 
 {
-    "condition": { "not": { "u_has_trait": "[YOUR_PERK_ID]" } },
-    "text": "Gain [<trait_name:perk_STR_UP>]",
-    "topic": "TALK_PERK_MENU_STRONGER"
-}
-```
-
-### Confirmation Menu
-Each perk needs a confirmation menu entry where it explains what the perk does and lets you confirm selection. That entry should be formatted as follows. Replace [YOUR_PERK_ID] with your perks id, and  [YOUR_PERK_NAME] with your perks name:
-``` json
-{
-  "type": "talk_topic",
-  "id": "TALK_PERK_MENU_[YOUR_PERK_NAME]",
-  "dynamic_line": "<trait_name:[YOUR_PERK_ID]>: \"<trait_description:[YOUR_PERK_ID]>\"",
-  "responses": [
+  "condition": { "not": { "u_has_trait": "PERK_ID" } },
+  "text": "Gain [<trait_name:PERK_ID>]",
+  "effect": [
+    { "set_string_var": "<trait_name:PERK_ID>", "target_var": { "global_val": "trait_name" } },
+    { "set_string_var": "<trait_description:PERK_ID>", "target_var": { "global_val": "trait_description" } },
+    { "set_string_var": "PERK_ID", "target_var": { "global_val": "trait_id" } },
+    { "set_string_var": "REQUIREMENTS TEXT", "target_var": { "global_val": "trait_requirement_description" } },
+    { "set_condition": "perk_condition", "condition": { CONDITION_GOES_HERE } },
     {
-      "text": "Select Perk.",
-      "topic": "TALK_PERK_MENU_MAIN",
-      "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-      "failure_explanation": "Requirements Not Met",
-      "failure_topic": "TALK_PERK_MENU_FAIL",
-      "effect": [
-        { "u_add_trait": "[YOUR_PERK_ID]" },
-        {
-          "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
-        }
-      ]
-    },
-    { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-    { "text": "Quit.", "topic": "TALK_DONE" }
-  ]
-}
-```
-
-### With Requirements
-This is an example of a confirmation menu that also has requirements, as above but you also need to include a conditional for [YOUR CONDITIONAL GOES HERE] and you need to describe it in the dynamic line filling in [DESCRIPTION OF REQUIREMENTS]:
-``` json
-{
-  "type": "talk_topic",
-  "id": "TALK_PERK_MENU_[YOUR_PERK_NAME]",
-  "dynamic_line": "<trait_name:[YOUR_PERK_ID]>: \"<trait_description:[YOUR_PERK_ID]>\"\nRequires [DESCRIPTION OF REQUIREMENTS]",
-  "responses": [
-    {
-      "text": "Select Perk.",
-      "topic": "TALK_PERK_MENU_MAIN",
-      "condition": {
-        "and": [
-          {
-            "or": [
-              { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-              {
-                { [YOUR CONDITIONAL GOES HERE] }
-              }
-            ]
-          },
-          { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
-        ]
-      },
-      "failure_explanation": "Requirements Not Met",
-      "failure_topic": "TALK_PERK_MENU_FAIL",
-      "effect": [
-        { "u_add_trait": "[YOUR_PERK_ID]" },
-        {
-          "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
-        }
-      ]
-    },
-    { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-    { "text": "Quit.", "topic": "TALK_DONE" }
-  ]
-}
-```
-
-### With Variants
-If a perk has multiple variants that are mutually exclusive you should have a single menu entry that leads to all options on display:
-``` json
-{
-  "type": "talk_topic",
-  "id": "TALK_PERK_MENU_[NAME_OF_VARIANTS]",
-  "dynamic_line": "<trait_name:[YOUR_PERK_ID1]>: \"<trait_description:[YOUR_PERK_ID1]>\"\nRequires [DESCRIPTION OF REQUIREMENTS1]\n<trait_name:[YOUR_PERK_ID2]>: \"<trait_description:[YOUR_PERK_ID2]>\"\nRequires [DESCRIPTION OF REQUIREMENTS2]",
-  "responses": [
-    {
-      "text": "Select Perk Variant <trait_name:[YOUR_PERK_ID1]>.",
-      "topic": "TALK_PERK_MENU_MAIN",
-      "condition": {
-        "and": [
-          {
-            "or": [
-              { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-              {
-                { [YOUR CONDITIONAL GOES HERE] }
-              }
-            ]
-          },
-          { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
-        ]
-      },
-      "failure_explanation": "Requirements Not Met",
-      "failure_topic": "TALK_PERK_MENU_FAIL",
-      "effect": [
-        { "u_add_trait": "[YOUR_PERK_ID1]" },
-        {
-          "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
-        }
-      ]
-    },
-    {
-      "text": "Select Perk Variant <trait_name:[YOUR_PERK_ID2]>.",
-      "topic": "TALK_PERK_MENU_MAIN",
-      "condition": {
-        "and": [
-          {
-            "or": [
-              { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-              {
-                { [YOUR CONDITIONAL GOES HERE] }
-              }
-            ]
-          },
-          { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
-        ]
-      },
-      "failure_explanation": "Requirements Not Met",
-      "failure_topic": "TALK_PERK_MENU_FAIL",
-      "effect": [
-        { "u_add_trait": "[YOUR_PERK_ID2]" },
-        {
-          "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
-        }
-      ]
-    },
-    { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-    { "text": "Quit.", "topic": "TALK_DONE" }
-  ]
+      "set_string_var": "ANY ADDITIONAL INFO TEXT",
+      "target_var": { "global_val": "trait_additional_details" }
+    }
+  ],
+  "topic": "TALK_PERK_MENU_SELECT"
 }
 ```
 

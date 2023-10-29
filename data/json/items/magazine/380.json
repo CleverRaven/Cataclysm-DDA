@@ -72,7 +72,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "CF-380 8-round magazine" },
-    "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.",
+    "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.  Does not fit the Hi-Point 3895 carbine.",
     "weight": "110 g",
     "volume": "236 ml",
     "price": 2500,
@@ -89,7 +89,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "CF-380 10-round magazine" },
-    "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.",
+    "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.  Does not fit the Hi-Point 3895 carbine.",
     "weight": "110 g",
     "volume": "236 ml",
     "price": 2500,
@@ -100,6 +100,14 @@
     "ammo_type": [ "380" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "380": 10 } } ]
+  },
+  {
+    "id": "hpt3895mag_10rd",
+    "looks_like": "hptcf380mag_10rd",
+    "type": "MAGAZINE",
+    "name": { "str": "Hi-Point 3895 10-round magazine" },
+    "description": "A 10-round steel box magazine for use with the Hi-Point 3895 pistol-caliber carbine.  Does not fit the Hi-Point CF-380 pistol.",
+    "copy-from": "hptcf380mag_10rd"
   },
   {
     "id": "taurus_spectrum_mag",

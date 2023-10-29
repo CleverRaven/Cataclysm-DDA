@@ -27,5 +27,6 @@ jobs:
       - if: steps.comvent.outputs.confirm-bug != ''
         name: Handle confirmation command - Label
         run: |
-          gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation)"
+          gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation),stale"
           gh issue edit "$ISSUE_NUMBER" --add-label "(S2 - Confirmed)"
+          gh issue reopen "$ISSUE_NUMBER"

@@ -19,7 +19,7 @@
       [ [ "oven_door", 1 ] ],
       [ [ "oven_broiler_pan", 1 ] ],
       [ [ "heavy_wire_rack", 2 ] ],
-      [ [ "element", 4 ] ],
+      [ [ "element", 4 ], [ "crude_heating_element", 6 ] ],
       [ [ "cable", 1 ] ]
     ]
   },
@@ -136,7 +136,7 @@
       { "proficiency": "prof_elec_circuits", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", -1 ], [ "toolset", -1 ] ] ],
+    "tools": [ [ [ "soldering_iron", -1 ], [ "integrated_welder", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "sheet_metal_small", 1 ] ],

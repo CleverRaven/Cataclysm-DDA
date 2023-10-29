@@ -1,6 +1,6 @@
 [
   {
-    "id": "base_toiletries",
+    "abstract": "base_toiletries",
     "name": { "str": "generic grooming" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -9,7 +9,7 @@
     "price": 200,
     "price_postapoc": 0,
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "100 ml",
     "material": [ "plastic" ],
     "to_hit": -1,
     "melee_damage": { "bash": 1 }
@@ -20,7 +20,12 @@
     "type": "GENERIC",
     "description": "A shallow dish for holding a bar of soap.  It has ridges to help drain water away from the dish.  Not the most exciting of items.",
     "symbol": "-",
-    "copy-from": "base_toiletries"
+    "weight": "65 g",
+    "volume": "221 ml",
+    "longest_side": "13 cm",
+    "price": 250,
+    "copy-from": "base_toiletries",
+    "//": "Based on https://www.amazon.com/dp/B09QGPWJPX"
   },
   {
     "id": "razor_shaving",
@@ -42,6 +47,10 @@
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
+    "weight": "18 g",
+    "volume": "38 ml",
+    "longest_side": "18 cm",
+    "price": "6 USD",
     "copy-from": "base_toiletries",
     "snippet_category": [
       {
@@ -64,7 +73,8 @@
         "id": "tbrush5",
         "text": "A short toothbrush designed for children.  It has a grinning red racecar on the handle."
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B0BQ1FVGJM, volume calculated as a cylinder with the assumption of 7in length and 0.65in diameter - the dimensions on the listing are for the package, so I took a bit of length off."
   },
   {
     "id": "tampon",
@@ -174,7 +184,7 @@
       { "id": "hbrush3", "text": "A soft, cushioned hairbrush.  The shiny chrome design appears modern." },
       { "id": "hbrush4", "text": "A tacky kid's hairbrush.  The cartoon whale on the handle seems friendly enough." }
     ],
-    "//": "Based on https://www.amazon.com/Revlon-Detangle-Smooth-Black-Cushion/dp/B01LPO5JVE/ref=sr_1_6?crid=1TWQO2LQX4P03&keywords=hair%2Bbrush&qid=1683483834&sprefix=hair%2Bbrush%2Caps%2C287&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B01LPO5JVE"
   },
   {
     "id": "curler_hair",
@@ -282,8 +292,8 @@
   {
     "id": "hair_dryer",
     "name": { "str": "hair dryer" },
-    "type": "GENERIC",
-    "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
+    "type": "TOOL",
+    "description": "This tool dries your hair by pushing air through a coil of hot wires.  The heat can be toggled on and off.",
     "symbol": "(",
     "color": "black",
     "price": 2100,
@@ -291,6 +301,18 @@
     "volume": "500 ml",
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 35,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "charged_qualities": [ [ "BLOW_AIR", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
     "to_hit": -1,
     "melee_damage": { "bash": 3 }
   },
@@ -382,6 +404,7 @@
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
+    "longest_side": "18 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

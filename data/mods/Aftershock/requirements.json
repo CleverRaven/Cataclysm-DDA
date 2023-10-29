@@ -37,6 +37,18 @@
     "extend": { "components": [ [ [ "frost_human_lard", 1 ], [ "alien_lard", 1 ] ] ] }
   },
   {
+    "id": "any_butter",
+    "type": "requirement",
+    "//": "Butter of all types and other future butter substitutes",
+    "extend": { "components": [ [ [ "atomic_butter", 1 ] ] ] }
+  },
+  {
+    "id": "any_butter_or_oil",
+    "type": "requirement",
+    "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",
+    "extend": { "components": [ [ [ "atomic_butter", 1 ] ] ] }
+  },
+  {
     "id": "meat_offal",
     "type": "requirement",
     "//": "Anything you might consider offal or intestines.",

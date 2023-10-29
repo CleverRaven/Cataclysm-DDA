@@ -1,30 +1,5 @@
 [
   {
-    "id": "mon_eyebot",
-    "type": "MONSTER",
-    "name": { "str": "eyebot" },
-    "description": "A quadcopter drone largely comprised of a high-resolution camera lens and a speaker, this robot hovers above the ground, documenting the carnage and mayhem around it.  While it is no longer able to report to a central authority, it's likely that some of its automated alert systems are still functional, given that the thing seems to have an operational charging station somewhere.",
-    "default_faction": "cop_bot",
-    "species": [ "ROBOT" ],
-    "diff": 2,
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "hp": 20,
-    "speed": 120,
-    "material": [ "steel" ],
-    "symbol": "e",
-    "color": "light_gray",
-    "morale": 100,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 3,
-    "revert_to_itype": "bot_eyebot",
-    "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
-    "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ],
-    "armor": { "bash": 8, "cut": 10, "bullet": 8 }
-  },
-  {
     "id": "mon_grocerybot",
     "type": "MONSTER",
     "name": { "str": "grocery bot" },
@@ -49,6 +24,7 @@
     "flags": [
       "SEES",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "COLDPROOF",
       "NO_BREATHE",
       "FIREPROOF",
@@ -87,6 +63,7 @@
       "SEES",
       "ELECTRONIC",
       "COLDPROOF",
+      "BIOLOGICALPROOF",
       "NO_BREATHE",
       "FIREPROOF",
       "PUSH_MON",
@@ -126,6 +103,7 @@
       "HEARS",
       "BASHES",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
@@ -137,7 +115,7 @@
   {
     "id": "mon_molebot",
     "type": "MONSTER",
-    "name": { "str": "miner bot" },
+    "name": { "str": "demining bot" },
     "description": "A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
     "default_faction": "utility_bot",
     "bodytype": "snake",
@@ -158,7 +136,17 @@
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ],
+    "flags": [
+      "HEARS",
+      "GOODHEARING",
+      "DIGS",
+      "NO_BREATHE",
+      "BIOLOGICALPROOF",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
+    ],
     "armor": { "cut": 12, "bullet": 10 }
   },
   {
@@ -186,7 +174,18 @@
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 120 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "STUN_IMMUNE" ],
+    "flags": [
+      "SEES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "BIOLOGICALPROOF",
+      "FIREPROOF",
+      "PUSH_MON",
+      "HEARS",
+      "PACIFIST",
+      "STUN_IMMUNE"
+    ],
     "armor": { "bash": 8, "cut": 10, "bullet": 8 }
   },
   {
@@ -214,13 +213,14 @@
     "grab_strength": 75,
     "starting_ammo": { "anesthetic": 3 },
     "revert_to_itype": "bot_nursebot",
-    "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
+    "special_attacks": [ { "id": "grab", "cooldown": 9999 }, [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "ELECTRONIC",
       "COLDPROOF",
+      "BIOLOGICALPROOF",
       "NO_BREATHE",
       "FIREPROOF",
       "PUSH_MON",

@@ -1,0 +1,54 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_beginner",
+    "items": [
+      [ "schematics_matrix_crystal_ground", 3 ],
+      [ "schematics_reactant_liquid_base", 3 ],
+      [ "schematics_matrix_channeling", 2 ],
+      [ "schematics_matrix_aligning", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_advanced",
+    "items": [
+      [ "phavian_report_psionic_drain", 15 ],
+      [ "schematics_noetic_resilience", 5 ],
+      [ "schematics_instability_remover", 5 ],
+      [ "schematics_psionic_purifier", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_powers",
+    "items": [ [ "phavian_psionic_martial_power_book", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_weapons",
+    "items": [ [ "schematics_grenade_inferno", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_armor",
+    "items": [ [ "schematics_anchoring_crown", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_tools",
+    "items": [ [ "schematics_everglow_lamp", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_medicine",
+    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_noetic_resilience", 3 ], [ "schematics_psionic_purifier", 1 ] ]
+  }
+]

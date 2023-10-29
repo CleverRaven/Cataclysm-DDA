@@ -1,25 +1,24 @@
 [
   {
     "type": "overmap_terrain",
-    "abstract": "generic_mansion",
+    "abstract": "generic_mansion_entrance",
     "name": "mansion",
     "sym": "M",
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS", "SIDEWALK" ]
+    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_mansion_no_sidewalk",
-    "copy-from": "generic_mansion",
-    "color": "green",
-    "delete": { "flags": [ "SIDEWALK" ] }
+    "abstract": "generic_mansion",
+    "copy-from": "generic_mansion_entrance",
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mansion_e1", "mansion_boarded_e1", "mansion_e2" ],
-    "copy-from": "generic_mansion"
+    "copy-from": "generic_mansion_entrance"
   },
   {
     "type": "overmap_terrain",
@@ -106,6 +105,6 @@
       "mansion_t7u",
       "mansion_t7_roof"
     ],
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   }
 ]

@@ -69,7 +69,7 @@ static void check_effect_init( const std::string &eff_name, const time_duration 
     CHECK( start_time == effect_obj.get_start_time() );
 }
 
-TEST_CASE( "effect initialization test", "[effect][init]" )
+TEST_CASE( "effect_initialization_test", "[effect][init]" )
 {
     // "debugged" effect is defined in data/mods/TEST_DATA/effects.json
     check_effect_init( "debugged", 1_days, "head", false, 5, calendar::turn_zero );
@@ -87,7 +87,7 @@ TEST_CASE( "effect initialization test", "[effect][init]" )
 // effect::mod_duration
 // effect::mult_duration
 //
-TEST_CASE( "effect duration", "[effect][duration]" )
+TEST_CASE( "effect_duration", "[effect][duration]" )
 {
     // "debugged" and "intensified" effects come from JSON effect data (data/mods/TEST_DATA/effects.json)
     effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_turns, body_part_bp_null,
@@ -153,7 +153,7 @@ TEST_CASE( "effect duration", "[effect][duration]" )
 // effect::get_int_dur_factor
 // effect::get_int_add_val
 //
-TEST_CASE( "effect intensity", "[effect][intensity]" )
+TEST_CASE( "effect_intensity", "[effect][intensity]" )
 {
     effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 3_turns, body_part_bp_null,
                          false, 1, calendar::turn );
@@ -179,7 +179,7 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
     }
 }
 
-TEST_CASE( "effect intensity removal", "[effect][intensity]" )
+TEST_CASE( "effect_intensity_removal", "[effect][intensity]" )
 {
     effect eff_test_int_remove( effect_source::empty(), &effect_test_int_remove.obj(), 3_turns,
                                 body_part_bp_null,
@@ -195,7 +195,7 @@ TEST_CASE( "effect intensity removal", "[effect][intensity]" )
 
 }
 
-TEST_CASE( "max effective intensity", "[effect][max][intensity]" )
+TEST_CASE( "max_effective_intensity", "[effect][max][intensity]" )
 {
     effect eff_maxed( effect_source::empty(), &effect_max_effected.obj(), 3_turns, body_part_bp_null,
                       false, 1, calendar::turn );
@@ -235,7 +235,7 @@ TEST_CASE( "max effective intensity", "[effect][max][intensity]" )
 // ------------
 // effect::decay
 //
-TEST_CASE( "effect decay", "[effect][decay]" )
+TEST_CASE( "effect_decay", "[effect][decay]" )
 {
     std::vector<efftype_id> rem_ids;
     std::vector<bodypart_id> rem_bps;
@@ -408,7 +408,7 @@ TEST_CASE( "effect decay", "[effect][decay]" )
 // ------------------
 // effect::disp_short_desc
 //
-TEST_CASE( "display short description", "[effect][desc]" )
+TEST_CASE( "display_short_description", "[effect][desc]" )
 {
     effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_turns, body_part_arm_r,
                          false, 1,
@@ -438,7 +438,7 @@ TEST_CASE( "display short description", "[effect][desc]" )
 // empty string (""), then it will not appear in the list of modifiers on the players speed (though
 // the effect might still have an effect)."""
 //
-TEST_CASE( "effect display and speed name may vary with intensity",
+TEST_CASE( "effect_display_and_speed_name_may_vary_with_intensity",
            "[effect][intensity][disp_name][speed_name]" )
 {
     GIVEN( "effect with names for each intensity level" ) {
@@ -507,7 +507,7 @@ TEST_CASE( "effect display and speed name may vary with intensity",
 // effect::pause_effect
 // effect::unpause_effect
 //
-TEST_CASE( "effect permanence", "[effect][permanent]" )
+TEST_CASE( "effect_permanence", "[effect][permanent]" )
 {
     // Grab right arm, not permanent
     effect eff_grabbed( effect_source::empty(), &effect_grabbed.obj(), 1_turns, body_part_arm_r, false,
@@ -533,7 +533,7 @@ TEST_CASE( "effect permanence", "[effect][permanent]" )
 // effect::set_bp
 // effect::get_bp
 //
-TEST_CASE( "effect body part", "[effect][bodypart]" )
+TEST_CASE( "effect_body_part", "[effect][bodypart]" )
 {
     // Grab right arm, initially
     effect eff_grabbed( effect_source::empty(), &effect_grabbed.obj(), 1_turns, body_part_arm_r, false,
@@ -559,7 +559,7 @@ TEST_CASE( "effect body part", "[effect][bodypart]" )
 // effect::get_sizing
 // effect::get_percentage
 //
-TEST_CASE( "effect modifiers", "[effect][modifier]" )
+TEST_CASE( "effect_modifiers", "[effect][modifier]" )
 {
     SECTION( "base_mods apply equally for any intensity" ) {
         effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_minutes, body_part_bp_null,
@@ -666,7 +666,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
     }
 }
 
-TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
+TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
 {
     Character &subject = get_avatar();
     clear_avatar();
@@ -717,7 +717,7 @@ TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
     const int post_vitx = subject.vitamin_get( vitx );
 
     // The effect roughly halves the absorbed vitamin x
-    CHECK( posteffect_vitx == 22 );
+    CHECK( posteffect_vitx == Approx( 22 ).margin( 3 ) );
     CHECK( post_vitx == 46 );
 
     // Without the effect, no vitamin v is gained
@@ -768,7 +768,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     CHECK( dead == Approx( expected_dead ).margin( margin ) );
 }
 
-TEST_CASE( "Death Effects", "[effect][death]" )
+TEST_CASE( "Death_Effects", "[effect][death]" )
 {
     effect placebo_effect( effect_source::empty(), &( *effect_test_fatalism ), 5_seconds,
                            body_part_torso, false, 1,

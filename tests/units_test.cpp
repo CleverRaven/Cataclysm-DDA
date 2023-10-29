@@ -66,7 +66,7 @@ static units::energy parse_energy_quantity( const std::string &json )
     return read_from_json_string<units::energy>( jsin, units::energy_units );
 }
 
-TEST_CASE( "energy parsing from JSON", "[units]" )
+TEST_CASE( "energy_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_energy_quantity( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_energy_quantity( "27" ) ); // not a string at all
@@ -90,7 +90,7 @@ static units::power parse_power_quantity( const std::string &json )
     return read_from_json_string<units::power>( jsin, units::power_units );
 }
 
-TEST_CASE( "power parsing from JSON", "[units]" )
+TEST_CASE( "power_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_power_quantity( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_power_quantity( "27" ) ); // not a string at all
@@ -114,7 +114,7 @@ static time_duration parse_time_duration( const std::string &json )
     return read_from_json_string<time_duration>( jsin, time_duration::units );
 }
 
-TEST_CASE( "time_duration parsing from JSON", "[units]" )
+TEST_CASE( "time_duration_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_time_duration( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_time_duration( "27" ) ); // not a string at all
@@ -294,7 +294,7 @@ static units::angle parse_angle( const std::string &json )
     return read_from_json_string<units::angle>( jsin, units::angle_units );
 }
 
-TEST_CASE( "angle parsing from JSON", "[units]" )
+TEST_CASE( "angle_parsing_from_JSON", "[units]" )
 {
     CHECK_THROWS( parse_angle( "\"\"" ) ); // empty string
     CHECK_THROWS( parse_angle( "27" ) ); // not a string at all
@@ -351,7 +351,7 @@ TEST_CASE( "Temperatures", "[temperature]" )
     }
 }
 
-TEST_CASE( "Temperature delta", "[temperature]" )
+TEST_CASE( "Temperature_delta", "[temperature]" )
 {
     SECTION( "Different units match" ) {
         CHECK( units::to_kelvin_delta( units::from_kelvin_delta( 10 ) ) == 10 );
@@ -393,7 +393,7 @@ TEST_CASE( "Temperature delta", "[temperature]" )
 
 }
 
-TEST_CASE( "Specific energy", "[temperature]" )
+TEST_CASE( "Specific_energy", "[temperature]" )
 {
     SECTION( "Different units match" ) {
         CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100 ) ) == 100 );

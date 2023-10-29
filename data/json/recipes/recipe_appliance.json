@@ -64,6 +64,29 @@
     ]
   },
   {
+    "result": "wall_light",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "25 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "cable", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "steel_chunk", 1 ] ],
+      [ [ "scrap", 3 ] ]
+    ]
+  },
+  {
     "result": "standing_lamp",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -112,6 +135,30 @@
     ]
   },
   {
+    "result": "standing_directed_floodlight",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "directed_floodlight", 1 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "pipe", 2 ] ]
+    ]
+  },
+  {
     "result": "foot_locker_recharge_station",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -144,5 +191,20 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_appliance_repair" } ],
     "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ] ]
+  },
+  {
+    "result": "active_backup_generator",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "//": "combined install requirements for placing frame+alternator+engine as if you were putting together a vehicle with these 3 parts",
+    "time": "90 m",
+    "autolearn": true,
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_UTILITY",
+    "using": [ [ "vehicle_wrench_2", 1 ] ],
+    "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   }
 ]

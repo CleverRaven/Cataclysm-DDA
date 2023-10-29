@@ -30,7 +30,7 @@
   {
     "id": "coilgun",
     "copy-from": "gun_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",

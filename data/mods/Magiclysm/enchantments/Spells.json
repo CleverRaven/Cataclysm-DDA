@@ -1,0 +1,44 @@
+[
+  {
+    "type": "enchantment",
+    "id": "enchant_stormshaper_electric_waves",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "electric_waves_damage", "hit_self": false, "once_in": 3 } ],
+    "hit_you_effect": [ { "id": "electric_waves_damage", "hit_self": false, "once_in": 3 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_stormshaper_cloak_of_fog",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "emitter": "emit_obscuring_fog"
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_stormshaper_heart_of_hurricane",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "stormshaper_heart_of_hurricane_throw", "hit_self": false, "once_in": 3 } ],
+    "values": [
+      { "value": "FOOTSTEP_NOISE", "multiply": 1 },
+      {
+        "value": "KNOCKBACK_RESIST",
+        "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
+      },
+      {
+        "value": "KNOCKDOWN_RESIST",
+        "add": { "math": [ "(( u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') * 0.02) + 0.3 )" ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_shape_of_dust",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "emitter": "emit_eshaper_dust",
+    "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+  }
+]

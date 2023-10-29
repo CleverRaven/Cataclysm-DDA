@@ -261,7 +261,6 @@ std::vector<std::string> clothing_properties(
         props.reserve( 5 );
     }
 
-
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
 
     int coverage = worn_item.get_coverage( used_bp );
@@ -321,14 +320,14 @@ std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const bool display_median, const damage_type_id &type )
 {
     std::vector<std::pair<std::string, std::string>> subvalues;
-    subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
-                                            worst_res.type_resist( type ) ) ) );
+    subvalues.emplace_back( _( "Worst:" ), string_format( "%.2f",
+                            worst_res.type_resist( type ) ) );
     if( display_median ) {
-        subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
-                                                median_res.type_resist( type ) ) ) );
+        subvalues.emplace_back( _( "Median:" ), string_format( "%.2f",
+                                median_res.type_resist( type ) ) );
     }
-    subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
-                                            best_res.type_resist( type ) ) ) );
+    subvalues.emplace_back( _( "Best:" ), string_format( "%.2f",
+                            best_res.type_resist( type ) ) );
     return subvalues;
 }
 

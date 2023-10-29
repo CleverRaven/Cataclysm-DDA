@@ -1,0 +1,244 @@
+[
+  {
+    "type": "effect_type",
+    "id": "u_got_meal"
+  },
+  {
+    "id": "TALK_GODCO_chef",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "Could you be on your way, please?  We don't take kindly to sinners like you.",
+      "no": {
+        "npc_has_var": "u_met_godco_chef",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <u_name>.  How's it going for you?\"" ],
+        "no": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon."
+      }
+    },
+    "responses": [
+      {
+        "text": "Who are you?  Where am I right now?",
+        "topic": "TALK_GODCO_chef_intro",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "effect": { "npc_add_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Just passing through, don't mind me.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "effect": { "npc_add_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I wanted to talk.",
+        "topic": "TALK_GODCO_chef_idle_chat",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "Could I have some food?",
+        "topic": "TALK_GODCO_chef_get_food",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "I heard the joinees could get some food here.",
+        "topic": "TALK_GODCO_chef_get_food_joinee",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "u_got_meal" } },
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "condition": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      {
+        "text": "Just saying hello.  Keep safe.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Okay, man.  I'll be on my way.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_idle_chat",
+    "type": "talk_topic",
+    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, let's chat." ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_chef_past" },
+      { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },
+      { "text": "Is there any way I could join the community?", "topic": "TALK_GODCO_chef_join" },
+      {
+        "text": "Could you tell me about Katherine?",
+        "condition": { "u_has_var": "u_know_about_family", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_chef_katherine"
+      },
+      {
+        "text": "Could you tell me about Jeremiah?",
+        "condition": { "u_has_var": "u_know_about_family", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_chef_jeremiah"
+      },
+      { "text": "I've changed my mind, forget about it.", "topic": "TALK_NONE" },
+      { "text": "On second thought, I gotta go.  See ya, <name_g>.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_intro",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "This is the New England Community Church, I should say it's one of their old retreats.  I'm Simon, the head chef around here."
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_chef_past" },
+      { "text": "Thanks for the info.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_past",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I used to volunteer as a cook in a homeless shelter.  I met the church through that job; their missionaries would come by every so often and hand out essentials to people living there, then give a sermon in one of the back rooms.  Katherine and I wound up going to one of their sermons, and we've stayed connected since.  Working in that shelter taught me to cook on a shoestring budget; that's really useful these days, ya know."
+    ],
+    "responses": [
+      { "text": "Where's your family now?", "topic": "TALK_GODCO_chef_family" },
+      { "text": "Thanks, <name_g>.  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_family",
+    "type": "talk_topic",
+    "dynamic_line": [ "Katherine's probably in the bunks right now, and Jeremiah's next door.  Feel free to say hello sometime." ],
+    "speaker_effect": { "effect": { "npc_add_var": "u_know_about_family", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
+      { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_chef" },
+      { "text": "I'll do that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_get_food",
+    "type": "talk_topic",
+    "dynamic_line": [ "It's been a while since anyone gave out meals.  We're low on supplies around here, I can't spare any.  I'm sorry." ],
+    "responses": [
+      { "text": "Would you accept any money for it?", "topic": "TALK_GODCO_chef_get_food_bribe" },
+      { "text": "Please?  I need it for my family.", "topic": "TALK_GODCO_chef_get_food_family" },
+      { "text": "Thanks for the info.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_get_food_joinee",
+    "type": "talk_topic",
+    "dynamic_line": [ "They can, but we're limited on the portions for now.  Hope you enjoy it, and come back tomorrow for another." ],
+    "speaker_effect": {
+      "effect": [
+        { "u_spawn_item": "macaroni_helper", "container": "can_food" },
+        { "u_spawn_item": "toast" },
+        { "npc_add_effect": "u_got_meal", "duration": "12 h" }
+      ]
+    },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GODCO_chef_get_food_bribe",
+    "type": "talk_topic",
+    "dynamic_line": [ "No, I wouldn't.  Like I said, we don't have any to spare." ],
+    "responses": [
+      { "text": "Is there any way I could join the community?", "topic": "TALK_GODCO_chef_join" },
+      { "text": "It was worth a shot, I guess.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_katherine",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "She's my wife, worked for the Church before <the_cataclysm>.  She used to organized charities for the needy, now we're the ones in need of charity.  She has a bit of a high horse these days, but a nice lady once you get to know her.  We've been married for 28 years, and I couldn't ask for a better wife."
+    ],
+    "responses": [
+      { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
+      {
+        "text": "That's good to hear.  I'd like to ask you about something else.",
+        "topic": "TALK_GODCO_chef_idle_chat"
+      },
+      { "text": "That's good to hear, but I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_jeremiah",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Jeremiah is my son, he's a sweet boy and all grown up now.  We taught him everything he knows, and we all had high hopes for how he could make it in the world, before <the_cataclysm> took it away.  He doesn't like his mother, Katherine, very much, and I've tried to help the two, but they can't seem to properly get along."
+    ],
+    "responses": [
+      { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
+      { "text": "Why would they have an issue with each other?", "topic": "TALK_GODCO_chef_k&j_conflict" },
+      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "I gotta go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_k&j_conflict",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Katherine is a bit overprotective of him, and ever since <the_cataclysm>, she's become extremely worried for his safety.  He wants more independence, seein' as how he's grown now, but she won't leave him be.  She tells me that someone needs to keep an eye on him, so she took it upon herself to do so.  I think she has the best intentions at heart, I know she loves him dearly, but the boy needs to figure out some things on his own."
+    ],
+    "responses": [
+      { "text": "Could you tell me more about Katherine?", "topic": "TALK_GODCO_chef_katherine" },
+      { "text": "Could you tell me more about Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
+      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_get_food_family",
+    "type": "talk_topic",
+    "dynamic_line": [ "Look, I have a family too.  I know how hard it is for you, but I've already told you, rules are rules." ],
+    "responses": [ { "text": "I guess I'll starve.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GODCO_chef_mood",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Could be better, could be worse, but I'm not complaining.  I have everything I need here; my family, a nice job, and roof over my head.  I only wish God was as forgiving to others as to me."
+    ],
+    "responses": [ { "text": "Good to hear that.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_GODCO_chef_join",
+    "type": "talk_topic",
+    "dynamic_line": [ "You'd have to talk to Gemma or Julian about that.  I'm sure there's a way, though." ],
+    "responses": [ { "text": "Thanks for the info.", "topic": "TALK_DONE" } ]
+  }
+]

@@ -21,11 +21,6 @@ enum action_id : int;
 class cata_path;
 class hotkey_queue;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace catacurses
 {
 class window;

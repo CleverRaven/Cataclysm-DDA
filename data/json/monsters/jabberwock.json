@@ -24,7 +24,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 10 ], [ "ABSORB_MEAT", 10 ] ],
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 42, "into": "mon_flesh_golem" },
     "zombify_into": "mon_meat_cocoon_small",

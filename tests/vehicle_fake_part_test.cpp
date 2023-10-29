@@ -64,6 +64,7 @@ static void validate_part_count( const vehicle &veh, const int target_velocity,
 
 TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
 {
+    clear_avatar();
     const int original_parts = 120;
     const int fake_parts = 18;
     std::vector<int> active_fakes_by_angle = { 0, 2, 5, 15, 7, 2 };
@@ -99,6 +100,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
 
 TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 {
+    clear_avatar();
     const int original_parts = 120;
     const int fake_parts = 18;
     std::vector<int> active_fakes_by_angle = { 0, 3, 8, 15, 6, 1 };
@@ -161,6 +163,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 
 TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
 {
+    clear_avatar();
     really_clear_map();
     const tripoint test_origin( 30, 30, 0 );
     map &here = get_map();
@@ -188,6 +191,7 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
 
 TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicle_fake]" )
 {
+    clear_avatar();
     really_clear_map();
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 45 degree angle to the X axis" ) {
@@ -246,6 +250,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
 
 TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 {
+    clear_avatar();
     really_clear_map();
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 30 degree angle to the X axis" ) {
@@ -302,6 +307,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 
 TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [vehicle_fake]" )
 {
+    clear_avatar();
     really_clear_map();
     map &here = get_map();
     GIVEN( "A vehicle with no parts that block movement" ) {

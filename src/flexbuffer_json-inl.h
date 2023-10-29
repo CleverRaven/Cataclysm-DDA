@@ -111,7 +111,7 @@ inline JsonValue::operator std::string() const
     if( json_.IsString() ) {
         return json_.AsString().str();
     }
-    throw_error( 0, "Expected a string, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected a string, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator int() const
@@ -119,7 +119,7 @@ inline JsonValue::operator int() const
     if( json_.IsNumeric() ) {
         return static_cast<int>( json_.AsInt64() );
     }
-    throw_error( 0, "Expected an int, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected an int, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator int64_t() const
@@ -127,7 +127,7 @@ inline JsonValue::operator int64_t() const
     if( json_.IsNumeric() ) {
         return static_cast<int64_t>( json_.AsInt64() );
     }
-    throw_error( 0, "Expected an int64_t, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected an int64_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator uint64_t() const
@@ -140,7 +140,7 @@ inline JsonValue::operator uint64_t() const
         }
         throw_error( "uint64_t value out of range" );
     }
-    throw_error( "Expected a uint64_t, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected a uint64_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator unsigned() const
@@ -153,7 +153,7 @@ inline JsonValue::operator unsigned() const
         }
         throw_error( "unsigned int value out of range" );
     }
-    throw_error( "Expected an int, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected an uint32_t, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator bool() const
@@ -161,7 +161,7 @@ inline JsonValue::operator bool() const
     if( json_.IsBool() ) {
         return json_.AsBool();
     }
-    throw_error( "Expected a bool, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected a bool, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator double() const
@@ -169,7 +169,7 @@ inline JsonValue::operator double() const
     if( json_.IsNumeric() ) {
         return json_.AsDouble();
     }
-    throw_error( "Expected a double, got a " + std::to_string( json_.GetType() ) );
+    throw_error( "Expected a double, got " + flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator JsonObject() const
@@ -181,7 +181,8 @@ inline JsonValue::operator JsonObject() const
     if( json_.IsMap() ) {
         return JsonObject( root_, flexbuffer( json_ ), std::move( new_path ) );
     }
-    throw_error( new_path, 0, "Expected an object, got a " + std::to_string( json_.GetType() ) );
+    throw_error( new_path, 0, "Expected an object, got " +
+                 flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline JsonValue::operator JsonArray() const
@@ -193,7 +194,8 @@ inline JsonValue::operator JsonArray() const
     if( json_.IsAnyVector() && !json_.IsMap() ) {
         return JsonArray( root_, flexbuffer( json_ ), std::move( new_path ) );
     }
-    throw_error( new_path, 0, "Expected an array, got a " + std::to_string( json_.GetType() ) );
+    throw_error( new_path, 0, "Expected an array, got " +
+                 flexbuffer_type_to_string( json_.GetType() ) );
 }
 
 inline bool JsonValue::test_string() const

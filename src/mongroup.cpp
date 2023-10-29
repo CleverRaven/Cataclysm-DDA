@@ -242,7 +242,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
             }
         } else if( use_pack_size ) {
             for( int i = 0; i < pack_size; i++ ) {
-                spawn_details.emplace_back( MonsterGroupResult( entry.name, pack_size, entry.data ) );
+                spawn_details.emplace_back( entry.name, pack_size, entry.data );
                 // And if a quantity pointer with remaining value was passed, will modify the external
                 // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
                 if( quantity ) {
@@ -250,7 +250,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
                 }
             }
         } else {
-            spawn_details.emplace_back( MonsterGroupResult( entry.name, pack_size, entry.data ) );
+            spawn_details.emplace_back( entry.name, pack_size, entry.data );
             // And if a quantity pointer with remaining value was passed, will modify the external
             // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
             if( quantity ) {
@@ -270,7 +270,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
     }
 
     if( !is_recursive && spawn_details.empty() ) {
-        spawn_details.emplace_back( MonsterGroupResult( group.defaultMonster, 1, spawn_data() ) );
+        spawn_details.emplace_back( group.defaultMonster, 1, spawn_data() );
         if( returned_default ) {
             ( *returned_default ) = true;
         }

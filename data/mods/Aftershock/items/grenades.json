@@ -1,5 +1,16 @@
 [
   {
+    "abstract": "grenade_canister",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "canister grenade" },
+    "weight": "1058 g",
+    "volume": "270 ml",
+    "material": [ "steel" ],
+    "symbol": "*",
+    "color": "dark_gray"
+  },
+  {
     "id": "afs_kaburaya_bomb",
     "type": "TOOL",
     "copy-from": "grenade_canister",
@@ -11,8 +22,7 @@
       "need_wielding": true,
       "target": "afs_kaburaya_bomb_act",
       "msg": "You activate the device.",
-      "target_charges": 3,
-      "active": true,
+      "target_timer": "3 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -25,14 +35,9 @@
     "looks_like": "c4",
     "name": "armed Kabura-ya antipersonnel device",
     "description": "A tiny plastic explosive meant to be installed within a Kabura-ya drone.  It is on the verge of exploding.",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "turns_per_charge": 2,
-    "use_action": {
+    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead.", "name": "Pull pin" },
+    "countdown_action": {
       "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already activated the %s, try throwing it instead.",
       "explosion": { "power": 100, "max_noise": 25, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 }, "distance_factor": 0.2 }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -49,8 +54,7 @@
       "need_wielding": true,
       "target": "afs_demo_charge_act",
       "msg": "You activate the demolition charge.",
-      "target_charges": 1,
-      "active": true,
+      "target_timer": "1 seconds",
       "menu_text": "Activate charge",
       "type": "transform"
     },
@@ -63,16 +67,8 @@
     "name": "active demolition charge",
     "looks_like": "c4armed",
     "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  It's currently active.",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already activated the %s, try throwing it instead.",
-      "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.3 }
-    },
+    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.3 } },
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
@@ -83,7 +79,14 @@
     "looks_like": "grenade_emp",
     "name": "electroshock grenade",
     "description": "This is an electronic weapon that will emit a short-ranged electric field.  When activated, you'll have five turns before it starts doing so; throwing it before that would be a good idea.",
-    "use_action": { "menu_text": "Pull pin", "need_wielding": true, "type": "transform", "target": "afs_electroshock_grenade_1_act" }
+    "use_action": {
+      "menu_text": "Pull pin",
+      "need_wielding": true,
+      "type": "transform",
+      "target": "afs_electroshock_grenade_1_act",
+      "target_timer": "20 seconds"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
     "id": "afs_electroshock_grenade_1_act",
@@ -93,8 +96,7 @@
     "name": "armed electroshock grenade",
     "description": "This electroshock grenade is currently creating a dangerous electric field.",
     "emits": [ "emit_shock_cloud" ],
-    "countdown_interval": 20,
-    "countdown_action": { "type": "transform", "target": "afs_material_1" },
+    "revert_to": "afs_material_1",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -115,8 +117,7 @@
       "need_wielding": true,
       "target": "grenade_cryo_act",
       "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
-      "active": true,
+      "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -137,18 +138,13 @@
     "material": [ "superalloy" ],
     "symbol": "*",
     "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": {
+    "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
+    "countdown_action": {
       "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
       "fields_type": "fd_nuke_gas",
       "fields_radius": 3,
       "fields_min_intensity": 3,
       "fields_max_intensity": 3,
-      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
       "explosion": { "power": 540, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ],
@@ -166,8 +162,7 @@
       "need_wielding": true,
       "target": "afs_oxygen_bomb_act",
       "msg": "You pull the pin on the bomb.",
-      "target_charges": 3,
-      "active": true,
+      "target_timer": "3 seconds",
       "menu_text": "Pull the pin",
       "type": "transform"
     },
@@ -180,6 +175,6 @@
     "looks_like": "pipebomb_act",
     "name": "active oxygen bomb",
     "price": "0 USD",
-    "description": "This bomb's fuse is lit, and it will explode any second now.  Throw it immediately!."
+    "description": "This bomb's fuse is lit, and it will explode any second now.  Throw it immediately!"
   }
 ]

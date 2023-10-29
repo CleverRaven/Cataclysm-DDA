@@ -3,6 +3,7 @@
     "id": "deck_of_tarot_cards",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "deck_of_cards",
     "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
     "description": "A deck of intricately designed tarot cards.  When you lay out your future they seem to be trying to tell you to take a leap of faith.",
     "weight": "50 g",
@@ -12,7 +13,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ",",
     "color": "brown",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spring_heeled_leap" ] }
   },
   {
@@ -28,13 +28,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "%",
     "color": "dark_gray",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "banish_nether_monsters" ] }
   },
   {
     "id": "hurricane_lamp_thorns",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "oil_lamp",
     "name": { "str": "hurricane lamp with thorns", "str_pl": "hurricane lamps with thorns" },
     "description": "An old style hurricane lamp.  The handle appears to made of vines covered in sharp thorns.",
     "weight": "50 g",
@@ -44,13 +44,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "a",
     "color": "green",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "banish_dark_monsters" ] }
   },
   {
     "id": "glass_berries",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "marble",
     "name": { "str": "box of glass berries", "str_pl": "boxes of glass berries" },
     "description": "A box full of glass berries, when you get distracted you find yourself crunching them in your mouth.  Each one tastes like a mouthful of blood that slowly changes to espresso.",
     "weight": "50 g",
@@ -60,13 +60,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "light_cyan",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "blood_boil" ] }
   },
   {
     "id": "polaroid_of_missing_person",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "polaroid_photo",
     "name": { "str": "polaroid of a missing person", "str_pl": "polaroids of a missing person" },
     "description": "A polaroid of someone you remember going missing before the Cataclysm.  It caught a ton of media attention due to them being seen near what was shortly after identified as a thin place between dimensions.  The more you stare at the picture, the more you begin to see wounds appear and disappear on the person.  Sometimes they match your old scars.",
     "weight": "50 g",
@@ -76,13 +76,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "O",
     "color": "white_magenta",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
   },
   {
     "id": "strange_coffee",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "ceramic_mug",
     "name": { "str": "strange cup of coffee", "str_pl": "strange cups of coffee" },
     "description": "A small jar with coffee, moving in weird patterns with no apparent cause.  After watching the swirls for some time, you are sure that it loops back on its movements, like some sort of message.",
     "weight": "90 g",
@@ -92,23 +92,21 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "C",
     "color": "white_magenta",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "supercoffee" ] }
   },
   {
     "id": "blindfold_artifact",
     "type": "ARMOR",
     "copy-from": "blindfold",
-    "looks_like": "blindfold",
     "name": { "str": "red devil blindfold" },
     "description": "A red fabric blindfold with a cartoonish devil over the eyes.  You feel some anger when you put it on.  Did that devil just wink at you?",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_rage" ] }
   },
   {
     "id": "artifact_heart",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "jabberwock_heart",
     "name": { "str": "mother of pearl heart" },
     "description": "A human heart grown in mother of pearl.  It beats loudly when you raise it to your ear.",
     "weight": "310 g",
@@ -119,13 +117,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_stamina_wonder" ] }
   },
   {
     "id": "artifact_eye_right",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "petrified_eye",
     "name": { "str": "right eye" },
     "description": "A tiny human eye.  You can clearly see the green iris and red capillaries.  While holding it in the dark you feel it watching you.",
     "weight": "9 g",
@@ -135,13 +133,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "green",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_night_vision" ] }
   },
   {
     "id": "artifact_cerebellum",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "human_brain",
     "name": { "str": "cerebellum" },
     "description": "A small, smooth part of the human brain.  Looks slippery.  Feels like rubber.",
     "weight": "131 g",
@@ -151,13 +149,13 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_dodge" ] }
   },
   {
     "id": "artifact_skull",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "skull_human",
     "name": { "str": "skull" },
     "description": "A tiny human skull.  His empty orbits are watching you.",
     "weight": "1133 g",
@@ -167,7 +165,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "@",
     "color": "red",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_endurance" ] }
   },
   {
@@ -183,7 +180,6 @@
     "symbol": "[",
     "looks_like": "ring_purity",
     "color": "brown",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "sided": true,
     "armor": [
       {
@@ -200,6 +196,7 @@
     "id": "artifact_eye_left",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "petrified_eye",
     "name": { "str": "left eye" },
     "description": "A tiny human eye.  You can clearly see it has a blue iris and red capillaries.  You feel it can see you no matter how you hide.",
     "weight": "9 g",
@@ -209,7 +206,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "white",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_clairvoyance" ] }
   },
   {
@@ -223,7 +219,6 @@
     "color": "brown",
     "material": [ "forged_dreamstuff" ],
     "looks_like": "book_newage_generic",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_melee_damage" ] },
     "melee_damage": { "bash": 1 }
   },
@@ -232,6 +227,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "horn" },
+    "looks_like": "bone",
     "description": "A large, straight horn of some unknown creature.  It could easily injure a careless person.",
     "weight": "239 g",
     "volume": "315 ml",
@@ -245,7 +241,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "l",
     "color": "red",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_spear" ] },
     "melee_damage": { "stab": 12 }
   },
@@ -253,6 +248,7 @@
     "id": "artifact_muscle",
     "type": "GENERIC",
     "category": "artifacts",
+    "looks_like": "arm",
     "name": { "str_sp": "muscles" },
     "description": "A long fleshy tendon with joints on both sides.  They contract from time to time.",
     "weight": "9 g",
@@ -262,7 +258,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "red",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
   },
   {
@@ -278,7 +273,6 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "red",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_weak" ] }
   },
   {
@@ -286,6 +280,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "pair of spheres", "str_pl": "pairs of spheres" },
+    "looks_like": "marble",
     "description": "Two perfect spheres, where the first does not move at all, and second constantly rotates around.  You feel the connection to both of them.",
     "//": "unstoppable and immovable",
     "weight": "240 g",
@@ -295,7 +290,22 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "dark_gray",
-    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_unbreakable" ] }
+  },
+  {
+    "id": "artifact_point_blank",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "looks_like": "ch_mitten_gaunt",
+    "name": { "str": "fist" },
+    "description": "A solid, full size cast of a human fist, made out of some gray metal.  Looks menacing.",
+    "weight": "560 g",
+    "volume": "280 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "point_blank" ] }
   }
 ]

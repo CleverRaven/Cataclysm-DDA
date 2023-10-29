@@ -58,5 +58,17 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 10,
     "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "brick_oven_pseudo",
+    "type": "TOOL",
+    "name": { "str": "brick oven" },
+    "description": "This is a pseudo item to represent t_brick_oven.  If you see it, it's a bug.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "[",
+    "color": "dark_gray",
+    "qualities": [ [ "OVEN", 2 ] ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   }
 ]

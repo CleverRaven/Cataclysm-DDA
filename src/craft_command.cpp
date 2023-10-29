@@ -175,7 +175,7 @@ void craft_command::execute( bool only_cache_comps )
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, rec );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -185,7 +185,7 @@ void craft_command::execute( bool only_cache_comps )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, true, true, []( int charges ) {
+            it, batch_size, map_inv, true, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
             } );
             if( ts.use_from == usage_from::cancel ) {
@@ -299,10 +299,10 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
-                                    veh_items.emplace_back( std::pair<const vpart_reference, item>( vp.value(), tmp_i ) );
+                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).cargo() ) {
+                                    veh_items.emplace_back( vp.value(), tmp_i );
                                 } else {
-                                    map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
+                                    map_items.emplace_back( p, tmp_i );
                                 }
                             }
                             if( cont_not_empty && ( no_prompt || !query_yn( liq_cont_msg, iname ) ) ) {

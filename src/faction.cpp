@@ -623,8 +623,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string can_see;
     nc_color see_color;
 
-    bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
-    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool u_has_radio = player_character.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
@@ -850,7 +850,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
@@ -871,7 +871,7 @@ void faction_manager::display() const
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
@@ -897,7 +897,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         _( valfac[i]->name ) );
@@ -1068,8 +1068,9 @@ void faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {
-                    guy->reset_companion_mission();
-                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+
+                    talk_function::basecamp_mission( *guy );
+
                 } else if( interactable || radio_interactable ) {
                     player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }

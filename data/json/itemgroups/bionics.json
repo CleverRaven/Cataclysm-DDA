@@ -93,7 +93,9 @@
       [ "bio_recoil", 10 ],
       [ "bio_ar", 10 ],
       [ "bio_fitnessband", 10 ],
-      [ "bio_radio", 10 ]
+      [ "bio_radio", 10 ],
+      [ "bio_synlungs", 10 ],
+      [ "bio_taser", 10 ]
     ]
   },
   {
@@ -117,7 +119,8 @@
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_cable", 10 ],
-      [ "bio_fitnessband", 10 ]
+      [ "bio_fitnessband", 10 ],
+      [ "bio_taser", 5 ]
     ]
   },
   {
@@ -183,7 +186,9 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_recoil", 10 ],
-      [ "bio_radio", 10 ]
+      [ "bio_radio", 10 ],
+      [ "bio_synlungs", 10 ],
+      [ "bio_taser", 10 ]
     ]
   }
 ]

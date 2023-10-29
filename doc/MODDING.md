@@ -1,4 +1,4 @@
-﻿# Modding guide
+# Modding guide
 
 Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
 

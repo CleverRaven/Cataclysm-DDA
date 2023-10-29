@@ -1,0 +1,74 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_BIOKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENCE" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYRO_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PYROKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEEP_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPORTATION" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_MATRIX_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_VITAKINESIS" } ] },
+    "effect": [ { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_RESIST_POTION_COMEDOWN_PENALTY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_noetic_resilience_comedown" },
+    "effect": [
+      { "math": [ "u_val('spell_level_adjustment', 'school: BIOKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: CLAIRSENTIENT')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: PYROKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEKINETIC')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPATH')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: TELEPORTER')", "=", "-3" ] },
+      { "math": [ "u_val('spell_level_adjustment', 'school: VITAKINETIC')", "=", "-3" ] }
+    ]
+  }
+]

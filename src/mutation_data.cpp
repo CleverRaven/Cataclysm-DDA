@@ -233,6 +233,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
     assign( j, "target", target );
     assign( j, "msg_transform", msg_transform );
     assign( j, "active", active );
+    optional( j, false, "safe", safe, false );
     assign( j, "moves", moves );
 
     return true;
@@ -359,11 +360,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
         JsonArray bodytemp_array = jo.get_array( "bodytemp_modifiers" );
-        bodytemp_min = bodytemp_array.get_int( 0 );
-        bodytemp_max = bodytemp_array.get_int( 1 );
+        bodytemp_min = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 0 ) );
+        bodytemp_max = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 1 ) );
     }
 
-    optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
+    int legacy_bodytemp_sleep = units::to_legacy_bodypart_temp_delta( bodytemp_sleep );
+    optional( jo, was_loaded, "bodytemp_sleep", legacy_bodytemp_sleep, 0 );
+    bodytemp_sleep = units::from_legacy_bodypart_temp_delta( legacy_bodytemp_sleep );
     optional( jo, was_loaded, "threshold", threshold, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
@@ -503,7 +506,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
+        no_cbm_on_bp.emplace( s );
     }
 
     optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
@@ -600,7 +603,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
-        integrated_armor.emplace_back( itype_id( jv ) );
+        integrated_armor.emplace_back( jv );
     }
 
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
@@ -792,6 +795,29 @@ void mutation_branch::check_consistency()
             }
         }
 
+        for( const std::pair<const bodypart_str_id, resistances> &ma : mdata.armor ) {
+            for( const std::pair<const damage_type_id, float> &dt : ma.second.resist_vals ) {
+                if( !dt.first.is_valid() ) {
+                    debugmsg( "Invalid armor type \"%s\" for mutation %s", dt.first.c_str(), mdata.id.c_str() );
+                }
+            }
+        }
+
+        for( const mut_attack &atk : mdata.attacks_granted ) {
+            for( const damage_unit &dt : atk.base_damage.damage_units ) {
+                if( !dt.type.is_valid() ) {
+                    debugmsg( "Invalid base_damage type \"%s\" for a mutation attack in mutation %s", dt.type.c_str(),
+                              mdata.id.c_str() );
+                }
+            }
+            for( const damage_unit &dt : atk.strength_damage.damage_units ) {
+                if( !dt.type.is_valid() ) {
+                    debugmsg( "Invalid strength_damage type \"%s\" for a mutation attack in mutation %s",
+                              dt.type.c_str(), mdata.id.c_str() );
+                }
+            }
+        }
+
         // We need to display active mutations in the UI.
         if( mdata.activated && !mdata.player_display ) {
             debugmsg( "mutation %s is not displayed but set as active" );
@@ -862,6 +888,7 @@ const mutation_variant *mutation_branch::pick_variant_menu() const
     menu.desc_enabled = true;
     menu.text = string_format( _( "Pick variant for: %s" ), name() );
     std::vector<const mutation_variant *> options;
+    options.reserve( variants.size() );
     for( const std::pair<const std::string, mutation_variant> &var : variants ) {
         options.emplace_back( &var.second );
     }
@@ -891,6 +918,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
+    ret.reserve( raw_messages.size() );
     for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
@@ -980,12 +1008,12 @@ void mutation_branch::finalize_all()
     trait_factory.finalize();
     for( const mutation_branch &branch : get_all() ) {
         for( const mutation_category_id &cat : branch.category ) {
-            mutations_category[cat].push_back( trait_id( branch.id ) );
+            mutations_category[cat].emplace_back( branch.id );
         }
         // Don't include dummy mutations for the ANY category, since they have a very specific use case
         // Otherwise, the system will prioritize them
         if( !branch.dummy ) {
-            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+            mutations_category[mutation_category_ANY].emplace_back( branch.id );
         }
     }
     finalize_trait_blacklist();

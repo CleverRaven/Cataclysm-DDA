@@ -161,7 +161,7 @@
     "type": "TOOL",
     "name": { "str": "matchbook" },
     "description": "A small book of matches with a coarse strike surface on the outside flap for lighting them.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.  Due to the matches being lightly glued to the matchbook, they can be removed, but not replaced on the book.",
-    "category": "containers",
+    "category": "container",
     "weight": "10 g",
     "volume": "10 ml",
     "price": 10,
@@ -199,7 +199,7 @@
     "name": { "str": "matchbox", "str_pl": "matchboxes" },
     "description": "A small box of matches with a coarse strike surface on the side for lighting them.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "looks_like": "matches",
-    "category": "containers",
+    "category": "container",
     "weight": "10 g",
     "volume": "25 ml",
     "price_postapoc": 50,
@@ -224,14 +224,14 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": [ "lamp_oil" ],
     "charges_per_use": 1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "gasoline": 50 },
+        "ammo_restriction": { "lamp_oil": 50 },
         "watertight": true
       }
     ],
@@ -261,14 +261,14 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": [ "lamp_oil" ],
     "charges_per_use": 1,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "gasoline": 50 },
+        "ammo_restriction": { "lamp_oil": 50 },
         "watertight": true
       }
     ],

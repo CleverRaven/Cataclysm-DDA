@@ -1,93 +1,6 @@
-// RUN: %check_clang_tidy %s cata-u8-path %t -- --load=%cata_plugin --
+// RUN: %check_clang_tidy -allow-stdinc %s cata-u8-path %t -- --load=%cata_plugin -- -isystem %cata_include/third-party
 
-// check_clang_tidy uses -nostdinc++, so we add dummy declarations here
-namespace std
-{
-namespace filesystem
-{
-class path
-{
-    public:
-        enum format {
-            native_foramt,
-            generic_format,
-            auto_format
-        };
-
-        path() noexcept;
-        path( const path &p );
-        path( path &&p ) noexcept;
-
-        template<typename Source>
-        path( const Source &source, format fmt = auto_format );
-        template<typename InputIt>
-        path( InputIt first, InputIt last, format fmt = auto_format );
-
-        path &operator=( const path &p );
-        path &operator=( path &&p ) noexcept;
-        template<typename Source>
-        path &operator=( const Source &source );
-        template<typename Source>
-        path &assign( const Source &source );
-        template<typename InputIt>
-        path &assign( InputIt first, InputIt last );
-
-        path &operator/=( const path &p );
-        template<typename Source>
-        path &operator/=( const Source &source );
-        template<typename Source>
-        path &append( const Source &source );
-        template<typename InputIt>
-        path &append( InputIt first, InputIt last );
-
-        path &operator+=( const path &p );
-        template<typename Source>
-        path &operator+=( const Source &source );
-        template<typename Source>
-        path &concat( const Source &source );
-        template<typename InputIt>
-        path &concat( InputIt first, InputIt last );
-};
-
-path operator/( const path &lhs, const path &rhs );
-
-template<typename Source>
-path u8path( const Source &source )
-{
-    // Not the correct implementation, but we only care about checking that
-    // warnings are not generated inside the filesystem namespace.
-    return path{ source };
-}
-template<typename InputIt>
-path u8path( InputIt first, InputIt last )
-{
-    // Not the correct implementation, but we only care about checking that
-    // warnings are not generated inside the filesystem namespace.
-    return path{ first, last };
-}
-} // namespace filesystem
-
-template<typename T>
-struct remove_reference {
-    using type = T;
-};
-
-template<typename T>
-struct remove_reference<T &> {
-    using type = T;
-};
-
-template<typename T>
-struct remove_reference < T && > {
-    using type = T;
-};
-
-template<typename T>
-constexpr typename remove_reference<T>::type &&move( T &&t ) noexcept;
-
-} // namespace std
-
-namespace fs = std::filesystem;
+#include <ghc/fs_std.hpp>
 
 void write_to_file( const fs::path &p );
 fs::path get_root_dir();
@@ -145,9 +58,6 @@ void test_cases()
     // CHECK-MESSAGES: [[@LINE-1]]:54: warning: Construct `fs::path` by passing UTF-8 string to `fs::u8path` to ensure the correct path encoding.
     fs::path path_op_join_str_literal_path = ".." / path_u8_pchar;
     // CHECK-MESSAGES: [[@LINE-1]]:46: warning: Construct `fs::path` by passing UTF-8 string to `fs::u8path` to ensure the correct path encoding.
-    std::filesystem::operator/( "foo", "bar" );
-    // CHECK-MESSAGES: [[@LINE-1]]:33: warning: Construct `fs::path` by passing UTF-8 string to `fs::u8path` to ensure the correct path encoding.
-    // CHECK-MESSAGES: [[@LINE-2]]:40: warning: Construct `fs::path` by passing UTF-8 string to `fs::u8path` to ensure the correct path encoding.
     static_cast<void>( path_op_join_path_cstr );
     static_cast<void>( path_op_join_str_literal_path );
 

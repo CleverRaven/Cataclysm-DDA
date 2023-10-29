@@ -10,16 +10,14 @@
     "effect_str": "night_sight",
     "skill": "deduction",
     "shape": "blast",
-    "min_range": 1,
-    "max_range": 1,
-    "base_casting_time": 100,
-    "base_energy_cost": 1000,
+    "base_casting_time": 2000,
+    "base_energy_cost": 1200,
     "energy_source": "MANA",
     "difficulty": 6,
     "max_level": 20,
-    "min_duration": 100000,
-    "max_duration": 1000000,
-    "duration_increment": 2000
+    "min_duration": { "math": [ "spell_time(u_val('time: 3 m'))" ] },
+    "max_duration": { "math": [ "spell_time(u_val('time: 3 h'))" ] },
+    "duration_increment": { "math": [ "spell_time(u_val('time: 3 m'))" ] }
   },
   {
     "id": "dread_weight",
@@ -38,7 +36,7 @@
     "damage_increment": 1.0,
     "min_aoe": 2,
     "max_aoe": 20,
-    "aoe_increment": 0.5,
+    "aoe_increment": 0.9,
     "min_range": 5,
     "max_range": 20,
     "range_increment": 2.0,
@@ -60,7 +58,7 @@
     "description": "The edges of your form seem to blur and distort, increasing the amount of attacks you might dodge in a given turn.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "obfuscating_aura",
+    "effect_str": "blurred_aura",
     "skill": "deduction",
     "shape": "blast",
     "energy_source": "MANA",
@@ -72,7 +70,7 @@
     "base_energy_cost": 400,
     "min_duration": 21000,
     "max_duration": 90000,
-    "duration_increment": 4500
+    "duration_increment": 4600
   },
   {
     "id": "damage_transfer",

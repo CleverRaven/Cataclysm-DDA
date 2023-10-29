@@ -160,7 +160,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
                             tags.pop_back();
                         }
                     } else {
-                        auto tag_end = rawwline.find( '>', tag_pos );
+                        size_t tag_end = rawwline.find( '>', tag_pos );
                         if( tag_end != std::string::npos ) {
                             tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
                         }
@@ -849,6 +849,35 @@ bool query_yn( const std::string &text )
            .action == "YES";
 }
 
+query_ynq_result query_ynq( const std::string &text )
+{
+    // TODO: android native UI
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                            : input_context::allow_all_keys;
+
+    const std::string action =
+        query_popup()
+        .context( "YESNOQUIT" )
+        .message( force_uc && !is_keycode_mode_supported()
+                  ? pgettext( "query_yn", "%s (Case Sensitive)" )
+                  : pgettext( "query_yn", "%s" ), text )
+        .option( "YES", allow_key )
+        .option( "NO", allow_key )
+        .option( "QUIT", allow_key )
+        .allow_cancel( true )
+        .cursor( 2 )
+        .default_color( c_light_red )
+        .query()
+        .action;
+    if( action == "NO" ) {
+        return query_ynq_result::no;
+    } else if( action == "YES" ) {
+        return query_ynq_result::yes;
+    }
+    return query_ynq_result::quit;
+}
+
 bool query_int( int &result, const std::string &text )
 {
     string_input_popup popup;
@@ -994,27 +1023,74 @@ static const std::array<translation, 3> item_filter_rule_intros {
     to_translation( "Type part of an item's name to move nearby items to the top." )
 };
 
+namespace
+{
+struct ItemFilterPrefix {
+    char key;
+    translation example;
+    translation description;
+};
+} // namespace
+
+static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
+    { 'c', to_translation( "food" ), to_translation( "<color_cyan>category</color> of item" ) },
+    { 'm', to_translation( "iron" ), to_translation( "<color_cyan>material</color> item is made of" ) },
+    { 'q', to_translation( "hammering" ), to_translation( "<color_cyan>quality</color> provided by tool" ) },
+    { 'n', to_translation( "toolshelf" ), to_translation( "<color_cyan>notes</color> written on item" ) },
+    { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
+    { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
+    { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
+    { 'b', to_translation( "mre;sealed" ), to_translation( "items satisfying <color_cyan>both</color> conditions" ) }
+};
+
+static const translation item_filter_help_1 = to_translation(
+            "The default is to search item names.  Some single-character prefixes "
+            "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
+            "are separated by commas <color_red>,</color>.\n"
+            "Example: back,flash,aid, ,band\n\n" // NOLINT(cata-text-style): literal comma
+        );
+static const translation item_filter_help_2 = to_translation(
+            "\nPlace [<color_red>--</color>] in front to include only matching items.\n"
+            // An example of how to exclude items with - when filtering items.
+            "Example: steel,-chunk,--c:spare parts"
+        );
+
 std::string item_filter_rule_string( const item_filter_type type )
 {
-    std::ostringstream str;
+    std::string description;
     const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
-    str << item_filter_rule_intros[tab_idx];
-    // NOLINTNEXTLINE(cata-text-style): literal comma
-    str << "\n\n" << _( "Separate multiple items with [<color_yellow>,</color>]." );
-    //~ An example of how to separate multiple items with a comma when filtering items.
-    str << "\n" << _( "Example: back,flash,aid, ,band" ); // NOLINT(cata-text-style): literal comma
-    str << "\n\n" << _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                        "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
-                        "[<color_yellow>s</color>]skill taught by books, "
-                        "[<color_yellow>d</color>]isassembled components, or "
-                        "items satisfying [<color_yellow>b</color>]oth conditions." );
-    //~ An example of how to filter items based on category or material.
-    str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
-    str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
-                        "Place [<color_yellow>--</color>] in front to include only matching items." );
-    //~ An example of how to exclude items with - when filtering items.
-    str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
-    return str.str();
+    description = item_filter_rule_intros[tab_idx] + "\n" + item_filter_help_1.translated();
+
+    int max_example_length = 0;
+    for( const auto &prefix : item_filter_prefixes ) {
+        max_example_length = std::max( max_example_length, utf8_width( prefix.example.translated() ) );
+    }
+    std::string spaces( max_example_length, ' ' );
+    {
+        std::string example_name = _( "shirt" );
+        int padding = max_example_length - utf8_width( example_name );
+        description += string_format(
+                           _( "  <color_white>%s</color>%.*s    %s\n" ),
+                           example_name, padding, spaces,
+                           _( "<color_cyan>name</color> of item" ) );
+
+        std::string example_exclude = _( "rotten" );
+        padding = max_example_length - utf8_width( example_exclude );
+        description += string_format(
+                           _( "  <color_yellow>-</color><color_white>%s</color>%.*s   %s\n" ),
+                           example_exclude, padding, spaces,
+                           _( "<color_cyan>names</color> to exclude" ) );
+    }
+
+    for( const auto &prefix : item_filter_prefixes ) {
+        int padding = max_example_length - utf8_width( prefix.example.translated() );
+        description += string_format(
+                           _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
+                           prefix.key, prefix.example, padding, spaces, prefix.description );
+    }
+
+    description += item_filter_help_2.translated();
+    return description;
 }
 
 void draw_item_filter_rules( const catacurses::window &win, const int starty, const int height,
@@ -1143,17 +1219,21 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     std::vector<std::string> folded;
     scrollbar item_info_bar;
 
-    const auto init = [&]() {
-        win = init_window();
-        width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
-        height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
-        folded = foldstring( buffer, width - 1 );
+    const auto clamp_ptr_selected_scroll = [&]() {
         if( *data.ptr_selected < 0 || height < 0 ||
             folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
         } else if( static_cast<size_t>( *data.ptr_selected ) + height >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
+    };
+
+    const auto init = [&]() {
+        win = init_window();
+        width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
+        height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
+        folded = foldstring( buffer, width - 1 );
+        clamp_ptr_selected_scroll();
     };
 
     const auto redraw = [&]() {
@@ -1220,14 +1300,11 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( data.handle_scrolling && item_info_bar.handle_dragging( action, coord, *data.ptr_selected ) ) {
             // No action required, the scrollbar has handled it
         } else if( data.handle_scrolling && action == "PAGE_UP" ) {
-            if( *data.ptr_selected > 0 ) {
-                --*data.ptr_selected;
-            }
+            *data.ptr_selected -= height;
+            clamp_ptr_selected_scroll();
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
-            if( *data.ptr_selected < 0 ||
-                ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
-                ++*data.ptr_selected;
-            }
+            *data.ptr_selected += height;
+            clamp_ptr_selected_scroll();
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" &&
                      !ctxt.get_raw_input().sequence.empty() ) ) {
@@ -1263,35 +1340,6 @@ char rand_char()
             return '^';
     }
     return '?';
-}
-
-// this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly
-int special_symbol( int sym )
-{
-    switch( sym ) {
-        case 'j':
-            return LINE_XOXO;
-        case 'h':
-            return LINE_OXOX;
-        case 'c':
-            return LINE_XXXX;
-        case 'y':
-            return LINE_OXXO;
-        case 'u':
-            return LINE_OOXX;
-        case 'n':
-            return LINE_XOOX;
-        case 'b':
-            return LINE_XXOO;
-        default:
-            return sym;
-    }
-}
-
-int special_symbol( char sym )
-{
-    return special_symbol( static_cast<uint8_t>( sym ) );
 }
 
 template<typename Predicate>
@@ -1518,12 +1566,12 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
     int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
+    for( int i = 1; i < width - 1; i++ ) {
+        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );  // ─
     }
 
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
+    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO );  // ┌
+    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX );  // ┐
 
     const int tab_step = 3;
     int x = 2;
@@ -1838,7 +1886,7 @@ void multiline_list::add_entry( const multiline_list_entry &entry )
 {
     entries.emplace_back( entry );
     if( !has_prefix || entry.prefix.empty() ) {
-        entries.back().prefix = "";
+        entries.back().prefix.clear();
         has_prefix = false;
     }
 }
@@ -2244,6 +2292,8 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
             iStartPos = iCurrentLine;
         } else if( iCurrentLine >= iStartPos + iContentHeight ) {
             iStartPos = 1 + iCurrentLine - iContentHeight;
+        } else if( iStartPos + iContentHeight > iNumEntries ) {
+            iStartPos = iNumEntries - iContentHeight;
         }
     }
 }

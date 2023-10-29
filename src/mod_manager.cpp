@@ -198,6 +198,9 @@ bool mod_manager::set_default_mods( const mod_id &ident )
 
 void mod_manager::load_mods_from( const cata_path &path )
 {
+    if( !dir_exist( path.get_unrelative_path() ) ) {
+        return; // don't try to enumerate non-existing directories
+    }
     for( cata_path &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
         load_mod_info( mod_file );
     }

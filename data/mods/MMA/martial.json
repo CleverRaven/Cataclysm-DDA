@@ -50,7 +50,7 @@
     "looks_like": "manual_karate",
     "type": "BOOK",
     "name": { "str": "Pocket Monster Encyclopedia", "str_pl": "copies of Pocket Monster Encyclopedia" },
-    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them the in a real fight.",
+    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them in a real fight.",
     "martial_art": "style_mma_pokken"
   },
   {
@@ -108,9 +108,14 @@
     "name": { "str": "dragon hand scroll" },
     "description": "Focus your ki into magical attacks.",
     "price_postapoc": 12000,
-    "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
-    "countdown_interval": 1,
-    "countdown_destroy": true,
+    "use_action": {
+      "target": "ki_strike_scroll",
+      "msg": "You unroll the dragon scroll…",
+      "target_timer": "1 seconds",
+      "active": true,
+      "menu_text": "Unroll",
+      "type": "transform"
+    },
     "countdown_action": { "type": "cast_spell", "spell_id": "learn_ki_strike", "no_fail": true, "level": 0 }
   }
 ]

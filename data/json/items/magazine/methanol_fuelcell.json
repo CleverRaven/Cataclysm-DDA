@@ -2,7 +2,7 @@
   {
     "id": "5l_methanol_tank",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "5L methanol fuel cartridge" },
     "description": "A 5-liter plastic tank filled with methanol, with a specialized opening to connect it to a methanol fuel cell.  It's not designed to be refillable by the user, but you could refill it if you had a syringe and a lot of time.",
     "weight": "4300 g",
@@ -21,7 +21,7 @@
   {
     "id": "10l_methanol_tank",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "10L methanol fuel cartridge" },
     "description": "A 10-liter plastic tank filled with methanol, with a specialized opening to connect it to a methanol fuel cell.  It's not designed to be refillable by the user, but you could refill it if you had a syringe and a lot of time.",
     "weight": "8400 g",
@@ -40,7 +40,7 @@
   {
     "id": "28l_methanol_tank",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "28L methanol fuel cartridge" },
     "description": "A 28-liter plastic tank filled with methanol, with a specialized opening to connect it to a methanol fuel cell.  It's not designed to be refillable by the user, but you could refill it if you had a syringe and a lot of time.",
     "weight": "23400 g",
@@ -61,7 +61,7 @@
   {
     "id": "60l_methanol_tank",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "name": { "str": "60L methanol fuel cartridge" },
     "description": "A 60-liter plastic tank filled with methanol, with a specialized opening to connect it to a methanol fuel cell.  It's not designed to be refillable by the user, but you could refill it if you had a syringe and a lot of time.",
     "weight": "55 kg",

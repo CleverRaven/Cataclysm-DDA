@@ -108,7 +108,13 @@
   {
     "type": "recipe_category",
     "id": "CC_ANIMALS",
-    "recipe_subcategories": [ "CSC_ALL", "CSC_ANIMALS_CANINE ARMOR", "CSC_ANIMALS_EQUINE ARMOR", "CSC_ANIMALS_EQUINE STORAGE" ]
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ANIMALS_BOVINE ARMOR",
+      "CSC_ANIMALS_CANINE ARMOR",
+      "CSC_ANIMALS_EQUINE ARMOR",
+      "CSC_ANIMALS_EQUINE STORAGE"
+    ]
   },
   {
     "type": "recipe_category",
@@ -133,7 +139,8 @@
       "CSC_PRACTICE_HEALTH",
       "CSC_PRACTICE_MECHANICS",
       "CSC_PRACTICE_SOCIAL",
-      "CSC_PRACTICE_COMBAT"
+      "CSC_PRACTICE_MELEE",
+      "CSC_PRACTICE_RANGED"
     ]
   }
 ]

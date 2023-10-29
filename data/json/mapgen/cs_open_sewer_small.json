@@ -13,11 +13,11 @@
     "name": "work light",
     "blueprint": [ "^" ],
     "parts": [
-      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
-      { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "small_storage_battery" },
-      { "x": 0, "y": 0, "part": "floodlight" },
-      { "x": 0, "y": 0, "part": "controls_electronic" }
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2" ] },
+      { "x": 0, "y": 0, "parts": [ "wheel_caster" ] },
+      { "x": 0, "y": 0, "parts": [ "small_storage_battery" ] },
+      { "x": 0, "y": 0, "parts": [ "floodlight" ] },
+      { "x": 0, "y": 0, "parts": [ "controls_electronic" ] }
     ]
   },
   {

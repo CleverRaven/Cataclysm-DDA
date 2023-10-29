@@ -322,7 +322,7 @@
     "id": "irradiated_apricot",
     "copy-from": "apricot",
     "name": { "str": "handful of irradiated apricots", "str_pl": "handfuls of irradiated apricots" },
-    "description": "An irradiated apricot.",
+    "description": "Irradiated apricots.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic",

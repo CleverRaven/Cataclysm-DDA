@@ -1,0 +1,470 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_1_construction",
+    "description": "We could use a large storage building.  Let's start with a first section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_1_construction",
+    "blueprint_name": "first storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2" } ],
+    "blueprint_provides": [ { "id": "fbms_2_1" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_1" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_2_construction",
+    "description": "Let's extend our storage building with a second section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_2_construction",
+    "blueprint_name": "second storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_1" } ],
+    "blueprint_provides": [ { "id": "fbms_2_2" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_3_construction",
+    "description": "Let's extend our storage building with a third section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_3_construction",
+    "blueprint_name": "third storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_2" } ],
+    "blueprint_provides": [ { "id": "fbms_2_3" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_3" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_4_construction",
+    "description": "Let's extend our storage building with a fourth section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_4_construction",
+    "blueprint_name": "fourth storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_3" } ],
+    "blueprint_provides": [ { "id": "fbms_2_4" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_4" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_5_construction",
+    "description": "Let's extend our storage building with a fifth section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_5_construction",
+    "blueprint_name": "fifth storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_4" } ],
+    "blueprint_provides": [ { "id": "fbms_2_5" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_5" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_6_construction",
+    "description": "Let's finish our storage building with a last section.  We could then go on to double the volume with another six sections, but if that seems excessive we could use the space to unload loot instead.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_6_construction",
+    "blueprint_name": "last storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_5" } ],
+    "blueprint_provides": [ { "id": "fbms_2_6" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_6" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_7_construction",
+    "description": "Let's start the construction of an adjoining warehouse with a seventh section to eventually double our storage space.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_7_construction",
+    "blueprint_name": "seventh storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_6" } ],
+    "blueprint_provides": [ { "id": "fbms_2_7" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_7" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_8_construction",
+    "description": "Let's extend our storage building with an eighth section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_8_construction",
+    "blueprint_name": "eighth storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_7" } ],
+    "blueprint_provides": [ { "id": "fbms_2_8" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_8" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_9_construction",
+    "description": "Let's extend our storage building with a ninth section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_9_construction",
+    "blueprint_name": "ninth storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_8" } ],
+    "blueprint_provides": [ { "id": "fbms_2_9" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_9" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_10_construction",
+    "description": "Let's extend our storage building with a tenth section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_10_construction",
+    "blueprint_name": "tenth storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_9" } ],
+    "blueprint_provides": [ { "id": "fbms_2_10" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_10" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_11_construction",
+    "description": "Let's extend our storage building with an eleventh section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_11_construction",
+    "blueprint_name": "eleventh storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_10" } ],
+    "blueprint_provides": [ { "id": "fbms_2_11" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_11" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_12_construction",
+    "description": "Let's extend our storage building with the absolutely very last section.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_12_construction",
+    "blueprint_name": "absolutely very last storage section",
+    "blueprint_parameter_names": {
+      "fbms_2_construction_palette": {
+        "fbms_2_concrete_palette": "Concrete walls and roof",
+        "fbms_2_log_palette": "Log walls and wooden roof",
+        "fbms_2_metal_palette": "Metal walls and roof",
+        "fbms_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbms_2_rock_palette": "Rock walls and wooden roof",
+        "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_11" } ],
+    "blueprint_provides": [ { "id": "fbms_2_12" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_12" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]

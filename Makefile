@@ -109,7 +109,9 @@ WARNINGS = \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option
+  -Wno-unknown-warning-option \
+  -Wno-dangling-reference \
+  -Wno-c++20-compat
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -174,6 +176,27 @@ ifndef LINTJSON
   LINTJSON = 1
 endif
 
+# We don't want to have both 'check' and 'tests' as targets, because that will
+# result in make trying to build the tests twice in parallel, wasting time
+# (The tests target will be launched parallel to the check target, and both
+#  will build the tests executable)
+# There are three possible outcomes we expect:
+#   a. Tests are built and run (check)
+#   b. Tests are built (tests)
+#   c. Tests are not built
+#
+# This table defines the expected behavior for the possible values of TESTS and
+# RUNTESTS.
+# TESTS defaults to 1, RUNTESTS defaults to 0.
+#
+#   RUNTESTS
+# T # | 0 | 1
+# E ----------
+# S 0 | c | c
+# T ----------
+# S 1 | b | a
+#
+
 # Enable building tests by default
 ifndef TESTS
   TESTS = 1
@@ -185,17 +208,14 @@ ifndef RUNTESTS
 endif
 
 # Can't run tests if we aren't going to build them
-ifeq ($(TESTS), 0)
-  RUNTESTS = 0
-endif
-
-ifeq ($(RUNTESTS), 1)
-  TESTS = 1
-  RUNTESTSTARGET = check
-endif
-
 ifeq ($(TESTS), 1)
-  TESTSTARGET = tests
+  ifeq ($(RUNTESTS), 1)
+    # Build and run the tests
+    TESTSTARGET = check
+  else
+    # Only build the tests
+    TESTSTARGET = tests
+  endif
 endif
 
 ifndef PCH
@@ -720,6 +740,8 @@ ifeq ($(TILES), 1)
       ifneq (,$(findstring mingw32,$(CROSS)))
         # We use pkg-config to find out which libs are needed with MXE
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
+        # We don't use SDL_main -- we have proper main()/WinMain()
+        LDFLAGS := $(filter-out -lSDL2main,$(LDFLAGS))
       else
         ifeq ($(MSYS2),1)
           LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lwebp -ljpeg -luuid
@@ -835,11 +857,13 @@ else
 endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
+OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
+OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/json.cpp
+JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
 JSON_FORMATTER_HEADERS := $(wildcard tools/format/*.h)
-CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/json.cpp
+CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/wcwidth.cpp src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
 CLANG_TIDY_PLUGIN_HEADERS := \
@@ -848,6 +872,8 @@ CLANG_TIDY_PLUGIN_HEADERS := \
 ASTYLE_SOURCES := $(sort \
   $(SOURCES) \
   $(HEADERS) \
+  $(OBJECT_CREATOR_SOURCES) \
+  $(OBJECT_CREATOR_HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
@@ -927,7 +953,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(RUNTESTSTARGET)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET)
 	@
 
 $(TARGET): $(OBJS)
@@ -1005,12 +1031,12 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator clean-pch
+clean: clean-tests clean-object_creator clean-pch clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
-	rm -f $(SRC_DIR)/version.h
+	rm -f $(SRC_DIR)/version.h $(SRC_DIR)/prefix.h
 	rm -f $(CHKJSON_BIN)
 	rm -f $(TEST_MO)
 
@@ -1280,6 +1306,9 @@ clean-tests:
 object_creator: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C object_creator
 
+object_creator.exe: version $(BUILD_PREFIX)cataclysm.a
+	$(MAKE) -C object_creator object_creator.exe
+
 clean-object_creator:
 	$(MAKE) -C object_creator clean
 
@@ -1287,7 +1316,11 @@ clean-pch:
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
 	rm -f pch/*pch.hpp.d
+	$(MAKE) -C tests clean-pch
 
-.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
+clean-lang:
+	$(MAKE) -C lang clean
+
+.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch clean-lang install lint
 
 -include ${OBJS:.o=.d}

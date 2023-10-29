@@ -1,0 +1,276 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_coop_construction",
+    "description": "We could use a coop to contain our chicken and other birds, so build a shack on the remote side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_coop_construction",
+    "blueprint_name": "chicken coop",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbml_2" } ],
+    "blueprint_provides": [ { "id": "fbml_2_coop" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_coop" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_shack_construction",
+    "description": "We could use a storage room for feed, animal gear and tools, so build a shack on the near side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_shack_construction",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_name": "storage shack",
+    "blueprint_requires": [ { "id": "fbml_2" } ],
+    "blueprint_provides": [ { "id": "fbml_2_shack" }, { "id": "blacksmith" }, { "id": "fbml_2_shed_recipes_1" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_shack" } ],
+    "blueprint_resources": [ "spinwheelitem" ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_stall_1_construction",
+    "description": "We could use a stable for larger livestock, so build a stall section on the near side of the livestock field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_stall_1_construction",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_name": "stable section 1",
+    "blueprint_requires": [ { "id": "fbml_2" } ],
+    "blueprint_provides": [ { "id": "fbml_2_stall_1" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_stall_1" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_stall_2_construction",
+    "description": "We could use a larger stable, so extend the stable with another stall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_stall_2_construction",
+    "blueprint_name": "stable section 2",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbml_2_stall_1" } ],
+    "blueprint_provides": [ { "id": "fbml_2_stall_2" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_stall_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_stall_3_construction",
+    "description": "We could use a larger stable, so extend the stable with another stall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_stall_3_construction",
+    "blueprint_name": "stable section 3",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbml_2_stall_2" } ],
+    "blueprint_provides": [ { "id": "fbml_2_stall_3" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_stall_3" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_stall_4_construction",
+    "description": "We could use a larger stable, so extend the stable with another stall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_stall_4_construction",
+    "blueprint_name": "stable section 4",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbml_2_stall_3" } ],
+    "blueprint_provides": [ { "id": "fbml_2_stall_4" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_stall_4" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbml_2_stall_5_construction",
+    "description": "We could use a larger stable, so finish the stable with two smaller stalls.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbml_2_stall_5_construction",
+    "blueprint_name": "finished stable",
+    "blueprint_parameter_names": {
+      "fbml_2_construction_palette": {
+        "fbml_2_concrete_palette": "Concrete walls and roof",
+        "fbml_2_log_palette": "Log walls and wooden roof",
+        "fbml_2_metal_palette": "Metal walls and roof",
+        "fbml_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbml_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbml_2_rock_palette": "Rock walls and wooden roof",
+        "fbml_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbml_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbml_2_stall_4" } ],
+    "blueprint_provides": [ { "id": "fbml_2_stall_5" } ],
+    "blueprint_excludes": [ { "id": "fbml_2_stall_5" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]

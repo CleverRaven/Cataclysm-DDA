@@ -1,15 +1,6 @@
-// RUN: %check_clang_tidy %s cata-static-int_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-static-int_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
-template<typename T>
-class int_id
-{
-    public:
-        int_id();
-        explicit int_id( int );
-};
-
-struct furn_t;
-using furn_id = int_id<furn_t>;
+#include "type_id.h"
 
 extern furn_id f_hay;
 // CHECK-MESSAGES: warning: Global declaration of 'f_hay' is dangerous because 'furn_id' is a specialization of int_id and it will not update automatically when game data changes.  Consider switching to a string_id. [cata-static-int_id-constants]

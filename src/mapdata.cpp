@@ -248,8 +248,10 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_ALARMED: return "ALARMED";
         case ter_furn_flag::TFLAG_CHOCOLATE: return "CHOCOLATE";
         case ter_furn_flag::TFLAG_SIGN: return "SIGN";
+        case ter_furn_flag::TFLAG_SIGN_ALWAYS: return "SIGN_ALWAYS";
         case ter_furn_flag::TFLAG_DONT_REMOVE_ROTTEN: return "DONT_REMOVE_ROTTEN";
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
+        case ter_furn_flag::TFLAG_SMALL_HIDE: return "SMALL_HIDE";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
@@ -258,6 +260,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
 		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
+		case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -1187,7 +1190,7 @@ furn_id f_null, f_clear,
         f_cattails, f_lotus, f_lilypad,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-        f_fvat_empty, f_fvat_full,
+        f_fvat_empty, f_fvat_full, f_fvat_wood_empty, f_fvat_wood_full,
         f_wood_keg,
         f_standing_tank,
         f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
@@ -1204,6 +1207,7 @@ furn_id f_null, f_clear,
         f_tourist_table,
         f_camp_chair,
         f_sign,
+        f_stook_empty, f_stook_full,
         f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
         f_console, f_console_broken;
 
@@ -1219,6 +1223,8 @@ void set_furn_ids()
     f_barricade_road = furn_id( "f_barricade_road" );
     f_sandbag_half = furn_id( "f_sandbag_half" );
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
+    f_stook_empty = furn_id( "f_stook_empty" );
+    f_stook_full = furn_id( "f_stook_full" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
     f_bed = furn_id( "f_bed" );
@@ -1288,6 +1294,8 @@ void set_furn_ids()
     f_plant_harvest = furn_id( "f_plant_harvest" );
     f_fvat_empty = furn_id( "f_fvat_empty" );
     f_fvat_full = furn_id( "f_fvat_full" );
+    f_fvat_wood_empty = furn_id( "f_fvat_wood_empty" );
+    f_fvat_wood_full = furn_id( "f_fvat_wood_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
     f_standing_tank = furn_id( "f_standing_tank" );
     f_egg_sackbw = furn_id( "f_egg_sackbw" );
@@ -1430,7 +1438,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
     optional( jo, was_loaded, "light_emitted", light_emitted );
-    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "comfort", comfort, 0 );
 
     load_symbol( jo, "terrain " + id.str() );
@@ -1601,9 +1611,13 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "emissions", emissions );
-    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
+    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
+    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );

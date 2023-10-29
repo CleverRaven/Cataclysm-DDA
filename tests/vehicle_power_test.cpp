@@ -39,7 +39,7 @@ static void reset_player()
     player_character.add_effect( effect_blind, 1_turns, true );
 }
 
-TEST_CASE( "vehicle power with reactor", "[vehicle][power]" )
+TEST_CASE( "vehicle_power_with_reactor", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -76,7 +76,7 @@ TEST_CASE( "vehicle power with reactor", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "power loss to cables", "[vehicle][power]" )
+TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -170,7 +170,7 @@ TEST_CASE( "power loss to cables", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "Solar power", "[vehicle][power]" )
+TEST_CASE( "Solar_power", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -249,7 +249,7 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "Daily solar power", "[vehicle][power]" )
+TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -311,7 +311,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
+TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
 {
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );

@@ -31,8 +31,11 @@
 #include "achievement.h"
 #include "action.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "calendar_ui.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -96,6 +99,7 @@
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "rng.h"
+#include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -127,12 +131,22 @@ static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
 
 static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
 
 static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
+static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_NONE( "NONE" );
 
 #if defined(TILES)
@@ -225,10 +239,19 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_EXPORT: return "VEHICLE_EXPORT";
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
+        case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
+        case debug_menu::debug_menu_index::IMPORT_FOLLOWER: return "IMPORT_FOLLOWER";
+        case debug_menu::debug_menu_index::EXPORT_FOLLOWER: return "EXPORT_FOLLOWER";
+        case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
+		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
+		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
+		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
+		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -424,10 +447,13 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set auto move route" ) ) },
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
+        { uilist_entry( debug_menu_index::IMPORT_FOLLOWER, true, 'i', _( "Import follower" ) ) },
+        { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'e', _( "Export follower" ) ) },
+        { uilist_entry( debug_menu_index::EXPORT_SELF, true, 'E', _( "Export self" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
-        uilist_initializer.emplace_back( uilist_entry( debug_menu_index::CHANGE_SPELLS, true, 'S',
-                                         _( "Change spells" ) ) );
+        uilist_initializer.emplace_back( debug_menu_index::CHANGE_SPELLS, true, 'S',
+                                         _( "Change spells" ) );
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
@@ -501,6 +527,9 @@ static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 's', _( "Spawn a vehicle" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_DELETE, true, 'd', _( "Delete vehicle" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_EXPORT, true, 'e', _( "Export vehicle as prototype" ) ) }
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -516,8 +545,8 @@ static int teleport_uilist()
     };
 
     const bool teleport_city_enabled = get_option<bool>( "SELECT_STARTING_CITY" );
-    uilist_initializer.emplace_back( uilist_entry( debug_menu_index::OM_TELEPORT_CITY,
-                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) ) );
+    uilist_initializer.emplace_back( debug_menu_index::OM_TELEPORT_CITY,
+                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) );
 
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
@@ -560,6 +589,18 @@ static int map_uilist()
     return uilist( _( "Map…" ), uilist_initializer );
 }
 
+static int quick_setup_uilist()
+{
+    const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
+        { uilist_entry( debug_menu_index::TOGGLE_SETUP_MUTATION, true, 't', _( "Toggle debug mutations" ) ) },
+        { uilist_entry( debug_menu_index::NORMALIZE_BODY_STAT, true, 'n', _( "Normalize body stats" ) ) },
+        { uilist_entry( debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, true, 'B', _( "Install ALL bionics" ) ) },
+    };
+
+    return uilist( _( "Quick setup…" ), uilist_initializer );
+}
+
 /**
  * Create the debug menu UI list.
  * @param display_all_entries: `true` if all entries should be displayed, `false` is some entries should be hidden (for ex. when the debug menu is called from the main menu).
@@ -580,6 +621,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
             { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
+            { uilist_entry( 8, true, 'q', _( "Quick setup…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -619,6 +661,9 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
                 break;
             case 7:
                 action = vehicle_uilist();
+                break;
+            case 8:
+                action = quick_setup_uilist();
                 break;
 
             default:
@@ -1659,6 +1704,43 @@ static void character_edit_opinion_menu( npc *np )
     }
 }
 
+static void character_edit_personality_menu( npc *np )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'h', "%s: %d", _( "aggression" ), np->personality.aggression );
+    smenu.addentry( 1, true, 's', "%s: %d", _( "bravery" ), np->personality.bravery );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "collector" ), np->personality.collector );
+    smenu.addentry( 3, true, 'f', "%s: %d", _( "altruism" ), np->personality.altruism );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Set aggression to?  Currently: %d" ),
+                           np->personality.aggression ) ) {
+                np->personality.aggression = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Set bravery to?  Currently: %d" ), np->personality.bravery ) ) {
+                np->personality.bravery = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Set collector to?  Currently: %d" ),
+                           np->personality.collector ) ) {
+                np->personality.collector = value;
+            }
+            break;
+        case 3:
+            if( query_int( value, _( "Set altruism to?  Currently: %d" ),
+                           np->personality.altruism ) ) {
+                np->personality.altruism = value;
+            }
+            break;
+    }
+}
+
 static void character_edit_desc_menu( Character &you )
 {
     uilist smenu;
@@ -1817,7 +1899,7 @@ static void character_edit_menu()
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
+        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
@@ -1841,6 +1923,7 @@ static void character_edit_menu()
         nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
+    nmenu.addentry( D_BIONICS, true, 'b', "%s", _( "Edit [b]ionics" ) );
     nmenu.addentry( D_STATUS, true,
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
                     "%s", _( "Status window" ) );
@@ -1859,6 +1942,7 @@ static void character_edit_menu()
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
+        nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1885,7 +1969,7 @@ static void character_edit_menu()
                 break;
             }
             you.worn.on_takeoff( you );
-            you.worn.clear();
+            you.clear_worn();
             you.inv->clear();
             you.remove_weapon();
             break;
@@ -1903,8 +1987,9 @@ static void character_edit_menu()
                 you.worn.wear_item( you, to_wear, false, false );
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
-                get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item()->typeId() );
+                item_location loc = you.get_wielded_item();
+                cata::event e = cata::event::make<event_type::character_wields_item>( you.getID(), loc->typeId() );
+                get_event_bus().send_with_talker( &you, &loc, e );
             }
         }
         break;
@@ -1941,6 +2026,9 @@ static void character_edit_menu()
         break;
         case D_OPINION:
             character_edit_opinion_menu( np );
+            break;
+        case D_PERSONALITY:
+            character_edit_personality_menu( np );
             break;
         case D_DESC:
             character_edit_desc_menu( you );
@@ -1997,6 +2085,9 @@ static void character_edit_menu()
             }
             break;
         }
+        case D_BIONICS:
+            wishbionics( &you );
+            break;
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_lifestyle() );
@@ -2103,8 +2194,9 @@ static void character_edit_menu()
         }
         case D_CHECK_TEMP: {
             for( const bodypart_id &bp : you.get_all_body_parts() ) {
-                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
-                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+                add_msg( string_format( "%s: temperature: %f K, temperature conv: %f K, wetness: %d", bp->name,
+                                        units::to_kelvin( you.get_part_temp_cur( bp ) ), units::to_kelvin( you.get_part_temp_conv( bp ) ),
+                                        you.get_part_wetness( bp ) ) );
             }
             break;
         }
@@ -2373,25 +2465,7 @@ static void debug_menu_game_state()
     avatar &player_character = get_avatar();
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
-    std::string mfus;
-    std::vector<std::pair<m_flag, int>> sorted;
-    sorted.reserve( m_flag::MF_MAX );
-    for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-        sorted.emplace_back( static_cast<m_flag>( f ),
-                             MonsterGenerator::generator().m_flag_usage_stats[f] );
-    }
-    std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
-        return a.second != b.second ? a.second > b.second : a.first < b.first;
-    } );
     popup( player_character.total_daily_calories_string() );
-    for( auto &m_flag_stat : sorted ) {
-        mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
-                               m_flag_stat.second );
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-    std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
-               MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
-    popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
     s += _( "Current turn: %d.\n" );
@@ -2484,12 +2558,12 @@ static void debug_menu_spawn_vehicle()
             tripoint dest = player_character.pos();
             uilist veh_cond_menu;
             veh_cond_menu.text = _( "Vehicle condition" );
+            veh_cond_menu.addentry( 3, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
             veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
-            veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
             veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
             veh_cond_menu.query();
 
-            if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+            if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 4 ) {
                 // TODO: Allow picking this when add_vehicle has 3d argument
                 vehicle *veh = here.add_vehicle(
                                    selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
@@ -2499,71 +2573,6 @@ static void debug_menu_spawn_vehicle()
             }
         }
     }
-}
-
-static void debug_menu_change_time()
-{
-    auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
-        string_input_popup pop;
-        const int new_value = pop
-                              .title( msg )
-                              .width( 20 )
-                              .text( std::to_string( initial ) )
-                              .only_digits( true )
-                              .query_int();
-        if( pop.canceled() ) {
-            return;
-        }
-        const time_duration offset = ( new_value - initial ) * factor;
-        // Arbitrary maximal value.
-        const time_point max = calendar::turn_zero + time_duration::from_turns(
-                                   std::numeric_limits<int>::max() / 2 );
-        calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
-    };
-
-    uilist smenu;
-    static const auto years = []( const time_point & p ) {
-        return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
-    };
-    do {
-        const int iSel = smenu.ret;
-        smenu.reset();
-        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-        smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                        _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-        smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-        smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-        smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
-                        to_turns<int>( calendar::turn - calendar::turn_zero ) );
-        smenu.selected = iSel;
-        smenu.query();
-
-        switch( smenu.ret ) {
-            case 0:
-                set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
-                break;
-            case 1:
-                set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
-                          _( "Set season to?  (0 = spring)" ) );
-                break;
-            case 2:
-                set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
-                break;
-            case 3:
-                set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
-                break;
-            case 4:
-                set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
-                break;
-            case 5:
-                set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
-                          string_format( _( "Set turn to?  (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
-                break;
-            default:
-                break;
-        }
-    } while( smenu.ret != UILIST_CANCEL );
 }
 
 static void debug_menu_force_temperature()
@@ -2620,6 +2629,61 @@ static void debug_menu_force_temperature()
     }
 }
 
+static npc *select_follower_to_export()
+{
+    std::vector<npc *> followers;
+    uilist charmenu;
+    int charnum = 0;
+    for( const character_id &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            followers.emplace_back( follower.get() );
+            charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, follower->get_name() );
+        }
+    }
+    if( followers.empty() ) {
+        popup( _( "There's no one to export!" ) );
+        return nullptr;
+    }
+    charmenu.w_y_setup = 0;
+    charmenu.query();
+    if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
+        return nullptr;
+    }
+    return followers[charmenu.ret];
+}
+
+static cata_path prepare_export_dir_and_find_unused_name( const std::string &character_name )
+{
+    cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+    assure_dir_exist( export_dir );
+    cata_path ret = export_dir / ( character_name + ".npc" );
+    int try_next = 1;
+    while( file_exist( ret ) ) {
+        ret = export_dir / ( character_name + " " + std::to_string( try_next ) + ".npc" );
+        try_next++;
+    }
+    return ret;
+}
+
+static void normalize_body()
+{
+    Character &u = get_avatar();
+    u.clear_effects();
+    u.clear_morale();
+    u.clear_vitamins();
+    u.set_all_parts_hp_to_max();
+    u.set_fatigue( 0 );
+    u.set_focus( 100 );
+    u.set_hunger( 0 );
+    u.set_pain( 0 );
+    u.set_rad( 0 );
+    u.set_sleep_deprivation( 0 );
+    u.set_stamina( u.get_stamina_max() );
+    u.set_stored_kcal( u.get_healthy_kcal() );
+    u.set_thirst( 0 );
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -2637,7 +2701,9 @@ void debug()
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
         debug_menu_index::QUICKLOAD,
-        debug_menu_index::QUIT_NOSAVE
+        debug_menu_index::QUIT_NOSAVE,
+        debug_menu_index::EXPORT_FOLLOWER,
+        debug_menu_index::EXPORT_SELF
     };
     const bool should_disable_achievements = action && !is_debug_character() &&
             !non_cheaty_options.count( *action );
@@ -2658,6 +2724,18 @@ void debug()
     }
 
     get_event_bus().send<event_type::uses_debug_menu>( *action );
+
+    // Used for quick setup, constructed outside the switches to reduce duplicate code
+    std::vector<trait_id> setup_traits;
+    setup_traits.emplace_back( trait_DEBUG_BIONICS );
+    setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
+    setup_traits.emplace_back( trait_DEBUG_CLOAK );
+    setup_traits.emplace_back( trait_DEBUG_HS );
+    setup_traits.emplace_back( trait_DEBUG_LS );
+    setup_traits.emplace_back( trait_DEBUG_MANA );
+    setup_traits.emplace_back( trait_DEBUG_NODMG );
+    setup_traits.emplace_back( trait_DEBUG_NOTEMP );
+    setup_traits.emplace_back( trait_DEBUG_SPEED );
 
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -3075,7 +3153,7 @@ void debug()
             g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME:
-            debug_menu_change_time();
+            calendar::turn = calendar_ui::select_time_point( calendar::turn );
             break;
         case debug_menu_index::FORCE_TEMP:
             debug_menu_force_temperature();
@@ -3148,7 +3226,7 @@ void debug()
             debugmsg( "Test debugmsg" );
             break;
         case debug_menu_index::CRASH_GAME:
-            raise( SIGSEGV );
+            static_cast<void>( raise( SIGSEGV ) );
             break;
         case debug_menu_index::ACTIVATE_EOC: {
             const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
@@ -3375,6 +3453,46 @@ void debug()
             break;
         }
 
+        case debug_menu_index::VEHICLE_DELETE: {
+
+            if( const optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+                here.destroy_vehicle( &ovp->vehicle() );
+                break;
+            }
+            if( query_yn( _( "There's no vehicle there, destroy vehicles in all loaded submaps?" ) ) ) {
+                for( VehicleList vehs = here.get_vehicles(); !vehs.empty(); vehs = here.get_vehicles() ) {
+                    vehicle *veh = vehs.begin()->v;
+                    here.destroy_vehicle( veh );
+                }
+            }
+            break;
+        }
+        case debug_menu_index::VEHICLE_EXPORT: {
+            if( optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+                cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+                assure_dir_exist( export_dir );
+                const std::string text = string_input_popup()
+                                         .title( _( "Exported file name?" ) )
+                                         .width( 20 )
+                                         .query_string();
+                cata_path veh_path = export_dir / ( text + ".json" );
+                try {
+                    write_to_file( veh_path, [&]( std::ostream & fout ) {
+                        JsonOut jsout( fout );
+                        ovp->vehicle().refresh();
+                        vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+                    } );
+                } catch( const std::exception &err ) {
+                    debugmsg( _( "Failed to export vehicle: %s" ), err.what() );
+                }
+                popup( _( "Written: %s .\n Please format the exported file for readability." ),
+                       veh_path.get_unrelative_path().string() );
+                break;
+            }
+            add_msg( m_bad, _( "There's no vehicle there." ) );
+            break;
+        }
+
         case debug_menu_index::EDIT_CAMP_LARDER: {
             faction *your_faction = get_player_character().get_faction();
             int larder;
@@ -3382,6 +3500,95 @@ void debug()
                            your_faction->food_supply ) ) {
                 your_faction->food_supply = larder;
             }
+            break;
+        }
+
+        case debug_menu_index::IMPORT_FOLLOWER: {
+            cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+            std::vector<cata_path> npc_files = get_files_from_path( ".npc",
+                                               export_dir, /* recursive_search */ false, /* match_extension */ true );
+            if( npc_files.empty() ) {
+                popup( _( "There's no NPCs to import!" ) );
+                break;
+            }
+            uilist filemenu;
+            int filenum = 0;
+            for( const cata_path &path : npc_files ) {
+                filemenu.addentry( filenum++, true, MENU_AUTOASSIGN, path.get_unrelative_path().stem().string() );
+            }
+            filemenu.w_y_setup = 0;
+            filemenu.query();
+            if( filemenu.ret < 0 || static_cast<size_t>( filemenu.ret ) >= npc_files.size() ) {
+                break;
+            }
+            try {
+                shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+                temp->import_and_clean( npc_files[filemenu.ret] );
+                g->add_npc_follower( temp->getID() );
+                temp->set_attitude( NPCATT_FOLLOW );
+                temp->set_fac( faction_your_followers );
+                temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+                overmap_buffer.insert_npc( temp );
+                g->load_npcs();
+            } catch( const std::exception &err ) {
+                debugmsg( _( "Failed to read NPC: %s" ), err.what() );
+            }
+            break;
+        }
+
+        case debug_menu_index::EXPORT_FOLLOWER: {
+            npc *export_me = select_follower_to_export();
+            if( !export_me ) {
+                break;
+            }
+            cata_path export_name = prepare_export_dir_and_find_unused_name( export_me->name );
+            export_me->export_to( export_name );
+            popup( _( "Written: %s" ), export_name.get_unrelative_path().string() );
+            break;
+        }
+
+        case debug_menu_index::EXPORT_SELF: {
+            cata_path export_name = prepare_export_dir_and_find_unused_name( get_avatar().name );
+            get_avatar().export_as_npc( export_name );
+            popup( _( "Written: %s" ), export_name.get_unrelative_path().string() );
+            break;
+        }
+
+        case debug_menu_index::QUICK_SETUP: {
+            Character &u = get_avatar();
+            normalize_body();
+            // Specifically only adds mutations instead of toggling them.
+            u.set_mutations( setup_traits );
+            u.remove_weapon();
+            u.clear_worn();
+            item backpack( "debug_backpack" );
+            u.wear_item( backpack );
+            for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+                u.set_skill_level( pair.first, 10 );
+            }
+            break;
+        }
+
+        case debug_menu_index::TOGGLE_SETUP_MUTATION: {
+            Character &u = get_avatar();
+            for( trait_id &trait : setup_traits ) {
+                u.toggle_trait( trait );
+            }
+            break;
+        }
+
+        case debug_menu_index::NORMALIZE_BODY_STAT: {
+            normalize_body();
+            break;
+        }
+
+        case debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: {
+            Character &u = get_avatar();
+            for( const bionic_data &bionic : bionic_data::get_all() ) {
+                u.add_bionic( bionic.id, 0, true );
+            }
+            // Prevent synthetic lungs/etc from instantly suffocating you. This is bad for testing!
+            u.set_power_level( 2500_kJ );
             break;
         }
 

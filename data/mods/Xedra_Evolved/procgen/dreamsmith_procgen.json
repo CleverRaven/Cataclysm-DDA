@@ -3,14 +3,23 @@
     "type": "relic_procgen_data",
     "id": "dreamsmith_lottery_atk",
     "passive_add_procgen_values": [
-      { "weight": 100, "min_value": 1, "max_value": 20, "type": "ATTACK_SPEED", "increment": 1, "power_per_increment": 150 },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 20,
+        "type": "ATTACK_SPEED",
+        "increment": 1,
+        "power_per_increment": 150,
+        "ench_has": "WIELD"
+      },
       {
         "weight": 100,
         "min_value": 1,
         "max_value": 1,
         "type": "BONUS_DODGE",
         "increment": 1,
-        "power_per_increment": 3000
+        "power_per_increment": 3000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -18,7 +27,8 @@
         "max_value": 5,
         "type": "DEXTERITY",
         "increment": 1,
-        "power_per_increment": 600
+        "power_per_increment": 600,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -26,7 +36,8 @@
         "max_value": 5,
         "type": "INTELLIGENCE",
         "increment": 1,
-        "power_per_increment": 600
+        "power_per_increment": 600,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -34,7 +45,8 @@
         "max_value": 5,
         "type": "PERCEPTION",
         "increment": 1,
-        "power_per_increment": 600
+        "power_per_increment": 600,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -42,7 +54,8 @@
         "max_value": 5,
         "type": "STRENGTH",
         "increment": 1,
-        "power_per_increment": 600
+        "power_per_increment": 600,
+        "ench_has": "WIELD"
       },
       { "weight": 100, "min_value": 1, "max_value": 15, "type": "SPEED", "increment": 1, "power_per_increment": 600 },
       {
@@ -51,7 +64,8 @@
         "max_value": 500,
         "type": "MAX_MANA",
         "increment": 1,
-        "power_per_increment": 6
+        "power_per_increment": 6,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -59,15 +73,8 @@
         "max_value": 3000,
         "type": "MAX_STAMINA",
         "increment": 1,
-        "power_per_increment": 1
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 15,
-        "type": "MELEE_DAMAGE",
-        "increment": 1,
-        "power_per_increment": 200
+        "power_per_increment": 1,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -75,7 +82,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_ACID",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -83,7 +91,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_BASH",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -91,7 +100,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_BIO",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -99,7 +109,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_BULLET",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -107,7 +118,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_COLD",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -115,7 +127,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_CUT",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -123,7 +136,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_ELEC",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -131,7 +145,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_HEAT",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -139,7 +154,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_PURE",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -147,7 +163,8 @@
         "max_value": 10,
         "type": "ITEM_DAMAGE_STAB",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WIELD"
       }
     ],
     "passive_mult_procgen_values": [
@@ -157,7 +174,8 @@
         "max_value": 0.2,
         "type": "ATTACK_SPEED",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -165,7 +183,8 @@
         "max_value": 0.2,
         "type": "DEXTERITY",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -173,7 +192,8 @@
         "max_value": 0.2,
         "type": "INTELLIGENCE",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -181,7 +201,8 @@
         "max_value": 0.2,
         "type": "PERCEPTION",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -189,7 +210,8 @@
         "max_value": 0.2,
         "type": "STRENGTH",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -197,7 +219,8 @@
         "max_value": 0.2,
         "type": "SPEED",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -205,7 +228,8 @@
         "max_value": 0.2,
         "type": "MAX_MANA",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -213,7 +237,8 @@
         "max_value": 0.2,
         "type": "MAX_STAMINA",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -221,7 +246,8 @@
         "max_value": 0.2,
         "type": "REGEN_STAMINA",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       },
       {
         "weight": 100,
@@ -229,7 +255,8 @@
         "max_value": 0.2,
         "type": "MELEE_DAMAGE",
         "increment": 0.1,
-        "power_per_increment": 2000
+        "power_per_increment": 2000,
+        "ench_has": "WIELD"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 50, "value": "passive_enchantment_mult" } ],
@@ -272,7 +299,8 @@
         "max_value": -20,
         "type": "ARMOR_BASH",
         "increment": -1,
-        "power_per_increment": 150
+        "power_per_increment": 150,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -280,7 +308,8 @@
         "max_value": -20,
         "type": "ARMOR_BIO",
         "increment": -1,
-        "power_per_increment": 75
+        "power_per_increment": 75,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -288,7 +317,8 @@
         "max_value": -20,
         "type": "ARMOR_BULLET",
         "increment": -1,
-        "power_per_increment": 150
+        "power_per_increment": 150,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -296,7 +326,8 @@
         "max_value": -20,
         "type": "ARMOR_COLD",
         "increment": -1,
-        "power_per_increment": 75
+        "power_per_increment": 75,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -304,7 +335,8 @@
         "max_value": -20,
         "type": "ARMOR_CUT",
         "increment": -1,
-        "power_per_increment": 150
+        "power_per_increment": 150,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -312,7 +344,8 @@
         "max_value": -20,
         "type": "ARMOR_ELEC",
         "increment": -1,
-        "power_per_increment": 75
+        "power_per_increment": 75,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -320,7 +353,8 @@
         "max_value": -20,
         "type": "ARMOR_HEAT",
         "increment": -1,
-        "power_per_increment": 75
+        "power_per_increment": 75,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -328,7 +362,8 @@
         "max_value": -20,
         "type": "ARMOR_STAB",
         "increment": -1,
-        "power_per_increment": 75
+        "power_per_increment": 75,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -336,7 +371,8 @@
         "max_value": 1,
         "type": "BONUS_DODGE",
         "increment": 1,
-        "power_per_increment": 1500
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -344,7 +380,8 @@
         "max_value": 30,
         "type": "CLIMATE_CONTROL_HEAT",
         "increment": 1,
-        "power_per_increment": 50
+        "power_per_increment": 50,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -352,7 +389,8 @@
         "max_value": 30,
         "type": "CLIMATE_CONTROL_CHILL",
         "increment": 1,
-        "power_per_increment": 50
+        "power_per_increment": 50,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -360,7 +398,8 @@
         "max_value": 2,
         "type": "DEXTERITY",
         "increment": 1,
-        "power_per_increment": 1500
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -368,7 +407,8 @@
         "max_value": 2,
         "type": "INTELLIGENCE",
         "increment": 1,
-        "power_per_increment": 1500
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -376,7 +416,8 @@
         "max_value": 2,
         "type": "PERCEPTION",
         "increment": 1,
-        "power_per_increment": 1500
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -384,7 +425,8 @@
         "max_value": 2,
         "type": "STRENGTH",
         "increment": 1,
-        "power_per_increment": 1500
+        "power_per_increment": 1500,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -392,7 +434,8 @@
         "max_value": -50,
         "type": "FOOTSTEP_NOISE",
         "increment": -1,
-        "power_per_increment": 30
+        "power_per_increment": 30,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -400,7 +443,8 @@
         "max_value": 50,
         "type": "SIGHT_RANGE_ELECTRIC",
         "increment": 25,
-        "power_per_increment": 750
+        "power_per_increment": 750,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -408,7 +452,8 @@
         "max_value": 500,
         "type": "MAX_MANA",
         "increment": 100,
-        "power_per_increment": 600
+        "power_per_increment": 600,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -416,7 +461,8 @@
         "max_value": 3000,
         "type": "MAX_STAMINA",
         "increment": 500,
-        "power_per_increment": 500
+        "power_per_increment": 500,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -424,7 +470,8 @@
         "max_value": 10,
         "type": "REGEN_HP",
         "increment": 1,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -432,7 +479,8 @@
         "max_value": 100,
         "type": "REGEN_MANA",
         "increment": 10,
-        "power_per_increment": 300
+        "power_per_increment": 300,
+        "ench_has": "WORN"
       },
       {
         "weight": 100,
@@ -440,7 +488,8 @@
         "max_value": 20,
         "type": "REGEN_STAMINA",
         "increment": 1,
-        "power_per_increment": 150
+        "power_per_increment": 150,
+        "ench_has": "WORN"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],

@@ -1,0 +1,98 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_pants",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 60 },
+      { "item": "pants", "prob": 5 },
+      { "item": "motorbike_pants", "prob": 15 },
+      { "item": "pants_leather", "prob": 10 },
+      { "item": "pants_cargo", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_shoes",
+    "subtype": "distribution",
+    "entries": [ { "item": "sneakers", "prob": 40 }, { "item": "boots", "prob": 30 }, { "item": "motorbike_boots", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_shirt",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 70 }, { "item": "polo_shirt", "prob": 20 }, { "item": "tank_top", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 10 },
+      { "item": "gloves_leather", "prob": 10 },
+      { "item": "gloves_work", "prob": 40 },
+      { "item": "gloves_fingerless", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hoodie", "prob": 15 },
+      { "item": "jacket_light", "prob": 15 },
+      { "item": "jacket_windbreaker", "prob": 15 },
+      { "item": "jacket_leather", "prob": 15 },
+      { "item": "jacket_leather_mod", "prob": 5 },
+      { "item": "touring_suit", "prob": 20 },
+      { "item": "jacket_jean", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_vest",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 }, { "item": "kevlar", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_storage",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "backpack", "prob": 50 },
+      { "item": "daypack", "prob": 20 },
+      { "item": "backpack_leather", "prob": 10 },
+      { "item": "mbag", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_holster",
+    "subtype": "distribution",
+    "entries": [ { "item": "leather_belt", "prob": 25 }, { "item": "tool_belt", "prob": 75 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_hat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 10 },
+      { "item": "cowboy_hat", "prob": 10 },
+      { "item": "hat_ball", "prob": 40 },
+      { "item": "hat_hard", "prob": 20 },
+      { "item": "helmet_motor", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_MOTORHEAD_wield",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "lug_wrench", "prob": 25 },
+      { "item": "wrench_large", "prob": 25 },
+      { "item": "hd_pipe", "prob": 20 },
+      { "item": "staff_pipe", "prob": 15 },
+      { "item": "mace_pipe_large", "prob": 15 }
+    ]
+  }
+]

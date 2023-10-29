@@ -127,6 +127,27 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "schematics_eyebot",
+    "type": "BOOK",
+    "name": { "str_sp": "eyebot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_copbot",
+    "type": "BOOK",
+    "name": { "str_sp": "police bot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_riotbot",
+    "type": "BOOK",
+    "name": { "str_sp": "riot control bot schematics" },
+    "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
     "id": "afs_landfall_kit_2_instructions",
     "type": "BOOK",
     "category": "manuals",

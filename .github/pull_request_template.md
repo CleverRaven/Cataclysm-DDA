@@ -33,7 +33,7 @@ If there is no related issue, explain here what issue, feature, or other concern
 
 #### Testing
 
-<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. -->
+<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. See TESTING_YOUR_CHANGES.md -->
 
 #### Additional context
 

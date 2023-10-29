@@ -5,5 +5,12 @@
     "name": "Lycra",
     "copy-from": "lycra",
     "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 2, "bullet": 2, "test_fire": 2 }
+  },
+  {
+    "type": "material",
+    "id": "lycra_resist_override_stab",
+    "name": "Lycra",
+    "copy-from": "lycra",
+    "resist": { "bash": 2, "cut": 2, "stab": 50, "acid": 9, "heat": 2, "bullet": 2 }
   }
 ]

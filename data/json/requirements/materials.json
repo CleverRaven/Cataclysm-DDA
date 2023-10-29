@@ -508,5 +508,16 @@
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
     "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "any_fresh_water",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "wax_any",
+    "type": "requirement",
+    "//": "Both wax types, for when the recipe doesn't really care.",
+    "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
   }
 ]

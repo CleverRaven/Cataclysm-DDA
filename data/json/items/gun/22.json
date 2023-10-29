@@ -24,6 +24,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
+    "range": 6,
     "ammo": [ "22" ],
     "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -78,6 +79,7 @@
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
+    "range": 7,
     "ammo": [ "22" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
@@ -117,7 +119,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": ".22 deringer pistol" },
-    "description": "A four barrelled, adorably tiny pocket pistol, firing the equally miniscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
+    "description": "A four barreled, adorably tiny pocket pistol, firing the equally minuscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
     "variant_type": "gun",
     "variants": [
       {
@@ -143,7 +145,7 @@
     "clip_size": 4,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "belt_clip", 1 ],
+      [ "belt clip", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -152,7 +154,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 4 } } ],
     "melee_damage": { "bash": 1 }
   },
@@ -193,7 +195,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ],
     "melee_damage": { "bash": 10 }
   },
@@ -203,7 +205,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "varmint rifle" },
-    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheep ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
+    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
     "variant_type": "gun",
     "variants": [
       {
@@ -223,6 +225,8 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
+    "range": 6,
+    "//range": "It is a blowback action, like most non-target, sporting rifles of this caliber.",
     "ammo": [ "22" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },

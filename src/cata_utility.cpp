@@ -1,8 +1,10 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <cerrno>
 #include <charconv>
 #include <clocale>
+#include <cstdlib>
 #include <cwctype>
 #include <algorithm>
 #include <cmath>
@@ -609,9 +611,12 @@ std::string obscure_message( const std::string &str, const std::function<char()>
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
-        if( transformation[0] == -1 ) {
+        // mk_wcwidth, which is used by utf8_width, might return -1 for some values, such as newlines 0x0A
+        if( transformation[0] == -1 || utf8_width( this_char ) == -1 ) {
+            // Leave unchanged
             continue;
         } else if( transformation[0] == 0 ) {
+            // Replace with random character
             if( utf8_width( this_char ) == 1 ) {
                 w_str[i] = random_entry( w_gibberish_narrow );
             } else {
@@ -863,4 +868,16 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
             break;
     }
     cata_fatal( "Invalid aggregate type." );
+}
+
+std::optional<double> svtod( std::string_view token )
+{
+    char *pEnd = nullptr;
+    double const val = std::strtod( token.data(), &pEnd );
+    if( pEnd == token.data() + token.size() ) {
+        return { val };
+    }
+    errno = 0;
+
+    return std::nullopt;
 }

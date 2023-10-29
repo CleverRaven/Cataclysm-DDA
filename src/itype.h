@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -97,7 +98,6 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    std::optional<itype_id> revert_to;
     translation revert_msg;
 
     itype_id subtype;
@@ -108,6 +108,8 @@ struct islot_tool {
     int charges_per_use = 0;
     int turns_per_charge = 0;
     units::power power_draw = 0_W;
+
+    float fuel_efficiency = -1.0f;
 
     std::vector<int> rand_charges;
 };
@@ -123,7 +125,7 @@ struct islot_comestible {
         itype_id tool = itype_id::NULL_ID();
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
-        int def_charges = 1;
+        int def_charges = 0;
 
         /** effect on character thirst (may be negative) */
         int quench = 0;
@@ -203,7 +205,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<itype_id> results;
+    std::map<itype_id, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -754,7 +756,30 @@ struct islot_gun : common_ranged_data {
 
     int ammo_to_fire = 1;
 
+    /**
+    * The amount by which the item's overheat value is reduced every turn. Used in
+    * overheat-based guns.
+    */
+    double cooling_value = 100.0;
+
+    /**
+    *  Used only in overheat-based guns. No melting LMG barrels yet.
+    */
+    double heat_per_shot = 0.0;
+
+    /**
+    * Used in overheat-based guns.
+    * Heat value at which critical overheat faults might occur.
+    * A value beneath 0.0 means that the gun cannot overheat.
+    */
+    double overheat_threshold = -1.0;
+
     std::map<ammotype, std::set<itype_id>> cached_ammos;
+
+    /**
+     * Used for the skullgun cbm. Hurts the bodypart by that much when fired
+     */
+    std::map<bodypart_str_id, int> hurt_part_when_fired;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -856,7 +881,7 @@ struct islot_gunmod : common_ranged_data {
     int consume_divisor = 1;
 
     /** Enlarge or reduce shot spread */
-    float shot_spread_multiplier_modifier = 1.0f;
+    float shot_spread_multiplier_modifier = 0.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
@@ -1041,7 +1066,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
     islot_seed() = default;
 };
 
@@ -1099,6 +1127,7 @@ struct memory_card_info {
     int recipes_level_min;
     int recipes_level_max;
     std::set<std::string> recipes_categories;
+    bool secret_recipes;
 };
 
 struct itype {
@@ -1138,6 +1167,9 @@ struct itype {
         /** Action to take when countdown expires */
         use_function countdown_action;
 
+        /** Actions to take when item is processed */
+        std::map<std::string, use_function> tick_action;
+
         /**
         * @name Non-negative properties
         * After loading from JSON these properties guaranteed to be zero or positive
@@ -1172,7 +1204,7 @@ struct itype {
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         itype_id looks_like;
 
-        // What item this item repairs like if it doesn't have a recipe
+        // Rather than use its own materials to determine repair difficulty, the item uses this item's materials
         itype_id repairs_like;
 
         std::string snippet_category;
@@ -1285,8 +1317,14 @@ struct itype {
 
         phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
 
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
+        /** If positive starts countdown to countdown_action at item creation */
+        time_duration countdown_interval = 0_seconds;
+
+        /**
+        * If set the item will revert to this after countdown. If not set the item is deleted.
+        * Tools revert to this when they run out of charges
+        */
+        std::optional<itype_id> revert_to;
 
         /**
         * Space occupied by items of this type
@@ -1352,9 +1390,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
-
         // used for generic_factory for copy-from
         bool was_loaded = false;
 
@@ -1380,7 +1415,7 @@ struct itype {
         }
         /** Number of degradation increments before the item is destroyed */
         int degrade_increments() const {
-            return count_by_charges() ? 0 : degrade_increments_;
+            return degrade_increments_;
         }
 
         /**
@@ -1406,7 +1441,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable_ || ammo || comestible;
+            return stackable_ || ammo || ( comestible && phase != phase_id::SOLID );
         }
 
         int charges_default() const;
@@ -1443,11 +1478,11 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        std::optional<int> invoke( Character &p, item &it,
+        std::optional<int> invoke( Character *p, item &it,
                                    const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character &p, item &it, const tripoint &pos,
+        std::optional<int> invoke( Character *p, item &it, const tripoint &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character &p, item &it, const tripoint &pos ) const;
+        int tick( Character *p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
 
@@ -1456,7 +1491,6 @@ struct itype {
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
-void load_charge_migration_blacklist( const JsonObject &jo, std::string_view src );
 void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src );
 
 #endif // CATA_SRC_ITYPE_H

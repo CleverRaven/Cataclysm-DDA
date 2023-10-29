@@ -31,7 +31,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 6 }
   },
@@ -91,7 +91,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "clip_size": 6,
-    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "extend": { "flags": [ "RELOAD_ONE", "EASY_CLEAN" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 10 }
   },
@@ -358,7 +358,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -387,6 +387,11 @@
         "id": "browning_a5",
         "name": { "str": "Browning Auto 5" },
         "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting."
+      },
+      {
+        "id": "ithaca37",
+        "name": { "str": "Ithaca M37 Featherlight" },
+        "description": "A seasoned veteran of America’s sporting culture, the Ithaca M37 is the oldest pump-action shotgun still in active production.  The M37 has served hunters and officers for over eight decades, featuring a bottom-feeding and ejecting design that keeps the action sealed from the elements.  An heirloom that retains its utility all the way from pre-Cataclysm hunting expeditions up into the depths of alien environments, it would be wise to keep it handy, for close encounters."
       }
     ],
     "ascii_picture": "remington870",
@@ -506,7 +511,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -609,7 +614,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -643,7 +648,6 @@
     "barrel_volume": "505 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
@@ -727,7 +731,6 @@
     "price_postapoc": 2250,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 860,
     "durability": 6,
     "clip_size": 6,
@@ -811,7 +814,7 @@
     "reload": 600,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 8 }
   },

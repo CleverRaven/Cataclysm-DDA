@@ -367,7 +367,7 @@
     "id": "spell_scroll_druid_healing",
     "//": "Druid spell",
     "name": { "str": "Scroll of Restoration", "str_pl": "Scrolls of Restoration" },
-    "description": "Directed magic energy, that slowly heal your body from wounds.",
+    "description": "Directed magical energy that slowly heals your body from wounds.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing" ] }
   },
   {
@@ -826,7 +826,7 @@
     "id": "spell_scroll_lightning_bolt",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Lightning Bolt", "str_pl": "Scrolls of Lightning Bolt" },
-    "description": "The goto spell for many Stormshapers, this iconic spell does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
+    "description": "The go-to spell for many Stormshapers, this iconic spell does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_bolt" ] }
   },
   {
@@ -844,7 +844,7 @@
     "id": "spell_scroll_storm_shipwrecker",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Shipwrecker", "str_pl": "Scrolls of Shipwrecker" },
-    "description": "The spell moves out of your mouth, creating a giant shockwave, and shuttering everything in its path.",
+    "description": "The spell moves out of your mouth, creating a giant shockwave that shatters everything in its path.",
     "use_action": { "type": "learn_spell", "spells": [ "storm_shipwrecker" ] }
   },
   {
@@ -853,7 +853,7 @@
     "id": "spell_scroll_explosive_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Explosive Decompression", "str_pl": "Scrolls of Explosive Decompression" },
-    "description": "Create a high pressure zone originating from the selected point.  Shortly after, the massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone effected.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.",
     "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
   },
   {
@@ -862,7 +862,7 @@
     "id": "spell_scroll_vacuum_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Vacuum Decompression", "str_pl": "Scrolls of Vacuum Decompression" },
-    "description": "Create a high pressure zone originating from the selected point.  Shortly after, the massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone effected.  It will also try to pull unprepared creatures inside the zone before attack.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
     "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
   },
   {
@@ -880,7 +880,7 @@
     "id": "spell_scroll_storm_superconductor",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Superconductor", "str_pl": "Scrolls of Superconductor" },
-    "description": "Create a devastating electric charge on a small distance, roasting everything to their death.",
+    "description": "Create arcs of devastating electric charge in an area around you, roasting everything within.",
     "use_action": { "type": "learn_spell", "spells": [ "storm_superconductor" ] }
   },
   {
@@ -889,7 +889,7 @@
     "id": "spell_scroll_shocking_dash",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Shocking Dash", "str_pl": "Scrolls of Shocking Dash" },
-    "description": "Fill your legs with energy, and dash into picked place.",
+    "description": "Fill your legs with energy and quickly dash to a target destination.",
     "use_action": { "type": "learn_spell", "spells": [ "shocking_dash" ] }
   },
   {
@@ -898,7 +898,7 @@
     "id": "spell_scroll_toxtricity",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Toxtricity", "str_pl": "Scrolls of Toxtricity" },
-    "description": "Inject an electric energy into the creatures, which makes them weak, and deal huge damage over time.",
+    "description": "Inject a corrosive electric energy into targets within the affected area, weakening them and dealing huge damage over time.",
     "use_action": { "type": "learn_spell", "spells": [ "toxtricity" ] }
   },
   {
@@ -934,7 +934,7 @@
     "id": "spell_scroll_summon_teravolt",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Teravolt", "str_pl": "Scrolls of Teravolt" },
-    "description": "Summon a Teravolt, a small, semi-intelligent spirit, that homes onto hostile creatures and explodes into a huge spark cloud.",
+    "description": "Summon a Teravolt, a small, semi-intelligent spirit that homes onto hostile creatures and explodes into a huge spark cloud.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_teravolt" ] }
   },
   {
@@ -1362,7 +1362,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_freezing_touch",
     "//": "Kelvinist spell",
-    "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
+    "name": { "str": "Scroll of Freezing Touch", "str_pl": "Scrolls of Freezing Touch" },
     "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
   },
@@ -1380,8 +1380,323 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_seed_of_growth",
     "//": "Druid spell",
-    "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
+    "name": { "str": "Scroll of Seed of Growth", "str_pl": "Scrolls of Seed of Growth" },
     "description": "Offer some of your life in a ritual to get tokens of growth in return.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_whisper_leaves",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Whisper of the Leaves", "str_pl": "Scrolls of Whisper of the Leaves" },
+    "description": "Deepen your bond with the forest and understand the whispers of the trees.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_whisper_leaves" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_danger_sense",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Tremorsense", "str_pl": "Scrolls of Tremorsense" },
+    "description": "Sink your senses into the earth and learn of the approach of anything walking upon it.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_danger_sense" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_fortitude_of_stone",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stones' Fortitude", "str_pl": "Scrolls of Stones' Fortitude" },
+    "description": "Like the unyielding stone, lessen your need for food or water.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_fortitude_of_stone" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_turning_of_earth",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of the Turning of the Earth", "str_pl": "Scrolls of the Turning of the Earth" },
+    "description": "Ask the earth spirits to prepare the earth for planting and sowing.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_turning_of_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_harvest_hunter",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Harvest of the Hunter", "str_pl": "Scrolls of Harvest of the Hunter" },
+    "description": "Create usable arrows out of forest detritus.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_harvest_hunter" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_sense_outsiders",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Sense Outsiders", "str_pl": "Scrolls of Sense Outsiders" },
+    "description": "Open your mystic senses and locate the things that should not be.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_anti_cold",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Cloak of Warmth", "str_pl": "Scrolls of Cloak of Warmth" },
+    "description": "Winter-be-gone through the power of of modern magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_anti_heat",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Cloak of Chill", "str_pl": "Scrolls of Cloak of Chill" },
+    "description": "Summer-be-gone through the power of of modern magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_heat" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_slowfall",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Slowfall", "str_pl": "Scrolls of Slowfall" },
+    "description": "Who's afraid of heights?  Not you, after you learn this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_slowfall" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_spiderclimb",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Spider Climb", "str_pl": "Scrolls of Spider Climb" },
+    "description": "Free climb better than the best.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_spiderclimb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_swim_frog",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Limbs of the Frog", "str_pl": "Scrolls of Limbs of the Frog" },
+    "description": "Swim with the fishes, with your froggy hands and legs.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_swim_frog" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_giant_growth",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Giant Growth", "str_pl": "Scrolls of Giant Growth" },
+    "description": "Grow to enormous size and crush your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_giant_growth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_remove_instability",
+    "//": "Biomancer spell",
+    "name": { "str": "Formula of Restore Genetic Stability", "str_pl": "Formulae of Restore Genetic Stability" },
+    "description": "This research paper has an extremely complicated series of formulae with various genetic interspersed.  It claims that the spell will cure the aftereffects of XE037 overexposure.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_remove_instability" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_carrion_feast",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Carrion Feast", "str_pl": "Scrolls of Carrion Feast" },
+    "description": "Eat rotten food with no ill effects.  It doesn't make it taste any better, though.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_carrion_feast" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_watch_spell",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Knowing the Day and the Hour", "str_pl": "Scrolls of Knowing the Day and the Hour" },
+    "description": "Cast this spell to know exactly what time it is.  You're amazed anyone is still making these scrolls; this spell might as well be a museum piece.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_watch_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_teleport_mark",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Magus's Mark", "str_pl": "Scrolls of Magus's Mark" },
+    "description": "Mark an area to be aetherically resonant so that you can easily find it later; for example, by using the Word of Recall spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_teleport_mark" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_word_of_recall",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Word of Recall", "str_pl": "Scrolls of Word of Recall" },
+    "description": "The counterpart to Magus's Mark, reciting this simple spell will instantly return you to wherever it was that you cast that spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_word_of_recall" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_summon_watcher",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Summon Watcher Spirit", "str_pl": "Scrolls of Summon Watcher Spirit" },
+    "description": "Summon a spirit through whose eyes you can see.  This spell was frowned upon pre-Cataclysm due to the potential for misuse, but its many legitimate uses kept it on the curriculum at major universities' thaumaturgical studies departments.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_summon_watcher" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_beguile_savage_beast",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Beguiling the Savage Beast", "str_pl": "Scrolls of Beguiling the Savage Beast" },
+    "description": "Charm an animal into your service for a time.  They don't even technically have to be savage!",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_beguile_savage_beast" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_robot_shutdown",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Shutdown", "str_pl": "Scrolls of Shutdown" },
+    "description": "Stop a robot, golem, or cyborg in their tracks.  Be perfectly prepared for a different kind of apocalypse.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_robot_shutdown" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_conjure_radio",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Speak through the Aether", "str_pl": "Scrolls of Speak through the Aether" },
+    "description": "Summon up a magical device that allows you to communicate through radio waves.  Well, maybe there's someone still out there.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_conjure_radio" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_conjure_ups",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Power Supply", "str_pl": "Scrolls of Power Supply" },
+    "description": "Power all of your devices using mana instead of electricity.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_conjure_ups" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_welder",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Voltaic Touch", "str_pl": "Scrolls of Voltaic Touch" },
+    "description": "Weld metal using touch alone.  It'll do a number on a zombie too.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_welder" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_granite_aegis",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Granite Aegis", "str_pl": "Scrolls of Granite Aegis" },
+    "description": "When the going gets tough, the tough summon yards-thick walls of solid rock around themselves.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_granite_aegis" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bramble_spear",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Spear of Brambles", "str_pl": "Scrolls of Spear of Brambles" },
+    "description": "Transform a long stick into a spear that drips with sticky sap.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bramble_spear" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_summon_tanglevine",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Summon Tanglevine", "str_pl": "Scrolls of Summon Tanglevine" },
+    "description": "Conjure a lashing bunch of animated vines that will grab and hold your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_summon_tanglevine" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_thornskin",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Thornskin", "str_pl": "Scrolls of Thornskin" },
+    "description": "Transform your skin into bark covered in sharp thorns.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_thorn_skin" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_summon_brambles",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Stranglethorns", "str_pl": "Scrolls of Stranglethorns" },
+    "description": "Conjure a bunch of thick brambles out of the ground to either form a wall or slow your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_summon_brambles" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_cloak_of_fog",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Cloak of Fog", "str_pl": "Scrolls of Cloak of Fog" },
+    "description": "Summon up a large cloud of mist that will conceal your movements from your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_fog" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_heart_of_hurricane",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Heart of the Hurricane", "str_pl": "Scrolls of Heart of the Hurricane" },
+    "description": "Compress raging storm winds into a shell around you to protect you.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_heart_of_hurricane" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_cloak_of_frog",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scribbled Scroll" },
+    "description": "Someone has scribbled on this scroll in…colored pencil?  You're pretty sure whatever it does now isn't the spell's original function.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_cloak_of_frog" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_lashing_tentacles",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Lashing Tentacles", "str_pl": "Scrolls of Lashing Tentacles" },
+    "description": "Grow a pair of barbed tentacles from your shoulders that will attack enemies in melee range.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_lashing_tentacles" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_cure_disease_minor",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Cure Disease, Minor", "str_pl": "Scrolls of Cure Disease, Minor" },
+    "description": "Snap your fingers and get rid of that nasty cold or flu.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_dispel_magic",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Dispel Magic", "str_pl": "Scrolls of Dispel Magic" },
+    "description": "Enemy wizards got you down?  Just remove all their magic and punch them in the face.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_disjunction",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Disjunction", "str_pl": "Scrolls of Disjunction" },
+    "description": "Remove all magic from your target, even rare or powerful spells.  Who's the archmage now?",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
   }
 ]

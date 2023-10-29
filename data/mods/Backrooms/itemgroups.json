@@ -294,7 +294,6 @@
       { "group": "mutagens", "prob": 25 },
       { "group": "guns_energy", "prob": 5 },
       { "group": "military", "prob": 50 },
-      { "group": "mil_hw", "prob": 25 },
       { "group": "science", "prob": 100 },
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "vault", "prob": 50 },

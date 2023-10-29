@@ -1,14 +1,30 @@
 [
   {
     "type": "recipe_group",
+    "id": "fbmw_2_potter_recipes_0",
+    "building_type": "SMITH",
+    "recipes": [ { "id": "crucible_clay", "description": " Craft: Crucible, Clay" } ]
+  },
+  {
+    "type": "recipe_group",
     "id": "fbmw_2_potter_recipes_1",
     "building_type": "SMITH",
     "recipes": [
       { "id": "brick", "description": " Craft: Brick" },
-      { "id": "clay_canister", "description": " Craft: Canister, Clay" },
       { "id": "crucible_clay", "description": " Craft: Crucible, Clay" },
+      { "id": "clay_canister", "description": " Craft: Canister, Clay" },
       { "id": "fire_brick", "description": " Craft: Brick, Fire" },
       { "id": "pebble_clay", "description": " Craft: Pellet, Clay" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmw_2_blacksmith_recipes_0",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "stone_chisel", "description": " Craft: Stone Chisel" },
+      { "id": "makeshift_hammer", "description": " Craft: Makeshift Hammer" },
+      { "id": "primitive_hammer", "description": " Craft: Stone Hammer" }
     ]
   },
   {
@@ -37,6 +53,7 @@
     "id": "fbmw_2_blacksmith_recipes_3",
     "building_type": "SMITH",
     "recipes": [
+      { "id": "casting_mold", "description": " Craft: Casting Mold (for metal)" },
       { "id": "copper_knife", "description": " Craft: Knife, Copper" },
       { "id": "sword_crude", "description": " Craft: Sword, Crude" },
       { "id": "pot_copper", "description": " Craft: Pot, Copper" },
@@ -51,8 +68,9 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "metal_file", "description": " Craft: Metal Fileset" },
       { "id": "stone_polishing", "description": " Craft: Polishing Stone" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
+      { "id": "metalworking_tongs_casting", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
@@ -255,7 +273,7 @@
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
       { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
-      { "id": "scimitar", "description": " Craft: Sword, Scimitar" },
+      { "id": "scimitar", "description": " Craft: Sword, Shamshir" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },

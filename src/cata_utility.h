@@ -240,6 +240,28 @@ constexpr T lerp_clamped( const T &min, const T &max, float t )
     return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
 }
 
+// Inverse of \p lerp, unbounded so it may extrapolate, returns 0.0f if min == max
+// @returns linear factor for interpolating between \p min and \p max to reach \p value
+template<typename T>
+constexpr float inverse_lerp( const T &min, const T &max, const T &value )
+{
+    if( max == min ) {
+        return 0.0f; // avoids a NaN
+    }
+    return ( value - min ) / ( max - min );
+}
+
+// Remaps \p value from range of \p i_min to \p i_max to a range between \p o_min and \p o_max
+// uses unclamped linear interpolation, so output value may be beyond output range if value is
+// outside input range.
+template<typename Tin, typename Tout>
+constexpr Tout linear_remap( const Tin &i_min, const Tin &i_max,
+                             const Tout &o_min, const Tout &o_max, Tin value )
+{
+    const float t = inverse_lerp( i_min, i_max, value );
+    return lerp( o_min, o_max, t );
+}
+
 /**
  * From `points`, finds p1 and p2 such that p1.first < x < p2.first
  * Then linearly interpolates between p1.second and p2.second and returns the result.
@@ -466,6 +488,8 @@ bool return_false( const T & )
 /**
  * Joins an iterable (class implementing begin() and end()) of elements into a single
  * string with specified delimiter by using `<<` ostream operator on each element
+ *
+ * keyword: implode
  */
 template<typename Container>
 std::string string_join( const Container &iterable, const std::string &joiner )
@@ -483,6 +507,8 @@ std::string string_join( const Container &iterable, const std::string &joiner )
 
 /**
 * Splits a string by delimiter into a vector of strings
+*
+* keyword: explode
 */
 std::vector<std::string> string_split( std::string_view string, char delim );
 
@@ -674,5 +700,7 @@ struct overloaded : Ts... {
 };
 template <class... Ts>
 explicit overloaded( Ts... ) -> overloaded<Ts...>;
+
+std::optional<double> svtod( std::string_view token );
 
 #endif // CATA_SRC_CATA_UTILITY_H

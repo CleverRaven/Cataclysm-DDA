@@ -589,7 +589,7 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
     }
     // until we have better logic for grenades it's better to keep this as a last resort...
     const int emergency = source.emergency() ? 1 : 0;
-    effectiveness.emplace_back( npc_attack_rating( emergency, source.pos() ) );
+    effectiveness.emplace_back( emergency, source.pos() );
     return effectiveness;
 }
 

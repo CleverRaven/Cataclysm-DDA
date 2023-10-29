@@ -14,6 +14,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "quiver_arbalist",
+    "entries": [ { "item": "bolt_simple_wood", "charges": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "bag_javelin_hunter",
     "entries": [ { "item": "javelin", "count": 5 } ]
   },
@@ -27,15 +33,13 @@
     "pets": [ { "name": "mon_goat", "amount": 2 } ],
     "items": {
       "both": {
-        "items": [ "jeans", "leather_belt", "socks", "boots", "pockknife", "diving_watch" ],
+        "items": [ "loincloth_leather", "leather_belt", "socks", "mocassins", "shirt_straw" ],
         "entries": [
-          { "item": "rope_6", "count": 2 },
-          { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "rope_makeshift_6", "count": 2 },
+          { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
+          { "item": "bucket_wood", "custom-flags": [ "auto_wield" ] }
         ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      }
     }
   },
   {
@@ -225,6 +229,27 @@
   },
   {
     "type": "profession",
+    "id": "fisher_canoe",
+    "name": { "male": "Canoe Fisherman", "female": "Canoe Fisherwoman" },
+    "description": "You spent most of your days fishing in lakes and swamps, getting by quietly on your catch.  While you've wandered from your canoe, you can't resist coming back for another catch.",
+    "points": 4,
+    "vehicle": "canoe",
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" }, { "level": 1, "name": "driving" } ],
+    "traits": [ "OUTDOORSMAN" ],
+    "proficiencies": [ "prof_fibers" ],
+    "items": {
+      "both": {
+        "items": [ "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
+        "entries": [
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" },
+          { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] },
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "id": "redsmith",
     "name": "Redsmith",
     "description": "You ran into trouble coming out from your forge, but despite the havoc you've managed to keep some of your equipment along with your latest project.",
@@ -264,6 +289,33 @@
           { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
         ]
       }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "trapper",
+    "name": "Trapper",
+    "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_fibers", "prof_carving", "prof_traps", "prof_trapsetting" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "socks",
+          "mocassins",
+          "hat_fur",
+          "shirt_straw",
+          "cloak_leather",
+          "patchwork_scarf",
+          "light_snare_kit",
+          "wicker_backpack"
+        ],
+        "entries": [ { "item": "copper_knife", "container-item": "sheath" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -357,13 +409,91 @@
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
           { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
           { "item": "spear_copper", "container-item": "spearsling" },
-          { "item": "makeshift_ear_plugs_off", "custom-flags": [ "no_auto_equip" ] },
           { "item": "copper_knife", "container-item": "sheath_birchbark" },
-          { "item": "longbow", "contents-item": [ "bow_silencer" ] }
+          { "item": "longbow", "contents-item": [ "primitive_bow_silencer" ] }
         ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tribal_swordsman",
+    "name": { "male": "Tribal Swordsman", "female": "Tribal Swordswoman" },
+    "description": "As a member of your tribe's elite guard, you sharpened your swordsmanship to the best that you could.  Now, you're a rōnin of the woods.",
+    "points": 4,
+    "skills": [
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "helmet_larmor", "armor_larmor", "socks", "boots_larmor", "gauntlets_larmor" ],
+        "entries": [
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "sword_bronze", "container-item": "scabbard" },
+          { "item": "copper_knife", "container-item": "sheath_birchbark" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tribal_arbalist",
+    "name": "Tribal Arbalist",
+    "description": "From your first hunt, you showed talent with a crossbow.  While the tribe was well guarded by your aim, you're all alone now.",
+    "points": 3,
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching" ],
+    "skills": [ { "level": 3, "name": "rifle" }, { "level": 3, "name": "gun" }, { "level": 2, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "leathersandals", "helmet_larmor", "vambrace_larmor", "socks", "skirt_grass", "vest_leather", "legguard_larmor" ],
+        "entries": [
+          {
+            "item": "compositecrossbow",
+            "ammo-item": "bolt_simple_wood",
+            "charges": 1,
+            "contents-item": [ "shoulder_strap", "primitive_bow_silencer", "wooden_grip" ],
+            "custom-flags": [ "no_auto_equip" ]
+          },
+          { "item": "quiver_large_birchbark", "contents-group": "quiver_arbalist" },
+          { "item": "copper_knife", "container-item": "sheath_birchbark" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "farmer",
+    "name": "Farmer",
+    "description": "A patch of soil, some water, and sunlight were all you ever needed; why should things be any different now?  With a handful of seeds and your trusty hoe, it's time to rebuild the Earth, one plant at a time.",
+    "points": 1,
+    "items": {
+      "both": {
+        "items": [
+          "loincloth_leather",
+          "wicker_backpack",
+          "patchwork_scarf",
+          "straw_hat",
+          "socks",
+          "mocassins",
+          "seed_blueberries",
+          "seed_strawberries",
+          "seed_wheat",
+          "seed_hops",
+          "seed_barley",
+          "seed_sugar_beet",
+          "seed_tomato"
+        ],
+        "entries": [ { "item": "bronze_hoe", "custom-flags": [ "auto_wield" ] } ]
+      }
     }
   },
   {
@@ -376,7 +506,17 @@
     "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
     "items": {
       "both": {
-        "items": [ "wicker_backpack", "tunic", "mocassins", "cloak", "chaps_leather", "bandana_head", "copper_knife", "shortbow" ],
+        "items": [
+          "wicker_backpack",
+          "tunic",
+          "mocassins",
+          "cloak",
+          "chaps_leather",
+          "bandana_head",
+          "copper_knife",
+          "shortbow",
+          "loincloth"
+        ],
         "entries": [
           { "item": "seed_pumpkin", "count": 5 },
           { "item": "seed_beans", "count": 5 },
@@ -386,9 +526,44 @@
           { "item": "water_clean", "charges": 8, "container-item": "bottle_gourd" },
           { "item": "arrow_heavy_fire_hardened_fletched", "charges": 10, "container-item": "quiver_birchbark" }
         ]
-      },
-      "male": [ "loincloth" ],
-      "female": [ "loincloth" ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "carpenter",
+    "name": "Carpenter",
+    "points": 4,
+    "description": "Living under your craftsmanship, the tribe was no longer bound to caves lest they freeze in the night.  You won't have to work nearly as hard for just yourself.",
+    "skills": [ { "level": 4, "name": "fabrication" } ],
+    "proficiencies": [ "prof_carving", "prof_carpentry_basic" ],
+    "items": {
+      "both": {
+        "items": [ "wicker_backpack", "tunic", "clogs", "socks", "helmet_larmor", "copper_knife", "primitive_hammer", "loincloth" ],
+        "entries": [
+          { "item": "copper_ax", "container-item": "axe_ring" },
+          { "item": "primitive_adze", "container-item": "rope_makeshift_6" },
+          { "item": "primitive_shovel", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bricklayer",
+    "name": "Bricklayer",
+    "points": 4,
+    "description": "Using the earth and organic material to create durable, insulated adobe kept your trade in high demand in your tribe.  Now alone, you only need to look out for yourself.",
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "trapper_pack", "tunic", "mocassins", "socks", "helmet_larmor", "primitive_hammer", "loincloth", "frame_wood_light" ],
+        "entries": [
+          { "item": "adobe_brick", "count": 10 },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" },
+          { "item": "wood_smoother", "custom-flags": [ "auto_wield" ] }
+        ]
+      }
     }
   }
 ]

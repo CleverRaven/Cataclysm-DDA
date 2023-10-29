@@ -13,7 +13,7 @@
 // Covers functions:
 // - Character::bodypart_exposure
 
-TEST_CASE( "character body part exposure", "[char][bodypart][exposure]" )
+TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -21,7 +21,7 @@ TEST_CASE( "character body part exposure", "[char][bodypart][exposure]" )
     std::map<bodypart_id, float> bp_exposure;
 
     GIVEN( "nothing is worn" ) {
-        dummy.worn.clear();
+        dummy.clear_worn();
 
         THEN( "exposure is 100% on all body parts" ) {
             bp_exposure = dummy.bodypart_exposure();

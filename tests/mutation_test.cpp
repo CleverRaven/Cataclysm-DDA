@@ -103,7 +103,7 @@ std::string get_mutations_as_string( const Character &you )
 //
 // This test illustrates and verifies the above scenario, using the same categories and mutations.
 //
-TEST_CASE( "mutation category strength based on current mutations", "[mutations][category]" )
+TEST_CASE( "mutation_category_strength_based_on_current_mutations", "[mutations][category]" )
 {
     npc dummy;
 
@@ -152,7 +152,7 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
 
 // If character has all available mutations in a category (pre- or post-threshold), that should be
 // their strongest/highest category. This test verifies that expectation for every category.
-TEST_CASE( "Having all mutations give correct highest category", "[mutations][strongest]" )
+TEST_CASE( "Having_all_mutations_give_correct_highest_category", "[mutations][strongest]" )
 {
     for( const std::pair<const mutation_category_id, mutation_category_trait> &cat :
          mutation_category_trait::get_all() ) {
@@ -203,7 +203,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations][st
 // 65+ is the suggested range
 //
 // This test verifies the breach-power expectation for all mutation categories.
-TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach power",
+TEST_CASE( "Having_all_pre-threshold_mutations_gives_a_sensible_threshold_breach_power",
            "[mutations][breach]" )
 {
     const int BREACH_POWER_MIN = 55;
@@ -248,7 +248,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
     }
 }
 
-TEST_CASE( "Mutation/starting trait interactions", "[mutations]" )
+TEST_CASE( "Mutation/starting_trait_interactions", "[mutations]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -336,7 +336,7 @@ TEST_CASE( "Mutation/starting trait interactions", "[mutations]" )
     }
 }
 
-TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mutations][overmap]" )
+TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mutations][overmap]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -381,7 +381,7 @@ static void check_test_mutation_is_triggered( const Character &dummy, bool trigg
     }
 }
 
-TEST_CASE( "The various type of triggers work", "[mutations]" )
+TEST_CASE( "The_various_type_of_triggers_work", "[mutations]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -520,7 +520,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
 
 }
 
-TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
+TEST_CASE( "All_valid_mutations_can_be_purified", "[mutations][purifier]" )
 {
     std::vector<trait_id> dummies;
     std::vector<trait_id> valid_traits;
@@ -566,7 +566,7 @@ TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
 //neutral mutations, because those are always allowed.
 //This also incidentally tests that, given available mutations and enough mutagen,
 //Character::mutate always succeeds to give exactly one mutation.
-TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" )
+TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" )
 {
     Character &dummy = get_player_character();
 
@@ -626,7 +626,7 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
 // If has_trait( trait_XXX )-checks for a certain trait have been 'flagified' to check for
 // has_flag( json_flag_XXX ) instead the check should be added here and it's recommended to
 // reference to the PR that changes it.
-TEST_CASE( "The mutation flags are associated to the corresponding base mutations",
+TEST_CASE( "The_mutation_flags_are_associated_to_the_corresponding_base_mutations",
            "[mutations][flags]" )
 {
     Character &dummy = get_player_character();

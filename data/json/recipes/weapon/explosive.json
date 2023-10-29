@@ -187,7 +187,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "insecticide", 50 ] ],
+      [ [ "insecticide", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "superglue", 1 ] ]
@@ -220,7 +220,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
+    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "integrated_welder", 30 ], [ "soldering_iron", 30 ] ] ],
     "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {

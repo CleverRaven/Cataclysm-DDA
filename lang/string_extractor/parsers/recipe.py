@@ -1,3 +1,4 @@
+from .effect_on_condition import parse_effect_on_condition
 from ..write_text import write_text
 
 
@@ -33,7 +34,15 @@ def parse_recipe(json, origin):
         write_text(json["description"], origin,
                    comment="Description of recipe crafting \"{}\""
                    .format(result_hint(json)))
+    if "name" in json:
+        write_text(json["name"], origin,
+                   comment="Custom name for recipe crafting \"{}\""
+                   .format(result_hint(json)))
     if "blueprint_name" in json:
         write_text(json["blueprint_name"], origin,
                    comment="Blueprint name of recipe crafting \"{}\""
                    .format(result_hint(json)))
+    if "result_eocs" in json:
+        for eoc in json["result_eocs"]:
+            if type(eoc) is dict:
+                parse_effect_on_condition(eoc, origin)

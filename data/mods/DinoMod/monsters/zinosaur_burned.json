@@ -22,7 +22,7 @@
     "vision_day": 10,
     "grab_strength": 35,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 6, "cut": 13, "acid": 3, "heat": 15, "bullet": 9 }
@@ -76,7 +76,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 8, "cut": 17, "acid": 3, "heat": 15, "bullet": 7 }
   },
@@ -126,6 +126,22 @@
     "fungalize_into": "mon_zacrocanthosaurus_fungus",
     "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "armor": { "acid": 3, "heat": 15, "cut": 13, "bullet": 9, "bash": 13 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ziganotosaurus_scorched",
+    "name": { "str": "scorched acrocanthosaurus zombie" },
+    "copy-from": "mon_zallosaurus_scorched",
+    "looks_like": "mon_ziganotosaurus",
+    "speed": 90,
+    "attack_cost": 90,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "hp": 350,
+    "fungalize_into": "mon_ziganotosaurus_fungus",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "armor": { "acid": 3, "heat": 15, "cut": 13, "bullet": 9, "bash": 6 }
   },
   {
     "type": "MONSTER",
@@ -266,7 +282,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [
       "SEES",
@@ -315,7 +331,7 @@
     "vision_day": 10,
     "grab_strength": 35,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [
       "SEES",
@@ -439,7 +455,7 @@
     "vision_day": 10,
     "grab_strength": 20,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 4, "cut": 13, "acid": 3, "heat": 15, "bullet": 9 }
@@ -769,7 +785,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "STUMBLES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 18, "cut": 30, "acid": 3, "heat": 15, "bullet": 14 }
@@ -826,7 +842,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 7, "cut": 13, "acid": 3, "heat": 15, "bullet": 9 }
@@ -863,7 +879,7 @@
     "vision_day": 10,
     "grab_strength": 10,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 7, "cut": 13, "acid": 3, "heat": 15, "bullet": 9 }
@@ -900,7 +916,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 7, "cut": 13, "acid": 3, "heat": 15, "bullet": 9 }
@@ -1062,7 +1078,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 5, "cut": 13, "acid": 3, "heat": 15, "bullet": 7 }
@@ -1275,7 +1291,7 @@
     "vision_day": 10,
     "grab_strength": 10,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "STUMBLES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 6, "cut": 13, "acid": 3, "heat": 15, "bullet": 7 }
@@ -1314,7 +1330,7 @@
     "vision_day": 10,
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "harvest": "zed_dino_leather",
     "flags": [
       "SEES",

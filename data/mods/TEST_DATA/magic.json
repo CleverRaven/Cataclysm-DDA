@@ -1,5 +1,28 @@
 [
   {
+    "id": "test_eoc_spell",
+    "type": "SPELL",
+    "name": "Mana Bolt",
+    "description": "A bolt of magical power that only damages your foes.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "energy_source": "MANA",
+    "base_casting_time": 100,
+    "base_energy_cost": 150,
+    "difficulty": 5,
+    "max_level": 20,
+    "min_damage": 20,
+    "max_damage": 120,
+    "damage_increment": 5,
+    "damage_type": "pure",
+    "min_range": 5,
+    "max_range": 30,
+    "range_increment": 1.5
+  },
+  {
     "id": "test_spell_pew",
     "type": "SPELL",
     "name": "Pew, Pew",

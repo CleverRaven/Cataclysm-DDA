@@ -18,6 +18,7 @@
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
@@ -47,6 +48,19 @@ vehicle_part::vehicle_part( const vpart_id &type, item &&base )
     : info_( &type.obj() )
 {
     set_base( std::move( base ) );
+    variant = info_->variant_default;
+}
+
+vehicle_part::vehicle_part( const vpart_id &type, item &&base, std::vector<item> &installed_with )
+    : info_( &type.obj() )
+{
+    set_base( std::move( base ) );
+    variant = info_->variant_default;
+    for( item &it : installed_with ) {
+        if( !it.has_flag( flag_UNRECOVERABLE ) ) {
+            salvageable.push_back( it );
+        }
+    }
 }
 
 const item &vehicle_part::get_base() const
@@ -54,43 +68,46 @@ const item &vehicle_part::get_base() const
     return base;
 }
 
+std::vector<item> vehicle_part::get_salvageable() const
+{
+    std::vector<item> tmp;
+    if( has_flag( vp_flag::unsalvageable_flag ) ) {
+        return tmp;
+    }
+    if( !salvageable.empty() ) {
+        return salvageable;
+    }
+    // Get default install component
+    const requirement_data reqs = info().install_requirements();
+    for( const auto &altercomps : reqs.get_components() ) {
+        const item_comp &comp = altercomps.front();
+        item newit( comp.type, calendar::turn );
+        if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
+            int compcount = comp.count;
+            const bool is_liquid = newit.made_of( phase_id::LIQUID );
+            if( newit.count_by_charges() || is_liquid ) {
+                newit.charges = compcount;
+                compcount = 1;
+            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                newit.charges = 0;
+            }
+            for( ; compcount > 0; compcount-- ) {
+                tmp.push_back( newit );
+            }
+        }
+    }
+    return tmp;
+}
+
 void vehicle_part::set_base( item &&new_base )
 {
     if( new_base.typeId() != info().base_item ) {
         debugmsg( "new base '%s' doesn't match part type '%s', this is a bug",
-                  new_base.typeId().str(), info().get_id().str() );
+                  new_base.typeId().str(), info().id.str() );
         return;
     }
     base = std::move( new_base );
     base.set_flag( flag_VEHICLE );
-}
-
-item vehicle_part::properties_to_item() const
-{
-    item tmp = base;
-    tmp.unset_flag( flag_VEHICLE );
-
-    // Cables get special handling: their target coordinates need to remain
-    // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( flag_CABLE_SPOOL ) && !tmp.has_flag( flag_TOW_CABLE ) ) {
-        map &here = get_map();
-        const tripoint local_pos = here.getlocal( target.first );
-        if( !here.veh_at( local_pos ) ) {
-            // That vehicle ain't there no more.
-            tmp.set_flag( flag_NO_DROP );
-        }
-
-        tmp.set_var( "source_x", target.first.x );
-        tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", target.first.z );
-        tmp.set_var( "state", "pay_out_cable" );
-        tmp.active = true;
-    }
-
-    // quantize damage and degradation to the middle of each damage_level so that items will stack nicely
-    tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
-    tmp.set_degradation( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
-    return tmp;
 }
 
 std::string vehicle_part::name( bool with_prefix ) const
@@ -105,8 +122,8 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( base.engine_displacement() ) {
         res += string_format( _( "%gL " ), base.engine_displacement() / 100.0 );
     }
-    if( wheel_diameter() ) {
-        res += string_format( _( "%d\" " ), wheel_diameter() );
+    if( base.is_wheel() ) {
+        res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }
     res += info().name();
     if( base.has_var( "contained_name" ) ) {
@@ -119,8 +136,15 @@ std::string vehicle_part::name( bool with_prefix ) const
             break;
         }
     }
+    if( health_percent() < floating_leak_threshold() && info().has_flag( VPFLAG_FLOATS ) &&
+        !info().has_flag( VPFLAG_NO_LEAK ) ) {
+        res += _( " (leaking)" );
+    }
     if( is_leaking() ) {
         res += _( " (draining)" );
+    }
+    if( debug_mode ) {
+        res += "{" + variant + "}";
     }
     return res;
 }
@@ -150,6 +174,11 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
+int vehicle_part::damage_level() const
+{
+    return base.damage_level();
+}
+
 bool vehicle_part::is_repairable() const
 {
     return !is_broken() && base.repairable_levels() > 0 && info().is_repairable();
@@ -158,6 +187,11 @@ bool vehicle_part::is_repairable() const
 double vehicle_part::health_percent() const
 {
     return 1.0 - damage_percent();
+}
+
+double vehicle_part::floating_leak_threshold() const
+{
+    return 0.5;
 }
 
 double vehicle_part::damage_percent() const
@@ -200,7 +234,7 @@ itype_id vehicle_part::fuel_current() const
 bool vehicle_part::fuel_set( const itype_id &fuel )
 {
     if( is_engine() ) {
-        for( const itype_id &avail : info().engine_fuel_opts() ) {
+        for( const itype_id &avail : info().engine_info->fuel_opts ) {
             if( fuel == avail ) {
                 ammo_pref = fuel;
                 return true;
@@ -471,23 +505,6 @@ bool vehicle_part::fault_set( const fault_id &f )
     return true;
 }
 
-int vehicle_part::wheel_area() const
-{
-    return info().wheel_area();
-}
-
-/** Get wheel diameter (inches) or return 0 if part is not wheel */
-int vehicle_part::wheel_diameter() const
-{
-    return base.is_wheel() ? base.type->wheel->diameter : 0;
-}
-
-/** Get wheel width (inches) or return 0 if part is not wheel */
-int vehicle_part::wheel_width() const
-{
-    return base.is_wheel() ? base.type->wheel->width : 0;
-}
-
 npc *vehicle_part::crew() const
 {
     if( is_broken() || !crew_id.is_valid() ) {
@@ -562,7 +579,8 @@ bool vehicle_part::contains_liquid() const
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_types().count( ammo_battery );
+    return info().has_flag( VPFLAG_BATTERY ) ||
+           ( base.is_magazine() && base.ammo_types().count( ammo_battery ) );
 }
 
 bool vehicle_part::is_reactor() const

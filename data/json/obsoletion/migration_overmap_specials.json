@@ -61,6 +61,11 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "Luna Park",
+    "new_id": "miniature railway park"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "trailerpark_city",
     "//": "Removed in 0.G - no new id"
   },
@@ -97,7 +102,14 @@
   {
     "type": "overmap_special_migration",
     "id": "Mansion_Wild",
-    "//": "Removed in 0.G - no new id"
+    "new_id": "Mansion_Road_1",
+    "//": "Migrated in 0.H"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mansion_WildAlt",
+    "new_id": "Mansion_Road_Alt_1",
+    "//": "Migrated in 0.H"
   },
   {
     "type": "overmap_special_migration",

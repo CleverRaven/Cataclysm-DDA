@@ -957,8 +957,7 @@
         "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
-        "fishing_pond_city": 10,
-        "railroad_city": 5
+        "fishing_pond_city": 10
       },
       "parks": {
         "park": 50,
@@ -1203,7 +1202,8 @@
         "public_works": 200,
         "office_tower": 150,
         "office_tower_2": 150,
-        "office_tower_large": 500,
+        "office_skyscraper": 300,
+        "office_tower_large": 300,
         "office_tower_hiddenlab": 50,
         "mall": 100,
         "home_improvement_superstore_new": 150,

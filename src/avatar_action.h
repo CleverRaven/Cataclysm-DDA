@@ -21,8 +21,8 @@ namespace avatar_action
 {
 
 /** Eat food or fuel  'E' (or 'a') */
-void eat( avatar &you, const item_location &loc );
-void eat( avatar &you, const item_location &loc,
+void eat( avatar &you, item_location &loc );
+void eat( avatar &you, item_location &loc,
           const std::vector<int> &consume_menu_selections,
           const std::vector<item_location> &consume_menu_selected_items,
           const std::string &consume_menu_filter, activity_id type );
@@ -82,6 +82,9 @@ void unload( avatar &you );
 // Use item; also tries E,R,W  'a'
 void use_item( avatar &you, item_location &loc, std::string const &method = {} );
 void use_item( avatar &you );
+
+/** Check if avatar is stealing a weapon. */
+bool check_stealing( Character &who, item &weapon );
 } // namespace avatar_action
 
 #endif // CATA_SRC_AVATAR_ACTION_H

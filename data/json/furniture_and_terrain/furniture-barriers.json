@@ -197,5 +197,47 @@
       "furn_set": "f_sandbag_half",
       "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_sand", "charges": [ 1000, 1200 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_showjump",
+    "name": "show jump",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "f_barricade_road",
+    "move_cost_mod": -1,
+    "description": "A show jump made of a long pole, suitable for showing off your equestrian skills.",
+    "required_str": -1,
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "long_pole", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "long_pole", "count": [ 0, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_showjump_end",
+    "name": "show jump",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "f_showjump",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "description": "The end of a show jump made of planks.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": 10 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
+    }
   }
 ]

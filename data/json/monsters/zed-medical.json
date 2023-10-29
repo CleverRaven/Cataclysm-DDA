@@ -31,7 +31,7 @@
     "id": "mon_skeleton_medical",
     "type": "MONSTER",
     "name": { "str_sp": "sawbones" },
-    "description": "A malformed armor of misshapen bone has grown over this zombie, having pushed what remains of the skin out of the way.  The clothes of a medical worker is still draped over it.",
+    "description": "A malformed armor of misshapen bone has grown over this zombie, having pushed what remains of the skin out of the way.  The clothes of a medical worker are still draped over it.",
     "copy-from": "mon_skeleton",
     "death_drops": "zombie_medical_clothes",
     "color": "blue"

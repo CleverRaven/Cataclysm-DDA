@@ -1,0 +1,74 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_animist",
+    "name": { "str": "School Focus: Animist" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_magus",
+    "name": { "str": "School Focus: Magus" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_stormshaper",
+    "name": { "str": "School Focus: Stormshaper" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_kelvinist",
+    "name": { "str": "School Focus: Kelvinist" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_earthshaper",
+    "name": { "str": "School Focus: Earthshaper" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_technomancer",
+    "name": { "str": "School Focus: Technomancer" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_druid",
+    "name": { "str": "School Focus: Druid" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up_biomancer",
+    "name": { "str": "School Focus: Biomancer" },
+    "points": 0,
+    "valid": false,
+    "description": "You have studied this school in particular.  +1 caster level for your selected school.",
+    "category": [ "perk" ]
+  }
+]

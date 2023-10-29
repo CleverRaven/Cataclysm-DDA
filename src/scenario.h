@@ -24,7 +24,6 @@ class scenario
         friend class generic_factory<scenario>;
         friend struct mod_tracker;
         string_id<scenario> id;
-        std::vector<std::pair<string_id<scenario>, mod_id>> src;
         bool was_loaded = false;
         translation _name_male;
         translation _name_female;
@@ -55,15 +54,13 @@ class scenario
         // does this scenario require a specific achiement to unlock
         std::optional<achievement_id> _requirement;
 
-        bool _custom_start_date = false;
-        bool _is_random_hour = false;
-        int _start_hour = 8;
-        bool _is_random_day = false;
-        int _start_day = 0;
-        season_type _start_season = SPRING;
-        bool _is_random_year = false;
-        int _start_year = 1;
+        bool reveal_locale = true;
+
+        time_point _default_start_of_cataclysm;
+        time_point _default_start_of_game;
+
         time_point _start_of_cataclysm;
+        time_point _start_of_game;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
@@ -101,19 +98,15 @@ class scenario
 
         std::optional<achievement_id> get_requirement() const;
 
-        bool custom_start_date() const;
-        void rerandomize() const;
-        bool is_random_hour() const;
-        bool is_random_day() const;
-        bool is_random_year() const;
-        int start_hour() const;
-        // Returns day of the season this scenario starts on
-        int start_day() const;
-        season_type start_season() const;
-        int start_year() const;
+        bool get_reveal_locale() const;
+
+        void normalize_calendar() const;
+        void reset_calendar() const;
 
         time_point start_of_cataclysm() const;
         time_point start_of_game() const;
+        void change_start_of_cataclysm( const time_point &t ) const;
+        void change_start_of_game( const time_point &t ) const;
 
         vproto_id vehicle() const;
 
@@ -156,6 +149,7 @@ class scenario
         const std::vector<effect_on_condition_id> &eoc() const;
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
+        std::vector<std::pair<string_id<scenario>, mod_id>> src;
 };
 
 struct scen_blacklist {

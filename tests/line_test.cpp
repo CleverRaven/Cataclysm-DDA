@@ -132,7 +132,7 @@ TEST_CASE( "test_normalized_angle", "[line]" )
 }
 
 // NOLINTNEXTLINE(readability-function-size)
-TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" )
+TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" )
 {
     // Test the unit cube, which are the only values this function is valid for.
     REQUIRE( make_xyz_unit( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );
@@ -382,19 +382,23 @@ static void line_to_comparison( const int iterations )
         const int t1 = 0;
         const int t2 = 0;
         int count1 = 0;
-        const auto start1 = std::chrono::high_resolution_clock::now();
+        const std::chrono::high_resolution_clock::time_point start1 =
+            std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
             line_to( p12, p22, t1 );
             count1++;
         }
-        const auto end1 = std::chrono::high_resolution_clock::now();
+        const std::chrono::high_resolution_clock::time_point end1 =
+            std::chrono::high_resolution_clock::now();
         int count2 = 0;
-        const auto start2 = std::chrono::high_resolution_clock::now();
+        const std::chrono::high_resolution_clock::time_point start2 =
+            std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
             canonical_line_to( p12, p22, t2 );
             count2++;
         }
-        const auto end2 = std::chrono::high_resolution_clock::now();
+        const std::chrono::high_resolution_clock::time_point end2 =
+            std::chrono::high_resolution_clock::now();
 
         if( iterations > 1 ) {
             const long long diff1 =

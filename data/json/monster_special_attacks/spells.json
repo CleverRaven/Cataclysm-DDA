@@ -824,8 +824,8 @@
                   "case": 0,
                   "effect": [
                     { "u_message": "Your reflection clears the way between you two." },
-                    { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
-                    { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+                    { "u_location_variable": { "global_val": "first" } },
+                    { "npc_location_variable": { "global_val": "second" } },
                     {
                       "transform_line": "clear_portal_walls",
                       "first": { "global_val": "first" },
@@ -841,13 +841,7 @@
                       "condition": {
                         "and": [
                           { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
-                          {
-                            "compare_num": [
-                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_guilt" },
-                              "<",
-                              { "const": 1 }
-                            ]
-                          }
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
                       "effect": {
@@ -868,13 +862,7 @@
                       "condition": {
                         "and": [
                           { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
-                          {
-                            "compare_num": [
-                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_sloth" },
-                              "<",
-                              { "const": 1 }
-                            ]
-                          }
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
                       "effect": {

@@ -17,7 +17,7 @@
 
 static const string_id<map_extra> map_extra_mx_minefield( "mx_minefield" );
 
-TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
+TEST_CASE( "mx_minefield_real_spawn", "[map_extra][overmap][!mayfail]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
@@ -53,7 +53,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
     overmap_buffer.clear();
 }
 
-TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
+TEST_CASE( "mx_minefield_theoretical_spawn", "[map_extra][overmap]" )
 {
     overmap &om = overmap_buffer.get( point_abs_om() );
 

@@ -1,4 +1,4 @@
-**Intermediate Mapgen Guide:**
+## Guide For Intermediate Mapgen
 
 This guide assumes you are comfortable with basic mapgen elements and adding regular mapgen.  It is meant as a supplement to the mapgen.md and overmap.md documents.
 
@@ -502,6 +502,7 @@ For our farm the coordinates will be:
 
 The object entries rows reflect all the OMTs together and all the other object entries are shared across all the OMTs:
 
+<!-- {% raw %} -->
 ```
       "rows": [
         " ɅɅɅɅɅɅ ,,,  ,,, ɅɅɅɅɅɅ                p ,, ,,   ɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅ ",
@@ -578,6 +579,7 @@ The object entries rows reflect all the OMTs together and all the other object e
         " ɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅ "
       ],
 ```
+<!-- {% endraw %} -->
 
 Important note about spawning items, vehicles and monsters:
 

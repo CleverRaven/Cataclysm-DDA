@@ -15,7 +15,7 @@ static void set_map_temperature( units::temperature new_temperature )
     get_weather().clear_temp_cache();
 }
 
-TEST_CASE( "Rate of rotting", "[rot]" )
+TEST_CASE( "Rate_of_rotting", "[rot]" )
 {
     SECTION( "Passage of time" ) {
         // Item rot is a time duration.
@@ -75,7 +75,7 @@ TEST_CASE( "Rate of rotting", "[rot]" )
     }
 }
 
-TEST_CASE( "Items rot away", "[rot]" )
+TEST_CASE( "Items_rot_away", "[rot]" )
 {
     SECTION( "Item in reality bubble rots away" ) {
         // Item should rot away when it has 2x of its shelf life in rot.
@@ -99,7 +99,7 @@ TEST_CASE( "Items rot away", "[rot]" )
     }
 }
 
-TEST_CASE( "Hourly rotpoints", "[rot]" )
+TEST_CASE( "Hourly_rotpoints", "[rot]" )
 {
     item normal_item( "meat_cooked" );
 

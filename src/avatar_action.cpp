@@ -72,6 +72,9 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
@@ -165,7 +168,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.is_prone() &&
+    if( ( !you.enough_working_legs() && !you.is_prone() &&
           !( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_CRUTCHES ) ) ) ) {
         you.set_movement_mode( move_mode_prone );
         you.add_msg_if_player( m_bad,
@@ -368,7 +371,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
+        } else if( critter.has_flag( mon_flag_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
                    critter.has_effect( effect_ridden ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
@@ -909,7 +912,7 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc )
+void avatar_action::eat( avatar &you, item_location &loc )
 {
     std::string filter;
     if( !you.activity.str_values.empty() ) {
@@ -919,7 +922,7 @@ void avatar_action::eat( avatar &you, const item_location &loc )
                         you.activity.id() );
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc,
+void avatar_action::eat( avatar &you, item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter,
@@ -930,6 +933,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         add_msg( _( "Never mind." ) );
         return;
     }
+    loc.overflow();
     you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
                          consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
@@ -958,7 +962,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     if( you.is_mounted() ) {
         monster *mons = get_player_character().mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
                          mons->get_name() );
@@ -1091,6 +1095,8 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         }
     }
 
+    loc.overflow();
+
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
         add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
         return;
@@ -1148,9 +1154,10 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     if( use_in_place ) {
         update_lum( loc, false );
         you.use( loc, pre_obtain_moves, method );
-        update_lum( loc, true );
-
-        loc.make_active();
+        if( loc ) {
+            update_lum( loc, true );
+            loc.make_active();
+        }
     } else {
         you.use( loc, pre_obtain_moves, method );
 
@@ -1171,14 +1178,25 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 // If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
-    item_location loc = g->inv_map_splice( [&you]( const item & it ) {
-        return you.rate_action_unload( it ) == hint_rating::good;
-    }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
-
-    if( !loc ) {
+    std::pair<item_location, bool> ret = game_menus::inv::unload( you );
+    if( !ret.first ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    you.unload( loc );
+    if( ret.second || !ret.first->is_container() ) {
+        // Auto contain
+        you.unload( ret.first );
+    } else {
+        // Manual contain
+        item_location new_container = g->inv_map_splice( [&you]( const item_location & it ) {
+            return it->is_container() && !it->is_corpse() && you.rate_action_insert( it ) == hint_rating::good;
+        }, _( "Insert item" ), 1, _( "You have no container to insert items." ) );
+
+        if( !new_container ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        you.unload( ret.first, false, new_container );
+    }
 }

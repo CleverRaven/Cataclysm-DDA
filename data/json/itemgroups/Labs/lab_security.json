@@ -49,7 +49,7 @@
     "//": "This group is for UPS spawns.",
     "subtype": "distribution",
     "entries": [
-      { "item": "UPS_off", "prob": 70 },
+      { "item": "UPS_OFF", "prob": 70 },
       { "item": "heavy_battery_cell", "prob": 70 },
       { "item": "heavy_plus_battery_cell", "prob": 40 }
     ]

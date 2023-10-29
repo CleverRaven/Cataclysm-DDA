@@ -8,6 +8,7 @@
     "delete": { "categories": [ "CLASSIC" ] },
     "bleed_rate": 50,
     "regenerates": 10,
+    "harvest": "zombie_pupating",
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "armor": { "electric": 1, "bash": 7, "cut": 5, "bullet": 5 }
   },
@@ -17,6 +18,7 @@
     "name": { "str": "pupating zombie crawler" },
     "description": "This half of a human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_zombie_crawler_pupa_decoy",
+    "harvest": "zombie_pupating",
     "extend": {
       "special_attacks": [
         {
@@ -34,6 +36,7 @@
     "name": { "str": "pupating zombie" },
     "description": "This human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_zombie_fat",
+    "harvest": "zombie_pupating",
     "delete": { "categories": [ "CLASSIC" ] },
     "bleed_rate": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
@@ -47,6 +50,7 @@
     "name": { "str": "pupating zombie" },
     "description": "This human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_zombie_pupa_decoy",
+    "harvest": "zombie_pupating",
     "extend": {
       "special_attacks": [
         {
@@ -65,6 +69,7 @@
     "description": "This muscular human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_zombie_brute",
     "delete": { "categories": [ "CLASSIC" ] },
+    "harvest": "zombie_pupating",
     "speed": 95,
     "regenerates": 10,
     "upgrades": { "half_life": 42, "into_group": "GROUP_BRUTE_PUPA" },
@@ -76,6 +81,7 @@
     "name": { "str": "pupating brute" },
     "description": "This muscular human corpse is wrapped in sticky black fibers that cover everything from the neck down.  Beneath the wrapping there is a strange rhythmic movement, grotesque to behold.",
     "copy-from": "mon_brute_pupa_decoy",
+    "harvest": "zombie_pupating",
     "extend": {
       "special_attacks": [
         {
@@ -115,7 +121,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "vision_day": 83,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_pupating_hulk",
     "grab_strength": 35,
     "special_attacks": [
       { "id": "grab" },
@@ -173,7 +179,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "vision_day": 83,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_pupating_hulk",
     "special_attacks": [
       { "id": "grab" },
       { "id": "bite_humanoid", "cooldown": 5 },
@@ -220,6 +226,7 @@
     "bleed_rate": 0,
     "vision_day": 8,
     "vision_night": 15,
+    "harvest": "zombie_humanoid_pupating_shadow",
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NIGHT_INVISIBILITY" ] },
     "armor": { "electric": 2, "bash": 8, "cut": 6, "bullet": 6 }
   },

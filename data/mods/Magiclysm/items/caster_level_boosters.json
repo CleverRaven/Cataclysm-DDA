@@ -1,0 +1,373 @@
+[
+  {
+    "id": "magus_booster_1",
+    "looks_like": "fire_drill",
+    "//": "cheap and reusable, but doesn't last very long",
+    "type": "TOOL",
+    "name": {
+      "str": "magus's elastic potential energy contraption (off)",
+      "str_pl": "magus's elastic potential energy contraptions (off)"
+    },
+    "description": "This elaborate contraption of wooden sticks under tension and tightly wound strings has a pebble with a magus rune on in its center.  Once activated, this device will transform the stored elastic potential energy into arcane energy, boosting your caster level of magus spells by 1 for as long as the stored energy lasts.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": 200,
+    "to_hit": -1,
+    "material": [ "wood" ],
+    "symbol": "&",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "elastic_potential_energy": 100 }, "rigid": true } ],
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "magus_booster_1_active",
+      "msg": "You squeeze the machine and its interior starts spinning.",
+      "active": true,
+      "menu_text": "Activate",
+      "type": "transform",
+      "target_charges": 100,
+      "target_ammo": "elastic_potential_energy",
+      "moves": 500
+    }
+  },
+  {
+    "id": "magus_booster_1_active",
+    "looks_like": "fire_drill",
+    "type": "TOOL",
+    "name": { "str": "magus's elastic potential energy contraption" },
+    "description": "This elaborate contraption of wooden sticks and strings contains a rapidly spinning pebble with magus rune on.  You feel slightly empowered, as your caster level of magus spells is boosted by 1.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": 200,
+    "to_hit": -1,
+    "material": [ "wood" ],
+    "symbol": "&",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "elastic_potential_energy": 100 }, "rigid": true } ],
+    "turns_per_charge": 5,
+    "revert_to": "magus_booster_1",
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "magus_booster_1",
+      "msg": "The device slows down and stops.",
+      "menu_text": "Stop",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "magus_booster_2",
+    "looks_like": "alarmclock",
+    "type": "TOOL",
+    "name": { "str": "magus's clockwork contraption (off)", "str_pl": "magus's clockwork contraptions (off)" },
+    "description": "This intricate contraption consists of fine gears, screw drivers, belts, pulleys, springs and other clockwork.  The gearwork is contained in a casing of magically treated glass.  An elegantly drawn magus rune is caged in the center, and a wind-up key extends out of the casing, allowing the device to be powered.  Once wound up, it will boost your magus caster level by 2 for as long as the energy lasts.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": 200,
+    "to_hit": -1,
+    "material": [ "glass", "iron" ],
+    "symbol": "&",
+    "color": "white",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "elastic_potential_energy": 400 } } ],
+    "use_action": {
+      "target": "magus_booster_2_active",
+      "msg": "You wind up the device and it starts making a ticking noise.",
+      "active": true,
+      "menu_text": "Activate",
+      "type": "transform",
+      "target_charges": 400,
+      "target_ammo": "elastic_potential_energy",
+      "moves": 500
+    }
+  },
+  {
+    "id": "magus_booster_2_active",
+    "looks_like": "alarmclock",
+    "type": "TOOL",
+    "name": { "str": "magus's clockwork contraption" },
+    "description": "This intricate contraption consists of fine gears, screw drivers, belts, pulleys, springs and other clockwork parts moving in a mesmerizing dance.  The gearwork is contained in a casing of magically treated glass and gives off a soft ticking noise.  An elegantly drawn magus rune in the center is being spun and rotated in a neverending complex dance of arcane energy.  The wind-up key extending from the casing slowly spins back into its original position.  You feel empowered, as your caster level of magus spells is boosted by 2.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": 200,
+    "to_hit": -1,
+    "material": [ "glass", "iron" ],
+    "symbol": "&",
+    "color": "white",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "elastic_potential_energy": 400 } } ],
+    "turns_per_charge": 5,
+    "revert_to": "magus_booster_2",
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "magus_booster_2",
+      "msg": "The device slows down and stops.",
+      "menu_text": "Stop",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "kelvinist_booster_1",
+    "//": "Based off of the candle, but twice the burn rate, and doesn't go out in the wind.",
+    "looks_like": "candle",
+    "type": "TOOL",
+    "name": { "str": "kelvinist's candle (off)", "str_pl": "kelvinist's candles (off)" },
+    "description": "A thick candle of magically treated tallow with a kelvinist rune artfully inscribed on the side.  It doesn't burn for quite as long as a regular candle, but it will boost your caster level of kelvinist spells by 1 while burning.  You'll need a lighter or matches to light it.",
+    "weight": "225 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 50,
+    "to_hit": -2,
+    "material": [ "beeswax" ],
+    "symbol": ",",
+    "color": "white",
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
+    "use_action": {
+      "target": "kelvinist_booster_1_active",
+      "msg": "You light the candle.",
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light",
+      "type": "transform"
+    },
+    "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
+  },
+  {
+    "id": "kelvinist_booster_1_active",
+    "looks_like": "candle_lit",
+    "type": "TOOL",
+    "copy-from": "kelvinist_booster_1",
+    "name": { "str": "kelvinist's candle" },
+    "description": "A thick candle of magically treated tallow with a kelvinist rune artfully inscribed on the side.  It doesn't burn for quite as long as a regular candle, but it will boost your caster level of kelvinist spells by 1 while burning.  The magic of the candle protects it from the wind and from setting your backpack aflame.  This candle is lit.",
+    "turns_per_charge": 675,
+    "use_action": [
+      { "type": "firestarter", "moves": 100 },
+      {
+        "ammo_scale": 0,
+        "target": "kelvinist_booster_1",
+        "msg": "The candle winks out.",
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "FIRESTARTER" ] }
+  },
+  {
+    "id": "kelvinist_booster_2",
+    "//": "Based off of the clay oil lamp, but twice the burn rate, doesn't go out in the wind, and made of metal.",
+    "looks_like": "oil_lamp",
+    "type": "TOOL",
+    "name": { "str": "kelvinist's oil lamp (off)", "str_pl": "kelvinist's oil lamps (off)" },
+    "description": "An masterfully crafted metal oil lamp with two elongated nozzles, each containing a wick.  The surface is carved with intricate arcane symbols, including a prominent kelvinist rune.  The magic of the lamp protects it from the wind and from setting your backpack aflame.  It does not provide much light, but will boost your kelvinist caster level by 2 while burning.  Use it to light it.",
+    "weight": "820 g",
+    "volume": "300 ml",
+    "price": 800,
+    "price_postapoc": 100,
+    "material": [ "iron" ],
+    "symbol": ";",
+    "color": "brown",
+    "ammo": [ "crude_lamp_oil", "lamp_oil" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "crude_lamp_oil": 250, "lamp_oil": 250 } } ],
+    "charges_per_use": 1,
+    "use_action": {
+      "target": "kelvinist_booster_2_active",
+      "msg": "You light the lamp.",
+      "active": true,
+      "need_fire": 1,
+      "need_charges": 1,
+      "need_charges_msg": "The lamp is empty.",
+      "type": "transform"
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "kelvinist_booster_2_active",
+    "copy-from": "kelvinist_booster_2",
+    "looks_like": "oil_lamp_on",
+    "type": "TOOL",
+    "name": { "str": "kelvinist's oil lamp" },
+    "description": "An masterfully crafted metal oil lamp with two elongated nozzles, each containing a burning wick.  The surface is carved with intricate arcane symbols, including a prominent kelvinist rune.  The reflections from the flames makes it look like the inscriptions are moving.  The magic of the lamp protects it from the wind and from setting your backpack aflame.  It is lit, consuming oil, boosting your kelvinist caster level by 2, and providing light.  Use it to extinguish the flame.",
+    "turns_per_charge": 120,
+    "revert_to": "kelvinist_booster_2",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "kelvinist_booster_2",
+        "msg": "The lamp is extinguished.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "firestarter", "moves": 100 }
+    ],
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "technomancer_booster_1",
+    "//": "Stats are based off of a brick.",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str": "technomancer's clay tablet" },
+    "description": "A fire-hardened clay tablet depicting a technomancer rune.  Breaking the tablet will release the stored magical energy, boosting your technomancer caster level by 1 for a while.",
+    "price": 2500,
+    "price_postapoc": 10,
+    "material": [ "clay", "stone" ],
+    "weight": "969 g",
+    "volume": "500 ml",
+    "to_hit": -2,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel a surge of power as the clay tablet crumbles between your fingers.",
+      "effects": [ { "id": "technomancer_cl_booster_effect", "duration": "2 h" } ],
+      "moves": 50
+    }
+  },
+  {
+    "id": "technomancer_booster_2",
+    "//": "Stats are based off of a food_processor.",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "technomancer's doodad (off)", "str_pl": "technomancer's doodads (off)" },
+    "description": "A jumble of cables, gears, electromagnets, and metal encased in a steel casing inscribed with arcane runes.  A pebble with a technomancer rune is found at the core.  The machine can adjust the electric charge, magnetic field, and angular velocity of said rune.  When active and in your inventory, the machine will automatically detect when you are trying to cast a technomancer spell.  Once that happens, it will use a moderate amount of battery charge to boost your caster level as far as it can.  A larger boost will draw more energy.",
+    "weight": "3500 g",
+    "volume": "20 L",
+    "longest_side": "40 cm",
+    "price": 12000,
+    "price_postapoc": 700,
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "use_action": {
+      "target": "technomancer_booster_2_active",
+      "msg": "You turn on the doodad and it starts to hum.",
+      "active": true,
+      "menu_text": "Activate",
+      "type": "transform"
+    },
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "technomancer_booster_2_active",
+    "//": "Stats are based off of a food_processor.",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "technomancer's doodad" },
+    "description": "A jumble of cables, gears, electromagnets, and metal encased in a steel casing inscribed with arcane runes.  A pebble with a technomancer rune is found at the core.  The machine can adjust the electric charge, magnetic field, and angular velocity of said rune.  While active and in your inventory, the machine will automatically detect when you are trying to cast a technomancer spell.  Once that happens, it will use a moderate amount of battery charge to boost your caster level as far as it can.  A larger boost will draw more energy.  A faint humming is heard from inside.",
+    "weight": "3500 g",
+    "volume": "20 L",
+    "longest_side": "40 cm",
+    "turns_per_charge": 2000,
+    "price": 12000,
+    "price_postapoc": 700,
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "technomancer_booster_2",
+        "msg": "The doodad shuts down.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      }
+    ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "biomancer_booster_1",
+    "//": "based on a bone shiv.",
+    "name": { "str": "biomancer's bone syringe" },
+    "type": "TOOL",
+    "description": "A hollow bone, about 20 cm long, which has been broken at one end and sharpened into a crude syringe.  A biomancer rune is carved on the surface.  By jabbing it into yourself, you can release stored biomancer booster sludge into yourself, thereby boosting your biomancer caster level by 1 for a while.  Doing so is about as painful as it sounds.",
+    "symbol": "/",
+    "color": "white",
+    "weight": "169 g",
+    "volume": "188 ml",
+    "longest_side": "20 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 3, "stab": 12 },
+    "ammo": [ "biomancer_booster_sludge" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "biomancer_booster_sludge": 5 } } ],
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel a surge of power as the bone syringe deposits the sludge inside your body.",
+      "effects": [ { "id": "biomancer_cl_booster_effect", "duration": "8 h" } ],
+      "stat_adjustments": { "pain": 5 },
+      "moves": 50
+    }
+  },
+  {
+    "id": "biomancer_booster_2",
+    "//": "based on a bone shiv.",
+    "name": { "str": "biomancer's syringe" },
+    "type": "TOOL",
+    "description": "An elegant, sturdy metal syringe with a biomancer rune carved on the outside.  It can be used to administer stored biomancer booster sludge into yourself, thereby boosting your biomancer caster level by 2 for a while.",
+    "symbol": "/",
+    "color": "white",
+    "weight": "230 g",
+    "volume": "200 ml",
+    "longest_side": "20 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "steel" ],
+    "ammo": [ "biomancer_booster_sludge" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "biomancer_booster_sludge": 10 } } ],
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel a surge of power as the syringe deposits the sludge inside your body.",
+      "effects": [
+        { "id": "biomancer_cl_booster_effect", "duration": "8 h" },
+        { "id": "biomancer_cl_booster_effect", "duration": "8 h" }
+      ],
+      "moves": 50,
+      "stat_adjustments": { "pain": 2 }
+    }
+  },
+  {
+    "id": "biomancer_booster_sludge",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "biomancer booster sludge" },
+    "description": "A thick purple liquid that is filled to the brim with arcane energy.  With the right tool, it can be used to boost your biomancer caster level.",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "price": 0,
+    "symbol": "~",
+    "color": "pink",
+    "phase": "liquid",
+    "container": "flask_glass",
+    "ammo_data": { "ammo_type": "biomancer_booster_sludge" },
+    "flags": [ "NO_INGEST" ]
+  }
+]

@@ -603,7 +603,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "gunmod reloading", "[reload],[gun]" )
+TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 {
     SECTION( "empty gun and gunmod" ) {
         item gun( "m4_carbine" );
@@ -954,7 +954,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     }
 
     GIVEN( "a player wielding an unloaded gun, carrying an unloaded magazine, and carrying ammo for the magazine" ) {
-        dummy.worn.clear();
+        dummy.clear_worn();
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         item_location ammo = dummy.i_add( item( "9mm", calendar::turn_zero, 50 ) );
         const cata::value_ptr<islot_ammo> &ammo_type = ammo->type->ammo;

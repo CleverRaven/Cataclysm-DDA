@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <optional>
+#include <set>
 #include <tuple>
 #include <vector>
 
@@ -113,6 +114,8 @@ void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
+void stook_empty( Character &, const tripoint &examp );
+void stook_full( Character &, const tripoint &examp );
 void arcfurnace_empty( Character &you, const tripoint &examp );
 void arcfurnace_full( Character &you, const tripoint &examp );
 void autoclave_empty( Character &you, const tripoint &examp );

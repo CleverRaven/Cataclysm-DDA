@@ -1,50 +1,6 @@
 [
   {
     "type": "furniture",
-    "id": "f_robotic_assembler",
-    "name": "robotic assembler",
-    "looks_like": "f_robotic_arm",
-    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.  Despite its specialized purpose being all but lost now, it could provide a plethora of useful parts if disassembled.",
-    "symbol": "3",
-    "color": "magenta_cyan",
-    "move_cost_mod": -1,
-    "coverage": 35,
-    "required_str": -1,
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-        { "item": "e_scrap", "count": [ 5, 8 ] },
-        { "item": "circuit", "count": [ 3, 5 ] },
-        { "item": "power_supply", "count": [ 1, 2 ] },
-        { "item": "amplifier", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "processor", "count": [ 2, 4 ] },
-        { "item": "RAM", "count": [ 8, 16 ] },
-        { "item": "cable", "charges": [ 8, 12 ] },
-        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] },
-        { "item": "motor_small", "count": [ 0, 1 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_chemical_mixer",
     "looks_like": "f_machinery_light",
     "description": "A large vat with a motorized mixing device for combining large quantities of chemicals.",
@@ -139,7 +95,7 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
@@ -560,9 +516,9 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "uranium", "charges": [ 10, 50 ] },
+        { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
-        { "item": "plutonium", "charges": [ 0, 20 ] },
+        { "item": "plutonium", "count": [ 0, 20 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }
@@ -578,7 +534,8 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 8,
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "active_backup_generator" },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 5,
       "str_max": 40,
@@ -594,14 +551,6 @@
         { "item": "bearing", "charges": [ 5, 60 ] }
       ]
     },
-    "deconstruct": {
-      "items": [
-        { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "sheet_metal", "count": [ 4, 6 ] },
-        { "item": "jp8", "charges": [ 1000, 10000 ], "container-item": "jerrycan_big" },
-        { "item": "i4_diesel" },
-        { "item": "bearing", "charges": [ 5, 40 ] }
-      ]
-    }
+    "deconstruct": { "items": [ { "item": "active_backup_generator" } ] }
   }
 ]

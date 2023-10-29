@@ -1,4 +1,6 @@
-# Adding stuff
+# Developer FAQ
+
+## Adding stuff
 
 ## Adding a monster
 

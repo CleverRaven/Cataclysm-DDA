@@ -1,10 +1,12 @@
-# Recommended reading
+# Basecamp
+
+## Recommended reading
 Basecamps leverage many existing aspects of JSON data such as recipes and mapgen. It's recommended to be familiar with those:
 * [JSON info](JSON_INFO.md) has information on common fields for recipes
 * [mapgen](MAPGEN.md), see section 3 about `update_mapgen`
 
 
-# Adding alternate basecamp upgrade paths
+## Adding alternate basecamp upgrade paths
 
 A basecamp upgrade path is a series of basecamp upgrade missions that upgrade the camp.  Upgrade missions are generally performed sequentially, but there is an option to have them branch.  Branched missions optionally can have further missions that require missions from other branches.
 

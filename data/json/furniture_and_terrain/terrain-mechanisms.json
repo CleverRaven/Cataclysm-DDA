@@ -171,6 +171,7 @@
         { "item": "rope_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 3 ] },
         { "item": "block_and_tackle", "count": [ 0, 1 ] }
       ]
     },
@@ -178,7 +179,7 @@
       "ter_set": "t_dirtfloor",
       "items": [
         { "item": "rope_30", "count": 1 },
-        { "item": "nuts_bolts", "count": 1 },
+        { "item": "nuts_bolts", "charges": 3 },
         { "item": "2x4", "count": 8 },
         { "item": "block_and_tackle", "count": 1 }
       ]
@@ -270,6 +271,7 @@
   {
     "type": "terrain",
     "id": "t_card_robofac",
+    "looks_like": "t_card_science",
     "name": "card reader",
     "description": "A smartcard reader.  It sports the stylized symbol of an atom inside a flask that is universally known to indicate SCIENCE.  An ominous red LED reminds you of a robot gone haywire from an old sci-fi flick.  You could swipe a scientific ID badge near it if you do not fear the machine.",
     "//": "It takes a science card/hack attempt and then calls iexamine::intercom",
@@ -408,7 +410,7 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_VISITOR" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": true,
       "despawn_monsters": true,
       "radius": 3,
@@ -422,6 +424,7 @@
   {
     "type": "terrain",
     "id": "t_card_artisans",
+    "looks_like": "t_card_science",
     "name": "card reader",
     "description": "A smartcard reader.  A sticky note plastered above it reads 'CO-OP MEMBERS ONLY'.",
     "//": "for the isolated artisans faction",
@@ -532,7 +535,7 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_TRANSPORT_1" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": false,
       "despawn_monsters": false,
       "radius": 7,

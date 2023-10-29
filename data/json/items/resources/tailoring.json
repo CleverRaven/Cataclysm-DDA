@@ -1,5 +1,35 @@
 [
   {
+    "abstract": "scrap_worthless",
+    "type": "GENERIC",
+    "name": { "str_sp": "worthless scraps" },
+    "description": "A handful of oddly-shaped worthless bits of abstract code.  Seeing this is a bug.",
+    "category": "other",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "scrap_valuable",
+    "type": "GENERIC",
+    "name": { "str_sp": "valuable scraps" },
+    "description": "A handful of oddly-shaped valuable bits of abstract code.  Seeing this is a bug.",
+    "category": "other",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 5,
+    "material": [ "cotton" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "grass_yarn",
     "symbol": ",",
@@ -14,22 +44,18 @@
   },
   {
     "id": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "cotton scraps" },
     "description": "A handful of oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some thread if you really want.",
-    "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 5,
     "material": [ "cotton" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "id": "scrap_faux_fur",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "faux fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -41,7 +67,7 @@
   },
   {
     "id": "scrap_felt",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "felt scraps" },
     "description": "A handful of oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some wool fiber if you really want.",
@@ -50,7 +76,7 @@
   },
   {
     "id": "scrap_fur",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -61,18 +87,19 @@
   },
   {
     "id": "scrap_kevlar",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_valuable",
     "type": "GENERIC",
     "name": { "str_sp": "Kevlar scraps" },
     "description": "A handful of oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Kevlar is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "volume": "2 ml",
+    "weight": "810 mg",
     "price": 1,
     "price_postapoc": 10,
     "material": [ "kevlar" ]
   },
   {
     "id": "scrap_leather",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "leather scraps" },
     "description": "A handful of oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -82,7 +109,7 @@
   },
   {
     "id": "scrap_lycra",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "Lycra scraps" },
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -92,7 +119,7 @@
   },
   {
     "id": "scrap_neoprene",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "neoprene scraps" },
     "description": "A handful of oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -102,7 +129,7 @@
   },
   {
     "id": "scrap_nylon",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "A handful of oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
@@ -112,7 +139,7 @@
   },
   {
     "id": "scrap_nomex",
-    "copy-from": "scrap_cotton",
+    "copy-from": "scrap_valuable",
     "type": "GENERIC",
     "name": { "str_sp": "Nomex scraps" },
     "description": "A handful of oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Nomex is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Nomex thread.",
@@ -123,18 +150,15 @@
   },
   {
     "id": "scrap_carpet",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "scraps of carpet" },
     "description": "A misshapen section of loose carpet.  Not useful for much on its own and can be discarded.",
     "weight": "500 g",
     "volume": "500 ml",
-    "price": 1,
-    "price_postapoc": 1,
     "material": [ "carpet_pilling", "plastic" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
@@ -382,7 +406,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Kevlar sheet" },
-    "description": "A 12-inch by 24-inch sheet of Kevlar synthetic fabric, suitable for making cut-resistant, durable clothing.  In this form, unlike rigid plates, it can be stitched.",
+    "description": "A 12-inch by 24-inch sheet of loose-woven Kevlar synthetic fabric, suitable for making durable cut and stab resistant clothing.  While protective, this kind of Kevlar is not suitable for making ballistic gear due to the difference in weave tightness.",
     "weight": "26 g",
     "volume": "51 ml",
     "//": "values taken from Duponts chemical reference. 144 GSM",
@@ -390,6 +414,37 @@
     "price_postapoc": 50,
     "material": [ "kevlar" ],
     "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
+    "id": "sheet_kevlar_patchwork",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "patchwork Kevlar sheet" },
+    "description": "A 12-inch by 24-inch sheet of fabric sewn together from Kevlar patches, suitable for making durable cut and stab resistant clothing.  This would be out of the question for ballistic Kevlar but the simpler, looser weave of this variety means it is fine to use if you lack proper material sheets.",
+    "weight": "26 g",
+    "volume": "51 ml",
+    "//": "values taken from Duponts chemical reference. 144 GSM",
+    "price": 900,
+    "price_postapoc": 50,
+    "material": [ "kevlar" ],
+    "looks_like": "sheet_kevlar",
+    "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
+    "id": "kevlar_patch",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Kevlar patch", "str_pl": "Kevlar patches" },
+    "description": "A 6-inch square patch of loose-woven Kevlar, suitable for repairing cut and stab resistant clothing or reassembling into a patchwork sheet for sewing.",
+    "weight": "3250 mg",
+    "volume": "5 ml",
+    "//": "values taken from Duponts chemical reference. 144 GSM",
+    "price": 100,
+    "price_postapoc": 5,
+    "material": [ "kevlar" ],
+    "symbol": ",",
     "color": "dark_gray"
   },
   {
@@ -411,11 +466,11 @@
     "id": "sheet_kevlar_layered",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "layered Kevlar panel" },
-    "description": "A small, 16-layer thick Kevlar panel.  It could be used to craft or repair armor made of Kevlar.",
+    "name": { "str": "ballistic Kevlar panel" },
+    "description": "A small, 16-layer thick ballistic Kevlar panel.  This kind of Kevlar is precision-made by machine and features an extremely tight weave which cannot be replicated by hand.  Due to this, any damage incurred to your ballistic armor will necessitate complete replacement with a new panel.  It is not as effective as loose-woven Kevlar at stopping stab wounds, but it has no equal against the threat posed by firearms.",
     "weight": "428 g",
     "volume": "818 ml",
-    "//": "12 inch by 24 inch sheets, 16 layers thick. Values actually nearly identically matched panels available for purchase. ",
+    "//": "12 inch by 24 inch sheets, 16 layers thick. Values actually nearly identically matched panels available for purchase.",
     "price": 15000,
     "price_postapoc": 150,
     "material": [ "kevlar_layered" ],
@@ -428,7 +483,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "rigid Kevlar plate" },
-    "description": "A compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
+    "description": "A compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of rigid Kevlar, and makes a decent substitute for damaged carbon fiber and the like even if it isn't exactly the same.",
     "weight": "429 g",
     "volume": "818 ml",
     "//": "same as above but adding superglue. IRL this is how they are made, though using 2 part resin instead.",
@@ -597,8 +652,8 @@
   },
   {
     "id": "scrap_denim",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "denim scraps" },
     "description": "Oddly-shaped smallish denim patches, waste material from tailoring projects.",
     "weight": "2 g",
@@ -607,8 +662,7 @@
     "price_postapoc": 5,
     "material": [ "denim" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",
@@ -676,8 +730,8 @@
   },
   {
     "id": "scrap_canvas",
+    "copy-from": "scrap_worthless",
     "type": "GENERIC",
-    "category": "other",
     "name": { "str_sp": "canvas scraps" },
     "description": "Oddly-shaped smallish bits of canvas, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some tough thread.",
     "weight": "2375 mg",
@@ -686,8 +740,7 @@
     "price_postapoc": 5,
     "material": [ "canvas" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "color": "dark_gray"
   },
   {
     "type": "GENERIC",

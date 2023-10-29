@@ -27,6 +27,7 @@ diary_page::diary_page() = default;
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
+    result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( get_diary_time_str( n->turn, n->time_acc ) );
     }

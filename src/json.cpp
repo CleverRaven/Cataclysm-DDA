@@ -21,9 +21,12 @@
 #include "cached_options.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
+#include "wcwidth.h"
 #include "debug.h"
 #include "output.h"
 #include "string_formatter.h"
+
+json_error_output_colors_t json_error_output_colors = json_error_output_colors_t::unset;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -1890,6 +1893,109 @@ std::string TextJsonIn::line_number( int offset_modifier )
     return ret.str();
 }
 
+// see note at utf8_width_raw(...
+static uint32_t UTF8_getch_raw( const char **src, int *srclen )
+{
+    const unsigned char *p = *reinterpret_cast<const unsigned char **>( src );
+    int left = 0;
+    bool overlong = false;
+    bool underflow = false;
+    uint32_t ch = UNKNOWN_UNICODE;
+
+    if( *srclen == 0 ) {
+        return UNKNOWN_UNICODE;
+    }
+    if( p[0] >= 0xFC ) {
+        if( ( p[0] & 0xFE ) == 0xFC ) {
+            if( p[0] == 0xFC && ( p[1] & 0xFC ) == 0x80 ) {
+                overlong = true;
+            }
+            ch = static_cast<uint32_t>( p[0] & 0x01 );
+            left = 5;
+        }
+    } else if( p[0] >= 0xF8 ) {
+        if( ( p[0] & 0xFC ) == 0xF8 ) {
+            if( p[0] == 0xF8 && ( p[1] & 0xF8 ) == 0x80 ) {
+                overlong = true;
+            }
+            ch = static_cast<uint32_t>( p[0] & 0x03 );
+            left = 4;
+        }
+    } else if( p[0] >= 0xF0 ) {
+        if( ( p[0] & 0xF8 ) == 0xF0 ) {
+            if( p[0] == 0xF0 && ( p[1] & 0xF0 ) == 0x80 ) {
+                overlong = true;
+            }
+            ch = static_cast<uint32_t>( p[0] & 0x07 );
+            left = 3;
+        }
+    } else if( p[0] >= 0xE0 ) {
+        if( ( p[0] & 0xF0 ) == 0xE0 ) {
+            if( p[0] == 0xE0 && ( p[1] & 0xE0 ) == 0x80 ) {
+                overlong = true;
+            }
+            ch = static_cast<uint32_t>( p[0] & 0x0F );
+            left = 2;
+        }
+    } else if( p[0] >= 0xC0 ) {
+        if( ( p[0] & 0xE0 ) == 0xC0 ) {
+            if( ( p[0] & 0xDE ) == 0xC0 ) {
+                overlong = true;
+            }
+            ch = static_cast<uint32_t>( p[0] & 0x1F );
+            left = 1;
+        }
+    } else {
+        if( ( p[0] & 0x80 ) == 0x00 ) {
+            ch = static_cast<uint32_t>( p[0] );
+        }
+    }
+    ++*src;
+    --*srclen;
+    while( left > 0 && *srclen > 0 ) {
+        ++p;
+        if( ( p[0] & 0xC0 ) != 0x80 ) {
+            ch = UNKNOWN_UNICODE;
+            break;
+        }
+        ch <<= 6;
+        ch |= ( p[0] & 0x3F );
+        ++*src;
+        --*srclen;
+        --left;
+    }
+    if( left > 0 ) {
+        underflow = true;
+    }
+    if( overlong || underflow ||
+        ( ch >= 0xD800 && ch <= 0xDFFF ) ||
+        ( ch == 0xFFFE || ch == 0xFFFF ) || ch > 0x10FFFF ) {
+        ch = UNKNOWN_UNICODE;
+    }
+    return ch;
+}
+
+//Calculate width of a Unicode string
+//Latin characters have a width of 1
+//CJK characters have a width of 2, etc
+// This is a copy of the function in catacharset.cpp but without
+// dependencies on catacharset.h => output.h => more dependencies...
+// TODO: untangle the dependencies and remove this copy and UTF8_getch_raw
+static int utf8_width_raw( const std::string_view s )
+{
+    int len = s.size();
+    const char *ptr = s.data();
+    int w = 0;
+    while( len > 0 ) {
+        uint32_t ch = UTF8_getch_raw( &ptr, &len );
+        if( ch == UNKNOWN_UNICODE ) {
+            continue;
+        }
+        w += mk_wcwidth( ch );
+    }
+    return w;
+}
+
 void TextJsonIn::error( const std::string &message )
 {
     error( 0, message );
@@ -1906,6 +2012,32 @@ void TextJsonIn::error( int offset, const std::string &message )
             err_header << "::error " << line_number( offset ) << "::";
             break;
     }
+
+    std::string color_normal;
+    std::string color_error;
+    std::string color_highlight;
+    std::string color_end;
+    switch( json_error_output_colors ) {
+        case json_error_output_colors_t::color_tags:
+            color_normal = "<color_white>";
+            color_error = "<color_light_red>";
+            color_highlight = "<color_cyan>";
+            color_end = "</color>";
+            break;
+        case json_error_output_colors_t::ansi_escapes:
+            color_normal = "\033[0m";
+            color_error = "\033[0;31m";
+            color_highlight = "\033[0;36m";
+            color_end = "\033[0m";
+            break;
+        case json_error_output_colors_t::unset:
+            err_header << "( json_error_output_colors is unset, defaulting to no colors ) ";
+            break;
+        default:
+            // leave color strings empty
+            break;
+    }
+
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
         throw JsonError( err_header.str() + escape_data( message ) );
@@ -1917,57 +2049,67 @@ void TextJsonIn::error( int offset, const std::string &message )
         stream->seekg( 0, std::istream::end );
     } );
     std::ostringstream err;
-    err << message;
-    // also print surrounding few lines of context, if not too large
-    err << "\n\n";
+    err << color_normal << color_highlight << message << color_end << "\n\n";
+    const int max_context_lines = 3;   // limits context length to this many lines
+    const int max_context_chars = 480; // limits context length to this many chars
     stream->seekg( offset, std::istream::cur );
-    size_t pos = tell();
-    rewind( 3, 240 );
-    size_t startpos = tell();
-    std::string buffer( pos - startpos, '\0' );
-    stream->read( buffer.data(), pos - startpos );
-    auto it = buffer.begin();
-    for( ; it < buffer.end() && ( *it == '\r' || *it == '\n' ); ++it ) {
-        // skip starting newlines
+
+    // if offset points to middle of a codepoint then rewind stream to codepoint start
+    // this is so utf8_width below has correct utf-8 to count length.
+    // pattern of 10xxxxxx means the byte is utf-8 continuation byte.
+    while( ( stream->tellg() > 0 ) && ( ( stream->peek() & 0xC0 ) == 0x80 ) ) {
+        stream->seekg( -1, std::istream::cur );
     }
-    for( ; it < buffer.end(); ++it ) {
-        if( *it == '\r' ) {
-            err << '\n';
-            if( it + 1 < buffer.end() && *( it + 1 ) == '\n' ) {
-                ++it;
+
+    // remember positions of several places to print a few lines of context
+    const size_t cursor_pos = tell();               // exact position of error
+    rewind( 1, max_context_chars );                 // rewind to start of line
+    const size_t start_of_line = tell();            // start of error line
+    rewind( max_context_lines, max_context_chars ); // rewind a couple lines to show context
+    const size_t start_of_context = tell();         // start of context (couple lines above)
+    size_t end_of_line;                             // end of error line (without \n)
+
+    {
+        // find end of line and store in end_of_line
+        seek( cursor_pos );
+        end_of_line = tell();
+        while( stream->peek() != EOF ) {
+            if( stream->peek() == '\n' ) {
+                break;
             }
-        } else {
-            err << *it;
-        }
-    }
-    if( !is_whitespace( peek() ) && stream->good() ) {
-        err << peek();
-    }
-    // display a pointer to the position
-    rewind( 1, 240 );
-    startpos = tell();
-    err << '\n';
-    if( pos > startpos ) {
-        err << std::string( pos - startpos, ' ' );
-    }
-    err << "^\n";
-    seek( pos );
-    // if that wasn't the end of the line, continue underneath pointer
-    char ch = stream->get();
-    if( ch == '\r' ) {
-        if( peek() == '\n' ) {
             stream->get();
-        }
-    } else if( ch == '\n' ) {
-        // pass
-    } else if( peek() != '\r' && peek() != '\n' && !stream->eof() ) {
-        for( size_t i = 0; i < pos - startpos + 1; ++i ) {
-            err << ' ';
+            end_of_line = tell();
         }
     }
+    {
+        // print context lines to start of error line
+        seek( start_of_context );
+        std::string buffer( start_of_line - start_of_context, '\0' );
+        stream->read( buffer.data(), start_of_line - start_of_context );
+        err << buffer;
+    }
+    {
+        // print error line
+        std::string buffer( end_of_line - start_of_line, '\0' );
+        stream->read( buffer.data(), end_of_line - start_of_line );
+        err << color_error << buffer << color_end << "\n";
+    }
+    {
+        seek( start_of_line );
+        std::string buffer( cursor_pos - start_of_line, '\0' );
+        stream->read( buffer.data(), cursor_pos - start_of_line );
+
+        // display a cursor at the position if possible, or at start of line
+        if( const int padding = std::max( 0, utf8_width_raw( buffer ) - 1 ); padding > 0 ) {
+            err << std::string( padding, ' ' );
+        }
+        err << color_highlight << "▲▲▲" << color_end;
+    }
+    seek( end_of_line );
     // print the next couple lines as well
     int line_count = 0;
-    for( int i = 0; line_count < 3 && stream->good() && i < 240; ++i ) {
+    char ch = 0;
+    for( int i = 0; line_count < max_context_lines && stream->good() && i < max_context_chars; ++i ) {
         stream->get( ch );
         if( !stream->good() ) {
             break;
@@ -1983,11 +2125,8 @@ void TextJsonIn::error( int offset, const std::string &message )
         }
         err << ch;
     }
-    std::string msg = err.str();
-    if( !msg.empty() && msg.back() != '\n' ) {
-        msg.push_back( '\n' );
-    }
-    throw JsonError( err_header.str() + escape_data( msg ) );
+    err << color_end << "\n";
+    throw JsonError( err_header.str() + escape_data( err.str() ) );
 }
 
 void TextJsonIn::string_error( const int offset, const std::string &message )

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
@@ -219,6 +220,7 @@ class achievements_tracker : public event_subscriber
         }
 
         void clear();
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;

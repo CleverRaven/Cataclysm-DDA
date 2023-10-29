@@ -59,6 +59,7 @@ struct dispose_option {
 
 class outfit
 {
+        friend class Character;
     private:
         std::list<item> worn;
     public:
@@ -66,6 +67,7 @@ class outfit
         explicit outfit( const std::list<item> &items ) : worn( items ) {}
         bool is_worn( const item &clothing ) const;
         bool is_worn( const itype_id &clothing ) const;
+        bool is_worn_module( const item &thing ) const;
         bool is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const;
         bool covered_with_flag( const flag_id &f, const body_part_set &parts ) const;
         bool wearing_something_on( const bodypart_id &bp ) const;
@@ -166,11 +168,12 @@ class outfit
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         std::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
+        // go through each worn ablative item and set the pockets as disabled for rigid if some hard armor is also worn
+        void recalc_ablative_blocking( const Character *guy );
         /** Calculate and return any bodyparts that are currently uncomfortable. */
         std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
         // used in game::wield
         void insert_item_at_index( const item &clothing, int index );
-        void append_radio_items( std::list<item *> &rc_items );
         void check_and_recover_morale( player_morale &test_morale ) const;
         void absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed );
@@ -214,7 +217,6 @@ class outfit
         void activate_combat_items( npc &guy );
         void deactivate_combat_items( npc &guy );
 
-        void clear();
         bool empty() const;
         item &front();
         size_t size() const;

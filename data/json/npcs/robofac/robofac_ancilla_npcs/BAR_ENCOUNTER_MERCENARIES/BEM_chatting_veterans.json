@@ -1,0 +1,162 @@
+[
+  {
+    "id": [ "BEM_CHATTING_VETERANS_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&A pair of veteran mercenaries share stories between bouts of heavy drinking.  You could probably join them if you wanted to.",
+    "responses": [
+      { "text": "[Join and hear them out for a while.]", "topic": "BEM_CHATTING_VETERANS_HEAR" },
+      { "text": "[Join them in their heavy drinking.]", "topic": "BEM_CHATTING_VETERANS_DRINKING" },
+      { "text": "[Join them with a story of your own.]", "topic": "BEM_CHATTING_VETERANS_TELL_STORY" },
+      { "text": "[Just move along.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_HEAR",
+    "type": "talk_topic",
+    "dynamic_line": "&The veterans seem happy to have you, and you listen as the older mercenary narrates <merc_story>.\n\nYou all share some drinks while going over the details and as the conversation winds down.",
+    "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" } ] } ],
+    "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_DRINKING",
+    "type": "talk_topic",
+    "dynamic_line": "You share increasingly embellished stories about your exploits as you dare each other into downing series of eye-watering drinks.",
+    "speaker_effect": [
+      {
+        "effect": [
+          { "u_add_effect": "drunk", "duration": "370 minutes" },
+          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
+          { "u_add_faction_trust": 1 }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "Bar… barshender!  we… we?",
+        "effect": [
+          "end_conversation",
+          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY",
+    "type": "talk_topic",
+    "dynamic_line": "&As you sit, the older mercenary continues their narration of <merc_story>.\n\nWhen their tale reaches conclusion, you stop to consider what sort of story you could tell.",
+    "responses": [
+      {
+        "text": "Recall that time when you rescued a farmer's son from a citadel full of alien horrors.",
+        "condition": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Tell them about your hunting of a pyramidal robot using a prototype energy rifle.",
+        "condition": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
+      },
+      {
+        "text": "Recall the time you were tricked into fighting against distorted versions of yourself while lost in a place beyond time.",
+        "condition": { "math": [ "visited_a_portal_dungeon", "==", "1" ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Tell about your slaying of an insectile horror after getting trapped within its lair.",
+        "condition": { "u_has_var": "killed_a_void_spider", "type": "general", "context": "talk", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Recall the long story of how you agreed to help the remnants of the Federal Government.",
+        "condition": { "u_has_trait": "PROF_FED" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD"
+      },
+      {
+        "text": "Tell them about the horrors uncovered by the mining expeditions of New England.",
+        "condition": { "u_has_var": "clearead_amigara_mine", "type": "general", "context": "talk", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Tell them about the horrors wandering in these very same subway tunnels.",
+        "condition": { "u_has_var": "clearead_amigara_mine", "type": "general", "context": "talk", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
+      },
+      {
+        "text": "Recall that time when you used a tactical nuclear weapon.",
+        "condition": { "math": [ "u_mininuke_activated", ">=", "1" ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Try to gross each other out with tales of mutant butchery.",
+        "condition": { "math": [ "u_val('proficiency', 'proficiency_id: prof_wp_basic_bug', 'format: percent')", ">=", "50" ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BUTCHERY"
+      },
+      {
+        "text": "Speak about the alien construct you found while lost in an endless sea of black glass.",
+        "condition": { "u_has_var": "u_met_apeirohedra", "type": "general", "context": "yrax", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Tell them the story of how you dived into and were forced to fight for your life within a disgusting, toxic hellscape made from the un-living innards of some crushed zombie monstrosity.  All so the intercom could have some damned HDD back.",
+        "condition": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER"
+      },
+      {
+        "text": "[LIE] Just make something up.",
+        "trial": { "type": "LIE", "difficulty": 15 },
+        "success": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE" },
+        "failure": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD" }
+      }
+    ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_BAD",
+    "type": "talk_topic",
+    "dynamic_line": "&While the veterans indulge your storytelling, they clearly seem not too pleased nor impressed by your tale.",
+    "speaker_effect": [ { "effect": [ { "u_add_faction_trust": -5 } ] } ],
+    "responses": [ { "text": "Well, ugh…  I should be going now…", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_OK",
+    "type": "talk_topic",
+    "dynamic_line": "&You make some small talk and share a pair of drinks after finishing your story.",
+    "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" }, { "u_add_faction_trust": 1 } ] } ],
+    "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE",
+    "type": "talk_topic",
+    "dynamic_line": "&The clearly drunk mercenaries hail you as minor celebrity and invite you to a pair of rounds when your tale is finished.",
+    "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "70 minutes" }, { "u_add_faction_trust": 3 } ] } ],
+    "responses": [ { "text": "Yeah I guess it really did happen just like that.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_BUTCHERY",
+    "type": "talk_topic",
+    "dynamic_line": "&The veterans eagerly accept your challenge, and none of you can really stomach the prospect of more drinks after the first pair of tales.",
+    "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" }, { "u_add_faction_trust": 1 } ] } ],
+    "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER",
+    "type": "talk_topic",
+    "dynamic_line": "&The veteran's expressions turn to a mixture of awe and fear as your tale nears conclusion, the younger mercenary is finally after a long  \"We heard someone had gone and completed that death trap contract, but I still couldn't believe it.\"  \"You're a damn madman!\"  The older mercenary interjects in agreement.  \"I'll drink to that!\".",
+    "speaker_effect": [ { "effect": [ { "u_add_faction_trust": 10 } ] } ],
+    "responses": [
+      { "text": "Yeah looking back I really don't know why I did it.", "effect": "end_conversation", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP",
+    "effect": [
+      { "u_location_variable": { "u_val": "subway_floor" }, "z_adjust": -1 },
+      { "u_teleport": { "u_val": "subway_floor" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE",
+    "effect": [ { "u_message": "<ANCILLA_BAR_HANGOVER>", "popup": true } ]
+  }
+]

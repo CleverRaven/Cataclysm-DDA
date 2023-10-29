@@ -4,14 +4,15 @@
     "id": "f_bigmirror",
     "name": "standing mirror",
     "symbol": "{",
-    "description": "A full-length mirror mounted in a sleek metal frame.  You can easily see all of the dirt and blood on your clothes, and the weariness in your eyes.",
+    "description": "A full-length mirror mounted in a sleek aluminum frame.  You can easily see all of the dirt and blood on your clothes, and the weariness in your eyes.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
     "crafting_pseudo_item": "mirror",
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "examine_action": "change_appearance",
+    "deconstruct": { "items": [ { "item": "bigmirror", "count": 1 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 16,
@@ -19,14 +20,14 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 121, 131 ] } ]
     }
   },
   {
     "type": "furniture",
     "id": "f_bigmirror_b",
     "name": "broken standing mirror",
-    "description": "A metal frame for a full-length mirror, with most of the mirror missing.  What remains in the frame are large, dangerous-looking shards of fractured glass.",
+    "description": "An aluminum frame for a full-length mirror, with most of the mirror missing.  What remains in the frame are large, dangerous-looking shards of fractured glass.",
     "symbol": "{",
     "color": "light_gray",
     "move_cost_mod": 2,
@@ -38,7 +39,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 7, 10 ] }, { "item": "glass_shard", "count": [ 26, 46 ] } ]
     }
   },
   {
@@ -64,7 +65,7 @@
     "id": "f_cleat",
     "type": "furniture",
     "name": "cleat",
-    "description": "A small horn cleat with two “horns” extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
+    "description": "A small horn cleat with two \"horns\" extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
     "symbol": "B",
     "color": "light_gray",
     "looks_like": "f_bitts",
@@ -108,7 +109,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -290,6 +291,28 @@
         { "item": "nail", "charges": [ 5, 14 ] },
         { "item": "stick", "count": [ 1, 3 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_styling_station",
+    "name": "Styling station",
+    "symbol": "}",
+    "description": "A styling station, is a countertop with a mirror mounted above it and just enough room and cubbies to store a stylist's equipment on it.",
+    "color": "white",
+    "move_cost_mod": 5,
+    "coverage": 80,
+    "required_str": -1,
+    "crafting_pseudo_item": "mirror",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "examine_action": "change_appearance",
+    "bash": {
+      "str_min": 7,
+      "str_max": 16,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
     }
   }
 ]

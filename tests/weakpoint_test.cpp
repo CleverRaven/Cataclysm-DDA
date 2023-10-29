@@ -138,7 +138,7 @@ TEST_CASE( "weakpoint_practice", "[monster][weakpoint]" )
     CHECK( dummy.get_proficiency_practice( prof )  == Approx( 0.00111f ).epsilon( 0.05f ) );
 }
 
-TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
+TEST_CASE( "Check_order_of_weakpoint_set_application", "[monster][weakpoint]" )
 {
     bool has_wp_head = false;
     bool has_wp_eye = false;
@@ -170,7 +170,7 @@ TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
     REQUIRE( has_wp_leg );
 }
 
-TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
+TEST_CASE( "Check_damage_from_weakpoint_sets", "[monster][weakpoint]" )
 {
     GIVEN( "100 bullet damage, 0 armor penetration" ) {
         weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_bullet,
@@ -211,7 +211,7 @@ TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
     }
 }
 
-TEST_CASE( "Check deferred weakpoint set loading", "[monster][weakpoint]" )
+TEST_CASE( "Check_deferred_weakpoint_set_loading", "[monster][weakpoint]" )
 {
     weakpoints wplist = mon_zombie->weakpoints;
     CHECK( wplist.weakpoint_list.size() == 2 );
@@ -237,7 +237,7 @@ TEST_CASE( "Check deferred weakpoint set loading", "[monster][weakpoint]" )
     }
 }
 
-TEST_CASE( "Check copy-from inheritance between sets and inline weakpoints",
+TEST_CASE( "Check_copy-from_inheritance_between_sets_and_inline_weakpoints",
            "[monster][weakpoint]" )
 {
     weakpoints wplist = mon_test_weakpoint_mon->weakpoints;

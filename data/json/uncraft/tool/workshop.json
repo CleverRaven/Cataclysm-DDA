@@ -13,6 +13,14 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "claw_bar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
   }
 ]

@@ -6,6 +6,7 @@
     "name": { "str": "12.3ln round" },
     "description": "In some alternate universe, the 12.3ln cartridge was introduced in Romania in the wake of the second Carpathian conflict.  The PA md. 71 rifle using this ammunition rapidly gained popularity in the Eastern Union, and from there, the world.  Due to this, the 12.3ln rapidly became the standard combat round in the Eurasian sphere, making it easy for the Exodii to stockpile it in large quantities when they visited that version of Earth.  It looks and feels quite similar to a .30-06 Springfield cartridge, but with a slightly sharper taper.",
     "ammo_type": "123ln",
+    "damage": { "damage_type": "bullet", "amount": 57, "armor_penetration": 10 },
     "casing": "123ln_casing"
   },
   {

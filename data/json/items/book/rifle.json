@@ -15,13 +15,13 @@
       {
         "id": "mag_rifle_1",
         "name": { "str": "American Rifleman", "str_pl": "issues of American Rifleman" },
-        "description": "A monthly shooting and firearms publication, with lot of articles and comments.",
+        "description": "A monthly shooting and firearms publication, with a lot of articles and comments.",
         "weight": 1
       },
       {
         "id": "mag_rifle_2",
         "name": { "str": "Shooting Stars", "str_pl": "issues of Shooting Stars" },
-        "description": "Annual magazine for marksmen, with lots of articles and papers, as well as reviews of new rifles, optics, and mods.",
+        "description": "An annual magazine for marksmen, with lots of articles and papers, as well as reviews of new rifles, optics, and mods.",
         "weight": 1
       },
       {
@@ -71,14 +71,14 @@
           "str": "Precision Rifle Marksmanship: The Fundamentals",
           "str_pl": "copies of Precision Rifle Marksmanship: The Fundamentals"
         },
-        "description": "A small book about using the rifle as a marksman tool.  There is plenty of info, but it is too general, and the author talks more about his experience as a sniper instead of sniping itself.",
+        "description": "A small book about the use of a rifle as a marksman's tool.  There is plenty of information, but it is too general, and the author talks more about his experience as a sniper than sniping itself.",
         "//": "978-1951115104",
         "weight": 1
       },
       {
         "id": "manual_rifle_3",
         "name": { "str": "Precision Long Range Shooting And Hunting", "str_pl": "copies of Precision Long Range Shooting And Hunting" },
-        "description": "The basics of long-range shooting in fairly simple language.",
+        "description": "A book about the basics of long-range shooting, written in fairly simple language.",
         "//": "978-1979598699",
         "weight": 1
       },
@@ -92,14 +92,14 @@
       {
         "id": "manual_rifle_5",
         "name": { "str": "How to Shoot", "str_pl": "copies of How to Shoot" },
-        "description": "Reprint of a 1917 book about rifle shooting and maintenance.  It is surprisingly detailed, and contains lots of information, even if the language is fairly old-fashioned.",
+        "description": "A reprint of a 1917 book about rifle shooting and maintenance.  It is surprisingly detailed, and contains lots of information, even if the language is fairly old-fashioned.",
         "//": "978-0267853731",
         "weight": 1
       },
       {
         "id": "manual_rifle_6",
         "name": { "str": "Rifle Shooting for Beginners", "str_pl": "copies of Rifle Shooting for Beginners" },
-        "description": "A guide to shooting sports that explains the basics of equipment usage, judging distance, aiming, breathing, movement, and trigger discipline alongside a lot of another essential info.",
+        "description": "A guide to shooting sports that explains the basics of equipment usage, judging distance, aiming, breathing, movement, and trigger discipline alongside a lot of other essential info.",
         "//": "979-8355590895",
         "weight": 1
       },
@@ -109,7 +109,7 @@
           "str": "Great Hunting Rifles: Victorian to the Present",
           "str_pl": "copies of Great Hunting Rifles: Victorian to the Present"
         },
-        "description": "A history of some of the most exquisite rifles made in the twentieth century, with lots of love and details.",
+        "description": "A history of some of the most exquisite rifles made in the twentieth century, written with a lot of love and attention to detail.",
         "//": "978-1510731691",
         "weight": 1
       },
@@ -119,7 +119,7 @@
           "str": "FM 3-22.9: Rifle Marksmanship M16-/M4- Series",
           "str_pl": "copies of FM 3-22.9: Rifle Marksmanship M16-/M4- Series"
         },
-        "description": "Official U.S. Army manual which provides guidance for training with the 5.56-millimeter M16-series rifle and M4 carbine.",
+        "description": "An official U.S. Army manual that provides guidance for the planning and execution of training with the 5.56mm M16-series rifle and M4 carbine.",
         "weight": 1
       },
       {
@@ -134,7 +134,7 @@
       {
         "id": "manual_gun_10",
         "name": { "str": "Adaptive Rifle", "str_pl": "copies of Adaptive Rifle" },
-        "description": "Different training methods for carbine users from world champion shooters, aimed toward civilians, law enforcement, and military shooters.",
+        "description": "A book containing different training methods for carbine users from world champion shooters, aimed toward civilians, law enforcement, and military shooters.",
         "//": "979-8360280453",
         "weight": 1
       },
@@ -155,7 +155,7 @@
       {
         "id": "manual_gun_13",
         "name": { "str": "The Gun", "str_pl": "copies of The Gun" },
-        "description": "A giant, 500 page history of the AK-47 - the most popular firearm in the world - and the information around it: the mechanic of the weapon, the usage, maintenance, modification, and its impact on global conflict.",
+        "description": "A giant, 500-page history about the AK-47—the most popular firearm in the world—and the information around it: the mechanics of the weapon, its usage, maintenance, modifications, and its impact on global conflicts.",
         "//": "978-0743270762",
         "weight": 1
       }
@@ -172,5 +172,24 @@
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m"
+  },
+  {
+    "id": "retool_instructions",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "retool instructions", "str_pl": "copies of retool instructions" },
+    "description": "This is a small booklet, containing several diagrams and clearly worded instructions for assisting one in assembling, installing, and using their newly purchased weapon conversion kit.  The flyer’s rear is covered in neatly printed rows of advertisements, displaying other products by the same manufacturer.  All in all, it, strangely enough, brings to mind nostalgic images of the instructions for assembling Legos—a very angry, explosive Lego construct that goes boom.",
+    "weight": "25 g",
+    "volume": "100 ml",
+    "price": 150,
+    "price_postapoc": 350,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "mag_guns",
+    "color": "pink",
+    "skill": "rifle",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": "8 m"
   }
 ]

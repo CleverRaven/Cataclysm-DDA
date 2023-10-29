@@ -1,0 +1,276 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Theresa_2",
+      "TALK_GODCO_Theresa_Mood",
+      "TALK_GODCO_Theresa_Story",
+      "TALK_GODCO_Theresa_Help",
+      "TALK_GODCO_Theresa_Husband",
+      "TALK_GODCO_Theresa_Community",
+      "TALK_GODCO_Theresa_Vision",
+      "TALK_GODCO_Theresa_Firstmeet"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Theresa_Story" },
+      { "text": "What's it like living here?", "topic": "TALK_GODCO_Theresa_Mood" },
+      { "text": "Is there anything I can help you with?", "topic": "TALK_GODCO_Theresa_Help" },
+      {
+        "text": "How've things been since <the_cataclysm>?",
+        "condition": { "days_since_cataclysm": 60 },
+        "topic": "TALK_GODCO_Theresa_Cataclysm"
+      },
+      { "text": "Do you knit at all?  I noticed you have sewing needles.", "topic": "TALK_GODCO_Theresa_Knit" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_1",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
+      "no": {
+        "npc_has_var": "u_met_godco_theresa",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Praise the Lord.  It's good to see you're still around, <granny_name_g>.",
+        "no": "Welcome, <granny_name_g>.  I don't think I recognize you, I'm Theresa."
+      }
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, Theresa.  I'm <u_name>.",
+        "effect": { "npc_add_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Theresa_Firstmeet"
+      },
+      {
+        "text": "Hello, Theresa.  How are you doing?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Theresa_2"
+      },
+      {
+        "text": "I'm afraid I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What's the insults for?",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_Theresa_You_Mutant"
+      },
+      {
+        "text": "Fuck you then, I'm leaving.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Firstmeet",
+    "dynamic_line": "It is nice to meet you as well.  I reckon you got some questions about our group.",
+    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_2",
+    "dynamic_line": [
+      "Just fine.  Nice of you to ask.  How’s it going, <granny_name_g>?",
+      "I'm doing as well as can be expected.  How’s everything, <granny_name_g>?"
+    ],
+    "responses": [
+      {
+        "text": "I'm here about the scarf.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
+            {
+              "npc_compare_time_since_var": "knitting",
+              "type": "timer",
+              "context": "trade",
+              "op": ">=",
+              "time": "1 d"
+            }
+          ]
+        },
+        "effect": [ { "u_spawn_item": "long_knit_scarf" } ],
+        "topic": "TALK_GODCO_Theresa_Knit_Done"
+      },
+      {
+        "text": "I'm here about the blanket.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
+            {
+              "npc_compare_time_since_var": "knitting",
+              "type": "timer",
+              "context": "trade",
+              "op": ">=",
+              "time": "2 d"
+            }
+          ]
+        },
+        "effect": [ { "u_spawn_item": "blanket" } ],
+        "topic": "TALK_GODCO_Theresa_Knit_Done"
+      },
+      {
+        "text": "I'm here about the quilt.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
+            {
+              "npc_compare_time_since_var": "knitting",
+              "type": "timer",
+              "context": "trade",
+              "op": ">=",
+              "time": "7 d"
+            }
+          ]
+        },
+        "effect": [ { "u_spawn_item": "quilt" } ],
+        "topic": "TALK_GODCO_Theresa_Knit_Done"
+      },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Mood",
+    "dynamic_line": "We're doing better than most, to put it mildly.  There's a reason for that, as for everything.  Say, have I told you about my husband?  I'm sorry if I already have, my memory's not what it used to be.",
+    "responses": [
+      { "text": "Tell me about your husband.", "topic": "TALK_GODCO_Theresa_Husband" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Husband",
+    "dynamic_line": "He was an exceptional man.  Ever since he was a child it was clear that there was something special about him.  My husband had a way with people, and with God too.  But, after all he was as human as you and I.  He was corrupted by addiction.  One day, God appeared to him in a vision that turned his life around, he had other plans for him.  From then on he didn't take his life for granted.  He used his talent and newfound inspiration to better the people around him.",
+    "responses": [
+      { "text": "So, he founded the community?", "topic": "TALK_GODCO_Theresa_Community" },
+      { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Theresa_Vision" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Community",
+    "dynamic_line": "That's right.  He wanted something to return for the guidance he received when he was at the lowest point of his life.  He created a charity group which, over the years, became what's now known as the New England Church Community.  He lead them for many decades, until his death a few years before his prophecy was fulfilled.  Now, our niece Helena leads the community.",
+    "responses": [
+      { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Theresa_Vision" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Vision",
+    "dynamic_line": "He was a man of many secrets.  It would've been too personal to share, I'm afraid.  On the other hand, there was a prophecy he was quite vocal about.  In a way, he predicted <the_cataclysm> long before the first warning signs appeared.  Thanks to him, we had the foresight to prepare.  Oh what a great man he was…",
+    "responses": [
+      { "text": "So, he founded the community?", "topic": "TALK_GODCO_Theresa_Community" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Story",
+    "dynamic_line": "Oh you don't have the time for that, do you now?  It's a long, long tale, thank goodness.  I'm grateful, for I was blessed with a full life.",
+    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Help",
+    "dynamic_line": "That's very sweet of you <granny_name_g>, but there's nothing I could possibly want from this mortal world.  My life is now complete, I believe.",
+    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Knit",
+    "dynamic_line": "Yes, I knit and sew in my spare time.  Its' helped keep my hands in good shape over the years.",
+    "responses": [
+      { "text": "Could you make something for me?", "topic": "TALK_GODCO_Theresa_Knit_Something" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Knit_Something",
+    "dynamic_line": "I suppose I could, in exchange for a few icons.  A scarf is five, a blanket ten, a quilt thirty.",
+    "responses": [
+      {
+        "text": "I'll have a scarf.",
+        "condition": { "u_has_items": { "item": "icon", "count": 5 } },
+        "effect": [
+          { "npc_add_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "u_sell_item": "icon", "count": 5 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'll have a blanket.",
+        "condition": { "u_has_items": { "item": "icon", "count": 10 } },
+        "effect": [
+          { "npc_add_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "u_sell_item": "icon", "count": 10 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'll have a quilt.",
+        "condition": { "u_has_items": { "item": "icon", "count": 30 } },
+        "effect": [
+          { "npc_add_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "u_sell_item": "icon", "count": 30 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Theresa_Knit_Time" },
+      { "text": "I've changed my mind.  How're you feeling?", "topic": "TALK_GODCO_Theresa_2" },
+      { "text": "I've changed my mind, I have to leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Knit_Time",
+    "dynamic_line": "I can knit a scarf ready by tomorrow, a blanket in two days, and a quilt in a week.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_GODCO_Theresa_Knit_Something" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Knit_Done",
+    "dynamic_line": "I hope you like it <granny_name_g>.  If you want anything else, just come back.",
+    "responses": [ { "text": "Thank you, Theresa.  I'll put it to good use.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_Cataclysm",
+    "dynamic_line": "I've grown tired, <granny_name_g>.  I haven't left here since we came, and things outside are getting worse each day.  All my old aches and pains have come back too; I can't see too good, and my muscles are always sore.  I don't like where my niece is going either; she's ever more fanatical, and taking my dear husband's prophecy to the extreme.  I'm content with my life, though.  I've lived long and prospered by the grace of the Lord.",
+    "responses": [
+      { "text": "Is there anything I can do to help?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_You_Mutant",
+    "dynamic_line": "You clearly have the mark of a sinner.  I've seen your kind out and about after the Flood, killing and maiming like wild animals.  None of you are any good, not even to God, and you're of no good to me either.  Run on back to your sinful ways, now.  God has judged you already.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

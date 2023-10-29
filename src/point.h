@@ -2,10 +2,6 @@
 #ifndef CATA_SRC_POINT_H
 #define CATA_SRC_POINT_H
 
-// The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
-// can include this header when compiling with -nostdinc++
-#ifndef CATA_NO_STL
-
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -16,17 +12,6 @@
 #include <vector>
 
 #include "cata_assert.h"
-#else
-
-#define cata_assert(...)
-
-namespace std
-{
-class string;
-class ostream;
-}
-
-#endif // CATA_NO_STL
 
 class JsonArray;
 class JsonOut;
@@ -76,11 +61,9 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
-#ifndef CATA_NO_STL
     point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
-#endif
 
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
@@ -109,10 +92,8 @@ struct point {
         return !( a == b );
     }
 
-#ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const point & );
     friend std::istream &operator>>( std::istream &, point & );
-#endif
 };
 
 inline int divide_round_to_minus_infinity( int n, int d )
@@ -208,11 +189,9 @@ struct tripoint {
         return *this;
     }
 
-#ifndef CATA_NO_STL
     tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
-#endif
 
     constexpr point xy() const {
         return point( x, y );
@@ -231,10 +210,8 @@ struct tripoint {
     void serialize( JsonOut &jsout ) const;
     void deserialize( const JsonArray &jsin );
 
-#ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const tripoint & );
     friend std::istream &operator>>( std::istream &, tripoint & );
-#endif
 
     friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
         return a.x == b.x && a.y == b.y && a.z == b.z;
@@ -242,11 +219,9 @@ struct tripoint {
     friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
-#ifndef CATA_NO_STL
     friend inline bool operator<( const tripoint &a, const tripoint &b ) {
         return std::tie( a.x, a.y, a.z ) < std::tie( b.x, b.y, b.z );
     }
-#endif
 };
 
 inline tripoint multiply_xy( const tripoint &p, int f )
@@ -293,8 +268,6 @@ struct sphere {
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };
-
-#ifndef CATA_NO_STL
 
 /**
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
@@ -378,7 +351,5 @@ inline const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_south_east },
     }
 };
-
-#endif // CATA_NO_STL
 
 #endif // CATA_SRC_POINT_H

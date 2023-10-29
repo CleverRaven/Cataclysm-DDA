@@ -51,7 +51,7 @@
         { "item": "longsword", "prob": 100 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
   },
   {
     "type": "MONSTER",
@@ -91,7 +91,7 @@
           "fake_dex": 9,
           "fake_per": 5,
           "require_targeting_player": false,
-          "description": "The orc shoots you with laser accuracy",
+          "description": "The orc shoots you with laser accuracy!",
           "ranges": [ [ 3, 13, "DEFAULT" ] ],
           "no_ammo_sound": "grunting"
         }

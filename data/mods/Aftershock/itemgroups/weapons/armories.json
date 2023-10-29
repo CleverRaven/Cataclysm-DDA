@@ -32,8 +32,9 @@
     "subtype": "distribution",
     "items": [
       { "group": "afs_any_ballistic_gun", "prob": 6 },
-      { "group": "afs_any_ballistic_mag", "prob": 1 },
-      { "group": "afs_any_ballistic_ammo", "prob": 4 }
+      { "group": "afs_any_ballistic_mag", "prob": 2 },
+      { "group": "afs_any_ballistic_ammo", "prob": 4 },
+      { "group": "afs_shotgun_gunmod", "prob": 1 }
     ]
   }
 ]

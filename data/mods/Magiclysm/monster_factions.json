@@ -52,5 +52,78 @@
   {
     "type": "MONSTER_FACTION",
     "name": "elves"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "earth_spirit_faction",
+    "base_faction": "animal",
+    "friendly": [ "animal", "herbivore" ],
+    "hate": [ "zombie", "nether_player_hate", "jabberwock" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "forest_spirit_faction",
+    "base_faction": "animal",
+    "friendly": [ "animal", "herbivore" ],
+    "hate": [ "zombie", "fungus", "nether_player_hate", "jabberwock" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "magical_plant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mi-go",
+    "copy-from": "mi-go",
+    "base_faction": "nether",
+    "friendly": [ "mi-go_summon" ],
+    "neutral": [ "fish", "yrax", "small_animal", "slime", "passive_machine" ],
+    "by_mood": [ "nether" ],
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mi-go_summon",
+    "base_faction": "nether",
+    "friendly": [ "mi-go" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fungus",
+    "copy-from": "fungus",
+    "neutral": [ "bot", "fish", "passive_machine", "yrax" ],
+    "hate": [ "triffid", "forest_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "jabberwock",
+    "copy-from": "jabberwock",
+    "neutral": [ "fish" ],
+    "by_mood": [ "jabberwock" ],
+    "hate": [ "zombie", "animal", "insect", "mutant", "human", "forest_spirit_faction", "earth_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether_player_hate",
+    "copy-from": "nether_player_hate",
+    "//": "These creatures aren't necessarily sentient in and of themselves or are drawn to sentient life in and around dimensional breaches.",
+    "base_faction": "nether",
+    "friendly": [ "zombie" ],
+    "neutral": [ "animal" ],
+    "hate": [ "player", "forest_spirit_faction", "earth_spirit_faction" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "animal",
+    "copy-from": "animal",
+    "friendly": [ "attack_player_only", "forest_spirit_faction", "earth_spirit_faction" ],
+    "neutral": [ "small_animal", "fish", "bot", "aquatic_predator", "robofac", "passive_machine", "nether_player_hate" ],
+    "by_mood": [ "animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore",
+    "copy-from": "herbivore",
+    "friendly": [ "forest_spirit_faction", "earth_spirit_faction" ]
   }
 ]

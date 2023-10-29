@@ -37,7 +37,7 @@
         { "item": "cudgel", "prob": 95 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ]
   },
   {
     "type": "MONSTER",

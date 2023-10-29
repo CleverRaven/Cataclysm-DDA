@@ -59,11 +59,6 @@ class input_context;
 
 input_context get_default_mode_input_context();
 
-enum class dump_mode : int {
-    TSV,
-    HTML
-};
-
 enum quit_status {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
@@ -215,9 +210,6 @@ class game
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
 
-        /** write statistics to stdout and @return true if successful */
-        bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
-
         /** Returns false if saving failed. */
         bool save();
 
@@ -254,6 +246,27 @@ class game
     private:
         bool is_looking = false; // NOLINT(cata-serialize)
         std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks; // NOLINT(cata-serialize)
+
+    public:
+        // Curses counterpart of the async_anim functions in cata_tiles
+        void init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+                                          const nc_color &nccol );
+        void draw_async_anim_curses();
+        void void_async_anim_curses();
+    protected:
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                async_anim_layer_curses; // NOLINT(cata-serialize)
+
+    public:
+        void init_draw_blink_curses( const tripoint &p, const std::string &ncstr,
+                                     const nc_color &nccol );
+        void draw_blink_curses();
+        void void_blink_curses();
+        bool has_blink_curses();
+        bool blink_active_phase = true; // NOLINT(cata-serialize)
+    protected:
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                blink_layer_curses; // NOLINT(cata-serialize)
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -467,6 +480,7 @@ class game
          * are checked ( and returned ). Returned pointers are never null.
          */
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<Character *> get_characters_if( const std::function<bool( const Character & )> &pred );
         std::vector<npc *> get_npcs_if( const std::function<bool( const npc & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
@@ -569,10 +583,11 @@ class game
         /** Destroy / dissolve character items when in water. */
         void water_affect_items( Character &ch ) const;
 
-        /** Flings the input creature in the given direction. */
+        /** Flings the input creature in the given direction.
+         *  intentional is true for activities you wouldn't consider immunity for
+         */
         bool fling_creature( Creature *c, const units::angle &dir, float flvel,
-                             bool controlled = false );
-
+                             bool controlled = false, bool intentional = false );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -756,6 +771,9 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        // Draws an asynchronous animation at p with tile_id as its sprite. If ncstr is specified, it will also be displayed in curses.
+        void draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr = "",
+                              const nc_color &nccol = c_black );
         void draw_radiation_override( const tripoint &p, int rad );
         void draw_terrain_override( const tripoint &p, const ter_id &id );
         void draw_furniture_override( const tripoint &p, const furn_id &id );
@@ -885,6 +903,8 @@ class game
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void insert_item(); // Insert items to container  'v'
+        void insert_item( drop_locations &targets );
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
@@ -1046,7 +1066,6 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-
         map &m;
         avatar &u;
         scent_map &scent;
@@ -1065,8 +1084,7 @@ class game
         bool unique_npc_exists( const std::string &id );
         void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-        queued_global_effect_on_conditions;
+        queued_eocs queued_global_effect_on_conditions;
 
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
@@ -1210,17 +1228,53 @@ class game
         // called on map shifting
         void shift_destination_preview( const point &delta );
 
-        /**
-        Checks if player is able to successfully climb to/from some terrain and not slip down
-        @param check_for_traps Used if needed to call trap function on player's location after slipping down
-        @return whether player has slipped down
+        /** Passed to climbing-related functions (slip_down) to
+        *   indicate the climbing action being attempted.
         */
-        bool slip_down( bool check_for_traps = false );
+        enum class climb_maneuver {
+            down,          // climb up one Z-level
+            up,            // climb down one Z-level
+            over_obstacle, // climb over an obstacle (horizontal move)
+        };
 
         /**
-        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param aid Identifies the object, terrain or ability being used to climb.  See climbing.h.
+        @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
+        @return whether player has slipped down
+        */
+        bool slip_down(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
+
+        /**
+        Calculates the chance that slip_down will return true.
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param affordance Identifies the object, terrain or ability being used to climb.  See climbing.h.
+        @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
+        @return Probability, as a percentage, that player will slip down while climbing some terrain.
+        */
+        int slip_down_chance(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
+
+        /**
+        * Climb down from a ledge.
+        * Player is prompted to deploy grappling hook, webs or detach vines if applicable.
+        * Otherwise the safest available affordance (see above) is detected and used.
+        * The player is shown a confirmation query with an assessment of falling risk and damage.
         */
         void climb_down( const tripoint &examp );
+
+        void climb_down_menu_gen( const tripoint &examp, uilist &cmenu );
+        bool climb_down_menu_pick( const tripoint &examp, int retval );
+        void climb_down_using(
+            const tripoint &examp,
+            climbing_aid_id aid,
+            bool deploy_affordance = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

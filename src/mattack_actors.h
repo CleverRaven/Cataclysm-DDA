@@ -33,6 +33,12 @@ class leap_actor : public mattack_actor
         bool prefer_leap = false;
         // Leap completely randomly regardless of target distance/direction
         bool random_leap = false;
+        // Leap including terrains it doesn't usually move
+        // i.e. Aquatic monsters leap onto land
+        bool ignore_dest_terrain = false;
+        // Leap including tiles where there is something it would usually avoid,
+        // such as open air, fire, or traps
+        bool ignore_dest_danger = false;
         int move_cost = 0;
         // Range to target below which we don't consider jumping at all
         float min_consider_range = 0.0f;
@@ -76,7 +82,19 @@ struct grab {
     // Which effect should we apply on a successful grab to our target (bp)
     // Limited to one GRAB-flagged effect per bp
     efftype_id grab_effect;
-    // Messages for pulls
+    // If true will attempt to remove all other GRAB flagged effects from the target and cancel the attack on failure
+    bool exclusive_grab;
+    // If true drags/pulls fail when targeting a character in a seat with seatbelts
+    bool respect_seatbelts;
+    // Distance the enemy drags you on successful drag attempt (also enable dragging in the first place)
+    int drag_distance;
+    // Deviation of each dragging step from a straight line away from the opponent
+    int drag_deviation;
+    // Number of drag steps which give you a grab break attempt
+    int drag_grab_break_distance;
+    // Movecost modifier for drag-related movements
+    float drag_movecost_mod;
+    // Messages for pulls and drags, those are mutually exclusive
     translation pull_msg_u;
     translation pull_fail_msg_u;
     translation pull_msg_npc;
@@ -159,6 +177,9 @@ class melee_actor : public mattack_actor
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        /* Dedicated grab faction. Possible returns: -1 fails silently (attempting another attack instead)
+        0 fails loudly (resetting the cooldown), 1 succeeds */
+        int do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };

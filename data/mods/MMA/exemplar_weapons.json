@@ -3,7 +3,7 @@
     "id": "scimitar",
     "copy-from": "scimitar",
     "type": "TOOL",
-    "name": { "str": "scimitar" },
+    "name": { "str": "shamshir" },
     "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_DESERT_WIND" ] }
   },
   {

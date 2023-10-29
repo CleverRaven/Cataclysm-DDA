@@ -823,7 +823,7 @@
     "price": 3900,
     "symbol": "/",
     "color": "light_gray",
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "CONSTRUCTED_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
@@ -846,7 +846,7 @@
     "techniques": [ "WBLOCK_2", "WIDE" ],
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "CONSTRUCTED_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
       "WEATHER_TOOL"
@@ -864,13 +864,13 @@
     "type": "GENERIC",
     "copy-from": "copper_ax",
     "name": { "str": "Stormshaper axe" },
-    "//": "Equivalent to copper axe +1.  Metals chosen for being two most conductive metals + balancing reasons",
+    "//": "Based off battle axe +1.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
-    "weight": "3330 g",
-    "volume": "3500 ml",
+    "weight": "2850 g",
+    "volume": "2025 ml",
     "longest_side": "90 cm",
     "price": 3900,
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "copper", "silver" ],
     "symbol": "/",
     "color": "brown",
@@ -878,7 +878,7 @@
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ] ],
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
-    "melee_damage": { "bash": 33, "cut": 22 }
+    "melee_damage": { "bash": 21, "cut": 42 }
   },
   {
     "id": "rune_stormshaper_weapon_adept",
@@ -1033,7 +1033,7 @@
       "NO_RELOAD",
       "NO_UNLOAD"
     ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,

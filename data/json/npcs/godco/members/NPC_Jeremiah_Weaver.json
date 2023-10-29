@@ -1,0 +1,193 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Jeremiah_2",
+      "TALK_GODCO_Jeremiah_Mood",
+      "TALK_GODCO_Jeremiah_Story",
+      "TALK_GODCO_Jeremiah_Parents",
+      "TALK_GODCO_Jeremiah_Dnd"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Jeremiah_Story" },
+      { "text": "What's your take on the situation here?", "topic": "TALK_GODCO_Jeremiah_Mood" },
+      { "text": "What are your parents like?", "topic": "TALK_GODCO_Jeremiah_Parents" },
+      { "text": "What are your plans after <the_cataclysm>?", "topic": "TALK_GODCO_Jeremiah_Plans" },
+      { "text": "Were could I find work around here?", "topic": "TALK_GODCO_Jeremiah_Work" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_godco_jeremiah",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
+      "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
+    },
+    "responses": [
+      {
+        "text": "I'm just a traveler, kid.  I won't be staying here for long.",
+        "effect": { "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_effect": "godco_joinee" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Jeremiah_Firstmeet"
+      },
+      {
+        "text": "I'm not exactly new here, kid.",
+        "effect": { "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_effect": "godco_joinee" }
+          ]
+        },
+        "topic": "TALK_GODCO_Jeremiah_Firstmeet"
+      },
+      {
+        "text": "Hey, Jerry.  What's up?",
+        "topic": "TALK_GODCO_Jeremiah_2",
+        "condition": { "u_has_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hey, kid.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Firstmeet",
+    "dynamic_line": "I have a name, you know.  It's Jeremiah, but people just call me Jerry.",
+    "responses": [
+      { "text": "Sorry, Jerry.  What's up?", "topic": "TALK_GODCO_Jeremiah_2" },
+      { "text": "Sorry, Jeremiah.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_2",
+    "dynamic_line": [
+      "I thought asking about each other's emotions went out of style after <the_cataclysm>.  Uhm, okay then.  I'm fine, I guess."
+    ],
+    "responses": [
+      { "text": "I noticed you're holding a D&D handbook.  Do you play much?", "topic": "TALK_GODCO_Jeremiah_Dnd" },
+      {
+        "text": "I've convinced Kostas to take you on.",
+        "condition": { "u_has_var": "kostas_teach_jeremiah", "type": "general", "context": "mission", "value": "yes" },
+        "topic": "TALK_GODCO_Jeremiah_Kostas_Convinced"
+      },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Mood",
+    "dynamic_line": "My take?  You already know how things are.  People are dead, my friends are dead, so yeah.  At least there's no school, the adults just love reminding me that.  You know what?  I kinda miss school.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Story",
+    "dynamic_line": "I was in high school, like anyone else my age.  Then out of nowhere, my mom pulled me out of school to \"save me\".  I got packed into a bus with my parents and their old-timey friends.  We've been stuck here ever since.  Actually, it's not all that bad.  I'm studying to be a herbalist like Kostas, which is cool I guess.",
+    "responses": [
+      { "text": "Tell me about your parents.", "topic": "TALK_GODCO_Jeremiah_Parents" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Dnd",
+    "dynamic_line": "Yeah, I play.  I ran a campaign for a while with some of my friends, we'd play after school.  I don't know where they are now, though.  Do you wanna play some?",
+    "responses": [
+      {
+        "text": "Sure, I'm up for it.",
+        "effect": { "u_assign_activity": "ACT_GAME", "duration": "45 minutes" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Jeremiah_2" },
+      { "text": "No thanks, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Parents",
+    "dynamic_line": "&Jeremiah leans his head towards your ear, speaking in a low whisper.  \"To be honest with you, I don't like my mom at all.  She's like a <swear> helicopter, always telling me what to do, where to go, who I can be with.  She never thinks of me as an individual, only some idea of who she thinks I am.  My dad's alright, he's the chef around here.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Jeremiah_2" },
+      { "text": "I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Plans",
+    "dynamic_line": {
+      "npc_has_var": "jeremiah_apprentice",
+      "type": "general",
+      "context": "mission",
+      "value": "yes",
+      "yes": "I don't know, exactly.  I think I'll stay here and do what I can for the community.",
+      "no": "I'd like to study herbology with Kostas, it seems like a useful skill these days.  I do feel bad for Jane though, she's a skilled doctor and nobody here cares, they all just think any illness can be prayed away."
+    },
+    "responses": [
+      {
+        "text": "When do you plan on starting that apprenticeship?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "convince_kostas", "type": "general", "context": "mission", "value": "yes" } },
+            {
+              "not": { "u_has_var": "kostas_teach_jeremiah", "type": "general", "context": "mission", "value": "yes" }
+            },
+            {
+              "not": { "npc_has_var": "jeremiah_apprentice", "type": "general", "context": "mission", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_GODCO_Jeremiah_Apprenticeship"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Jeremiah_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Apprenticeship",
+    "dynamic_line": "Well…  Kostas is a bit unsure about teaching me, for some reason.  If you could change his mind, I'd pay you some \"icons\", what we've started using for money around here.",
+    "responses": [
+      { "text": "No thanks.  Let's talk about something else.", "topic": "TALK_GODCO_Jeremiah_2" },
+      {
+        "text": "I'll see what I can do for you.",
+        "effect": [ { "u_add_var": "convince_kostas", "type": "general", "context": "mission", "value": "yes" } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Kostas_Convinced",
+    "dynamic_line": "That's great!  Thanks <name_g>, here's the money.",
+    "responses": [
+      {
+        "text": "You're welcome.",
+        "effect": [
+          { "u_spawn_item": "icon", "count": 4 },
+          { "u_lose_var": "kostas_teach_jeremiah", "type": "general", "context": "mission" },
+          { "npc_add_var": "jeremiah_apprentice", "type": "general", "context": "mission", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jeremiah_Work",
+    "dynamic_line": "Darryl should have something for you to do if you like gardening, Jane could use some medical supplies, too.  If you like to be bossed around, Helena probably has a few things that need doing.  I'd just ask around, really.",
+    "responses": [
+      { "text": "Is there anything you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Thanks for the info.", "topic": "TALK_DONE" }
+    ]
+  }
+]

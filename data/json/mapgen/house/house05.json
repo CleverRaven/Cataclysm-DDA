@@ -32,7 +32,7 @@
         ".####oo#########oo#####.",
         "...........^............"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "place_loot": [
         { "group": "guns_pistol_common", "x": 2, "y": 13, "chance": 5, "ammo": 90, "magazine": 100 },
         { "item": "television", "x": 2, "y": 3, "chance": 85 },

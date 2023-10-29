@@ -159,7 +159,7 @@
     "weight": "500 g",
     "volume": "500 ml",
     "price": 3100,
-    "price_postapoc": 24000,
+    "price_postapoc": 750,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "textbook_mechanics",

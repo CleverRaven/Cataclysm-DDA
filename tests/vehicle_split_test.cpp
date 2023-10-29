@@ -85,10 +85,10 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
 TEST_CASE( "conjoined_vehicles", "[vehicle]" )
 {
     map &here = get_map();
-    here.add_vehicle( vehicle_prototype_car, { 40, 40 }, 0_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 42, 42 }, 0_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 44, 44 }, 45_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 48, 44 }, 45_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 40, 40, here.get_abs_sub().z() }, 0_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 42, 42, here.get_abs_sub().z() }, 0_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 44, 44, here.get_abs_sub().z() }, 45_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 48, 44, here.get_abs_sub().z() }, 45_degrees );
 }
 
 TEST_CASE( "crater_crash", "[vehicle]" )
@@ -96,7 +96,7 @@ TEST_CASE( "crater_crash", "[vehicle]" )
     tinymap here;
     tripoint_abs_sm map_location( 60, 60, 0 );
     here.load( map_location, true );
-    here.add_vehicle( vehicle_prototype_car, { 14, 11 }, 45_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 14, 11, here.get_abs_sub().z() }, 45_degrees );
     const tripoint end{ 20, 20, 0 };
     for( tripoint cursor = { 14, 4, 0 }; cursor.y < end.y; cursor.y++ ) {
         for( cursor.x = 4; cursor.x < end.x; cursor.x++ ) {

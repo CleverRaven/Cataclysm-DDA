@@ -323,8 +323,8 @@ class flexbuffer_disk_cache
             std::error_code ec;
             std::string json_source_path_string = lexically_normal_json_source_path.u8string();
             fs::file_time_type mtime = fs::last_write_time( lexically_normal_json_source_path );
-            auto mtime_ms = std::chrono::duration_cast<std::chrono::milliseconds>
-                            ( mtime.time_since_epoch() ).count();
+            int64_t mtime_ms = std::chrono::duration_cast<std::chrono::milliseconds>
+                               ( mtime.time_since_epoch() ).count();
             if( ec ) {
                 return false;
             }

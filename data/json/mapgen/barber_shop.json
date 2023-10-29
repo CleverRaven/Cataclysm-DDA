@@ -1,0 +1,150 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "barber_shop" ],
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        ".....#|||||+|||||#......",
+        ".....#@$       $@#......",
+        ".....#@$       $@#......",
+        ".....##   V|V   ##......",
+        ".....#@$  A|A  $@#......",
+        ".....#@$  A|A  $@#......",
+        ".....#    V|V   ##......",
+        ".....#DMD      $@#......",
+        ".....#    f f  $@#......",
+        ".....###### ######^.....",
+        "....^#t   * #LL#__......",
+        ".....#K ### * L#__......",
+        ".....#D *X# ####__......",
+        ".....#K ### t#g___......",
+        ".....#D *X#  #g___......",
+        ".....######*##____......",
+        ".....#F     f#____......",
+        ".....#p cTc  #____......",
+        ".....#C cTc t#____......",
+        ".....#S      *____......",
+        ".....#########____......",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "parameters": {
+        "wall_type": {
+          "type": "ter_str_id",
+          "default": {
+            "distribution": [
+              [ "t_wall_b", 1 ],
+              [ "t_wall_g", 1 ],
+              [ "t_wall_p", 1 ],
+              [ "t_wall_P", 1 ],
+              [ "t_wall_r", 1 ],
+              [ "t_wall_w", 6 ],
+              [ "t_wall_y", 1 ]
+            ]
+          }
+        }
+      },
+      "terrain": {
+        "#": { "param": "wall_type", "fallback": "t_brick_wall" },
+        "|": "t_wall_glass",
+        "+": "t_door_glass_c",
+        "_": "t_concrete",
+        "g": "t_concrete",
+        "^": "t_gutter_downspout",
+        ".": [
+          [ "t_region_grass", 400 ],
+          [ "t_region_groundcover_urban", 200 ],
+          [ "t_region_shrub", 1 ],
+          [ "t_region_shrub_fruit", 1 ],
+          [ "t_region_shrub_decorative", 1 ]
+        ],
+        "*": [
+          [ "t_door_b", 5 ],
+          [ "t_door_locked_peep", 2 ],
+          "t_door_locked_alarm",
+          [ "t_door_locked", 10 ],
+          [ "t_door_elocked_peep", 4 ],
+          "t_door_elocked_alarm",
+          [ "t_door_elocked", 15 ],
+          "t_door_c",
+          [ "t_door_o", 2 ]
+        ]
+      },
+      "furniture": {
+        "$": "f_barber_chair",
+        "@": "f_styling_station",
+        "t": "f_trashcan",
+        "F": "f_fridge",
+        "p": [ "f_oven", "f_gas_oven_microwave_combo" ],
+        "c": "f_chair",
+        "C": "f_counter",
+        "g": "f_dumpster",
+        "S": "f_sink",
+        "T": "f_table",
+        "L": "f_locker",
+        "A": "f_armchair",
+        "f": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "M": "f_counter",
+        "D": "f_counter",
+        "V": "f_coffee_table",
+        "K": "f_sink"
+      },
+      "toilets": { "X": {  } },
+      "items": {
+        "M": { "item": "cash_register_random", "chance": 100 },
+        "S": { "item": "SUS_dishes", "chance": 65 },
+        "C": { "item": "SUS_silverware", "chance": 45 },
+        "t": { "item": "trash", "chance": 25, "repeat": [ 1, 3 ] },
+        "F": { "item": "SUS_fridge_partial_empty", "chance": 65 },
+        "L": [
+          { "item": "SUS_hair_drawer", "chance": 45, "repeat": [ 1, 2 ] },
+          { "item": "SUS_janitors_closet", "chance": 15 },
+          { "item": "SUS_bathroom_sink", "chance": 45 }
+        ]
+      },
+      "place_monster": [
+        { "monster": "mon_zombie", "x": 7, "y": 13, "chance": 10 },
+        { "monster": "mon_zombie", "x": 8, "y": 18, "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "barber_shop_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "     -------------      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        "     -.........--5      ",
+        "     5.........-        ",
+        "     -.........-        ",
+        "     -.......---        ",
+        "     -.......-          ",
+        "     -.......-          ",
+        "     -.......-          ",
+        "     -.......-          ",
+        "     -.......-          ",
+        "     -.......-          ",
+        "     -.......-          ",
+        "     ---------          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_items": [ { "item": "roof_trash", "x": [ 6, 11 ], "y": [ 8, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

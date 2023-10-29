@@ -122,7 +122,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
         if( jsobj.has_array( "monster" ) ) {
             mon_immune_flags.clear();
             for( const std::string flg : jsobj.get_array( "monster" ) ) {
-                mon_immune_flags.insert( io::string_to_enum<m_flag>( flg ) );
+                mon_immune_flags.insert( flg );
             }
         }
         if( jsobj.has_array( "character" ) ) {
@@ -147,6 +147,10 @@ void damage_type::load( const JsonObject &jo, std::string_view )
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
         onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
+
+    for( JsonValue jv : jo.get_array( "ondamage_eocs" ) ) {
+        ondamage_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 }
 
 void damage_type::check()
@@ -158,7 +162,7 @@ void damage_type::check()
             return dt.id == dio.dmg_type;
         } );
         if( iter == dio_list.end() ) {
-            debugmsg( "damage type %s has no associated damage_info_order type." );
+            debugmsg( "damage type %s has no associated damage_info_order type.", dt.id.c_str() );
         }
     }
 }
@@ -385,6 +389,51 @@ void damage_type::onhit_effects( Creature *source, Creature *target ) const
     for( const effect_on_condition_id &eoc : onhit_eocs ) {
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
+
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void damage_instance::ondamage_effects( Creature *source, Creature *target,
+                                        const damage_instance &premitigated, bodypart_str_id bp ) const
+{
+    std::set<damage_type_id> used_types;
+    for( const damage_unit &du : damage_units ) {
+        if( used_types.count( du.type ) > 0 ) {
+            continue;
+        }
+        used_types.emplace( du.type );
+
+        // get the original damage
+        auto predamageunit = std::find_if( premitigated.begin(),
+        premitigated.end(), [du]( const damage_unit & dut ) {
+            return dut.type == du.type;
+        } );
+
+        double premit = 0.0;
+        if( predamageunit != premitigated.end() ) {
+            premit = predamageunit->amount;
+        }
+
+        du.type->ondamage_effects( source, target, bp, premit, du.amount );
+    }
+}
+
+void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart_str_id bp,
+                                    double total_damage, double damage_taken ) const
+{
+    for( const effect_on_condition_id &eoc : ondamage_eocs ) {
+        dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
+                    target == nullptr ? nullptr : get_talker_for( target ) );
+
+        d.set_value( "npctalk_var_damage_taken", std::to_string( damage_taken ) );
+        d.set_value( "npctalk_var_total_damage", std::to_string( total_damage ) );
+        d.set_value( "npctalk_var_bp", bp.str() );
+
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
@@ -406,6 +455,7 @@ damage_instance damage_instance::di_considering_length( units::length barrel_len
     for( damage_unit &du : di.damage_units ) {
         if( !du.barrels.empty() ) {
             std::vector<std::pair<float, float>> lerp_points;
+            lerp_points.reserve( du.barrels.size() );
             for( const barrel_desc &b : du.barrels ) {
                 lerp_points.emplace_back( static_cast<float>( b.barrel_length.value() ), b.amount );
             }

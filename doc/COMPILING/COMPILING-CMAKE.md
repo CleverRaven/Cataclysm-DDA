@@ -1,3 +1,4 @@
+# Compiling CMAKE
 # Disclaimer
 
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
@@ -35,12 +36,24 @@ You'll need to have these libraries and their development headers installed in o
   * `ncurses`
 * Tiles
   * `SDL`                       >= 2.0.0
-  * `SDL_image`                 >= 2.0.0 (with PNG and JPEG support)
-  * `SDL_mixer`                 >= 2.0.0 (with Ogg Vorbis support)
+  * `SDL_image`                 >= 2.0.0
+    * `jpeg`
+    * `png`
+    * `tiff`
+    * `jbig`
+    * `LZMA`
+    * `zstd`
   * `SDL_ttf`                   >= 2.0.0
-  * `freetype`
+    * `freetype`
+    * `harfbuzz`
 * Sound
-  * `vorbis`
+  * `SDL_mixer`                 >= 2.0.0
+    * `modplug`
+    * `fluidsynth`
+    * `vorbisfile`      
+    * `FLAC`
+    * `mpg123`
+    * `opusfile`
   * `libbz2`
   * `libz`
   * `libintl`

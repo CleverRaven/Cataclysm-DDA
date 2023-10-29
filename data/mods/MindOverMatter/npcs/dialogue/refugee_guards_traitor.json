@@ -1,0 +1,325 @@
+[
+  {
+    "id": [ "TALK_EVAC_GUARD3" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Premonition] *Determine if <npc_name> is a threat*",
+        "topic": "TALK_EVAC_GUARD3_danger_sense",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+      },
+      {
+        "text": "[Telepathy] *Read <npc_name>'s mind*",
+        "topic": "TALK_EVAC_GUARD3_scan",
+        "condition": { "u_has_trait": "TELEPATH" }
+      },
+      {
+        "text": "It's you.",
+        "topic": "TALK_EVAC_GUARD3_direct_accusation",
+        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You barely open up your senses before you're met with an overpowering sense of menace.  <npc_name> isn't planning to kill you at this exact second but that could change at any moment.",
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_scan",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "«Just what I need.  Come on, leave me alone.»",
+      "«How am I supposed to…ugh, just go away.»",
+      "«Who does this asshole think he is?»"
+    ],
+    "responses": [
+      { "text": "…", "topic": "TALK_EVAC_GUARD3" },
+      {
+        "text": "[Telepathy 8+] *Go deeper*.",
+        "topic": "TALK_EVAC_GUARD3_deep_scan",
+        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "8" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_deep_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&It's only a moment, but that's enough.  You are looking from behind a tree onto a road where a crude roadblock has been set up.  There's a refugee bus, one of the same ones parked outside the refugee center, stopped at the roadblock, and as the driver gets out to look at the roadblock, there's a loud crack and two spots of red appear on his chest and leg.  As he begins to fall and the people in the bus start screaming, the raiders emerge from the trees, already running with guns raised.",
+    "responses": [
+      {
+        "text": "*Withdraw from <npc_name>'s mind*.",
+        "effect": { "u_add_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" },
+        "topic": "TALK_EVAC_GUARD3_post_scan"
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_post_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Only a few moments have passed.  <npc_name> hasn't noticed anything amiss.",
+    "responses": [
+      { "text": "…", "topic": "TALK_EVAC_GUARD3" },
+      {
+        "text": "It's you.",
+        "topic": "TALK_EVAC_GUARD3_direct_accusation",
+        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_direct_accusation" ],
+    "type": "talk_topic",
+    "dynamic_line": "What the hell are you talking about?",
+    "responses": [
+      {
+        "text": "He was only a child, <npc_name>, and you killed him.  Do you remember the blood on his Superman shirt?",
+        "topic": "TALK_EVAC_GUARD3_witch",
+        "opinion": { "fear": 4 }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EVAC_GUARD3_witch" ],
+    "type": "talk_topic",
+    "dynamic_line": "I didn't tell you my na-\"  <npc_name>'s face goes white.  \"What the fuck!  You some kind of freak?",
+    "responses": [
+      {
+        "text": "It's over.  Give up.",
+        "topic": "TALK_EVAC_GUARD3_DEAD",
+        "effect": { "npc_change_faction": "hells_raiders" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_DEAD",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telekinesis Check] *Try to rip <npc_name>'s weapon away*",
+        "condition": { "u_has_trait": "TELEKINETIC" },
+        "switch": false,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')" ] },
+            "difficulty": { "math": [ "n_val('strength')" ] },
+            "die_size": 5
+          }
+        },
+        "success": { "topic": "TALK_EVAC_GUARD3_WEAPON_TELEKIN_DISAMED", "effect": "drop_weapon", "opinion": { "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile" ] }
+      },
+      {
+        "text": "[Brilliant Flash Check] *blind <npc_name>*",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')", ">=", "1" ] },
+            { "not": { "npc_has_worn_with_flag": "FLASH_PROTECTION" } }
+          ]
+        },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')" ] },
+            "difficulty": { "math": [ "n_val('perception')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "10 s" }, { "npc_add_effect": "stunned", "duration": "2 s" } ]
+        },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "Your telepathy attempt failed!", "type": "bad" } ] }
+      },
+      {
+        "text": "[Sensory Deprivation Check] *Shut off <npc_name>'s senses*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
+        "switch": false,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "and": [
+              {
+                "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')" ] },
+                "difficulty": { "math": [ "n_val('perception')" ] },
+                "die_size": 10
+              },
+              { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+            ]
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "10 s" }, { "npc_add_effect": "deaf", "duration": "10 s" } ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "You failed to affect <npc_name>'s senses!", "type": "bad" } ]
+        }
+      },
+      {
+        "text": "[Synaptic Overload Check] *Attack <npc_name>'s mind*.",
+        "condition": { "and": [ { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] } ] },
+        "switch": false,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "and": [
+              {
+                "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')" ] },
+                "difficulty": { "math": [ "n_val('intelligence')" ] },
+                "die_size": 10
+              },
+              { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+            ]
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            "hostile",
+            {
+              "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast'))))" ] },
+              "target_part": "head"
+            },
+            { "npc_add_effect": "stunned", "duration": "2 s" }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "<npc_name> repelled your attack on their mind!", "type": "bad" } ]
+        }
+      },
+      {
+        "text": "[Transposition Check] *Teleport away <npc_name>'s weapon*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')", ">=", "1" ] },
+        "switch": false,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')" ] },
+            "difficulty": 10,
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_EVAC_GUARD3_WEAPON_TELEPORT_DISAMED",
+          "effect": [
+            { "npc_remove_item_with": "spear_knife_proper" },
+            { "npc_remove_item_with": "spear_pipe" },
+            { "npc_remove_item_with": "spear_homemade_halfpike" },
+            { "npc_remove_item_with": "makeshift_glaive" },
+            { "npc_remove_item_with": "modular_m4_carbine" },
+            { "npc_remove_item_with": "aksemi" },
+            { "npc_remove_item_with": "ar15_50short" },
+            { "npc_remove_item_with": "ar15_223short" },
+            { "npc_remove_item_with": "mp40" },
+            { "npc_remove_item_with": "modular_m16a4" }
+          ],
+          "opinion": { "fear": 5 }
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>'s weapon!", "type": "bad" } ]
+        }
+      },
+      {
+        "text": "[Oubliette Check] *Banish <npc_name> to another dimension*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_banish')", ">=", "1" ] },
+        "switch": false,
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_banish')" ] }, "difficulty": 15, "die_size": 10 }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            { "npc_add_effect": "stunned", "duration": "2 s" },
+            { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "0 seconds" },
+            { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 },
+            {
+              "u_message": "<npc_name> seems ready to attack you but suddenly freezes in place.  For a moment, caught between worlds, they stare straight ahead.  As the cold and the darkness of a teleport begin to overtake them and the air around them wavers like summer heat, they open their mouth to scream.\n\nAnd then, they are gone.",
+              "popup": true
+            }
+          ]
+        },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to teleport <npc_name>!", "type": "bad" } ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_WEAPON_TELEPORT_DISAMED",
+    "type": "talk_topic",
+    "dynamic_line": "*stares at you with eyes wide as their weapon vanishes into thin air.  Their mouth works silently but no sounds come out.",
+    "responses": [
+      {
+        "text": "Get out of here or you'll be next.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 8, "mod": [ [ "FEAR", 6 ] ] },
+        "success": { "topic": "TALK_EVAC_GUARD3_SUCCESS_TELEPORT_LEAVE", "effect": [ "flee", { "npc_change_faction": "old_guard" } ] },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_WEAPON_TELEKIN_DISAMED",
+    "type": "talk_topic",
+    "dynamic_line": "*starts as the weapon is ripped out of their hands and falls to the floor.  \"Holy shit!  What the fuck?!\"",
+    "responses": [
+      {
+        "text": "Leave or I'll do the same to you.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "FEAR", 5 ] ] },
+        "success": { "topic": "TALK_EVAC_GUARD3_SUCCESS_TELEKIN_LEAVE", "effect": [ "flee", { "npc_change_faction": "old_guard" } ] },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_SUCCESS_TELEKIN_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, alright, I'm leaving.  Holy shit.",
+    "responses": [
+      {
+        "text": "Good.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
+        ]
+      },
+      {
+        "text": "I changed my mind.  You're better off in the ground.",
+        "topic": "TALK_DONE",
+        "effect": [ "hostile", { "npc_change_faction": "hells_raiders" } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_GUARD3_SUCCESS_TELEPORT_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "*immediately backs away.  They never turn their back on you, but in a few moments they go out the door and are gone.",
+    "responses": [
+      {
+        "text": "…",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED",
+    "effect": [ { "mapgen_update": "remove_refugee_center_traitor_because_banished", "om_terrain": "evac_center_19" } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "remove_refugee_center_traitor_because_banished",
+    "object": { "remove_npcs": [ { "class": "evac_guard3", "x": 0, "y": 0 } ] }
+  }
+]

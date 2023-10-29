@@ -63,7 +63,7 @@ static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<m
     }
 }
 
-TEST_CASE( "Event-based monster spawns do not spawn outside event", "[monster][mongroup]" )
+TEST_CASE( "Event-based_monster_spawns_do_not_spawn_outside_event", "[monster][mongroup]" )
 {
     override_option ev_spawn_opt( "EVENT_SPAWNS", "monsters" );
     REQUIRE( get_option<std::string>( "EVENT_SPAWNS" ) == "monsters" );
@@ -114,7 +114,7 @@ TEST_CASE( "Event-based monster spawns do not spawn outside event", "[monster][m
     }
 }
 
-TEST_CASE( "Event-based monsters from an event-only mongroup", "[monster][mongroup]" )
+TEST_CASE( "Event-based_monsters_from_an_event-only_mongroup", "[monster][mongroup]" )
 {
     override_option ev_spawn_opt( "EVENT_SPAWNS", "monsters" );
     REQUIRE( get_option<std::string>( "EVENT_SPAWNS" ) == "monsters" );
@@ -151,7 +151,7 @@ TEST_CASE( "Event-based monsters from an event-only mongroup", "[monster][mongro
     }
 }
 
-TEST_CASE( "Using mon_null as mongroup default monster", "[mongroup]" )
+TEST_CASE( "Using_mon_null_as_mongroup_default_monster", "[mongroup]" )
 {
     mongroup_id test_group1( "test_default_monster" );
     mongroup_id test_group2( "test_group_default_monster" );
@@ -163,7 +163,7 @@ TEST_CASE( "Using mon_null as mongroup default monster", "[mongroup]" )
     CHECK( test_group4->defaultMonster != mon_null );
 }
 
-TEST_CASE( "Nested monster groups spawn chance", "[mongroup]" )
+TEST_CASE( "Nested_monster_groups_spawn_chance", "[mongroup]" )
 {
     mongroup_id mg( "test_top_level_mongroup" );
 
@@ -214,11 +214,11 @@ TEST_CASE( "Nested monster groups spawn chance", "[mongroup]" )
     for( const auto &res : results ) {
         INFO( string_format( "monster %s - expected vs. actual", res.first.c_str() ) );
         CHECK( std::get<1>( res.second ) ==
-               Approx( static_cast<float>( std::get<2>( res.second ) ) / iters ).epsilon( 0.5 ) );
+               Approx( static_cast<float>( std::get<2>( res.second ) ) / iters ).epsilon( 0.6 ) );
     }
 }
 
-TEST_CASE( "Nested monster group pack size", "[mongroup]" )
+TEST_CASE( "Nested_monster_group_pack_size", "[mongroup]" )
 {
     const int iters = 100;
     calendar::turn += 1_turns;

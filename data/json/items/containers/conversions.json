@@ -1,0 +1,132 @@
+[
+  {
+    "id": "box_retool_huge",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "box_small",
+    "name": { "str": "marksmen’s conversion kit" },
+    "description": "This is an expansive cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of an assembled high-caliber rifle.  Containing appropriate retool components for a larger than typical given weapon platform, including big-bore upper receiver assemblies, quick-swap sniper barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
+    "weight": "600 g",
+    "volume": "11360 ml",
+    "longest_side": "71 cm",
+    "price": 15,
+    "price_postapoc": 15,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (10x16x71)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "7728 ml",
+        "max_contains_weight": "35 kg",
+        "max_item_length": "69 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool_large",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "box_small",
+    "name": { "str": "large rifle conversion kit" },
+    "description": "This is a large cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of a large, assembled rifle.  Containing appropriate retool components for a given weapon platform, including high-caliber upper receiver assemblies, quick-swap marksman barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
+    "weight": "500 g",
+    "volume": "8960 ml",
+    "longest_side": "56 cm",
+    "price": 15,
+    "price_postapoc": 15,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (10x16x56)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "6272 ml",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "54 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "standard rifle conversion kit" },
+    "looks_like": "box_small",
+    "description": "This is a sturdy cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of an assembled rifle.  Containing appropriate retool components for an average weapon platform, including upper receiver assemblies, swappable barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
+    "weight": "400 g",
+    "volume": "6880 ml",
+    "longest_side": "43 cm",
+    "price": 15,
+    "price_postapoc": 15,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (10x16x43)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4592 ml",
+        "max_contains_weight": "25 kg",
+        "max_item_length": "41 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool_sbr",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "SBR conversion kit" },
+    "looks_like": "box_small",
+    "description": "This is a modestly proportioned cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of an assembled, short-barreled rifle.  Containing appropriate retool components for a given weapon platform, including compact upper receiver assemblies, short quick-swap barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
+    "weight": "350 g",
+    "volume": "5920 ml",
+    "longest_side": "37 cm",
+    "price": 15,
+    "price_postapoc": 15,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (10x16x37)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "3920 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "35 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool_sbr_micro",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "micro-carbine conversion kit" },
+    "looks_like": "box_small",
+    "description": "This is a relatively small cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of an assembled, extremely compact carbine.  Containing appropriate retool components for a given weapon platform, including adorably small upper receiver assemblies, pistol-length swappable barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
+    "weight": "280 g",
+    "volume": "4320 ml",
+    "longest_side": "27 cm",
+    "price": 15,
+    "price_postapoc": 15,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (10x16x27)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2800 ml",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "25 cm"
+      }
+    ]
+  }
+]

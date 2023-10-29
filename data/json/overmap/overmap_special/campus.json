@@ -120,7 +120,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -147,7 +147,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -190,7 +190,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -221,7 +221,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -244,6 +244,6 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "MAN_MADE" ]
   }
 ]

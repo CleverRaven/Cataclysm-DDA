@@ -273,7 +273,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "pistol" ],
+    "mod_targets": [ "smg", "pistol", "slingshot" ],
     "install_time": "5 m",
     "dispersion_modifier": -20,
     "handling_modifier": 4,

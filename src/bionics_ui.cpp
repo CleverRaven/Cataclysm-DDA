@@ -788,7 +788,7 @@ void avatar::power_bionics()
             menu_mode = ACTIVATING;
 
             if( action == "CONFIRM" && !current_bionic_list->empty() ) {
-                auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+                sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
                 tmp = bio_list[cursor];
             } else {
                 tmp = bionic_by_invlet( ch );
@@ -841,7 +841,7 @@ void avatar::power_bionics()
             // switches between activation and examination
             menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
         } else if( action == "TOGGLE_SAFE_FUEL" ) {
-            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
                 if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
@@ -852,7 +852,7 @@ void avatar::power_bionics()
                 }
             }
         } else if( action == "TOGGLE_SPRITE" ) {
-            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
                 tmp->show_sprite = !tmp->show_sprite;
@@ -863,7 +863,7 @@ void avatar::power_bionics()
             active = filtered_bionics( *my_bionics, TAB_ACTIVE );
             passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
         } else if( action == "CONFIRM" || action == "ANY_INPUT" ) {
-            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( action == "CONFIRM" && !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
             } else {

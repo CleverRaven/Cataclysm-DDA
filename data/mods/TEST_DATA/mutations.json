@@ -337,6 +337,28 @@
   },
   {
     "type": "mutation",
+    "id": "process_mutation",
+    "name": { "str": "Tests processing and using mutation EOCs" },
+    "points": 1,
+    "valid": true,
+    "description": "Tests processing and using mutation EOCs",
+    "activated_eocs": [ "EOC_activate_mutation_test" ],
+    "deactivated_eocs": [ "EOC_mark_mutation_test" ]
+  },
+  {
+    "type": "mutation",
+    "id": "process_mutation_two",
+    "name": { "str": "Tests processing and using mutation EOCs" },
+    "points": 1,
+    "valid": true,
+    "description": "Tests processing and using mutation EOCs",
+    "activated_eocs": [ "EOC_mark_mutation_test" ],
+    "processed_eocs": [ "EOC_mark_mutation_test" ],
+    "deactivated_eocs": [ "EOC_mark_mutation_test" ],
+    "activated_is_setup": true
+  },
+  {
+    "type": "mutation",
     "id": "TEST_REMOVAL_0",
     "name": { "str": "Removal test zeroth (non-purifiable)" },
     "points": 1,

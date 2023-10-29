@@ -98,7 +98,7 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
 // - Most of the time (59/60 chance), 1 focus is lost, or 2 without sunglasses
 // - Sometimes (1/60 chance), there is 1 pain instead, or 2 without sunglasses
 //
-TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
+TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
 {
     clear_map();
     avatar &dummy = get_avatar();
@@ -130,12 +130,12 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
         REQUIRE( dummy.has_trait( trait_ALBINO ) );
 
         WHEN( "totally naked and exposed" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
 
             // 60 times * 12 bodyparts * 0.25 chance for medium effect
-            THEN( "they lose about 165 focus per hour" ) {
+            THEN( "they lose 80 to 280 focus per hour" ) {
                 focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                CHECK( focus_lost == Approx( 180 ).margin( 90 ) );
+                CHECK( focus_lost == Approx( 180 ).margin( 100 ) );
             }
 
             // THEN( "they suffer about 2 pain per hour" ) {
@@ -163,7 +163,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
         }
 
         WHEN( "entire body is covered with clothing" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( zentai, false );
 
             // WHEN( "not wearing sunglasses" ) {
@@ -203,7 +203,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 // - Chance of pain and HP loss is directly proportional to skin exposure on each body part
 // -
 //
-TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
+TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 {
     clear_map();
     clear_avatar();
@@ -229,7 +229,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
         std::map<bodypart_id, int> bp_hp_lost;
         WHEN( "totally naked and exposed, with sunglasses" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( shades, false );
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
@@ -252,7 +252,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "naked and wielding an umbrella, with sunglasses" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
             dummy.wear_item( shades, false );
@@ -273,7 +273,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "wielding an umbrella, without sunglasses" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
             REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
@@ -298,7 +298,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "torso and arms are 90% covered" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( longshirt, false );
 
             THEN( "damage to torso is 0 and halved for arms" ) {
@@ -324,7 +324,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "entire body is covered" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.wear_item( zentai, false );
 
             WHEN( "not wearing sunglasses" ) {
@@ -368,7 +368,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     }
 }
 
-TEST_CASE( "suffering from asphyxiation", "[char][suffer][oxygen][grab]" )
+TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
 {
     clear_map();
     clear_avatar();

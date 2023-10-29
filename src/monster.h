@@ -117,6 +117,7 @@ class monster : public Creature
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
+        void digest_food();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -130,6 +131,7 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
         int get_eff_per() const override;
+        void witness_thievery( item *it ) override;
 
         float get_mountable_weight_ratio() const;
 
@@ -158,7 +160,8 @@ class monster : public Creature
 
         std::string extended_description() const override;
         // Inverts color if inv==true
-        bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
+        bool has_flag( const mon_flag_id &f ) const override; // Returns true if f is set (see mtype.h)
+        // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
         bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
@@ -179,6 +182,9 @@ class monster : public Creature
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool shearable() const;
+        bool is_pet() const;
+        bool is_pet_follow() const;
+        bool has_intelligence() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -198,10 +204,12 @@ class monster : public Creature
          * will_move_to() checks for impassable terrain etc
          * can_reach_to() checks for z-level difference.
          * can_move_to() is a wrapper for both of them.
+         * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
         bool can_move_to( const tripoint &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
+        bool know_danger_at( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -328,6 +336,7 @@ class monster : public Creature
         bool is_on_ground() const override;
         bool is_warm() const override;
         bool in_species( const species_id &spec ) const override;
+        void respond_to_light( float light_level );
 
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
@@ -400,6 +409,10 @@ class monster : public Creature
         bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
+        void add_grab( bodypart_str_id bp );
+        void remove_grab( bodypart_str_id bp );
+        bool is_grabbing( bodypart_str_id bp );
+
         monster_horde_attraction get_horde_attraction();
         void set_horde_attraction( monster_horde_attraction mha );
         bool will_join_horde( int size );
@@ -414,6 +427,7 @@ class monster : public Creature
         float stability_roll() const override;
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
+        void on_try_dodge() override {}
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
@@ -478,6 +492,10 @@ class monster : public Creature
 
         bool is_electrical() const override;    // true if the monster produces electric radiation
 
+        bool is_nether() const override;    // true if the monster is from the nether
+
+        bool has_mind() const override;    // true if the monster is sapient and capable of reason
+
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
 
@@ -494,6 +512,9 @@ class monster : public Creature
         using Creature::add_msg_debug_player_or_npc;
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg ) const override;
+
+        // currently grabbed limbs
+        std::unordered_set<bodypart_str_id> grabbed_limbs;
 
         tripoint_abs_ms wander_pos; // Wander destination - Just try to move in that direction
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
@@ -516,6 +537,8 @@ class monster : public Creature
         int friendly = 0;
         int anger = 0;
         int morale = 0;
+        int stomach_size = 0;
+        int amount_eaten = 0;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
@@ -598,6 +621,7 @@ class monster : public Creature
         bool biosignatures = false;
         std::optional<time_point> biosig_timer;
         time_point udder_timer;
+        time_point stomach_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
