@@ -5719,7 +5719,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
-    if( loc.where() == item_location::type::invalid ) {
+    if( !p->has_item( it ) ) {
         return 0;
     }
     return 1;
