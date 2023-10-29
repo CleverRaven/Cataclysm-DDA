@@ -103,12 +103,13 @@
         "##|c_TT___|__|rrrr__~|##",
         "##|c______|__|||||+|||##",
         "##|c______|__*__a|__A|##",
-        "##|ccccccc|<<=G_a|HlW|##",
+        "##|ccccccc|<<=___|HlW|##",
         "##||||||||||||||||||||##",
         "########################",
         "########################"
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ]
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_vehicles": [ { "vehicle": "portable_generator", "x": 15, "y": 20, "chance": 100, "status": 0 } ]
     }
   },
   {
@@ -127,7 +128,7 @@
         "##....*....^############",
         "##....=....^############",
         "##===###Y...^###########",
-        "##G.R###-+|||####||||||#",
+        "##..R###-+|||####||||||#",
         "##a.l###A.|UUVVvv|{{{{|#",
         "##=*=###..|U.....:....|#",
         "##c..ll-..|Uuuu.u||||||#",
@@ -146,7 +147,8 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ]
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_vehicles": [ { "vehicle": "portable_generator", "x": 3, "y": 6, "chance": 100, "status": 0, "rotation": 180 } ]
     }
   },
   {
@@ -263,12 +265,13 @@
         "##|c_TT___|__|rrrr__~|##",
         "##|c______|__|||||+|||##",
         "##|c______|__*__a|__A|##",
-        "##|ccccccc|<<=G_a|HlW|##",
+        "##|ccccccc|<<=___|HlW|##",
         "##||||||||||||||||||||##",
         "########################",
         "########################"
       ],
-      "palettes": [ "bunker", "empty_prepperquest_bunker_items" ]
+      "palettes": [ "bunker", "empty_prepperquest_bunker_items" ],
+      "place_vehicles": [ { "vehicle": "portable_generator", "x": 15, "y": 20, "chance": 100, "status": 0 } ]
     }
   },
   {
