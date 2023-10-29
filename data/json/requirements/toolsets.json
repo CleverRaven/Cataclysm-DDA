@@ -331,7 +331,7 @@
         [ "masonrysaw_off", 100 ],
         [ "electric_masonrysaw_off", 1320 ]
       ],
-      [ [ "angle_grinder", 200 ],  [ "hacksaw", -1 ], [ "reciprocating_saw", 200] ]
+      [ [ "angle_grinder", 200 ], [ "hacksaw", -1 ], [ "reciprocating_saw", 200 ] ]
     ]
   },
   {
