@@ -38,7 +38,7 @@
       [ "seed_spurge", 10 ],
       [ "seed_popcorn", 10 ],
       [ "seed_mustard", 10 ],
-      [ "seed_hops", 30 ]
+      [ "seed_hops", 25 ]
     ]
   },
   {
@@ -103,7 +103,7 @@
       [ "oats", 6 ],
       [ "barley", 6 ],
       [ "sugar_beet", 4 ],
-      [ "hops", 4 ],
+      [ "hops", 5 ],
       [ "cotton_boll", 1 ],
       [ "seed_cotton_boll", 1 ],
       [ "seed_wheat", 1 ],
@@ -128,7 +128,7 @@
       [ "seed_corn", 1 ],
       [ "soybean_seed", 1 ],
       [ "raw_edamame", 1 ],
-      [ "seed_hops", 1 ],
+      [ "seed_hops", 4 ],
       [ "seed_beans", 1 ],
       [ "seed_lentils", 1 ],
       [ "seed_chili_pepper", 1 ],
