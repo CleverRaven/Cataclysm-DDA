@@ -3328,7 +3328,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             if( pair.has_int( 1 ) ) {
                 slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
             } else {
-                units::mass val = read_from_json_string<units::mass>( pair[1], units::mass_units );
+                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
                 slot.default_nutrition.set_vitamin( vit, val );
             }
         }
@@ -3339,7 +3339,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             if( pair.has_int( 1 ) ) {
                 slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
             } else {
-                units::mass val = read_from_json_string<units::mass>( pair[1], units::mass_units );
+                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
                 slot.default_nutrition.add_vitamin( vit, val );
             }
         }

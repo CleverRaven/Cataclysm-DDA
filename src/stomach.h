@@ -14,6 +14,23 @@ class JsonObject;
 class JsonOut;
 struct needs_rates;
 
+namespace vitamin_units
+{
+using mass = units::quantity<int, units::mass_in_microgram_tag>;
+
+constexpr mass microgram = units::quantity<int, units::mass_in_microgram_tag>( 1, {} );
+constexpr mass milligram = units::quantity<int, units::mass_in_microgram_tag>( 1000, {} );
+constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1'000'000, {} );
+const std::vector<std::pair<std::string, mass>> mass_units = { {
+        { "ug", microgram },
+        { "μg", microgram },
+        { "mcg", microgram },
+        { "mg", milligram },
+        { "g", gram }
+    }
+};
+} // namespace vitamin_units
+
 // Separate struct for nutrients so that we can easily perform arithmetic on
 // them
 struct nutrients {
@@ -31,8 +48,8 @@ struct nutrients {
         // For vitamins that support units::mass quantities
         // If finalized == true, these will instantly convert to units,
         // so make sure finalized = false if you call these before vitamins are loaded
-        void set_vitamin( const vitamin_id &, units::mass mass );
-        void add_vitamin( const vitamin_id &, units::mass mass );
+        void set_vitamin( const vitamin_id &, vitamin_units::mass mass );
+        void add_vitamin( const vitamin_id &, vitamin_units::mass mass );
 
         void set_vitamin( const vitamin_id &, int units );
         void add_vitamin( const vitamin_id &, int units );
@@ -72,7 +89,7 @@ struct nutrients {
 
     private:
         /** vitamins potentially provided by this comestible (if any) */
-        std::map<vitamin_id, std::variant<int, units::mass>> vitamins_;
+        std::map<vitamin_id, std::variant<int, vitamin_units::mass>> vitamins_;
 };
 
 // Contains all information that can pass out of (or into) a stomach
