@@ -123,7 +123,7 @@
     "shape": "blast",
     "min_damage":1,
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') )  )" ]
+      "math": [ " (u_val('spell_level', 'spell: photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 5000)" ] },
     "max_duration": { "math": [ "((u_val('spell_level', 'spell: photokinetic_light_image') * 1000) + 10000)" ] },
