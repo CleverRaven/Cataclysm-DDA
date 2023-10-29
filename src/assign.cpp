@@ -40,21 +40,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val, 
         }
 
         if( obj.has_string( name ) ) {
-            units::volume::value_type tmp;
-            std::string suffix;
-            std::istringstream str( obj.get_string( name ) );
-            str.imbue( std::locale::classic() );
-            str >> tmp >> suffix;
-            if( str.peek() != std::istringstream::traits_type::eof() ) {
-                obj.throw_error_at( name, "syntax error when specifying volume" );
-            }
-            if( suffix == "ml" ) {
-                out = units::from_milliliter( tmp );
-            } else if( suffix == "L" ) {
-                out = units::from_milliliter( tmp * 1000 );
-            } else {
-                obj.throw_error_at( name, "unrecognized volumetric unit" );
-            }
+            out = read_from_json_string<units::volume>( obj.get_member( name ), units::volume_units );
             return true;
         }
 
