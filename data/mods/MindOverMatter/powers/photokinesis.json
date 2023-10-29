@@ -73,14 +73,14 @@
   {
     "id": "photokinetic_light_beam",
     "type":"SPELL",
-    "name": "Photon Beam",
+    "name": "[Ψ]Photon Beam",
     "description": "Concentrate photons into a high-energy beam",
     "message":"",
     "teachable":false,
     "valid_targets":[ "ground", "hostile" ],
     "spell_class":"PHOTOKINETIC",
     "skill":"metaphysics",
-    "flags":[ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "flags":[ "CONCENTRATE", "NO_HANDS", "NO_LEGS","NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "effect":"attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape":"line",
@@ -90,6 +90,7 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) )" ]
     },
+    "damage_type": "pure",
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
