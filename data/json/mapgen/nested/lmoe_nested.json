@@ -53,7 +53,7 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "rows": [
-        "l__RRRR=_G",
+        "l__RRRR=__",
         "l______*_a",
         "l_____c=_a",
         "__h___c=_l",
@@ -64,7 +64,8 @@
         "          ",
         "          "
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ]
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_vehicles": [ { "vehicle": "portable_generator", "x": 8, "y": 0, "chance": 100, "status": 0 } ]
     }
   },
   {
