@@ -37,7 +37,8 @@
       [ "seed_horseradish", 10 ],
       [ "seed_spurge", 10 ],
       [ "seed_popcorn", 10 ],
-      [ "seed_mustard", 10 ]
+      [ "seed_mustard", 10 ],
+      [ "seed_hops", 30 ]
     ]
   },
   {
