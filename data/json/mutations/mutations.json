@@ -9229,15 +9229,7 @@
     "prereqs": [ "RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
-    "threshreq": [
-      "THRESH_LUPINE",
-      "THRESH_URSINE",
-      "THRESH_CATTLE",
-      "THRESH_FELINE",
-      "THRESH_RABBIT",
-      "THRESH_MOUSE",
-      "THRESH_BEAST"
-    ],
+    "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_FELINE", "THRESH_RABBIT", "THRESH_MOUSE", "THRESH_BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
   },
   {
