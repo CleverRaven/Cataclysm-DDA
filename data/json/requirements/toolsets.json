@@ -316,11 +316,7 @@
     "id": "concrete_removal_standard",
     "type": "requirement",
     "//": "Tools for removing concrete",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
     "tools": [
       [
         [ "pickaxe", -1 ],
