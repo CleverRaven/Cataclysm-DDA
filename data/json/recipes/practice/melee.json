@@ -277,7 +277,7 @@
       { "proficiency": "prof_great_swords_familiar", "required": true },
       { "proficiency": "prof_great_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "zweihander", "nodachi", "kriegsmesser" ],  [ "pseudo_training_dummy_heavy" ] ],
+    "tools": [ [ "zweihander", "nodachi", "kriegsmesser" ], [ "pseudo_training_dummy_heavy" ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
