@@ -354,7 +354,8 @@
     "speed": 85,
     "special_attacks": [ { "id": "feral_weapon_mace" } ],
     "death_drops": "feral_armored_death_drops_mace",
-    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] },
+    "//": "No synthetic armor proficiency because plate armor doesn't work the same as modern armor",
     "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 }
   },
   {
