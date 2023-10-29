@@ -667,7 +667,7 @@ This section describes each json file and their contents. Each json has their ow
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
 
-### Snippets
+### Snippets 
 
 Snippets are the way for the game to store multiple instances of text, and use it on demand for different purposes: in item descriptions, NPC dialogues or in Effect on conditions
 
@@ -675,32 +675,37 @@ Snippets are the way for the game to store multiple instances of text, and use i
 
 **Snippets may be made in two ways:**
 
-First is when snippet contain plain text with no ids - it is used, when the snippet can be generated on the fly, and the game don't need to memorize which one it should be - like in dialogue, for example (we don't need the game to remember what <swear> some character used when talked to you)
+First is when snippet contain multiple fields, mainly `text` and `id` - in this case the game would be able to save it, and call only specific one - for example, if used in item description or in lab report file
 
 ```c++
 {
   "type": "snippet",
-  "category": "test_breads", // Category is the id of a snippet
+  "category": "test_breads",  // Category is the id of a snippet
+  "text": [
+    {
+      "id": "bread1",                                 // Id of this exact text, in this case "flatbread"
+      "name": "flatbread because i love flatbread",   // Name of a snippet, not actually used anywhere except to describe the snippet
+      "text": "flatbread",                            // Text, that would be used if this snippet category is called
+      "effect_on_examine": [ "effect_on_condition" ]  // Examining of this snippet will call effect_on_condition
+    },
+    { "id": "bread2", "text": "yeast bread" },
+    { "id": "bread3", "text": "cornbread" },
+    { "id": "bread4", "text": "fruit bread" }
+  ]
+}
+```
+
+Second is when snippet contain plain text with no ids - it is used, when the snippet can be generated on the fly, and the game don't need to memorize which one it should be - like in dialogue, for example (we don't need the game to remember what <swear> character used when talked to you)
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads", 
   "text": [
     "flatbread",
     "yeast bread",
     "cornbread",
     "fruit bread"
-  ]
-}
-```
-
-Second is when snippet contain both the text, and the id of this text - in this case the game would be able to save it, and call only specific one - for example, if used in item description or in lab report file
-
-```c++
-{
-  "type": "snippet",
-  "category": "test_breads",
-  "text": [
-  { "id" : "bread1", "text" : "flatbread" },
-  { "id" : "bread2", "text" : "yeast bread" },
-  { "id" : "bread3", "text" : "cornbread" },
-  { "id" : "bread4", "text" : "fruit bread" }
   ]
 }
 ```
@@ -749,7 +754,57 @@ Both dialogues, snippets and item descriprtions may reference the snippets right
 
 ------
 
+Item groups can specify the description of the item that is spawned:
+
+```json
+{
+  "type": "item_group",
+  "id": "test_itemgroup",
+  "//": "it spawns `child's drawing` item with `mutant_kid_boss_5` description"
+  "entries": [
+    { "item": "note_mutant_alpha_boss", "snippets": "mutant_kid_boss_5" },
+  ]
+}
+```
+
+Without specifying, the random snippet would be used
+
+------
+
 Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+
+------
+
+Items, that uses effect on condition action to reveal a snippet, may utilize `conditional_names` syntax to change the name of an item, depending on it's description
+
+`log_psych` is the category of snippet, `dream_1` is the id of a snippet, and `name` is the name of new item
+
+```json
+{
+  "type": "GENERIC",
+  "id": "psych_file",
+  "name": { "str": "lab report (psychology)", "str_pl": "lab reports (psychology)" },
+  "conditional_names": [
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_1", "name": { "str_sp": "Session S-3397-5" } },
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_2", "name": { "str_sp": "Session T-1215-4" } },
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_3", "name": { "str_sp": "Scrawled note" } }
+  ],
+  "description": "A folder full of what appear to be transcripts of confidential psychotherapy sessions.  Most of it is rather trivial, but certain passages catch your eye…",
+  "copy-from": "file",
+  "use_action": {
+    "type": "effect_on_conditions",
+    "description": "Activate to read the file",
+    "effect_on_conditions": [
+      {
+        "id": "EOC_LAB_FILE_PSY",
+        "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
+      }
+    ]
+  }
+}
+```
+
+Once the item would be activated, the description would be replaced with one of `log_psych` texts, and the `lab report (psychology)` name would be replaced with one of `conditional_names`
 
 ------
 
@@ -758,7 +813,6 @@ Snippets also support the color codes
 ```json
 "<color_yellow_red>Biohazard</color>",
 ```
-
 
 ### Addiction types
 
