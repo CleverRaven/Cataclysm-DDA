@@ -262,8 +262,8 @@ bool Character::try_remove_grab( bool attacking )
                 // Since the attacker is grabbing at the outermost layer, that 4% is multiplied by clothing_wetness_mult for that body part.
                 escape_chance += slime_factor;
                 add_msg_debug( debugmode::DF_MATTACK,
-                    "%s is slimy, escape chance increased by %f",
-                    eff.get_bp()->name, slime_factor );
+                               "%s is slimy, escape chance increased by %f",
+                               eff.get_bp()->name, slime_factor );
             }
             add_msg_debug( debugmode::DF_MATTACK,
                            "Attempting to break grab on %s, grab strength roll %.1f, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
