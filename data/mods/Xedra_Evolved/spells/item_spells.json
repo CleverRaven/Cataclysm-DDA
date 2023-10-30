@@ -13,7 +13,6 @@
     "max_range": { "math": [ "(u_skill('deduction') + u_skill('throw'))" ] },
     "shape": "blast",
     "effect": "attack",
-    "extra_effects": [ { "id": "mace_pipe_magic_throw_stamina", "hit_self": true } ]
   },
   {
     "id": "blackout_rage_drink",
