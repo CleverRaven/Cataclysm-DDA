@@ -2372,6 +2372,8 @@
       { "item": "thawb", "prob": 1 },
       { "item": "kittel", "prob": 1 },
       { "item": "cassock", "prob": 1 },
+      { "item": "nun_habit", "prob": 1 },
+      { "item": "nun_wimple", "prob": 1 },
       { "item": "robe", "prob": 5 },
       { "item": "eboshi", "prob": 1 },
       { "item": "kariginu", "prob": 1 },
