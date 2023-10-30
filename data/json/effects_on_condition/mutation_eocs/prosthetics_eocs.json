@@ -377,5 +377,37 @@
       { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
       { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTATE_LEG_HEAL",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_trait": "NO_LEFT_LEG" }, { "u_has_trait": "NO_RIGHT_LEG" } ] },
+        {
+          "and": [
+            {
+              "or": [
+                { "u_has_trait": "CRAB_LEGS" },
+                { "u_has_trait": "GASTROPOD_FOOT" },
+                { "u_has_trait": "AMORPHOUS" },
+                { "u_has_trait": "ROOTS1" },
+                { "u_has_trait": "LEG_TENTACLES" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "NO_LEFT_LEG" },
+      { "u_lose_trait": "NO_RIGHT_LEG" },
+      { "u_add_trait": "HAS_LEFT_LEG" },
+      { "u_add_trait": "HAS_RIGHT_LEG" },
+      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" }
+    ]
   }
 ]
