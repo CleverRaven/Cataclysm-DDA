@@ -30,8 +30,8 @@ Biokinesis Can't: Allow the psion to perform feats that are impossible for human
 Clairsentience Can:  See a few seconds into the future.  Enhance the psion's mundane senses to see, hear, smell, touch, or taste as well or better than as an animal.  Perform feats impossible with mundane senses, such as seeing in complete darkness, or seeing through walls, or hearing radio transmissions, or smelling carbon monoxide.  Allow the psion to remove any impediment to the clarity of their senses, such as intoxication, poison or disease, or psychosis. 
 Clairsentience Can't: Make prophecies or other long-term future predictions.  Affect the senses of others.  Restore the psion's natural senses if they've been damaged (though the psion can use Clairsentience to overcome whatever natural damage they've suffered).  Cure blob psychosis.
 
-Photokinesis can: create light out of nothing, control existing light, protect the psion from dangerous/disruptive amounts of light radiation, solidify and give mass to light to make "hardlight" and shape it into anything for a limited duration.
-Photokinesis can't: alter the biology of the psion to use light in any new way, turn any part of the psion's body part into "living light". 
+Photokinesis can: create light out of nothing, control existing light, protect the psion from dangerous/disruptive amounts of light radiation, .
+Photokinesis can't: alter the biology of the psion to use light in any new way, turn any part of the psion's body part into "living light", solidify and give mass to light to make "hardlight". 
 
 Pyrokinesis Can: Create fire out of nothing, including on nonflammable surfaces. Protect the psion from excessive heat or flames.  Create light or glowing patches in the air or around objects or people.  Direct fire to move in unnatural ways, or to go through places with no flammable medium to transfer it.  Heat the air around the psion to maintain a comfortable temperature. 
 Pyrokinesis Can't: Make fire solid or flow like liquid.  Transform part of the psion's body into "living flame."  Create or manipulate cold.  Create fire inside objects or people. 

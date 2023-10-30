@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PHOTOKIN_IRRADIATE_FOOD",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [ "EOC_IRRADIATE_FOOD" ],
+        "false_eocs": [ { "id": "EOC_NOT_WIELDING", "effect": [ { "u_message": "Not wielding anything" } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IRRADIATE_FOOD",
+    "condition": { "u_has_flag": "FOOD" },
+    "effect": [ 
+      { "u_message": "You irradiate the food in your hands" }, 
+      { "u_set_flag": "RAD_STERILIZED_EDIBLE_FOREVER" } 
+    ],
+    "false_effect": [ { "u_message": "You can't irradiate that, It's not a food item" } ]
+  }
+]
