@@ -548,13 +548,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
-    "//": "About 2.5 times as costly as the super heal drain.  You are regrowing a whole body part, you know.",
+    "//": "About 2.5 times as costly as the super heal drain, factored for each tick of healing. Assuming you're using super heal at level twelve, it ticks 15 times. 15 * 2.5 = 37.5 times increase for proper scaling in a single tick of this.  You are regrowing a whole body part, you know.",
     "effect": [
-      { "math": [ "u_val('stored_kcal')", "-=", "rng( 125,625 )" ] },
-      { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 125,500 )" ] },
-      { "math": [ "u_val('vitamin', 'name:calcium')", "-=", "rng( 250,500 )" ] },
-      { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 50,200 )" ] },
-      { "math": [ "u_val('fatigue')", "+=", "rng( 5,25 )" ] }
+      { "math": [ "u_val('stored_kcal')", "-=", "rng( 1875,9375 )" ] },
+      { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 1875,7500 )" ] },
+      { "math": [ "u_val('vitamin', 'name:calcium')", "-=", "rng( 3750,7500 )" ] },
+      { "math": [ "u_val('vitamin', 'name:vitC')", "-=", "rng( 750,3000 )" ] },
+      { "math": [ "u_val('fatigue')", "+=", "rng( 75,375 )" ] }
     ]
   }
 ]
