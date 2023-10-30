@@ -897,6 +897,18 @@ struct islot_gunmod : common_ranged_data {
 
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
+
+    //Manipulate overheat thresholds with fixed values and percentages
+    double overheat_threshold_modifier = 0;
+    float overheat_threshold_multiplier = 1.0f;
+
+    //Manipulate cooling capacity with fixed values and percentages
+    double cooling_value_modifier = 0;
+    float cooling_value_multiplier = 1.0f;
+
+    //Manipulation of generated heat by fixed values and percentages
+    double heat_per_shot_modifier = 0;
+    float heat_per_shot_multiplier = 1.0f;
 };
 
 struct islot_magazine {
