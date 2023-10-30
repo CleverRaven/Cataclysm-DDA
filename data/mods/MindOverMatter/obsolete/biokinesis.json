@@ -1,0 +1,16 @@
+[
+  {
+    "id": "biokin_climate_remove_sealed",
+    "type": "SPELL",
+    "name": "[Ψ]Temperature Adaptability Cancel Sealed System",
+    "description": "The part of Temperature Adaptability that cancels Sealed System.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "biokin_sealed_system",
+    "shape": "blast",
+    "max_level": 1
+  }
+]

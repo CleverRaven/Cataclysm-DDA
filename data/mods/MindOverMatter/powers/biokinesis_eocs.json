@@ -1,6 +1,52 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_climate_control" } },
+    "effect": [
+      { "u_message": "You feel much more comfortable." },
+      { "u_add_effect": "effect_biokin_climate_control", "duration": "PERMANENT" },
+      { "u_lose_effect": "biokin_sealed_system" },
+      {
+        "queue_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_climate_control') * 180) + 300 ) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_climate_control') * 360) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_biokin_climate_control" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_climate_control" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_climate_control') * 180) + 300 ) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_climate_control') * 360) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
     "effect": {
       "switch": { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')" ] },

@@ -295,26 +295,18 @@
     "id": "biokin_climate_control",
     "type": "SPELL",
     "name": "[Ψ]Temperature Adaptability",
-    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.\n\nTemperature Adaptability and Sealed System will cancel each other.",
-    "message": "You feel much more comfortable.",
+    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.  Temperature Adaptability and Sealed System <color_red>will cancel each other</color>.\n\nThis power <color_yellow>requires concentration</color> and <color_yellow>causes Drain at intervals</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_climate_control",
-    "extra_effects": [
-      { "id": "biokin_climate_remove_sealed", "hit_self": true },
-      { "id": "psionic_drained_difficulty_four", "hit_self": true }
-    ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
     "shape": "blast",
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
     "min_duration": {
       "math": [
         "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) )"
@@ -325,24 +317,14 @@
         "( (u_val('spell_level', 'spell: biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -175,
     "base_casting_time": 250,
     "final_casting_time": 150,
     "casting_time_increment": -8.5,
     "learn_spells": { "biokin_sealed_system": 6 }
-  },
-  {
-    "id": "biokin_climate_remove_sealed",
-    "type": "SPELL",
-    "name": "[Ψ]Temperature Adaptability Cancel Sealed System",
-    "description": "The part of Temperature Adaptability that cancels Sealed System.  It's a bug if you have it.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "biokin_sealed_system",
-    "shape": "blast",
-    "max_level": 1
   },
   {
     "id": "biokin_enhance_mobility",

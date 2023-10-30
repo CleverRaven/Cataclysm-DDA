@@ -233,10 +233,8 @@
       [ "Your adaptation to extreme temperatures is fading.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": "4 hours",
+    "max_duration": "7 days",
     "max_intensity": 128,
-    "dur_add_perc": 33,
-    "int_dur_factor": "122 s",
     "enchantments": [
       {
         "values": [
