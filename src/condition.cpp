@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "action.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -44,6 +45,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "ranged.h"
 #include "recipe_groups.h"
 #include "talker.h"
 #include "type_id.h"
@@ -1370,6 +1372,38 @@ void conditional_t::set_query( const JsonObject &jo, std::string_view member, bo
         } else {
             return default_val;
         }
+    };
+}
+
+void conditional_t::set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    std::string type = jo.get_string( member.data() );
+    dbl_or_var range;
+    if( jo.has_member( "range" ) ) {
+        range = get_dbl_or_var( jo, "range" );
+    }
+    condition = [type, range, is_npc]( dialogue & d ) {
+        std::optional<tripoint> pos;
+
+        avatar *you = d.actor( is_npc )->get_character()->as_avatar();
+        if( you ) {
+            if( type == "anywhere" ) {
+                pos = g->look_around();
+            } else if( type == "line_of_sight" ) {
+
+                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
+                if( traj.empty() ) {
+                }
+            } else if( type == "around" ) {
+                pos = choose_adjacent( _( "Drop where?" ) );
+            } else {
+            }
+
+        }
+        if( pos.has_value() ) {
+            d.set_value( "npctalk_var_pos", pos->to_string() );
+        }
+        return pos.has_value();
     };
 }
 
@@ -3316,6 +3350,7 @@ parsers = {
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
     {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
+    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_t::set_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_t::set_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_t::set_near_om_location },
     {"u_has_var", "npc_has_var", jarg::string, &conditional_t::set_has_var },

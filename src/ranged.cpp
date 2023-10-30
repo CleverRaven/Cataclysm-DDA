@@ -179,7 +179,8 @@ class target_ui
             Turrets,
             TurretManual,
             Reach,
-            Spell
+            Spell,
+            SelectOnly
         };
 
         // Avatar
@@ -416,6 +417,17 @@ class target_ui
         // `harmful` is `false` if using a non-damaging spell
         void on_target_accepted( bool harmful ) const;
 };
+
+target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
+{
+    target_ui ui = target_ui();
+    ui.you = &you;
+    ui.mode = target_ui::TargetMode::SelectOnly;
+    ui.range = range;
+
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
+    return ui.run();
+}
 
 target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
 {
@@ -2656,8 +2668,10 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
-            on_target_accepted( harmful );
+            if( mode != TargetMode::SelectOnly ) {
+                bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
+                on_target_accepted( harmful );
+            }
             break;
         }
         case ExitCode::Timeout: {
