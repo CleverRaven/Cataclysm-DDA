@@ -53,8 +53,10 @@
     "volume": "250 ml",
     "flags": [  ],
     "qualities": [ [ "BUTCHER", -42 ] ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "price_postapoc": 10,
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "melee_damage": { "bash": 2, "stab": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
