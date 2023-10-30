@@ -1,0 +1,17 @@
+[
+    {
+        "type": "recipe",
+        "id": "photokin_irradiate_rose_hips",
+        "activity_level": "LIGHT_EXERCISE",
+        "result": "irradiated_rose_hips",
+        "category": "cc_*",
+        "subcategory": "CSC_*_NESTED",
+        "skill_used": "metaphysics",
+        "difficulty": 6,
+        "time": "2 h",
+        "components": [["rose_hips", 1]],
+        "flags": ["SECRET"],
+        "run_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
+
+    }
+]

@@ -45,6 +45,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEACH_PYROKIN_FOOD_RECIPES",
+    "effect": [
+      {"u_learn_recipe": "photokin_irradiate_rose_hips"}
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_pyrokinetic_flash" },
@@ -153,7 +160,8 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PHOTOKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ],
+    "extra_effect": [ { "queue_eocs": "EOC_TEACH_PYROKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",

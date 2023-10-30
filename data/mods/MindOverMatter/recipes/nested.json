@@ -18,5 +18,18 @@
       "matrix_crystal_vitakin_dust_potion"
     ],
     "difficulty": 1
+  },
+  {
+    "id": "irradiated_food",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_FOOD",
+    "name": "irradiated food",
+    "description": "Recipes for irradiating food through photokinesis.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "photokin_irradiate_rose_hips"
+    ]
   }
 ]

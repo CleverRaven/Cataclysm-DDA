@@ -1,23 +1,6 @@
 [
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SPELL_PHOTOKIN_IRRADIATE_FOOD",
-    "effect": [
-      {
-        "u_run_inv_eocs": "random",
-        "search_data": [ { "wielded_only": true, "category": "food"} ],
-        "true_eocs": [ 
-          {"id": "EOC_PHOTOKIN_IRRADIATE_FOOD", 
-        "effect": [
-          { "u_message": "You irradiate the food in your hands" }, 
-          { "npc_set_flag": "RAD_STERILIZED_EDIBLE_FOREVER" } 
-            ]
-          }
-        ],
-        "false_eocs": [
-          {"id": "EOC_PHOTOKIN_NO_WIELD_FOOD", "effect": [ { "u_message": "You don't have any food in your hands" } ] }
-        ]
-      }
-    ]
-  }
+    {"type": "effect_on_condition",
+    "id": "EOC_FOOD_PHOTOKIN_DRAIN",
+    "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] } ]
+     }
 ]
