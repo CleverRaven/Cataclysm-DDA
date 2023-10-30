@@ -234,6 +234,7 @@
       "RADIOGENIC",
       "RADIOPHILE",
       "RESISTCHILL",
+      "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
       "STOCKY_TROGLO",
@@ -293,7 +294,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "RESISTCHILL", "STRONGER_RESISTCHILL", "RESISTWARM", "STRONGER_RESISTWARM" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM" ],
     "description": "Your temperature tolerance is more or less normal for a human."
   },
   {
@@ -3918,7 +3919,7 @@
   {
     "type": "mutation",
     "id": "BOMBADIER_BLAST",
-    "name": { "str": "Bombadier Beetle Blast" },
+    "name": { "str": "Bombardier Beetle Blast" },
     "points": 5,
     "visibility": 1,
     "ugliness": 2,
@@ -9391,16 +9392,7 @@
     "prereqs": [ "RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
-    "threshreq": [
-      "THRESH_LUPINE",
-      "THRESH_URSINE",
-      "THRESH_CATTLE",
-      "THRESH_FELINE",
-      "THRESH_RABBIT",
-      "THRESH_MOUSE",
-      "THRESH_BEAST",
-      "THRESH_PLANT"
-    ],
+    "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_FELINE", "THRESH_RABBIT", "THRESH_MOUSE", "THRESH_BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
   },
   {
@@ -9411,7 +9403,6 @@
     "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you it will take more heat and exposure for you to suffer from sunstroke, this will not make dealing with its consequences any easier.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
-    "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   },
@@ -9425,7 +9416,7 @@
     "prereqs": [ "RESISTWARM" ],
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN", "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
   },
   {
@@ -9471,6 +9462,22 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTCHILL_RESISTWARM",
+    "name": { "str": "Temperature Tolerance" },
+    "points": 5,
+    "valid": true,
+    "description": "You are now not at all bothered by the heat and it is harder for you to overheat or freeze at all.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "RESISTWARM" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "PLANT" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] }
+    ]
   },
   {
     "type": "mutation",

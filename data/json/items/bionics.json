@@ -408,7 +408,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingerhack CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A miniature electrohack, surgically embedded in a finger of the user'sright hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
+    "description": "A miniature electrohack, surgically embedded in a finger of the user's right hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
     "price": 350000,
     "price_postapoc": 1000,
     "weight": "100 g",
