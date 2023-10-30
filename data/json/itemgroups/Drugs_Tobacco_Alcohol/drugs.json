@@ -75,35 +75,11 @@
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
     "subtype": "distribution",
     "entries": [
-      {
-        "item": "aspirin",
-        "count-min": 5,
-        "count-max": 60,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 150
-      },
-      {
-        "item": "codeine",
-        "count-min": 1,
-        "count-max": 21,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 30
-      },
-      {
-        "item": "tramadol",
-        "count-min": 1,
-        "count-max": 120,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 30
-      },
+      { "group": "aspirin_ad_group", "prob": 150 },
+      { "group": "codeine_ad_group", "prob": 30 },
+      { "group": "tramadol_ad_group", "prob": 30 },
       { "item": "morphine", "count-min": 1, "count-max": 12, "container-item": "null", "prob": 5 },
-      {
-        "item": "oxycodone",
-        "count-min": 1,
-        "count-max": 30,
-        "container-item": "bottle_plastic_pill_prescription",
-        "prob": 100
-      }
+      { "group": "oxycodone_ad_group", "prob": 100 }
     ]
   },
   {
@@ -341,6 +317,34 @@
   },
   {
     "type": "item_group",
+    "id": "aspirin_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 5, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "codeine_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "codeine", "container-item": "null", "count": [ 1, 21 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tramadol_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "tramadol", "container-item": "null", "count": [ 1, 120 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": [ 1, 30 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "adderall_dr_group",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
@@ -386,14 +390,16 @@
     "id": "calcium_dr_group",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 15, 60 ] } ]
+    "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 15, 60 ] } ],
+    "on_overflow": "spill"
   },
   {
     "type": "item_group",
     "id": "iron_dr_group",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "inj_iron", "container-item": "null", "count": [ 15, 60 ] } ]
+    "entries": [ { "item": "inj_iron", "container-item": "null", "count": [ 15, 60 ] } ],
+    "on_overflow": "spill"
   },
   {
     "type": "item_group",
