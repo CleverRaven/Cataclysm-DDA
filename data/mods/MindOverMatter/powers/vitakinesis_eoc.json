@@ -548,7 +548,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
-    "//":  "About 2.5 times as costly as the super heal drain.  You are regrowing a whole body part, you know.",
+    "//": "About 2.5 times as costly as the super heal drain.  You are regrowing a whole body part, you know.",
     "effect": [
       { "math": [ "u_val('stored_kcal')", "-=", "rng( 125,625 )" ] },
       { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 125,500 )" ] },
