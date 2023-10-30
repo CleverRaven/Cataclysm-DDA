@@ -338,7 +338,7 @@
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"
       },
       {
-        "text": "About the gold you wanted...",
+        "text": "About the gold you wanted…",
         "condition": { "u_has_var": "has_gold_deal", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_QUERY"
       },
