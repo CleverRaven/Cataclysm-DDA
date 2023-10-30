@@ -24,48 +24,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "folding_solar_panel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "2 h",
-    "reversible": true,
-    "autolearn": true,
-    "//": "30cm weld",
-    "using": [ [ "welding_standard", 30 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "folding_solar_panel_v2",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "2 h",
-    "reversible": true,
-    "autolearn": true,
-    "//": "30cm weld",
-    "using": [ [ "welding_standard", 30 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "reinforced_solar_panel_v2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -248,6 +206,32 @@
       { "proficiency": "prof_elec_semiconductors" }
     ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 12 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "ground_solar_panel",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "50 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "solar_panel", 4 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "ground_solar_panel_v2",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "50 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "solar_panel_v2", 4 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",

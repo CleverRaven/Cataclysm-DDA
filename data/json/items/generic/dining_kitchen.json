@@ -1328,52 +1328,25 @@
   },
   {
     "type": "GENERIC",
-    "category": "tools",
     "id": "aluminum_pan",
     "name": { "str": "aluminum frying pan" },
     "description": "An aluminum frying pan.  Makes a decent melee weapon, and is used for cooking.",
-    "copy-from": "base_cookpot",
+    "copy-from": "pan",
     "material": [ "aluminum" ],
-    "color": "light_gray",
-    "looks_like": "pan",
     "weight": "400 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
-    "pocket_data": [
-      {
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "800 g",
-        "watertight": true,
-        "open_container": true,
-        "rigid": true
-      }
-    ],
-    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
-    "category": "tools",
     "id": "pot_aluminum",
     "name": { "str": "aluminum pot" },
     "description": "A cooking pot, useful for boiling water and making all kinds of food.  Made from aluminum.",
-    "copy-from": "base_cookpot",
+    "copy-from": "pot",
     "material": [ "aluminum" ],
-    "color": "light_gray",
     "weight": "231 g",
     "volume": "2100 ml",
-    "longest_side": "23 cm",
-    "to_hit": -2,
-    "pocket_data": [
-      {
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
-        "watertight": true,
-        "open_container": true,
-        "rigid": true
-      }
-    ],
-    "melee_damage": { "bash": 6 }
+    "longest_side": "23 cm"
   }
 ]

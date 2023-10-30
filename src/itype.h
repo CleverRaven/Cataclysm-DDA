@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -880,7 +881,7 @@ struct islot_gunmod : common_ranged_data {
     int consume_divisor = 1;
 
     /** Enlarge or reduce shot spread */
-    float shot_spread_multiplier_modifier = 1.0f;
+    float shot_spread_multiplier_modifier = 0.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
@@ -896,6 +897,18 @@ struct islot_gunmod : common_ranged_data {
 
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
+
+    //Manipulate overheat thresholds with fixed values and percentages
+    double overheat_threshold_modifier = 0;
+    float overheat_threshold_multiplier = 1.0f;
+
+    //Manipulate cooling capacity with fixed values and percentages
+    double cooling_value_modifier = 0;
+    float cooling_value_multiplier = 1.0f;
+
+    //Manipulation of generated heat by fixed values and percentages
+    double heat_per_shot_modifier = 0;
+    float heat_per_shot_multiplier = 1.0f;
 };
 
 struct islot_magazine {
@@ -1065,7 +1078,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
     islot_seed() = default;
 };
 

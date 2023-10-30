@@ -11,7 +11,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "properties": { "creature_size_capacity": "TINY" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 1, "cut": 1 }
@@ -167,7 +167,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 1, "cut": 1 }
@@ -199,7 +199,7 @@
     "material": [ "glass" ],
     "symbol": "#",
     "color": "white_yellow",
-    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "properties": { "creature_size_capacity": "TINY" },
     "looks_like": "pet_carrier",
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ]

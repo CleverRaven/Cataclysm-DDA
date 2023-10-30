@@ -501,7 +501,7 @@
     "id": "f_drophammer",
     "name": "blacksmith drop hammer",
     "symbol": "#",
-    "description": "An anvil with a large metal hammer suspended above it in a metal framework.  If it were working, it would be useful for shaping softened metal plates, though now it is only useful for parts.",
+    "description": "An anvil with a large metal hammer suspended above it in a metal framework.  It would be useful for shaping softened metal plates, or you could use the anvil by itself.",
     "color": "white",
     "looks_like": "f_machinery_old",
     "move_cost_mod": 2,
@@ -694,23 +694,23 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "solar_panel" },
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "ground_solar_panel" },
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "solar_panel", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "ground_solar_panel", "count": 1 } ] },
     "bash": {
       "str_min": 10,
       "str_max": 20,
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solar_cell", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 10, 15 ] },
-        { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": 3 }
+        { "item": "solar_cell", "count": [ 4, 20 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 40, 60 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 16, 24 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": 12 }
       ]
     }
   },

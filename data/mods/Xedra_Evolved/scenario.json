@@ -28,6 +28,7 @@
       "paraclesian_arvore",
       "paraclesian_homullus"
     ],
+    "eoc": [ "scenario_paraclesian_birth" ],
     "traits": [ "ELEMENTAL_MANA1", "ELEMENTAL_MANA2" ],
     "reveal_locale": false
   },
@@ -75,7 +76,7 @@
       "sloc_petstore"
     ],
     "eoc": [ "scenario_once_bitten" ],
-    "requirement": "achievement_survive_28_days",
+    "requirement": "avchievement_gains_vampire_trait",
     "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

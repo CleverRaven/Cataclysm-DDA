@@ -154,9 +154,6 @@
       { "item": "arrow_wood", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_field_point_fletched", "prob": 50, "count": [ 10, 30 ] },
       { "item": "arrow_cf", "prob": 100, "count": [ 10, 30 ] },
-      { "item": "bolt_wood", "prob": 100, "count": [ 10, 30 ] },
-      { "item": "bolt_wood_bodkin", "prob": 50, "count": [ 10, 30 ] },
-      { "item": "bolt_cf", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_small_game_fletched", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_heavy_field_point_fletched", "prob": 100, "count": [ 10, 30 ] },
       { "item": "arrow_metal", "prob": 100, "count": [ 10, 30 ] },
@@ -185,6 +182,85 @@
     "type": "item_group",
     "id": "archery_quivers",
     "subtype": "distribution",
-    "entries": [ { "item": "quiver", "prob": 100 }, { "item": "quiver_large", "prob": 50 }, { "item": "nylon_quiver", "prob": 10 } ]
+    "entries": [
+      { "item": "quiver", "prob": 50 },
+      { "item": "quiver_large", "prob": 50 },
+      { "item": "nylon_quiver", "prob": 75 },
+      { "item": "quiver_takedown_bow", "prob": 10 },
+      { "group": "archery_loaded_quivers", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery_loaded_quivers",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "loaded_quiver", "prob": 50 },
+      { "group": "loaded_quiver_large", "prob": 50 },
+      { "group": "loaded_nylon_quiver", "prob": 75 },
+      { "group": "loaded_takedown_quiver", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_quiver",
+    "container-item": "quiver",
+    "on_overflow": "discard",
+    "subtype": "distribution",
+    "entries": [ { "group": "archery_ammo", "prob": 80 }, { "group": "crossbow_bolts", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_quiver_large",
+    "container-item": "quiver_large",
+    "on_overflow": "discard",
+    "subtype": "distribution",
+    "entries": [ { "group": "archery_ammo", "prob": 80 }, { "group": "crossbow_bolts", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_nylon_quiver",
+    "container-item": "nylon_quiver",
+    "on_overflow": "discard",
+    "subtype": "distribution",
+    "entries": [ { "group": "archery_ammo", "prob": 80 }, { "group": "crossbow_bolts", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_takedown_quiver",
+    "container-item": "quiver_takedown_bow",
+    "on_overflow": "discard",
+    "subtype": "collection",
+    "entries": [ { "group": "archery_ammo" }, { "group": "archery_mods", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crossbow_bolts",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bolt_makeshift", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_bodkin", "prob": 50, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_small_game", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_metal", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_steel", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_steel_bodkin", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_steel_target", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_cf", "prob": 100, "count": [ 10, 30 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "crossbow_bolts_makeshift",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bolt_crude", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_simple_wood", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_simple_small_game", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_makeshift", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood", "prob": 100, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_bodkin", "prob": 50, "count": [ 10, 30 ] },
+      { "item": "bolt_wood_small_game", "prob": 100, "count": [ 10, 30 ] }
+    ]
   }
 ]

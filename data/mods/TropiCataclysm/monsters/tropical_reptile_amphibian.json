@@ -412,7 +412,7 @@
     "id": "mon_axolotl",
     "type": "MONSTER",
     "name": { "str": "axolotl" },
-    "description": "A particular neotenic salamander native to Mexico.  Very popular as a pet but critically endangered in the wild",
+    "description": "A particular neotenic salamander native to Mexico.  Very popular as a pet but critically endangered in the wild.",
     "default_faction": "frog",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],

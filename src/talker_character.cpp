@@ -95,7 +95,7 @@ int talker_character_const::get_hp_max( const bodypart_id &bp ) const
     return me_chr_const->get_hp_max( bp );
 }
 
-int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
+units::temperature talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
 }
@@ -327,6 +327,16 @@ int talker_character_const::get_skill_level( const skill_id &skill ) const
 void talker_character::set_skill_level( const skill_id &skill, int value )
 {
     me_chr->set_skill_level( skill, value );
+}
+
+int talker_character_const::get_skill_exp( const skill_id &skill, bool raw ) const
+{
+    return me_chr_const->get_skill_level_object( skill ).exercise( raw );
+}
+
+void talker_character::set_skill_exp( const skill_id &skill, int value, bool raw )
+{
+    me_chr->get_skill_level_object( skill ).set_exercise( value, raw );
 }
 
 int talker_character_const::get_spell_level( const trait_id &spell_school ) const
@@ -861,6 +871,11 @@ int talker_character_const::get_bmi_permil() const
     return std::round( me_chr_const->get_bmi_fat() * 1000.0f );
 }
 
+int talker_character_const::get_weight() const
+{
+    return units::to_milligram( me_chr_const->get_weight() );
+}
+
 void talker_character::set_height( int amount )
 {
     me_chr->set_base_height( amount );
@@ -891,24 +906,24 @@ static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
     bodypart_id current_bp_extreme = u->get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u->get_all_body_parts() ) {
-        if( std::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            std::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            units::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
             current_bp_extreme = bp;
         }
-        if( std::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            std::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            units::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
             conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-int talker_character_const::get_body_temp() const
+units::temperature talker_character_const::get_body_temp() const
 {
     return me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
-int talker_character_const::get_body_temp_delta() const
+units::temperature_delta talker_character_const::get_body_temp_delta() const
 {
     return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
@@ -917,6 +932,11 @@ int talker_character_const::get_body_temp_delta() const
 bool talker_character_const::knows_martial_art( const matype_id &id ) const
 {
     return me_chr_const->martial_arts_data->has_martialart( id );
+}
+
+bool talker_character_const::using_martial_art( const matype_id &id ) const
+{
+    return me_chr_const->martial_arts_data->selected_style() == id;
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

@@ -73,7 +73,38 @@
     "id": "drugs_analgesic",
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
-    "items": [ [ "aspirin", 150 ], [ "codeine", 30 ], [ "tramadol", 30 ], [ "morphine", 5 ], [ "oxycodone", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "aspirin",
+        "count-min": 5,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 150
+      },
+      {
+        "item": "codeine",
+        "count-min": 1,
+        "count-max": 21,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 30
+      },
+      {
+        "item": "tramadol",
+        "count-min": 1,
+        "count-max": 120,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 30
+      },
+      { "item": "morphine", "count-min": 1, "count-max": 12, "container-item": "null", "prob": 5 },
+      {
+        "item": "oxycodone",
+        "count-min": 1,
+        "count-max": 30,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      }
+    ]
   },
   {
     "id": "drugs_heal_simple",
@@ -135,7 +166,13 @@
     "id": "drugs_misc",
     "type": "item_group",
     "//": "Drugs not contained within any other category",
-    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "flu_shot", 50 ], [ "nyquil", 50 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bfipowder", "count-min": 5, "count-max": 60, "container-item": "bottle_plastic", "prob": 100 },
+      { "item": "dayquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
+      { "item": "nyquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
+      { "item": "flu_shot", "count-min": 1, "count-max": 10, "container-item": "null", "prob": 50 }
+    ]
   },
   {
     "id": "drugs_pharmacy",
@@ -152,18 +189,85 @@
     "id": "drugs_rare",
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
-    "items": [
-      [ "adderall", 100 ],
-      [ "antibiotics", 100 ],
-      [ "strong_antibiotic", 45 ],
-      [ "antifungal", 100 ],
-      [ "antiparasitic", 100 ],
-      [ "diazepam", 100 ],
-      [ "calcium_tablet", 100 ],
-      [ "inj_iron", 100 ],
-      [ "prozac", 100 ],
-      [ "thorazine", 100 ],
-      [ "xanax", 100 ]
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "adderall",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "antibiotics",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "strong_antibiotic",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 45
+      },
+      {
+        "item": "antifungal",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "antiparasitic",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "diazepam",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "calcium_tablet",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "inj_iron",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "prozac",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "thorazine",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      },
+      {
+        "item": "xanax",
+        "count-min": 15,
+        "count-max": 60,
+        "container-item": "bottle_plastic_pill_prescription",
+        "prob": 100
+      }
     ]
   },
   {
@@ -372,5 +476,33 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "morphine_bottle_plastic_pill_prescription_4",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "morphine", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "weak_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "weak_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bfipowder_bottle_plastic_small_4",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "bfipowder", "container-item": "null", "count": 4 } ]
   }
 ]

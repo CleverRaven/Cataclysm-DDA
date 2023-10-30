@@ -1867,7 +1867,7 @@
         "moves": 1000
       }
     ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "test_condom",
@@ -1892,7 +1892,7 @@
         "max_item_length": "26 cm"
       }
     ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "test_can_drink",
@@ -3770,6 +3770,7 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
       "install_time": "5 s"
     },
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID_TEST" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
@@ -4754,5 +4755,42 @@
     "to_hit": -3,
     "melee_damage": { "bash": 1 },
     "revert_to": "cheese_hard"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "test_100_kcal",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST rock cheese" },
+    "description": "A perfectly divided 100kcal portion of pure food.",
+    "price": 0,
+    "spoils_in": "360 days",
+    "calories": 100,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "test_200_kcal",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST 200kcal recipe inherited" },
+    "description": "Two 100kcal portions of pure food smashed together by a rude survivor.  Not a sandwich.",
+    "price": 0,
+    "spoils_in": "360 days",
+    "//": "The purpose of this item is to make sure it gives 200kcal when crafted from 100+100, and not the set calories",
+    "calories": 185,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "melee_damage": { "bash": 1 }
   }
 ]

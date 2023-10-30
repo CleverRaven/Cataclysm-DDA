@@ -84,6 +84,7 @@
 #include "ui.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -264,7 +265,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         }
     }
 
-    if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
+    if( it.count_by_charges() != target->count_by_charges() && it.count() > 1 ) {
         item take_one = it.split( 1 );
         do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );
@@ -1043,25 +1044,24 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-std::optional<int> deploy_furn_actor::use( Character *p, item &it,
-        const tripoint &pos ) const
+
+static ret_val<tripoint> check_deploy_square( Character *p, item &it, const tripoint &pos )
 {
     if( p->cant_do_mounted() ) {
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos );
     }
     tripoint pnt = pos;
     if( pos == p->pos() ) {
         if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
-            return std::nullopt;
+            return ret_val<tripoint>::make_failure( pos );
         }
     }
 
     if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info,
-                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos,
+                                                _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
 
     map &here = get_map();
@@ -1069,20 +1069,19 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
-        p->add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
-                              veh_there.value().vehicle().disp_name(), it.tname() );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos,
+                                                _( "The space under %s is too cramped to deploy a %s in." ),
+                                                veh_there.value().vehicle().disp_name(), it.tname() );
     }
 
     // For example: dirt = 2, long grass = 3
     if( here.move_cost( pnt ) != 2 && here.move_cost( pnt ) != 3 ) {
-        p->add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname() );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos, _( "You can't deploy a %s there." ), it.tname() );
     }
 
     if( here.has_furn( pnt ) ) {
-        p->add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos, _( "The %s at that location is blocking the %s." ),
+                                                here.furnname( pnt ), it.tname() );
     }
 
     if( here.has_items( pnt ) ) {
@@ -1091,8 +1090,8 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         map &temp = get_map();
         for( item &i : temp.i_at( pnt ) ) {
             if( !i.is_owned_by( *p, true ) ) {
-                p->add_msg_if_player( m_info, _( "You can't deploy furniture on other people's belongings!" ) );
-                return std::nullopt;
+                return ret_val<tripoint>::make_failure( pos,
+                                                        _( "You can't deploy the %s on other people's belongings!" ), it.tname() );
             }
         }
 
@@ -1101,19 +1100,61 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
             if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
                 here.mop_spills( tripoint_bub_ms( pnt ) );
-                p->add_msg_if_player( m_info,
-                                      _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
+                p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
+                                      it.tname() );
                 p->moves -= 15;
             } else {
-                p->add_msg_if_player( m_info,
-                                      _( "You need a mop to clean up liquids before deploying furniture." ) );
-                return std::nullopt;
+                return ret_val<tripoint>::make_failure( pos,
+                                                        _( "You need a mop to clean up liquids before deploying the %s." ), it.tname() );
             }
         }
     }
 
-    here.furn_set( pnt, furn_type );
-    it.spill_contents( pnt );
+    return ret_val<tripoint>::make_success( pnt );
+}
+
+std::optional<int> deploy_furn_actor::use( Character *p, item &it,
+        const tripoint &pos ) const
+{
+    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    if( !suitable.success() ) {
+        p->add_msg_if_player( m_info, suitable.str() );
+        return std::nullopt;
+    }
+
+    get_map().furn_set( suitable.value(), furn_type );
+    it.spill_contents( suitable.value() );
+    p->mod_moves( -to_moves<int>( 2_seconds ) );
+    return 1;
+}
+
+std::unique_ptr<iuse_actor> deploy_appliance_actor::clone() const
+{
+    return std::make_unique<deploy_appliance_actor>( *this );
+}
+
+void deploy_appliance_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       string_format( _( "Can be <info>activated</info> to deploy as an appliance (<stat>%s</stat>)." ),
+                                      vpart_appliance_from_item( appliance_base )->name() ) );
+}
+
+void deploy_appliance_actor::load( const JsonObject &obj )
+{
+    mandatory( obj, false, "base", appliance_base );
+}
+
+std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tripoint &pos ) const
+{
+    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    if( !suitable.success() ) {
+        p->add_msg_if_player( m_info, suitable.str() );
+        return std::nullopt;
+    }
+
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
+    it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -4187,6 +4228,8 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
+        // TODO: Fix bug where, in some cases, if removing a mod would remove other mods, it should be removed
+        // in the gun_copy as it is done in gunmod_remove_activity_actor::gunmod_remove
         gun_copy.remove_item( *mods_copy[prompt.ret] );
 
         if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
@@ -5674,6 +5717,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         } else {
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
+    }
+    // Prevents crash from trying to spend charge with item removed
+    if( !p->has_item( it ) ) {
+        return 0;
     }
     return 1;
 }

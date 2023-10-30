@@ -2947,7 +2947,7 @@
     "difficulty": 4,
     "time": "2 h",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
+    "tools": [ [ [ "welder", 500 ], [ "integrated_welder", 750 ] ] ],
     "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
   },
   {
@@ -4183,9 +4183,34 @@
       [ [ "thermostat", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "30gal_drum", 1 ] ]
+      [ [ "30gal_drum", 1 ] ],
+      [ [ "material_aluminium_ingot", 2 ] ]
     ],
     "//": "drum assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>"
+  },
+  {
+    "result": "household_water_heater_family",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "cu_pipe", 5 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "55gal_drum", 1 ] ],
+      [ [ "material_aluminium_ingot", 4 ] ]
+    ],
+    "//": "drum assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>"
   },
   {
     "result": "television",
@@ -4420,7 +4445,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ], [ [ "button_plastic", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4430,7 +4455,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ], [ [ "button_plastic", 11 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4440,7 +4465,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 11 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4450,7 +4475,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ], [ [ "button_plastic", 11 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6229,7 +6254,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "60 s",
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
@@ -6237,7 +6262,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 3 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
@@ -6247,7 +6272,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6257,7 +6282,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 2 ] ] ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6289,7 +6314,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
-    "components": [ [ [ "felt_patch", 150 ] ] ],
+    "components": [ [ [ "felt_patch", 150 ] ], [ [ "button_plastic", 2 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -7260,7 +7285,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "result": "manhole_cover",

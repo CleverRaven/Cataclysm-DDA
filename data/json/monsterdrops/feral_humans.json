@@ -13,14 +13,17 @@
           { "item": "crash_axe", "prob": 5, "damage": [ 1, 3 ] }
         ]
       },
-      { "group": "default_zombie_clothes", "prob": 100 }
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_pipe",
-    "entries": [ { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [
+      { "item": "pipe", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -34,7 +37,7 @@
           { "item": "heavy_crowbar", "prob": 10, "damage": [ 2, 4 ] }
         ]
       },
-      { "group": "default_zombie_clothes", "prob": 100 }
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] }
     ]
   },
   {
@@ -849,17 +852,6 @@
       { "item": "m18", "prob": 100, "damage": [ 0, 4 ] },
       { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 14 ] },
       { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 17 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "contains item drops for Big Pappy in the nursing home hidden lab",
-    "id": "feral_big_pappy",
-    "entries": [
-      { "item": "house_coat", "damage": [ 1, 4 ], "prob": 100 },
-      { "item": "footrags", "damage": [ 1, 4 ], "prob": 100 },
-      { "item": "cane", "damage": [ 1, 4 ], "prob": 100 }
     ]
   },
   {

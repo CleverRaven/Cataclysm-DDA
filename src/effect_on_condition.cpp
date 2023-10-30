@@ -486,6 +486,12 @@ void eoc_events::clear()
 
 void eoc_events::notify( const cata::event &e )
 {
+    notify( e, nullptr, nullptr );
+}
+
+void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
+                         std::unique_ptr<talker> beta )
+{
     if( !has_cached ) {
 
         // initialize all events to an empty vector
@@ -506,19 +512,26 @@ void eoc_events::notify( const cata::event &e )
     }
 
     for( const effect_on_condition &eoc : event_EOCs[e.type()] ) {
-        // try to assign a character for the EOC
-        // TODO: refactor event_spec to take consistent inputs
-        npc *alpha_talker  = nullptr;
-        const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
-        for( const std::string &potential_key : potential_alphas ) {
-            cata_variant cv = e.get_variant_or_void( potential_key );
-            if( cv != cata_variant() ) {
-                character_id potential_id = cv.get<cata_variant_type::character_id>();
-                if( potential_id.is_valid() ) {
-                    alpha_talker = g->find_npc( potential_id );
-                    // if we find a successful entry exit early
-                    break;
+        if( !alpha ) {
+            // try to assign a character for the EOC
+            // TODO: refactor event_spec to take consistent inputs
+            npc *alpha_talker = nullptr;
+            const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
+            for( const std::string &potential_key : potential_alphas ) {
+                cata_variant cv = e.get_variant_or_void( potential_key );
+                if( cv != cata_variant() ) {
+                    character_id potential_id = cv.get<cata_variant_type::character_id>();
+                    if( potential_id.is_valid() ) {
+                        alpha_talker = g->find_npc( potential_id );
+                        // if we find a successful entry exit early
+                        break;
+                    }
                 }
+            }
+            if( alpha_talker ) {
+                alpha = get_talker_for( alpha_talker );
+            } else {
+                alpha = get_talker_for( get_avatar() );
             }
         }
         dialogue d;
@@ -529,12 +542,7 @@ void eoc_events::notify( const cata::event &e )
 
         // if we have an NPC to trigger this event for, do so,
         // otherwise fallback to having it effect the player
-        if( alpha_talker ) {
-            d = dialogue( get_talker_for( alpha_talker ), nullptr, {}, context );
-        } else {
-            avatar &player_character = get_avatar();
-            d = dialogue( get_talker_for( player_character ), nullptr, {}, context );
-        }
+        d = dialogue( alpha->clone(), beta ? beta->clone() : nullptr, {}, context );
 
         eoc.activate( d );
     }

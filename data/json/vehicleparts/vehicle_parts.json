@@ -1362,11 +1362,12 @@
     "id": "integrated_heater_small",
     "copy-from": "mountable_heater_small",
     "description": "Set of tubes, that move heat from the engine into the vehicle cabin, heating it up.",
+    "item": "pipe",
     "type": "vehicle_part",
     "location": "",
     "name": { "str": "small integrated heater" },
-    "//": "can't be installed or unistalled, can only be bashed away",
-    "requirements": { "install": { "skills": [ [ "mechanics", 99 ] ] }, "removal": { "skills": [ [ "mechanics", 99 ] ] } }
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
+    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } }
   },
   {
     "id": "mountable_cooler",
@@ -1756,27 +1757,6 @@
     ],
     "damage_reduction": { "all": 9 },
     "variants": [ { "symbols": "Y", "symbols_broken": "X" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "foldable_solar_panel",
-    "copy-from": "solar_panel",
-    "name": { "str": "collapsible solar array" },
-    "color": "light_blue",
-    "broken_color": "light_gray",
-    "proportional": { "epower": 0.68, "durability": 0.5 },
-    "folded_volume": "2 L",
-    "description": "A small array of solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "advanced_foldable_solar_panel",
-    "copy-from": "foldable_solar_panel",
-    "name": { "str": "advanced collapsible solar array" },
-    "proportional": { "epower": 2 },
-    "description": "A small array of high-performance solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel_v2"
   },
   {
     "type": "vehicle_part",

@@ -15,7 +15,7 @@
     "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
-    "regenerates": 5,
+    "regenerates": 1,
     "symbol": "L",
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
@@ -35,6 +35,7 @@
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "//2": "TODO? Upgrade doesn't actually work because amalgamations do not have evolutions. Ideally this would upgrade them one step *and also remove their timed lifespan*. If this is added/resolved the spell cooldowns probably need to be nerfed.",
     "special_attacks": [
       [ "UPGRADE", 20 ],
       {
@@ -67,7 +68,7 @@
         "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
         "condition": { "or": [ "npc_male", "npc_female" ] },
         "spell_data": { "id": "LTNT_attract_nearby", "min_level": 1 },
-        "monster_message": "Your senses are overwhelmed!",
+        "monster_message": "Your hearing is overwhelmed by a booming sound!",
         "cooldown": 30
       }
     ],
@@ -86,10 +87,10 @@
       "CLIMBS",
       "BORES",
       "DESTROYS",
-      "FLIES",
       "FIREPROOF",
       "ALL_SEEING",
       "ALWAYS_SEES_YOU",
+      "HAS_MIND",
       "NIGHT_INVISIBILITY",
       "CAMOUFLAGE",
       "NO_FUNG_DMG",
@@ -99,8 +100,8 @@
       "PHOTOPHOBIC",
       "PATH_AVOID_DANGER_2"
     ],
-    "//3": "Explicitly immune to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
-    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 500, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
+    "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
+    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
   },
   {
     "id": "LTNT_LIFE_DRAIN",
@@ -114,8 +115,6 @@
     "max_accuracy": 20,
     "min_range": 30,
     "max_range": 30,
-    "//": "14 moves worth of casting time. It tends to stick 10 tiles away from you, so this means you can get some attacks in if you chase it. Currently toggled off, because it's too easy to run this thing down if it pauses while you move right at it.",
-    "//base_casting_time": "2800",
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_LIEUTENANT_DRAIN_LIFE_TERRAIN"
@@ -166,11 +165,13 @@
       {
         "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
+        "//": "This always spawns 6 of the same type, which is not ideal (6 soldiers is way too deadly). Consider revising the weights if/when talk_effect_fun_t::set_spawn_monster can pick each individual spawn from the group.",
         "real_count": 6,
-        "lifespan": [ "20 seconds", "45 seconds" ],
+        "//2": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
+        "lifespan": [ "15 seconds", "30 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
       },
-      { "u_message": "The air hisses!", "type": "warning" }
+      { "u_message": "The air rings out with a piercing shriek!", "type": "warning" }
     ]
   },
   {
@@ -306,7 +307,7 @@
     "name": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_amalgamation_swarmer", "weight": 10 },
+      { "monster": "mon_amalgamation_swarmer", "weight": 20 },
       { "monster": "mon_amalgamation_corroder", "weight": 4 },
       { "monster": "mon_amalgamation_soldier", "weight": 1 }
     ]
@@ -315,7 +316,6 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
     "recurrence": 1,
-    "//1": "TODO long-term: 6 months into the cataclysm AND # of zombie kills? (Let's see how this shakes out first)",
     "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "u_Lieutenants_active", "<", "1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "u_add_var": "Lieutenants_active", "value": "1" }, { "u_add_var": "Shadow_Lurking", "value": "1" } ],
@@ -324,13 +324,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "recurrence": [ "4 hours", "4 hours" ],
-    "//1": "Night time, shadow is active, you are outdoors, and you are not likely to be near shelter.",
-    "//2": "Forcibly wake the player somehow? Just in case they are sleeping outside.",
+    "recurrence": [ "3 hours", "6 hours" ],
+    "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
     "condition": {
       "and": [
         { "one_in_chance": 6 },
         { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
         { "math": [ "u_Lieutenants_active", ">", "0" ] },
         { "math": [ "u_Shadow_Lurking", ">", "0" ] },
         "u_is_outside",

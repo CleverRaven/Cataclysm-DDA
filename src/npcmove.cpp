@@ -2547,7 +2547,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 here.creature_on_trap( *mounted_creature );
             }
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
+            !here.has_vehicle_floor( pos_bub() ) ) {
             add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
@@ -4477,13 +4478,13 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = chatbin.snip_cant_flee;
     } else if( type == "fire_bad" ) {
         snip = chatbin.snip_fire_bad;
-    } else if( type == "speech_noise" ) {
+    } else if( type == "speech_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
         snip = chatbin.snip_speech_warning;
         spriority = sounds::sound_t::speech;
-    } else if( type == "combat_noise" ) {
+    } else if( type == "combat_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
         snip = chatbin.snip_combat_noise_warning;
         spriority = sounds::sound_t::speech;
-    } else if( type == "movement_noise" ) {
+    } else if( type == "movement_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
         snip = chatbin.snip_movement_noise_warning;
         spriority = sounds::sound_t::speech;
     } else if( type == "heal_self" ) {

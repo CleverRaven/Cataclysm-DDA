@@ -34,6 +34,7 @@
       "SEES",
       "SMELLS",
       "HEARS",
+      "HAS_MIND",
       "WARM",
       "BASHES",
       "GRABS",
@@ -77,7 +78,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "FIRE", "HURT" ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "CLIMBS", "SWARMS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "SWIMS", "CLIMBS", "SWARMS", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_shantak",
@@ -149,7 +150,7 @@
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "regen_morale": true,
-    "flags": [ "SMELLS", "HEARS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB", "GRABS" ],
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB", "GRABS" ],
     "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {
@@ -182,7 +183,7 @@
       { "id": "grab", "cooldown": 7 },
       { "id": "scratch_humanoid", "cooldown": 20 }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "GROUP_BASH", "SWARMS", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "GRABS", "WARM", "BASHES", "GROUP_BASH", "SWARMS", "PUSH_MON" ]
   },
   {
     "id": "mon_ghast",
@@ -214,7 +215,7 @@
     "vision_night": 3,
     "harvest": "demihuman",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75 }, [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "SUNDEATH", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "SUNDEATH", "PUSH_MON" ],
     "armor": { "bash": 5, "cut": 3, "bullet": 2 }
   },
   {
@@ -242,7 +243,7 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "id": "tentacle" }, { "id": "smash" } ],
     "regen_morale": true,
-    "flags": [ "SMELLS", "HEARS", "BASHES", "FLIES", "COLDPROOF", "NOHEAD", "NOGIB", "NO_BREATHE", "STUN_IMMUNE" ],
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "BASHES", "FLIES", "COLDPROOF", "NOHEAD", "NOGIB", "NO_BREATHE", "STUN_IMMUNE" ],
     "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {
@@ -333,6 +334,7 @@
       "SMELLS",
       "HEARS",
       "GOODHEARING",
+      "HAS_MIND",
       "NOHEAD",
       "BASHES",
       "FLIES",
@@ -374,7 +376,7 @@
     "absorb_ml_per_hp": 250,
     "split_move_cost": 0,
     "absorb_move_cost_per_ml": 0.0,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
     "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {

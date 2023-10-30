@@ -21,6 +21,7 @@
               { "u_lose_trait": "VAMPIRE" },
               { "u_lose_trait": "EYEGLEAM" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
+              { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "COMMUNE_NIGHT" },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
@@ -45,6 +46,7 @@
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
+              { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
               { "u_lose_trait": "BLOODHASTE" },
               {
@@ -97,6 +99,11 @@
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS",
     "effect": { "u_message": "You flush with desire as you think about blood." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_VAMPIRE3",
+    "effect": { "u_message": "You can advance no further without access to a mentor.  (4th wall no further content exists yet)" }
   },
   {
     "type": "effect_on_condition",
@@ -208,21 +215,16 @@
               "condition": { "u_has_trait": "VAMPIRE3" },
               "effect": [
                 {
-                  "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ],
+                  "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE", "BLOODBANK" ],
                   "type": "mutation",
                   "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
-                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
+                  "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]
                 },
                 {
                   "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
                 }
               ],
-              "false_effect": [
-                { "u_add_trait": "VAMPIRE3" },
-                {
-                  "u_message": "You don't seem to feel as hungry as you were before and you definitely recover from exertion faster than before."
-                }
-              ]
+              "false_effect": [ { "u_message": "You can advance no further without access to a mentor.  (4th wall no further content exists yet)" } ]
             }
           }
         }

@@ -86,7 +86,7 @@
         "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
         "condition": {
           "and": [
-            { "npc_service": true },
+            { "npc_service": 20000 },
             { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
@@ -97,7 +97,7 @@
         "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
         "condition": {
           "and": [
-            { "npc_service": true },
+            { "npc_service": 50000 },
             { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
@@ -130,7 +130,7 @@
         "effect": "bionic_install",
         "condition": {
           "and": [
-            { "npc_service": true },
+            { "npc_service": 0 },
             { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
@@ -141,7 +141,7 @@
         "effect": "bionic_remove",
         "condition": {
           "and": [
-            { "npc_service": true },
+            { "npc_service": 0 },
             { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }

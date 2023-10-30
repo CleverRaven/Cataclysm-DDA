@@ -299,15 +299,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "m1911_10_magazines_reloaded",
-    "entries": [
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
-      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "quiver_modern_archer",
     "entries": [
       { "item": "arrow_cf", "count": 16 },
@@ -770,6 +761,29 @@
           { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
           { "item": "apron_cotton", "variant": "generic_apron_cotton" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "butcher",
+    "name": "Butcher",
+    "description": "You spent most of your adult life in a butcher shop.  Your trusty knife has seen many different creatures and you know how to butcher them.",
+    "points": 2,
+    "skills": [ { "name": "cutting", "level": 2 }, { "name": "cooking", "level": 2 }, { "name": "survival", "level": 2 } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_intro_biology", "prof_wp_basic_bird" ],
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "sneakers" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "hat_chef", "variant": "white_hat_chef" },
+          { "item": "jacket_chef", "variant": "white_jacket_chef" },
+          { "item": "apron_plastic" }
         ]
       },
       "male": [ "briefs" ],
@@ -3277,7 +3291,7 @@
     "name": "Mutant Para-Amputee",
     "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
     "points": 2,
-    "traits": [ "NO_LEGS" ],
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
     "skills": [
       { "level": 2, "name": "driving" },
       { "level": 2, "name": "swimming" },
@@ -3285,7 +3299,9 @@
       { "level": 4, "name": "electronics" }
     ],
     "items": {
-      "both": { "items": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ] },
+      "both": {
+        "items": [ "dress_shirt", "pants", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch", "folded_wheelchair_generic" ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -3348,6 +3364,23 @@
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "tank_top", "apron_cut_resistant", "fire_gauntlets", "wristwatch", "hammer" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "jeweler",
+    "name": "Jeweler",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "points": 2,
+    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "socks", "boots", "longshirt", "wristwatch", "apron_leather", "chisel" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3773,7 +3806,7 @@
         "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
       "male": [ "pants", "longshirt", "cassock", "cape_catholic", "zucchetto", "briefs" ],
-      "female": [ "skirt_long", "dress_shirt", "purse", "bra", "panties" ]
+      "female": [ "nun_wimple", "nun_habit", "dress_shirt", "purse", "bra", "panties" ]
     }
   },
   {
@@ -3912,7 +3945,25 @@
     "name": "Martial Artist",
     "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
     "points": 3,
-    "traits": [ "PROF_MA_ORANGE" ],
+    "starting_styles_choices": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ],
     "skills": [
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "unarmed" },
@@ -3932,7 +3983,25 @@
     "name": "Black Belt",
     "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
     "points": 8,
-    "traits": [ "PROF_MA_BLACK" ],
+    "starting_styles_choices": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ],
     "skills": [
       { "level": 8, "name": "melee" },
       { "level": 8, "name": "unarmed" },
@@ -3978,11 +4047,11 @@
     "name": "Para-Amputee",
     "description": "By some unfortunate means, you have lost both of your legs.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  Even if society has collapsed, so long as you've got your trusty wheelchair, you'll be alright.",
     "points": 0,
-    "traits": [ "NO_LEGS" ],
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG" ],
     "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "items": [ "jeans", "longshirt", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
         "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -4885,7 +4954,7 @@
       { "level": 6, "name": "dodge" },
       { "level": 4, "name": "swimming" }
     ],
-    "traits": [ "MARTIAL_FENCING" ],
+    "starting_styles": [ "style_fencing" ],
     "items": {
       "both": {
         "items": [
@@ -5326,8 +5395,8 @@
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 5, "name": "gun" },
-      { "level": 5, "name": "rifle" },
+      { "level": 7, "name": "gun" },
+      { "level": 7, "name": "rifle" },
       { "level": 4, "name": "pistol" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" },
@@ -6429,6 +6498,50 @@
       "both": {
         "items": [ "jeans", "tshirt", "gosling_jacket", "gloves_fingerless", "socks", "sneakers", "hammer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "explosive_ordinance_disposal",
+    "name": "Explosive Ordinance Disposal Technician",
+    "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives",
+    "points": 5,
+    "proficiencies": [
+      "prof_elec_circuits",
+      "prof_intro_chemistry",
+      "prof_athlete_expert",
+      "prof_gun_cleaning",
+      "prof_spotting",
+      "prof_traps",
+      "prof_disarming",
+      "prof_trapsetting"
+    ],
+    "skills": [
+      { "level": 6, "name": "traps" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "undershirt", "socks", "helmet_eod", "jacket_eod", "gloves_eod", "trousers_eod", "foot_protectors_eod" ],
+        "entries": [
+          {
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
+            "ammo-item": "556_mk318",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]

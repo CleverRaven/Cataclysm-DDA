@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Drop Actions](#drop-actions)
     - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
@@ -1376,7 +1377,7 @@ for example the property below makes a container burst open when filled over 75%
 
 ```json
   {
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   }
 ```
 
@@ -1469,6 +1470,13 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
 | `freezing_point`       | Freezing point of this material (C). Default 0 C ( 32 F ).
 | `edible`               | Optional boolean. Default is false.
 | `rotting`              | Optional boolean. Default is false.
+| `breathability`        | What breathability the clothes, made out of this material, would have; can be `IMPERMEABLE` (0%), `POOR` (30%), `AVERAGE` (50%), `GOOD` (80%), `MOISTURE_WICKING` (110%), `SECOND_SKIN` (140%)
+| `burn_products`        | Burning this material drop this items; array, first in array is the id of an item, and another is the number, respond for effeciency of burning - the bigger the burnable item is (by weight), and the more items there is, the bigger output; Multiple items could be returned simultaneously, like `[ [ "corpse_ash", 0.035 ], [ "glass_shard", 0.5 ] ]`,
+| `repair_difficulty`    | Skill level that would be used to repair this item by default; if item has multiple materials, the most difficult would be used
+| `repaired_with`        | Material, that would be used to repair item, made out of this material
+| `salvaged_into`        | Item, into which this material could be salvaged
+| `sheet_thickness`      | Clothes, made out of this material, has this thickness, meaning clothes thickness should be multiple of this value; layered kevlar has `"sheet_thickness": 4.4,`, meaning all clothes that uses layered kevlar should be either 4.4, 8.8, 13.2 etc milimeters thick; unless `"ignore_sheet_thickness": true` is used for this clothes
+| `uncomfortable`        | Clothes made out of this material is always uncomfortable, no matter of it's properties
 | `soft`                 | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
 | `conductive`           | True if the material conducts electricity, defaults to false
 | `reinforces`           | Optional boolean. Default is false.
@@ -1567,6 +1575,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `monster`         | The monster's unique ID, eg. `"mon_zombie"`. Indicates that this entry is a "monster".
 | `group`           | The sub-group's unique ID eg. `"GROUP_ZOMBIE"`. Indicates that this entry is a "monstergroup".
 | `weight`          | (_optional_) Chance of occurrence (`weight` / total `weight` in group) (default: 1)
+| `freq`            | (_optional_) Not used anymore, works exactly like weight
 | `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
@@ -2854,6 +2863,7 @@ Vehicle components when installed on a vehicle.
                               // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
+"remove_as": "solar_panel",   // Overrides "item", item returned when removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
 "breaks_into" : [             // When the vehicle part is destroyed, items from this item group
                               // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
@@ -2971,6 +2981,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // To be a fuel an item needs to be made of only one material,
                               // this material has to produce energy, *ie* have a `data_fuel` entry,
                               // and it needs to have consumable charges.
+"displacement": 280           // engine displacement, meaasured in cubic centimeters (cm3)
 ```
 
 #### The following optional fields are specific to WHEELs.
@@ -2983,6 +2994,8 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "rolling_resistance": 1.0,    // The "squishiness" of the wheel, per SAE standards.  Wheel rolling
                               // resistance increases vehicle drag linearly as vehicle weight
                               // and speed increase.
+"diameter": 8,                // diameter of wheel (in inches)
+"width": 4,                   // width of the wheel (in inches)
 ```
 
 `wheel_terrain_modifiers` field provides a way to modify wheel traction according to the flags set on terrain tile under each wheel.
@@ -3178,6 +3191,9 @@ Weakpoints only match if they share the same id, so it's important to define the
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "stackable": true,                           // This item can be stacked together, similarly to `charges`
 "degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
+"solar_efficiency": 0.3,                     // Efficiency of solar energy conversion for solarpacks; require SOLARPACK_ON to generate electricity; default 0
+"source_monster": "mon_zombie",               // This item is corpse of this monster (so it has weight and volume of this monster), and revive into this monster; require COPRSE flag
+"thrown_damage": [ { "damage_type": "bash", "amount": 15 } ], // Damage, that would be dealt when you throw this item; lack of this field fall back to use melee damage, including player's str bonus applied to melee attack
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
@@ -3591,11 +3607,22 @@ Books can be defined like this:
                       // additional some book specific entries:
 "max_level" : 5,      // Maximum skill level this book will train to
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"time" : "35 m",          // Time a single read session takes. An integer will be read in minutes or a time string can be used.
+"time" : "35 m",      // Time a single read session takes. An integer will be read in minutes or a time string can be used.
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
-"required_level" : 2  // Minimum skill level required to learn
+"required_level" : 2,  // Minimum skill level required to learn
+"martial_art": "style_mma", // Martial art learned from this book; incompatible with `skill`
+"proficiencies": [    // Having this book mitigate lack of proficiency, required for crafting 
+  { 
+    "proficiency": "prof_fermenting", // id of proficiency
+    "time_factor": 0.1,               // slowdown for using this book proficiency - slowdown from lack of proficiency is multiplied on this value, so for `0.75`, if recipe adds 10 hours for lack of proficiency,  with book it would be [ 10 * ( 1 - 0.75 ) = ] 2.5 hours; multiple books stacks, but in logarithmic way, meaning having more books of the same proficiency is better than having one book, but never would be better than learning the proficiency
+    "fail_factor": 0.25               // works same as `time_factor`
+  },
+  { "proficiency": "prof_brewing", "time_factor": 0.25, "fail_factor": 0.5 },
+  { "proficiency": "prof_winemaking", "time_factor": 0.1, "fail_factor": 0.25 }
+],
+
 ```
 It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
 
@@ -3869,6 +3896,9 @@ Guns can be defined like this:
 "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ], // Type of faults, that can be applied to this gun; usually are inherited from single abstract like rifle_base, but exceptions exist
 "handling": 10             // handling of the weapon; better handling means less recoil
 "energy_drain": "2 kJ",    // Additionally to the normal ammo (if any), a gun can require some electric energy. Drains from battery in gun. Use flags "USE_UPS" and "USES_BIONIC_POWER" to drain other sources. This also works on mods. Attaching a mod with energy_drain will add/increase drain on the weapon.
+"heat_per_shot": 10,       // Each shot from this weapon adds this amount of heat
+"cooling_value": 3,        // Amount of heat value, that is reduced every turn
+"overheat_threshold": 100, // Heat value, at which fault may occur, see #Item faults; values below zero mean item won't be able to fault
 "ammo_to_fire" 1,          // Amount of ammo used
 "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
@@ -3920,7 +3950,7 @@ Gun mods can be defined like this:
 "energy_drain_multiplier": 1.2, // if weapon uses `energy_drain`, multiplies it on this amount
 "field_of_view": 270,           // #53180 has an image of it, but it represent how big FoV of the scope - when characters start to aim, it doesn't use the scope whatsoever, aiming into "general direction", and then transfer to using scope to pinpoint the target. The bigger FoV is, the sooner character would be able to use the scope (target acquisition with higher power scopes is very very difficult); put simple: the bigger FoV, the faster player can aim, to some degree; measured in MOA (minutes of angle)
 "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ], // minimal skill level required to install this gunmod
-"shot_spread_multiplier_modifier": -0.8, // for shotguns, changes the spread of the pellets
+"shot_spread_multiplier_modifier": -0.8, // For shotguns, changes the spread of the pellets. Given a default multiplier of 1.0(100%), a multiplier modifier of -0.8 results in 0.2(20%) shot spread. Multipliers from all mods are summed up, but in vanilla game, only choke should be able to manipulate with shot spread - **shotgun barrel length doesn't affect pellet spread**
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
@@ -3932,6 +3962,12 @@ Gun mods can be defined like this:
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
 "barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
+"overheat_threshold_modifier": 100,   // Add a flat amount to gun's "overheat_threshold"; if the threshold is 100, and the modifier is 10, the result is 110; if the modifier is -25, the result is 75
+"overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" by this number; if the threshold is 100, and the multiplier is 1.5, the result is 150; if the multiplier is 0.8, the result is 80
+"cooling_value_modifier": 2,          // Add a flat amount to gun's "cooling_value"; works the same as overheat_threshold_modifier
+"cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" by this number; works the same as overheat_threshold_multiplier
+"heat_per_shot_modifier":  -2,        //  Add a flat amount to gun's "heat_per_shot"; works the same as overheat_threshold_modifier
+"heat_per_shot_multiplier": 2.0,      // Multiply the gun's "heat_per_shot" by this number; works the same as overheat_threshold_multiplier
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
@@ -3988,7 +4024,12 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
 "power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
+"revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
+"variables": {
+  "vehicle_name": "Wheelchair",         // this tool is a foldable vehicle, that could bypass the default foldability rules; this is the name of the vehicle that would be unfolded 
+  "folded_parts": "folded_parts_syntax" // this is the parts that this vehice has -it uses it's own syntax, different from `"type": "vehicle"`, so better to read the examples in `unfoldable.json`
+}
 ```
 
 
@@ -4003,9 +4044,12 @@ Every item type can have optional seed data, if the item has seed data, it's con
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
     "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
-    "grow" : 91 // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
+    "grow" : 91, // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
                 // Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
+    "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
+					 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
+					 // Using any other tag will not turn the terrain into dirt.
 }
 ```
 
@@ -4018,7 +4062,7 @@ Currently only vats can only accept and produce liquid items.
 ```C++
 "brewable" : {
     "time": 3600, // A time duration: how long the fermentation will take.
-    "result": { "beer": 1, "yeast": 10 } // Ids with a multiplier for the amount of results per charge of the brewable items.
+    "results": { "beer": 1, "yeast": 10 } // Ids with a multiplier for the amount of results per charge of the brewable items.
 }
 ```
 
@@ -4206,7 +4250,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
-    "moves": 50 // Number of moves required in the process, default value is 100.
+    "moves": 50, // Number of moves required in the process, default value is 100.
+    "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ] // what and how much vitamin is given by this drug
 },
 "use_action": {
     "type": "place_monster", // place a turret / manhack / whatever monster on the map
@@ -4255,6 +4300,14 @@ The contents of use_action fields can either be a string indicating a built-in f
         "long_extension_cable",
         "ELECTRICAL_DEVICES" // "ELECTRICAL_DEVICES" is a special keyword that lets this cable extend all electrical devices that have link_up actions.
     ]
+},
+"use_action" : {
+    "type" : "deploy_furn",
+    "furn_type" : "f_foo", // What furniture this item will be transmuted into
+},
+"use_action" : {
+    "type" : "deploy_appliance",
+    "base" : "item_id", // Base item of the appliance this item will turn into
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
@@ -4365,6 +4418,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
     "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
+    "disinfectant_power": 4,// quality of disinfection - antiseptic is 4, alcohol wipe is 2; float
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
@@ -4433,7 +4487,19 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 ```
 
-  ### Tick Actions
+### Drop Actions
+
+Similar to use_action, this drop_actions would be triggered when you throw the item
+
+```c++
+"drop_action": {                  
+  "type": "emit_actor",           // allow to emit a specific field when thrown
+  "emits": [ "emit_acid_drop" ],  // id of emit to spread
+  "scale_qty": true               // if true, throwing more than one charge of item with emit_actor increases the size of emission
+  }
+```
+
+### Tick Actions
 
 `"tick_action"` of active tools is executed once on every turn. This action can be any use action or iuse but some of them may not work properly when not executed by player.
 
@@ -5886,6 +5952,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "light_emitted": 2.5, // light level emitted by this intensity
         "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
+        "concentration": 1, // How concentrated this intensity of gas is. Generally the thin/hazy cloud intensity will be 1, the standard gas will be 2, and thick gas will be 4. The amount of time a gas mask filter will last will be divided by this value.
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
         "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
         [
@@ -5920,7 +5987,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
     "phase": "gas", // Phase of the field. Gases can spread after spawning and can be spawned out of emitters through impassable terrain with the PERMEABLE flag
     "apply_slime_factor": 10, // Intensity of slime to apply to creatures standing in this field (Why not use an effect? No idea.)
-    "gas_absorption_factor": 15, // Amount of gasmask charges the field uses up per tick
+    "gas_absorption_factor": "80m", // Length a full 100 charge gas mask filter will last in this gas. Will be divided by the concentration of the gas, and should be 80m for concentration 1 toxic gas or similar. The worst gas should still be kept out for 20 minutes in a concentration 4 thick gas.
     "is_splattering": true, // If splatters of this field should bloody vehicle parts
     "dirty_transparency_cache": true, // Should the transparency cache be recalculated when the field is modified (used for nontransparent, spreading fields)
     "has_fire": false, // Is this field a kind of fire (for immunity, monster avoidance and similar checks)

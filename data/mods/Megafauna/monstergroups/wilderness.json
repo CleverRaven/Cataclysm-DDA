@@ -1332,11 +1332,12 @@
       { "monster": "mon_lady_bug_giant", "weight": 5, "starts": "90 days", "cost_multiplier": 10 },
       { "monster": "mon_aphid", "weight": 15, "pack_size": [ 1, 5 ], "cost_multiplier": 0 },
       { "monster": "mon_grasshopper_small", "weight": 15, "pack_size": [ 1, 3 ], "cost_multiplier": 0 },
+      { "monster": "mon_locust_small", "weight": 7, "pack_size": [ 3, 9 ], "cost_multiplier": 0 },
       { "monster": "mon_antlion_larva", "weight": 7, "cost_multiplier": 10 },
       { "monster": "mon_antlion_giant", "weight": 2, "cost_multiplier": 10 },
-      { "monster": "mon_stag_beetle_small", "freq": 2, "cost_multiplier": 0, "starts": 168, "ends": 720 },
-      { "monster": "mon_stag_beetle_small", "freq": 2, "cost_multiplier": 0, "starts": 168 },
-      { "monster": "mon_stag_beetle_giant", "freq": 1, "cost_multiplier": 0, "starts": 720 }
+      { "monster": "mon_stag_beetle_small", "weight": 2, "cost_multiplier": 0, "starts": 168, "ends": 720 },
+      { "monster": "mon_stag_beetle_small", "weight": 2, "cost_multiplier": 0, "starts": 168 },
+      { "monster": "mon_stag_beetle_giant", "weight": 1, "cost_multiplier": 0, "starts": 720 }
     ]
   },
   {
@@ -2118,14 +2119,14 @@
       },
       {
         "group": "GROUP_FROGS_ALL",
-        "freq": 30,
+        "weight": 30,
         "cost_multiplier": 2,
         "ends": 24,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "group": "GROUP_FROGS_ALL",
-        "freq": 35,
+        "weight": 35,
         "cost_multiplier": 2,
         "starts": 24,
         "ends": 95,
@@ -2133,7 +2134,7 @@
       },
       {
         "group": "GROUP_FROGS_ALL",
-        "freq": 40,
+        "weight": 40,
         "cost_multiplier": 2,
         "starts": 95,
         "ends": 180,
@@ -2224,7 +2225,7 @@
       { "monster": "mon_bear", "weight": 10, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       { "monster": "mon_cougar", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mole_cricket", "weight": 6, "cost_multiplier": 3 },
-      { "monster": "mon_stag_beetle_larva", "freq": 4, "cost_multiplier": 5 },
+      { "monster": "mon_stag_beetle_larva", "weight": 4, "cost_multiplier": 5 },
       { "monster": "mon_direwolf", "weight": 10, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_cave_lion", "weight": 30, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_shortface", "weight": 10, "cost_multiplier": 5, "pack_size": [ 1, 1 ] },

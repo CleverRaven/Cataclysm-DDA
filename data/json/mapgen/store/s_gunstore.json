@@ -5,7 +5,6 @@
     "om_terrain": [ "s_gunstore" ],
     "object": {
       "fill_ter": "t_thconc_floor",
-      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
         ",###::##::##::###'''''/,",
         ";#              #'''''',",
@@ -48,7 +47,7 @@
         ".": "t_thconc_warning",
         "x": "t_thconc_warning"
       },
-      "place_nested": [ { "chunks": [ [ "null", 100 ], [ "npc_survivor_gunstore", 35 ] ], "x": 13, "y": [ 10, 12 ] } ],
+      "place_nested": [ { "chunks": [ [ "null", 100 ], [ "npc_survivor_gunstore", 35 ] ], "x": 0, "y": 0 } ],
       "items": {
         "=": { "item": "casings", "chance": 50 },
         "-": { "item": "casings", "chance": 50 },
@@ -240,6 +239,10 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "npc_survivor_gunstore",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "A" ], "npcs": { "A": { "class": "NPC_gun_store_survivor" } } }
+    "object": {
+      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "mapgensize": [ 23, 23 ],
+      "place_npcs": [ { "class": "NPC_gun_store_survivor", "x": 13, "y": [ 10, 12 ] } ]
+    }
   }
 ]

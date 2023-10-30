@@ -13,6 +13,18 @@
   },
   {
     "type": "keybinding",
+    "id": "UILIST.LEFT",
+    "name": "Pan left",
+    "bindings": [ { "input_method": "keyboard_any", "key": "LEFT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UILIST.RIGHT",
+    "name": "Pan right",
+    "bindings": [ { "input_method": "keyboard_any", "key": "RIGHT" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UILIST.FILTER",
     "name": "Filter",
     "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
@@ -290,6 +302,17 @@
     "category": "SPELL_MENU",
     "name": "Scroll down spell info",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_FAVORITE",
+    "category": "SPELL_MENU",
+    "name": "Toggle spell as favorite",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -2110,6 +2133,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CONTAIN_MODE",
+    "category": "INVENTORY",
+    "name": "Toggle contain mode for unloaded items",
+    "bindings": [ { "input_method": "keyboard_char", "key": "U" }, { "input_method": "keyboard_code", "key": "u", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
@@ -2790,7 +2820,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View temperature map",
+    "name": "View temperature map (using Map font)",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
   },
@@ -4349,6 +4379,55 @@
     "category": "PLAYER_INFO",
     "name": "Change sprite of armor.",
     "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_STATS_TAB",
+    "name": "Select stats tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_ENCUMBRANCE_TAB",
+    "name": "Select encumbrance tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_SKILLS_TAB",
+    "name": "Select skills tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_TRAITS_TAB",
+    "name": "Select traits tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F4" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_BIONICS_TAB",
+    "name": "Select bionics tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F5" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_EFFECTS_TAB",
+    "name": "Select effects tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F6" } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "SELECT_PROFICIENCIES_TAB",
+    "name": "Select proficiencies tab",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F7" } ]
   },
   {
     "type": "keybinding",

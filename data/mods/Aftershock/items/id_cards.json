@@ -46,5 +46,19 @@
     "volume": "5 ml",
     "category": "keys",
     "to_hit": -3
+  },
+  {
+    "id": "STEED_registry",
+    "type": "COMESTIBLE",
+    "name": { "str": "STEED registry key" },
+    "description": "A slim card that is used to initialize a STEED, which will then imprint the rider's biometric data and follow them unerringly.",
+    "price": "5000 USD",
+    "weight": "6 g",
+    "volume": "5 ml",
+    "symbol": ",",
+    "color": "green",
+    "comestible_type": "INVALID",
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "STEED_registry" ]
   }
 ]

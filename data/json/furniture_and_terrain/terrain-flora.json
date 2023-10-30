@@ -1912,7 +1912,7 @@
     "color": [ "light_gray" ],
     "move_cost": 1,
     "coverage": 50,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "HARVESTED" ],
     "transforms_into": "t_apiary",
     "emissions": [ "emit_bees" ],
     "bash": {

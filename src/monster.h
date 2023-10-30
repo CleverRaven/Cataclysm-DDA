@@ -131,6 +131,7 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
         int get_eff_per() const override;
+        void witness_thievery( item *it ) override;
 
         float get_mountable_weight_ratio() const;
 
@@ -183,6 +184,7 @@ class monster : public Creature
         bool shearable() const;
         bool is_pet() const;
         bool is_pet_follow() const;
+        bool has_intelligence() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -491,6 +493,8 @@ class monster : public Creature
         bool is_electrical() const override;    // true if the monster produces electric radiation
 
         bool is_nether() const override;    // true if the monster is from the nether
+
+        bool has_mind() const override;    // true if the monster is sapient and capable of reason
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;

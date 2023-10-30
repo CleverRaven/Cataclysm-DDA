@@ -1848,7 +1848,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_burdock_stalk",
     "copy-from": "cooked_cattail_stalk",
-    "components": [ [ [ "burdock_stalk", 1 ] ] ]
+    "components": [ [ [ "plant_stalk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5829,6 +5829,8 @@
         [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
+        [ "veggy_pickled", 2 ],
+        [ "pickle", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
         [ "pineapple_chunks", 2 ]
@@ -5882,6 +5884,8 @@
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
+        [ "veggy_pickled", 2 ],
+        [ "pickle", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
         [ "pineapple_chunks", 2 ]

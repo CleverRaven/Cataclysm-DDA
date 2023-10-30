@@ -46,11 +46,25 @@
     "result": "sheet_metal_small",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "12 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "railroad_track_item",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "railroad_track_item_half", 2 ] ] ]
+  },
+  {
+    "result": "railroad_track_item_half",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "50 m",
+    "tools": [ [ [ "angle_grinder", 45 ] ] ],
+    "components": [ [ [ "mc_steel_lump", 30 ] ] ]
   },
   {
     "result": "exodii_ingot_tin",

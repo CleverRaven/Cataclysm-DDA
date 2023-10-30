@@ -134,6 +134,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_rabbit",
+    "name": { "str": "rabbit skull" },
+    "description": "The skull of a rabbit or a hare.",
+    "copy-from": "skull_abstract",
+    "weight": "90 g",
+    "volume": "450 ml",
+    "longest_side": "10 cm"
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_beaver",
     "name": { "str": "beaver skull" },
     "description": "The skull of a beaver.",
