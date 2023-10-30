@@ -12,7 +12,7 @@
     "min_range": { "math": [ "(u_skill('deduction') + u_skill('throw'))" ] },
     "max_range": { "math": [ "(u_skill('deduction') + u_skill('throw'))" ] },
     "shape": "blast",
-    "effect": "attack",
+    "effect": "attack"
   },
   {
     "id": "blackout_rage_drink",
