@@ -419,7 +419,7 @@
     "type": "MONSTER",
     "description": "A tadpole the size of a bass.  It could win awards if it hadn't been debugged.",
     "name": { "str": "giant tadpole" },
-    "default_faction": "frog",
+    "default_faction": "fish",
     "bodytype": "fish",
     "species": [ "AMPHIBIAN" ],
     "volume": "2 L",
