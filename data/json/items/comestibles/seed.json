@@ -604,6 +604,17 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_spinach",
+    "copy-from": "seed",
+    "name": { "str_sp": "spinach seeds" },
+    "color": "green",
+    "description": "Some spinach seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "spinach", "fruit": "spinach", "grow": "50 days" },
+    "volume": "2 ml"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_buckwheat",
     "copy-from": "buckwheat",
     "name": { "str_sp": "buckwheat seeds" },
