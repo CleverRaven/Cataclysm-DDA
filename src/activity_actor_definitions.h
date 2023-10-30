@@ -675,6 +675,7 @@ class ebooksave_activity_actor : public activity_actor
         static constexpr int pages_per_charge = 25;
 
         void start_scanning_next_book( player_activity &act );
+        void completed_scanning_current_book( player_activity &act, Character &who );
 };
 
 class migration_cancel_activity_actor : public activity_actor
