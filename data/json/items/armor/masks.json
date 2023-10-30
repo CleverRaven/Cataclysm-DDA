@@ -517,8 +517,8 @@
     "environmental_protection": 1,
     "flags": [ "FRAGILE" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ],
-     "variant_type": "generic",
-     "variants": [
+    "variant_type": "generic",
+    "variants": [
       {
         "id": "zombie_mask",
         "name": { "str": "zombie mask" },
