@@ -45,6 +45,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "popup.h"
 #include "ranged.h"
 #include "recipe_groups.h"
 #include "talker.h"
@@ -1378,32 +1379,57 @@ void conditional_t::set_query( const JsonObject &jo, std::string_view member, bo
 void conditional_t::set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     std::string type = jo.get_string( member.data() );
+    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
+    std::string message;
+    if( jo.has_member( "message" ) ) {
+        message = jo.get_string( "message" );
+    }
     dbl_or_var range;
     if( jo.has_member( "range" ) ) {
         range = get_dbl_or_var( jo, "range" );
     }
-    condition = [type, range, is_npc]( dialogue & d ) {
-        std::optional<tripoint> pos;
+    condition = [type, loc_var, message, range, is_npc]( dialogue & d ) {
+        std::optional<tripoint> loc;
 
         avatar *you = d.actor( is_npc )->get_character()->as_avatar();
         if( you ) {
             if( type == "anywhere" ) {
-                pos = g->look_around();
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                tripoint center = d.actor( is_npc )->pos();
+                look_around_result result;
+                const look_around_params looka_params = { true, center, center, false, true, true };
+                loc = g->look_around( looka_params ).position;
             } else if( type == "line_of_sight" ) {
-
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
                 target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
-                if( traj.empty() ) {
+                if( !traj.empty() ) {
+                    loc = traj.back();
                 }
             } else if( type == "around" ) {
-                pos = choose_adjacent( _( "Drop where?" ) );
+                if( !message.empty() ) {
+                    loc = choose_adjacent( message );
+                } else {
+                    loc = choose_adjacent( _( "Choose direction" ) );
+                }
             } else {
+                debugmsg( string_format( "Invalid selection type: %s", type ) );
             }
 
         }
-        if( pos.has_value() ) {
-            d.set_value( "npctalk_var_pos", pos->to_string() );
+        if( loc.has_value() ) {
+            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
+            write_var_value( loc_var.type, loc_var.name, d.actor( loc_var.type == var_type::npc ), &d,
+                             pos_global.to_string() );
         }
-        return pos.has_value();
+        return loc.has_value();
     };
 }
 
