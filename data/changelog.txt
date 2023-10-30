@@ -55,7 +55,6 @@ Professions can start with multiple martial arts
 Microlab Mapgen is now parameter based.
 Allow NPC_DEATH EoC to prevent npc die
 Allow NPC doctors to install and remove CBMs from player allies
-Add 3 variants of roadblock and rebalanced loot
 Look up and down with 3d vision off
 Add ignored_monster_species spell parameter
 Monsters affiliated with factions will watch for theft of faction items
@@ -98,9 +97,6 @@ Adds a new mission to the Exodii
 Add boats to river banks
 Vehicles now contain heater, and some contain AC
 NPC Elvira Fish, Circulations
-HWP breacher configuration
-Added a new loadout to start as an EOD technician
-Add a variant of standing stones for fields
 Adds a jeweler as a new starting profession
 Add a larger “family–sized” water heater
 Rework Anvils and add crude anvil
@@ -190,7 +186,6 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
-Aftershock: Make speed freak a background
 
 
 ## Balance:
