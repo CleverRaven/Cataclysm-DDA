@@ -2711,7 +2711,6 @@ void ebooksave_activity_actor::start_scanning_next_book( player_activity &act )
     act.moves_left = to_moves<int>( required_time( books ) );
 }
 
-
 void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     const time_duration scanning_time = required_time( books );
@@ -2744,6 +2743,12 @@ void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     // We have now spent enough time to fully scan current book
+    completed_scanning_current_book( act, who );
+}
+
+void ebooksave_activity_actor::completed_scanning_current_book( player_activity &act,
+        Character &who )
+{
     item_location scanned_book = books.back();
     books.pop_back();
     if( scanned_book ) {
@@ -2764,6 +2769,10 @@ void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
 
 void ebooksave_activity_actor::finish( player_activity &act, Character &who )
 {
+    while( !books.empty() ) {
+        // We can end up here with books left if the player has speed>100
+        completed_scanning_current_book( act, who );
+    }
     if( who.is_avatar() ) {
         add_msg( m_info, _( "You scan %d %s into your device." ), handled_books,
                  n_gettext( "book", "books", handled_books ) );
