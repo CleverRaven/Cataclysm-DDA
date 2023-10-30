@@ -117,7 +117,8 @@
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" },
       { "u_learn_recipe": "practice_vita_banish_illness" },
-      { "u_learn_recipe": "practice_vita_super_heal" }
+      { "u_learn_recipe": "practice_vita_super_heal" },
+      { "u_learn_recipe": "practice_vita_limb_restore" }
     ]
   },
   {
