@@ -161,7 +161,7 @@
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PHOTOKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ],
-    "extra_effect": [ { "queue_eocs": "EOC_TEACH_PYROKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "extra_effects": [ { "queue_eocs": "EOC_TEACH_PYROKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
