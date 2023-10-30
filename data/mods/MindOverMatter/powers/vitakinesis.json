@@ -491,7 +491,7 @@
     "effect_str": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
     "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 9,
+    "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: vita_limb_restore') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]

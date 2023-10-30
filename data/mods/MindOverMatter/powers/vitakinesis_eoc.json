@@ -496,7 +496,7 @@
     "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT",
     "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_limb_restore'))" ] }, "difficulty": 14 },
     "effect": [
-      { "u_message": "Your right leg had been restored.", "type": "good" },
+      { "u_message": "Your right leg has been restored.", "type": "good" },
       { "u_lose_trait": "NO_RIGHT_LEG" },
       { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
       { "u_add_trait": "HAS_RIGHT_LEG" },
@@ -533,7 +533,7 @@
     "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG_RESULT",
     "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_limb_restore'))" ] }, "difficulty": 14 },
     "effect": [
-      { "u_message": "Your left leg had been restored.", "type": "good" },
+      { "u_message": "Your left leg has been restored.", "type": "good" },
       { "u_lose_trait": "NO_LEFT_LEG" },
       { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
       { "u_add_trait": "HAS_LEFT_LEG" },
@@ -548,7 +548,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
-    "//": "About 2.5 times as costly as the super heal drain.  You are regrowing a whole body part, you know.",
+    "//":  "About 2.5 times as costly as the super heal drain.  You are regrowing a whole body part, you know.",
     "effect": [
       { "math": [ "u_val('stored_kcal')", "-=", "rng( 125,625 )" ] },
       { "math": [ "u_val('vitamin', 'name:iron')", "-=", "rng( 125,500 )" ] },
