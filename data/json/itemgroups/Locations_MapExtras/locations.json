@@ -125,7 +125,11 @@
       { "group": "softdrugs", "prob": 20 },
       { "group": "harddrugs", "prob": 5 },
       { "item": "left_leg_prosthetic", "prob": 5 },
-      { "item": "right_leg_prosthetic", "prob": 5 }
+      { "item": "right_leg_prosthetic", "prob": 5 },
+      { "item": "right_arm_prosthetic", "prob": 5 },
+      { "item": "right_arm_prosthetic", "prob": 5 },
+      { "item": "right_arm_neuroprosthetic", "prob": 2 },
+      { "item": "right_arm_neuroprosthetic", "prob": 2 }
     ]
   },
   {
@@ -197,6 +201,10 @@
       [ "weak_antibiotic", 15 ],
       { "item": "left_leg_prosthetic", "prob": 5 },
       { "item": "right_leg_prosthetic", "prob": 5 },
+      { "item": "left_arm_prosthetic", "prob": 5 },
+      { "item": "right_arm_prosthetic", "prob": 5 },
+      { "item": "left_arm_neuroprosthetic", "prob": 2 },
+      { "item": "right_arm_neuroprosthetic", "prob": 2 },
       [ "crutches", 5 ]
     ]
   },
@@ -1059,7 +1067,11 @@
       { "item": "bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "large_bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] }
+      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "left_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "right_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "left_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "right_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1163,7 +1175,15 @@
       { "item": "ceramic_cup", "prob": 90, "damage": [ 2, 4 ] },
       { "group": "tinware", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "crown_golden", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "fluid_preserved_brain", "prob": 20 }
+      { "item": "fluid_preserved_brain", "prob": 20 },
+      { "item": "left_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "left_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "left_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "left_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
+      { "item": "right_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1684,7 +1704,11 @@
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "item": "badge_doctor", "prob": 2 },
       { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2 }
+      { "item": "right_leg_prosthetic", "prob": 2 },
+      { "item": "left_arm_prosthetic", "prob": 2 },
+      { "item": "right_arm_prosthetic", "prob": 2 },
+      { "item": "left_arm_neuroprosthetic", "prob": 1 },
+      { "item": "right_arm_neuroprosthetic", "prob": 1 }
     ]
   },
   {
@@ -2652,7 +2676,11 @@
       { "item": "blanket", "prob": 50 },
       { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
       { "item": "left_leg_prosthetic", "prob": 20 },
-      { "item": "right_leg_prosthetic", "prob": 20 }
+      { "item": "right_leg_prosthetic", "prob": 20 },
+      { "item": "left_arm_prosthetic", "prob": 20 },
+      { "item": "right_arm_prosthetic", "prob": 20 },
+      { "item": "left_arm_neuroprosthetic", "prob": 10 },
+      { "item": "right_arm_neuroprosthetic", "prob": 10 }
     ]
   },
   {
