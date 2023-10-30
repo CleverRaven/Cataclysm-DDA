@@ -9,7 +9,7 @@
         "skill_used": "metaphysics",
         "difficulty": 6,
         "time": "2 h",
-        "components": ["rose_hips", 1],
+        "components": [[["rose_hips", 1]]],
         "flags": ["SECRET"],
         "run_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
