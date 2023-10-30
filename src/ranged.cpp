@@ -762,8 +762,19 @@ bool Character::handle_gun_damage( item &it )
 
 bool Character::handle_gun_overheat( item &it )
 {
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    double heat_modifier = 0;
+    float heat_multiplier = 1.0f;
+    for( const item *mod : it.gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+        heat_modifier += mod->type->gunmod->heat_per_shot_modifier;
+        heat_multiplier *= mod->type->gunmod->heat_per_shot_multiplier;
+    }
     double heat = it.get_var( "gun_heat", 0.0 );
-    double threshold = it.type->gun->overheat_threshold;
+    double threshold = std::max( ( it.type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
     const islot_gun &gun_type = *it.type->gun;
 
     if( threshold < 0.0 ) {
@@ -808,7 +819,8 @@ bool Character::handle_gun_overheat( item &it )
             return false;
         }
     }
-    it.set_var( "gun_heat", heat + gun_type.heat_per_shot );
+    it.set_var( "gun_heat", heat + std::max( ( gun_type.heat_per_shot * heat_multiplier ) +
+                heat_modifier, 0.0 ) );
     return true;
 }
 
