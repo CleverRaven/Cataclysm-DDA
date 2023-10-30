@@ -47,7 +47,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TEACH_PYROKIN_FOOD_RECIPES",
     "effect": [
-      {"u_learn_recipe": "photokin_irradiated_rose_hips"}
+      {"u_learn_recipe": "irradiated_rose_hips"}
     ]
   },
   {

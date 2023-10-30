@@ -9,7 +9,7 @@
         "description": "Recipes for irradiating food through photokinesis.",
         "skill_used": "metaphysics",
         "nested_category_data": [
-          "photokin_irradiated_rose_hips"
+          "irradiated_rose_hips"
         ],
         "difficulty": 1
     },
@@ -17,7 +17,6 @@
         "type": "recipe",
         "activity_level": "LIGHT_EXERCISE",
         "name": "Irradiated rose hips",
-        "id": "photokin_irradiated_rose_hips",
         "result": "irradiated_rose_hips",
         "category": "cc_*",
         "subcategory": "CSC_*_NESTED",
