@@ -17,13 +17,14 @@
         "type": "recipe",
         "activity_level": "LIGHT_EXERCISE",
         "result": "irradiated_rose_hips",
-        "category": "cc_*",
+        "category": "CC_*",
         "subcategory": "CSC_*_NESTED",
         "skill_used": "metaphysics",
         "difficulty": 6,
         "time": "2 h",
         "components": [[["rose_hips", 1]]],
-        "flags": ["SECRET"]
+        "flags": ["SECRET"],
+        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN", "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] } ]}]
 
     }
 ]
