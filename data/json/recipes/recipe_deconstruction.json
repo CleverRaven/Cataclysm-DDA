@@ -4445,7 +4445,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ], [ [ "button_plastic", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4455,7 +4455,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ], [ [ "button_plastic", 11 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4465,7 +4465,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 11 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -4475,7 +4475,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 3 ] ], [ [ "button_plastic", 11 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6254,7 +6254,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "60 s",
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
@@ -6262,7 +6262,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 3 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
@@ -6272,7 +6272,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 4 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6282,7 +6282,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 2 ] ] ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6314,7 +6314,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
-    "components": [ [ [ "felt_patch", 150 ] ] ],
+    "components": [ [ [ "felt_patch", 150 ] ], [ [ "button_plastic", 2 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
