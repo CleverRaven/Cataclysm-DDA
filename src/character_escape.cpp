@@ -275,7 +275,7 @@ bool Character::try_remove_grab( bool attacking )
                 add_msg_debug( debugmode::DF_MATTACK,
                                "Pocket torn off in the attempt, escape chance increased to %.1f",
                                escape_chance * 100 / eff.get_intensity() );
-            }                   
+            }
 
             // Every attempt burns some stamina - maybe some moves?
             mod_stamina( -5 * eff.get_intensity() );
