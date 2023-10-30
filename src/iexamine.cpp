@@ -5630,16 +5630,16 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The Autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
-                                                   _( "The Autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
+                                                   _( "The Autodoc detected ongoing blood loss from your %s and administered you hemostatic drugs to stop it." ),
+                                                   _( "The Autodoc detected ongoing blood loss from <npcname>'s %s and administered them hemostatic drugs to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
                 if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The Autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
-                                                   _( "The Autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
+                                                   _( "The Autodoc detected an open wound on your %s and applied disinfectant to sterilize it" ),
+                                                   _( "The Autodoc detected an open wound on <npcname>'s %s and applied disinfectant to sterilize it." ),
                                                    body_part_name( bp_healed ) );
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of Autodoc.
@@ -5664,8 +5664,8 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             if( patient.get_rad() ) {
                 if( patient.has_effect( effect_pblue ) ) {
                     patient.add_msg_player_or_npc( m_info,
-                                                   _( "The Autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer another dose right now." ),
-                                                   _( "The Autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer another dose right now." ) );
+                                                   _( "The Autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer you another dose right now." ),
+                                                   _( "The Autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer them another dose right now." ) );
                 } else {
                     add_msg( m_good,
                              _( "The Autodoc administered an anti-radiation drug to treat radiation poisoning." ) );

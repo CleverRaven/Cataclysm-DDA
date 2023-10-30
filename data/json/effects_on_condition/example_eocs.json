@@ -189,7 +189,15 @@
     "type": "effect_on_condition",
     "id": "EOC_map_condition_test",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+        "then": { "u_message": "Inside city" },
+        "else": { "u_message": "Outside city" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "North terrain: TRANSPARENT" },
@@ -241,6 +249,40 @@
         "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "West furniture: TRANSPARENT" },
         "else": { "u_message": "West furniture: Not TRANSPARENT" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_foreach_test",
+    "effect": [
+      { "u_message": "[foreach_test]id of flags" },
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "flags",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]item group" },
+      {
+        "foreach": "item_group",
+        "var": { "context_val": "id" },
+        "target": "forest",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]monster group" },
+      {
+        "foreach": "monstergroup",
+        "var": { "context_val": "id" },
+        "target": "GROUP_ANIMALPOUND_DOGS",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]string array" },
+      {
+        "foreach": "array",
+        "var": { "context_val": "id" },
+        "target": [ "a", "b", "c", "d", "e" ],
+        "effect": [ { "u_message": "<context_val:id>" } ]
       }
     ]
   }

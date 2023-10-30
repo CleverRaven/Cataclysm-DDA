@@ -4228,6 +4228,8 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
+        // TODO: Fix bug where, in some cases, if removing a mod would remove other mods, it should be removed
+        // in the gun_copy as it is done in gunmod_remove_activity_actor::gunmod_remove
         gun_copy.remove_item( *mods_copy[prompt.ret] );
 
         if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
@@ -5715,6 +5717,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         } else {
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
+    }
+    // Prevents crash from trying to spend charge with item removed
+    if( !p->has_item( it ) ) {
+        return 0;
     }
     return 1;
 }

@@ -1550,7 +1550,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
     if( npc *const who = creatures.creature_at<npc>( *pnt ) ) {
         if( query_yn( _( "Are you sure you want to feed a person %1$s?" ), it->tname() ) ) {
             p->mod_moves( -to_moves<int>( 1_seconds ) );
-            p->add_msg_if_player( _( "You put your %1$s into %2$s mouth!" ),
+            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ),
                                   it->tname(), who->disp_name( true ) );
             if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
                 who->say(
@@ -8859,30 +8859,16 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
-    std::set<itype_id> ebooks;
-    for( const item *ebook : it->ebooks() ) {
-        if( !ebook->is_book() ) {
-            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
-            continue;
-        }
-
-        ebooks.insert( ebook->typeId() );
-    }
-
-    const item_location book = game_menus::inv::titled_filter_menu(
-    [&ebooks, &p]( const item & itm ) {
-        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() ) &&
-               itm.is_owned_by( *p, true );
-    },
-    *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
-
-    if( !book ) {
-        p->add_msg_if_player( m_info, _( "Nevermind." ) );
+    item_location ereader = item_location( *p, it );
+    const drop_locations to_scan = game_menus::inv::ebooksave( *p, ereader );
+    if( to_scan.empty() ) {
         return std::nullopt;
     }
-
-    p->assign_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) );
-
+    std::vector<item_location> books;
+    for( const auto &pair : to_scan ) {
+        books.push_back( pair.first );
+    }
+    p->assign_activity( ebooksave_activity_actor( books, ereader ) );
     return std::nullopt;
 }
 

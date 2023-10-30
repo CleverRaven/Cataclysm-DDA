@@ -38,6 +38,7 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -88,6 +89,7 @@
 #include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -4129,7 +4131,11 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view m
     if( jo.has_bool( "targeted" ) ) {
         targeted = jo.get_bool( "targeted" );
     }
-    function = [is_npc, fake, targeted, true_eocs, false_eocs]( dialogue const & d ) {
+    std::optional<var_info> loc_var;
+    if( jo.has_object( "loc" ) ) {
+        loc_var = read_var_info( jo.get_object( "loc" ) );
+    }
+    function = [is_npc, fake, targeted, loc_var, true_eocs, false_eocs]( dialogue const & d ) {
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell.  %s", d.get_callstack() );
@@ -4148,7 +4154,9 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, std::string_view m
                     caster->add_msg_if_player( fake.trigger_message );
                 }
             } else {
-                sp.cast_all_effects( *caster, caster->pos() );
+                const tripoint target_pos = loc_var ?
+                                            get_map().getlocal( get_tripoint_from_var( loc_var, d ) ) : caster->pos();
+                sp.cast_all_effects( *caster, target_pos );
                 caster->add_msg_if_player( fake.trigger_message );
             }
         }
@@ -5097,6 +5105,61 @@ void talk_effect_fun_t::set_switch( const JsonObject &jo, std::string_view membe
     };
 }
 
+void talk_effect_fun_t::set_foreach( const JsonObject &jo, std::string_view member )
+{
+    std::string type = jo.get_string( member.data() );
+    var_info itr = read_var_info( jo.get_object( "var" ) );
+    talk_effect_t effect;
+    effect.load_effect( jo, "effect" );
+    std::string target;
+    std::vector<str_or_var> array;
+    if( jo.has_string( "target" ) ) {
+        target = jo.get_string( "target" );
+    } else if( jo.has_array( "target" ) ) {
+        for( const JsonValue &jv : jo.get_array( "target" ) ) {
+            array.emplace_back( get_str_or_var( jv, "target" ) );
+        }
+    }
+    function = [type, itr, effect, target, array]( dialogue & d ) {
+        std::vector<std::string> list;
+
+        if( type == "ids" ) {
+            if( target == "flag" ) {
+                for( const json_flag &f : json_flag::get_all() ) {
+                    list.push_back( f.id.str() );
+                }
+            } else if( target == "trait" ) {
+                for( const mutation_branch &m : mutation_branch::get_all() ) {
+                    list.push_back( m.id.str() );
+                }
+            } else if( target == "vitamin" ) {
+                for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
+                    list.push_back( v.first.str() );
+                }
+            }
+        } else if( type == "item_group" ) {
+            item_group_id ig( target );
+            for( const itype *type : item_group::every_possible_item_from( ig ) ) {
+                list.push_back( type->get_id().str() );
+            }
+        } else if( type == "monstergroup" ) {
+            mongroup_id mg( target );
+            for( const auto &m : MonsterGroupManager::GetMonstersFromGroup( mg, true ) ) {
+                list.push_back( m.str() );
+            }
+        } else if( type == "array" ) {
+            for( const str_or_var &v : array ) {
+                list.emplace_back( v.evaluate( d ) );
+            }
+        }
+
+        for( std::string_view str : list ) {
+            write_var_value( itr.type, itr.name, d.actor( itr.type == var_type::npc ), &d, str.data() );
+            effect.apply( d );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_roll_remainder( const JsonObject &jo,
         std::string_view member, bool is_npc )
 {
@@ -5759,6 +5822,7 @@ parsers = {
     { "weighted_list_eocs", jarg::array, &talk_effect_fun_t::set_weighted_list_eocs },
     { "if", jarg::member, &talk_effect_fun_t::set_if },
     { "switch", jarg::member, &talk_effect_fun_t::set_switch },
+    { "foreach", jarg::string, &talk_effect_fun_t::set_foreach },
     { "math", jarg::array, &talk_effect_fun_t::set_math },
     { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun_t::set_custom_light_level },
     { "give_equipment", jarg::object, &talk_effect_fun_t::set_give_equipment },
