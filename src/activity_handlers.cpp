@@ -2195,12 +2195,12 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
     INIT = 0,       // Haven't found repeat value yet.
-    ONCE = 1,       // Repeat just once
+    ONCE = 1,       // Attempt repair (and refit if possible) just once
     // value 2 obsolete - previously used for reinforcement
-    FULL = 3,       // Repeat until damage==0
-    EVENT = 4,      // Repeat until something interesting happens
-    REFIT_ONCE = 5, // Try refitting once
-    REFIT_FULL = 6, // Reapeat until item fits
+    FULL = 3,       // Continue repairing until damage==0 (and until refitted if possible)
+    EVENT = 4,      // Continue repairing (and refit if possible) until something interesting happens
+    REFIT_ONCE = 5, // Try refitting once, but don't repair
+    REFIT_FULL = 6, // Continue refitting until item fits, but don't repair
     CANCEL = 7,     // Stop repeating
 };
 
@@ -2226,11 +2226,13 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     uilist rmenu;
     rmenu.text = title;
 
-    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1', _( "Repeat once" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1',
+                    can_refit ? _( "Attempt to refit or repair once" ) : _( "Attempt to repair once" ) );
     rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '2',
-                    _( "Repeat until fully repaired" ) );
+                    can_refit ? _( "Repeat until refitted and fully repaired" ) : _( "Repeat until fully repaired" ) );
     rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '3',
-                    _( "Repeat until success/failure/level up" ) );
+                    can_refit ? _( "Refit or repair until success/failure/level up" ) :
+                    _( "Repair until success/failure/level up" ) );
     rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '4',
                     _( "Attempt to refit once" ) );
     rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '5',
