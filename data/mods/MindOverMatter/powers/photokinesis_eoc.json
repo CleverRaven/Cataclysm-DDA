@@ -5,7 +5,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "wielded_only": true, "category": "FOOD"} ],
+        "search_data": [ { "wielded_only": true, "category": "COMESTIBLE"} ],
         "true_eocs": [ 
           {"id": "EOC_PHOTOKIN_IRRADIATE_FOOD", 
         "effect": [
