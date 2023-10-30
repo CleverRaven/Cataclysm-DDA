@@ -1,4 +1,5 @@
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "creature_tracker.h"
 #include "flag.h"
@@ -34,6 +35,8 @@ static const limb_score_id limb_score_manip( "manip" );
 
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_SLIMY( "SLIMY" );
 
 bool Character::can_escape_trap( int difficulty, bool manip = false ) const
 {
@@ -251,6 +254,16 @@ bool Character::try_remove_grab( bool attacking )
             escape_chance = ( skill_factor * limb_factor ) * 100 + stat_factor;
             grabber_roll = std::max( grabber_roll, escape_chance ) + rng( 1, 10 );
             escape_chance += grab_break_factor;
+            if( has_trait( trait_SLIMY ) ) {
+                const float slime_factor = worn.clothing_wetness_mult( eff.get_bp() ) * 4;
+                // Slime offers a 4% bonus to escaping from a grab on a naked body part.
+                // Slime exudes from the skin and will only soak through clothes according to their combined breathability and coverage. 
+                // Since the attacker is grabbing at the outermost layer, that 4% is multiplied by clothing_wetness_mult for that body part.
+                escape_chance += slime_factor; 
+                add_msg_debug( debugmode::DF_MATTACK,
+                    "%s is slimy, escape chance increased by %f",
+                    eff.get_bp()->name, slime_factor );
+            }
             add_msg_debug( debugmode::DF_MATTACK,
                            "Attempting to break grab on %s, grab strength roll %.1f, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
                            eff.get_bp()->name, grabber_roll, skill_factor, limb_factor, stat_factor, grab_break_factor,
@@ -261,7 +274,7 @@ bool Character::try_remove_grab( bool attacking )
                 add_msg_debug( debugmode::DF_MATTACK,
                                "Pocket torn off in the attempt, escape chance increased to %.1f",
                                escape_chance * 100 / eff.get_intensity() );
-            }
+            }                   
 
             // Every attempt burns some stamina - maybe some moves?
             mod_stamina( -5 * eff.get_intensity() );
