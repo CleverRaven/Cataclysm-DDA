@@ -97,7 +97,7 @@
     "id": "prof_knives_master",
     "category": "prof_combat",
     "name": { "str": "Knife Mastery" },
-    "description": "Your knife like an extension of yourself, you wield it effortlessly.",
+    "description": "Your knife is like an extension of yourself, you wield it effortlessly.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
