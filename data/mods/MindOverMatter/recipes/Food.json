@@ -23,8 +23,7 @@
         "difficulty": 6,
         "time": "2 h",
         "components": [[["rose_hips", 1]]],
-        "flags": ["SECRET"],
-        "result_eocs": "EOC_FOOD_PHOTOKIN_DRAIN"
+        "flags": ["SECRET"]
 
     }
 ]
