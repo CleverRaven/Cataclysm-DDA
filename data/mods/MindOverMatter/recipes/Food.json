@@ -1,7 +1,7 @@
 [
     {
         "type": "recipe",
-        "id": "photokin_irradiate_rose_hips",
+        "name": "photokin_irradiated_rose_hips",
         "activity_level": "LIGHT_EXERCISE",
         "result": "irradiated_rose_hips",
         "category": "cc_*",
