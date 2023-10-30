@@ -8,7 +8,6 @@
     "description": "A section of flooring made out of a tough, smooth material, colored in an atrocious mottled brown.",
     "symbol": ".",
     "color": "brown",
-    "bgcolor": "black",
     "copy-from": "t_linoleum_gray"
   },
   {
@@ -19,14 +18,12 @@
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_nwall",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -34,7 +31,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_nwall_window",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "looks_like": "t_window",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
@@ -44,7 +40,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_nwall_eastcorner",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -52,7 +47,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_wwall",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -60,7 +54,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_ewall",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -68,7 +61,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_inner_westcorner",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -77,7 +69,6 @@
     "id": "t_bullettrailer_inner_T",
     "copy-from": "t_bullettrailer_nwall_westcorner",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "name": "bullet trailer interior wall",
     "description": "A simple wall panelled in a coarsely textured grey laminate of some sort."
@@ -88,7 +79,6 @@
     "name": "bullet trailer exterior wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -96,7 +86,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_swall_windows",
     "symbol": "+",
-    "bgcolor": "dark_gray",
     "color": "light_blue",
     "copy-from": "t_bullettrailer_nwall_window"
   },
@@ -104,7 +93,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_swall_door",
     "symbol": "-",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "looks_like": "t_door_metal_c",
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
@@ -115,7 +103,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_swall_door_o",
     "symbol": "/",
-    "bgcolor": "black",
     "color": "dark_gray",
     "move_cost": 2,
     "looks_like": "t_door_metal_o",
@@ -127,7 +114,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_swall_wheels",
     "symbol": "o",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_window"
   },
@@ -135,7 +121,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_swall",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
@@ -143,7 +128,6 @@
     "type": "terrain",
     "id": "t_bullettrailer_swall_eastcorner",
     "symbol": "LINE_OXOX",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
@@ -153,7 +137,6 @@
     "move_cost_mod": -1,
     "description": "A small trailer table, designed to convert into a bed when not in use.",
     "symbol": "T",
-    "bgcolor": "brown",
     "color": "yellow",
     "copy-from": "f_table"
   },
@@ -161,7 +144,6 @@
     "type": "furniture",
     "id": "f_bullettrailer_table_middle",
     "symbol": "T",
-    "bgcolor": "brown",
     "color": "yellow",
     "copy-from": "f_bullettrailer_table_top"
   },
@@ -169,7 +151,6 @@
     "type": "furniture",
     "id": "f_bullettrailer_table_bottom",
     "symbol": "T",
-    "bgcolor": "brown",
     "color": "yellow",
     "copy-from": "f_bullettrailer_table_top"
   },
@@ -179,7 +160,6 @@
     "name": "trailer cabinets",
     "move_cost_mod": 0,
     "symbol": "n",
-    "bgcolor": "dark_gray",
     "color": "yellow",
     "description": "Cramped trailer cabinets, with some inbuilt appliances taking up even more of the limited space.",
     "copy-from": "f_cabinet"
@@ -190,7 +170,6 @@
     "name": "trailer sink",
     "move_cost_mod": 0,
     "symbol": "u",
-    "bgcolor": "dark_gray",
     "color": "brown",
     "description": "A tiny metal sink and connected cabinet.",
     "copy-from": "f_sink"
@@ -201,7 +180,6 @@
     "name": "mini desk",
     "move_cost_mod": 0,
     "symbol": "t",
-    "bgcolor": "dark_gray",
     "color": "brown",
     "description": "A small wooden desk with a little attached bookshelf.",
     "copy-from": "f_desk"
@@ -212,7 +190,6 @@
     "name": "trailer bathroom door",
     "move_cost_mod": -1,
     "symbol": "|",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "coverage": 100,
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
@@ -238,7 +215,6 @@
     "name": "trailer bathroom door",
     "move_cost_mod": 0,
     "symbol": "/",
-    "bgcolor": "dark_gray",
     "color": "light_gray",
     "coverage": 30,
     "looks_like": "t_door_metal_o",
@@ -266,7 +242,6 @@
     "name": "travel toilet",
     "description": "A tiny plastic toilet for use in a travel trailer.  Unlike a normal toilet, it doesn't store water locally for you to siphon out.",
     "symbol": "b",
-    "bgcolor": "dark_gray",
     "color": "white",
     "copy-from": "f_toilet"
   },
@@ -275,7 +250,6 @@
     "id": "f_bullettrailer_minisofa",
     "name": "trailer sofa",
     "symbol": "h",
-    "bgcolor": "dark_gray",
     "color": "red",
     "description": "A folding trailer sofa with a durable, somewhat comfortable weave of coarse red fabric.",
     "copy-from": "f_sofa"
@@ -285,7 +259,6 @@
     "id": "f_bullettrailer_bed_foot",
     "name": "trailer bed",
     "symbol": "H",
-    "bgcolor": "dark_gray",
     "color": "green",
     "description": "A small but comfy-looking double bed.",
     "copy-from": "f_bed"
@@ -295,7 +268,6 @@
     "id": "f_bullettrailer_bed_head",
     "name": "trailer bed",
     "symbol": "H",
-    "bgcolor": "dark_gray",
     "color": "green",
     "description": "A small but comfy-looking double bed.",
     "copy-from": "f_bed"
@@ -305,7 +277,6 @@
     "id": "f_bullettrailer_sign_danabakery",
     "name": "plywood sign for 'Dana's Bakery'",
     "symbol": "#",
-    "bgcolor": "brown",
     "color": "red",
     "description": "A spraypainted plywood sign reads 'Dana's Bakery' in red letters.",
     "copy-from": "f_sign"
