@@ -144,7 +144,7 @@
     "//": "Drugs not contained within any other category",
     "subtype": "distribution",
     "entries": [
-      { "item": "bfipowder", "count-min": 5, "count-max": 60, "container-item": "bottle_plastic", "prob": 100 },
+      { "group": "bfipowder_bottle_plastic_5_60", "prob": 100 },
       { "item": "dayquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
       { "item": "nyquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
       { "item": "flu_shot", "count-min": 1, "count-max": 10, "container-item": "null", "prob": 50 }
