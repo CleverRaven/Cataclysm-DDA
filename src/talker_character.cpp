@@ -934,6 +934,11 @@ bool talker_character_const::knows_martial_art( const matype_id &id ) const
     return me_chr_const->martial_arts_data->has_martialart( id );
 }
 
+bool talker_character_const::using_martial_art( const matype_id &id ) const
+{
+    return me_chr_const->martial_arts_data->selected_style() == id;
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );

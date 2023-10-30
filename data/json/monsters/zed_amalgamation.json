@@ -198,11 +198,7 @@
       { "id": "acid_charge" }
     ],
     "harvest": "zombie_amalgamation_acid",
-    "extend": {
-      "flags": [ "ACIDPROOF", "ACID_BLOOD" ],
-      "families": [ "prof_biochemistry" ],
-      "weakpoint_sets": [ "wps_amalgamation_acid" ]
-    }
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "weakpoint_sets": [ "wps_amalgamation_acid" ] }
   },
   {
     "type": "MONSTER",

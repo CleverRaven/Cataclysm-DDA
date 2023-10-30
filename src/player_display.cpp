@@ -921,10 +921,10 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
             info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
                                        level.level(), level.exercise() );
             if( level.knowledgeLevel() > level.level() ) {
-                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
+                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            level_gap );
             } else {
-                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
+                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            learning_bonus );
             }
         }

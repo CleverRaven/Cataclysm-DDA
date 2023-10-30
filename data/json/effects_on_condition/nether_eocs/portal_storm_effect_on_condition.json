@@ -1062,15 +1062,38 @@
       "cases": [
         {
           "case": 0,
+          "effect": [
+            {
+              "weighted_list_eocs": [
+                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", { "const": 1 } ],
+                [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", { "const": 1 } ],
+                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", { "const": 1 } ]
+              ]
+            },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_PORTAL_DEPENDENT_DUNGEON",
+                  "condition": { "u_has_trait": "PORTAL_DEPENDENT" },
+                  "effect": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "case": 5,
           "effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", { "const": 1 } ],
-              [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", { "const": 1 } ],
-              [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", { "const": 1 } ]
+            "run_eocs": [
+              { "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM" },
+              {
+                "id": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL",
+                "condition": { "u_has_trait": "PORTAL_DEPENDENT" },
+                "effect": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL_REWARD" }
+              }
             ]
           }
-        },
-        { "case": 5, "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_ITEM" } }
+        }
       ]
     }
   },
