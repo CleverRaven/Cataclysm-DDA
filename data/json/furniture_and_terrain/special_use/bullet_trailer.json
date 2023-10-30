@@ -36,7 +36,7 @@
     "symbol": "LINE_OXOX",
     "bgcolor": "dark_gray",
     "color": "light_gray",
-	"looks_like": "t_window"
+	"looks_like": "t_window",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
