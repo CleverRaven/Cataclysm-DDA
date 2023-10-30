@@ -16,7 +16,6 @@
     {
         "type": "recipe",
         "activity_level": "LIGHT_EXERCISE",
-        "name": "Irradiated rose hips",
         "result": "irradiated_rose_hips",
         "category": "cc_*",
         "subcategory": "CSC_*_NESTED",
