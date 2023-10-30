@@ -34,7 +34,7 @@
         "text": "[1 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 1 },
+          { "u_buy_item": "RobofacCoin", "count": 1 },
           { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40, "random": true, "search_range": 70 },
           { "npc_add_var": "sold_local_map", "type": "dialogue", "context": "intercom", "value": "yes" }
         ],
