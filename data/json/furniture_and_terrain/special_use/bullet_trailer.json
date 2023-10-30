@@ -36,7 +36,7 @@
     "symbol": "LINE_OXOX",
     "bgcolor": "dark_gray",
     "color": "light_gray",
-	"looks_like": "t_window",
+    "looks_like": "t_window",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -106,7 +106,7 @@
     "symbol": "-",
     "bgcolor": "dark_gray",
     "color": "light_gray",
-	"looks_like": "t_door_metal_c",
+    "looks_like": "t_door_metal_c",
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_bullettrailer_swall_door_o",
     "copy-from": "t_bullettrailer_swall_westcorner"
@@ -118,7 +118,7 @@
     "bgcolor": "black",
     "color": "dark_gray",
     "move_cost": 2,
-	"looks_like": "t_door_metal_o",
+    "looks_like": "t_door_metal_o",
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "close": "t_bullettrailer_swall_door",
     "copy-from": "t_bullettrailer_swall_door"
@@ -216,7 +216,7 @@
     "color": "light_gray",
     "coverage": 100,
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
-	"looks_like": "t_door_metal_c",
+    "looks_like": "t_door_metal_c",
     "open": "f_bullettrailer_inner_door_o",
     "bash": {
       "str_min": 10,
