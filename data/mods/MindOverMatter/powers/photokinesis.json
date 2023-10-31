@@ -90,7 +90,7 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 2) + 15) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "damage_type": "photokinetic",
+    "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_beam') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -261,7 +261,7 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 3) + 35) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "damage_type": "photokinetic",
+    "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -300,7 +300,7 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 6) + 80) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "damage_type": "photokinetic",
+    "damage_type": "psi_photokinetic_damage",
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
