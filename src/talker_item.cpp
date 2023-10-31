@@ -96,8 +96,7 @@ int talker_item_const::coverage_at( bodypart_id &id ) const
 
 int talker_item_const::encumbrance_at( bodypart_id &id ) const
 {
-    const standard_npc sample_npc( "Temp" );
-    return me_it_const->get_item()->get_encumber( sample_npc, id, item::encumber_flags::assume_empty );
+    return me_it_const->get_item()->get_encumber( get_player_character(), id );
 }
 
 int talker_item_const::get_volume() const

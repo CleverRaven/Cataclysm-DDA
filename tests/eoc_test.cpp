@@ -21,6 +21,8 @@ effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
 effect_on_condition_EOC_activate_mutation_to_start_test( "EOC_activate_mutation_to_start_test" );
 static const effect_on_condition_id effect_on_condition_EOC_alive_test( "EOC_alive_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_armor_math_test( "EOC_armor_math_test" );
 static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_attack_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
@@ -711,7 +713,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     item weapon( itype_test_knife_combat );
     item backpack( itype_backpack );
     get_avatar().set_wielded_item( weapon );
-    get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
+    get_avatar().worn.wear_item( get_avatar(), backpack, false, true );
     get_avatar().i_add( item( itype_test_knife_combat ) );
     get_avatar().i_add( item( itype_backpack ) );
 
@@ -803,15 +805,6 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 4 );
 
-    const item &check_item = get_avatar().worn.i_at( 0 );
-    get_avatar().calc_encumbrance();
-
-    REQUIRE( check_item.typeId() == itype_backpack );
-    CHECK( get_avatar().get_value( "npctalk_var_key1" ) == "27" );
-    CHECK( get_avatar().get_value( "npctalk_var_key2" ) == "2" );
-    CHECK( check_item.get_var( "npctalk_var_key1" ) == "27" );
-    CHECK( check_item.get_var( "npctalk_var_key2" ) == "2" );
-
     // Activate test for item
     CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
     CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
@@ -819,6 +812,18 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
     CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
+
+    // Math function test for armor
+    backpack.clear_items();
+    get_avatar().worn.wear_item( get_avatar(), backpack, false, true );
+    const item &check_item = get_avatar().worn.i_at( 0 );
+
+    REQUIRE( check_item.typeId() == itype_backpack );
+    CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
+    CHECK( std::stod( get_avatar().get_value( "npctalk_var_key1" ) ) == Approx( 27 ) );
+    CHECK( std::stod( get_avatar().get_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( check_item.get_var( "npctalk_var_key1" ) ) == Approx( 27 ) );
+    CHECK( std::stod( check_item.get_var( "npctalk_var_key2" ) ) == Approx( 2 ) );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
