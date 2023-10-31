@@ -1031,7 +1031,7 @@
     "id": "mon_foul_megafrog",
     "type": "MONSTER",
     "name": { "str": "great beaked toad" },
-    "description": "This massive toad's jawbones have grown out from its lips into a powerful beak, large enough to snap a bicycle in two.  The bony growths extend to its face, ringing its eyes and shielding its parotoid glands, swollen with poison.  Though intimidating, it appears more interested in a soothing mudbath than anything violent.",
+    "description": "This massive toad's jaw bones have grown out from its lips into a powerful beak, large enough to snap a bicycle in two.  The bony growths extend to its face, ringing its eyes and shielding its parotoid glands, swollen with poison.  Though intimidating, it appears more interested in a soothing mud bath than anything violent.",
     "copy-from": "mon_proxy_megafrog",
     "volume": "325 L",
     "weight": "400 kg",
