@@ -3733,7 +3733,7 @@
     "name": "Convict",
     "description": "Your trial was contentious, but ultimately you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
     "points": 0,
-    "proficiencies": [ "prof_unarmed_familiar" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "stabbing" },
@@ -3752,7 +3752,7 @@
     "name": "Death Row Convict",
     "description": "You were a serial killer, ready to walk the green mile, but in a twist of fate you're one of the few still alive.  True death comes only from your hands, so you're in for a job.",
     "points": 1,
-    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
     "traits": [ "KILLER" ],
     "items": {
