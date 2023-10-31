@@ -1400,7 +1400,6 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
                     popup.message( "%s", message );
                 }
                 tripoint center = d.actor( is_npc )->pos();
-                look_around_result result;
                 const look_around_params looka_params = { true, center, center, false, true, true, false };
                 loc = g->look_around( looka_params ).position;
             } else if( type == "line_of_sight" ) {
