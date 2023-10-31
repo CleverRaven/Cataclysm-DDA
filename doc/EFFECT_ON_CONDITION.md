@@ -921,6 +921,7 @@ Create a popup with message `You have died.  Continue as one of your followers?`
   - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
 - `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
 - `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
+- `z_level` defines allow if select other z-level  for `anywhere`
 - `message` is displayed while selecting
 
 #### Valid talkers:

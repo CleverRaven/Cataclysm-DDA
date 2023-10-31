@@ -1388,7 +1388,8 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
     if( jo.has_member( "range" ) ) {
         range = get_dbl_or_var( jo, "range" );
     }
-    condition = [type, target_var, message, range, is_npc]( dialogue & d ) {
+    bool other_z_level = jo.get_bool( "z_level", false );
+    condition = [type, target_var, message, range, z_level, is_npc]( dialogue & d ) {
         std::optional<tripoint> loc;
         Character *ch = d.actor( is_npc )->get_character();
         if( ch && ch->as_avatar() ) {
@@ -1400,7 +1401,7 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
                     popup.message( "%s", message );
                 }
                 tripoint center = d.actor( is_npc )->pos();
-                const look_around_params looka_params = { true, center, center, false, true, true, false };
+                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
                 loc = g->look_around( looka_params ).position;
             } else if( type == "line_of_sight" ) {
                 if( !message.empty() ) {
