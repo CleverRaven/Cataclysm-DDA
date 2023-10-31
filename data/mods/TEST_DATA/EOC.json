@@ -74,12 +74,26 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_item_math_test",
-    "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] } ]
+    "effect": [
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "backpack", "worn_only": true } ],
+        "true_eocs": [ "EOC_item_math_test_nested_2" ]
+      },
+      { "math": [ "u_key1", "=", "u_coverage('torso')" ] },
+      { "math": [ "u_key2", "=", "u_encumbrance('torso')" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_item_math_test_nested",
     "effect": [ { "math": [ "n_hp()", "=", "100" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_math_test_nested_2",
+    "effect": [ { "math": [ "n_key1", "=", "n_coverage('torso')" ] }, { "math": [ "n_key2", "=", "n_encumbrance('torso')" ] } ]
   },
   {
     "type": "effect_on_condition",

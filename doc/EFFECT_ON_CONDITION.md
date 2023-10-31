@@ -1620,17 +1620,17 @@ Checks the level of `some_spell` spell, and, related to this, cast a spell of pi
 Executes the effect repeatedly while storing the values ​​of a specific list one by one in the variable.
 
 | Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "foreach" | **mandatory** | string | Type of list. `"ids"`, `"item_group"`, `"monstergroup"`, `"array"` are available. | 
-| "var" | **mandatory** | [variable objects](#variable-object) | Variable to store value in the list. | 
+| --- | --- | --- | --- |
+| "foreach" | **mandatory** | string | Type of list. `"ids"`, `"item_group"`, `"monstergroup"`, `"array"` are available. |
+| "var" | **mandatory** | [variable objects](#variable-object) | Variable to store value in the list. |
 | "effect" | **mandatory** | effect | Effect(s) executed. |
-| "target" | **mandatory** | See below | Changes depending on the value of "foreach". See below. | 
+| "target" | **mandatory** | See below | Changes depending on the value of "foreach". See below. |
 
 The correspondence between "foreach" and "target" is as follows.
 
 | "foreach" | Value | Info |
-| --- | --- | --- 
-| "ids" | string | List the IDs of objects that appear in the game. `"flag"`, `"trait"`, `"vitamin"` are available. |
+| --- | --- | --- |
+| "ids" | string | List the IDs of objects that appear in the game. `"bodypart"`, `"flag"`, `"trait"`, `"vitamin"` are available. |
 | "item_group" | string | List the IDs of items in the item group. |
 | "monstergroup" | string | List the IDs of monsters in the monster group. |
 | "array" | array of strings or [variable objects](#variable-object) | List simple strings. |
@@ -1638,7 +1638,7 @@ The correspondence between "foreach" and "target" is as follows.
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
+| ------ | --------- | --------- | ---- | ------- | --- |
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples

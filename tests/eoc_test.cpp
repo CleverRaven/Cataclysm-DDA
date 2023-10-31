@@ -803,6 +803,14 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 4 );
 
+    const item &check_item = get_avatar().worn.i_at( 0 );
+
+    REQUIRE( check_item.typeId() == itype_backpack );
+    CHECK( get_avatar().get_value( "npctalk_var_key1" ) == "60" );
+    CHECK( get_avatar().get_value( "npctalk_var_key2" ) == "2" );
+    CHECK( check_item.get_var( "npctalk_var_key1" ) == "60" );
+    CHECK( check_item.get_var( "npctalk_var_key2" ) == "2" );
+
     // Activate test for item
     CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
     CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
