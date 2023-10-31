@@ -1802,7 +1802,7 @@
     "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on a family vacation to somewhere unknown, leaving you to your fate.",
     "points": 1,
     "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "cooking" }, { "level": 3, "name": "driving" } ],
-    "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knife_skills", "prof_knives_familiar" ],
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "socks", "dress_shoes", "tux", "glasses_monocle", "collarpin" ],
@@ -6754,7 +6754,8 @@
       "prof_traps",
       "prof_disarming",
       "prof_trapsetting",
-      "prof_auto_rifles_familiar"
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar"
     ],
     "skills": [
       { "level": 6, "name": "traps" },
