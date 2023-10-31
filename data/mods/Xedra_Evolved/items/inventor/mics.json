@@ -41,7 +41,7 @@
     "type": "MAGAZINE",
     "category": "spare_parts",
     "name": { "str": "heavy modified battery", "str_pl": "heavy modified batteries" },
-    "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
+    "description": "A heavy battery cell, that was modified and replaced with much more effective cells inside.",
     "count": 3125,
     "capacity": 3125,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY" ],
