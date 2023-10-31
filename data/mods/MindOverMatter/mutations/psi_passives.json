@@ -68,7 +68,7 @@
     "name": { "str": "Photon Regulation" },
     "points": 0,
     "description": "Your powers adapt the amount of photons your eyes receive.",
-    "flags": [ "FLASH_PROTECTION", "SEESLEEP" ],
+    "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
     "player_display": true,
     "purifiable": false
   },
