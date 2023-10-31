@@ -7,7 +7,7 @@
     "name": "photokinetic",
     "skill": "metaphysics",
     "derived_from": [ "bash", 0.3, "stab", 0.4, "cut", 0.3 ],
-    "immune_flags": { "character": ["PHOTOKIN_CHAR_IMMUNE"], "monster": [ "PHOTOKIN_MONSTER_IMMUNE" ], "json_flag": ["PHOTOKIN_IMMUNE"] },
+    "immune_flags": { "character": ["PHOTOKIN_CHAR_IMMUNE"], "monster": [ "PHOTOKIN_MONSTER_IMMUNE" ] },
     "ondamage_eocs": [ "EOC_PHOTOKINETIC_DAMAGE_BLIND_CHANCE"]
   },
   {
