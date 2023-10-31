@@ -239,6 +239,45 @@
 
   },
   {
+    "id":"photokinetic_light_flash",
+    "type":"SPELL",
+    "name":"[Ψ]Star Flash",
+    "description": "Create a destructive flash of light",
+    "message":"",
+    "teachable":false,
+    "valid_targets":[ "ground", "hostile" ],
+    "spell_class":"PHOTOKINETIC",
+    "skill":"metaphysics",
+    "flags":[ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "effect":"attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape":"line",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 2) + 15) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 3) + 35) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "damage_type": "pure",
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 50,
+    "min_aoe":{ "math": [ "(u_val('spell_level', 'spell: photokinetic_light_flash') * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_aoe": 30,
+    "energy_source":"STAMINA",
+    "difficulty":6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1500,
+    "energy_increment": -125,
+    "base_casting_time": 200,
+    "final_casting_time": 50,
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_light_disintegrate": 12}
+
+  },
+  {
     "id": "photokinetic_light_disintegrate",
     "type":"SPELL",
     "name":"[Ψ]Luminous Disintegration",
