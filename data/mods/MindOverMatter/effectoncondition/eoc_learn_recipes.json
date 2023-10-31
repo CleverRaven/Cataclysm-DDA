@@ -40,7 +40,8 @@
       { "u_learn_recipe": "practice_photokinetic_light_dodge" },
       { "u_learn_recipe": "practice_photokinetic_invisibility" },
       { "u_learn_recipe": "practice_photokinetic_light_beam" },
-      { "u_learn_recipe": "practice_photokinetic_light_image" }
+      { "u_learn_recipe": "practice_photokinetic_light_image" },
+      {"u_learn_recipe": "practice_photokinetic_rad_immunity"}
     ]
   },
   {

@@ -222,6 +222,20 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
+    "id": "photokinetic_rad_aura",
+    "type": "ARMOR",
+    "name": { "str": "anti-radiation aura" },
+    "description": "You are surrounded by a faint glow that protects you from radiation.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": "[",
+    "color": "dark_gray",
+    "flags": [ "RAD_IMMUNE", "PERSONAL", "ZERO_WEIGHT" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL",
     "name": { "str": "pyrokinetic fire" },
