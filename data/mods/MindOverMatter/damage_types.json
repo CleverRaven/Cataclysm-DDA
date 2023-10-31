@@ -17,6 +17,17 @@
     "effect": [ { "npc_add_effect": "blind", "duration": "3 s" } ]
   },
   {
+    "id": "psi_photokinetic_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "buffeting",
+    "bionic_info": { "order": 999903, "show_type": false },
+    "protection_info": { "order": 999903, "show_type": false },
+    "pet_prot_info": { "order": 999903, "show_type": false },
+    "melee_combat_info": { "order": 999903, "show_type": false },
+    "ablative_info": { "order": 999903, "show_type": false }
+  },
+  {
     "id": "psi_telekinetic_damage",
     "type": "damage_type",
     "physical": false,
