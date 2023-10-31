@@ -917,8 +917,7 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 - type: string
 - Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
 - `anywhere`, `line_of_sight`, `around` are possible
-  - `anywhere` is the same as the "look around" UI, or the UI for taking a picture using a camera more specifically
-  - `line_of_sight` is just like throwing, you can define a range for this.
+  - `anywhere` is the same as the "look around" UI
   - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
 - `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
 - `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
