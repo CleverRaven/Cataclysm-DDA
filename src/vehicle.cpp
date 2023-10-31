@@ -4399,11 +4399,12 @@ double vehicle::coeff_water_drag() const
         }
     }
     if( structural_part_count == 0 ) {
-        // huh?
+        // Invalid vehicle.  Return some default values.  Sinks.
         coeff_water_dirty = false;
         hull_height = 0.3;
         draft_m = 1.0;
-        return 1250.0;
+        coefficient_water_resistance = 1250.0;
+        return coefficient_water_resistance;
     }
     double hull_coverage = static_cast<double>( floating.size() ) / structural_part_count;
 
