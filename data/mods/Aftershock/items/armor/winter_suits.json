@@ -126,7 +126,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "combat cryo suit" },
-    "description": "A sleek black undersuit cris-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, its minimally protective and designed to be worm under a set of armor.",
+    "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.",
     "weight": "7800 g",
     "volume": "14 L",
     "price": "12 kUSD",
