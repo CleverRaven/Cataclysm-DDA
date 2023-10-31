@@ -10,8 +10,6 @@
 #include "talker_item.h"
 #include "vehicle.h"
 
-static const standard_npc sample_npc( "Temp" );
-
 talker_item::talker_item( item_location *new_me )
 {
     me_it = new_me;
@@ -98,6 +96,7 @@ int talker_item_const::coverage_at( bodypart_id &id ) const
 
 int talker_item_const::encumbrance_at( bodypart_id &id ) const
 {
+    const standard_npc sample_npc( "Temp" );
     return me_it_const->get_item()->get_encumber( sample_npc, id );
 }
 
