@@ -237,6 +237,41 @@
     "final_casting_time": 100,
     "casting_time_increment": -12.5
 
+  },
+  {
+    "id": "photokinetic_light_disintegrate",
+    "type":"SPELL",
+    "name":"[Ψ]Luminous Disintegration",
+    "description": "Concentrate a massive amount of light into a single target, causing it to disintegrate",
+    "message":"",
+    "teachable":false,
+    "valid_targets":[ "hostile" ],
+    "spell_class":"PHOTOKINETIC",
+    "skill":"metaphysics",
+    "flags":[ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "effect":"attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "shape":"blast",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 3) + 20) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 6) + 80) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "damage_type": "pure",
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 2) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 50,
+    "energy_source":"STAMINA",
+    "difficulty":8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 7000,
+    "final_energy_cost": 3000,
+    "energy_increment": -150,
+    "base_casting_time": 200,
+    "final_casting_time": 50,
+    "casting_time_increment": -10
   }
   
 ]

@@ -42,7 +42,8 @@
       { "u_learn_recipe": "practice_photokinetic_light_beam" },
       { "u_learn_recipe": "practice_photokinetic_light_image" },
       {"u_learn_recipe": "practice_photokinetic_rad_immunity"},
-      {"u_learn_recipe": "practice_photokinetic_light_arms"}
+      {"u_learn_recipe": "practice_photokinetic_light_arms"},
+      {"u_learn_recipe": "practice_photokinetic_light_disintegrate"}
     ]
   },
   {
