@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_TOGGLE_REMOVE_EFFECTS",
+    "id": "EOC_POWER_TOGGLE_REMOVE_EFFECTS",
     "effect": [
       { "u_lose_trait": "CLAIR_SPEED_READ" },
       { "u_lose_effect": "effect_clair_speed_reader" },
@@ -68,7 +68,7 @@
         { "u_has_effect": "effect_telepathic_learning_bonus" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_SPELL_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -106,7 +106,7 @@
         { "u_has_effect": "effect_telepathic_learning_bonus" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_SPELL_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -144,7 +144,7 @@
         { "u_has_effect": "effect_telepathic_learning_bonus" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_SPELL_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -182,7 +182,7 @@
         { "u_has_effect": "effect_telepathic_learning_bonus" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_SPELL_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -225,6 +225,6 @@
         { "math": [ "_damage", ">=", "1" ] }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_SPELL_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
   }
 ]
