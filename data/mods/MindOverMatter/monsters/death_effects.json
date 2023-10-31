@@ -16,8 +16,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PHOTOKIN_BLIND_CHECK",
-    "condition": {"not": {"u_has_trait": "PHOTOKINETIC"}},
-    "effect": [{"u_add_effect": "blind", "duration": "5 s"}]
+    "condition": {"not": {"npc_has_trait": "PHOTOKINETIC"}},
+    "effect": [{"npc_add_effect": "blind", "duration": "5 s"}]
   },
   {
     "id": "death_blind_oneineight",
