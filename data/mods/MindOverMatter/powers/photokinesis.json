@@ -181,7 +181,7 @@
     "id": "photokinetic_rad_immunity",
     "type": "SPELL",
     "name": "[Ψ]Light Barrier",
-    "description": "Create a barrier of light around yourself to protect against radiation",
+    "description": "Create a barrier of light around yourself to protect against radiation and light damage",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
