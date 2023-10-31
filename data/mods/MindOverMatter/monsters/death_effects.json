@@ -6,14 +6,18 @@
     "description": "Blinding flash on death.",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "effect": "attack",
-    "effect_str": "blind",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_PHOTOKIN_BLIND_CHECK",
     "shape": "blast",
     "max_level": 1,
     "min_aoe": 3,
-    "max_aoe": 3,
-    "min_duration": 500,
-    "max_duration": 500
+    "max_aoe": 3
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PHOTOKIN_BLIND_CHECK",
+    "condition": {"not": {"npc_has_trait": "PHOTOKINETIC"}},
+    "effect": [{"npc_add_effect": "blind", "duration": "5 s"}]
   },
   {
     "id": "death_blind_oneineight",

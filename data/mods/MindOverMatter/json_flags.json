@@ -70,11 +70,6 @@
     "//": "Immune to cellular breakdown"
   },
   {
-  "id": "PHOTOKIN_IMMUNE",
-  "type": "json_flag",
-  "//": "Immune to photokinetic damage"
-  },
-  {
     "id": "PHOTOKIN_CHAR_IMMUNE",
     "type": "json_flag",
     "//": "Immune to photokinetic damage"
