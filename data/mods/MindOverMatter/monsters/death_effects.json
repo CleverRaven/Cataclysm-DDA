@@ -6,12 +6,12 @@
     "description": "Blinding flash on death.",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "effect": "attack",
+    "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_PHOTOKIN_BLIND_CHECK",
     "shape": "blast",
     "max_level": 1,
     "min_aoe": 3,
-    "max_aoe": 3,
+    "max_aoe": 3
   },
   {
     "type": "effect_on_condition",
