@@ -1,5 +1,19 @@
 [
   {
+    "id": "death_blind",
+    "type": "SPELL",
+    "name": { "str": "Blidness Death" },
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "description": "A sudden flash of blinding light.",
+    "effect": "attack",
+    "effect_str": "blind",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_duration": 500,
+    "max_duration": 500,
+    "shape": "blast"
+  },
+  {
     "id": "necro_boomer_revive",
     "type": "SPELL",
     "name": { "str": "Necro Boomer Revive" },

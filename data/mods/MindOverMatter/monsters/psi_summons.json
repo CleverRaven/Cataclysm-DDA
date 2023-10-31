@@ -48,12 +48,12 @@
     "id": "mon_photokin_image",
     "type": "MONSTER",
     "name": "Lucid Shadow",
-    "description": "A light clone made to look like yourself.",
+    "description": "A light illusion made to look like yourself.",
     "looks_like": "player",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
     "volume": "62500 ml",
-    "weight": "81500 g",
+    "weight": "0g",
     "hp": 1,
     "speed": 150,
     "symbol": "@",
@@ -61,11 +61,11 @@
     "aggression": -99,
     "morale": 2,
     "luminance": 16,
-    "dodge": 6,
+    "dodge": 999,
     "harvest": "exempt",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "ZERO_WEIGHT" ]
   }
 ]

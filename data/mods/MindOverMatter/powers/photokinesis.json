@@ -74,7 +74,7 @@
     "id": "photokinetic_light_beam",
     "type":"SPELL",
     "name": "[Ψ]Photon Beam",
-    "description": "Concentrate photons into a high-energy beam",
+    "description": "Concentrate photons into a high-energy beam.",
     "message":"",
     "teachable":false,
     "valid_targets":[ "ground", "hostile" ],
