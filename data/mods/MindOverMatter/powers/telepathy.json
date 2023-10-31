@@ -36,25 +36,6 @@
     "learn_spells": { "telepathic_mind_sense": 5, "telepathic_blast": 7, "telepathic_confusion": 15 }
   },
   {
-    "id": "telepathic_concentration_end",
-    "type": "SPELL",
-    "name": "[Ψ]Concentration Trance (Remove)",
-    "description": "End your focused trance, returning to normal.",
-    "message": "You stop concentrating.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEPATH",
-    "skill": "metaphysics",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "effect_telepathic_learning_bonus",
-    "shape": "blast",
-    "max_level": 1,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 0,
-    "base_casting_time": 30
-  },
-  {
     "id": "telepathic_shield",
     "type": "SPELL",
     "name": "[Ψ]Telepathic Shield",
@@ -117,13 +98,6 @@
     "final_casting_time": 150,
     "casting_time_increment": -9.5,
     "learn_spells": { "telepathic_confusion": 7, "telepathic_invisibility": 10, "telepathic_mind_control": 15 }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_MORALE",
-    "effect": [
-      { "u_add_morale": "morale_telepathy", "bonus": 10, "max_bonus": 25, "duration": "4 hours", "decay_start": "2 hours" }
-    ]
   },
   {
     "id": "telepathic_mind_sense",
@@ -345,7 +319,7 @@
     "id": "telepathic_invisibility",
     "type": "SPELL",
     "name": "[Ψ]Obscurity",
-    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.",
+    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.\n\nThis power is <color_red>canceled by engaging in combat</color>",
     "message": "You hide your presence from your enemies.",
     "teachable": false,
     "valid_targets": [ "self" ],
