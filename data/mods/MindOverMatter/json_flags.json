@@ -76,7 +76,7 @@
   },
   {
     "id": "PHOTOKIN_CHAR_IMMUNE",
-    "type": "character_flag",
+    "type": "json_flag",
     "//": "Immune to photokinetic damage"
     },
   {
