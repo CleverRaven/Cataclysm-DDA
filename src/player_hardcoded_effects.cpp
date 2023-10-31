@@ -325,13 +325,12 @@ static void eff_fun_bleed( Character &u, effect &it )
                 { 31, to_translation( "%1s gushes from your %2s!" ) }
             };
             translation suffer_string = intensity_strings.at( 0 );
-            // iterate in reverse to find the first string that we qualify for based on intensity
-            // if we go through the map from front to back, we end up choosing the string for the lowest intensity all the time
-            for( auto iter = intensity_strings.rbegin(); iter != intensity_strings.rend(); ++iter ) {
-                if( intense >= iter->first ) {
-                    suffer_string = iter->second;
+            // iterate through intensity levels after the first, stopping before we reach one higher than the actual intensity
+            for( auto iter = next( intensity_strings.begin() ); iter != intensity_strings.end(); ++iter ) {
+                if( intense < iter->first ) {
                     break;
                 }
+                suffer_string = iter->second;
             }
             u.bleed();
             bodypart_id bp = it.get_bp();
@@ -345,6 +344,19 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.add_msg_player_or_npc( m_bad,
                                      final_message,
                                      _( "<npcname> loses some blood." ) );
+            if( u.is_avatar() && one_in( 10 ) && it.get_duration() > 1_turns ) {
+                bodypart_id bp_id = u.most_staunchable_bp();
+                if( bp_id == bp ) {
+                    if( u.controlling_vehicle || u.is_armed() ) {
+                        u.add_msg_if_player( m_warning,
+                                             _( "You could reduce the bleeding by emptying your hands and pausing to apply pressure." ) );
+                    } else {
+                        u.add_msg_if_player( m_warning,
+                                             _( "You could reduce the bleeding by pausing to apply pressure." ) );
+                    }
+
+                }
+            }
         }
     }
 }
