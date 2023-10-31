@@ -506,7 +506,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_blind", "hit_self": true },
+      "effect": { "id": "death_blindness", "hit_self": true },
       "message": "%1$s shrieks and unleashes a powerful blinding flash!"
     },
     "luminance": 200,

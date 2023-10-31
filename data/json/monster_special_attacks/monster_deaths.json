@@ -364,7 +364,7 @@
     "shape": "blast"
   },
   {
-    "id": "death_blind",
+    "id": "death_blindness",
     "type": "SPELL",
     "name": { "str": "Death Blinding" },
     "description": "Blinding flash on death.",
