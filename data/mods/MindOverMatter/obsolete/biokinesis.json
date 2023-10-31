@@ -12,5 +12,149 @@
     "effect_str": "biokin_sealed_system",
     "shape": "blast",
     "max_level": 1
+  },
+  {
+    "id": "biokin_overcome_pain_1",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #1",
+    "description": "Number #1 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_1",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_2",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #2",
+    "description": "Number #2 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_2",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_3",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #3",
+    "description": "Number #3 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_3",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_4",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #4",
+    "description": "Number #4 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_4",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 120000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 210000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_5",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #5",
+    "description": "Number #5 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_5",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 240000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_6",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #6",
+    "description": "Number #6 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_6",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 270000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
   }
 ]
