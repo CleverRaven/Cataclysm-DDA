@@ -238,10 +238,10 @@
     "global": false,
     "condition": {
       "or": [
-        { "math": [ "u_hp('arm_l')", "<=", "u_hp_max('arm_l') * 0.09" ] },
-        { "math": [ "u_hp('arm_r')", "<=", "u_hp_max('arm_r') * 0.09" ] },
-        { "math": [ "u_hp('leg_l')", "<=", "u_hp_max('leg_l') * 0.09" ] },
-        { "math": [ "u_hp('leg_r')", "<=", "u_hp_max('leg_r') * 0.09" ] }
+        { "math": [ "u_hp('arm_l')", "==", "0" ] },
+        { "math": [ "u_hp('arm_r')", "==", "0" ] },
+        { "math": [ "u_hp('leg_l')", "==", "0" ] },
+        { "math": [ "u_hp('leg_r')", "==", "0" ] }
       ]
     },
     "effect": [
@@ -253,7 +253,7 @@
               { "not": { "u_has_trait": "NO_LEFT_ARM" } },
               { "not": { "u_has_var": "missing_left_arm", "type": "traits", "context": "limbs", "value": "yes" } },
               { "x_in_y_chance": { "x": 1, "y": 20 } },
-              { "math": [ "u_hp('arm_l')", "<=", "u_hp_max('arm_l') * 0.09" ] }
+              { "math": [ "u_hp('arm_l')", "==", "0" ] }
             ]
           },
           "effect": [
@@ -273,7 +273,7 @@
               { "not": { "u_has_trait": "NO_RIGHT_ARM" } },
               { "not": { "u_has_var": "missing_right_arm", "type": "traits", "context": "limbs", "value": "yes" } },
               { "x_in_y_chance": { "x": 1, "y": 20 } },
-              { "math": [ "u_hp('arm_r')", "<=", "u_hp_max('arm_r') * 0.09" ] }
+              { "math": [ "u_hp('arm_r')", "==", "0" ] }
             ]
           },
           "effect": [
@@ -293,7 +293,7 @@
               { "not": { "u_has_trait": "NO_LEFT_LEG" } },
               { "not": { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" } },
               { "x_in_y_chance": { "x": 1, "y": 20 } },
-              { "math": [ "u_hp('leg_l')", "<=", "u_hp_max('leg_l') * 0.09" ] }
+              { "math": [ "u_hp('leg_l')", "==", "0" ] }
             ]
           },
           "effect": [
@@ -313,7 +313,7 @@
               { "not": { "u_has_trait": "NO_RIGHT_LEG" } },
               { "not": { "u_has_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" } },
               { "x_in_y_chance": { "x": 1, "y": 20 } },
-              { "math": [ "u_hp('leg_r')", "<=", "u_hp_max('leg_r') * 0.09" ] }
+              { "math": [ "u_hp('leg_r')", "==", "0" ] }
             ]
           },
           "effect": [
