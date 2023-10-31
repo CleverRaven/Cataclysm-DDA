@@ -66,6 +66,7 @@
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "effect_photokin_dodge",
+    "shape": "blast",
     "difficulty": 1,
     "min_duration": 5,
     "max_duration": 30,
