@@ -4229,11 +4229,19 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, std::string_vi
     } else {
         values.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
     }
+    bool parse = jo.get_bool( "parse_tags", false );
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    function = [values, var]( dialogue & d ) {
+    function = [values, var, parse]( dialogue & d ) {
         int index = rng( 0, values.size() - 1 );
-        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d,
-                         values[index].evaluate( d ) );
+        std::string str = values[index].evaluate( d );
+        if( parse ) {
+            itype_id &dummy = itype_id();
+            std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
+            talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
+            talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
+            parse_tags( str, alpha, beta, d, dummy );
+        }
+        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d, str );
     };
 }
 
