@@ -7873,7 +7873,7 @@ look_around_result game::look_around(
 look_around_result game::look_around( look_around_params looka_params )
 {
     return look_around( looka_params.show_window, looka_params.center, looka_params.start_point,
-                        looka_params.has_first_point, looka_params.select_zone, looka_params.peeking, tripoint_zero,
+                        looka_params.has_first_point, looka_params.select_zone, looka_params.peeking, false, tripoint_zero,
                         looka_params.change_lv );
 }
 
