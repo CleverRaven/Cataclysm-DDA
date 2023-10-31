@@ -263,7 +263,7 @@
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 50,
-    "min_aoe":{ "math": [ "(u_val('spell_level', 'spell: photokinetic_light_flash') * (scaling_factor(u_val('intelligence') ) )" ] },
+    "min_aoe":{ "math": [ "u_val('spell_level', 'spell: photokinetic_light_flash') * (scaling_factor(u_val('intelligence') ) )" ] },
     "max_aoe": 30,
     "energy_source":"STAMINA",
     "difficulty":6,
