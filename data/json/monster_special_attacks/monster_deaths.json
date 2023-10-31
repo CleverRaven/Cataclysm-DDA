@@ -368,6 +368,7 @@
     "type": "SPELL",
     "name": { "str": "Death Blinding" },
     "description": "Blinding flash on death.",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "effect": "attack",
     "effect_str": "blind",
