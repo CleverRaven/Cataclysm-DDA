@@ -1379,7 +1379,7 @@ void conditional_t::set_query( const JsonObject &jo, std::string_view member, bo
 void conditional_t::set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     std::string type = jo.get_string( member.data() );
-    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
+    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
     std::string message;
     if( jo.has_member( "message" ) ) {
         message = jo.get_string( "message" );
@@ -1388,11 +1388,11 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
     if( jo.has_member( "range" ) ) {
         range = get_dbl_or_var( jo, "range" );
     }
-    condition = [type, loc_var, message, range, is_npc]( dialogue & d ) {
+    condition = [type, target_var, message, range, is_npc]( dialogue & d ) {
         std::optional<tripoint> loc;
-
-        avatar *you = d.actor( is_npc )->get_character()->as_avatar();
-        if( you ) {
+        Character *ch = d.actor( is_npc )->get_character();
+        if( ch && ch->as_avatar() ) {
+            avatar *you = ch->as_avatar();
             if( type == "anywhere" ) {
                 if( !message.empty() ) {
                     static_popup popup;
@@ -1401,7 +1401,7 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
                 }
                 tripoint center = d.actor( is_npc )->pos();
                 look_around_result result;
-                const look_around_params looka_params = { true, center, center, false, true, true };
+                const look_around_params looka_params = { true, center, center, false, true, true, false };
                 loc = g->look_around( looka_params ).position;
             } else if( type == "line_of_sight" ) {
                 if( !message.empty() ) {
@@ -1426,7 +1426,7 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
         }
         if( loc.has_value() ) {
             tripoint_abs_ms pos_global = get_map().getglobal( *loc );
-            write_var_value( loc_var.type, loc_var.name, d.actor( loc_var.type == var_type::npc ), &d,
+            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
                              pos_global.to_string() );
         }
         return loc.has_value();

@@ -291,7 +291,7 @@
     "id": "EOC_query_tile_test_anywhere",
     "effect": [
       {
-        "if": { "u_query_tile": "anywhere", "message": "Select point" },
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
         "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
@@ -302,7 +302,7 @@
     "id": "EOC_query_tile_test_line_of_sight",
     "effect": [
       {
-        "if": { "u_query_tile": "line_of_sight", "message": "Select point", "range": 10 },
+        "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
         "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
@@ -313,7 +313,7 @@
     "id": "EOC_query_tile_test_around",
     "effect": [
       {
-        "if": { "u_query_tile": "around", "message": "Choose direction" },
+        "if": { "u_query_tile": "around", "target_var": { "context_val": "pos" }, "message": "Choose direction" },
         "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
