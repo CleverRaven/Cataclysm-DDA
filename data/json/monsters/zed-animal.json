@@ -778,7 +778,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "dodge": 2,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "vision_night": 7,
     "harvest": "zombie_animal_acid",
     "path_settings": { "max_dist": 5 },
