@@ -193,6 +193,15 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> coverage_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        return d.actor( beta )->coverage_at( bp );
+    };
+}
+
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -205,6 +214,15 @@ std::function<double( dialogue & )> effect_intensity_eval( char scope,
         bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         effect target = d.actor( beta )->get_effect( efftype_id( effect_id.str( d ) ), bp );
         return target.is_null() ? -1 : target.get_intensity();
+    };
+}
+
+std::function<double( dialogue & )> encumbrance_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        return d.actor( beta )->encumbrance_at( bp );
     };
 }
 
