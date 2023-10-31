@@ -3317,7 +3317,7 @@
     "skills": [ { "level": 4, "name": "chemistry" }, { "level": 4, "name": "electronics" } ],
     "traits": [ "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
     "items": {
-      "both": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ],
+      "both": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
