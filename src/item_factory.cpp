@@ -611,11 +611,11 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
-        std::map<vitamin_id, int> &vitamins = obj.comestible->default_nutrition.vitamins;
+        std::map<vitamin_id, int> vitamins = obj.comestible->default_nutrition.vitamins();
         if( get_option<bool>( "NO_VITAMINS" ) ) {
             for( auto &vit : vitamins ) {
                 if( vit.first->type() == vitamin_type::VITAMIN ) {
-                    vit.second = 0;
+                    obj.comestible->default_nutrition.set_vitamin( vit.first, 0 );
                 }
             }
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -637,7 +637,7 @@ void Item_factory::finalize_pre( itype &obj )
                 if( !vitamins.count( v.first ) ) {
                     for( const auto &m : mat ) {
                         double amount = m.first->vitamin( v.first ) * healthy / mat.size();
-                        vitamins[v.first] += std::ceil( amount );
+                        obj.comestible->default_nutrition.add_vitamin( v.first, std::ceil( amount ) );
                     }
                 }
             }
@@ -3318,13 +3318,13 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     if( jo.has_array( "vitamins" ) ) {
         for( JsonArray pair : jo.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
-            slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
+            slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
         }
 
     } else if( relative.has_array( "vitamins" ) ) {
         for( JsonArray pair : relative.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
-            slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
+            slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
         }
     }
 

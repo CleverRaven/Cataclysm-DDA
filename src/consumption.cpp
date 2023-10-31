@@ -226,7 +226,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         return {};
     }
 
-    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins();
 
     // for actual vitamins convert RDA to a internal value
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -269,9 +269,14 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 static nutrients compute_default_effective_nutrients( const item &comest,
         const Character &you, const cata::flat_set<flag_id> &extra_flags = {} )
 {
+    nutrients ret;
     // Multiply by 1000 to get it in calories
-    return { compute_default_effective_kcal( comest, you, extra_flags ) * 1000,
-             compute_default_effective_vitamins( comest, you ) };
+    ret.calories = compute_default_effective_kcal( comest, you, extra_flags ) * 1000;
+    for( const std::pair<const vitamin_id, int> &vit :  compute_default_effective_vitamins( comest,
+            you ) ) {
+        ret.set_vitamin( vit.first, vit.second );
+    }
+    return ret;
 }
 
 // Calculate the nutrients that the given character would receive from consuming
@@ -1606,7 +1611,7 @@ bool Character::consume_effects( item &food )
     if( is_avatar() ) {
         get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
     }
-    for( const auto &v : ingested.nutr.vitamins ) {
+    for( const auto &v : ingested.nutr.vitamins() ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
         daily_vitamins[v.first].first += v.second;

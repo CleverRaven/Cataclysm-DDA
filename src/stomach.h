@@ -16,39 +16,49 @@ struct needs_rates;
 // Separate struct for nutrients so that we can easily perform arithmetic on
 // them
 struct nutrients {
-    /** amount of calories (1/1000s of kcal) this food has */
-    int calories = 0;
+        /** amount of calories (1/1000s of kcal) this food has */
+        int calories = 0;
 
-    /** vitamins potentially provided by this comestible (if any) */
-    std::map<vitamin_id, int> vitamins;
+        /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
+         * values taken from r. */
+        void min_in_place( const nutrients &r );
+        void max_in_place( const nutrients &r );
 
-    /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
-     * values taken from r. */
-    void min_in_place( const nutrients &r );
-    void max_in_place( const nutrients &r );
+        // vitamin -> how many vitamin units of it are included
+        std::map<vitamin_id, int> vitamins() const;
 
-    int get_vitamin( const vitamin_id & ) const;
-    int kcal() const;
+        void set_vitamin( const vitamin_id &, int units );
+        void add_vitamin( const vitamin_id &, int units );
 
-    bool operator==( const nutrients &r ) const;
-    bool operator!=( const nutrients &r ) const {
-        return !( *this == r );
-    }
+        // Remove a vitamin completely from the data structure
+        void remove_vitamin( const vitamin_id & );
 
-    nutrients &operator+=( const nutrients &r );
-    nutrients &operator-=( const nutrients &r );
-    nutrients &operator*=( int r );
-    nutrients &operator/=( int r );
+        int get_vitamin( const vitamin_id & ) const;
+        int kcal() const;
 
-    friend nutrients operator*( nutrients l, int r ) {
-        l *= r;
-        return l;
-    }
+        bool operator==( const nutrients &r ) const;
+        bool operator!=( const nutrients &r ) const {
+            return !( *this == r );
+        }
 
-    friend nutrients operator/( nutrients l, int r ) {
-        l /= r;
-        return l;
-    }
+        nutrients &operator+=( const nutrients &r );
+        nutrients &operator-=( const nutrients &r );
+        nutrients &operator*=( int r );
+        nutrients &operator/=( int r );
+
+        friend nutrients operator*( nutrients l, int r ) {
+            l *= r;
+            return l;
+        }
+
+        friend nutrients operator/( nutrients l, int r ) {
+            l /= r;
+            return l;
+        }
+
+    private:
+        /** vitamins potentially provided by this comestible (if any) */
+        std::map<vitamin_id, int> vitamins_;
 };
 
 // Contains all information that can pass out of (or into) a stomach

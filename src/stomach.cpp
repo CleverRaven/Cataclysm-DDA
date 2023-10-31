@@ -18,10 +18,10 @@ void nutrients::min_in_place( const nutrients &r )
         const vitamin_id &vit = vit_pair.first;
         int other = r.get_vitamin( vit );
         if( other == 0 ) {
-            vitamins.erase( vit );
+            vitamins_.erase( vit );
         } else {
-            auto our_vit = vitamins.find( vit );
-            if( our_vit != vitamins.end() ) {
+            auto our_vit = vitamins_.find( vit );
+            if( our_vit != vitamins_.end() ) {
                 our_vit->second = std::min( our_vit->second, other );
             }
         }
@@ -35,16 +35,38 @@ void nutrients::max_in_place( const nutrients &r )
         const vitamin_id &vit = vit_pair.first;
         int other = r.get_vitamin( vit );
         if( other != 0 ) {
-            int &val = vitamins[vit];
+            int &val = vitamins_[vit];
             val = std::max( val, other );
         }
     }
 }
 
+std::map<vitamin_id, int> nutrients::vitamins() const
+{
+    return vitamins_;
+}
+
+void nutrients::set_vitamin( const vitamin_id &vit, int units )
+{
+    auto iter = vitamins_.emplace( vit, 0 ).first;
+    iter->second = units;
+}
+
+void nutrients::add_vitamin( const vitamin_id &vit, int units )
+{
+    auto iter = vitamins_.emplace( vit, 0 ).first;
+    iter->second = iter->second + units;
+}
+
+void nutrients::remove_vitamin( const vitamin_id &vit )
+{
+    vitamins_.erase( vit );
+}
+
 int nutrients::get_vitamin( const vitamin_id &vit ) const
 {
-    auto it = vitamins.find( vit );
-    if( it == vitamins.end() ) {
+    auto it = vitamins_.find( vit );
+    if( it == vitamins_.end() ) {
         return 0;
     }
     return it->second;
@@ -74,8 +96,8 @@ bool nutrients::operator==( const nutrients &r ) const
 nutrients &nutrients::operator+=( const nutrients &r )
 {
     calories += r.calories;
-    for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
-        vitamins[vit.first] += vit.second;
+    for( const std::pair<const vitamin_id, int> &vit : r.vitamins_ ) {
+        vitamins_[vit.first] += vit.second;
     }
     return *this;
 }
@@ -83,8 +105,8 @@ nutrients &nutrients::operator+=( const nutrients &r )
 nutrients &nutrients::operator-=( const nutrients &r )
 {
     calories -= r.calories;
-    for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
-        vitamins[vit.first] -= vit.second;
+    for( const std::pair<const vitamin_id, int> &vit : r.vitamins_ ) {
+        vitamins_[vit.first] -= vit.second;
     }
     return *this;
 }
@@ -92,7 +114,7 @@ nutrients &nutrients::operator-=( const nutrients &r )
 nutrients &nutrients::operator*=( int r )
 {
     calories *= r;
-    for( std::pair<const vitamin_id, int> &vit : vitamins ) {
+    for( std::pair<const vitamin_id, int> &vit : vitamins_ ) {
         vit.second *= r;
     }
     return *this;
@@ -101,7 +123,7 @@ nutrients &nutrients::operator*=( int r )
 nutrients &nutrients::operator/=( int r )
 {
     calories = divide_round_up( calories, r );
-    for( std::pair<const vitamin_id, int> &vit : vitamins ) {
+    for( std::pair<const vitamin_id, int> &vit : vitamins_ ) {
         vit.second = divide_round_up( vit.second, r );
     }
     return *this;
@@ -124,7 +146,7 @@ static std::string ml_to_string( const units::volume &vol )
 void stomach_contents::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "vitamins", nutr.vitamins );
+    json.member( "vitamins", nutr.vitamins() );
     json.member( "calories", nutr.calories );
     json.member( "water", ml_to_string( water ) );
     json.member( "max_volume", ml_to_string( max_volume ) );
@@ -140,7 +162,11 @@ static units::volume string_to_ml( const std::string_view str )
 
 void stomach_contents::deserialize( const JsonObject &jo )
 {
-    jo.read( "vitamins", nutr.vitamins );
+    std::map<vitamin_id, int> vitamins;
+    jo.read( "vitamins", vitamins );
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
+        nutr.set_vitamin( vit.first, vit.second );
+    }
     jo.read( "calories", nutr.calories );
     std::string str;
     jo.read( "water", str );
@@ -160,9 +186,11 @@ void stomach_contents::deserialize( const JsonObject &jo )
         }
         return false;
     };
-    std::map<vitamin_id, int>::iterator it = nutr.vitamins.begin();
-    while( ( it = std::find_if( it, nutr.vitamins.end(), predicate ) ) != nutr.vitamins.end() ) {
-        nutr.vitamins.erase( it++ );
+    std::map<vitamin_id, int> vit = nutr.vitamins();
+    for( const std::pair<const vitamin_id, int> &pair : vit ) {
+        if( predicate( pair ) ) {
+            nutr.remove_vitamin( pair.first );
+        }
     }
 }
 
@@ -215,10 +243,10 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
                              nutr.calories );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
-    for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
+    for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins() ) {
         int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
-        digested.nutr.vitamins[vit.first] =
-            half_hours * clamp( rates.min_vitamin, vit_fraction, vit.second );
+        digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
+                                   vit.second ) );
     }
 
     nutr -= digested.nutr;
