@@ -1,0 +1,12 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_pyrokin_quell_fire",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fire gutters and dies!", "message_good": true } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_null_zombie_delete_fields",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_nullifying_field" ], "message": "" } ]
+  }
+]

@@ -223,5 +223,16 @@
     "type": "MIGRATION",
     "replace": "sword_sheets_welded_large",
     "variant": "sword_sheets_bolted_large"
+  },
+  {
+    "id": "burdock_stalk",
+    "type": "MIGRATION",
+    "replace": "plant_stalk"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "MIGRATION",
+    "replace": "bag_zipper",
+    "sealed": false
   }
 ]

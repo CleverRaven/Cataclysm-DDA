@@ -388,7 +388,8 @@
         "watertight": true,
         "max_contains_volume": "20 L",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "25 kg"
+        "max_contains_weight": "25 kg",
+        "item_restriction": [ "diesel", "biodiesel", "jp8", "lamp_oil", "motor_oil" ]
       }
     ],
     "symbol": "O",

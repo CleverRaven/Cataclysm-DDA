@@ -343,7 +343,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "get active pamphlet" },
-    "description": "A small pamphlet advertising various local buisnesses encouraging you to get fit.  Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
+    "description": "A small pamphlet advertising various local businesses encouraging you to get fit.  Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",

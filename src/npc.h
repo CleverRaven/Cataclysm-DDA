@@ -82,6 +82,9 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const dialogue &d, const itype_id &item_type = itype_id::NULL_ID() );
 
+void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
+                 const itype_id &item_type = itype_id::NULL_ID() );
+
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
  * Trade:  Trust mid->high, fear low->midlow, need is a bonus
@@ -867,30 +870,12 @@ class npc : public Character
         */
         void on_attacked( const Creature &attacker );
         int assigned_missions_value();
-        /**
-         * @return Skills of which this NPC has a higher level than the given player. In other
-         * words: skills this NPC could teach the player.
-         */
-        std::vector<skill_id> skills_offered_to( const Character &you ) const;
-        /**
-         * Proficiencies we know that the character doesn't
-         */
-        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
-        /**
-         * Martial art styles that we known, but the player p doesn't.
-         */
-        std::vector<matype_id> styles_offered_to( const Character &you ) const;
-        /**
-         * Spells that the NPC knows but that the player p doesn't.
-         * not const because get_spell isn't const and both this and p call it
-         */
-        std::vector<spell_id> spells_offered_to( Character &you );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
-        bool is_obeying( const Character &p ) const;
+        bool is_obeying( const Character &p ) const override;
 
         // true if the NPC isn't actually real
         bool is_hallucination() const override {
@@ -911,7 +896,7 @@ class npc : public Character
         // Leading, following, or waiting for the player
         bool is_walking_with() const;
         // In the same faction
-        bool is_ally( const Character &p ) const;
+        bool is_ally( const Character &p ) const override;
         // Is an ally of the player
         bool is_player_ally() const;
         // Isn't moving
@@ -940,6 +925,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        std::string get_restock_interval() const;
         bool is_shopkeeper() const;
         // Use and assessment of items
         // The minimum value to want to pick up an item
@@ -1014,6 +1000,7 @@ class npc : public Character
         void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
+        void prevent_death() override;
         // How well we smash terrain (not corpses!)
         int smash_ability() const;
 
@@ -1075,12 +1062,10 @@ class npc : public Character
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
-        int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
-
         void handle_sound( sounds::sound_t priority, const std::string &description,
                            int heard_volume, const tripoint &spos );
 
-        void witness_thievery( item *it );
+        void witness_thievery( item *it ) override;
 
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -1394,6 +1379,10 @@ class npc : public Character
 
         void set_known_to_u( bool known );
 
+        // Comparator between two NPCs as to who is a better person to respond
+        // to a theft being witnessed
+        static bool theft_witness_compare( const npc *lhs, const npc *rhs );
+
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const mission_id &miss_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
@@ -1421,6 +1410,8 @@ class npc : public Character
         int cbm_weapon_index = -1;
 
         bool dead = false;  // If true, we need to be cleaned up
+        // Temporary variable for preventing from death (used by EoC event)
+        bool prevent_death_reminder = false; // NOLINT(cata-serialize)
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;

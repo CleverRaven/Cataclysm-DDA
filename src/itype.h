@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -755,6 +756,24 @@ struct islot_gun : common_ranged_data {
 
     int ammo_to_fire = 1;
 
+    /**
+    * The amount by which the item's overheat value is reduced every turn. Used in
+    * overheat-based guns.
+    */
+    double cooling_value = 100.0;
+
+    /**
+    *  Used only in overheat-based guns. No melting LMG barrels yet.
+    */
+    double heat_per_shot = 0.0;
+
+    /**
+    * Used in overheat-based guns.
+    * Heat value at which critical overheat faults might occur.
+    * A value beneath 0.0 means that the gun cannot overheat.
+    */
+    double overheat_threshold = -1.0;
+
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 
     /**
@@ -862,7 +881,7 @@ struct islot_gunmod : common_ranged_data {
     int consume_divisor = 1;
 
     /** Enlarge or reduce shot spread */
-    float shot_spread_multiplier_modifier = 1.0f;
+    float shot_spread_multiplier_modifier = 0.0f;
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
@@ -878,6 +897,18 @@ struct islot_gunmod : common_ranged_data {
 
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
+
+    //Manipulate overheat thresholds with fixed values and percentages
+    double overheat_threshold_modifier = 0;
+    float overheat_threshold_multiplier = 1.0f;
+
+    //Manipulate cooling capacity with fixed values and percentages
+    double cooling_value_modifier = 0;
+    float cooling_value_multiplier = 1.0f;
+
+    //Manipulation of generated heat by fixed values and percentages
+    double heat_per_shot_modifier = 0;
+    float heat_per_shot_multiplier = 1.0f;
 };
 
 struct islot_magazine {
@@ -1047,7 +1078,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    ter_furn_flag required_terrain_flag = ter_furn_flag::TFLAG_PLANTABLE;
     islot_seed() = default;
 };
 
@@ -1105,6 +1139,7 @@ struct memory_card_info {
     int recipes_level_min;
     int recipes_level_max;
     std::set<std::string> recipes_categories;
+    bool secret_recipes;
 };
 
 struct itype {

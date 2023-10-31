@@ -28,6 +28,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "fungal_effects.h"
+#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -102,6 +103,7 @@ static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
+static const map_extra_id map_extra_mx_fungal_zone( "mx_fungal_zone" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
@@ -125,6 +127,8 @@ static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
+
+static const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
@@ -1398,7 +1402,11 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.ter_set( loc, ter_t_tree_dead );
         } else {
             m.ter_set( loc, ter_t_dirt );
-            m.furn_set( loc, f_ash );
+            if( one_in( 4 ) ) {
+                m.furn_set( loc, f_ash );
+            } else {
+                m.furn_set( loc, furn_id( "f_fireweed" ) );
+            }
             m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
         }
         // everything else is destroyed, ash is added
@@ -1519,6 +1527,7 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
     weighted_int_list<furn_id> vegetation;
     vegetation.add( f_cattails, 15 );
     vegetation.add( f_lotus, 5 );
+    vegetation.add( furn_id( "f_purple_loosestrife" ), 1 );
     vegetation.add( f_lilypad, 1 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -2113,6 +2122,60 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     return true;
 }
 
+static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
+{
+    //First, find a city
+    // TODO: fix point types
+    const city_reference c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) );
+    const tripoint_abs_omt city_center_omt = project_to<coords::omt>( c.abs_sm_pos );
+
+    //Then find out which types of parks (defined in regional settings) exist in this city
+    std::vector<tripoint_abs_omt> valid_omt;
+    const auto &parks = g->get_cur_om().get_settings().city_spec.get_all_parks();
+    for( const auto &elem : parks ) {
+        for( const tripoint_abs_omt &p : points_in_radius( city_center_omt, c.city->size ) ) {
+            if( overmap_buffer.check_overmap_special_type( elem.obj, p ) ) {
+                valid_omt.push_back( p );
+            }
+        }
+    }
+
+    // If there's no parks in the city, bail out
+    if( valid_omt.empty() ) {
+        return false;
+    }
+
+    const tripoint_abs_omt &park_omt = random_entry( valid_omt, city_center_omt );
+
+    tinymap fungal_map;
+    fungal_map.load( project_to<coords::sm>( park_omt ), false );
+
+    // Then find suitable location for fungal spire to spawn (grass, dirt etc)
+    const tripoint submap_center = { SEEX, SEEY, abs_sub.z };
+    std::vector<tripoint> suitable_locations;
+    for( const tripoint &loc : fungal_map.points_in_radius( submap_center, 10 ) ) {
+        if( fungal_map.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, loc ) ) {
+            suitable_locations.push_back( loc );
+        }
+    }
+
+    // If there's no suitable location found, bail out
+    if( suitable_locations.empty() ) {
+        return false;
+    }
+
+    const tripoint suitable_location = random_entry( suitable_locations, submap_center );
+    fungal_map.add_spawn( mon_fungaloid_queen, 1, suitable_location );
+    fungal_map.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
+                             suitable_location.xy() + point_north_west,
+                             suitable_location.xy() + point_south_east,
+                             3, true );
+
+    fungal_map.save();
+
+    return true;
+}
+
 static FunctionMap builtin_functions = {
     { map_extra_mx_null, mx_null },
     { map_extra_mx_roadworks, mx_roadworks },
@@ -2132,7 +2195,8 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_looters, mx_looters },
     { map_extra_mx_corpses, mx_corpses },
     { map_extra_mx_city_trap, mx_city_trap },
-    { map_extra_mx_reed, mx_reed }
+    { map_extra_mx_reed, mx_reed },
+    { map_extra_mx_fungal_zone, mx_fungal_zone },
 };
 
 map_extra_pointer get_function( const map_extra_id &name )

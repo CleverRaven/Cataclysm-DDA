@@ -1721,6 +1721,24 @@
     ]
   },
   {
+    "id": "skirt_long",
+    "type": "ARMOR",
+    "name": { "str": "long skirt" },
+    "description": "A long skirt with no pockets.  Slightly more cumbersome but warmer than a normal skirt.",
+    "weight": "500 g",
+    "volume": "550 ml",
+    "price": 6500,
+    "price_postapoc": 75,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kilt",
+    "color": "black",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "skirt_grass",
     "type": "ARMOR",
     "name": { "str": "grass skirt" },

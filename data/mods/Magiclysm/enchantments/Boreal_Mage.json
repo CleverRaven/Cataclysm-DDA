@@ -59,8 +59,8 @@
     "name": { "str": "Cold Aura" },
     "points": 0,
     "active": true,
-    "description": "Your attendance is so dangerous you can freeze everything around yourself.  You suppress this power now.",
-    "transform": { "target": "COLD_AURA_ON", "msg_transform": "Everything around you covers in frost!", "active": true, "moves": 10 }
+    "description": "Your presence is so dangerous you can freeze everything around yourself.  You are currently suppressing this power.",
+    "transform": { "target": "COLD_AURA_ON", "msg_transform": "Everything around you is covered in frost!", "active": true, "moves": 10 }
   },
   {
     "type": "mutation",
@@ -71,7 +71,7 @@
     "active": true,
     "name": { "str": "Cold Aura (on)" },
     "points": -1,
-    "description": "Your attendance is so dangerous you can freeze everything around yourself.",
+    "description": "Your presence is so dangerous you can freeze everything around yourself.",
     "enchantments": [ "BOREAL_MAGE_AURA" ],
     "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 }
   }

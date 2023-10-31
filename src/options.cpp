@@ -2104,11 +2104,14 @@ void options_manager::add_options_interface()
         },
         "favorites" );
 
-        add( "ITEM_HEALTH_BAR", page_id, to_translation( "Show item health bars" ),
+        add( "ITEM_HEALTH", "interface", to_translation( "Show item health" ),
              // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-             to_translation( "If true, show item health bars instead of scratched, ripped etc. text." ),
-             true
-           );
+        to_translation( "Show item health bars, descriptions like reinforced, scratched etc. or both." ), {
+            { "bars", to_translation( "Bars" ) },
+            { "descriptions", to_translation( "Descriptions" ) },
+            { "both", to_translation( "Both" ) }
+        },
+        "bars" );
 
         add( "ITEM_SYMBOLS", page_id, to_translation( "Show item symbols" ),
              to_translation( "If true, show item symbols in inventory and pick up menu." ),
@@ -2828,6 +2831,13 @@ void options_manager::add_options_debug()
        );
 
     add_empty_line();
+
+    add( "PROFICIENCY_TRAINING_SPEED", "debug", to_translation( "Proficiency training speed" ),
+         to_translation( "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training." ),
+         0.0, 100.0, 1.0, 0.1
+       );
+
+    add_empty_line();
     add_option_group( "debug", Group( "3dfov_opts", to_translation( "3D Field Of Vision Options" ),
                                       to_translation( "Options regarding 3D field of vision." ) ),
     [&]( const std::string & page_id ) {
@@ -3468,10 +3478,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         };
         for( int i = 0; i < static_cast<int>( page_items.size() ); i++ ) {
             if( is_visible( i ) ) {
-                visible_items.push_back( i );
                 if( i == iCurrentLine ) {
                     curr_line_visible = static_cast<int>( visible_items.size() );
                 }
+                visible_items.push_back( i );
             }
         }
 
@@ -3819,6 +3829,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader: {
                     bool &state = groups_state[curr_item.data];
                     state = !state;
+                    recalc_startpos = true;
                     break;
                 }
                 case ItemType::BlankLine: {

@@ -103,7 +103,7 @@
         "fbmh_2_wood_palette": "Wooden walls and wooden roof"
       }
     },
-    "blueprint_requires": [ { "id": "fbmh_2_room_1_3" } ],
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_2_room_ENE", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_2_room_ENE" } ]
   },

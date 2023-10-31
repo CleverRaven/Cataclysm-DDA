@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_martial_arts.h"
 #include "effect_on_condition.h"
 #include "game.h"
 #include "map_helpers.h"
@@ -26,7 +27,19 @@ effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
+effect_on_condition_EOC_item_activate_test( "EOC_item_activate_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_flag_test( "EOC_item_flag_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_math_test( "EOC_item_math_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
+static const effect_on_condition_id
+effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
@@ -56,6 +69,10 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_run_inv_test1" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test4( "EOC_run_inv_test4" );
 static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
@@ -71,7 +88,17 @@ effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
+static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
+static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
+
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
+
+static const matype_id style_aikido( "style_aikido" );
+static const matype_id style_none( "style_none" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -294,8 +321,8 @@ TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
     CHECK( effect_on_condition_EOC_combat_mutator_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID_TEST" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike Test" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "50% moves, 66% damage" );
 }
 
@@ -676,6 +703,115 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
 
+TEST_CASE( "EOC_run_inv_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    item weapon( itype_test_knife_combat );
+    item backpack( itype_backpack );
+    get_avatar().set_wielded_item( weapon );
+    get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
+    get_avatar().i_add( item( itype_test_knife_combat ) );
+    get_avatar().i_add( item( itype_backpack ) );
+
+    tripoint_abs_ms pos_before = get_avatar().get_location();
+    tripoint_abs_ms pos_after = pos_before + tripoint_south_east;
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+
+    std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
+    } );
+
+    REQUIRE( items_before.size() == 4 );
+
+    // All items
+    CHECK( effect_on_condition_EOC_run_inv_test1->activate( d ) );
+
+    std::vector<item *> items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 4 );
+
+    // Test search_data: id, worn_only
+    CHECK( effect_on_condition_EOC_run_inv_test2->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key2" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Test search_data: material, wielded_only
+    CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+    } );
+
+    CHECK( items_after.empty() );
+
+    get_avatar().get_wielded_item().remove_item();
+    item weapon_wood( itype_sword_wood );
+    get_avatar().set_wielded_item( weapon_wood );
+
+    CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Test search_data: category, flags
+    CHECK( effect_on_condition_EOC_run_inv_test4->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key4" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    // Flag test for item
+    CHECK( effect_on_condition_EOC_item_flag_test->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_is_filthy" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 1 );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.has_flag( json_flag_FILTHY );
+    } );
+
+    CHECK( items_after.empty() );
+
+    // Math function test for item
+    items_before = get_avatar().items_with( []( const item & it ) {
+        return it.damage() == 0;
+    } );
+
+    REQUIRE( items_before.size() == 4 );
+    CHECK( effect_on_condition_EOC_item_math_test->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.damage() == it.max_damage() - 100;
+    } );
+
+    CHECK( items_after.size() == 4 );
+
+    // Activate test for item
+    CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
+    CHECK( get_map().furn( get_map().getlocal( pos_after ) ) == furn_f_cardboard_box );
+
+    // Teleport test for item
+    CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
+    CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
+}
+
 TEST_CASE( "EOC_event_test", "[eoc]" )
 {
     clear_avatar();
@@ -694,9 +830,12 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     temp_spell.set_level( get_avatar(), 5 );
     temp_spell.cast_all_effects( get_avatar(), tripoint() );
 
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "45" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "100" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "MAGUS" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "150" );
+    CHECK( globvars.get_global_value( "npctalk_var_key5" ) == "100" );
+    CHECK( globvars.get_global_value( "npctalk_var_key6" ) == "45" );
 
     // character_starts_activity
     globvars.clear_global_values();
@@ -712,6 +851,97 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity finished" );
+
+    // character_wields_item
+    item weapon_item( itype_test_knife_combat );
+    get_avatar().wield( weapon_item );
+    item_location weapon = get_avatar().get_wielded_item();
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+    CHECK( weapon->get_var( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+
+    // character_wears_item
+    std::list<item>::iterator armor = *get_avatar().worn.wear_item( get_avatar(),
+                                      item( itype_backpack ), false, true, true );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+    CHECK( armor->get_var( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+}
+
+TEST_CASE( "EOC_combat_event_test", "[eoc]" )
+{
+    size_t loop;
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_npcs();
+    clear_map();
+
+    // character_melee_attacks_character
+    npc &npc_dst_melee = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
+    item weapon_item( itype_test_knife_combat );
+    get_avatar().wield( weapon_item );
+    get_avatar().melee_attack( npc_dst_melee, false );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_character" );
+    CHECK( npc_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_character" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.name );
+
+    // character_melee_attacks_monster
+    clear_map();
+    monster &mon_dst_melee = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_east );
+    get_avatar().melee_attack( mon_dst_melee, false );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_monster" );
+    CHECK( mon_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_melee_attacks_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+
+    // character_ranged_attacks_character
+    const tripoint target_pos = get_avatar().pos() + point_east;
+    clear_map();
+    npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
+    for( loop = 0; loop < 1000; loop++ ) {
+        get_avatar().set_body();
+        arm_shooter( get_avatar(), "shotgun_s" );
+        get_avatar().recoil = 0;
+        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
+        if( !npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+            break;
+        }
+    }
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+    CHECK( npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_character" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.name );
+
+    // character_ranged_attacks_monster
+    clear_map();
+    monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
+    for( loop = 0; loop < 1000; loop++ ) {
+        get_avatar().set_body();
+        arm_shooter( get_avatar(), "shotgun_s" );
+        get_avatar().recoil = 0;
+        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item() );
+        if( !mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+            break;
+        }
+    }
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_monster" );
+    CHECK( mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
+           "character_ranged_attacks_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
@@ -750,4 +980,48 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
     CHECK_FALSE( get_avatar().knows_recipe( r ) );
+}
+
+TEST_CASE( "EOC_map_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
+
+    map &m = get_map();
+    const tripoint_abs_ms start = get_avatar().get_location();
+    const tripoint tgt = m.getlocal( start + tripoint_north );
+    m.furn_set( tgt, furn_test_f_eoc );
+    m.furn( tgt )->examine( get_avatar(), tgt );
+
+    CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
+    CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
+}
+
+TEST_CASE( "EOC_martial_art_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+
+    REQUIRE_FALSE( get_avatar().has_martialart( style_aikido ) );
+    REQUIRE( globvars.get_global_value( "fail_var" ).empty() );
+
+    CHECK( effect_on_condition_EOC_martial_art_test_1->activate( d ) );
+    CHECK( globvars.get_global_value( "fail_var" ).empty() );
+    CHECK( get_avatar().has_martialart( style_aikido ) );
+
+    get_avatar().martial_arts_data->set_style( style_aikido );
+
+    CHECK_FALSE( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
+    CHECK( get_avatar().has_martialart( style_aikido ) );
+
+    get_avatar().martial_arts_data->set_style( style_none );
+
+    CHECK( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
+    CHECK( !get_avatar().has_martialart( style_aikido ) );
 }

@@ -2486,6 +2486,9 @@
       "h20survivor_jumpsuit",
       "xs_h20survivor_jumpsuit",
       "xl_h20survivor_jumpsuit",
+      "h20survivor_jumpsuit_light",
+      "xs_h20survivor_jumpsuit_light",
+      "xl_h20survivor_jumpsuit_light",
       "thick_h20survivor_jumpsuit",
       "xs_thick_h20survivor_jumpsuit",
       "xl_thick_h20survivor_jumpsuit"
@@ -2720,7 +2723,17 @@
     "name": "survivor wetsuit hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from water.",
     "skill_used": "tailor",
-    "nested_category_data": [ "hood_h20survivor" ],
+    "nested_category_data": [
+      "hood_h20survivor",
+      "xs_hood_h20survivor",
+      "xl_hood_h20survivor",
+      "hood_h20survivor_light",
+      "xs_hood_h20survivor_light",
+      "xl_hood_h20survivor_light",
+      "hood_h20survivor_thick",
+      "xs_hood_h20survivor_thick",
+      "xl_hood_h20survivor_thick"
+    ],
     "difficulty": 7
   },
   {
@@ -3162,7 +3175,17 @@
     "name": "survivor wetsuit gloves",
     "description": "Recipes related to constructing various sizes of survivor wetsuit gloves.",
     "skill_used": "tailor",
-    "nested_category_data": [ "gloves_h20survivor" ],
+    "nested_category_data": [
+      "gloves_h20survivor",
+      "xs_gloves_h20survivor",
+      "xl_gloves_h20survivor",
+      "gloves_h20survivor_light",
+      "xs_gloves_h20survivor_light",
+      "xl_gloves_h20survivor_light",
+      "gloves_h20survivor_thick",
+      "xs_gloves_h20survivor_thick",
+      "xl_gloves_h20survivor_thick"
+    ],
     "difficulty": 7
   },
   {
@@ -3628,7 +3651,17 @@
     "name": "survivor wetsuit boots",
     "description": "Recipes related to constructing various sizes of survivor wetsuit boots.",
     "skill_used": "tailor",
-    "nested_category_data": [ "boots_h20survivor" ],
+    "nested_category_data": [
+      "boots_h20survivor",
+      "xs_boots_h20survivor",
+      "xl_boots_h20survivor",
+      "boots_h20survivor_light",
+      "xs_boots_h20survivor_light",
+      "xl_boots_h20survivor_light",
+      "boots_h20survivor_thick",
+      "xs_boots_h20survivor_thick",
+      "xl_boots_h20survivor_thick"
+    ],
     "difficulty": 5
   },
   {
@@ -6155,6 +6188,18 @@
     "difficulty": 3
   },
   {
+    "id": "nested_ch_chainmail_face",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain partial aventails",
+    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_face", "xl_ch_chainmail_face", "xs_ch_chainmail_face" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_qt_chainmail_face",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -6164,18 +6209,6 @@
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_face", "xl_qt_chainmail_face", "xs_qt_chainmail_face" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_ch_chainmail_face",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel chain partial aventails",
-    "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "ch_chainmail_face", "xl_ch_chainmail_face", "xs_ch_chainmail_face" ],
     "difficulty": 5
   },
   {
@@ -6191,8 +6224,8 @@
       "nested_lc_chainmail_face",
       "nested_mc_chainmail_face",
       "nested_hc_chainmail_face",
-      "nested_qt_chainmail_face",
-      "nested_ch_chainmail_face"
+      "nested_ch_chainmail_face",
+      "nested_qt_chainmail_face"
     ],
     "difficulty": 7
   },
@@ -6233,6 +6266,18 @@
     "difficulty": 3
   },
   {
+    "id": "nested_ch_chainmail_aventail",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain aventails",
+    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_aventail", "xl_ch_chainmail_aventail", "xs_ch_chainmail_aventail" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_qt_chainmail_aventail",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -6242,18 +6287,6 @@
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_aventail", "xl_qt_chainmail_aventail", "xs_qt_chainmail_aventail" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_ch_chainmail_aventail",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel chain aventails",
-    "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "ch_chainmail_aventail", "xl_ch_chainmail_aventail", "xs_ch_chainmail_aventail" ],
     "difficulty": 5
   },
   {
@@ -6269,8 +6302,8 @@
       "nested_lc_chainmail_aventail",
       "nested_mc_chainmail_aventail",
       "nested_hc_chainmail_aventail",
-      "nested_qt_chainmail_aventail",
-      "nested_ch_chainmail_aventail"
+      "nested_ch_chainmail_aventail",
+      "nested_qt_chainmail_aventail"
     ],
     "difficulty": 7
   },
@@ -6281,7 +6314,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_nasal", "xl_lc_helmet_nasal", "xs_lc_helmet_nasal" ],
     "difficulty": 1
@@ -6293,7 +6326,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of medium quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_nasal", "xl_mc_helmet_nasal", "xs_mc_helmet_nasal" ],
     "difficulty": 2
@@ -6305,10 +6338,22 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of high quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_nasal", "xl_hc_helmet_nasal", "xs_hc_helmet_nasal" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_ch_helmet_nasal",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel nasal helmets",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ],
+    "difficulty": 5
   },
   {
     "id": "nested_qt_helmet_nasal",
@@ -6317,21 +6362,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_nasal", "xl_qt_helmet_nasal", "xs_qt_helmet_nasal" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_ch_helmet_nasal",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ],
     "difficulty": 5
   },
   {
@@ -6347,8 +6380,8 @@
       "nested_lc_helmet_nasal",
       "nested_mc_helmet_nasal",
       "nested_hc_helmet_nasal",
-      "nested_qt_helmet_nasal",
-      "nested_ch_helmet_nasal"
+      "nested_ch_helmet_nasal",
+      "nested_qt_helmet_nasal"
     ],
     "difficulty": 7
   },
@@ -6359,7 +6392,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_turban", "xl_lc_helmet_turban", "xs_lc_helmet_turban" ],
     "difficulty": 1
@@ -6371,7 +6404,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of medium quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_turban", "xl_mc_helmet_turban", "xs_mc_helmet_turban" ],
     "difficulty": 2
@@ -6383,10 +6416,22 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of high quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_turban", "xl_hc_helmet_turban", "xs_hc_helmet_turban" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_ch_helmet_turban",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel turban helmets",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ],
+    "difficulty": 5
   },
   {
     "id": "nested_qt_helmet_turban",
@@ -6395,21 +6440,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_turban", "xl_qt_helmet_turban", "xs_qt_helmet_turban" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_ch_helmet_turban",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ],
     "difficulty": 5
   },
   {
@@ -6425,8 +6458,8 @@
       "nested_lc_helmet_turban",
       "nested_mc_helmet_turban",
       "nested_hc_helmet_turban",
-      "nested_qt_helmet_turban",
-      "nested_ch_helmet_turban"
+      "nested_ch_helmet_turban",
+      "nested_qt_helmet_turban"
     ],
     "difficulty": 7
   },
@@ -6437,7 +6470,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_facemask", "xl_lc_steel_facemask", "xs_lc_steel_facemask" ],
     "difficulty": 1
@@ -6449,7 +6482,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of medium quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_steel_facemask", "xl_mc_steel_facemask", "xs_mc_steel_facemask" ],
     "difficulty": 2
@@ -6461,10 +6494,22 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of high quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_steel_facemask", "xl_hc_steel_facemask", "xs_hc_steel_facemask" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_ch_steel_facemask",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel face masks",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_steel_facemask", "xl_ch_steel_facemask", "xs_ch_steel_facemask" ],
+    "difficulty": 5
   },
   {
     "id": "nested_qt_steel_facemask",
@@ -6473,21 +6518,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_steel_facemask", "xl_qt_steel_facemask", "xs_qt_steel_facemask" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_ch_steel_facemask",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "ch_steel_facemask", "xl_ch_steel_facemask", "xs_ch_steel_facemask" ],
     "difficulty": 5
   },
   {
@@ -6503,8 +6536,8 @@
       "nested_lc_steel_facemask",
       "nested_mc_steel_facemask",
       "nested_hc_steel_facemask",
-      "nested_qt_steel_facemask",
-      "nested_ch_steel_facemask"
+      "nested_ch_steel_facemask",
+      "nested_qt_steel_facemask"
     ],
     "difficulty": 7
   },
@@ -6515,7 +6548,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_mirror_armor", "xl_lc_mirror_armor", "xs_lc_mirror_armor" ],
     "difficulty": 1
@@ -6527,7 +6560,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of medium quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_mirror_armor", "xl_mc_mirror_armor", "xs_mc_mirror_armor" ],
     "difficulty": 2
@@ -6539,10 +6572,22 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of high quality steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_mirror_armor", "xl_hc_mirror_armor", "xs_hc_mirror_armor" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_ch_mirror_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel mirror armor",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_mirror_armor", "xl_ch_mirror_armor", "xs_ch_mirror_armor" ],
+    "difficulty": 5
   },
   {
     "id": "nested_qt_mirror_armor",
@@ -6551,21 +6596,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_mirror_armor", "xl_qt_mirror_armor", "xs_qt_mirror_armor" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_ch_mirror_armor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "ch_mirror_armor", "xl_ch_mirror_armor", "xs_ch_mirror_armor" ],
     "difficulty": 5
   },
   {
@@ -6581,8 +6614,8 @@
       "nested_lc_mirror_armor",
       "nested_mc_mirror_armor",
       "nested_hc_mirror_armor",
-      "nested_qt_mirror_armor",
-      "nested_ch_mirror_armor"
+      "nested_ch_mirror_armor",
+      "nested_qt_mirror_armor"
     ],
     "difficulty": 7
   },

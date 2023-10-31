@@ -108,7 +108,6 @@ class avatar : public Character
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
-        void add_default_background();
 
         bool is_avatar() const override {
             return true;
@@ -121,6 +120,8 @@ class avatar : public Character
         }
 
         mfaction_id get_monster_faction() const override;
+
+        void witness_thievery( item * ) override {}
 
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
@@ -267,6 +268,9 @@ class avatar : public Character
         bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
+        bool is_ally( const Character &p ) const override;
+        bool is_obeying( const Character &p ) const override;
+
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible

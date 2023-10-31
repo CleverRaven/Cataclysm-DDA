@@ -362,6 +362,8 @@ static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
 static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
 static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
+static const morale_type morale_cold( "morale_cold" );
+static const morale_type morale_hot( "morale_hot" );
 static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -654,6 +656,16 @@ item_location Character::get_wielded_item()
 void Character::set_wielded_item( const item &to_wield )
 {
     weapon = to_wield;
+}
+
+std::vector<matype_id> Character::known_styles( bool teachable_only ) const
+{
+    return martial_arts_data->get_known_styles( teachable_only );
+}
+
+bool Character::has_martialart( const matype_id &m ) const
+{
+    return martial_arts_data->has_martialart( m );
 }
 
 int Character::get_oxygen_max() const
@@ -1263,7 +1275,7 @@ int Character::overmap_sight_range( float light_level ) const
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
-    const bool has_optic = has_item_with_flag( flag_ZOOM ) ||
+    const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
                            has_flag( json_flag_ENHANCED_VISION ) ||
                            ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
@@ -1311,19 +1323,19 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
-             ( here.veh_at( pos() ) &&
-               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
-             has_flag( json_flag_ALARMCLOCK ) );
+    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
+           ( here.veh_at( pos() ) &&
+             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+           has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_WATCH, true ) ||
-             ( here.veh_at( pos() ) &&
-               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
-             has_flag( json_flag_WATCH ) );
+    return cache_has_item_with_flag( flag_WATCH, true ) ||
+           ( here.veh_at( pos() ) &&
+             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+           has_flag( json_flag_WATCH );
 }
 
 void Character::react_to_felt_pain( int intensity )
@@ -1851,10 +1863,18 @@ bool Character::is_dead_state() const
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    if( set <= 0 ) {
+    Creature::set_part_hp_cur( id, set );
+    if( get_part_hp_cur( id ) <= 0 ) {
         cached_dead_state.reset();
     }
-    Creature::set_part_hp_cur( id, set );
+}
+
+void Character::mod_part_hp_cur( const bodypart_id &id, int set )
+{
+    Creature::mod_part_hp_cur( id, set );
+    if( get_part_hp_cur( id ) <= 0 ) {
+        cached_dead_state.reset();
+    }
 }
 
 void Character::on_try_dodge()
@@ -2270,9 +2290,8 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    visit_items( [this]( item * e, item * ) {
-        e->process_relic( this, pos() );
-        return VisitResponse::NEXT;
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
+        it.process_relic( this, pos() );
     } );
 
     suffer();
@@ -2817,6 +2836,46 @@ bool Character::enough_power_for( const bionic_id &bid ) const
     return get_power_level() >= bid->power_activate;
 }
 
+std::vector<skill_id> Character::skills_offered_to( const Character *you ) const
+{
+    std::vector<skill_id> ret;
+    for( const auto &pair : *_skills ) {
+        const skill_id &id = pair.first;
+        if( id->is_teachable() && pair.second.level() > 0 &&
+            ( !you || you->get_knowledge_level( id ) < pair.second.level() ) ) {
+            ret.push_back( id );
+        }
+    }
+    return ret;
+}
+
+std::vector<matype_id> Character::styles_offered_to( const Character *you ) const
+{
+    if( you ) {
+        return you->martial_arts_data->get_unknown_styles( *martial_arts_data, true );
+    }
+    return martial_arts_data->get_known_styles( true );
+}
+
+std::vector<spell_id> Character::spells_offered_to( const Character *you ) const
+{
+    std::vector<spell_id> teachable;
+    for( const spell_id &sp : magic->spells() ) {
+        const spell &teacher_spell = magic->get_spell( sp );
+        if( sp->teachable && ( !you || you->magic->can_learn_spell( *you, sp ) ) ) {
+            if( you && you->magic->knows_spell( sp ) ) {
+                const spell &student_spell = you->magic->get_spell( sp );
+                if( student_spell.is_max_level( *you ) ||
+                    student_spell.get_level() >= teacher_spell.get_level() ) {
+                    continue;
+                }
+            }
+            teachable.emplace_back( sp );
+        }
+    }
+    return teachable;
+}
+
 void Character::conduct_blood_analysis()
 {
     std::vector<std::string> effect_descriptions;
@@ -2924,6 +2983,12 @@ std::list<item> Character::remove_worn_items_with( const std::function<bool( ite
     return worn.remove_worn_items_with( filter, *this );
 }
 
+void Character::clear_worn()
+{
+    worn.worn.clear();
+    inv_search_caches.clear();
+}
+
 std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
     std::list<item *> dependent;
@@ -2941,6 +3006,7 @@ item Character::remove_weapon()
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
+    invalidate_weight_carried_cache();
     return tmp;
 }
 
@@ -2956,7 +3022,9 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
     // In case we've moved out of range of lifting assist.
-    invalidate_weight_carried_cache();
+    if( using_lifting_assist ) {
+        invalidate_weight_carried_cache();
+    }
 }
 
 units::mass Character::weight_carried() const
@@ -3032,6 +3100,9 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
             best_nearby_lifting_assist() < weaponweight ) ) {
         ret += weaponweight;
+        using_lifting_assist = false;
+    } else {
+        using_lifting_assist = true;
     }
 
     return ret;
@@ -3306,10 +3377,27 @@ int Character::get_knowledge_level( const skill_id &ident ) const
     return _skills->get_knowledge_level( ident );
 }
 
+float Character::get_knowledge_plus_progress( const skill_id &ident ) const
+{
+    return _skills->get_knowledge_level( ident ) + _skills->get_knowledge_progress_level( ident );
+}
+
 int Character::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
     return _skills->get_knowledge_level( ident, context );
 }
+
+float Character::get_average_skill_level( const skill_id &ident ) const
+{
+    return ( get_skill_level( ident ) + get_knowledge_plus_progress( ident ) ) / 2;
+}
+
+float Character::get_greater_skill_or_knowledge_level( const skill_id &ident ) const
+{
+    return get_skill_level( ident ) > get_knowledge_plus_progress( ident ) ? get_skill_level(
+               ident ) : get_knowledge_plus_progress( ident );
+}
+
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
     get_skill_level_object( ident ).level( level );
@@ -3424,15 +3512,6 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
-    dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
-    for( effect_on_condition_id &eoc : death_eocs ) {
-        if( eoc->type == eoc_type::NPC_DEATH ) {
-            eoc->activate( d );
-        } else {
-            debugmsg( "Tried to use non NPC_DEATH eoc_type %s for an npc death.", eoc.c_str() );
-        }
-    }
-
     if( has_effect( effect_heavysnare ) ) {
         inv->add_item( item( "rope_6", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -3441,6 +3520,18 @@ void Character::die( Creature *nkiller )
         inv->add_item( item( "beartrap", calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
+}
+
+void Character::prevent_death()
+{
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->is_vital ) {
+            if( get_part_hp_cur( bp ) <= 0 ) {
+                set_part_hp_cur( bp, 1 );
+            }
+        }
+    }
+    cached_dead_state.reset();
 }
 
 void Character::apply_skill_boost()
@@ -5307,8 +5398,8 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
 {
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = static_cast<int>( ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
-                                 0.0001 ); // If bp1 is warmer, it will lose heat
+    const units::temperature_delta diff = ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
+                                          0.0001; // If bp1 is warmer, it will lose heat
     mod_part_temp_cur( bp1, diff );
 }
 
@@ -5792,12 +5883,11 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    has_item_with( [&maxlum]( const item & it ) {
+    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
         const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
-        return false; // continue search, otherwise has_item_with would cancel the search
     } );
 
     lumination = static_cast<float>( maxlum );
@@ -5832,10 +5922,15 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                        enchant_vals::mod::MOTION_VISION_RANGE );
     const double sight_range_nether = calculate_by_enchantment( 0.0,
                                       enchant_vals::mod::SIGHT_RANGE_NETHER );
+    const double sight_range_minds = calculate_by_enchantment( 0.0,
+                                     enchant_vals::mod::SIGHT_RANGE_MINDS );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
         return true;
     }
     if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
+        return true;
+    }
+    if( critter.has_mind() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_minds ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -5858,7 +5953,7 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     std::string err;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
     int amount = container->all_pockets_rigid() ? max_remaining_capacity :
-                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ) );
+                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
 
     if( !err.empty() ) {
         if( !container->has_item_with( [&liquid]( const item & it ) {
@@ -5914,9 +6009,50 @@ bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 
 float Character::rest_quality() const
 {
-    // Just a placeholder for now.
-    // TODO: Waiting/reading/being unconscious on bed/sofa/grass
-    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
+    map &here = get_map();
+    const tripoint your_pos = pos();
+    float rest = 0.0f;
+    // Negative morales are penalties
+    int cold_penalty = -has_morale( morale_cold );
+    int heat_penalty = -has_morale( morale_hot );
+    if( cold_penalty > 0 || heat_penalty > 0 ) {
+        // Extreme temperatures have the body working harder to fight them, with less energy dedicated to healing, even just laying around will have you shivering or sweating.
+        rest -= cold_penalty / 10.0f;
+        rest -= heat_penalty / 10.0f;
+    }
+
+    if( has_effect( effect_sleep ) ) {
+        // Beds should normally have a maximum of 2C warmth, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
+        // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
+        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos ) ), 0.f ) / 2.0f ) ;
+        return std::max( rest, 0.0f );
+    }
+    const optional_vpart_position veh_part = here.veh_at( your_pos );
+    bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
+    if( activity_level() <= LIGHT_EXERCISE ) {
+        rest += 0.1f;
+        if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
+            // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
+            rest += 0.2f;
+        } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
+            // Any comfortable bed can substitute for a chair, but only if you don't have one.
+            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
+        }
+        if( activity_level() <= NO_EXERCISE ) {
+            rest += 0.2f;
+        }
+    }
+    // These stack!
+    if( activity_level() >= BRISK_EXERCISE ) {
+        rest -= 0.1f;
+    }
+    if( activity_level() >= ACTIVE_EXERCISE ) {
+        rest -= 0.2f;
+    }
+    if( activity_level() >= EXTRA_EXERCISE ) {
+        rest -= 0.3f;
+    }
+    return rest;
 }
 
 std::string Character::extended_description() const
@@ -6401,7 +6537,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const fault_fix &fix = *fix_id;
             mending_option opt{ f, fix, true };
             for( const auto &[skill_id, level] : fix.skills ) {
-                if( get_skill_level( skill_id ) < level ) {
+                if( get_greater_skill_or_knowledge_level( skill_id ) < level ) {
                     opt.doable = false;
                     break;
                 }
@@ -6487,16 +6623,16 @@ void Character::mend_item( item_location &&obj, bool interactive )
             } else {
                 descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
                 fix.skills.begin(), fix.skills.end(), [this]( const std::pair<skill_id, int> &sk ) {
-                    if( get_skill_level( sk.first ) >= sk.second ) {
+                    if( get_greater_skill_or_knowledge_level( sk.first ) >= sk.second ) {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
                     } else {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
                     }
                 } ) );
             }
@@ -6978,7 +7114,7 @@ bool Character::consume_charges( item &used, int qty )
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost,
-                                   int charges_in_it ) const
+                                   int charges_in_it, bool bulk_cost ) const
 {
     int mv = base_cost;
     if( penalties ) {
@@ -7000,17 +7136,20 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         mv *= pen;
     }
 
-    // For single handed items use the least encumbered hand
-    if( it.is_two_handed( *this ) ) {
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            mv += encumb( part );
+    // The following is considered as overhead and is not included in the cost when handling multiple items at once.
+    if( !bulk_cost ) {
+        // For single handed items use the least encumbered hand
+        if( it.is_two_handed( *this ) ) {
+            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+                mv += encumb( part );
+            }
+        } else {
+            int min_encumb = INT_MAX;
+            for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+                min_encumb = std::min( min_encumb, encumb( part ) );
+            }
+            mv += min_encumb;
         }
-    } else {
-        int min_encumb = INT_MAX;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            min_encumb = std::min( min_encumb, encumb( part ) );
-        }
-        mv += min_encumb;
     }
 
     return std::max( mv, 0 );
@@ -7447,18 +7586,17 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    visit_items( [&]( const item * it, item * ) {
-        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
-            if( ench.is_active( *this, *it ) ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
+        for( const enchant_cache &ench : it.get_proc_enchantments() ) {
+            if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
-        for( const enchantment &ench : it->get_defined_enchantments() ) {
-            if( ench.is_active( *this, *it ) ) {
+        for( const enchantment &ench : it.get_defined_enchantments() ) {
+            if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
-        return VisitResponse::NEXT;
     } );
 
     // get from traits/ mutations
@@ -7539,10 +7677,10 @@ ret_val<void> Character::can_wield( const item &it ) const
                    _( "You need at least one arm available to even consider wielding something." ) );
     }
     if( it.made_of( phase_id::LIQUID ) ) {
-        return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
+        return ret_val<void>::make_failure( _( "You can't wield spilt liquids." ) );
     }
     if( it.is_frozen_liquid() && !it.has_flag( flag_SHREDDED ) ) {
-        return ret_val<void>::make_failure( _( "Can't wield unbroken frozen liquids." ) );
+        return ret_val<void>::make_failure( _( "You can't wield unbroken frozen liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         if( get_wielded_item() && get_wielded_item().get_item() == &it ) {
@@ -7557,7 +7695,7 @@ ret_val<void> Character::can_wield( const item &it ) const
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {
-        return ret_val<void>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+        return ret_val<void>::make_failure( _( "The %s prevents you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
@@ -7569,10 +7707,10 @@ ret_val<void> Character::can_wield( const item &it ) const
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
         } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
-            return ret_val<void>::make_failure( _( "The %s can't be wielded with only one arm." ),
+            return ret_val<void>::make_failure( _( "You can't wield the %s with only one arm." ),
                                                 it.tname() );
         } else {
-            return ret_val<void>::make_failure( _( "You are too weak to wield %s with only one arm." ),
+            return ret_val<void>::make_failure( _( "You are too weak to wield the %s with only one arm." ),
                                                 it.tname() );
         }
     }
@@ -8238,14 +8376,14 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl > 0 ) {
         if( has_effect( def ) ) {
-            get_effect( def ).set_intensity( lvl, true );
+            get_effect( def ).set_intensity( lvl, is_avatar() );
         } else {
             add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc ) ) {
-            get_effect( exc ).set_intensity( -lvl, true );
+            get_effect( exc ).set_intensity( -lvl, is_avatar() );
         } else {
             add_effect( exc, 1_turns, true, -lvl );
         }
@@ -8771,33 +8909,30 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_STUDY_SPELL );
 }
 
-int Character::floor_bedding_warmth( const tripoint &pos )
+units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
     const ter_id ter_at_pos = here.ter( pos );
     const furn_id furn_at_pos = here.furn( pos );
-    int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
-        floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
+        return furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
-        floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
+        return trap_at_pos.floor_bedding_warmth;
     } else if( boardable ) {
-        floor_bedding_warmth += boardable->info().floor_bedding_warmth;
+        return boardable->info().floor_bedding_warmth;
     } else {
-        floor_bedding_warmth += ter_at_pos.obj().floor_bedding_warmth - 2000;
+        return ter_at_pos.obj().floor_bedding_warmth - 4_C_delta;
     }
-
-    return floor_bedding_warmth;
 }
 
-int Character::floor_item_warmth( const tripoint &pos )
+units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
 {
-    int item_warmth = 0;
+    units::temperature_delta item_warmth = 0_C_delta;
 
     const auto warm = [&item_warmth]( const auto & stack ) {
         for( const item &elem : stack ) {
@@ -8809,7 +8944,7 @@ int Character::floor_item_warmth( const tripoint &pos )
             if( elem.volume() > 250_ml &&
                 ( elem.covers( body_part_torso ) || elem.covers( body_part_leg_l ) ||
                   elem.covers( body_part_leg_r ) ) ) {
-                item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
+                item_warmth += 0.12_C_delta * elem.get_warmth() * ( elem.volume() / 2500_ml );
             }
         }
     };
@@ -8826,47 +8961,49 @@ int Character::floor_item_warmth( const tripoint &pos )
     return item_warmth;
 }
 
-int Character::floor_warmth( const tripoint &pos ) const
+units::temperature_delta Character::floor_warmth( const tripoint &pos ) const
 {
-    const int item_warmth = floor_item_warmth( pos );
-    int bedding_warmth = floor_bedding_warmth( pos );
+    const units::temperature_delta item_warmth = floor_item_warmth( pos );
+    units::temperature_delta bedding_warmth = floor_bedding_warmth( pos );
 
     // If the PC has fur, etc, that will apply too
-    int floor_mut_warmth = bodytemp_modifier_traits_floor();
+    const units::temperature_delta floor_mut_warmth = bodytemp_modifier_traits_floor();
     // DOWN does not provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
-    if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 200 ) ) {
-        bedding_warmth = std::max( 0, bedding_warmth );
+    if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 2_C_delta ) ) {
+        bedding_warmth = std::max( 0_C_delta, bedding_warmth );
     }
     return item_warmth + bedding_warmth + floor_mut_warmth;
 }
 
-int Character::bodytemp_modifier_traits( bool overheated ) const
+units::temperature_delta Character::bodytemp_modifier_traits( bool overheated ) const
 {
-    int mod = 0;
+    units::temperature_delta mod = 0_C_delta;
     for( const trait_id &iter : get_mutations() ) {
         mod += overheated ? iter->bodytemp_min : iter->bodytemp_max;
     }
     return mod;
 }
 
-int Character::bodytemp_modifier_traits_floor() const
+units::temperature_delta Character::bodytemp_modifier_traits_floor() const
 {
-    int mod = 0;
+    units::temperature_delta mod = 0_C_delta;
     for( const trait_id &iter : get_mutations() ) {
         mod += iter->bodytemp_sleep;
     }
     return mod;
 }
 
-int Character::temp_corrected_by_climate_control( int temperature,
+units::temperature Character::temp_corrected_by_climate_control( units::temperature temperature,
         int heat_strength, int chill_strength ) const
 {
-    const int variation_heat = static_cast<int>( BODYTEMP_NORM * ( heat_strength / 100.0f ) );
-    const int variation_chill = static_cast<int>( BODYTEMP_NORM * ( chill_strength / 100.0f ) );
+    const units::temperature_delta base_variation = units::from_celsius_delta( units::to_celsius(
+                BODYTEMP_NORM ) );
+    const units::temperature_delta variation_heat = base_variation * ( heat_strength / 100.0f );
+    const units::temperature_delta variation_chill = -base_variation * ( chill_strength / 100.0f );
 
     if( temperature > BODYTEMP_NORM ) {
-        return std::max( BODYTEMP_NORM, temperature - variation_chill );
+        return std::max( BODYTEMP_NORM, temperature + variation_chill );
     } else {
         return std::min( BODYTEMP_NORM, temperature + variation_heat );
     }
@@ -8877,22 +9014,263 @@ bool Character::in_sleep_state() const
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
+void Character::cache_visit_items_with( const itype_id &type,
+                                        const std::function<void( item & )> &do_func )
+{
+    cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const flag_id &type_flag,
+                                        const std::function<void( item & )> &do_func )
+{
+    cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<void( item & )> &do_func )
+{
+    cache_visit_items_with( key, {}, {}, filter_func, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
+                                        const flag_id &type_flag, bool( item::*filter_func )() const,
+                                        const std::function<void( item & )> &do_func )
+{
+    // If the cache already exists, use it. Remove all invalid item references.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
+            if( it ) {
+                do_func( *it );
+                return false;
+            }
+            return true;
+        } ), inv_search_caches[key].items.end() );
+        return;
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                do_func( *it );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+void Character::cache_visit_items_with( const itype_id &type,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const flag_id &type_flag,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( key, {}, {}, filter_func, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
+                                        const flag_id &type_flag, bool( item::*filter_func )() const,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    // If the cache already exists, use it. Remove all invalid item references.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
+            if( it ) {
+                do_func( *it );
+                return false;
+            }
+            return true;
+        } ), inv_search_caches[key].items.end() );
+        return;
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                do_func( *it );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+bool Character::cache_has_item_with( const itype_id &type,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_has_item_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+}
+
+bool Character::cache_has_item_with( const flag_id &type_flag,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
+}
+
+bool Character::cache_has_item_with( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_has_item_with( key, {}, {}, filter_func, check_func );
+}
+
+bool Character::cache_has_item_with( const std::string &key, const itype_id &type,
+                                     const flag_id &type_flag, bool( item::*filter_func )() const,
+                                     const std::function<bool( const item & )> &check_func ) const
+{
+    bool aborted = false;
+
+    // If the cache already exists, use it. Stop iterating if the check_func ever returns true. Remove any invalid item references encountered.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        for( auto iter = found_cache->second.items.begin();
+             iter != found_cache->second.items.end(); ) {
+            if( *iter ) {
+                if( check_func( **iter ) ) {
+                    aborted = true;
+                    break;
+                }
+                ++iter;
+            } else {
+                iter = inv_search_caches[found_cache->first].items.erase( iter );
+            }
+        }
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                // If check_func returns true, stop running it but keep populating the cache.
+                if( !aborted && check_func( *it ) ) {
+                    aborted = true;
+                }
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    return aborted;
+}
+
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges, this]( const item & it ) {
-        if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
-                                            it.ammo_remaining( this ) > 0 );
-        }
-        return it.has_flag( flag );
+        return it.has_flag( flag ) && ( !need_charges || !it.is_tool() ||
+                                        it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0 );
     } );
 }
 
-std::vector<const item *> Character::all_items_with_flag( const flag_id &flag ) const
+bool Character::cache_has_item_with_flag( const flag_id &type_flag, bool need_charges ) const
 {
-    return items_with( [&flag]( const item & it ) {
-        return it.has_flag( flag );
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
+    [this, &need_charges]( const item & it ) {
+        return !need_charges || !it.is_tool() || it.type->tool->max_charges == 0 ||
+               it.ammo_remaining( this ) > 0;
     } );
+}
+
+std::vector<item *> Character::cache_get_items_with( const itype_id &type,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_and_check_func );
+}
+
+std::vector<item *> Character::cache_get_items_with( const flag_id &type_flag,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
+                                 do_and_check_func );
+}
+
+std::vector<item *> Character::cache_get_items_with( const std::string &key,
+        bool( item::*filter_func )() const,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return cache_get_items_with( key, {}, {}, filter_func, do_and_check_func );
+}
+
+std::vector<item *> Character::cache_get_items_with( const std::string &key, const itype_id &type,
+        const flag_id &type_flag, bool( item::*filter_func )() const,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    std::vector<item *> ret;
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
+        if( do_and_check_func( it ) ) {
+            ret.push_back( &it );
+        }
+    } );
+    return ret;
+}
+
+std::vector<const item *> Character::cache_get_items_with( const itype_id &type,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+}
+
+std::vector<const item *> Character::cache_get_items_with( const flag_id &type_flag,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
+}
+
+std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+        bool( item::*filter_func )() const,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return cache_get_items_with( key, {}, {}, filter_func, check_func );
+}
+
+std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+        const itype_id &type, const flag_id &type_flag, bool( item::*filter_func )() const,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    std::vector<const item *> ret;
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &check_func]( const item & it ) {
+        if( check_func( it ) ) {
+            ret.push_back( &it );
+        }
+    } );
+    return ret;
+}
+
+void Character::add_to_inv_search_caches( item &it ) const
+{
+    for( auto &cache : inv_search_caches ) {
+        if( ( cache.second.type.is_valid() && it.typeId() != cache.second.type ) ||
+            ( cache.second.type_flag.is_valid() && !it.type->has_flag( cache.second.type_flag ) ) ||
+            ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
+            continue;
+        }
+        cache.second.items.push_back( it.get_safe_reference() );
+    }
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,
@@ -8962,9 +9340,9 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
-        available_charges += units::from_kilojoule( i->ammo_remaining() );
-    }
+    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
+        available_charges += units::from_kilojoule( it.ammo_remaining() );
+    } );
 
     return available_charges;
 }
@@ -8989,15 +9367,14 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
-        for( const item *i : ups_items ) {
-            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
-                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
-                        i->type->tool->fuel_efficiency );
+        cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
+            if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
+                qty -= it.energy_consume( qty, tripoint_zero, nullptr,
+                                          it.type->tool->fuel_efficiency );
             } else {
-                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint_zero, nullptr );
             }
-        }
+        } );
     }
 
     // UPS from nearby map
@@ -9072,21 +9449,24 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
-    for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
-        if( !i->typeId()->can_have_charges() ) {
-            const use_function *usef = i->type->get_use( "firestarter" );
+    item ret;
+    cache_has_item_with( flag_FIRESTARTER, [&]( const item & it ) {
+        if( !it.typeId()->can_have_charges() ) {
+            const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), *i, tripoint_zero ).success() ) {
-                    return *i;
+                if( actor->can_use( *this->as_character(), it, tripoint_zero ).success() ) {
+                    ret = it;
+                    return true;
                 }
             }
-        } else if( i->ammo_sufficient( this, quantity ) ) {
-            return *i;
+        } else if( it.ammo_sufficient( this, quantity ) ) {
+            ret = it;
+            return true;
         }
-    }
-
-    return item();
+        return false;
+    } );
+    return ret;
 }
 
 bool Character::has_fire( const int quantity ) const
@@ -9096,7 +9476,7 @@ bool Character::has_fire( const int quantity ) const
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
     }
-    if( has_item_with_flag( flag_FIRE ) ) {
+    if( cache_has_item_with( flag_FIRE ) ) {
         return true;
     }
     if( !find_firestarter_with_charges( quantity ).is_null() ) {
@@ -9187,7 +9567,7 @@ void Character::use_fire( const int quantity )
     if( get_map().has_nearby_fire( pos() ) ) {
         return;
     }
-    if( has_item_with_flag( flag_FIRE ) ) {
+    if( cache_has_item_with( flag_FIRE ) ) {
         return;
     }
 
@@ -9248,6 +9628,7 @@ void Character::on_item_wear( const item &it )
 void Character::on_item_takeoff( const item &it )
 {
     invalidate_inventory_validity_cache();
+    invalidate_weight_carried_cache();
     invalidate_leak_level_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
         // flag these mutations to be removed at the start of the next turn
@@ -9270,9 +9651,20 @@ void Character::enchantment_wear_change()
 
 void Character::on_item_acquire( const item &it )
 {
-    if( is_avatar() && it.has_item_with( []( const item & it ) {
-    return it.has_flag( flag_ZOOM );
-    } ) ) {
+    bool check_for_zoom = is_avatar();
+    bool update_overmap_seen = false;
+
+    it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( item * cont_it, item * ) {
+        add_to_inv_search_caches( *cont_it );
+        if( check_for_zoom && !update_overmap_seen && cont_it->has_flag( flag_ZOOM ) ) {
+            update_overmap_seen = true;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    invalidate_weight_carried_cache();
+
+    if( update_overmap_seen ) {
         g->update_overmap_seen();
     }
 }
@@ -10113,14 +10505,14 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                } else {
+                } else if( val > 0 )  {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
@@ -10667,9 +11059,11 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     return true;
 }
 
-bool Character::unload( item_location &loc, bool bypass_activity )
+bool Character::unload( item_location &loc, bool bypass_activity,
+                        const item_location &new_container )
 {
     item &it = *loc;
+    drop_locations locs;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
         if( it.empty() ) {
@@ -10682,6 +11076,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
+        item *prev_contained = nullptr;
 
         for( item_pocket::pocket_type ptype : {
                  item_pocket::pocket_type::CONTAINER,
@@ -10690,11 +11085,26 @@ bool Character::unload( item_location &loc, bool bypass_activity )
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
-                moves += this->item_handling_cost( *contained );
+                if( new_container == item_location::nowhere ) {
+                    if( prev_contained && prev_contained->stacks_with( *contained ) ) {
+                        moves += std::max( this->item_handling_cost( *contained, true, 0, -1, true ), 1 );
+                    } else {
+                        moves += this->item_handling_cost( *contained );
+                    }
+                    prev_contained = contained;
+                } else {
+                    // redirect to insert actor
+                    const int count = contained->count_by_charges() ? contained->charges : 1;
+                    locs.emplace_back( item_location( loc, contained ), count );
+                }
             }
 
         }
-        assign_activity( unload_activity_actor( moves, loc ) );
+        if( new_container == item_location::nowhere ) {
+            assign_activity( unload_activity_actor( moves, loc ) );
+        } else if( !locs.empty() ) {
+            assign_activity( insert_item_activity_actor( new_container, locs, true ) );
+        }
 
         return true;
     }
@@ -10758,6 +11168,8 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     target->casings_handle( [&]( item & e ) {
         return this->i_add_or_drop( e );
     } );
+
+    invalidate_weight_carried_cache();
 
     if( target->is_magazine() ) {
         if( bypass_activity ) {
@@ -11168,7 +11580,7 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    // Check for conditions that disqualify us only if no NPCs can read to us
+    // Check for conditions that disqualify us only if no other Characters can read to us
     if( condition & read_condition_result::ILLITERATE ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
@@ -11188,17 +11600,17 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading NPC is chosen
+    //Check for other Characters to read for you, negates Illiterate and Far Sighted
+    //The fastest-reading Character is chosen
     if( is_deaf() ) {
         reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
     time_duration time_taken = time_duration::from_turns( INT_MAX );
-    auto candidates = get_crafting_helpers();
+    std::vector<Character *> candidates = get_crafting_helpers();
 
-    for( const npc *elem : candidates ) {
+    for( const Character *elem : candidates ) {
         // Check for disqualifying factors:
         condition = elem->check_read_condition( book );
         if( condition & read_condition_result::ILLITERATE ) {
@@ -11392,6 +11804,12 @@ bool Character::is_nether() const
     return false;
 }
 
+bool Character::has_mind() const
+{
+    // Characters are all humans and thus have minds
+    return true;
+}
+
 void Character::set_underwater( bool u )
 {
     if( underwater != u ) {
@@ -11433,27 +11851,6 @@ stat_mod Character::get_pain_penalty() const
     return ret;
 }
 
-std::list<item *> Character::get_radio_items()
-{
-    std::list<item *> rc_items;
-    const invslice &stacks = inv->slice();
-    for( const auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &stack_iter );
-        }
-    }
-
-    worn.append_radio_items( rc_items );
-
-    if( is_armed() ) {
-        if( weapon.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &weapon );
-        }
-    }
-    return rc_items;
-}
-
 int Character::get_lift_str() const
 {
     int str = get_arm_str();
@@ -11468,9 +11865,8 @@ int Character::get_lift_str() const
 int Character::get_lift_assist() const
 {
     int result = 0;
-    const std::vector<npc *> helpers = get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        result += np->get_lift_str();
+    for( const Character *guy : get_crafting_helpers() ) {
+        result += guy->get_lift_str();
     }
     return result;
 }
@@ -11854,8 +12250,8 @@ void Character::process_items()
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    const auto inv_use_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_USE_UPS ) && itm.ammo_data();
+    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, []( item & it ) {
+        return !!it.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
@@ -11977,7 +12373,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 
     weapon.on_wield( *this );
 
-    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    item_location loc( *this, &weapon );
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send_with_talker( this, &loc, e );
 
     return true;
 }
@@ -12143,6 +12541,63 @@ void Character::environmental_revert_effect()
     calc_encumbrance();
 }
 
+bodypart_id Character::most_staunchable_bp()
+{
+    int max;
+    return most_staunchable_bp( max );
+}
+
+bodypart_id Character::most_staunchable_bp( int &max_staunch )
+{
+    // Calculate max staunchable bleed level
+    // Top out at 20 intensity for base, unencumbered survivors
+    max_staunch = 20;
+    max_staunch *= get_modifier( character_modifier_bleed_staunch_mod );
+    add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max_staunch );
+
+    // +5 bonus if you know your first aid
+    if( has_proficiency( proficiency_prof_wound_care ) ||
+        has_proficiency( proficiency_prof_wound_care_expert ) ) {
+        max_staunch += 5;
+        add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max_staunch );
+    }
+
+    int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
+    int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+
+    // Don't warn about encumbrance if your arms are broken
+    if( num_broken_arms ) {
+        // Handle multiple arms
+        max_staunch *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
+        add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
+                       num_broken_arms, num_arms, max_staunch );
+    }
+
+    int most = 0;
+    int intensity = 0;
+    bodypart_id bp_id = bodypart_str_id::NULL_ID();
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        intensity = get_effect_int( effect_bleed, bp );
+        // Staunching a bleeding on one of your arms is hard (handle multiple arms)
+        if( bp->has_type( body_part_type::type::arm ) ) {
+            intensity /= ( 1.0f - 1.0f / num_arms );
+        }
+        // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
+        if( worn_with_flag( flag_TOURNIQUET, bp ) ) {
+            intensity /= 2;
+        }
+        if( most < get_effect_int( effect_bleed, bp ) && intensity <= max_staunch ) {
+            // Don't use intensity here, we might have increased it for the arm penalty
+            most = get_effect_int( effect_bleed, bp );
+            bp_id = bp;
+        }
+    }
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "Selected %s to staunch (base intensity %d, modified intensity %d)", bp_id->name, intensity, most );
+
+    return bp_id;
+}
+
 void Character::pause()
 {
     moves = 0;
@@ -12197,29 +12652,13 @@ void Character::pause()
     }
 
     // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress
-    if( !is_armed() && has_effect( effect_bleed ) ) {
-        // Calculate max staunchable bleed level
-        // Top out at 20 intensity for base, unencumbered survivors
-        int max = 20;
-        max *= get_modifier( character_modifier_bleed_staunch_mod );
-        add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max );
-
-        // +5 bonus if you know your first aid
-        if( has_proficiency( proficiency_prof_wound_care ) ||
-            has_proficiency( proficiency_prof_wound_care_expert ) ) {
-            max += 5;
-            add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max );
-        }
-
-        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
-        int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+    if( !controlling_vehicle && !is_armed() && has_effect( effect_bleed ) ) {
+        int max = 0;
+        bodypart_id bp_id = most_staunchable_bp( max );
 
         // Don't warn about encumbrance if your arms are broken
+        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
         if( num_broken_arms ) {
-            // Handle multiple arms
-            max *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
-            add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
-                           num_broken_arms, num_arms, max );
             add_msg_player_or_npc( m_warning,
                                    _( "Your broken limb significantly hampers your efforts to put pressure on a bleeding wound!" ),
                                    _( "<npcname>'s broken limb significantly hampers their effort to put pressure on a bleeding wound!" ) );
@@ -12229,37 +12668,14 @@ void Character::pause()
                                    _( "<npcname>'s hands are too encumbered to effectively put pressure on a bleeding wound!" ) );
         }
 
-        int most = 0;
-        int intensity = 0;
-        bodypart_id bp_id = bodypart_str_id::NULL_ID();
-        for( const bodypart_id &bp : get_all_body_parts() ) {
-            intensity = get_effect_int( effect_bleed, bp );
-            // Staunching a bleeding on one of your arms is hard (handle multiple arms)
-            if( bp->has_type( body_part_type::type::arm ) ) {
-                intensity /= ( 1.0f - 1.0f / num_arms );
-            }
-            // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
-            if( worn_with_flag( flag_TOURNIQUET, bp ) ) {
-                intensity /= 2;
-            }
-            if( most < get_effect_int( effect_bleed, bp ) && intensity <= max ) {
-                // Don't use intensity here, we might have increased it for the arm penalty
-                most = get_effect_int( effect_bleed, bp );
-                bp_id = bp;
-            }
-        }
-        add_msg_debug( debugmode::DF_CHARACTER,
-                       "Selected %s to staunch (base intensity %d, modified intensity %d)", bp_id->name, intensity, most );
-
-        // 5 - 30 sec per turn (with standard hands)
-        time_duration benefit = 5_turns + 1_turns * max;
-
         if( bp_id == bodypart_str_id::NULL_ID() ) {
             // We're bleeding, but couldn't find any bp we can staunch
             add_msg_player_or_npc( m_warning,
                                    _( "Your bleeding is beyond staunching barehanded!  A tourniquet might help." ),
                                    _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
+            // 5 - 30 sec per turn (with standard hands)
+            time_duration benefit = 5_turns + 1_turns * max;
             effect &e = get_effect( effect_bleed, bp_id );
             e.mod_duration( - benefit );
             add_msg_player_or_npc( m_warning,

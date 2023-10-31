@@ -240,21 +240,22 @@ void player_activity::do_turn( Character &you )
     }
     // Only do once every two minutes to loosely simulate consume times,
     // the exact amount of time is added correctly below, here we just want to prevent eating something every second
-    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() && type->valid_auto_needs() &&
-        !you.has_effect( effect_nausea ) ) {
-        if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
-            !no_food_nearby_for_auto_consume ) {
-            int consume_moves = get_auto_consume_moves( you, true );
-            moves_left += consume_moves;
-            if( consume_moves == 0 ) {
-                no_food_nearby_for_auto_consume = true;
+    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() ) {
+        if( type->valid_auto_needs() && !you.has_effect( effect_nausea ) ) {
+            if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
+                !no_food_nearby_for_auto_consume ) {
+                int consume_moves = get_auto_consume_moves( you, true );
+                moves_left += consume_moves;
+                if( consume_moves == 0 ) {
+                    no_food_nearby_for_auto_consume = true;
+                }
             }
-        }
-        if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            int consume_moves = get_auto_consume_moves( you, false );
-            moves_left += consume_moves;
-            if( consume_moves == 0 ) {
-                no_drink_nearby_for_auto_consume = true;
+            if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+                int consume_moves = get_auto_consume_moves( you, false );
+                moves_left += consume_moves;
+                if( consume_moves == 0 ) {
+                    no_drink_nearby_for_auto_consume = true;
+                }
             }
         }
     }
@@ -518,7 +519,7 @@ std::map<distraction_type, std::string> player_activity::get_distractions() cons
     }
     if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
-            const int bp_temp = u.get_part_temp_cur( bp );
+            const units::temperature bp_temp = u.get_part_temp_cur( bp );
             if( bp_temp > BODYTEMP_VERY_HOT ) {
                 res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
                 break;

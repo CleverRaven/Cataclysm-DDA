@@ -23,8 +23,8 @@ Dozens of new monsters
 The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
 A combat rated mount can be found via a short mission chain.
 16 professions
-6 Elemental Mutation Categories locked to Paraclesian starts, similar to Made of Sugar
-6 Map Specials
+6 Elemental Race Mutation Categories locked to Paraclesian starts, similar to Made of Sugar
+Over a dozen Map Specials
 5 Map Extra
 Dozens of items
 2 NPC classes

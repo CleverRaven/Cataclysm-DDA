@@ -2,7 +2,7 @@
   {
     "id": "dreamsmith_research",
     "name": "inquire dreamdross",
-    "description": "You spend some time, trying to understand what the dreamdross is capable of, and how you can utilize it's power.  You probably need a lot of attempts to research the whole depth of this unusual metal.",
+    "description": "You spend some time trying to understand what the dreamdross is capable of, and how you can utilize its power.  You probably need a lot of attempts to research the whole depth of this unusual metal.",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result_eocs": [ "EOC_DREAMSMITHS_SCORE_TRAIN" ],

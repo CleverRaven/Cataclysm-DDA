@@ -1,0 +1,7 @@
+{
+  "id": "emit_salamander_heat",
+  "type": "emit",
+  "field": "fd_salamander_heat",
+  "intensity": 3,
+  "qty": 50
+}

@@ -35,6 +35,42 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_NO_RIGHT_LEG",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_stub_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_NO_LEFT_LEG",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_stub_l" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_RIGHT_PROSTHETIC",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_stub_r" }, { "gain": "leg_prosthetic_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_LEFT_PROSTHETIC",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_stub_l" }, { "gain": "leg_prosthetic_l" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_RIGHT_PEGLEG",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_stub_r" }, { "gain": "leg_peg_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_LEFT_PEGLEG",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_stub_l" }, { "gain": "leg_peg_l" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
@@ -48,15 +84,6 @@
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
-  },
-  {
-    "id": "ench_climate_control_cold",
-    "type": "enchantment",
-    "name": { "str": "Warm Climate Control" },
-    "description": "You are wearing equipment that helps handle harsh climates.",
-    "has": "WORN",
-    "condition": "ALWAYS",
-    "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
   },
   {
     "id": "ench_climate_control_warm",

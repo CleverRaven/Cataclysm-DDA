@@ -794,6 +794,39 @@
     "broken_color": "brown",
     "damage_modifier": 80,
     "durability": 350,
+    "size": "300 L",
+    "//": "300 L storage based on an average station wagon trunk being around 600 L, and our cars having two tiles.",
+    "item": "frame",
+    "//1": "120cm weld to install, 30cm per damage quadrant for repair",
+    "location": "center",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "20 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART" ],
+    "breaks_into": "ig_vp_frame",
+    "damage_reduction": { "all": 30 },
+    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "trunk_sedan",
+    "name": { "str": "sedan trunk" },
+    "looks_like": "trunk",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "damage_modifier": 80,
+    "durability": 350,
     "size": "200 L",
     "//": "200 L storage based on an average sedan trunk being around 400 L, and our cars having two tiles.  We should get a taller trunk for SUVs and similar.",
     "item": "frame",
@@ -812,7 +845,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART" ],
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "SIMPLE_PART", "HALF_BOARD" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 30 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
@@ -1223,54 +1256,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "hand_paddles",
-    "name": { "str": "hand paddles" },
-    "categories": [ "movement", "operations" ],
-    "broken_color": "red",
-    "damage_modifier": 50,
-    "durability": 50,
-    "power": "800 W",
-    "fuel_type": "muscle",
-    "muscle_power_factor": 40,
-    "noise_factor": 8,
-    "m2c": 45,
-    "exclusions": [ "manual" ],
-    "item": "hand_paddles",
-    "location": "engine_block",
-    "folded_volume": "500 ml",
-    "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "6 m" },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" }
-    },
-    "flags": [ "ENGINE", "CONTROLS", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
-    "damage_reduction": { "all": 5 },
-    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "reins_tackle",
-    "name": { "str": "reins and tackle" },
-    "categories": [ "operations" ],
-    "broken_color": "red",
-    "durability": 80,
-    "description": "A set of leather bindings to control a creature pulling a vehicle, such as a cart.",
-    "bonus": 10,
-    "damage_modifier": 5,
-    "item": "reins_tackle",
-    "folded_volume": "250 ml",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
-    },
-    "flags": [ "CONTROL_ANIMAL" ],
-    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
-    "variants": [ { "symbols": "W", "symbols_broken": "X" } ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "controls",
     "name": { "str": "controls" },
     "categories": [ "operations" ],
@@ -1374,6 +1359,17 @@
     "damage_reduction": { "all": 15 }
   },
   {
+    "id": "integrated_heater_small",
+    "copy-from": "mountable_heater_small",
+    "description": "Set of tubes, that move heat from the engine into the vehicle cabin, heating it up.",
+    "item": "pipe",
+    "type": "vehicle_part",
+    "location": "",
+    "name": { "str": "small integrated heater" },
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
+    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } }
+  },
+  {
     "id": "mountable_cooler",
     "type": "vehicle_part",
     "name": { "str": "vehicle-mounted cooler" },
@@ -1395,6 +1391,20 @@
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": "C", "symbols_broken": ":" } ]
+  },
+  {
+    "id": "integrated_cooler",
+    "copy-from": "mountable_cooler",
+    "type": "vehicle_part",
+    "location": "",
+    "name": { "str": "small integrated cooler" },
+    "description": "Small set of mechanisms, that cool the vehicle out when turned on.",
+    "item": "integrated_cooler",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 s", "using": [ [ "adhesive", 1 ] ] }
+    }
   },
   {
     "type": "vehicle_part",
@@ -1747,27 +1757,6 @@
     ],
     "damage_reduction": { "all": 9 },
     "variants": [ { "symbols": "Y", "symbols_broken": "X" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "foldable_solar_panel",
-    "copy-from": "solar_panel",
-    "name": { "str": "collapsible solar array" },
-    "color": "light_blue",
-    "broken_color": "light_gray",
-    "proportional": { "epower": 0.68, "durability": 0.5 },
-    "folded_volume": "2 L",
-    "description": "A small array of solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "advanced_foldable_solar_panel",
-    "copy-from": "foldable_solar_panel",
-    "name": { "str": "advanced collapsible solar array" },
-    "proportional": { "epower": 2 },
-    "description": "A small array of high-performance solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel_v2"
   },
   {
     "type": "vehicle_part",

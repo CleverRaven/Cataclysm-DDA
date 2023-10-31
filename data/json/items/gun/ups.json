@@ -23,6 +23,9 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
     "energy_drain": "60 kJ",
+    "overheat_threshold": 100,
+    "cooling_value": 3,
+    "heat_per_shot": 10,
     "reload": 0,
     "valid_mod_locations": [
       [ "emitter", 1 ],
@@ -34,8 +37,9 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "ammo_effects": [ "LASER", "EMP" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -64,6 +68,10 @@
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ],
+    "overheat_threshold": 200,
+    "cooling_value": 2,
+    "heat_per_shot": 6,
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -101,6 +109,10 @@
       "NEEDS_NO_LUBE",
       "USE_UPS"
     ],
+    "overheat_threshold": 100,
+    "cooling_value": 2,
+    "heat_per_shot": 17,
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -125,6 +137,9 @@
     "dispersion": 10,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "overheat_threshold": 100,
+    "cooling_value": 2,
+    "heat_per_shot": 5,
     "loudness": 12,
     "energy_drain": "40 kJ",
     "reload": 0,
@@ -140,7 +155,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -190,9 +206,13 @@
     "loudness": 7,
     "energy_drain": "10 kJ",
     "reload": 200,
+    "overheat_threshold": 60,
+    "cooling_value": 2,
+    "heat_per_shot": 6,
     "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
+    "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 5 }
   },
   {

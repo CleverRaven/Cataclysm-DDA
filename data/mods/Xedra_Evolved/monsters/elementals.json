@@ -106,7 +106,7 @@
   {
     "id": "mon_water_sprite",
     "type": "MONSTER",
-    "name": "Water Sprite",
+    "name": "water sprite",
     "description": "A mischievous creature made entirely of water, with a vaguely humanoid shape.  Its movements are graceful and fluid, and its voice is a musical tinkling.",
     "default_faction": "undine",
     "symbol": "s",
@@ -137,7 +137,7 @@
   {
     "id": "mon_ratatosk_children",
     "type": "MONSTER",
-    "name": { "str": "ratatosk's child" },
+    "name": { "str": "Ratatosk's child" },
     "description": "A large granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
     "default_faction": "arvore",
     "bodytype": "pig",
@@ -232,7 +232,7 @@
   {
     "id": "mon_smoke_mephit",
     "type": "MONSTER",
-    "name": "Smoke Mephit",
+    "name": "smoke mephit",
     "description": "A mischievous creature surrounded by smoke and particulates, with a vaguely humanoid shape.  Its movements are sharp and jittery, and its voice is the sound of fire crackling.",
     "default_faction": "salamander",
     "symbol": "w",
@@ -334,7 +334,7 @@
   {
     "id": "mon_dragonfly_fae",
     "type": "MONSTER",
-    "name": { "str": "nimue's dragonfly", "str_pl": "nimue's dragonflies" },
+    "name": { "str": "Nimue's dragonfly", "str_pl": "Nimue's dragonflies" },
     "description": "A ferocious, iridescent multi-hued dragonfly, still lightning-fast despite growing to the size of a football.  Its head is little more than a palm-sized pair of rainbow compound eyes, and its legs - already specialized for grasping prey - end in curved talons.",
     "default_faction": "sylph",
     "bodytype": "flying insect",

@@ -364,6 +364,51 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
     };
 }
 
+std::function<double( dialogue & )> skill_exp_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    diag_value format_value( std::string( "percentage" ) );
+    if( params.empty() ) {
+        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
+                                     "skill_exp" ) );
+    } else if( params.size() > 1 ) {
+        format_value = params[1];
+    }
+
+    return[skill_value = params[0], format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        skill_id skill( skill_value.str( d ) );
+        std::string format = format_value.str( d );
+        if( format != "raw" && format != "percentage" ) {
+            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+        }
+        bool raw = format == "raw";
+        return d.actor( beta )->get_skill_exp( skill, raw );
+    };
+}
+
+std::function<void( dialogue &, double )> skill_exp_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    diag_value format_value( std::string( "percentage" ) );
+    if( params.empty() ) {
+        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
+                                     "skill_exp" ) );
+    } else if( params.size() > 1 ) {
+        format_value = params[1];
+    }
+
+    return [skill_value = params[0], format_value, beta = is_beta( scope ) ]( dialogue const & d,
+    double val ) {
+        skill_id skill( skill_value.str( d ) );
+        std::string format = format_value.str( d );
+        if( format != "raw" && format != "percentage" ) {
+            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+        }
+        bool raw = format == "raw";
+        return d.actor( beta )->set_skill_exp( skill, val, raw );
+    };
+}
+
 std::function<double( dialogue & )> spell_exp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -398,12 +443,33 @@ std::function<double( dialogue & )> test_diag( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> vitamin_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() ) {
+            return d.actor( beta )->get_character()->vitamin_get( vitamin_id( id.str( d ) ) );
+        }
+        return 0;
+    };
+}
+
+std::function<void( dialogue &, double )> vitamin_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), id = params[0]]( dialogue const & d, double val ) {
+        if( d.actor( beta )->get_character() ) {
+            d.actor( beta )->get_character()->vitamin_set( vitamin_id( id.str( d ) ), val );
+        }
+    };
+}
+
 std::function<double( dialogue & )> warmth_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         bodypart_id bp( bpid.str( d ) );
-        return d.actor( beta )->get_cur_part_temp( bp );
+        return units::to_legacy_bodypart_temp( d.actor( beta )->get_cur_part_temp( bp ) );
     };
 }
 

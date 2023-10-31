@@ -99,7 +99,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM_WILL_IT",
-    "dynamic_line": "&You do not exist anymore.  Something else exists elsewhere, and vaguely remembers being you.  It's (torment?/joy?/confusion?/freedom?) will never truly end.",
+    "dynamic_line": "&You do not exist anymore.  Something else exists elsewhere, and vaguely remembers being you.  Its (torment?/joy?/confusion?/freedom?) will never truly end.",
     "responses": [ { "text": "An ending?  The cataclysm was bad but was this better?", "topic": "TALK_DONE", "effect": [ "u_die" ] } ]
   }
 ]

@@ -377,7 +377,9 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "env_protection", env_protection, 0 );
 
-    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
+    int legacy_fire_warmth_bonus = units::to_legacy_bodypart_temp_delta( fire_warmth_bonus );
+    optional( jo, was_loaded, "fire_warmth_bonus", legacy_fire_warmth_bonus, 0 );
+    fire_warmth_bonus = units::from_legacy_bodypart_temp_delta( legacy_fire_warmth_bonus );
 
     mandatory( jo, was_loaded, "main_part", main_part );
     if( main_part == id ) {
@@ -434,8 +436,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_array( "temp_mod" ) ) {
         JsonArray temp_array = jo.get_array( "temp_mod" );
-        temp_min = temp_array.get_int( 0 );
-        temp_max = temp_array.get_int( 1 );
+        temp_min = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 0 ) );
+        temp_max = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 1 ) );
     }
 
     if( jo.has_array( "unarmed_damage" ) ) {
@@ -543,6 +545,18 @@ void body_part_type::check() const
         }
         if( bpls.second.score > bpls.second.max ) {
             debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.first.str() );
+        }
+    }
+
+    for( const std::pair<const damage_type_id, float> &dt : armor.resist_vals ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid armor type \"%s\" for body part %s", dt.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const damage_unit &dt : damage.damage_units ) {
+        if( !dt.type.is_valid() ) {
+            debugmsg( "Invalid unarmed_damage type \"%s\" for body part %s", dt.type.c_str(), id.c_str() );
         }
     }
 
@@ -1014,12 +1028,12 @@ int bodypart::get_frostbite_timer() const
     return frostbite_timer;
 }
 
-int bodypart::get_temp_cur() const
+units::temperature bodypart::get_temp_cur() const
 {
     return temp_cur;
 }
 
-int bodypart::get_temp_conv() const
+units::temperature bodypart::get_temp_conv() const
 {
     return temp_conv;
 }
@@ -1082,12 +1096,12 @@ void bodypart::set_wetness( int set )
     wetness = set;
 }
 
-void bodypart::set_temp_cur( int set )
+void bodypart::set_temp_cur( units::temperature set )
 {
     temp_cur = set;
 }
 
-void bodypart::set_temp_conv( int set )
+void bodypart::set_temp_conv( units::temperature set )
 {
     temp_conv = set;
 }
@@ -1127,12 +1141,12 @@ void bodypart::mod_wetness( int mod )
     wetness += mod;
 }
 
-void bodypart::mod_temp_cur( int mod )
+void bodypart::mod_temp_cur( units::temperature_delta mod )
 {
     temp_cur += mod;
 }
 
-void bodypart::mod_temp_conv( int mod )
+void bodypart::mod_temp_conv( units::temperature_delta mod )
 {
     temp_conv += mod;
 }
@@ -1153,8 +1167,8 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "damage_disinfected", damage_disinfected );
 
     json.member( "wetness", wetness );
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
+    json.member( "temp_cur", units::to_legacy_bodypart_temp( temp_cur ) );
+    json.member( "temp_conv", units::to_legacy_bodypart_temp( temp_conv ) );
     json.member( "frostbite_timer", frostbite_timer );
 
     json.end_object();
@@ -1170,8 +1184,12 @@ void bodypart::deserialize( const JsonObject &jo )
     jo.read( "damage_disinfected", damage_disinfected, true );
 
     jo.read( "wetness", wetness, true );
-    jo.read( "temp_cur", temp_cur, true );
-    jo.read( "temp_conv", temp_conv, true );
+    if( int legacy_temp_cur; jo.read( "temp_cur", legacy_temp_cur, true ) ) {
+        temp_cur = units::from_legacy_bodypart_temp( legacy_temp_cur );
+    }
+    if( int legacy_temp_conv; jo.read( "temp_conv", legacy_temp_conv, true ) ) {
+        temp_conv = units::from_legacy_bodypart_temp( legacy_temp_conv );
+    }
     jo.read( "frostbite_timer", frostbite_timer, true );
 
 }

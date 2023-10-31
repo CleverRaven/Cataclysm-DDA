@@ -133,8 +133,8 @@
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_barley", 1 ] ] ],
-    "charges": 4
+    "components": [ [ [ "seed_barley", 4 ] ] ],
+    "charges": 1
   },
   {
     "result": "seed_tomato",
@@ -261,8 +261,8 @@
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "seed_buckwheat", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "seed_buckwheat", 2 ] ] ],
+    "charges": 1
   },
   {
     "result": "seed_dogbane",

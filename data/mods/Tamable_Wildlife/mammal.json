@@ -19,7 +19,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -38,7 +38,7 @@
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -74,7 +74,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
@@ -129,7 +129,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -141,7 +141,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -153,7 +153,7 @@
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -338,7 +338,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "//": "A wolf pup that's raised with humans displays signs of both attachment and affection towards their owners, these feelings last into adulthood.",
     "extend": { "flags": [ "CANPLAY", "DOGFOOD" ] }

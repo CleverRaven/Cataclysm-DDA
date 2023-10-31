@@ -229,7 +229,11 @@
     "id": "novice_stormshaper",
     "name": "Novice Stormshaper",
     "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded…",
-    "spells": [ { "id": "shocking_lash", "level": 1 }, { "id": "windrun", "level": 1 } ],
+    "spells": [
+      { "id": "shocking_lash", "level": 1 },
+      { "id": "windrun", "level": 1 },
+      { "id": "stormshaper_cloak_of_fog", "level": 1 }
+    ],
     "points": 0,
     "items": {
       "both": {
@@ -280,7 +284,7 @@
     "id": "ranger",
     "name": "Introspectionist",
     "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
-    "spells": [ { "id": "magic_missile", "level": 4 } ],
+    "spells": [ { "id": "magic_missile", "level": 4 }, { "id": "classless_watch_spell", "level": 2 } ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "traits": [ "MAGUS" ],
@@ -328,7 +332,11 @@
     "id": "techno_prepper",
     "name": "Techno-Prepper",
     "description": "You've long suspected the world might suddenly turn over.  With your training, spells, and revolver, your chances are far better than most.",
-    "spells": [ { "id": "create_atomic_lamp", "level": 8 }, { "id": "invisibility", "level": 2 } ],
+    "spells": [
+      { "id": "create_atomic_lamp", "level": 8 },
+      { "id": "invisibility", "level": 2 },
+      { "id": "technomancer_conjure_ups", "level": 3 }
+    ],
     "points": 5,
     "skills": [
       { "level": 2, "name": "survival" },
@@ -361,7 +369,11 @@
     "id": "freezing_dancer",
     "name": "Freezing Dancer",
     "description": "You are a highly sought exotic magic dancer.  You can heat the room temperature with your moves and your body, but whenever it lights too much you freeze it with your magic, granting you great control over your public.  They can see, but never touch.",
-    "spells": [ { "id": "freezing_touch", "level": 3 }, { "id": "glide_ice", "level": 3 } ],
+    "spells": [
+      { "id": "freezing_touch", "level": 3 },
+      { "id": "glide_ice", "level": 3 },
+      { "id": "kelvinist_anti_heat", "level": 3 }
+    ],
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
     "points": 2,
     "items": {
@@ -393,6 +405,8 @@
       { "id": "phase_door", "level": 10 },
       { "id": "dimension_door", "level": 2 },
       { "id": "translocate_self", "level": 5 },
+      { "id": "magus_teleport_mark", "level": 6 },
+      { "id": "magus_word_of_recall", "level": 4 },
       { "id": "magus_escape", "level": 3 },
       { "id": "gravity_well", "level": 2 }
     ],
@@ -494,7 +508,8 @@
     "spells": [
       { "id": "eshaper_spawn_tools", "level": 3 },
       { "id": "move_earth", "level": 2 },
-      { "id": "earthshaper_pillar", "level": 1 }
+      { "id": "earthshaper_pillar", "level": 1 },
+      { "id": "classless_watch_spell", "level": 1 }
     ],
     "traits": [ "EARTHSHAPER" ],
     "items": {
@@ -525,7 +540,8 @@
       { "id": "create_atomic_light", "level": 4 },
       { "id": "magus_force_jar", "level": 3 },
       { "id": "magus_haste", "level": 2 },
-      { "id": "cats_grace", "level": 1 }
+      { "id": "cats_grace", "level": 1 },
+      { "id": "classless_watch_spell", "level": 1 }
     ],
     "traits": [ "MAGUS" ],
     "items": {
@@ -544,7 +560,9 @@
       { "id": "druid_feralform", "level": 4 },
       { "id": "summon_wolf_druid", "level": 3 },
       { "id": "purify_seed", "level": 3 },
-      { "id": "dark_sight", "level": 2 }
+      { "id": "dark_sight", "level": 2 },
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "druid_summon_brambles", "level": 3 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
@@ -572,8 +590,10 @@
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
+      { "id": "druid_harvest_hunter", "level": 3 },
       { "id": "purify_seed", "level": 2 },
-      { "id": "druid_veggrasp", "level": 1 }
+      { "id": "druid_veggrasp", "level": 1 },
+      { "id": "classless_watch_spell", "level": 2 }
     ],
     "skills": [
       { "level": 2, "name": "survival" },
@@ -830,7 +850,9 @@
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
-      { "id": "druid_woodshaft", "level": 3 }
+      { "id": "druid_woodshaft", "level": 3 },
+      { "id": "classless_watch_spell", "level": 2 },
+      { "id": "druid_beguile_savage_beast", "level": 2 }
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -921,7 +943,11 @@
     "name": "Arsonist",
     "description": "Penned in a cell without fuel, you've been extinguished for years for setting buildings on fire.  In your escape, you grabbed your familiar tool to reignite the embers.",
     "points": 3,
-    "spells": [ { "id": "kelvinist_flamebreath", "level": 2 }, { "id": "burning_hands", "level": 2 } ],
+    "spells": [
+      { "id": "kelvinist_flamebreath", "level": 2 },
+      { "id": "burning_hands", "level": 2 },
+      { "id": "kelvinist_anti_heat", "level": 2 }
+    ],
     "skills": [ { "level": 3, "name": "spellcraft" } ],
     "traits": [ "KELVINIST" ],
     "items": {
@@ -941,7 +967,8 @@
       { "id": "druidic_regrowth", "level": 3 },
       { "id": "druid_feralform", "level": 2 },
       { "id": "druid_veggrasp", "level": 2 },
-      { "id": "druid_natures_commune", "level": 2 }
+      { "id": "druid_natures_commune", "level": 2 },
+      { "id": "druid_summon_tanglevine", "level": 2 }
     ],
     "skills": [
       { "level": 3, "name": "spellcraft" },
@@ -963,7 +990,12 @@
     "name": { "male": "Frost Cream Man", "female": "Frost Cream Woman" },
     "description": "You learned Kelvinist spells to keep equipment costs down on your ice cream truck.  While their tastes have changed, the kids still scream for you.",
     "points": 4,
-    "spells": [ { "id": "chilling_touch", "level": 3 }, { "id": "frost_spray", "level": 3 } ],
+    "proficiencies": [ "prof_driver" ],
+    "spells": [
+      { "id": "chilling_touch", "level": 3 },
+      { "id": "frost_spray", "level": 3 },
+      { "id": "kelvinist_anti_heat", "level": 4 }
+    ],
     "skills": [
       { "level": 2, "name": "speech" },
       { "level": 2, "name": "cooking" },

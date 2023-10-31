@@ -28,6 +28,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "exo_warehouse_1",
+    "name": "strange warehouse",
+    "sym": "#",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "exo_warehouse_2",
+    "name": "strange warehouse",
+    "sym": "#",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "slimepit_bottom", "slimepit_top" ],
     "name": "slime pit",
     "sym": "~",

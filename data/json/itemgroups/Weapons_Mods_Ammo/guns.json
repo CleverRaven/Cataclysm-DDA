@@ -477,7 +477,6 @@
       { "group": "nested_bren2_556", "prob": 1 },
       { "group": "nested_mdrx", "prob": 1 },
       { "group": "nested_cz600", "prob": 1 },
-      { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_converted_ar15", "prob": 6 },
       { "group": "nested_converted_mdrx", "prob": 1 },
       { "group": "nested_converted_cz600", "prob": 1 },
@@ -608,7 +607,11 @@
       { "group": "nested_savage112", "prob": 15 },
       { "group": "nested_mrad_smr", "prob": 6 },
       { "group": "nested_axmc", "prob": 6 },
-      { "group": "nested_converted_axmc", "prob": 3 }
+      { "group": "nested_converted_axmc", "prob": 3 },
+      { "group": "nested_zpapm90", "prob": 1 },
+      { "group": "nested_zpap85", "prob": 1 },
+      { "group": "nested_rfb_308", "prob": 5 },
+      { "group": "nested_greasegun", "prob": 1 }
     ]
   },
   {
@@ -901,16 +904,6 @@
       { "group": "guns_shotgun_rare_worn", "prob": 22, "contents-group": "sights_shotgun_static" },
       { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_static_display",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "guns_shotgun_rare_display", "prob": 22, "contents-group": "sights_shotgun_static" },
-      { "item": "winchester_1887", "prob": 10 },
-      { "item": "winchester_1897", "prob": 7 }
     ]
   },
   {

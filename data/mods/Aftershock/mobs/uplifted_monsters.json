@@ -54,7 +54,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "reproduction": { "baby_monster": "mon_uplifted_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON" ],
     "armor": { "bash": 2 }
   },
   {
@@ -111,7 +111,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "special_attacks": [ [ "scratch", 20 ] ],
     "zombify_into": "mon_uplifted_ape_zed",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_uplifted_octupus",
@@ -168,7 +168,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "reproduction": { "baby_monster": "mon_uplifted_octopus_spawn", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "SWIMS", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
     "armor": { "bash": 2 }
   },
   {
