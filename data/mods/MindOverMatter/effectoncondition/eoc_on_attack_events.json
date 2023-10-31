@@ -188,7 +188,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELL_CANCEL_TOGGLES",
     "eoc_type": "EVENT",
-    "required_event": "character_casts_spell",
+    "required_event": "spellcasting_finish",
     "condition": {
       "and": [
         {
