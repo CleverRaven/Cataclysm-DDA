@@ -3,6 +3,7 @@
 #define CATA_SRC_STOMACH_H
 
 #include <map>
+#include <variant>
 
 #include "calendar.h"
 #include "type_id.h"
@@ -27,6 +28,12 @@ struct nutrients {
         // vitamin -> how many vitamin units of it are included
         std::map<vitamin_id, int> vitamins() const;
 
+        // For vitamins that support units::mass quantities
+        // If finalized == true, these will instantly convert to units,
+        // so make sure finalized = false if you call these before vitamins are loaded
+        void set_vitamin( const vitamin_id &, units::mass mass );
+        void add_vitamin( const vitamin_id &, units::mass mass );
+
         void set_vitamin( const vitamin_id &, int units );
         void add_vitamin( const vitamin_id &, int units );
 
@@ -35,6 +42,8 @@ struct nutrients {
 
         int get_vitamin( const vitamin_id & ) const;
         int kcal() const;
+
+        void finalize_vitamins();
 
         bool operator==( const nutrients &r ) const;
         bool operator!=( const nutrients &r ) const {
@@ -56,9 +65,14 @@ struct nutrients {
             return l;
         }
 
+        // All vitamins are in vitamin units, not units::mass (e.g. all JSON has been loaded)
+        // defaults to true because this is only false when nutrients are loaded from JSON,
+        // where it is set explicitly to false
+        bool finalized = true;
+
     private:
         /** vitamins potentially provided by this comestible (if any) */
-        std::map<vitamin_id, int> vitamins_;
+        std::map<vitamin_id, std::variant<int, units::mass>> vitamins_;
 };
 
 // Contains all information that can pass out of (or into) a stomach
