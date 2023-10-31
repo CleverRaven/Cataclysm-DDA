@@ -1,0 +1,34 @@
+[
+  {
+    "result": "human_left_leg",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "human_flesh", 40 ] ], [ [ "human_meat_scrap", 26 ] ], [ [ "bone_human", 3 ] ] ]
+  },
+  {
+    "result": "human_right_leg",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "human_flesh", 40 ] ], [ [ "human_meat_scrap", 26 ] ], [ [ "bone_human", 3 ] ] ]
+  },
+  {
+    "result": "human_left_arm",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "human_flesh", 29 ] ], [ [ "human_meat_scrap", 1 ] ], [ [ "bone_human", 2 ] ] ]
+  },
+  {
+    "result": "human_right_arm",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "human_flesh", 29 ] ], [ [ "human_meat_scrap", 1 ] ], [ [ "bone_human", 2 ] ] ]
+  }
+]

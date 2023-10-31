@@ -229,5 +229,102 @@
     "recurrence": [ "2 hour", "24 hours" ],
     "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIMB_LOSS_CHECK_ON_HIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "global": false,
+    "condition": {
+      "or": [
+        { "math": [ "u_hp('arm_l')", "<=", "u_hp_max('arm_l') * 0.09" ] },
+        { "math": [ "u_hp('arm_r')", "<=", "u_hp_max('arm_r') * 0.09" ] },
+        { "math": [ "u_hp('leg_l')", "<=", "u_hp_max('leg_l') * 0.09" ] },
+        { "math": [ "u_hp('leg_r')", "<=", "u_hp_max('leg_r') * 0.09" ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_REMOVE_LEFT_ARM",
+          "condition": {
+            "and": [
+              { "not": { "u_has_trait": "NO_LEFT_ARM" } },
+              { "not": { "u_has_var": "missing_left_arm", "type": "traits", "context": "limbs", "value": "yes" } },
+              { "x_in_y_chance": { "x": 1, "y": 20 } },
+              { "math": [ "u_hp('arm_l')", "<=", "u_hp_max('arm_l') * 0.09" ] }
+            ]
+          },
+          "effect": [
+            { "u_lose_effect": "disabled" },
+            { "u_add_trait": "NO_LEFT_ARM" },
+            { "u_add_effect": "bleed", "intensity": 3, "duration": 1800, "target_part": "torso" },
+            { "u_message": "Your left arm is cut off, and the severed part sails off in an arc!", "type": "bad" },
+            { "u_cast_spell": { "id": "dummy_severed_left_arm", "hit_self": true } }
+          ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_REMOVE_RIGHT_ARM",
+          "condition": {
+            "and": [
+              { "not": { "u_has_trait": "NO_RIGHT_ARM" } },
+              { "not": { "u_has_var": "missing_right_arm", "type": "traits", "context": "limbs", "value": "yes" } },
+              { "x_in_y_chance": { "x": 1, "y": 20 } },
+              { "math": [ "u_hp('arm_r')", "<=", "u_hp_max('arm_r') * 0.09" ] }
+            ]
+          },
+          "effect": [
+            { "u_lose_effect": "disabled" },
+            { "u_add_trait": "NO_RIGHT_ARM" },
+            { "u_add_effect": "bleed", "intensity": 3, "duration": 1800, "target_part": "torso" },
+            { "u_message": "Your right arm is cut off, and the severed part sails off in an arc!", "type": "bad" },
+            { "u_cast_spell": { "id": "dummy_severed_right_arm", "hit_self": true } }
+          ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_REMOVE_LEFT_LEG",
+          "condition": {
+            "and": [
+              { "not": { "u_has_trait": "NO_LEFT_LEG" } },
+              { "not": { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" } },
+              { "x_in_y_chance": { "x": 1, "y": 20 } },
+              { "math": [ "u_hp('leg_l')", "<=", "u_hp_max('leg_l') * 0.09" ] }
+            ]
+          },
+          "effect": [
+            { "u_lose_effect": "disabled" },
+            { "u_add_trait": "NO_LEFT_LEG" },
+            { "u_add_effect": "bleed", "intensity": 3, "duration": 1800, "target_part": "torso" },
+            { "u_message": "Your left leg is cut off, and the severed part sails off in an arc!", "type": "bad" },
+            { "u_cast_spell": { "id": "dummy_severed_left_leg", "hit_self": true } }
+          ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "EOC_REMOVE_RIGHT_LEG",
+          "condition": {
+            "and": [
+              { "not": { "u_has_trait": "NO_RIGHT_LEG" } },
+              { "not": { "u_has_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" } },
+              { "x_in_y_chance": { "x": 1, "y": 20 } },
+              { "math": [ "u_hp('leg_r')", "<=", "u_hp_max('leg_r') * 0.09" ] }
+            ]
+          },
+          "effect": [
+            { "u_lose_effect": "disabled" },
+            { "u_add_trait": "NO_RIGHT_LEG" },
+            { "u_add_effect": "bleed", "intensity": 3, "duration": 1800, "target_part": "torso" },
+            { "u_message": "Your right leg is cut off, and the severed part sails off in an arc!", "type": "bad" },
+            { "u_cast_spell": { "id": "dummy_severed_right_leg", "hit_self": true } }
+          ]
+        }
+      }
+    ]
   }
 ]
