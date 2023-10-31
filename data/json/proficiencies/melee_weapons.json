@@ -106,6 +106,41 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_shivs_familiar",
+    "category": "prof_combat",
+    "name": { "str": "Shiv Familiarity" },
+    "description": "You know how to stab someone with something not typically intended to stab them with.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_shivs_pro",
+    "category": "prof_combat",
+    "name": { "str": "Shiv Proficiency" },
+    "description": "You're pretty good at shanking your enemy, if you do say so yourself.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_knives_familiar" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_shivs_master",
+    "category": "prof_combat",
+    "name": { "str": "Shiv Mastery" },
+    "description": "You've mastered the ancient and ignoble art of sticking someone with something small and pointy.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_knives_pro" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_batons_familiar",
     "category": "prof_combat",
     "name": { "str": "Baton Familiarity" },
