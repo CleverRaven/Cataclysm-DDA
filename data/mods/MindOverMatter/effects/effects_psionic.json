@@ -787,6 +787,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_arms",
+    "name": [ "refraction of arms" ],
+    "desc": [ "Your arms refract light to create the illusion of having multiple arms and their wielded items" ],
+    "apply_message": "light around your arms shimmers and refracts, creating the illusion of multiple arms.",
+    "remove_message": "the light around your arms returns to normal.",
+    "rating": "neutral",
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
