@@ -222,5 +222,12 @@
       { "u_add_trait": "CHITIN2" },
       { "u_add_trait": "CRUSTACEAN_CARAPACE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RASHY_SKIN",
+    "recurrence": [ "2 hour", "24 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
+    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
   }
 ]

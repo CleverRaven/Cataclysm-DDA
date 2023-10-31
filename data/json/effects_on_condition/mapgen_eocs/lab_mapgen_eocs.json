@@ -9,13 +9,6 @@
     "effect": { "mapgen_update": "release_the_bots", "om_terrain": "lab_health_z-3_A" }
   },
   {
-    "//": "Opens bot release if you lack a red science ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_the_bots",
-    "method": "json",
-    "object": { "place_terrain": [ { "ter": "t_thconc_r", "x": 5, "y": 0 } ] }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_security_check_surface_3",
     "recurrence": [ 5, 30 ],
@@ -34,20 +27,6 @@
     "effect": { "mapgen_update": "release_the_bots_2", "om_terrain": "lab_res_8_SED_ground" }
   },
   {
-    "//": "Opens bot release if you lack a green maintenance ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_the_bots_2",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 7, "y": 0 },
-        { "ter": "t_thconc_r", "x": 11, "y": 0 },
-        { "ter": "t_thconc_r", "x": 15, "y": 0 },
-        { "ter": "t_thconc_r", "x": 19, "y": 0 }
-      ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_security_check_surface_1",
     "recurrence": 1,
@@ -58,34 +37,6 @@
       { "mapgen_update": "release_bots_garage", "om_terrain": "lab_security_z0" },
       { "mapgen_update": "open_walls_garage", "om_terrain": "lab_CORE_2x1_WC_ground" }
     ]
-  },
-  {
-    "//": "Opens bot release if you lack a green maintenance ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_garage",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 10, "y": 8 },
-        { "ter": "t_thconc_r", "x": 10, "y": 9 },
-        { "ter": "t_thconc_r", "x": 10, "y": 14 },
-        { "ter": "t_thconc_r", "x": 10, "y": 15 }
-      ]
-    }
-  },
-  {
-    "//": "Opens walls for bot pathing if you lack a green maintenance ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "open_walls_garage",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 0, "y": 1 },
-        { "ter": "t_thconc_r", "x": 0, "y": 2 },
-        { "ter": "t_thconc_r", "x": 0, "y": 21 },
-        { "ter": "t_thconc_r", "x": 0, "y": 22 }
-      ]
-    }
   },
   {
     "type": "effect_on_condition",
@@ -106,16 +57,6 @@
     ]
   },
   {
-    "//": "Spawns a special monster fight and ID badge spwan if you have the yellow security badge.",
-    "type": "mapgen",
-    "update_mapgen_id": "magenta_security_card_spawn",
-    "method": "json",
-    "object": {
-      "place_loot": [ { "item": "id_science_security_magenta", "x": 21, "y": 14, "chance": 20 } ],
-      "place_monster": [ { "monster": [ "mon_zombie_brute", "mon_zombie_bio_op" ], "x": 21, "y": 14, "chance": 100 } ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_1x1x2_RES_8_check_SEC",
     "recurrence": [ 5, 10 ],
@@ -125,19 +66,6 @@
     "effect": [ { "mapgen_update": "release_bots_3", "om_terrain": "lab_1x1_RES_8_commons_SEC" } ]
   },
   {
-    "//": "Opens bot release if you lack a yellow security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_3",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 1, "y": 17 },
-        { "ter": "t_thconc_r", "x": 14, "y": 21 },
-        { "ter": "t_thconc_r", "x": 15, "y": 21 }
-      ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_1x1x2_RES_8_check_MAINT",
     "recurrence": [ 5, 10 ],
@@ -145,19 +73,6 @@
       "and": [ { "u_at_om_location": "lab_1x1_RES_8_commons_MAINT" }, { "not": { "u_has_item": "id_science_maintenance_yellow" } } ]
     },
     "effect": [ { "mapgen_update": "release_bots_3", "om_terrain": "lab_1x1_RES_8_commons_MAINT" } ]
-  },
-  {
-    "//": "Opens bot release if you lack a yellow (ocher) security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_3",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 1, "y": 17 },
-        { "ter": "t_thconc_r", "x": 14, "y": 21 },
-        { "ter": "t_thconc_r", "x": 15, "y": 21 }
-      ]
-    }
   },
   {
     "type": "effect_on_condition",
@@ -189,28 +104,6 @@
     "effect": [ { "mapgen_update": "release_bots_concourse", "om_terrain": "lab_CORE_2x1_1DN" } ]
   },
   {
-    "//": "Opens bot release if you have no ID badges.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_concourse",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 15, "y": 3 },
-        { "ter": "t_thconc_r", "x": 15, "y": 4 },
-        { "ter": "t_thconc_r", "x": 16, "y": 4 },
-        { "ter": "t_thconc_r", "x": 16, "y": 5 },
-        { "ter": "t_thconc_r", "x": 17, "y": 5 },
-        { "ter": "t_thconc_r", "x": 17, "y": 6 },
-        { "ter": "t_thconc_r", "x": 15, "y": 20 },
-        { "ter": "t_thconc_r", "x": 15, "y": 19 },
-        { "ter": "t_thconc_r", "x": 16, "y": 19 },
-        { "ter": "t_thconc_r", "x": 16, "y": 18 },
-        { "ter": "t_thconc_r", "x": 17, "y": 18 },
-        { "ter": "t_thconc_r", "x": 17, "y": 17 }
-      ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_concourse_bot_release_2",
     "recurrence": [ 5, 10 ],
@@ -240,28 +133,6 @@
     "effect": [ { "mapgen_update": "release_bots_concourse_2", "om_terrain": "lab_CORE_2x1_2DN" } ]
   },
   {
-    "//": "Opens bot release if you have no ID badges.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_concourse_2",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_thconc_r", "x": 8, "y": 3 },
-        { "ter": "t_thconc_r", "x": 8, "y": 4 },
-        { "ter": "t_thconc_r", "x": 7, "y": 4 },
-        { "ter": "t_thconc_r", "x": 6, "y": 5 },
-        { "ter": "t_thconc_r", "x": 7, "y": 5 },
-        { "ter": "t_thconc_r", "x": 6, "y": 6 },
-        { "ter": "t_thconc_r", "x": 8, "y": 20 },
-        { "ter": "t_thconc_r", "x": 8, "y": 19 },
-        { "ter": "t_thconc_r", "x": 7, "y": 19 },
-        { "ter": "t_thconc_r", "x": 6, "y": 18 },
-        { "ter": "t_thconc_r", "x": 7, "y": 18 },
-        { "ter": "t_thconc_r", "x": 6, "y": 17 }
-      ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_magenta_security_check",
     "recurrence": [ 15, 30 ],
@@ -269,30 +140,11 @@
     "effect": [ { "mapgen_update": "release_bots_4", "om_terrain": "lab_security_z-5" } ]
   },
   {
-    "//": "Opens bot release if you lack a magenta security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_4",
-    "method": "json",
-    "object": {
-      "set": [
-        { "line": "terrain", "id": "t_thconc_r", "x": 17, "y": 3, "x2": 23, "y2": 3 },
-        { "line": "terrain", "id": "t_thconc_r", "x": 17, "y": 20, "x2": 23, "y2": 20 }
-      ]
-    }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_cyan_mutagen_check",
     "recurrence": [ 15, 30 ],
     "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_2_NE" }, { "not": { "u_has_item": "id_science_mutagen_cyan" } } ] },
     "effect": [ { "mapgen_update": "release_bots_5", "om_terrain": "lab_2x2_MUT_tier_2_NE" } ]
-  },
-  {
-    "//": "Opens bot release if you lack a mutagen security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_5",
-    "method": "json",
-    "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 12, "y": 15, "x2": 12, "y2": 16 } ] }
   },
   {
     "type": "effect_on_condition",
@@ -304,13 +156,6 @@
     "effect": [ { "mapgen_update": "release_bots_6", "om_terrain": "lab_2x2_MUT_tier_2_NW_final_flr" } ]
   },
   {
-    "//": "Opens bot release if you lack a mutagen security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_6",
-    "method": "json",
-    "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 11, "y": 15, "x2": 11, "y2": 16 } ] }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_cyan_mutagen_check_3",
     "recurrence": [ 15, 30 ],
@@ -318,25 +163,11 @@
     "effect": [ { "mapgen_update": "release_bots_7", "om_terrain": "lab_2x2_MUT_tier_2_SW" } ]
   },
   {
-    "//": "Opens bot release if you lack a mutagen security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_7",
-    "method": "json",
-    "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 11, "y": 3, "x2": 11, "y2": 5 } ] }
-  },
-  {
     "type": "effect_on_condition",
     "id": "lab_cyan_mutagen_check_4",
     "recurrence": [ 15, 30 ],
     "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_2_SE" }, { "not": { "u_has_item": "id_science_mutagen_cyan" } } ] },
     "effect": [ { "mapgen_update": "release_bots_8", "om_terrain": "lab_2x2_MUT_tier_2_SE" } ]
-  },
-  {
-    "//": "Opens bot release if you lack a mutagen ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "release_bots_8",
-    "method": "json",
-    "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 12, "y": 3, "x2": 12, "y2": 5 } ] }
   },
   {
     "type": "effect_on_condition",
