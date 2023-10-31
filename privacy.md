@@ -1,3 +1,9 @@
+---
+layout: page
+title: "Privacy Policy"
+permalink: /privacy/
+---
+
 # Privacy Policy for Cataclysm: Dark Days Ahead
 
 **CleverRaven**, the group of internet randoms that make **Cataclysm: Dark Days Ahead**, does not and cannot download or use your data, nor do we want to.  You know what kind of person you are so we're sure you understand why not.
