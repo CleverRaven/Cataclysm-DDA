@@ -83,7 +83,7 @@
         "time": "2 h",
         "components": [[["elderberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
     },
     {
@@ -97,7 +97,7 @@
         "time": "2 h",
         "components": [[["mulberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
     },
     {
@@ -111,7 +111,7 @@
         "time": "2 h",
         "components": [[["huckleberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
     },
     {
@@ -125,7 +125,7 @@
         "time": "2 h",
         "components": [[["raspberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
     },
     {
@@ -139,7 +139,7 @@
         "time": "2 h",
         "components": [[["strawberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
     },
     {
@@ -153,7 +153,7 @@
         "time": "2 h",
         "components": [[["blueberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
 
     },
     {
@@ -167,7 +167,7 @@
         "time": "2 h",
         "components": [[["apple", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -180,7 +180,7 @@
         "time": "2 h",
         "components": [[["banana", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -193,7 +193,7 @@
         "time": "2 h",
         "components": [[["orange", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -206,7 +206,7 @@
         "time": "2 h",
         "components": [[["lemon", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -219,7 +219,7 @@
         "time": "2 h",
         "components": [[["grapefruit", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -232,7 +232,7 @@
         "time": "2 h",
         "components": [[["pear", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -245,7 +245,7 @@
         "time": "2 h",
         "components": [[["cherries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -258,7 +258,7 @@
         "time": "2 h",
         "components": [[["plums", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -271,7 +271,7 @@
         "time": "2 h",
         "components": [[["grapes", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -284,7 +284,7 @@
         "difficulty": 6,
         "components": [[["pineapple", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -297,7 +297,7 @@
         "difficulty": 6,
         "components": [[["peach", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -310,7 +310,7 @@
         "difficulty": 6,
         "components": [[["watermelon", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -323,7 +323,7 @@
         "difficulty": 6,
         "components": [[["melon", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -336,7 +336,7 @@
         "difficulty": 6,
         "components": [[["blackberries", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -349,7 +349,7 @@
         "difficulty": 6,
         "components": [[["mango", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -362,7 +362,7 @@
         "difficulty": 6,
         "components": [[["pomegranate", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -375,7 +375,7 @@
         "difficulty": 6,
         "components": [[["papaya", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -388,7 +388,7 @@
         "difficulty": 6,
         "components": [[["guayaba", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -401,7 +401,7 @@
         "difficulty": 6,
         "components": [[["maracuya", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -414,7 +414,7 @@
         "difficulty": 6,
         "components": [[["kiwi", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -427,7 +427,7 @@
         "difficulty": 6,
         "components": [[["lulo", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -440,7 +440,7 @@
         "difficulty": 6,
         "components": [[["plantain", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -453,7 +453,7 @@
         "difficulty": 6,
         "components": [[["apricot", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -466,7 +466,7 @@
         "difficulty": 6,
         "components": [[["lettuce", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -479,7 +479,7 @@
         "difficulty": 6,
         "components": [[["cabbage", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -492,7 +492,7 @@
         "difficulty": 6,
         "components": [[["tomato", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -505,7 +505,7 @@
         "difficulty": 6,
         "components": [[["broccoli", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -518,7 +518,7 @@
         "difficulty": 6,
         "components": [[["zucchini", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -531,7 +531,7 @@
         "difficulty": 6,
         "components": [[["onion", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -544,7 +544,7 @@
         "difficulty": 6,
         "components": [[["carrot", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -557,7 +557,7 @@
         "difficulty": 6,
         "components": [[["corn", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -570,7 +570,7 @@
         "difficulty": 6,
         "components": [[["pumpkin", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -583,7 +583,7 @@
         "difficulty": 6,
         "components": [[["potato", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -596,7 +596,7 @@
         "difficulty": 6,
         "components": [[["cucumber", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -609,7 +609,7 @@
         "difficulty": 6,
         "components": [[["celery", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -622,7 +622,7 @@
         "difficulty": 6,
         "components": [[["rhubarb", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     },
     {
         "type": "recipe",
@@ -635,7 +635,7 @@
         "difficulty": 6,
         "components": [[["eggplant", 1]]],
         "flags": ["SECRET"],
-        "result_eocs": [ {"id": "EOC_FOOD_PHOTOKIN_DRAIN"}]
+        "result_eocs": ["EOC_FOOD_PHOTOKIN_DRAIN"]
     }
 
     
