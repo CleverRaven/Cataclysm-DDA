@@ -364,22 +364,6 @@
     "shape": "blast"
   },
   {
-    "id": "death_blindness",
-    "type": "SPELL",
-    "name": { "str": "Death Blinding" },
-    "description": "Blinding flash on death.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "effect": "attack",
-    "effect_str": "blind",
-    "shape": "blast",
-    "max_level": 1,
-    "min_aoe": 3,
-    "max_aoe": 3,
-    "min_duration": 500,
-    "max_duration": 500
-  },
-  {
     "id": "death_explosion_mon_spider_jumping_mega",
     "type": "SPELL",
     "name": { "str": "Death Explosion - Huge" },
