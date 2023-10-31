@@ -511,7 +511,15 @@
       { "type": "detach_molle" }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "volume_encumber_modifier": 0.35 } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ]
   },
   {
     "id": "suspenders_cloth",
