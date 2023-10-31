@@ -224,7 +224,7 @@
   {
     "id": "photokinetic_rad_aura",
     "type": "ARMOR",
-    "name": { "str": "anti-radiation aura" },
+    "name": { "str": "light barrier" },
     "description": "You are surrounded by a faint glow that protects you from radiation.",
     "weight": "0 g",
     "volume": "0 ml",
