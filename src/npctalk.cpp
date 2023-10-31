@@ -4235,11 +4235,10 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, std::string_vi
         int index = rng( 0, values.size() - 1 );
         std::string str = values[index].evaluate( d );
         if( parse ) {
-            itype_id &dummy = itype_id();
             std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
             talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
             talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
-            parse_tags( str, alpha, beta, d, dummy );
+            parse_tags( str, alpha, beta, d );
         }
         write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d, str );
     };
