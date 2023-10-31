@@ -62,7 +62,7 @@
     "type": "SPELL",
     "name": "[Ψ]Tric of the Light Monster",
     "description": "Manipulate the light around you, creating small illusions around your body to become harder to hit.",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "effect_photokin_dodge",
