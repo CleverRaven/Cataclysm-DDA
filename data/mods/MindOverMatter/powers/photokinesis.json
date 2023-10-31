@@ -35,7 +35,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7.5,
-    "learn_spells": { "photokinetic_invisibility": 12}
+    "learn_spells": { "photokinetic_light_arms":7,"photokinetic_invisibility": 12}
   },
   {
     "id": "photokinetic_light_dodge",
@@ -67,7 +67,7 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_invisibility": 7, "photokinetic_light_image": 12}
+    "learn_spells": { "photokinetic_rad_immunity": 5,"photokinetic_invisibility": 7, "photokinetic_light_image": 12}
 
   },
   {
@@ -104,7 +104,7 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_weapon": 12}
+    "learn_spells": { "photokinetic_light_image":5, "photokinetic_light_flash": 12, "photokinetic_light_disintegrate": 15}
 
 
   },
@@ -142,7 +142,7 @@
     "base_casting_time": 150,
     "final_casting_time": 90,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_weapon": 7, "photokinetic_invisibility": 12 }
+    "learn_spells": { "photokinetic_light_arms": 7, "photokinetic_invisibility": 12 }
   },
   {
     "id": "photokinetic_light_arms",
@@ -173,7 +173,8 @@
     "energy_increment": -125,
     "base_casting_time": 250,
     "final_casting_time": 100,
-    "casting_time_increment": -12.5
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_rad_immunity": 5, "photokinetic_light_disintegrate": 12 }
 
   },
   {
@@ -204,7 +205,8 @@
     "energy_increment": -125,
     "base_casting_time": 250,
     "final_casting_time": 100,
-    "casting_time_increment": -4.5
+    "casting_time_increment": -4.5,
+    "learn_spells": { "photokinetic_invisibility": 5, "photokinetic_light_flash": 7 }
   },
   {
     "id": "photokinetic_invisibility",
@@ -235,7 +237,8 @@
     "energy_increment": -125,
     "base_casting_time": 250,
     "final_casting_time": 100,
-    "casting_time_increment": -12.5
+    "casting_time_increment": -12.5,
+    "learn_spells": { "photokinetic_light_flash": 5, "photokinetic_light_disintegrate": 8}
 
   },
   {
@@ -274,7 +277,7 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -12.5,
-    "learn_spells": { "photokinetic_light_disintegrate": 12}
+    "learn_spells": { "photokinetic_light_arms": 5, "photokinetic_light_disintegrate": 7}
 
   },
   {
