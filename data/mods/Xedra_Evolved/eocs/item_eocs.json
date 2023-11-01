@@ -41,7 +41,8 @@
               { "u_cast_spell": { "id": "mace_pipe_magic_throw" } }
             ]
           }
-        ]
+        ],
+        "false_eocs": [ { "id": "EOC_ITEM_WIELDED", "effect": [ { "u_message": "You aren't wielding it." } ] } ]
       }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
