@@ -73,7 +73,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_OVERLOAD_POWER_DISRUPTION",
+    "id": "EOC_END_PSI_POWERS",
     "effect": [
       { "u_lose_effect": "effect_biokin_physical" },
       { "u_lose_effect": "effect_biokin_pkill_1" },
