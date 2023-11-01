@@ -265,13 +265,14 @@
     "symbol": "?",
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
     "volume": "750 ml",
     "to_hit": -3,
     "price": 2000,
     "price_postapoc": 250,
     "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "melee_damage": { "bash": 2, "stab": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "hand_pump",
