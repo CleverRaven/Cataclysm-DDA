@@ -1906,7 +1906,7 @@
     "requirement": "achievement_kill_100_monsters",
     "description": "The boss always said he could rely on you to pull through on the tough jobs.  Shame he got himself smoked.  No problem; the world's always got a place for someone with your kind of talents.",
     "points": 4,
-    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -3773,7 +3773,7 @@
       { "level": 3, "name": "unarmed" },
       { "level": 3, "name": "dodge" }
     ],
-    "proficiencies": [ "prof_knives_familiar", "prof_knives_pro", "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_knives_pro", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_shivs_familiar" ],
     "traits": [ "PROF_ASSASSIN_CONVICT" ],
     "items": {
       "both": {
