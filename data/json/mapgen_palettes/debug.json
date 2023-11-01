@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "debug_itemgroup_test" ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_pavement",
       "rows": [
         "                        ",
         "                        ",
@@ -31,7 +31,7 @@
         "                        ",
         "                        "
       ],
-      "items": { " ": [ { "item": "belt223_4ball_1tracer", "chance": 100 } ] }
+      "items": { " ": [ { "item": "milspec_arsenal_group_only_ammo", "chance": 100 } ] }
     }
   },
   {
