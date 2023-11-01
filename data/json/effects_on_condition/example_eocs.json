@@ -322,6 +322,7 @@
     ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_query_tile_test_anywhere",
     "effect": [
       {
