@@ -140,6 +140,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_BIOKINETIC_CHANNELING_FAILURE",
+    "//": "Once focus becomes more persistant and doesn't immediately drop to 25 on doing basically anything, low focus should also make overload more likely",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": {
@@ -161,6 +162,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -199,6 +201,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -243,6 +246,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -281,6 +285,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -319,6 +324,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -363,6 +369,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -401,6 +408,7 @@
     },
     "effect": [
       { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_OVERLOAD_POWER_DISRUPTION" ] },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
