@@ -46,7 +46,8 @@
       "PUSH_MON",
       "SWARMS",
       "CAN_OPEN_DOORS",
-      "NO_BREATHE"
+      "NO_BREATHE",
+      "WIELDED_WEAPON"
     ],
     "armor": { "bash": 2, "cut": 12, "stab": 6, "bullet": 10 }
   },

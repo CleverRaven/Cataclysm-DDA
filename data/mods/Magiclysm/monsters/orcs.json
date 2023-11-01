@@ -51,7 +51,18 @@
         { "item": "longsword", "prob": 100 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "WARM",
+      "BASHES",
+      "FILTHY",
+      "PATH_AVOID_DANGER_1",
+      "SWARMS",
+      "GROUP_MORALE",
+      "WIELDED_WEAPON"
+    ]
   },
   {
     "type": "MONSTER",

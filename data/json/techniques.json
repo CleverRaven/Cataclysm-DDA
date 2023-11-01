@@ -1790,12 +1790,11 @@
       ]
     },
     "condition_desc": "* Only works on a <info>downed</info> and <info>stunned</info> humanoid target",
-    "disarms": true,
     "tech_effects": [
       {
         "id": "maimed_arm",
         "chance": 100,
-        "permanent": true,
+        "duration": 44000,
         "on_damage": true,
         "message": "The %s's arm is mangled beyond recognition!"
       }
