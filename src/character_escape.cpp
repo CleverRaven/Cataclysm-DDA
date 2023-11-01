@@ -258,9 +258,9 @@ bool Character::try_remove_grab( bool attacking )
             if( has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS ) ) {
                 const float slime_factor = worn.clothing_wetness_mult( eff.get_bp() ) * 6;
                 // Slime offers a 6% bonus to escaping from a grab on a naked body part.
-                // Slime exudes from the skin and will only soak through clothes according to their combined breathability and coverage. 
+                // Slime exudes from the skin and will only soak through clothes according to their combined breathability and coverage.
                 // Since the attacker is grabbing at the outermost layer, that 6% is multiplied by clothing_wetness_mult for that body part.
-                escape_chance += slime_factor; 
+                escape_chance += slime_factor;
                 add_msg_debug( debugmode::DF_MATTACK,
                                "%s is slimy, escape chance increased by %f",
                                eff.get_bp()->name, slime_factor );
