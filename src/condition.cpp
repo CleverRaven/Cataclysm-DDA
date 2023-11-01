@@ -1388,7 +1388,7 @@ void conditional_t::set_query_tile( const JsonObject &jo, std::string_view membe
     if( jo.has_member( "range" ) ) {
         range = get_dbl_or_var( jo, "range" );
     }
-    bool other_z_level = jo.get_bool( "z_level", false );
+    bool z_level = jo.get_bool( "z_level", false );
     condition = [type, target_var, message, range, z_level, is_npc]( dialogue & d ) {
         std::optional<tripoint> loc;
         Character *ch = d.actor( is_npc )->get_character();
