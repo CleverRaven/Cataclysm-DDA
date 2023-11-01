@@ -1,0 +1,158 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "iso_balthazar_aid",
+    "num_args": 1,
+    "return": "min(40, iso_balthazar_aid_value + _0)"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_on_kill_balthazar_aid",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "math": [ "n_val('difficulty') >= 30" ] },
+    "effect": [ { "math": [ "iso_balthazar_aid_value = iso_balthazar_aid(1)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_start_bcontrol",
+    "effect": [
+      { "u_message": "<BALTHAZAR_CONTROL_PLAYER>" },
+      { "math": [ "iso_balthazar_aid_value -= 12" ] },
+      { "math": [ "balthazar_control = 1" ] },
+      { "run_eocs": "EOC_end_bcontrol", "time_in_future": "2 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_end_bcontrol",
+    "effect": [ { "u_message": "<BALTHAZAR_CONTROL_TERMINATED>" }, { "math": [ "balthazar_control = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_start_shield",
+    "effect": [
+      { "u_message": "<BALTHAZAR_SHIELD>" },
+      { "math": [ "iso_balthazar_aid_value -= 20" ] },
+      { "u_cast_spell": { "id": "spawn_blackfire_shield", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_start_blackfire",
+    "effect": [
+      { "u_message": "<BALTHAZAR_COMBAT_STARTED>" },
+      { "math": [ "iso_balthazar_aid_value -= 25" ] },
+      {
+        "if": { "math": [ "bossfight_active == 1" ] },
+        "then": [
+          { "u_message": "<BALTHAZAR_COMBAT_TARGET_BOSS>" },
+          { "run_eocs": "EOC_blackfire_execute", "time_in_future": "2 minutes" }
+        ],
+        "else": [ { "run_eocs": "EOC_blackfire_execute", "time_in_future": "2 seconds" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_blackfire_execute",
+    "effect": [
+      { "u_message": "<BALTHAZAR_BLACKFIRE_COMPLETED>", "popup": true },
+      { "u_cast_spell": { "id": "iso_blackfire_blast", "hit_self": true, "min_level": 2 } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_balthazar_prevent_death",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "math": [ "iso_balthazar_aid_value > 30" ] },
+    "effect": [
+      "u_prevent_death",
+      { "math": [ "u_hp('ALL') = 999" ] },
+      { "run_eocs": [ "EOC_healextras" ] },
+      { "math": [ "iso_balthazar_aid_value -= 30" ] },
+      { "u_cast_spell": { "id": "iso_blackfire_blast", "hit_self": true, "min_level": 1 } },
+      { "u_message": "you convulse violently as Balthazar tears you from the jaws of death." },
+      { "u_message": "<BALTHAZAR_REVIVE_PLAYER>", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_healextras",
+    "//": "This is copied from sky-island.",
+    "effect": [
+      { "math": [ "u_calories() = max( u_calories(), 9000)" ] },
+      { "math": [ "u_val('thirst') = min( u_val('thirst'), 800)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_vitamin('instability') = 0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('rad') = 0" ] },
+      { "math": [ "u_val('pkill') = 0" ] },
+      { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed",
+          "fungus",
+          "dermatik",
+          "bloodworms",
+          "paincysts",
+          "brainworms",
+          "tapeworm",
+          "blind",
+          "poison",
+          "venom_dmg",
+          "venom_weaken",
+          "stung",
+          "badpoison",
+          "foodpoison",
+          "paralyzepoison",
+          "tetanus",
+          "rat_bite_fever",
+          "infected",
+          "asthma",
+          "common_cold",
+          "flu",
+          "pre_flu",
+          "pre_common_cold",
+          "VITRIFYING"
+        ]
+      },
+      { "alter_timed_events": "vitrified_farm_escape_key" },
+      {
+        "run_eocs": [ "EOC_FIX_MAGICLYSM_PROBLEMS", "EOC_FIX_MIND_OVER_MATTER_PROBLEMS", "EOC_FIX_XEDRA_EVOLVED_PROBLEMS" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_MAGICLYSM_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_MIND_OVER_MATTER_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_XEDRA_EVOLVED_PROBLEMS",
+    "effect": [  ]
+  }
+]

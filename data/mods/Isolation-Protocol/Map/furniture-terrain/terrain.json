@@ -1,0 +1,35 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_iso_chasm",
+    "name": "chasm",
+    "description": "The surrounding walls drop into an abyss that sparkles with otherworldly light. Falling into it would likely mean certain death.",
+    "symbol": "*",
+    "looks_like": "t_open_air",
+    "color": "dark_gray",
+    "move_cost": -1,
+    "coverage": 0,
+    "trap": "tr_iso_chasm",
+    "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE", "MON_AVOID_STRICT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_iso_bossfight_door",
+    "copy-from": "t_abstract_wall_metal",
+    "name": "closed metal door",
+    "description": "A galvanized steel door, forged to withstand punishment and impede anyone or anything.  Typically used in conjunction with automated electronic locking mechanisms that require an external source to unlock.",
+    "color": "light_gray",
+    "looks_like": "t_door_metal_locked"
+  },
+  {
+    "type": "trap",
+    "id": "tr_iso_chasm",
+    "name": "sparkling chasm",
+    "color": "dark_gray",
+    "copy-from": "tr_swirling_vortex",
+    "action": "eocs",
+    "eocs": [ "EOC_iso_chasm" ],
+    "visibility": 1000,
+    "always_invisible": true
+  }
+]

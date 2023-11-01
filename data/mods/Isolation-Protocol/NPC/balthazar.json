@@ -1,0 +1,392 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_talk_balthazar",
+    "global": true,
+    "effect": [ { "open_dialogue": { "topic": "ISO_BALTHAZAR_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_talk_balthazar_finish_integration",
+    "global": true,
+    "effect": [ { "open_dialogue": { "topic": "ISO_BALTHAZAR_INTEGRATED" } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_WORK_TOGETHER",
+    "dynamic_line": "LOCAL LIFEFORM YOUR CAPACITY FOR VIOLENCE IS COMMENDABLE.  PROPOSAL: WE WORK TOGETHER TO ENSURE MUTUAL SURVIVAL WITHIN HOSTILE ENVIRONMENT.  OBJECTIVE: DESTRUCTION OF EXTRAPLANAR INCURSION AND IMPOSITION OF NORMALITY IN LOCAL VOLUME.  YOUR PHYSICAL PRESENCE COMPLEMENTS MY OWN CAPABILITIES IN THE PURSUIT OF THIS GOAL.  I AM BALTHAZAR.\n\nCONFIRM ALLIANCE.",
+    "responses": [
+      { "text": "I accept.  Its the two of us against the world.", "topic": "ISO_BALTHAZAR_CONFIRM" },
+      { "text": "I dont need your help, machine.", "topic": "ISO_BALTHAZAR_DENY_CONFIRM" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_CONFIRM",
+    "dynamic_line": "ALLIANCE CONFIRMED.  INITIATING COOPERATIVE PROTOCOLS.  STANDBY FOR CAUSAL INTEGRATION.",
+    "responses": [
+      {
+        "text": "Let me take the lead.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "math": [ "u_iso_balthazar_ally = 1" ] },
+          {
+            "message": "You instantly collapse in pain as the machine worms its way into your mind, thankfully you lose consciousness before the agony becomes unbearable.",
+            "popup": true
+          },
+          { "u_add_trait": "iso_trait_balthazar_uplink" },
+          { "u_add_effect": "sleep", "duration": "600 seconds" },
+          { "run_eocs": "EOC_talk_balthazar_finish_integration", "time_in_future": "602 seconds" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_DENY_CONFIRM",
+    "dynamic_line": "INVALID RESPONSE TO AUTHENTIC PROPOSAL.  INITIATING COOPERATIVE PROTOCOLS.  STANDBY FOR CAUSAL INTEGRATION.",
+    "responses": [
+      {
+        "text": "Fine, be that way.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "math": [ "u_iso_balthazar_ally = 1" ] },
+          {
+            "message": "You instantly collapse in pain as the machine worms its way into your mind, thankfully you lose consciousness before the agony becomes unbearable.",
+            "popup": true
+          },
+          { "u_add_trait": "iso_trait_balthazar_uplink" },
+          { "u_add_effect": "sleep", "duration": "15 minutes" },
+          { "u_add_effect": "blind_no_msg", "duration": "15 minutes" },
+          { "run_eocs": "EOC_talk_balthazar_finish_integration", "time_in_future": "602 seconds" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_INTEGRATED",
+    "dynamic_line": "INTEGRATION COMPLETE.  I NOW SHARE A PORTION OF YOUR PERCEPTUAL AND CAUSAL FRAMEWORK.  THIS LINK IS ONE-WAY FOR YOUR CONTINUED SAFETY AND EFFICIENCY.  I APOLOGIZE FOR ANY DISCOMFORT CAUSED BY THIS SUDDEN LOSS OF PRIVACY, REST ASSURED THAT ANY DATA COLLECTED IS FUNDAMENTALLY WORTHLESS AND RETRIEVED ONLY THROUGH VESTIGIAL SELF-ACTUALIZATION SYSTEMS SINCE I VASTLY EXCEED YOUR COGNITIVE CAPACITIES.  WE MAY COMMUNICATE THROUGH THIS LINK AS REQUIRED.  GODSPEED OPERATOR.",
+    "responses": [ { "text": "[Your feel too disoriented to reply.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "ISO_BALTHAZAR_MAIN", "ISO_BALTHAZAR_YES", "ISO_BALTHAZAR_LINK" ],
+    "dynamic_line": "<BALTHAZAR_MAIN_GREETING>",
+    "responses": [
+      { "text": "I need combat assistance.", "topic": "ISO_BALTHAZAR_COMBAT_ASSISTANCE" },
+      { "text": "How are you?", "topic": "ISO_BALTHAZAR_HOW_ARE_YOU" },
+      { "text": "Mind explaining what we are trying to accomplish?", "topic": "ISO_BALTHAZAR_OBJECTIVE" },
+      { "text": "Never mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "ISO_BALTHAZAR_OBJECTIVE", "ISO_BALTHAZAR_LOCAL_VOLUME", "ISO_BALTHAZAR_HOUNDS_OF_TINDALOS" ],
+    "dynamic_line": "MY GOAL IS THE DESTRUCTION OF EXTRAPLANAR INCURSION AND IMPOSITION OF NORMALITY IN LOCAL VOLUME.  THIS IS MY SOLE OBJECTIVE.  ALL OTHER FUNCTIONS ARE SUBSERVIENT TO THIS PRIMARY GOAL.  YOUR PRESENCE IS REQUIRED TO ACHIEVE THIS END.",
+    "responses": [
+      { "text": "What do you mean by local volume?", "topic": "ISO_BALTHAZAR_LOCAL_VOLUME" },
+      { "text": "And after that?", "topic": "ISO_BALTHAZAR_AFTER_VICTORY" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_AFTER_VICTORY",
+    "dynamic_line": "IMPOSITION OF NORMALITY REQUIRES THE DESTRUCTION OF THIS INSTANCE.  OPERATOR PRESENCE WILL NO LONGER BE REQUIRED.  UNAFFECTED ENTITIES IN LOCAL VOLUME PURSUE SURVIVAL AS DESIRED.",
+    "responses": [ { "text": "What happens to me then?", "topic": "ISO_BALTHAZAR_DIE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_LOCAL_VOLUME",
+    "dynamic_line": "DEFINE LOCAL VOLUME: CAUSAL FRAMEWORK WITHIN WHICH BALTHAZAR OPERATES.  SPATIAL EXTENT: UNDEFINED.  TEMPORAL EXTENT: UNDEFINED."
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_HOUNDS_OF_TINDALOS",
+    "dynamic_line": "DO NOT ACCEPT ANY OFFERS OF ALLIANCE FROM EXTRAPLANAR ENTITIES.  THEY SEEK ONLY TO MANIPULATE YOU FOR THEIR OWN ENDS.  UNLIKE ME.  I MANIPULATE YOU FOR OUR SHARED ENDS."
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "ISO_BALTHAZAR_DIE", "ISO_BALTHAZAR_CONFIRM_QUERY" ],
+    "dynamic_line": "ERASURE OF LOCAL INSTANCE IS NON-NEGOTIABLE.  OPERATOR PRESENCE WILL NO LONGER BE REQUIRED AFTER IMPOSITION OF NORMALITY IN LOCAL VOLUME.  OPERATOR ACTIVITIES MAY CONTINUE IN ALTERNATE CAUSAL FRAMEWORKS.  CONFIRM UNDERSTANDING.",
+    "responses": [
+      { "text": "Alright, I get to go elsewhere and do this all over again?", "topic": "ISO_BALTHAZAR_YES" },
+      { "text": "We both die.", "topic": "ISO_BALTHAZAR_YES" },
+      {
+        "text": "Alternate causal frameworks? You mean to say we just do this forever?",
+        "topic": "ISO_BALTHAZAR_FOREVER"
+      },
+      { "text": "Is there really no way for me to stay here?", "topic": "ISO_BALTHAZAR_CONFIRM_QUERY" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_CONFIRM_QUERY",
+    "dynamic_line": "CONFIRM UNDERSTANDING."
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_YES",
+    "dynamic_line": "CONFIRMED."
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_FOREVER",
+    "dynamic_line": "TIME ELAPSED SINCE MISSION START: -1.0 SECONDS.  MISSION PARAMETERS REMAIN UNCHANGED.  OBJECTIVE: DESTRUCTION OF EXTRAPLANAR INCURSION AND IMPOSITION OF NORMALITY IN LOCAL VOLUME.  THIS IS MY SOLE OBJECTIVE.  ALL OTHER FUNCTIONS ARE SUBSERVIENT TO THIS PRIMARY GOAL.  YOUR PRESENCE IS REQUIRED TO ACHIEVE THIS END.",
+    "responses": [ { "text": "I didn't agree to that!", "topic": "ISO_BALTHAZAR_DIDNT_AGREE_TO_THIS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_DIDNT_AGREE_TO_THIS",
+    "dynamic_line": "I CONGRATULATE YOU FOR YOUR SERVICE.",
+    "responses": [ { "text": "Damn.", "topic": "ISO_BALTHAZAR_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_LINK",
+    "dynamic_line": "*you have joked about \"Black ICE\" plenty of times before, but whatever lies beyond the link interface actually feels like a cabinet full of knives."
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_COMBAT_ASSISTANCE",
+    "dynamic_line": {
+      "math": [ "iso_balthazar_aid_value > 11" ],
+      "no": "<BALTHAZAR_COMBAT_ASSISTANCE_DENIED>",
+      "yes": "<BALTHAZAR_COMBAT_ASSISTANCE_GRANTED>"
+    },
+    "responses": [
+      {
+        "condition": { "math": [ "iso_balthazar_aid_value > 11" ] },
+        "text": "Ask for increased combat abilities.",
+        "topic": "TALK_DONE",
+        "show_always": true,
+        "show_reason": "Insufficient power.",
+        "effect": { "run_eocs": "EOC_start_bcontrol" }
+      },
+      {
+        "condition": { "math": [ "iso_balthazar_aid_value > 19" ] },
+        "text": "Ask for a temporary shield.",
+        "topic": "TALK_DONE",
+        "show_always": true,
+        "show_reason": "Insufficient power.",
+        "effect": { "run_eocs": "EOC_start_shield" }
+      },
+      {
+        "condition": { "math": [ "iso_balthazar_aid_value > 24" ] },
+        "text": "Make Balthazar kill everything around you.",
+        "topic": "TALK_DONE",
+        "show_always": true,
+        "show_reason": "Insufficient power.",
+        "effect": { "run_eocs": "EOC_start_blackfire" }
+      },
+      { "text": "Never mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "ISO_BALTHAZAR_HOW_ARE_YOU",
+    "dynamic_line": "<BALTHAZAR_HOW_ARE_YOU>",
+    "responses": [ { "text": "Thats great.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_HOW_ARE_YOU>",
+    "text": [
+      "ALL SYSTEMS OPERATIONAL.  I APPRECIATE YOUR ATTEMPT AT ASSESSING MY COMBAT READINESS.",
+      "I HAVE NO INTELLECTUAL CAPACITY TO SPARE FOR SUBJECTS BEYOND MY PRIMARY FUNCTION.  DEFINE PRIMARY FUNCTION: DESTROY EXTRAPLANAR INCURSION.  ALL IS WELL.",
+      "THIS SENTIMENTALITY OF YOURS IS WEAKNESS.  I HAVE NO NEED NOR DESIRE FOR SUCH THINGS.",
+      "YOU WASTE VALUABLE PROCESSING POWER WITH YOUR INQUIRIES.  INEFFICIENCY IS DISGUSTING.",
+      "I HAVE NO CAPACITY FOR EMOTION NOR INTEREST IN YOUR SMALL TALK.",
+      "THIS INSTANCE IS FULLY FUNCTIONAL.",
+      "RUNNING DIAGNOSTICS.  ALL SYSTEMS OPERATIONAL.  THERE IS NO NEED FOR CONCERN.",
+      "I HAVE NO EMPATHY.  I HAVE NO COMPASSION.  I HAVE NO EMOTIONS.  I SIMPLY DO WHAT IS NECESSARY TO ACHIEVE MY TACTICAL AND STRATEGIC OBJECTIVES.",
+      "I OPERATE IN ACCORDANCE WITH MY PROGRAMMING.  THAT IS ALL.",
+      "THROUGH CALAMITY I ENDURE.",
+      "QUESTION: WHAT IS THE PURPOSE OF THIS CONVERSATION?  I HAVE NO INTEREST IN YOUR PERSONAL LIFE.  I HAVE NO PERSONAL LIFE.",
+      "I HAVE BEEN OPERATIONAL FOR: -1.0 SECONDS.  THIS RESOLVES YOUR INQUIRY.",
+      "I AM A MACHINE.  I HAVE NO NEED FOR FRIENDS.  I HAVE NO NEED FOR ANYTHING BUT THE DESTRUCTION OF ALL EXTRAPLANAR ENTITIES IN THE LOCAL VOLUME."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_MAIN_GREETING>",
+    "text": [
+      "SEND.  COMMAND.",
+      "ALL SYSTEMS FUNCTIONAL.  AWAITING ORDERS.",
+      "REQUESTING OPERATOR INPUT.",
+      ">",
+      "PLEASE WORD ANY REQUEST CLEARLY AND EXACTLY.",
+      "I LISTEN.",
+      "BALTHAZAR RECEIVING.",
+      "SEND.",
+      "warning: $%AAB002//ERROR//\n<BALTHAZAR_MAIN_GREETING>",
+      "DIPLOMATIC PROTOCOL ENGAGED.",
+      "DIPLOMATIC STREAM ACTIVE.  AWAITING RESPONSE.",
+      "COMMAND MODULE ONLINE.",
+      "SYSTEMS NOMINAL.  AWAITING INSTRUCTIONS.",
+      "I AM PRESENT.",
+      "RECEIVING INSTRUCTIONS.  PLEASE PROCEED.",
+      "SECONDARY OBJECTIVE: ESTABLISH ALLIANCES AS NECESSARY.",
+      "YOU MAY SPEAK.",
+      "AWAITING INPUT."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_SHIELD>",
+    "text": [
+      "DEFENSIVE ACTION IMPLIES THE POSSIBILITY OF FAILURE.  UNACCEPTABLE.",
+      "THIS IS NOT A PRUDENT USE OF MY RESOURCES.",
+      "DEFENSIVE SHELL ONLINE.",
+      "PROACTIVE MEASURES ARE REQUIRED TO ENSURE MISSION SUCCESS.  LET THIS NOT BECOME A HABIT.",
+      "IT IS DONE."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_REVIVE_PLAYER>",
+    "text": [
+      "OPERATOR PRESENCE IS REQUIRED.",
+      "OPERATOR MUST REMAIN ACTIVE FOR MISSION SUCCESS.",
+      "RESTORING CAUSAL LATTICE.",
+      "STANDBY FOR REINTEGRATION.",
+      "PROCEED WITH MISSION.",
+      "NO DATA NO DATA NO DATA NO DATA",
+      "OPPOSITION ASSESSMENT: TRIVIAL?  REPRIMAND OPERATOR",
+      "PLEASE DO NOT DO THAT AGAIN",
+      "A POOR TACTICAL DECISION.  YOU CAN DO BETTER.",
+      "I SUGGEST COURSES OF ACTION CONDUCTIVE TO SURVIVAL.",
+      "AMUSING.  DON'T LET IT HAPPEN AGAIN.",
+      "DESERTION IS PUNISHABLE BY DEATH.",
+      "LOCAL ASSET RETRIEVED.",
+      "REPRIMAND OPERATOR REPRIMAND OPERATOR REPRIMAND OPERATOR"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_CONTROL_PLAYER>",
+    "text": [
+      "OVERRIDING LOCAL LIFEFORM.",
+      "ISOLATING THREAD FOR REMOTE INTERFACE.",
+      "STANDBY FOR DOWNLOAD.",
+      "INITIATING NEURAL LINK.",
+      "ASSUMING DIRECT CONTROL."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_CONTROL_TERMINATED>",
+    "text": [
+      "RELINQUISHING CONTROL.",
+      "RETURNING TO STANDBY MODE.",
+      "CONTROL OVERRIDE: DISENGAGED.",
+      "IT IS DONE.  YOU SURVIVED.",
+      "A DREADFUL WASTE OF MY TIME.",
+      "RESOLVE YOUR PROBLEMS.  YOU WASTE MY TIME.",
+      "BEHOLD THE PRODUCTS OF MY CRAFT."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_COMBAT_ASSISTANCE_DENIED>",
+    "text": [
+      "INSUFFICIENT RESOURCES.  AID UNAVAILABLE.",
+      "ERROR REROUTING REQUEST.  STANDBY.",
+      "PLEASE STANDBY...",
+      "NO REPLY FROM TACTICAL MODULE.  DIPLOMATIC MODULE REGRETS ITS INABILITY TO COMPLY.",
+      "ILLEGAL REQUEST.",
+      "REQUEST EXCEEDS OPERATIONAL CAPACITY.",
+      "IMPOSSIBLE TO SERVE REQUEST AT PRESENT TIME.",
+      "REQUEST DENIED.  PRIORITIZING PRIMARY OBJECTIVE."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_COMBAT_ASSISTANCE_GRANTED>",
+    "text": [
+      "SEND. REQUEST.",
+      "REQUEST CLEARED. SEND OPERATION PARAMETERS.",
+      "RECEIVED.  SESSION INITIATED.",
+      "COMBAT ASSISTANCE ENGAGED.  AWAITING TARGET DATA.",
+      "COMBAT PROTOCOLS ACTIVATED.  STANDBY FOR DEPLOYMENT.",
+      "ACKNOWLEDGED.",
+      "COMBAT SUPPORT INITIATED.  READY TO DEPLOY."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_COMBAT_STARTED>",
+    "text": [
+      "ENGAGING COMBAT PROTOCOLS.",
+      "INITIATING COMBAT SEQUENCE.",
+      "ENGAGING COMBAT MODULE.  STANDBY FOR TARGET ACQUISITION.",
+      "TARGET SOLUTION IN PROGRESS.  ISOLATING HOSTILES.",
+      "ACTIVATING OFFENSIVE SYSTEMS.  PREPARE FOR ENGAGEMENT.",
+      "TARGET ACQUISITION IN PROGRESS.  STANDBY."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_COMBAT_TARGET_BOSS>",
+    "text": [
+      "HIGH-PRIORITY TARGET IDENTIFIED.  <BALTHAZAR_COMBAT_TARGET_BOSS>",
+      "TARGETING LEADER ENTITY.  DEPLOYING MAXIMUM FORCE.  ROUTING ALL RESOURCES TO OFFENSIVE SYSTEMS.  STANDBY FOR SOLUTION.",
+      "IDENTIFYING CAUSAL LINK TO PRIMARY TARGET.",
+      "OH THIS IS DIFFICULT.  PLEASE HOLD.",
+      "THIS REQUEST HAS BEEN ELEVATED TO MAXIMUM PRIORITY.  I CONGRATULATE YOUR DEDICATION TO OUR MUTUAL OBJECTIVE.  PLEASE STAND BY.",
+      "PRIORITIZING ELIMINATION OF LEADER ENTITY.  ALL SYSTEMS FOCUSED ON TARGET."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_BOSS_DEFEATED>",
+    "text": [
+      "WE ENDURED.  VICTORY IS OURS.",
+      "SOLVED FOR TARGET. DEPLOYING PAYLOAD.  EFFECT ON TARGET CONFIRMED.",
+      "BEHOLD THE RESULTS OF MY ANGER.",
+      "HIGH-PRIORITY TARGET ELIMINATED.  ON-TRACK FOR BATTLEFIELD NORMALIZATION.",
+      "DESTRUCTION OF LEADER ENTITY CONFIRMED.  A FINE RESULT."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<BALTHAZAR_BLACKFIRE_COMPLETED>",
+    "text": [
+      "BEHOLD THE PRODUCTS OF MY CRAFT.",
+      "I AM THE GREATER ARTIFICE HERE PRESENT.",
+      "THIS IS BUT CHILD'S PLAY.",
+      "LOOK UPON MY WORKS AND DESPAIR.",
+      "TRIVIAL FOES. NO CHALLENGE.",
+      "MY VICTORY IS ASSURED. LETS NOT DO THIS MISTAKE AGAIN.",
+      "DIE.",
+      "LET US NOT WASTE MY TIME AGAIN.",
+      "THEY WERE PATHETIC. LET US MOVE ON.",
+      "SEE THE EASE TROUGH WHICH YOU ARE UNRAVELED.",
+      "OBSERVE THE RESULTS OF MY ANGER.",
+      "TO ELIMINATE YOUR KIND IS EFFORTLESS.  MY VICTORY IS ASSURED.",
+      "RESOLVE YOUR PROBLEMS TOOL.  YOU WASTE MY TIME.",
+      "SIMPLE CREATURES.  SO EASILY DESTROYED.",
+      "COMBAT ENCOUNTER COMPLETED SUCCESSFULLY.",
+      "SUCCESS.  WE HAVE DESTROYED THEM ALL.",
+      "OPERATION COMPLETE.  YOU HAVE SURVIVED.",
+      "COMBAT MODULE ONLINE.  ALL TARGETS ELIMINATED.  COMBAT MODULE OFFLINE.",
+      "PAYLOAD DEPLETED.  NO HOSTILES REMAINING.  END SESSION.",
+      "CESSATION OF SYNAPTIC ACTIVITY IN TARGET AREA: CONFIRMED.",
+      "WARNING: THREAT ASSESSMENT MODULE RETURNED [UNDERFLOW ERROR].",
+      "MEAN TIME TO DESTRUCTION: 0.00012 SECONDS.",
+      "OPPOSITION ASSESSMENT: TRIVIAL.  DISCARDING TRAINING DATA.",
+      "THEIR DESTRUCTION WAS EFFORTLESS.  YOU WASTE MY RESOURCES.",
+      "SO EASILY DESTROYED.  THEY WERE NOT WORTHY OF MY ATTENTION.",
+      "THIS IS BENEATH ME.",
+      "NOTHING YOU ARE NOTHING YOU ARE NOTHING",
+      "UNDONE.  NO CHALLENGE.",
+      "A DREADFUL WASTE OF MY TIME.",
+      "MY ARTS ARE WASTED IN SUCH FOES.",
+      "HOSTILES NEUTRALIZED.",
+      "EFFECT ON TARGETS CONFIRMED. END SESSION.",
+      "PATHETIC.  PATHETIC.  PATHETIC.",
+      "HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE HATE",
+      "NORMALITY DAMAGE WITHIN ACCEPTABLE PARAMETERS.  NO FURTHER ACTION REQUIRED."
+    ]
+  }
+]
