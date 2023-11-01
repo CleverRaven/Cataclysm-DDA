@@ -81,7 +81,7 @@
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "deck_of_cards" },
           { "item": "tophat"},
-          { "item": "toy_plush_rabbit" }
+          { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
       },
       "male": [ "boxer_shorts" ],
