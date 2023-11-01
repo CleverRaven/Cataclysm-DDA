@@ -24,7 +24,9 @@
         "max_item_length": "254 mm"
       }
     ],
-    "material": [ { "type": "steel", "portion": 49 }, { "type": "rubber" } ],
+    "material": [ { "type": "steel" } ],
+    "//3": "every ammo can contain o-ring, which should've been reflected by 1/50 of rubber material, but in this case the thing simply burn out into pure scrap, and there is no flag to prevent it",
+    "//material": [ { "type": "steel", "portion": 49 }, { "type": "rubber" } ],
     "symbol": "#",
     "color": "light_gray"
   },
