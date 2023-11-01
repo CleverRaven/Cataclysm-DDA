@@ -174,6 +174,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield fires their Glock!"
@@ -239,6 +240,7 @@
         "fake_per": 9,
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield fires their shotgun!"
@@ -302,6 +304,7 @@
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield shoots their flamethrower!"

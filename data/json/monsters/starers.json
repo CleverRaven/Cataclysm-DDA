@@ -19,6 +19,7 @@
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The starer throws a rock!"
       },
@@ -58,6 +59,7 @@
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The starer throws a rock!"
       },

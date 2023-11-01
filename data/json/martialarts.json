@@ -805,7 +805,14 @@
         "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
       }
     ],
-    "techniques": [ "tec_krav_maga_rapid", "tec_krav_maga_crit", "tec_krav_maga_takedown", "tec_krav_maga_disarm", "tec_krav_maga_break" ],
+    "techniques": [
+      "tec_krav_maga_rapid",
+      "tec_krav_maga_disarm_simple",
+      "tec_krav_maga_crit",
+      "tec_krav_maga_takedown",
+      "tec_krav_maga_disarm",
+      "tec_krav_maga_break"
+    ],
     "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS", "SHIVS" ]
   },
   {
@@ -1018,7 +1025,14 @@
         "flat_bonuses": [ { "stat": "speed", "scale": 10.0 } ]
       }
     ],
-    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_swift_crit", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "techniques": [
+      "tec_ninjutsu_swift",
+      "tec_ninjutsu_swift_crit",
+      "tec_ninjutsu_takedown",
+      "tec_ninjutsu_precise",
+      "tec_ninjutsu_staffdown",
+      "tec_ninjutsu_downkill"
+    ],
     "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "CLAWS" ]
   },
   {
