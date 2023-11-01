@@ -2290,6 +2290,7 @@ Store string from `set_string_var` in the variable object `target_var`
 | --- | --- | --- | --- | 
 | "set_string_var" | **mandatory** | string, [variable object](##variable-object), or array of both | value, that would be put into `target_var` |
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
+| "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 
 
 ##### Valid talkers:
@@ -2315,6 +2316,11 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
   "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
   "target_var": { "global_val": "place_name" }
 }
+```
+
+Concatenate string of variable `foo` and `bar`
+```json
+{ "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
 ```
 
 
