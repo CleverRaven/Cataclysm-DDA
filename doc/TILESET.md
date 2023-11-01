@@ -407,9 +407,11 @@ To create the sprite id, the graffiti's text is:
 * truncated to 32 characters
 * converted to capital letters
 * all punctuation is removed
+* special characters are removed
 * spaces are replaced by underscores
 
 So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
+"Escape Pods & Vehicle Bay" becomes `graffiti_ESCAPE_PODS__VEHICLE_BAY`
 
 ### `tile_info.json`
 ```c++
