@@ -646,11 +646,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const bool hits = hit_spread >= 0;
 
     if( monster *m = t.as_monster() ) {
-        get_event_bus().send<event_type::character_melee_attacks_monster>(
-            getID(), cur_weap.typeId(), hits, m->type->id );
+        cata::event e = cata::event::make<event_type::character_melee_attacks_monster>( getID(),
+                        cur_weap.typeId(), hits, m->type->id );
+        get_event_bus().send_with_talker( this, m, e );
     } else if( Character *c = t.as_character() ) {
-        get_event_bus().send<event_type::character_melee_attacks_character>(
-            getID(), cur_weap.typeId(), hits, c->getID(), c->get_name() );
+        cata::event e = cata::event::make<event_type::character_melee_attacks_character>( getID(),
+                        cur_weap.typeId(), hits, c->getID(), c->get_name() );
+        get_event_bus().send_with_talker( this, c, e );
     }
 
     const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
@@ -1241,7 +1243,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
 
     // FIXME: Hardcoded damage type effects (bash)
     if( dt == damage_bash ) {
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed && weap.is_null() ) {
+        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
             // Pure unarmed doubles the bonuses from unarmed skill
             skill *= 2;
         }
@@ -1823,7 +1825,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
             }
         }
 
-        if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
+        if( technique.stun_dur > 0 ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
         }
 
@@ -2569,7 +2571,7 @@ std::string melee_message( const ma_technique &tec, Character &p,
     };
 
     int total_dam = 0;
-    std::pair<damage_type_id, int> dominant_type = { damage_type_id::NULL_ID(), 0 };
+    std::pair<damage_type_id, int> dominant_type = { damage_bash, 0 };
     for( const damage_type &dt : damage_type::get_all() ) {
         if( dt.melee_only ) {
             int dmg = ddi.type_damage( dt.id );

@@ -193,7 +193,7 @@
     "type": "effect_type",
     "id": "afs_rocket_flight",
     "name": [ "Rocket Flight" ],
-    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "desc": [ "You are flying with a rocket powered device." ],
     "rating": "good",
     "flags": [ "LEVITATION" ],
     "show_in_info": true
@@ -230,7 +230,13 @@
     "rating": "bad",
     "int_dur_factor": "8 h",
     "max_duration": "24 h",
-    "base_mods": { "stim_amount": [ -5 ], "stim_max_val": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
+    "base_mods": {
+      "stim_min": [ -20 ],
+      "stim_min_val": [ -60 ],
+      "perspiration_min": [ 1 ],
+      "perspiration_chance": [ 60 ],
+      "stamina_min": [ -10 ]
+    },
     "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
     "show_in_info": true
   },

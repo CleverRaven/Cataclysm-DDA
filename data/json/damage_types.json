@@ -167,7 +167,7 @@
     "physical": false,
     "magic_color": "white",
     "name": "cold",
-    "immune_flags": { "character": [ "COLD_IMMUNE" ] }
+    "immune_flags": { "character": [ "COLD_IMMUNE" ], "monster": [ "COLDPROOF" ] }
   },
   {
     "id": "cold",
@@ -187,7 +187,7 @@
     "physical": false,
     "magic_color": "green",
     "name": "biological",
-    "immune_flags": { "character": [ "BIO_IMMUNE" ] },
+    "immune_flags": { "character": [ "BIO_IMMUNE" ], "monster": [ "BIOLOGICALPROOF" ] },
     "no_resist": true
   },
   {

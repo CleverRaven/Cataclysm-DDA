@@ -65,6 +65,9 @@ class vehicle_part_with_feature_range;
 
 void handbrake();
 
+void practice_athletic_proficiency( Character &p );
+void practice_pilot_proficiencies( Character &p, bool &boating );
+
 namespace catacurses
 {
 class window;
@@ -228,7 +231,8 @@ enum class vp_flag : uint32_t {
     carried_flag = 4,
     carrying_flag = 8,
     tracked_flag = 16, //carried vehicle part with tracking enabled
-    linked_flag = 32 //a cable is attached to this
+    linked_flag = 32, //a cable is attached to this
+    unsalvageable_flag = 64 //install components are unsalvageable
 };
 
 class turret_cpu
@@ -258,9 +262,13 @@ struct vehicle_part {
         vehicle_part();
         // constructs part with \p type and std::move()-ing \p base as part's base
         vehicle_part( const vpart_id &type, item &&base );
+        // constructs part with \p type and std::move()-ing \p base as part's base, installed_with as salvageable components
+        vehicle_part( const vpart_id &type, item &&base, std::vector<item> &installed_with );
 
         // gets reference to the current base item
         const item &get_base() const;
+        // Salvageable components
+        std::vector<item> get_salvageable() const;
         // set part base to \p new_base, std::move()-ing it
         void set_base( item &&new_base );
 
@@ -447,6 +455,8 @@ struct vehicle_part {
         int degradation() const;
         /** max damage of part base */
         int max_damage() const;
+        /** damage level of part base */
+        int damage_level() const;
         // @returns true if part can be repaired, accounting for part degradation
         bool is_repairable() const;
 
@@ -454,6 +464,9 @@ struct vehicle_part {
         double damage_percent() const;
         /** Current part health as a percentage of maximum, with 1.0 being perfect condition */
         double health_percent() const;
+
+        /** The leaking thresold for the boat hull */
+        double floating_leak_threshold() const;
 
         /** parts are considered broken at zero health */
         bool is_broken() const;
@@ -526,6 +539,8 @@ struct vehicle_part {
         std::vector<item> tools;
         // items of CARGO parts
         cata::colony<item> items;
+        // Salvageable components
+        std::vector<item> salvageable;
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();
@@ -1013,6 +1028,9 @@ class vehicle
         // install a part of type \p type at mount \p dp with \p base (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed
         int install_part( const point &dp, const vpart_id &type, item &&base );
+
+        int install_part( const point &dp, const vpart_id &type, item &&base,
+                          std::vector<item> &installed_with );
 
         // install the given part \p vp (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed
@@ -1640,6 +1658,9 @@ class vehicle
         bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
         bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
         bool would_repair_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
+        // Can control this vehicle?
+        bool can_control_in_air( const Character &pc ) const;
+        bool can_control_on_land( const Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -2105,6 +2126,12 @@ class vehicle
         */
         item part_to_item( const vehicle_part &vp ) const;
 
+        /**
+         * If the vehicle part has an item it is removed as, transform the item
+         * to the item it is removed_as
+         */
+        item removed_part( const vehicle_part &vp ) const;
+
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
         std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
@@ -2141,6 +2168,7 @@ class vehicle
         std::vector<int> accessories; // NOLINT(cata-serialize)
         std::vector<int> cable_ports; // NOLINT(cata-serialize)
         std::vector<int> fake_parts; // NOLINT(cata-serialize)
+        std::vector<int> control_req_parts; // NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name

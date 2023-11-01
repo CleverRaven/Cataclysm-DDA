@@ -5,7 +5,6 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_MICROLAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
@@ -40,7 +39,6 @@
     "name": "subway station?",
     "sym": "S",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": 5,
     "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
@@ -100,7 +98,6 @@
     "name": "lab hallway",
     "color": "light_red",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 2, 5 ], "chance": 80 },
     "flags": [ "LINEAR" ]
   },
   {
@@ -117,7 +114,6 @@
     "id": [ "microlab_distorted", "microlab_distorted_edge" ],
     "name": "distorted science lab",
     "color": "pink",
-    "spawns": { "group": "GROUP_DISTORTED_MICROLAB", "population": [ 10, 25 ], "chance": 80 },
     "copy-from": "microlab_generic"
   },
   {
@@ -126,7 +122,6 @@
     "name": "distorted hallway",
     "color": "light_red",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_DISTORTED_MICROLAB", "population": [ 2, 5 ], "chance": 80 },
     "flags": [ "LINEAR" ]
   },
   {

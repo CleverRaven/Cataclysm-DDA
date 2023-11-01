@@ -124,7 +124,8 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
-        if( ctr.can_contain_directly( *it ).success() ) {
+        ret_val<void> ret = ctr.can_contain_directly( *it );
+        if( ret.success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.put_in( *it, pk_type );
         } else if( ctr.is_corpse() ) {
@@ -133,11 +134,11 @@ static void put_into_container(
         } else {
             switch( on_overflow ) {
                 case Item_spawn_data::overflow_behaviour::none:
-                    debugmsg( "item %s does not fit in container %s when spawning item group %s.  "
+                    debugmsg( "item %s could not be put in container %s when spawning item group %s: %s.  "
                               "This can be resolved either by changing the container or contents "
                               "to ensure that they fit, or by specifying an overflow behaviour via "
                               "\"on_overflow\" on the item group.",
-                              it->typeId().str(), container_type->str(), context );
+                              it->typeId().str(), container_type->str(), context, ret.str() );
                     break;
                 case Item_spawn_data::overflow_behaviour::spill:
                     excess.push_back( *it );
@@ -568,13 +569,13 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1, ch );
         } else if( new_item.is_tool() ) {
-            if( !new_item.magazine_default().is_null() ) {
+            if( !new_item.magazine_current() && !new_item.magazine_default().is_null() ) {
                 item mag( new_item.magazine_default() );
                 if( !mag.ammo_default().is_null() ) {
                     mag.ammo_set( mag.ammo_default(), ch );
                 }
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-            } else if( new_item.is_magazine() ) {
+            } else if( new_item.is_magazine() || new_item.magazine_current() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
             } else {
                 debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",

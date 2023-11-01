@@ -182,7 +182,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         GIVEN( "player without the required tools" ) {
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( !dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -198,7 +198,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player has a stethoscope" ) {
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -212,11 +212,11 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         }
 
         GIVEN( "player has a stethoscope" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.remove_weapon();
             dummy.add_bionic( bio_ears );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( !dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -233,7 +233,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.clear_bionics();
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -245,9 +245,9 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
                 }
 
                 THEN( "player loses their stethoscope" ) {
-                    dummy.worn.clear();
+                    dummy.clear_worn();
                     dummy.remove_weapon();
-                    REQUIRE( !dummy.has_item_with_flag( flag_SAFECRACK ) );
+                    REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
 
                     process_activity( dummy );
                     THEN( "activity is canceled" ) {
@@ -286,7 +286,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player cracks one safe" ) {
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -1747,9 +1747,11 @@ static void cleanup( avatar &dummy )
 static void update_cache( map &m )
 {
     // Why twice? See vision_test.cpp
+    m.invalidate_visibility_cache();
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
+    m.invalidate_visibility_cache();
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );

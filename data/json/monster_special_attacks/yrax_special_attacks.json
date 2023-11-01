@@ -1,0 +1,57 @@
+[
+  {
+    "id": "activate_yrax",
+    "type": "SPELL",
+    "name": "Base activate Yrax",
+    "description": "Base spell for Yrax (de)activation.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "",
+    "shape": "blast",
+    "base_casting_time": 15,
+    "max_level": 1,
+    "min_damage": 10000000,
+    "max_damage": 10000000,
+    "damage_type": "pure",
+    "min_aoe": 50,
+    "max_aoe": 50
+  },
+  {
+    "id": "sphenocorona_active",
+    "type": "SPELL",
+    "name": "Activate Sphenocorona",
+    "description": "Golden monoliths to Sphenocoronae.",
+    "copy-from": "activate_yrax",
+    "targeted_monster_ids": [ "mon_yrax_sphenocorona_inert" ],
+    "effect_str": "mon_yrax_sphenocorona"
+  },
+  {
+    "id": "sphenocorona_inactive",
+    "type": "SPELL",
+    "name": "Activate Sphenocorona",
+    "description": "Sphenocoronae to Golden monoliths.",
+    "copy-from": "activate_yrax",
+    "targeted_monster_ids": [ "mon_yrax_sphenocorona" ],
+    "effect_str": "mon_golden_monolith"
+  },
+  {
+    "type": "SPELL",
+    "id": "release_the_deltas",
+    "name": { "str": "Release the deltas!" },
+    "description": "Summons a varying amount of Yrax deltas.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "//": "make sure to only summon a prime number of deltas or I'll be mad",
+    "min_damage": 2,
+    "max_damage": 23,
+    "damage_increment": 1,
+    "max_level": 21,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 500,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_yrax_delta"
+  }
+]

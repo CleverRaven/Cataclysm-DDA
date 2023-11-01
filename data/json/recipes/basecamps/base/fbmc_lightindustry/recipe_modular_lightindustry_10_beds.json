@@ -12,7 +12,7 @@
     "blueprint_parameter_names": {
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_10_bed_1" } ],
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_1" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10_barricades" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_1" } ]
   },
@@ -29,7 +29,7 @@
     "blueprint_parameter_names": {
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_10_bed_2" } ],
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_2" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_2" } ]
   },
@@ -46,7 +46,7 @@
     "blueprint_parameter_names": {
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_10_bed_3" } ],
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_3" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_3" } ]
   },
@@ -63,7 +63,7 @@
     "blueprint_parameter_names": {
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_10_bed_4" } ],
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_4" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_4" } ]
   },
@@ -80,7 +80,7 @@
     "blueprint_parameter_names": {
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmc_lightindustry_10_bed_5" } ],
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_5" } ],
     "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_5" } ]
   }

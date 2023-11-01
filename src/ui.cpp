@@ -297,6 +297,10 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
     uilist_scrollbar = std::make_unique<scrollbar>();
 
+    categories.clear();
+    current_category = 0;
+    category_lines = 0;
+
     input_category = "UILIST";
     additional_actions.clear();
 }
@@ -321,6 +325,10 @@ input_context uilist::create_main_input_context() const
         ctxt.register_action( "SELECT" );
     }
     ctxt.register_action( "UILIST.FILTER" );
+    if( !categories.empty() ) {
+        ctxt.register_action( "UILIST.LEFT" );
+        ctxt.register_action( "UILIST.RIGHT" );
+    }
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     uilist_scrollbar->set_draggable( ctxt );
@@ -376,6 +384,9 @@ void uilist::filterlist()
     int f = 0;
     for( size_t i = 0; i < entries.size(); i++ ) {
         bool visible = true;
+        if( !categories.empty() && !category_filter( entries[i], categories[current_category].first ) ) {
+            continue;
+        }
         if( filtering && !filter.empty() ) {
             if( filtering_nocase ) {
                 // case-insensitive match
@@ -633,6 +644,13 @@ void uilist::calc_data()
             desc_enabled = false;
         }
     }
+    if( !categories.empty() ) {
+        category_lines = 0;
+        for( const std::pair<std::string, std::string> &pair : categories ) {
+            // -2 for borders, -2 for padding
+            category_lines = std::max<int>( category_lines, foldstring( pair.second, w_width - 4 ).size() );
+        }
+    }
 
     if( w_auto && w_width > TERMX ) {
         w_width = TERMX;
@@ -641,6 +659,9 @@ void uilist::calc_data()
     vmax = entries.size();
     int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
                            static_cast<int>( textformatted.size() );
+    if( !categories.empty() ) {
+        additional_lines += category_lines + 1;
+    }
     if( desc_enabled ) {
         additional_lines += desc_lines + 1; // add one for description separator line
     }
@@ -704,6 +725,7 @@ void uilist::apply_scrollbar()
     } else {
         estart = 1;
     }
+    estart += category_lines > 0 ? category_lines + 1 : 0;
 
     uilist_scrollbar->offset_x( sbside )
     .offset_y( estart )
@@ -736,6 +758,13 @@ void uilist::show( ui_adaptor &ui )
         wprintz( window, border_color, " >" );
     }
 
+    const auto print_line = [&]( int line ) {
+        mvwputch( window, point( 0, line ), border_color, LINE_XXXO );
+        for( int i = 1; i < w_width - 1; ++i ) {
+            mvwputch( window, point( i, line ), border_color, LINE_OXOX );
+        }
+        mvwputch( window, point( w_width - 1, line ), border_color, LINE_XOXX );
+    };
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
@@ -743,13 +772,13 @@ void uilist::show( ui_adaptor &ui )
             trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4,
                             text_color, _color_error, "%s", textformatted[i] );
         }
-
-        mvwputch( window, point( 0, text_lines + 1 ), border_color, LINE_XXXO );
-        for( int i = 1; i < w_width - 1; ++i ) {
-            mvwputch( window, point( i, text_lines + 1 ), border_color, LINE_OXOX );
-        }
-        mvwputch( window, point( w_width - 1, text_lines + 1 ), border_color, LINE_XOXX );
+        print_line( text_lines + 1 );
         estart += text_lines + 1; // +1 for the horizontal line.
+    }
+    if( !categories.empty() ) {
+        mvwprintz( window, point( 1, estart ), c_yellow, "<< %s >>", categories[current_category].second );
+        print_line( estart + category_lines );
+        estart += category_lines + 1;
     }
 
     if( recalc_start ) {
@@ -1102,6 +1131,14 @@ void uilist::query( bool loop, int timeout )
             recalc_start = true;
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
+        } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
+            current_category += ret_act == "UILIST.LEFT" ? -1 : 1;
+            if( current_category < 0 ) {
+                current_category = categories.size() - 1;
+            } else if( current_category >= static_cast<int>( categories.size() ) ) {
+                current_category = 0;
+            }
+            filterlist();
         } else if( iter != keymap.end() ) {
             const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
             if( it != fentries.end() ) {
@@ -1224,6 +1261,91 @@ void uilist::settext( const std::string &str )
     text = str;
 }
 
+void uilist::set_selected( int index )
+{
+    selected = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+}
+
+void uilist::add_category( const std::string &key, const std::string &name )
+{
+    categories.emplace_back( key, name );
+}
+
+void uilist::set_category( const std::string &key )
+{
+    const auto it = std::find_if( categories.begin(),
+    categories.end(), [key]( std::pair<std::string, std::string> &pair ) {
+        return pair.first == key;
+    } );
+    current_category = std::distance( categories.begin(), it );
+}
+
+void uilist::set_category_filter( const
+                                  std::function<bool( const uilist_entry &, const std::string & )> &fun )
+{
+    category_filter = fun;
+}
+
+void uimenu::addentry( int retval, bool enabled, const std::vector<std::string> &col_content )
+{
+    cata_assert( static_cast<int>( col_content.size() ) == col_count );
+    cols.emplace_back( retval, enabled, col_content );
+}
+
+void uimenu::finalize_addentries()
+{
+    menu.entries.clear();
+    std::vector<int> maxes( col_count, 0 );
+    // get max width of each column
+    for( col &c : cols ) {
+        int i = 0;
+        for( const std::string &entry : c.col_content ) {
+            maxes[i] = std::max( maxes[i], utf8_width( entry, true ) );
+            ++i;
+        }
+    }
+    // adding spacing between columns
+    int free_width = suggest_width - std::reduce( maxes.begin(), maxes.end() );
+    int spacing = std::min( 3, col_count > 1 ? free_width / ( col_count - 1 ) : 0 );
+    if( spacing > 0 ) {
+        for( int i = 0; i < col_count - 1; ++i ) {
+            maxes[i] += spacing;
+        }
+    }
+
+    for( col &c : cols ) {
+        std::string row;
+        int i = 0;
+        for( const std::string &entry : c.col_content ) {
+            // Pad with spaces
+            // Add length of tags to number of spaces to pad with
+            // That is length(entry_with_tags) - length(entry_without_tags)
+            // Otherwise the entry padding will be shorter by number of chars in tags
+            int entry_len_plus_tags = maxes[i] + utf8_width( entry, false ) - utf8_width( entry, true );
+            row += string_format( "%-*s", entry_len_plus_tags, entry );
+            ++i;
+        }
+        menu.addentry( c.retval, c.enabled, -1, row );
+    }
+}
+
+void uimenu::set_selected( int index )
+{
+    menu.selected = index;
+}
+
+void uimenu::set_title( const std::string &title )
+{
+    menu.title = title;
+}
+
+int uimenu::query()
+{
+    finalize_addentries();
+    menu.query();
+    return menu.ret;
+}
+
 struct pointmenu_cb::impl_t {
     const std::vector< tripoint > &points;
     int last; // to suppress redrawing
@@ -1322,4 +1444,15 @@ bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size
         return false;
     }
     return true;
+}
+
+std::pair<int, int> subindex_around_cursor( int num_entries, int available_space, int cursor_pos,
+        bool focused )
+{
+    if( !focused || num_entries <= available_space ) {
+        return { 0, std::min( available_space, num_entries ) };
+    }
+    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
+                                num_entries - available_space );
+    return {slice_start, slice_start + available_space };
 }

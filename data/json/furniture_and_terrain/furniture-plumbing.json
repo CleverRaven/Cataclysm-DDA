@@ -97,7 +97,11 @@
       "str_max": 30,
       "sound": "porcelain breaking!",
       "sound_fail": "whunk!",
-      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "ceramic_shard", "count": [ 2, 8 ] }, { "item": "wax", "count": 1 } ]
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 2, 8 ] },
+        { "item": "wax_paraffin", "count": 1 }
+      ]
     }
   },
   {
@@ -112,8 +116,9 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "//": "keg_capacity assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
     "examine_action": "keg",
-    "keg_capacity": 240,
+    "keg_capacity": 400,
     "deconstruct": { "items": [ { "item": "household_water_heater", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -128,7 +133,42 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "water_faucet", "count": [ 0, 1 ] }
+        { "item": "water_faucet", "count": [ 0, 1 ] },
+        { "item": "material_aluminium_ingot", "count": 2 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_heater_family",
+    "name": "family–sized water heater",
+    "looks_like": "f_water_heater",
+    "description": "An insulated metal tank with a small fire used to maintain near-boiling temperatures.  There's no longer any way to power it, but any water left in the large tank from before the power went out should be pretty clean, and it could be used to store large quantities of other liquids too.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "//": "keg_capacity assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>",
+    "examine_action": "keg",
+    "keg_capacity": 800,
+    "deconstruct": { "items": [ { "item": "household_water_heater_family", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 14 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal", "count": [ 4, 12 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 4 ] },
+        { "item": "cu_pipe", "count": [ 1, 8 ] },
+        { "item": "scrap_copper", "count": [ 1, 4 ] },
+        { "item": "water_faucet", "count": [ 0, 1 ] },
+        { "item": "material_aluminium_ingot", "count": 4 }
       ]
     }
   },

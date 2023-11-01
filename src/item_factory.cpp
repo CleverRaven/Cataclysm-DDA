@@ -374,10 +374,7 @@ void Item_factory::finalize_pre( itype &obj )
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
             static const std::set<std::string> special_cookoff_tags = {{
-                    "NAPALM", "NAPALM_BIG",
-                    "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
-                    "TOXICGAS", "SMOKE", "SMOKE_BIG",
-                    "FRAG", "FLASHBANG"
+                    "SPECIAL_COOKOFF"
                 }
             };
             obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
@@ -1835,6 +1832,7 @@ void Item_factory::init()
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
+    add_actor( std::make_unique<deploy_appliance_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
     add_actor( std::make_unique<change_scent_iuse>() );
     add_actor( std::make_unique<place_npc_iuse>() );
@@ -2041,6 +2039,12 @@ void Item_factory::check_definitions() const
                                               mat.id.str(), mat.thickness, mat.id->thickness_multiple() );
                     }
                 }
+            }
+        }
+
+        for( const std::pair<const damage_type_id, float> &dt : type->melee ) {
+            if( !dt.first.is_valid() ) {
+                msg += string_format( "Invalid melee damage type \"%s\".\n", dt.first.c_str() );
             }
         }
 
@@ -2565,6 +2569,9 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
     } else {
         mcd.recipes_categories = { "CC_FOOD" };
     }
+    if( jo.has_member( "secret_recipes" ) ) {
+        mcd.secret_recipes = jo.get_bool( "secret_recipes" );
+    }
 }
 
 void islot_ammo::load( const JsonObject &jo )
@@ -2724,6 +2731,9 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 0 );
+    assign( jo, "heat_per_shot", slot.heat_per_shot, strict, 0.0 );
+    assign( jo, "cooling_value", slot.cooling_value, strict, 0.0 );
+    assign( jo, "overheat_threshold", slot.overheat_threshold, strict, -1.0 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2831,7 +2841,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "coverage", coverage, 0 );
 
     // load a breathability override
-    breathability_rating temp_enum;
+    breathability_rating temp_enum = breathability_rating::last;
     optional( jo, false, "breathability", temp_enum, breathability_rating::last );
     if( temp_enum != breathability_rating::last ) {
         breathability = material_type::breathability_to_rating( temp_enum );
@@ -3360,6 +3370,8 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
+    optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
+              ter_furn_flag::TFLAG_PLANTABLE );
 }
 
 void islot_seed::deserialize( const JsonObject &jo )
@@ -3393,6 +3405,12 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     assign( jo, "overwrite_min_cycle_recoil", slot.overwrite_min_cycle_recoil );
+    assign( jo, "overheat_threshold_modifier", slot.overheat_threshold_modifier );
+    assign( jo, "overheat_threshold_multiplier", slot.overheat_threshold_multiplier );
+    assign( jo, "cooling_value_modifier", slot.cooling_value_modifier );
+    assign( jo, "cooling_value_multiplier", slot.cooling_value_multiplier );
+    assign( jo, "heat_per_shot_modifier", slot.heat_per_shot_modifier );
+    assign( jo, "heat_per_shot_multiplier", slot.heat_per_shot_multiplier );
     // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
     if( slot.aim_speed >= 0 && slot.field_of_view <= 0 ) {
         if( slot.aim_speed > 6 ) {
@@ -4277,9 +4295,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_qualities_from_json( jo, "charged_qualities", def );
     }
 
-    if( jo.has_member( "properties" ) ) {
-        set_properties_from_json( jo, "properties", def );
-    }
+    optional( jo, def.was_loaded, "properties", def.properties );
 
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();
@@ -4621,22 +4637,6 @@ void Item_factory::relative_qualities_from_json( const JsonObject &jo,
         } else {
             jo.throw_error_at( member, "Quality specified wasn't inherited" );
         }
-    }
-}
-
-void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string_view member,
-        itype &def )
-{
-    if( jo.has_array( member ) ) {
-        for( JsonArray curr : jo.get_array( member ) ) {
-            const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
-            if( def.properties.count( prop.first ) > 0 ) {
-                curr.throw_error( 0, "Duplicated property" );
-            }
-            def.properties.insert( prop );
-        }
-    } else {
-        jo.throw_error_at( member, "Properties list is not an array" );
     }
 }
 

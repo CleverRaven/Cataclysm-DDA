@@ -5,7 +5,7 @@
     "//": "Really, this recipe should work with any small, throwable object, but that would be tedious and bloat the recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "throwing (beginner)",
     "description": "Practice your throwing by throwing something and trying to hit a spot on the wall.",
     "skill_used": "throw",
@@ -35,7 +35,7 @@
     "//": "shooting against a hard target should damage arrows",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "archery (beginner)",
     "description": "Practice firing unfletched arrows at a spot on the wall.",
     "skill_used": "archery",
@@ -61,7 +61,7 @@
       ]
     ],
     "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ],
-    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 2 ] } ]
+    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "count": [ 0, 2 ] } ]
   },
   {
     "id": "prac_crossbow_beg",
@@ -69,7 +69,7 @@
     "//": "shooting against a hard target should damage arrows",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "crossbows (beginner)",
     "description": "Practice firing unfletched bolts at a spot on the wall.",
     "skill_used": "rifle",
@@ -79,7 +79,7 @@
     "book_learn": [ [ "recipe_bows", 0 ], [ "manual_archery", 0 ], [ "book_archery", 0 ] ],
     "tools": [ [ [ "crossbows", 1, "LIST" ] ] ],
     "components": [ [ [ "bolt_crude", 10 ] ] ],
-    "byproduct_group": [ { "item": "bolt_crude", "charges": [ 0, 2 ] } ]
+    "byproduct_group": [ { "item": "bolt_crude", "count": [ 0, 2 ] } ]
   },
   {
     "id": "prac_archery_int",
@@ -87,11 +87,11 @@
     "//": "Ideally, this would accept multiple arrow types and return a portion of the arrows used",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "archery (intermediate)",
     "description": "Practice the best ways of firing fletched arrows into a target.  Requires a decent quality bow.",
     "skill_used": "archery",
-    "time": "30 m",
+    "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "proficiencies": [ { "proficiency": "prof_bow_basic", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "autolearn": [ [ "archery", 3 ] ],
@@ -114,7 +114,7 @@
       [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ]
     ],
     "components": [ [ [ "arrow_wood_heavy", 20 ] ] ],
-    "byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 0, 4 ] } ]
+    "byproduct_group": [ { "item": "arrow_wood_heavy", "count": [ 0, 4 ] } ]
   },
   {
     "id": "prac_crossbow_int",
@@ -122,36 +122,72 @@
     "//": "Ideally, this would accept multiple arrow types and return a portion of the arrows used",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "crossbows (intermediate)",
     "description": "Practice the best ways of firing fletched bolts into a target.  Requires a decent quality crossbow.",
     "skill_used": "rifle",
-    "time": "30 m",
+    "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "autolearn": [ [ "rifle", 3 ] ],
     "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "tools": [ [ [ "crossbows", 1, "LIST" ] ], [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ] ],
     "components": [ [ [ "bolt_wood", 20 ] ] ],
-    "byproduct_group": [ { "item": "bolt_wood", "charges": [ 0, 4 ] } ]
+    "byproduct_group": [ { "item": "bolt_wood", "count": [ 0, 4 ] } ]
   },
   {
-    "id": "prac_expert_archers_form",
+    "id": "prac_archery_form",
     "type": "practice",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "expert archer's form",
-    "description": "Practice drawing, holding, and releasing a heavy bow.",
+    "description": "Improve your archery form by quickly and smoothly drawing a bowstring.",
     "skill_used": "archery",
     "time": "1 h",
-    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 3 },
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
     "proficiencies": [
       { "proficiency": "prof_bow_basic", "required": true },
       { "proficiency": "prof_bow_expert", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "autolearn": [ [ "archery", 3 ] ],
     "flags": [ "BLIND_EASY" ],
-    "book_learn": [ [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
+    "book_learn": [ [ "mag_archery", 2 ], [ "book_archery", 2 ], [ "manual_archery", 2 ] ],
+    "tools": [
+      [
+        "shortbow",
+        "compbow",
+        "compbow_high",
+        "compbow_low",
+        "compositebow",
+        "reflexbow",
+        "recurbow",
+        "takedown_recurbow",
+        "longbow",
+        "woodgreatbow",
+        "compgreatbow",
+        "reflexrecurvebow"
+      ]
+    ]
+  },
+  {
+    "id": "prac_master_archery_form",
+    "type": "practice",
+    "activity_level": "ACTIVE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_RANGED",
+    "name": "master archer's form",
+    "description": "Refine your archery form by drawing and holding a heavy bow.",
+    "skill_used": "archery",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "proficiencies": [
+      { "proficiency": "prof_bow_basic", "required": true },
+      { "proficiency": "prof_bow_expert", "required": true },
+      { "proficiency": "prof_bow_master", "time_multiplier": 2, "skill_penalty": 0 }
+    ],
+    "autolearn": [ [ "archery", 4 ] ],
+    "flags": [ "BLIND_EASY" ],
+    "book_learn": [ [ "book_archery", 3 ], [ "manual_archery", 3 ] ],
     "tools": [
       [
         "compbow",
@@ -172,7 +208,7 @@
     "//": "simple intuitive practice to get comfortable with holding a gun",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "marksmanship (beginner)",
     "description": "Practice your shooting by dry firing a gun.",
     "skill_used": "gun",
@@ -187,7 +223,7 @@
     "//": "practice using a targeting game",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "handguns (beginner)",
     "description": "Practice your shooting by using a set of practice targets and a laser aiming module.",
     "skill_used": "pistol",
@@ -203,7 +239,7 @@
     "//": "practice using a targeting game",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "rifles (beginner)",
     "description": "Practice your shooting by using a set of practice targets and a laser aiming module.",
     "skill_used": "rifle",
@@ -219,7 +255,7 @@
     "//": "practice using a targeting game",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "shotguns (beginner)",
     "description": "Practice your shooting by using a set of practice targets and a laser aiming module.",
     "skill_used": "shotgun",
@@ -235,7 +271,7 @@
     "//": "practice using a targeting game",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "submachine guns (beginner)",
     "description": "Practice your shooting by using a set of practice targets and a laser aiming module.",
     "skill_used": "smg",
@@ -250,7 +286,7 @@
     "type": "practice",
     "activity_level": "NO_EXERCISE",
     "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_COMBAT",
+    "subcategory": "CSC_PRACTICE_RANGED",
     "name": "launchers (beginner)",
     "description": "Use a compressed air launcher to safely practice aiming trajectories.",
     "skill_used": "launcher",

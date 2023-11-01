@@ -354,6 +354,7 @@ Field | Used for...
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
 `<topic_item_your_total_price>` | TODO Add
+`<interval>` | displays the time remaining until restock
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
 `<context_val:VAR>` | The context variable VAR
@@ -394,6 +395,17 @@ Format:
 
 #### `type`
 Must always be there and must always be `"talk_topic"`.
+
+#### `"insert_before_standard_exits"`
+For mod usage to insert dialogue above the `TALK_DONE` and `TALK_NONE` lines. Defaults to false.
+```json
+  {
+    "id": "TALK_REFUGEE_Draco_1a",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [ { "text": "Have you seen anything that could help me?", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb" } ]
+  }
+```
 
 #### `id`
 The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
@@ -635,7 +647,7 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
-When using a conditional you can specify the response to still appear but be marked as unavaiable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
+When using a conditional you can specify the response to still appear but be marked as unavailable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
 ```json
 {
   "condition": "...something...",
@@ -894,26 +906,7 @@ Effect | Description
 
 #### General
 
-| Effect | Description                                                                                                                                                                                                                                                        |
-| ---- | ---- |
-| `sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object)) | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground. |
-| `open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
-| `take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-| `give_achievement` string or [variable object](#variable-object), | Marks the given achievement as complete.
-`take_control_menu` | Opens up a menu to choose a follower to take control of.
-`assign_mission: `string or [variable object](#variable-object) | Will assign mission to the player.
-`remove_active_mission: `string or [variable object](#variable-object) | Will remove mission from the player's active mission list without failing it.
-`finish_mission: `string or [variable object](#variable-object), (*optional* `success: success_bool` ), (*optional* `step: step_int`)  | Will complete mission to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
-`offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.  Assumes if there is no beta talker that the alpha is an NPC.
-`run_eocs :` effect_on_condition_array or single effect_condition_object | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
-`run_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs `beta_loc` a variable containing a location | Runs the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition. If `beta_loc` is provided then the creature at the given location will become the beta talker for the EOC to run.
-`run_eoc_select :` array of strings or [variable objects](#variable-object), `variables :` Object with variable names and values as pairs, `names: ` string or variables, `keys: ` single character strings, `title: ` string, `hide_failing`: bool | Opens a menu with title `title` that lets you select one of the EOCs whos ids are in the array provided, they each get a matched `names`, `description`, and `keys` value if provided, selected EOC runs with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or variable containing the ID of an effect on condition. If `hide_failing` is true EOCs whos condition fail will be hiden instead of shown and unselectable.
-`queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-`queue_eoc_with :` single effect_condition_object, `variables :` Object with variable names and values as pairs, `time_in_future: `duration or [variable object](#variable-object) | Queues the given EOC with the provided variables as context variables.  EOC should either be the id of an effect_on_condition or an inline effect_on_condition.  EOC will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-`u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `message: ` string or [variable object](#variable-object) ) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.  If `message` is provided and a result is given then the `message` will be displayed as a message with the first instance of `%s` in it replaced with the name of the result selected.  
-`switch : arithmetic/math_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
-`u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
-`weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
+[Map Updates](EFFECT_ON_CONDITION.md##General)
 
 #### Detailed Info
 New EOC effects that are documented should be in the format below.
@@ -958,7 +951,7 @@ Condition | Type | Description
 
 Condition | Type | Description
 --- | --- | ---
-`"at_safe_space" or "u_at_safe_space" or "npc_at_safe_space"` | simple string | `true` if u or the NPC's current overmap location passes the `is_safe()` test.
+`"at_safe_space" or "u_at_safe_space" or "npc_at_safe_space"` | simple string | `true` if the only monsters present in the talker's OMT are in a monster group with `is_safe`. False otherwise.
 `"has_assigned_mission"` | simple string | `true` if the player character has exactly one mission from the NPC. Can be used for texts like "About that job...".
 `"has_many_assigned_missions"` | simple string | `true` if the player character has several mission from the NPC (more than one). Can be used for texts like "About one of those jobs..." and to switch to the `"TALK_MISSION_LIST_ASSIGNED"` topic.
 `"has_no_available_mission" or "npc_has_no_available_mission" or "u_has_no_available_mission"` | simple string | `true` if u or the NPC has no jobs available for the player character.
@@ -969,7 +962,7 @@ Condition | Type | Description
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_failed" or "npc_mission_failed" or "u_mission_failed"` | simple string | `true` if u or the NPC has failed the other's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
-`"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
+`"npc_service"` | int or [variable object](#variable-object) | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 `"npc_allies"` | int or [variable object](#variable-object) | `true` if the player character has at least `npc_allies` number of NPC allies _within the reality bubble_.
 `"npc_allies_global"` | int or [variable object](#variable-object) | `true` if the player character has at least `npc_allies_global` number of NPC allies _anywhere_.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
@@ -979,8 +972,8 @@ Condition | Type | Description
 `"u_hostile" or "npc_hostile"` | simple string | `true` if u or the NPC is an enemy of the player character.
 `"u_train_skills" or "npc_train_skills"` | simple string | `true` if u or the NPC has one or more skills with more levels than the player.
 `"u_train_styles" or "npc_train_styles"` | simple string | `true` if u or the NPC knows one or more martial arts styles that the player does not know.
-`"u_has_class" or "npc_has_class"` | string or [variable object](#variable-object) | `true` if u or the NPC is a member of an NPC class.
-`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : `int or [variable object](#variable-object) ) | string or [variable object](#variable-object) | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble.
+`"u_has_class" or "npc_has_class"` | string or [variable object](#variable-object) | `true` if u or the NPC's class id matches the provided string (e.g. `NC_BANDIT_TRADER`).
+`"u_near_om_location" or "npc_near_om_location"`, (*optional* `range : `int or [variable object](#variable-object) ) | string or [variable object](#variable-object) | same as at_om_location except it checks in a square stretching from the character range OMT's. NOTE: can only check OMT's in the reality bubble (maximum of ~2 OMTs distance from player's position)
 `"u_aim_rule" or "npc_aim_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for aiming matches the string.
 `"u_engagement_rule" or "npc_engagement_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for engagement matches the string.
 `"u_cbm_reserve_rule" or "npc_cbm_reserve_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for cbm, reserve matches the string.
@@ -1003,7 +996,7 @@ Condition | Type | Description
 --- | --- | ---
 `"days_since_cataclysm"` | int or [variable object](#variable-object) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
-`"is_day"` | simple string | `true` if it is currently daytime.
+`"is_day"` | simple string | `true` if it is currently daytime (sun is at or above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point)
 `"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
 `"u_is_underwater"`<br/>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
@@ -1191,7 +1184,7 @@ If you access "ref2" as a context val it will have the value of "u_key2", if you
 The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
 ### Mutators
-`mutators`: take in an ammount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
+`mutators`: take in an amount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
 ```json
 { "mutator": "MUTATOR_NAME", "REQUIRED_KEY1": "REQUIRED_VALUE1", ..., "REQUIRED_KEYn": "REQUIRED_VALUEn" }
 ```
@@ -1224,7 +1217,7 @@ Mutator Name | Required Keys | Description
 `min` and `max` are optional double or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
 `"compare_num"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
 
-`"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+`"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(division), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
 To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed.
 
@@ -1235,7 +1228,7 @@ Example | Description
 `"const": 5` | A constant value, in this case 5. Can be read but not written to.
 `"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
-`"time_until_eoc": "eoc_id"` | Time from now until the next scheduled run of `eoc_id`. Optional member `unit` can sepcify a member to use instead of turns such as minutes, hours, days, weeks, seasons, and years.
+`"time_until_eoc": "eoc_id"` | Time from now until the next scheduled run of `eoc_id`. Optional member `unit` can specify a member to use instead of turns such as minutes, hours, days, weeks, seasons, and years.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
 `"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
 `"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
@@ -1252,6 +1245,7 @@ Example | Description
 `"u_val": "hp"` | Amount of hp.  If `bodypart` is provided it will be for that part otherwise it will be the sum of all parts.
 `"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
+`"u_val": "dodge"` | Current effective dodge of the character.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
 `"u_val": "power"` | Bionic power in millijoule.
 `"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
@@ -1261,26 +1255,34 @@ Example | Description
 `"u_val": "mana_max"` | Max mana. Can be read but not written to.
 `"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
 `"u_val": "thirst"` | Current thirst.
+`"u_val": "instant_thirst"` | Current thirst minus water in the stomach that hasn't been absorbed by the body yet.
 `"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "charge_count"` | Number of charges of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.
-`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
+`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply against the current intensity.
 `"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
 `"u_val": "stim"` | Current stim level.
 `"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.
 `"u_val": "focus"` | Current focus level.
-`"u_val": "activity_level"` | Current activity level index, from 0-5
+`"u_val": "activity_level"` | Current activity level index as a floored integer, from 0-5. Roughly: 0.45 = SLEEP_EXERCISE (floored and returns 0), 0.5 = NO_EXERCISE(floored and returns 0), 1 = LIGHT_EXERCISE, 2 = MODERATE_EXERCISE, 3 = BRISK_EXERCISE, 4 = ACTIVE_EXERCISE, 5 = EXTRA_EXERCISE.
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
 `"u_val": "health"` | Current health level.
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.
+`"u_val": "npc_anger"` | Current anger level the npc has.
+`"u_val": "npc_trust"` | Current trust the npc has for you.
+`"u_val": "npc_fear"` | Current fear of the npc.
+`"u_val": "npc_value"` | Current value npc places on you.
 `"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
+`"u_val": "fine_detail_vision_mod"` | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
 `"u_val": "age"` | Current age in years.
+`"u_val": "body_temp"` | Current body temperature.
+`"u_val": "body_temp_delta"` | Difference in temperature between the hottest/coldest part and what feels like the hottest/coldest part.
 `"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"u_val": "size"` | Size category from 1 (tiny) to 5 (huge). Read-only.
@@ -1288,12 +1290,17 @@ Example | Description
 `"u_val": "field_strength"` | Strength of a field on the tile the player or NPC is standing on. `field` must be specified. read only.
 `"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
 `"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
-`"u_val": "spell_level_adjustment"` | Temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is reccomended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value. When an NPC consider what spell to cast they will be considered the primary talker, so their values are manipulated with `u_val` the same way the player's values are. Optional params: `school` makes it only apply to a given school. `spell` makes it only apply to a given spell.
-`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
+`"u_val": "spell_level_adjustment"` | Temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value. When an NPC consider what spell to cast they will be considered the primary talker, so their values are manipulated with `u_val` the same way the player's values are. Optional params: `school` makes it only apply to a given school. `spell` makes it only apply to a given spell.
+`"u_val": "spell_count"` | Number of spells that this character knows. Optional params: `school` returns only the number of spells of the specified spell class that the character knows. Read-only.
+`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for example, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percent done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
+`"u_val": "volume"` | Current volume in ml. read only. Cullently, doesn't work for characters, but for monsters and items.
+`"u_val": "weight"` | Current weight in mg. read only.
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
+`"mod_load_order"` | This should be a string with the name of the mod.  It will return the order it was loaded in or -1 if its not loaded.
 `"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
+`"math"` | An array math object.
 
 ### Math
 A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
@@ -1409,14 +1416,16 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Variables are damagetype ID, bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/> Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
 | effect_intensity(`s`/`v`,...)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/> Variable is effect ID.<br/><br/> Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
-| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp.<br/> Variable is bodypart ID. If omitted, get sum of all bodypart or set all bodypart.<br/><br/> Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
-| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
+| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp.<br/> Variable is bodypart ID. If omitted, get sum of all bodypart or set all bodypart.<br/> For items, returns current amount of damage required to destroy item. Variable is not required.<br/><br/> Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
+| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> For items, returns max amount of damage required to destroy item. Variable is not required. <br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/> Variables are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
+| skill_exp(`s`/`v`, `s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill experience<br/> Variables are skill ID, format (optional). Format must be `percentage` (as percentage, default) or `raw` (as raw value).<br/> Example:<br/>`{ "math": [ "u_skill_exp('driving')", "+=", "10"] }`|
 | spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID')", ">=", "5"] }`|
+| vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/> Variable is vitamin ID.<br/> Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/> Variable is bodypart ID.<br/> Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 
@@ -1461,7 +1470,7 @@ Math functions can be defined in JSON like this
     "return": "_0 * 2 + rand(_1)"
   },
 ```
-where `_0`, `_1`, etc are positional parameters.
+where `_0`, `_1`, etc. are positional parameters.
 
 These functions can then be used like regular math functions, for example:
 ```JSON

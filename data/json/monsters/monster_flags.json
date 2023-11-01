@@ -40,6 +40,11 @@
     "//": "Is a nemesis monster"
   },
   {
+    "id": "HAS_MIND",
+    "type": "monster_flag",
+    "//": "It's sapient and capable of reason (no matter how limited--ferals count)"
+  },
+  {
     "id": "NOHEAD",
     "type": "monster_flag",
     "//": "Headshots not allowed!"
@@ -193,6 +198,11 @@
     "id": "COLDPROOF",
     "type": "monster_flag",
     "//": "Immune to cold damage"
+  },
+  {
+    "id": "BIOLOGICALPROOF",
+    "type": "monster_flag",
+    "//": "Immune to biological damage"
   },
   {
     "id": "COMBAT_MOUNT",

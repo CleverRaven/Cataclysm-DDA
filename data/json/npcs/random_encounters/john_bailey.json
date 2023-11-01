@@ -133,7 +133,7 @@
     "type": "item_group",
     "id": "john_bailey_quiver",
     "subtype": "collection",
-    "entries": [ { "item": "arrow_cf", "charges": 20 } ]
+    "entries": [ { "item": "arrow_cf", "count": 20 } ]
   },
   {
     "type": "talk_topic",

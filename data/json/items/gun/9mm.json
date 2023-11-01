@@ -12,7 +12,7 @@
         "id": "calico",
         "name": { "str_sp": "Calico M960" },
         "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
-        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of led down range for a long time providing that it doesn’t choke, jam, and die.",
+        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of lead down range for a long time providing that it doesn’t choke, jam, and die.",
         "weight": 1
       }
     ],

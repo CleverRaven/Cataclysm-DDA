@@ -33,8 +33,7 @@
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "pineapple_chunks", 1 ] ] ]
   },
   {
@@ -50,8 +49,8 @@
     "time": "10 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ], [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "pomegranate", 1 ], [ "irradiated_pomegranate", 1 ] ], [ [ "sugar", 10 ] ] ]
   },
   {
@@ -293,8 +292,8 @@
     "charges": 2,
     "time": "60 m",
     "batch_time_factors": [ 75, 2 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "book_learn": [ [ "cookbook_mexican", 3 ] ],
     "components": [
       [ [ "rice_cooked", 1 ] ],

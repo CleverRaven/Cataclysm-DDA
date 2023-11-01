@@ -1,0 +1,59 @@
+[
+  {
+    "id": "mon_tanglevine",
+    "type": "MONSTER",
+    "name": { "str": "tanglevine" },
+    "description": "A thick mass of animated vine, lashing back and forth at anything that comes within reach.  Long thorns grow from its sides.",
+    "species": [ "PLANT" ],
+    "default_faction": "magical_plant",
+    "volume": "92500 ml",
+    "weight": "120 kg",
+    "hp": 60,
+    "speed": 80,
+    "material": [ "veggy" ],
+    "symbol": "V",
+    "color": "green",
+    "aggression": 60,
+    "morale": 200,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "grab_strength": 70,
+    "vision_day": 10,
+    "vision_night": 10,
+    "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "cooldown": 6,
+        "range": 4,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 2 } ],
+        "hit_dmg_u": "%1$s lashes out and curls around your %2$s!",
+        "hit_dmg_npc": "%1$s lashes out and curls around <npcname>'s %2$s!",
+        "miss_msg_u": "%s lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s lashes out at your %2$s!",
+        "no_dmg_msg_npc": "%1$s lashes out and curls around <npcname>'s %2$s!"
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "thorn_squeeze",
+        "cooldown": 3,
+        "move_cost": 100,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_penetration": 30 } ],
+        "//": "armor penetration here represents that you'll literally surrounded by thorns",
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        "hit_dmg_u": "%1$s squeezes and its thorns dig into your %2$s!",
+        "hit_dmg_npc": "%1$s squeezes <npcname>!",
+        "miss_msg_u": "%1$s tries to squeeze you, but you fight back!",
+        "miss_msg_npc": "%1$s tries to squeeze <npcname>, but they fight back!",
+        "no_dmg_msg_u": "%1$s squeezes your %2$s, but fails to penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s squeezes <npcname>, but fails to penetrate their armor."
+      }
+    ],
+    "dodge": 4,
+    "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
+    "flags": [ "HEARS", "GOODHEARING", "IMMOBILE", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC" ],
+    "armor": { "bash": 18, "stab": 10, "electric": 3, "bullet": 22 }
+  }
+]

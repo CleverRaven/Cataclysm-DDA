@@ -104,7 +104,7 @@
     ],
     "techniques": [ "WBLOCK_1" ],
     "sub": "fire",
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_60", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
   },
   {
     "name": { "str": "endless flask" },

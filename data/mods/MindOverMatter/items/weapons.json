@@ -18,7 +18,7 @@
       "need_wielding": true,
       "target": "grenade_inferno_act",
       "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
+      "target_timer": "5 seconds",
       "active": true,
       "menu_text": "Pull pin",
       "type": "transform"
@@ -40,11 +40,15 @@
     "material": [ "steel", "nether_crystal" ],
     "symbol": "*",
     "color": "red",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
+    "countdown_action": {
+      "type": "explosion",
+      "fields_radius": 5,
+      "do_flashbang": true,
+      "fields_type": "fd_fire",
+      "fields_min_intensity": 2,
+      "fields_max_intensity": 3
+    },
     "revert_to": "canister_empty",
-    "use_action": [ "GRENADE_INC_ACT" ],
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
@@ -53,7 +57,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "LV429 Pulse Rifle" },
-    "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited operation, but heat dissipation is still a problem, preventing it from being fired more than once every few seconds.",
+    "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and increasing weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited combat operations, but heat dissipation is still a problem, preventing it from being fired more than once every few seconds.",
     "weight": "4350 g",
     "volume": "3 L",
     "longest_side": "965 mm",
@@ -67,9 +71,13 @@
     "skill": "rifle",
     "range": 35,
     "dispersion": 10,
-    "durability": 10,
+    "overheat_threshold": 100,
+    "cooling_value": 4,
+    "heat_per_shot": 21,
+    "recoil": 0,
+    "durability": 4,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "loudness": 23,
+    "loudness": 5,
     "reload": 0,
     "clip_size": 1,
     "valid_mod_locations": [
@@ -84,9 +92,23 @@
     ],
     "ammo": [ "mom_pulse_rifle_ammo" ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "OVERHEATS" ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_melting" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_pulse_rifle_ammo": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true } },
     "//": "Recharge time is 8 seconds due to bug #48019, making it actually 4 seconds. Reduce to 4 seconds if that ever gets fixed."
+  },
+  {
+    "id": "mom_pulse_rifle_prototype",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "copy-from": "mom_pulse_rifle",
+    "name": { "str": "LV429-P Pulse Rifle" },
+    "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and increasing weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited operation.  This is a prototype, obvious from the bright red coloration of the barrel and grip, as well as the word \"prototype\" written in large letters on the stock and the flammable symbol next to it.",
+    "overheat_threshold": 100,
+    "cooling_value": 5,
+    "heat_per_shot": 21,
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 8 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed."
   }
 ]

@@ -309,6 +309,7 @@ enum class ter_furn_flag : int {
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
+    TFLAG_NO_FLOOR_WATER,
 
     NUM_TFLAG_FLAGS
 };
@@ -488,7 +489,7 @@ struct map_data_common_t {
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // Warmth provided by the terrain (for sleeping, etc.)
-        int floor_bedding_warmth = 0;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
@@ -637,7 +638,7 @@ struct furn_t : map_data_common_t {
     /** Emissions of furniture */
     std::set<emit_id> emissions;
 
-    int bonus_fire_warmth_feet = 300;
+    units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.

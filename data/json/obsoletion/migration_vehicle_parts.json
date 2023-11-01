@@ -73,6 +73,16 @@
   },
   {
     "type": "vehicle_part_migration",
+    "from": "foldable_solar_panel",
+    "to": "solar_panel"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "advanced_foldable_solar_panel",
+    "to": "solar_panel_v2"
+  },
+  {
+    "type": "vehicle_part_migration",
     "from": "seat_swivel_chair",
     "to": "seat",
     "variant": "swivel_chair_front"

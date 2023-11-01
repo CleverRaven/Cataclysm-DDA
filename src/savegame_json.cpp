@@ -843,7 +843,7 @@ void Character::load( const JsonObject &data )
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
     worn.on_takeoff( *this );
-    worn.clear();
+    clear_worn();
     // deprecate after 0.G
     if( data.has_array( "worn" ) ) {
         std::list<item> items;
@@ -933,7 +933,7 @@ void Character::load( const JsonObject &data )
     if( data.has_array( "temp_cur" ) ) {
         set_anatomy( anatomy_human_anatomy );
         set_body();
-        std::array<int, 12> temp_cur;
+        std::array<units::temperature, 12> temp_cur;
         temp_cur.fill( BODYTEMP_NORM );
         data.read( "temp_cur", temp_cur );
         set_part_temp_cur( bodypart_id( "torso" ), temp_cur[0] );
@@ -952,7 +952,7 @@ void Character::load( const JsonObject &data )
     if( data.has_array( "temp_conv" ) ) {
         set_anatomy( anatomy_human_anatomy );
         set_body();
-        std::array<int, 12> temp_conv;
+        std::array<units::temperature, 12> temp_conv;
         temp_conv.fill( BODYTEMP_NORM );
         data.read( "temp_conv", temp_conv );
         set_part_temp_conv( bodypart_id( "torso" ), temp_conv[0] );
@@ -3222,7 +3222,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true, false );
+        contents.combine( read_contents, false, true, false, true );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );
@@ -3350,6 +3350,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "crew_id", crew_id );
     data.read( "items", items );
     data.read( "tools", tools );
+    data.read( "salvageable", salvageable );
     data.read( "target_first_x", target.first.x );
     data.read( "target_first_y", target.first.y );
     data.read( "target_first_z", target.first.z );
@@ -3399,6 +3400,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "items", items );
     json.member( "tools", tools );
+    json.member( "salvageable", salvageable );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
         json.member( "target_first_y", target.first.y );

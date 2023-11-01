@@ -110,6 +110,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
   "debug": false,                             // Trait is for debug purposes (default: false).
+  "dummy": false,                             // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
+  "threshold": false                          //True if it's a threshold itself, and shouldn't be obtained *easily*.
   "player_display": true,                     // Trait is displayed in the `@` player display menu and mutations screen.
   "vanity": false,                            // Trait can be changed any time with no cost, like hair, eye color and skin color.
   "variants": [                               // Cosmetic variants of this mutation.
@@ -178,6 +180,31 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "kcal": true,                               // If true, activated mutation consumes `cost` kcal. (default: false).
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "fatigue": true,                            // If true, activated mutation increases fatigue by cost (default: false).
+  "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
+  "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
+  "casting_time_multiplier": 0.01,            // changes your casting speed; 0.5 means you spend only 50% of the original cast time, 2 means you spend twice as long. Useful only for magic mods
+  "crafting_speed_multiplier": 1,             // changes your crafting speed; 0.5 decrease your crafting speed to 50%, 2 doubles it
+  "dodge_modifier": 1,                        // adds or substract flat amount of dodge from character
+  "vomit_multiplier": 3,                      // the modifier for the vomit chance
+  "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
+  "hp_adjustment": 3,                         // flat bonus/penalty to HP - `5` adds 5 hp to all limbs, `-3` subtract 3 hp.
+  "hp_modifier": 1.1,                         // percent bonus to HP - `1` =100%, doubles the hp, `-0.5` means -50%, halves the hp.
+  "hp_modifier_secondary": 0.1,               // second percent HP modifier, applied after the first one
+  "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
+  "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
+  "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
+  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer
+  "ranged_mutation": {                        // activation of the mutation allow you to shoot a fake gun
+    "type": "pseudo_shotgun",                 // fake gun that is used to shoot
+    "message": "SUDDEN SHOTGUN!."             // message that would be printed when you use it
+  },
+  "reading_speed_multiplier": 0.8,            // changes how fast you read a book, `0.5` halves it, `2` doubles it
+  "skill_rust_multiplier": 0.66,              // multiplier for skill rust delay
+  "spawn_item": {                             // activation of this mutation spawns an item
+    "type": "water_clean",                    // item to spawn
+    "message": "You spawn a bottle of water." // message, that would be shown upon activation
+  },
+  "stomach_size_multiplier": 2.0,             // modifier for the stomach size, increases how much food you can consume at once
   "scent_modifier": 0.0,                      // float affecting the intensity of your smell (default: 1.0).
   "scent_intensity": 800,                     // int affecting the target scent toward which you current smell gravitates (default: 500).
   "scent_mask": -200,                         // int added to your target scent value (default: 0).
@@ -200,6 +227,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
+  "crafting_speed_multiplier": 0.5,           // Multiplies your total crafting speed. 0.5 is 50% of normal speed, 1.2 is 20% faster than normal speed.
   "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
   "healing_awake": 1.0,                       // Healing rate per turn while awake. Positives will increase healing while negatives will decrease healing.
   "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.
@@ -247,6 +275,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
   "pain_modifier": 5,                         // Flat increase (for positive numbers)\ reduction (for negative) to the amount of pain recived. Reduction can go all the way to 0. Applies after pain enchantment. (so if you have Pain Resistant trait along with 5 flat pain reduction and recive 20 pain, you would gain 20*(1-0.25)-5=10 pain)
   "mana_modifier": 100,                       // Positive or negative change to total mana pool.
+  "mana_regen_multiplier": 1.5,               // Multiplier on your mana regeneration.  0.5 is 50% of normal, 1.5 is 150% of normal.
+  "mana_multiplier": 1.25,                    // Multiplier on your total mana amount, after mana_modifier and any other bonuses. 0.75 is 75% of normal, 1.5 is 150% of normal. 
   "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
   "moncams": [ [ "mon_player_blob", 16 ] ]    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
 }

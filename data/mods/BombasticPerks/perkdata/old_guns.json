@@ -175,13 +175,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "walther_ppq_9mm",
-    "type": "GUN",
-    "copy-from": "walther_ppq_9mm",
-    "name": { "str": "Walther PPQ 9mm" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "cannon_3in_ordnance",
     "type": "GUN",
     "copy-from": "cannon_3in_ordnance",

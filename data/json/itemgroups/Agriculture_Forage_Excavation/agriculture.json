@@ -37,7 +37,8 @@
       [ "seed_horseradish", 10 ],
       [ "seed_spurge", 10 ],
       [ "seed_popcorn", 10 ],
-      [ "seed_mustard", 10 ]
+      [ "seed_mustard", 10 ],
+      [ "seed_hops", 20 ]
     ]
   },
   {
@@ -52,7 +53,7 @@
       [ "bucket", 40 ],
       [ "gloves_rubber", 60 ],
       [ "fertilizer_liquid", 20 ],
-      [ "fertilizer_commercial", 30 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "fungicide", 20 ],
       { "group": "insecticide_bag_plastic", "prob": 30 },
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
@@ -85,7 +86,7 @@
   {
     "type": "item_group",
     "id": "fertilizers",
-    "items": [ [ "fertilizer_liquid", 90 ], [ "fertilizer_commercial", 60 ] ]
+    "items": [ [ "fertilizer_liquid", 90 ], { "group": "fertilizer_commercial_bag_canvas_60", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -102,7 +103,7 @@
       [ "oats", 6 ],
       [ "barley", 6 ],
       [ "sugar_beet", 4 ],
-      [ "hops", 4 ],
+      [ "hops", 5 ],
       [ "cotton_boll", 1 ],
       [ "seed_cotton_boll", 1 ],
       [ "seed_wheat", 1 ],
@@ -127,7 +128,7 @@
       [ "seed_corn", 1 ],
       [ "soybean_seed", 1 ],
       [ "raw_edamame", 1 ],
-      [ "seed_hops", 1 ],
+      [ "seed_hops", 4 ],
       [ "seed_beans", 1 ],
       [ "seed_lentils", 1 ],
       [ "seed_chili_pepper", 1 ],
@@ -159,7 +160,7 @@
     "subtype": "distribution",
     "items": [
       [ "fertilizer_liquid", 10 ],
-      [ "fertilizer_commercial", 10 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 10 },
       { "group": "insecticide_bag_plastic", "prob": 10 },
       [ "pot_canning", 5 ],
       { "item": "jar_3l_glass_sealed", "prob": 25, "count": [ 2, 10 ] },

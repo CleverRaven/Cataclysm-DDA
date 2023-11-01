@@ -419,5 +419,175 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000
+  },
+  {
+    "id": "biomancer_swim_frog",
+    "type": "SPELL",
+    "name": "Limbs of the Frog",
+    "description": "Grow webbing on your hands and feet, making quick swimming a breeze.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_swim_speed",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 10,
+    "min_duration": 120000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
+    "energy_source": "MANA",
+    "base_energy_cost": 300,
+    "base_casting_time": 1000
+  },
+  {
+    "id": "biomancer_giant_growth",
+    "type": "SPELL",
+    "name": "Giant Growth",
+    "description": "Grow to enormous size.  Your clothing and equipment will not grow with you.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GIANT_GROWTH_MUTATION",
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": 15,
+    "min_duration": 30000,
+    "max_duration": 90000,
+    "duration_increment": 4000,
+    "energy_source": "MANA",
+    "base_energy_cost": 550,
+    "base_casting_time": 100
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIANT_GROWTH_MUTATION",
+    "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
+    "effect": [
+      { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
+      { "u_add_trait": "BIO_GIANT_GROWTH" },
+      { "math": [ "u_val('stored_kcal')", "+=", "100000" ] },
+      {
+        "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+        "time_in_future": { "math": [ "(( u_val('spell_level', 'spell: biomancer_giant_growth') * 40 ) + 300 )" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
+      { "u_lose_trait": "BIO_GIANT_GROWTH" },
+      { "math": [ "u_val('stored_kcal')", "-=", "100000" ] }
+    ]
+  },
+  {
+    "id": "biomancer_remove_instability",
+    "type": "SPELL",
+    "name": "Restore Genetic Stability",
+    "description": "The scroll said that this spell is for \"Curing the aftereffects of XE037 overexposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "BIOMANCER",
+    "components": "spell_components_remove_instability",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_remove_instability",
+    "shape": "blast",
+    "difficulty": 10,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "min_range": 1,
+    "base_energy_cost": 1500,
+    "base_casting_time": 180000,
+    "min_duration": 4500000,
+    "max_duration": 45000000,
+    "duration_increment": 2700000
+  },
+  {
+    "id": "biomancer_carrion_feast",
+    "type": "SPELL",
+    "name": "Carrion Feast",
+    "description": "Alter your digestive system to consume rotten food with no ill effects.  This is either a truly ancient spell or otherwise must have been the product of some university thaumaturgical research department.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_carrion_feast",
+    "shape": "blast",
+    "difficulty": 3,
+    "energy_source": "MANA",
+    "max_level": 10,
+    "min_duration": 6000,
+    "max_duration": 36000,
+    "duration_increment": 2800,
+    "base_energy_cost": 250,
+    "base_casting_time": 1500
+  },
+  {
+    "id": "biomancer_lashing_tentacles",
+    "type": "SPELL",
+    "name": "Lashing Tentacles",
+    "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid torso armor with them.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LASHING_TENTACLES_MUTATION",
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": 15,
+    "min_duration": 7000,
+    "max_duration": 30000,
+    "duration_increment": 1533,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "base_casting_time": 500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LASHING_TENTACLES_MUTATION",
+    "effect": [
+      { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
+      { "u_add_trait": "BIO_LASHING_TENTACLES" },
+      {
+        "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
+        "time_in_future": { "math": [ "(( u_val('spell_level', 'spell: biomancer_lashing_tentacles') * 15 ) + 70 )" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "The tentacles recede back into your body.", "type": "bad" },
+      { "u_lose_trait": "BIO_LASHING_TENTACLES" }
+    ]
+  },
+  {
+    "id": "biomancer_cure_disease_minor",
+    "type": "SPELL",
+    "name": "Cure Disease, Minor",
+    "description": "Cure any flu or common cold you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_cure_disease_minor",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 10,
+    "min_duration": 100,
+    "max_duration": 100,
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 90000,
+    "final_casting_time": 30000,
+    "casting_time_increment": -6000
   }
 ]

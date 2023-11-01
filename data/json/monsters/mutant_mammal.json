@@ -351,13 +351,14 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",
@@ -421,6 +422,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",
@@ -514,6 +516,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HEARS",
       "PET_MOUNTABLE",
@@ -605,6 +608,7 @@
       "ANIMAL",
       "DOGFOOD",
       "CANPLAY",
+      "CAN_BE_CULLED",
       "GROUP_MORALE",
       "HEARS",
       "HIT_AND_RUN",

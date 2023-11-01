@@ -781,8 +781,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_stone_fireplace",
-    "name": "Build Stone Fireplace"
+    "id": "build_brick_fireplace",
+    "name": "Build Brick Fireplace"
   },
   {
     "type": "construction_group",
@@ -1327,6 +1327,11 @@
   {
     "type": "construction_group",
     "id": "place_solar_panel",
+    "name": "Place Small Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ground_solar_panel",
     "name": "Place Solar Panel"
   },
   {
@@ -1337,6 +1342,11 @@
   {
     "type": "construction_group",
     "id": "place_solar_panel_v2",
+    "name": "Place Small Advanced Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ground_solar_panel_v2",
     "name": "Place Advanced Solar Panel"
   },
   {
@@ -1438,6 +1448,21 @@
     "type": "construction_group",
     "id": "place_anvil",
     "name": "Place Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_bronze",
+    "name": "Place Bronze Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_heavy",
+    "name": "Place Heavy Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_anvil_crude",
+    "name": "Place Crude Anvil"
   },
   {
     "type": "construction_group",
@@ -1621,8 +1646,8 @@
   },
   {
     "type": "construction_group",
-    "id": "advanced_object_deconstruction",
-    "name": "Advanced Object Deconstruction"
+    "id": "deconstruct_fireplace",
+    "name": "Deconstruct Fireplace"
   },
   {
     "type": "construction_group",
@@ -1811,7 +1836,87 @@
   },
   {
     "type": "construction_group",
+    "id": "constr_dirtmound",
+    "name": "Build a Mound of Dirt"
+  },
+  {
+    "type": "construction_group",
     "id": "build_brick_oven",
     "name": "Build Brick Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "sand_bulk",
+    "name": "Build a Mound of Sand"
+  },
+  {
+    "type": "construction_group",
+    "id": "gravel_bulk",
+    "name": "Build a Mound of Gravel"
+  },
+  {
+    "type": "construction_group",
+    "id": "pebble_bulk",
+    "name": "Build a Mound of Pebbles"
+  },
+  {
+    "type": "construction_group",
+    "id": "clay_bulk",
+    "name": "Build a Mound of Clay"
+  },
+  {
+    "type": "construction_group",
+    "id": "rock_bulk",
+    "name": "Build a Mound of Rocks"
+  },
+  {
+    "type": "construction_group",
+    "id": "rock_large_bulk",
+    "name": "Build a Mound of Large Rocks"
+  },
+  {
+    "type": "construction_group",
+    "id": "glass_bulk",
+    "name": "Build a Mound of Broken Glass"
+  },
+  {
+    "type": "construction_group",
+    "id": "log_bulk",
+    "name": "Build a Stack of Logs"
+  },
+  {
+    "type": "construction_group",
+    "id": "plank_bulk",
+    "name": "Build a Stack of Planks"
+  },
+  {
+    "type": "construction_group",
+    "id": "stick_bulk",
+    "name": "Build a Stack of Sticks"
+  },
+  {
+    "type": "construction_group",
+    "id": "stick_long_bulk",
+    "name": "Build a Stack of Long Sticks"
+  },
+  {
+    "type": "construction_group",
+    "id": "brick_bulk",
+    "name": "Build a Stack of Bricks"
+  },
+  {
+    "type": "construction_group",
+    "id": "adobe_bulk",
+    "name": "Build a Stack of Adobe Bricks"
+  },
+  {
+    "type": "construction_group",
+    "id": "rebar_bulk",
+    "name": "Build a Stack of Rebar"
+  },
+  {
+    "type": "construction_group",
+    "id": "pipe_bulk",
+    "name": "Build a Stack of Pipes"
   }
 ]

@@ -648,6 +648,8 @@ std::list<item> Character::remove_items_with( const
         return res;
     }
 
+    invalidate_weight_carried_cache();
+
     // first try and remove items from the inventory
     res = inv->remove_items_with( filter, count );
     count -= res.size();

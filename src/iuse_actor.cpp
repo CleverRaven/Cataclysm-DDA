@@ -84,6 +84,7 @@
 #include "ui.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -168,6 +169,7 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "target", target, true );
 
     obj.read( "msg", msg_transform );
+    obj.read( "variant_type", variant_type );
     obj.read( "container", container );
     obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
@@ -263,12 +265,12 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         }
     }
 
-    if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
+    if( it.count_by_charges() != target->count_by_charges() && it.count() > 1 ) {
         item take_one = it.split( 1 );
-        do_transform( p, take_one );
+        do_transform( p, take_one, variant_type );
         p->i_add_or_drop( take_one );
     } else {
-        do_transform( p, it );
+        do_transform( p, it, variant_type );
     }
 
     if( it.is_tool() ) {
@@ -277,14 +279,15 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
     return result;
 }
 
-void iuse_transform::do_transform( Character *p, item &it ) const
+void iuse_transform::do_transform( Character *p, item &it, const std::string &variant_type ) const
 {
     item obj_copy( it );
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( container.is_empty() ) {
-        obj = &it.convert( target );
+        obj = &it.convert( target, p );
+        obj->set_itype_variant( variant_type );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -306,7 +309,8 @@ void iuse_transform::do_transform( Character *p, item &it ) const
             }
         }
     } else {
-        obj = &it.convert( container );
+        obj = &it.convert( container, p );
+        obj->set_itype_variant( variant_type );
         int count = std::max( ammo_qty, 1 );
         item cont;
         if( target->count_by_charges() ) {
@@ -426,6 +430,11 @@ void iuse_transform::finalize( const itype_id & )
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    dummy.set_itype_variant( variant_type );
+    // If the variant is to be randomized, use default no-variant name
+    if( variant_type == "<any>" ) {
+        dummy.clear_itype_variant();
+    }
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
@@ -1035,25 +1044,24 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-std::optional<int> deploy_furn_actor::use( Character *p, item &it,
-        const tripoint &pos ) const
+
+static ret_val<tripoint> check_deploy_square( Character *p, item &it, const tripoint &pos )
 {
     if( p->cant_do_mounted() ) {
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos );
     }
     tripoint pnt = pos;
     if( pos == p->pos() ) {
         if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
-            return std::nullopt;
+            return ret_val<tripoint>::make_failure( pos );
         }
     }
 
     if( pnt == p->pos() ) {
-        p->add_msg_if_player( m_info,
-                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos,
+                                                _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
 
     map &here = get_map();
@@ -1061,20 +1069,19 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
-        p->add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
-                              veh_there.value().vehicle().disp_name(), it.tname() );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos,
+                                                _( "The space under %s is too cramped to deploy a %s in." ),
+                                                veh_there.value().vehicle().disp_name(), it.tname() );
     }
 
     // For example: dirt = 2, long grass = 3
     if( here.move_cost( pnt ) != 2 && here.move_cost( pnt ) != 3 ) {
-        p->add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname() );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos, _( "You can't deploy a %s there." ), it.tname() );
     }
 
     if( here.has_furn( pnt ) ) {
-        p->add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
-        return std::nullopt;
+        return ret_val<tripoint>::make_failure( pos, _( "The %s at that location is blocking the %s." ),
+                                                here.furnname( pnt ), it.tname() );
     }
 
     if( here.has_items( pnt ) ) {
@@ -1083,8 +1090,8 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         map &temp = get_map();
         for( item &i : temp.i_at( pnt ) ) {
             if( !i.is_owned_by( *p, true ) ) {
-                p->add_msg_if_player( m_info, _( "You can't deploy furniture on other people's belongings!" ) );
-                return std::nullopt;
+                return ret_val<tripoint>::make_failure( pos,
+                                                        _( "You can't deploy the %s on other people's belongings!" ), it.tname() );
             }
         }
 
@@ -1093,19 +1100,61 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
             if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
                 here.mop_spills( tripoint_bub_ms( pnt ) );
-                p->add_msg_if_player( m_info,
-                                      _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
+                p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
+                                      it.tname() );
                 p->moves -= 15;
             } else {
-                p->add_msg_if_player( m_info,
-                                      _( "You need a mop to clean up liquids before deploying furniture." ) );
-                return std::nullopt;
+                return ret_val<tripoint>::make_failure( pos,
+                                                        _( "You need a mop to clean up liquids before deploying the %s." ), it.tname() );
             }
         }
     }
 
-    here.furn_set( pnt, furn_type );
-    it.spill_contents( pnt );
+    return ret_val<tripoint>::make_success( pnt );
+}
+
+std::optional<int> deploy_furn_actor::use( Character *p, item &it,
+        const tripoint &pos ) const
+{
+    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    if( !suitable.success() ) {
+        p->add_msg_if_player( m_info, suitable.str() );
+        return std::nullopt;
+    }
+
+    get_map().furn_set( suitable.value(), furn_type );
+    it.spill_contents( suitable.value() );
+    p->mod_moves( -to_moves<int>( 2_seconds ) );
+    return 1;
+}
+
+std::unique_ptr<iuse_actor> deploy_appliance_actor::clone() const
+{
+    return std::make_unique<deploy_appliance_actor>( *this );
+}
+
+void deploy_appliance_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       string_format( _( "Can be <info>activated</info> to deploy as an appliance (<stat>%s</stat>)." ),
+                                      vpart_appliance_from_item( appliance_base )->name() ) );
+}
+
+void deploy_appliance_actor::load( const JsonObject &obj )
+{
+    mandatory( obj, false, "base", appliance_base );
+}
+
+std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tripoint &pos ) const
+{
+    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    if( !suitable.success() ) {
+        p->add_msg_if_player( m_info, suitable.str() );
+        return std::nullopt;
+    }
+
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
+    it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1879,7 +1928,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
             p->add_msg_if_player( "%s", success_message );
         }
 
-        it.convert( target_id );
+        it.convert( target_id, p );
         it.active = true;
     } else if( !failure_message.empty() ) {
         p->add_msg_if_player( m_bad, "%s", failure_message );
@@ -2396,13 +2445,7 @@ void holster_actor::load( const JsonObject &obj )
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
 {
-    if( !holster.can_contain( obj ).success() ) {
-        return false;
-    }
-    if( obj.active ) {
-        return false;
-    }
-    return holster.can_contain( obj ).success();
+    return obj.active ? false : holster.can_contain( obj ).success();
 }
 
 bool holster_actor::store( Character &you, item &holster, item &obj ) const
@@ -3433,7 +3476,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.convert( used_up_item_id );
+            it.convert( used_up_item_id, &healer );
             for( const auto &flag : used_up_item_flags ) {
                 it.set_flag( flag );
             }
@@ -4185,6 +4228,8 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
+        // TODO: Fix bug where, in some cases, if removing a mod would remove other mods, it should be removed
+        // in the gun_copy as it is done in gunmod_remove_activity_actor::gunmod_remove
         gun_copy.remove_item( *mods_copy[prompt.ret] );
 
         if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
@@ -4448,10 +4493,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                 link_menu.addentry( 20, has_loose_end, -1, _( "Attach to Cable Charger System CBM" ) );
             }
         }
-        if( targets.count( link_state::ups ) > 0 ) {
-            if( !( p->all_items_with_flag( flag_IS_UPS ) ).empty() ) {
-                link_menu.addentry( 21, has_loose_end, -1, _( "Attach to UPS" ) );
-            }
+        if( targets.count( link_state::ups ) > 0 && p->cache_has_item_with( flag_IS_UPS ) ) {
+            link_menu.addentry( 21, has_loose_end, -1, _( "Attach to UPS" ) );
         }
         if( targets.count( link_state::solarpack ) > 0 ) {
             const bool has_solar_pack_on = p->worn_with_flag( flag_SOLARPACK_ON );
@@ -4541,7 +4584,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             link_menu.addentry( 20, has_loose_end && !it.link->has_state( link_state::bio_cable ),
                                 -1, _( "Attach loose end to Cable Charger System CBM" ) );
         }
-        if( targets.count( link_state::ups ) > 0 && !( p->all_items_with_flag( flag_IS_UPS ) ).empty() ) {
+        if( targets.count( link_state::ups ) > 0 && p->cache_has_item_with( flag_IS_UPS ) ) {
             link_menu.addentry( 21, has_loose_end && it.link->has_state( link_state::bio_cable ),
                                 -1, _( "Attach loose end to UPS" ) );
         }
@@ -5080,7 +5123,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                 return false;
             }
             if( !inv.has_flag( flag_CABLE_SPOOL ) ) {
-                return can_extend_devices && inv.type->can_use( "link_up" );
+                return can_extend_devices && inv.can_link_up();
             }
             return can_extend.find( inv.typeId().c_str() ) != can_extend.end() && &inv != &it;
         };
@@ -5088,7 +5131,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                    _( "You don't have a compatible cable." ) );
     } else {
         const auto filter = [&it]( const item & inv ) {
-            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.type->can_use( "link_up" ) ||
+            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.can_link_up() ||
                 ( inv.link && ( it.link_length() >= 0 || inv.link->has_state( link_state::needs_reeling ) ) ) ) {
                 return false;
             }
@@ -5168,7 +5211,6 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                           extended_ptr->type_name(), extension->type_name() );
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
-    p->invalidate_weight_carried_cache();
     p->drop_invalid_inventory();
     p->moves -= move_cost;
     return 0;
@@ -5178,7 +5220,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
 {
     std::list<item *> all_cables = it.all_items_ptr( item_pocket::pocket_type::CABLE );
     all_cables.remove_if( []( const item * cable ) {
-        return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->type->can_use( "link_up" );
+        return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->can_link_up();
     } );
 
     if( all_cables.empty() ) {
@@ -5675,6 +5717,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         } else {
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
+    }
+    // Prevents crash from trying to spend charge with item removed
+    if( !p->has_item( it ) ) {
+        return 0;
     }
     return 1;
 }
