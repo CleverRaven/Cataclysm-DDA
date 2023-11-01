@@ -51,7 +51,7 @@
       {
         "id": "overweight",
         "text": "Overweight",
-        "color": "yellow",
+        "color": "c_light_gray",
         "//": "5-10 points of BMI from fat (20-33% of body weight is fat)",
         "condition": {
           "and": [

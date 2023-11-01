@@ -86,6 +86,8 @@ effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
 static const effect_on_condition_id
 effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 static const effect_on_condition_id
+effect_on_condition_EOC_string_test( "EOC_string_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
@@ -1038,4 +1040,21 @@ TEST_CASE( "EOC_martial_art_test", "[eoc]" )
 
     CHECK( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
     CHECK( !get_avatar().has_martialart( style_aikido ) );
+}
+
+TEST_CASE( "EOC_string_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
+
+    CHECK( effect_on_condition_EOC_string_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "<global_val:key1> <global_val:key2>" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "test1 test2" );
 }

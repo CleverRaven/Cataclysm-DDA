@@ -478,6 +478,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_string_test",
+    "effect": [
+      { "set_string_var": "test1", "target_var": { "global_val": "key1" } },
+      { "set_string_var": "test2", "target_var": { "global_val": "key2" } },
+      { "set_string_var": "<global_val:key1> <global_val:key2>", "target_var": { "global_val": "key3" } },
+      {
+        "set_string_var": "<global_val:key1> <global_val:key2>",
+        "target_var": { "global_val": "key4" },
+        "parse_tags": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_character_finished_activity_event_test",
     "eoc_type": "EVENT",
     "required_event": "character_finished_activity",
