@@ -768,8 +768,9 @@
     "material": [ "glass" ],
     "weight": "75 g",
     "volume": "30 ml",
-    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": -1,
-    "melee_damage": { "cut": 6 }
+    "melee_damage": { "cut": 6 },
+    "weapon_category": [ "SHIVS" ]
   }
 ]
