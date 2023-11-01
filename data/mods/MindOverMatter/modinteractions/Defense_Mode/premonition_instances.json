@@ -1,0 +1,97 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_CONTROL",
+    "//": "Copied EOC.  Original is in mods/Defense_Mode/eocs.json",
+    "recurrence": "1 day",
+    "condition": { "mod_is_loaded": "defense_mode" },
+    "global": true,
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "DEFENSE_MODE_WAVE_CONTROL_PREMENITION",
+            "global": true,
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "You feel a multitude of foes coming for you, bleary-eyed and full of bloodlust.  Steel yourself, for the horde is coming.",
+                "type": "bad",
+                "popup": true
+              },
+              {
+                "queue_eocs": "DEFENSE_MODE_WAVE_CONTROL_ACTUAL",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+              }
+            ],
+            "false_effect": { "run_eocs": [ "DEFENSE_MODE_WAVE_CONTROL_ACTUAL" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_CONTROL_ACTUAL",
+    "global": true,
+    "effect": [
+      { "u_teleport": { "global_val": "your_spawnpoint" } },
+      { "arithmetic": [ { "global_val": "var", "var_name": "wave_number" }, "+=", { "const": 1 } ] },
+      { "math": [ "wave_cash_number", "++" ] },
+      { "u_message": "Welcome to wave <global_val:wave_number>!", "type": "bad", "popup": false },
+      { "run_eocs": [ "defense_mode_money_add", "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER",
+    "//": "Copied EOC.  Original is in mods/Defense_Mode/eocs.json",
+    "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+    "effect": [
+      {
+        "u_message": "You feel greedy, insidious eyes watching you and rapidly getting closer.  Someone has it out for your stuff.",
+        "type": "bad",
+        "popup": true
+      },
+      {
+        "queue_eocs": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER_ACTUAL",
+        "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER_ACTUAL",
+    "effect": [
+      {
+        "u_spawn_npc": "random_survivor_nefarious",
+        "outdoor_only": true,
+        "real_count": 1,
+        "min_radius": 15,
+        "max_radius": 40
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_BANDIT_ATTACK",
+    "//": "Copied EOC.  Original is in mods/Defense_Mode/eocs.json",
+    "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+    "effect": [
+      {
+        "u_message": "You feel a multitude of hostile eyes watching you and rapidly getting closer.  The masses have it in for you.",
+        "type": "bad",
+        "popup": true
+      },
+      {
+        "queue_eocs": "EOC_DEFENSE_MODE_BANDIT_ATTACK_ACTUAL",
+        "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_BANDIT_ATTACK_ACTUAL",
+    "effect": [ { "u_spawn_npc": "defense_mode_raider", "outdoor_only": true, "real_count": 5, "min_radius": 15, "max_radius": 25 } ]
+  }
+]
