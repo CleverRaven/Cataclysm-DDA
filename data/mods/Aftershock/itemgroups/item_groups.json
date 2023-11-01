@@ -448,8 +448,8 @@
     "id": "afs_exo_basic_power",
     "type": "item_group",
     "items": [
-      { "item": "exo_back_battery_rechargable", "prob": 75, "charges": [ 50, 100 ] },
-      { "item": "exo_back_gasoline", "prob": 50, "charges": [ 50, 100 ] },
+      { "item": "exo_back_battery_rechargable", "prob": 75, "charges": [ 200, 300 ] },
+      { "item": "exo_back_gasoline", "prob": 50, "charges": [ 200, 300 ] },
       { "item": "exo_aux_power", "prob": 25, "charges": [ 50, 100 ] },
       { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
     ]
@@ -458,8 +458,8 @@
     "id": "afs_exo_advanced_power",
     "type": "item_group",
     "items": [
-      { "item": "exo_back_battery_rechargable", "prob": 50, "charges": [ 50, 100 ] },
-      { "item": "exo_back_fuelcell", "prob": 75, "charges": [ 50, 100 ] },
+      { "item": "exo_back_battery_rechargable", "prob": 50, "charges": [ 200, 300 ] },
+      { "item": "exo_back_fuelcell", "prob": 75, "charges": [ 200, 300 ] },
       { "item": "exo_asrg", "prob": 10 },
       { "item": "exo_aux_power", "count": [ 0, 1 ], "prob": 25, "charges": [ 50, 100 ] },
       { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
