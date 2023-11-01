@@ -1097,12 +1097,12 @@ int gun_actor::get_max_range()  const
 
 bool gun_actor::call( monster &z ) const
 {
-    Creature *target = nullptr;
+    Creature *target;
     tripoint aim_at;
     bool untargeted = false;
 
     if( has_condition ) {
-        dialogue d( get_talker_for( &z ), get_talker_for( *target ) );
+        dialogue d( get_talker_for( &z ), nullptr );
         if( !condition( d ) ) {
             add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
             return false;
