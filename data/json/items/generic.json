@@ -883,7 +883,9 @@
     "volume": "750 ml",
     "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ],
-    "melee_damage": { "bash": 6, "cut": 8 }
+    "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 6, "cut": 8 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
