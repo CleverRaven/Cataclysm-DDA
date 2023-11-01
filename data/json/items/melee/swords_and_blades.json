@@ -2564,7 +2564,7 @@
     "copy-from": "mc_falx",
     "type": "TOOL",
     "name": { "str": "mild steel falx", "str_pl": "mild steel falxes" },
-    "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild  steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },

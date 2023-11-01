@@ -654,7 +654,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "18 h",
+    "time": "33 m",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -698,7 +698,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "18 h",
+    "time": "33 m",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -742,7 +742,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "18 h",
+    "time": "33 m",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -776,7 +776,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "18 h",
+    "time": "11 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"

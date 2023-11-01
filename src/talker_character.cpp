@@ -95,7 +95,7 @@ int talker_character_const::get_hp_max( const bodypart_id &bp ) const
     return me_chr_const->get_hp_max( bp );
 }
 
-int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
+units::temperature talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
 }
@@ -906,24 +906,24 @@ static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
     bodypart_id current_bp_extreme = u->get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u->get_all_body_parts() ) {
-        if( std::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            std::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            units::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
             current_bp_extreme = bp;
         }
-        if( std::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            std::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            units::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
             conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-int talker_character_const::get_body_temp() const
+units::temperature talker_character_const::get_body_temp() const
 {
     return me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
-int talker_character_const::get_body_temp_delta() const
+units::temperature_delta talker_character_const::get_body_temp_delta() const
 {
     return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
@@ -932,6 +932,11 @@ int talker_character_const::get_body_temp_delta() const
 bool talker_character_const::knows_martial_art( const matype_id &id ) const
 {
     return me_chr_const->martial_arts_data->has_martialart( id );
+}
+
+bool talker_character_const::using_martial_art( const matype_id &id ) const
+{
+    return me_chr_const->martial_arts_data->selected_style() == id;
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

@@ -276,6 +276,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {

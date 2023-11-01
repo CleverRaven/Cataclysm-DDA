@@ -1370,7 +1370,7 @@
     "type": "MONSTER",
     "name": { "str": "twisted reflection" },
     "speed": 90,
-    "description": "This looks almost nothing like you.  It's form isn't even stable.  So why does your mind keep mistaking it for you?",
+    "description": "This looks almost nothing like you.  Its form isn't even stable.  So why does your mind keep mistaking it for you?",
     "copy-from": "mon_pale_reflection"
   },
   {
