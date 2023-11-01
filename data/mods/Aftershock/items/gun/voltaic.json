@@ -30,7 +30,7 @@
     "type": "GUN",
     "copy-from": "laser_rifle",
     "name": { "str": "W3100 Volt" },
-    "description": "Wraitheon Armories premier electrolaser personal defense weapon.  The W3100 Volt adjustable power settings make it adaptable to most conflict situations, lethal or otherwise, and make it a favorite among well-off security forces and law enforcement corps.",
+    "description": "Wraitheon Armories' premier electrolaser personal defense weapon.  The W3100 Volt adjustable power settings make it adaptable to most conflict situations, lethal or otherwise, and make it a favorite among well-off security forces and law enforcement corps.",
     "price": "12 kUSD",
     "price_postapoc": "12 kUSD",
     "ammo": [ "battery" ],
