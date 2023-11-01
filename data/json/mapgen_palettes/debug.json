@@ -40,7 +40,7 @@
     "name": "debug_item_group_test",
     "sym": "T",
     "color": "light_red",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_special",
