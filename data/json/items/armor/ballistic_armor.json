@@ -96,6 +96,131 @@
     ]
   },
   {
+    "id": "jacket_eod",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "EOD jacket" },
+    "description": "A thick armored jacket constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians.  It features a central pocket for a large plate, and near complete coverage in fragmentation resistant materials.",
+    "//": "Based on the Med-Eng EOD 9 and EOD 10 suits.",
+    "weight": "13500 g",
+    "volume": "15 L",
+    "price": 1509000,
+    "price_postapoc": 18000,
+    "warmth": 65,
+    "material": [ "kevlar", "plastic_pad", "nomex" ],
+    "symbol": "[",
+    "color": "light_green",
+    "environmental_protection": 2,
+    "material_thickness": 15,
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "use_action": [ { "type": "attach_molle", "size": 15 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "46 cm",
+        "moves": 1100,
+        "description": "Pocket for a huge armor plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 7.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "encumbrance": [ 71, 80 ]
+      }
+    ]
+  },
+  {
+    "id": "jacket_eod_light",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "tactical EOD jacket" },
+    "description": "An armored jacket constructed from Kevlar and Nomex for use by explosive ordnance disposal technicians in 'non-permissive environments'.  It is lighter than normal EOD armor, while also providing more concentrated ballistic protection in exchange for overall fragmentation protection.",
+    "weight": "7000 g",
+    "volume": "15 L",
+    "price": 410160,
+    "price_postapoc": 5900,
+    "warmth": 40,
+    "material": [ "kevlar", "plastic_pad", "nomex" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "environmental_protection": 2,
+    "material_thickness": 7,
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "use_action": [ { "type": "attach_molle", "size": 15 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "46 cm",
+        "moves": 1100,
+        "description": "Pocket for a huge armor plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "encumbrance": 40,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
+  },
+  {
+    "id": "eod_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "EOD fragmentation plate" },
+    "description": "A polygonal fragmentation plate with a slightly concave profile, made of thin layers of steel, UHMW polyethylene, foam, and kevlar.  Though certified to provide protection from fragmentation, it will not provide much protection from firearms.  This is intended to be inserted into an EOD suit, and can't be worn on its own.",
+    "weight": "2800 g",
+    "volume": "2950 ml",
+    "longest_side": "46 cm",
+    "//": "Based on the plate from the MED-ENG EOD 9N.  People don't seem willing to buy the EOD 10 to shoot at and MED-ENG ain't telling us how not-bullet proof the suit is.",
+    "price": 361300,
+    "price_postapoc": 2000,
+    "material": [ "kevlar", "plastic_pad", "thermo_resin", "qt_steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 5,
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.6 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 2.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 45,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
+      }
+    ]
+  },
+  {
     "id": "esapi_plate",
     "type": "ARMOR",
     "category": "armor",

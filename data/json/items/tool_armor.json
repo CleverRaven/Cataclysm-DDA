@@ -1214,7 +1214,8 @@
     "description": "An armored, electronically-shielded helmet containing a camera, a two-way radio, and a headlamp, all of which can be voice-activated for redundancy.  It is designed to protect against overpressure, fragmentation, impact, and heat.",
     "weight": "3600 g",
     "volume": "4 L",
-    "price": 150000,
+    "price": 1613900,
+    "//": "Based on the EOD 10 and EOD 9 helmets.",
     "price_postapoc": 10000,
     "armor": [
       {
@@ -1247,7 +1248,7 @@
     "warmth": 65,
     "material": [ "kevlar_rigid", "plastic", "plastic_pad" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_green",
     "environmental_protection": 3,
     "ammo": "battery",
     "pocket_data": [
@@ -1267,7 +1268,7 @@
       "need_charges": 1,
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "PADDED", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "helmet_eod_on",
