@@ -435,13 +435,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_SLEEP_ENDS_POWERS",
-    "eoc_type": "RECURRING",
-    "recurrence": [ "1 hours", "1 hours" ],
-    "condition": { "or": [ 
-      { "u_has_effect": "sleep" },
-      { "u_has_effect": "lying_down" },
-      { "u_has_effect": "sleep_deprived" }
-    ]
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": 
+        {
+          "or": [
+            { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+            { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
+          ]
     },
     "effect": [
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] }
