@@ -442,6 +442,7 @@
           "or": [
             { "compare_string": [ "sleep", { "context_val": "effect" } ] },
             { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
+            { "compare_string": [ "stunned", { "context_val": "effect" } ] }
           ]
     },
     "effect": [
