@@ -544,6 +544,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "sub": "hotplate_induction",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
