@@ -102,6 +102,7 @@
     "id": "gear_eod_light_or_heavy",
     "type": "item_group",
     "container-item": "duffelbag",
+	"on_overflow": "spill",
     "subtype": "distribution",
     "items": [ { "group": "eod_duffle", "prob": 90 }, { "group": "eod_duffle_light", "prob": 10 } ]
   },
