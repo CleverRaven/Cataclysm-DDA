@@ -1097,7 +1097,7 @@ int gun_actor::get_max_range()  const
 
 bool gun_actor::call( monster &z ) const
 {
-    Creature *target;
+    Creature *target = nullptr;
     tripoint aim_at;
     bool untargeted = false;
 
