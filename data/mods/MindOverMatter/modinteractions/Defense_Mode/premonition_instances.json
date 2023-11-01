@@ -4,6 +4,7 @@
     "id": "DEFENSE_MODE_WAVE_CONTROL",
     "//": "Copied EOC.  Original is in mods/Defense_Mode/eocs.json",
     "recurrence": "1 day",
+    "condition": { "mod_is_loaded": "defense_mode" },
     "global": true,
     "effect": [
       {
