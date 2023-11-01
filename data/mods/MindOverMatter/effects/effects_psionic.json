@@ -798,6 +798,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_blind",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything." ],
+    "apply_message": "You are blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "show_in_info": true,
+    "immune_flags": ["PHOTOKINETIC"],
+    "flags": [ "BLIND" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
