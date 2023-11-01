@@ -179,7 +179,7 @@
         "max_contains_weight": "1600 kg",
         "max_item_length": "21 cm",
         "min_item_length": "21 cm",
-         "//": "min. length really just a hack to avoid adding a flag.",
+        "//": "min. length really just a hack to avoid adding a flag.",
         "moves": 800,
         "description": "Pockets for deltoid armor plates.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
@@ -396,7 +396,14 @@
     "material_thickness": 14,
     "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 8, "coverage": 35, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r"] } ]
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 35,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
   },
   {
     "id": "esbi_plate",
