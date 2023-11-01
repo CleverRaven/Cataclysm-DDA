@@ -59,6 +59,30 @@ Talker, in context of effect on condition, is any entity, that can use specific 
 
 For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant, check the player as beta talker, despite the id imply it should be `npc_`; This is a legacy of dialogue system, from which EoC was extended, and won't be fixed, since dialogues still use it fully
 
+### Typical Alpha and Beta Talkers by cases
+
+| EOC                                              | Alpha (possible types)      | Beta (possible types)       |
+| ------------------------------------------------ | ----------------------      | --------------------------- |
+| Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |
+| Talk with monster                                | player (Avatar)             | monster (monster)           |
+| Use computer                                     | player (Avatar)             | computer (Furniture)        |
+| furniture: "examine_action"                      | player (Avatar)             | NONE                        |
+| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | castar (Character, Monster) |
+| use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 |
+| tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
+| countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
+| COMESTIBLE: "consumption_effect_on_conditions"   | user (Character)            | item (item)                 |
+| activity_type: "completion_eoc"                  | character (Character)       | NONE                        |
+| activity_type: "do_turn_eoc"                     | character (Character)       | NONE                        |
+| addiction_type: "effect_on_condition"            | character (Character)       | NONE                        |
+| bionics: "activated_eocs"                        | character (Character)       | NONE                        |
+| bionics: "deactivated_eocs"                      | character (Character)       | NONE                        |
+| bionics: "processed_eocs"                        | character (Character)       | NONE                        |
+| mutation: "activated_eocs"                       | character (Character)       | NONE                        |
+| mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
+| mutation: "processed_eocs"                       | character (Character)       | NONE                        |
+| recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
+
 ## Value types
 
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
