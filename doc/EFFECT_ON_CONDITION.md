@@ -912,6 +912,34 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
 ```
 
+
+### `u_query_tile`, `npc_query_tile`
+- type: string
+- Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
+- `anywhere`, `line_of_sight`, `around` are possible
+  - `anywhere` is the same as the "look around" UI
+  - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
+- `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
+- `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
+- `z_level` defines allow if select other z-level  for `anywhere`
+- `message` is displayed while selecting
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Display coordinates of selected tile.
+```json
+{
+  "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+  "then": { "u_message": "<context_val:pos>" },
+  "else": { "u_message": "Canceled" }
+}
+```
+
 ### `map_terrain_with_flag`, `map_furniture_with_flag`
 - type: string or [variable object](##variable-object)
 - return true if the terrain or furniture has specific flag
