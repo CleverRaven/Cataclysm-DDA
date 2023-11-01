@@ -1113,6 +1113,7 @@ flump
 flusteration
 flyable
 flyin
+fmj
 foamcrete
 foldable
 folktales
@@ -1532,6 +1533,7 @@ jawless
 jerrycan
 jerrypack
 jewelboxes
+jhp
 jians
 jirt
 jirts
@@ -1643,6 +1645,7 @@ lamellar
 landshark
 langourous
 lanthanum
+lapua
 lategame
 latrunculi
 latticed
