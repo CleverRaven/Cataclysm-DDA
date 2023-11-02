@@ -124,11 +124,18 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "eod_plate", "container-item": "jacket_eod_light", "prob": 100 },
+      { "item": "jacket_eod_light", "contents-group": "eod_tactical_plates_set", "prob": 100 },
       { "item": "trousers_eod_light", "prob": 100 },
       { "item": "face_shield_eod", "prob": 100 },
       { "item": "eod_plate", "prob": 5 }
     ]
+  },
+  {
+    "id": "eod_tactical_plates_set",
+    "type": "item_group",
+    "//": "complete EOD plate set for the tactical EOD jacket",
+    "subtype": "collection",
+    "entries": [ { "item": "eod_plate" }, { "item": "deltoid_plates" } ]
   },
   {
     "type": "item_group",
