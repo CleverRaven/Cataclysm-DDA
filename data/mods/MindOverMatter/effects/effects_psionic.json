@@ -267,6 +267,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_enhance_mobility",
+    "name": [ "Enhanced Mobility" ],
+    "desc": [ "You find it much easier to move in encumbering gear." ],
+    "apply_message": "",
+    "remove_message": "Your gear suddenly seems to weigh you down.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -850 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_sealed",
     "name": [ "Sealed System" ],
     "desc": [ "You are protected from the dangers of the world." ],
