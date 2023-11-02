@@ -1252,14 +1252,15 @@
     "max_intensity": 97,
     "blocks_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ],
     "removes_effects": [ "asthma" ],
-    "base_mods": { 
-      "health_min": [ 1 ], 
-      "health_chance": [ 15 ], 
-      "health_tick": [ 600 ], 
-      "h_mod_min": [ 1 ], 
-      "h_mod_chance": [ 10 ], 
-      "h_mod_tick": [ 600 ], 
-      "healing_rate": [ 2 ] },
+    "base_mods": {
+      "health_min": [ 1 ],
+      "health_chance": [ 15 ],
+      "health_tick": [ 600 ],
+      "h_mod_min": [ 1 ],
+      "h_mod_chance": [ 10 ],
+      "h_mod_tick": [ 600 ],
+      "healing_rate": [ 2 ]
+    },
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
   },
   {
