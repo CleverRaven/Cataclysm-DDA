@@ -8,7 +8,9 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
+#include "options.h"
 #include "units.h"
+#include "units_utility.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -136,6 +138,14 @@ int vitamin::units_from_mass( vitamin_units::mass val ) const
         return 1;
     }
     return val / *weight_per_unit;
+}
+
+std::pair<std::string, std::string> vitamin::mass_str_from_units( int units ) const
+{
+    if( !weight_per_unit.has_value() || !get_option<bool>( "SHOW_VITAMIN_MASS" ) ) {
+        return {"", ""};
+    }
+    return weight_to_string( units * *weight_per_unit );
 }
 
 namespace io
