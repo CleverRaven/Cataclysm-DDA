@@ -109,9 +109,18 @@
     ],
     "name": "augmentation clinic",
     "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
-    "sym": "A",
+    "sym": "P",
     "color": "yellow",
     "flags": [ "SIDEWALK" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "maintenance_outpost_a1", "maintenance_outpost_a2", "maintenance_outpost_b1", "maintenance_outpost_b2" ],
+    "name": "maintenance outpost",
+    "sym": "i",
+    "color": "cyan",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_ELECTRONICS", "SOURCE_CONSTRUCTION" ],
     "see_cost": 3
   },
   {
