@@ -40,18 +40,6 @@
   },
   {
     "type": "item_group",
-    "id": "NC_SOLDIER_QMASTER_storage",
-    "subtype": "distribution",
-    "entries": [ { "item": "duffelbag", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_SOLDIER_QMASTER_coat",
-    "subtype": "distribution",
-    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
-  },
-  {
-    "type": "item_group",
     "id": "NC_SOLDIER_QMASTER_misc",
     "subtype": "collection",
     "items": [

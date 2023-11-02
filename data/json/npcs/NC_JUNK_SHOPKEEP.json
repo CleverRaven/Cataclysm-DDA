@@ -1,18 +1,6 @@
 [
   {
     "type": "item_group",
-    "id": "NC_JUNK_SHOPKEEP_extra",
-    "subtype": "distribution",
-    "entries": [ { "item": "duffelbag", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_JUNK_SHOPKEEP_coat",
-    "subtype": "distribution",
-    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
-  },
-  {
-    "type": "item_group",
     "id": "NC_JUNK_SHOPKEEP_misc",
     "ammo": 75,
     "magazine": 100,

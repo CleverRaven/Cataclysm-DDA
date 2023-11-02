@@ -43,47 +43,6 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_storage",
-    "subtype": "distribution",
-    "entries": [ { "item": "backpack_hiking", "prob": 100 } ]
-  },
-  {
-    "id": "NC_ISHERWOOD_CLAIRE_gloves",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "gloves_leather", "prob": 45 }, { "item": "gloves_light", "prob": 20 } ]
-  },
-  {
-    "id": "NC_ISHERWOOD_CLAIRE_pants",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "jeans", "prob": 50 }, { "item": "pants_cargo", "prob": 70 }, { "item": "leather_belt", "prob": 30 } ]
-  },
-  {
-    "id": "NC_ISHERWOOD_CLAIRE_shoes",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "boots", "prob": 70 },
-      { "item": "knee_high_boots", "prob": 50 },
-      { "item": "boots_hiking", "prob": 20 },
-      { "item": "mocassins", "prob": 20 }
-    ]
-  },
-  {
-    "id": "NC_ISHERWOOD_CLAIRE_torso",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "tank_top", "prob": 50 }, { "item": "dress", "prob": 45 }, { "item": "jacket_light", "prob": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_ISHERWOOD_CLAIRE_hat",
-    "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 40 }, { "item": "cowboy_hat", "prob": 40 }, { "item": "straw_hat", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_misc",
     "subtype": "distribution",
     "entries": [
