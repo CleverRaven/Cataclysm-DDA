@@ -428,25 +428,133 @@
     "id": "EOC_PSIONICS_BROKEN_LIMB_ENDS_POWERS",
     "eoc_type": "EVENT",
     "required_event": "broken_bone",
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_SLEEP_STUN_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+        { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_STUNNED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "stunned", { "context_val": "effect" } ] },
+        {
+          "or": [
+            { "u_has_effect": "effect_biokin_physical" },
+            { "u_has_effect": "effect_biokin_pkill_1" },
+            { "u_has_effect": "effect_biokin_pkill_2" },
+            { "u_has_effect": "effect_biokin_pkill_3" },
+            { "u_has_effect": "effect_biokin_pkill_4" },
+            { "u_has_effect": "effect_biokin_pkill_5" },
+            { "u_has_effect": "effect_biokin_pkill_6" },
+            { "u_has_effect": "effect_biokin_flexibility" },
+            { "u_has_effect": "effect_biokin_armor_skin" },
+            { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_sealed" },
+            { "u_has_effect": "effect_biokin_combat_dance" },
+            { "u_has_effect": "effect_biokin_perfected_motion" },
+            { "u_has_effect": "effect_clair_night_eyes_1" },
+            { "u_has_effect": "effect_clair_night_eyes_2" },
+            { "u_has_effect": "effect_clair_night_eyes_3" },
+            { "u_has_effect": "effect_clair_night_eyes_4" },
+            { "u_has_effect": "effect_clair_night_eyes_5" },
+            { "u_has_effect": "effect_clair_night_eyes_6" },
+            { "u_has_effect": "effect_clair_night_eyes_7" },
+            { "u_has_effect": "effect_clair_night_eyes_8" },
+            { "u_has_effect": "effect_clair_premonition" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_clair_ranged_enhance" },
+            { "u_has_effect": "effect_clair_sense_rads_self" },
+            { "u_has_effect": "effect_clair_dodge" },
+            { "u_has_effect": "effect_clair_clear_sight" },
+            { "u_has_effect": "effect_clair_omniscence" },
+            { "u_has_effect": "effect_pyrokinetic_cloak" },
+            { "u_has_effect": "effect_pyrokinetic_aura" },
+            { "u_has_effect": "effect_pyrokinetic_flame_immunity" },
+            { "u_has_effect": "effect_telekinetic_momentum" },
+            { "u_has_effect": "effect_telekinetic_slowfall" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telekinetic_armor" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telekinetic_aegis" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepath_sense_minds" },
+            { "u_has_effect": "effect_telepath_invisibility" },
+            { "u_has_effect": "effect_telepath_network_effect" },
+            { "u_has_effect": "effect_teleport_stride" },
+            { "u_has_effect": "effect_vita_health" },
+            { "u_has_effect": "effect_vitakin_purge_rads" },
+            { "u_has_effect": "effect_vita_super_heal" }
+          ]
+        }
+      ]
+    },
     "effect": [
+      { "u_message": "As your head rings and your mind reels, you lose control of your powers!", "type": "bad" },
       { "run_eocs": [ "EOC_END_PSI_POWERS" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_SLEEP_ENDS_POWERS",
+    "id": "EOC_PSIONICS_DAZED_ENDS_POWERS",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
-    "condition": 
+    "condition": {
+      "and": [
+        { "compare_string": [ "dazed", { "context_val": "effect" } ] },
         {
           "or": [
-            { "compare_string": [ "sleep", { "context_val": "effect" } ] },
-            { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
-            { "compare_string": [ "stunned", { "context_val": "effect" } ] }
+            { "u_has_effect": "effect_biokin_pkill_1" },
+            { "u_has_effect": "effect_biokin_pkill_2" },
+            { "u_has_effect": "effect_biokin_pkill_3" },
+            { "u_has_effect": "effect_biokin_pkill_4" },
+            { "u_has_effect": "effect_biokin_pkill_5" },
+            { "u_has_effect": "effect_biokin_pkill_6" },
+            { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_clair_night_eyes_1" },
+            { "u_has_effect": "effect_clair_night_eyes_2" },
+            { "u_has_effect": "effect_clair_night_eyes_3" },
+            { "u_has_effect": "effect_clair_night_eyes_4" },
+            { "u_has_effect": "effect_clair_night_eyes_5" },
+            { "u_has_effect": "effect_clair_night_eyes_6" },
+            { "u_has_effect": "effect_clair_night_eyes_7" },
+            { "u_has_effect": "effect_clair_night_eyes_8" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_pyrokinetic_cloak" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_vita_health" }
           ]
+        }
+      ]
     },
     "effect": [
-      { "run_eocs": [ "EOC_END_PSI_POWERS" ] }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_DAZED_ENDS_POWERS_2",
+            "condition": { "roll_contested": { "math": [ "u_val('intelligence') + u_skill('metaphysics')" ] }, "difficulty": 16, "die_size": 12 },
+            "effect": [  ],
+            "false_effect": [
+              { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
+              { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] }
+            ]
+          }
+        ]
+      }
     ]
   }
 ]
