@@ -1799,16 +1799,19 @@
       "Bad Eye Irritation (Smoke)"
     ],
     "desc": [
-      "Your eyes mildly irritate.",
-      "Your eyes watering.",
-      "Your eyes tear and stings heavily.",
-      "Your eyes burn out of smoke, and you hardly see anything."
+      "Your eyes are mildly irritated.",
+      "Your eyes are watering.",
+      "Your eyes sting badly and tears stream from them continuously.",
+      "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them."
     ],
     "apply_message": [
-      [ "Your eyes mildly irritate.", "bad" ],
+      [ "Your eyes are mildly irritated.", "bad" ],
       [ "Your eyes watering out of smoke.", "bad" ],
-      [ "Your eyes tear and stings heavily.", "bad" ],
-      [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
+      [ "Your eyes sting badly and tears stream from them continuously.", "bad" ],
+      [
+        "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them.",
+        "bad"
+      ]
     ],
     "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
     "max_duration": "3 m",
@@ -1829,15 +1832,15 @@
     "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
     "desc": [
       "You draw in a faint whiff of smoke.",
-      "Noticeable amount of smoke fills your lungs.",
-      "Dense cloud of smoke enter your lungs.",
-      "You inhale an overwhelming amount of smoke."
+      "A noticeable volume of smoke fills your lungs.",
+      "A dense cloud of smoke enters your lungs.",
+      "You inhale an overwhelming volume of smoke."
     ],
     "apply_message": [
       [ "You draw in a faint whiff of smoke.", "bad" ],
-      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
-      [ "Dense cloud of smoke enter your lungs.", "bad" ],
-      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+      [ "A noticeable volume of smoke fills your lungs.", "bad" ],
+      [ "A dense cloud of smoke enters your lungs.", "bad" ],
+      [ "You inhale an overwhelming volume of smoke.", "bad" ]
     ],
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
@@ -3808,11 +3811,53 @@
       "Faint sparks surround your every move, your body aches more with every passing second.",
       "Sparks swarm around you, your body hurts and even the air seems to reject your existence."
     ],
+    "decay_messages": [ [ "The rejection you feel from all around you has become a little easier to bear.", "mixed" ] ],
+    "remove_message": "The world is no longer trying to eject you from this plane of existence, for now.",
     "max_intensity": 2,
     "rating": "bad",
     "int_dur_factor": "7 m",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 20 ] },
     "scaling_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 25 ], "cough_chance": [ 30 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pd_strengthened_reality",
+    "name": [ "World's Acceptance", "World's Embracement", "Dimensional Foothold", "Dimensional Assimilation" ],
+    "desc": [
+      "The world around you seems calmer with your presence and actions.",
+      "The world around you seems to regard you as one of their own, your body is a little easier to move now.",
+      "You can more easily exert your will around you, this dimension is, if not welcoming you, obeying you a little.  You have managed to secure a foothold in this reality.",
+      "The very fabric of reality is blending in with your body, your will is greatly easier to exert around you and your body is trying to permanently assimilate with this world, it just needs a little push…"
+    ],
+    "max_intensity": 4,
+    "rating": "good",
+    "int_dur_factor": "3 days",
+    "base_mods": { "speed_mod": [ 2 ] },
+    "scaling_mods": { "speed_mod": [ 3 ], "dodge_mod": [ 0.7 ] },
+    "apply_message": "Your eyes open to a whole new world!",
+    "remove_message": "You start to feel rejected by the world again.",
+    "decay_messages": [
+      [ "The world no longer embraces you as its child.  At least it still tolerates your presence.", "mixed" ],
+      [
+        "You have lost your foothold and can no longer command the world around you, the world sees you now as only an unruly child.",
+        "mixed"
+      ],
+      [
+        "You can no longer bend the world to your will.  You have failed in blending in with this reality and have now only a foothold left.",
+        "mixed"
+      ]
+    ],
+    "miss_messages": [
+      [ "Did the world just oppose you?", 1 ],
+      [ "For a moment you felt a great hostility all around you.", 1 ],
+      [ "Did your enemy just vanish for a moment?.", 2 ],
+      [ "You felt weird for a moment.", 3 ],
+      [ "Was that a spark?", 5 ],
+      [ "Your grip suddenly failed you.", 6 ],
+      [ "Something just flashed in front of your eyes.", 8 ],
+      [ "Why did the hit go that way?", 15 ],
+      [ "You could swear that you hit it!", 25 ]
+    ]
   },
   {
     "type": "effect_type",
@@ -4237,5 +4282,23 @@
     },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "VITRIFYING",
+    "name": [ "Among Glass" ],
+    "desc": [ "It is very peaceful here." ],
+    "rating": "good",
+    "max_intensity": 7,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "INTELLIGENCE",
+            "add": { "math": [ "u_val('effect_intensity','effect:VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
+          }
+        ]
+      }
+    ]
   }
 ]

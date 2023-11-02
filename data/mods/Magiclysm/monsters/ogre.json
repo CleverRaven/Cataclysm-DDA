@@ -27,6 +27,6 @@
     "vision_day": 10,
     "vision_night": 3,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "FIREPROOF" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "FIREPROOF" ]
   }
 ]

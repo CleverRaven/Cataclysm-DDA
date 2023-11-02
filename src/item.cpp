@@ -6487,11 +6487,17 @@ std::string item::overheat_symbol() const
     if( !is_gun() || type->gun->overheat_threshold <= 0.0 ) {
         return "";
     }
+    double modifier = 0;
+    float multiplier = 1.0f;
+    for( const item *mod : gunmods() ) {
+        modifier += mod->type->gunmod->overheat_threshold_modifier;
+        multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+    }
     if( faults.count( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
-                                           0 ) / ( type->gun->overheat_threshold ) * 5.0 ) ) ) {
+                                           0 ) / std::max( type->gun->overheat_threshold * multiplier + modifier, 5.0 ) * 5.0 ) ) ) {
         case 1:
             return "";
         case 2:
@@ -13642,8 +13648,19 @@ bool item::process_blackpowder_fouling( Character *carrier )
 bool item::process_gun_cooling( Character *carrier )
 {
     double heat = get_var( "gun_heat", 0 );
-    double threshold = type->gun->overheat_threshold;
-    heat -= type->gun->cooling_value;
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    double cooling_modifier = 0;
+    float cooling_multiplier = 1.0f;
+    for( const item *mod : gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+        cooling_modifier += mod->type->gunmod->cooling_value_modifier;
+        cooling_multiplier *= mod->type->gunmod->cooling_value_multiplier;
+    }
+    double threshold = std::max( ( type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
+    heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
     if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
         faults.erase( fault_overheat_safety );

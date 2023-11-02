@@ -374,7 +374,7 @@
       },
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
-    "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -421,7 +421,7 @@
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
     "tick_action": [ "EPIC_MUSIC" ],
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mp3",
@@ -730,6 +730,7 @@
     "type": "TOOL",
     "name": { "str": "UPS (on)", "str_pl": "UPSes (on)" },
     "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly.",
+    "//": "Intended as an inverter that attaches to a battery, therefore it's volume will expand based on the size of battery attached.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
@@ -762,6 +763,7 @@
     "type": "TOOL",
     "name": { "str": "UPS (off)", "str_pl": "UPSes (off)" },
     "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly.  Use it to turn it on.",
+    "//": "Intended as an inverter that attaches to a battery, therefore it's volume will expand based on the size of battery attached.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,

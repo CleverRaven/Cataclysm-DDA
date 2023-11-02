@@ -478,7 +478,7 @@ static std::vector<std::string> recipe_info(
                    "because of the proficiencies the crafter has.</color>\n" ), max_skill_malus - skill_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
-        oss << _( "<color_red>Cannot be crafted because the crafter lacs"
+        oss << _( "<color_red>Cannot be crafted because the crafter lacks"
                   " the required proficiencies.</color>\n" );
     }
 
@@ -709,7 +709,7 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
         }
         if( has_varsize_components ) {
             info.emplace_back( "DESCRIPTION",
-                               _( "<bold>Note:</bold> if crafted from poorly-fitting components, the resulting item may also be poorly-fitted." ) );
+                               _( "<bold>Note:</bold> If crafted from poorly-fitting components, the resulting item may also be poorly-fitted." ) );
         }
     }
 }

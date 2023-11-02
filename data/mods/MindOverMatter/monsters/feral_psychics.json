@@ -434,7 +434,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": { "effect": { "id": "death_explosion_oneinfour", "hit_self": true } },
     "luminance": 50,
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin3" },
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
       {
