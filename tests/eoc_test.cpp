@@ -69,6 +69,8 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_inv_prepare( "EOC_run_inv_prepare" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_run_inv_test1" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
@@ -710,18 +712,12 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     clear_avatar();
     clear_map();
 
-    item weapon( itype_test_knife_combat );
-    item backpack( itype_backpack );
-    get_avatar().set_wielded_item( weapon );
-    get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
-    get_avatar().i_add( item( itype_test_knife_combat ) );
-    get_avatar().i_add( item( itype_backpack ) );
-
     tripoint_abs_ms pos_before = get_avatar().get_location();
     tripoint_abs_ms pos_after = pos_before + tripoint_south_east;
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
+    effect_on_condition_EOC_run_inv_prepare->activate( d );
     std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
         return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
     } );

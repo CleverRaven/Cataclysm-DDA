@@ -15,6 +15,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_inv_prepare",
+    "effect": [
+      { "u_spawn_item": "test_knife_combat", "force_equip": true },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": "test_knife_combat", "force_equip": false },
+      { "u_spawn_item": "backpack", "force_equip": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_inv_test1",
     "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_run_inv_test1_nested" ] } ]
   },
