@@ -1730,8 +1730,7 @@ bool monster::is_on_ground() const
 bool monster::has_weapon() const
 {
     return has_flag( mon_flag_WIELDED_WEAPON ) && !has_effect( effect_disarmed ) &&
-           // monsters can actually have weapons, silly
-           !has_effect( effect_maimed_arm );
+           !has_effect( effect_maimed_arm ); // monsters can actually have weapons, silly
 }
 
 bool monster::is_warm() const
