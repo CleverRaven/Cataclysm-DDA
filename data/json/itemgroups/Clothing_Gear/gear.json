@@ -74,6 +74,7 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
+      [ "superglue", 5 ],
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
