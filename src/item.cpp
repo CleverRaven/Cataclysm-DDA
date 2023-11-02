@@ -2585,13 +2585,29 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const int max_value = v.second;
         const int min_rda = player_character.vitamin_RDA( v.first, min_value );
         const int max_rda = player_character.vitamin_RDA( v.first, max_value );
+        std::pair<std::string, std::string> weight_and_units = v.first->mass_str_from_units( v.second );
+        std::string weight_str;
+        if( !weight_and_units.first.empty() ) {
+            if( min_value != max_value ) {
+                std::pair<std::string, std::string> min_weight_and_units = v.first->mass_str_from_units(
+                            min_nutr.get_vitamin( v.first ) );
+                const bool show_first_unit = ( min_value != 0 ) &&
+                                             ( min_weight_and_units.second != weight_and_units.second );
+                std::string first_string = string_format( !show_first_unit ? "%s" : "%s %s",
+                                           min_weight_and_units.first, min_weight_and_units.second );
+                weight_str = string_format( "%s-%s %s ", first_string, weight_and_units.first,
+                                            weight_and_units.second );
+            } else {
+                weight_str = string_format( "%s %s ", weight_and_units.first, weight_and_units.second );
+            }
+        }
         std::string format;
         if( is_vitamin ) {
-            format = min_value == max_value ? "%s (%i%%)" : "%s (%i-%i%%)";
-            return string_format( format, v.first->name(), min_rda, max_rda );
+            format = min_value == max_value ? "%s%s (%i%%)" : "%s%s (%i-%i%%)";
+            return string_format( format, weight_str, v.first->name(), min_rda, max_rda );
         }
-        format = min_value == max_value ? "%s (%i U)" : "%s (%i-%i U)";
-        return string_format( format, v.first->name(), min_value, max_value );
+        format = min_value == max_value ? "%s%s (%i U)" : "%s%s (%i-%i U)";
+        return string_format( format, weight_str, v.first->name(), min_value, max_value );
     };
 
     const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins() );
