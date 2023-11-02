@@ -204,7 +204,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "EOD fragmentation plate" },
-    "description": "A polygonal fragmentation plate with a slightly concave profile, made of thin layers of steel, UHMW polyethylene, foam, and kevlar.  Though certified to provide protection from fragmentation, it will not provide much protection from firearms.  This is intended to be inserted into an EOD suit, and can't be worn on its own.",
+    "description": "A polygonal fragmentation plate with a slightly concave profile, made of thin layers of steel, UHMW polyethylene, foam, and Kevlar.  Though certified to provide protection from fragmentation, it will not provide much protection from firearms.  This is intended to be inserted into an EOD suit, and can't be worn on its own.",
     "weight": "2800 g",
     "volume": "2950 ml",
     "longest_side": "46 cm",
