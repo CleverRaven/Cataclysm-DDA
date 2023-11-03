@@ -69,6 +69,8 @@ static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_m
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_1( "EOC_recipe_test_1" );
 static const effect_on_condition_id effect_on_condition_EOC_recipe_test_2( "EOC_recipe_test_2" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_inv_prepare( "EOC_run_inv_prepare" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_run_inv_test1" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
@@ -83,6 +85,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
 static const effect_on_condition_id
 effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_string_test( "EOC_string_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
@@ -708,18 +712,12 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     clear_avatar();
     clear_map();
 
-    item weapon( itype_test_knife_combat );
-    item backpack( itype_backpack );
-    get_avatar().set_wielded_item( weapon );
-    get_avatar().worn.wear_item( get_avatar(), backpack, false, false );
-    get_avatar().i_add( item( itype_test_knife_combat ) );
-    get_avatar().i_add( item( itype_backpack ) );
-
     tripoint_abs_ms pos_before = get_avatar().get_location();
     tripoint_abs_ms pos_after = pos_before + tripoint_south_east;
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
+    effect_on_condition_EOC_run_inv_prepare->activate( d );
     std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
         return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
     } );
@@ -1024,4 +1022,21 @@ TEST_CASE( "EOC_martial_art_test", "[eoc]" )
 
     CHECK( effect_on_condition_EOC_martial_art_test_2->activate( d ) );
     CHECK( !get_avatar().has_martialart( style_aikido ) );
+}
+
+TEST_CASE( "EOC_string_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
+
+    CHECK( effect_on_condition_EOC_string_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "<global_val:key1> <global_val:key2>" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "test1 test2" );
 }

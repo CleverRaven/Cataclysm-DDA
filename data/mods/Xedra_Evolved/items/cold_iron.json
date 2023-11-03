@@ -34,7 +34,7 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "melee_damage": { "xe_cold_iron_bash_damage": 6, "xe_cold_iron_cut_damage": 26 }
   },
   {
