@@ -39,6 +39,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -60,7 +61,8 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ]
   },
   {
@@ -119,6 +121,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -154,6 +157,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"
@@ -168,7 +172,7 @@
     "copy-from": "mon_feral_human_pipe",
     "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_pipe_fungal_corpse" },
     "burn_into": "mon_starer_pipe",
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
   {
     "id": "mon_feral_human_crowbar_fungal_infected",
@@ -176,7 +180,7 @@
     "copy-from": "mon_feral_human_crowbar",
     "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_crowbar_fungal_corpse" },
     "burn_into": "mon_starer_crowbar",
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
   {
     "id": "mon_feral_human_axe_fungal_infected",
@@ -184,7 +188,7 @@
     "copy-from": "mon_feral_human_axe",
     "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_axe_fungal_corpse" },
     "burn_into": "mon_starer_axe",
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
   {
     "id": "mon_feral_human_pipe_fungal_corpse",
@@ -252,6 +256,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "description": "The feral security guard fires their Beretta M9A1!"
       },
@@ -335,6 +340,7 @@
         "fake_skills": [ [ "gun", 1 ], [ "smg", 1 ] ],
         "fake_dex": 6,
         "fake_per": 6,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "ranges": [ [ 2, 7, "DEFAULT" ] ],
         "description": "The feral human shoots its crossbow!"
@@ -355,6 +361,7 @@
     "special_attacks": [ { "id": "feral_weapon_mace" } ],
     "death_drops": "feral_armored_death_drops_mace",
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] },
+    "//": "No synthetic armor proficiency because plate armor doesn't work the same as modern armor",
     "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 }
   },
   {
@@ -389,6 +396,7 @@
         "fake_dex": 8,
         "fake_per": 9,
         "ranges": [ [ 2, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "description": "The feral prepper haphazardly fires their firearm!"
       },
@@ -396,7 +404,7 @@
     ],
     "death_drops": "mon_feral_prepper_death_drops",
     "zombify_into": "mon_zombie_survivor",
-    "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_light_armor" ] },
+    "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_light_armor" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4 }
   },
   {
@@ -418,7 +426,12 @@
     "special_attacks": [ { "id": "feral_weapon_makeshift_machete" } ],
     "zombify_into": "mon_zombie_survivor",
     "delete": { "anger_triggers": [ "HURT" ] },
-    "extend": { "flags": [ "CLIMBS" ], "anger_triggers": [ "STALK" ], "weakpoint_sets": [ "wps_humanoid_light_armor" ] },
+    "extend": {
+      "flags": [ "CLIMBS" ],
+      "anger_triggers": [ "STALK" ],
+      "weakpoint_sets": [ "wps_humanoid_light_armor" ],
+      "families": [ "prof_wp_syn_armored" ]
+    },
     "fear_triggers": [ "HURT" ],
     "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4, "electric": 3 }
   },
@@ -447,6 +460,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 35, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The mad militiaman fires their rifle!"
@@ -503,6 +517,7 @@
         "fake_per": 9,
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The feral biker fires their shotgun!"
@@ -604,6 +619,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The feral officer fires their M18!"
@@ -642,7 +658,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_cop",
     "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
   {
     "id": "mon_feral_human_archaeologist",
@@ -660,6 +676,7 @@
         "no_ammo_sound": "",
         "fake_skills": [ [ "throw", 3 ] ],
         "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The feral human throws a rock!"

@@ -368,6 +368,7 @@
     "unarmed_allowed": true,
     "weighting": 2,
     "disarms": true,
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The %s is disarmed!" } ],
     "stun_dur": 1,
     "attack_vectors": [ "HAND" ]
   },
@@ -668,6 +669,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "disarms": true,
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The %s is disarmed!" } ],
     "attack_vectors": [ "HAND" ]
   }
 ]
