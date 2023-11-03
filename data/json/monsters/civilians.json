@@ -59,6 +59,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "chat_topics": [ "TALK_CIVILIAN_OFFICER" ],
     "//": "Copied from zombie cop",
     "melee_skill": 6,
@@ -71,7 +72,7 @@
       "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
     },
     "zombify_into": "mon_zombie_cop",
-    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "extend": { "flags": [ "DROPS_AMMO", "WIELDED_WEAPON" ] },
     "starting_ammo": { "40fmj": 10 },
     "special_attacks": [
       {
@@ -84,6 +85,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "description": "The officer fires their Glock 22!"
       }

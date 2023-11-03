@@ -338,7 +338,7 @@
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"
       },
       {
-        "text": "I have some gold to trade.",
+        "text": "About the gold you wanted…",
         "condition": { "u_has_var": "has_gold_deal", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_QUERY"
       },
@@ -683,7 +683,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
     "type": "talk_topic",
-    "dynamic_line": "I guess I am, yeah.  Feels like a stupid fetch quest.\"  They suddenly pause.  \"Hey.  If you happen across any gold out in the world, I'll pay you to bring it back for me.  Right now my assignment stipulates eight scrip per set, and I'd be willing to give you all of that.  I just want something else to do.  Just maybe don't mention it to the intercom, alright?  This is supposed to be my job.",
+    "dynamic_line": "I guess I am, yeah.  Feels like a stupid fetch quest.\"  They suddenly pause.  \"Hey.  If you happen across any gold out in the world, I'll pay you to bring it back for me.  Right now my assignment stipulates eight scrip per kilo, and I'd be willing to give you all of that.  I just want something else to do.  Just maybe don't mention it to the intercom, alright?  This is supposed to be my job.",
     "responses": [
       {
         "text": "You got it.  I'll let you know if I find any gold.",
@@ -714,7 +714,7 @@
         ],
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_TRADE"
       },
-      { "text": "That's all from me.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
+      { "text": "I don't have 200 gold for you right now.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
     ]
   },
   {

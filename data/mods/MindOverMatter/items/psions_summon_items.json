@@ -232,10 +232,12 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE" ],
+    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE", "NO_DROP" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HEAT_FOOD" } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -350 } ] } ]
+    }
   },
   {
     "id": "pyrokinetic_torch_weld",
@@ -248,10 +250,12 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_50", "FIRE" ],
+    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_50", "FIRE", "NO_DROP" ],
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [ { "type": "firestarter", "moves": 10 }, { "type": "OXYTORCH" } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_STAMINA", "add": -700 } ] } ]
+    }
   },
   {
     "id": "telekinetic_container_1",
@@ -1092,20 +1096,6 @@
         "volume_encumber_modifier": 0
       }
     ]
-  },
-  {
-    "id": "telekin_ritual_summon_strength_item",
-    "type": "GENERIC",
-    "name": { "str": "Enhanced Strength" },
-    "description": "You are focusing your concentration on moving very heavy objects.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 1,
-    "price_postapoc": 1,
-    "symbol": "0",
-    "color": "yellow",
-    "flags": [ "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "id": "telekin_ritual_summon_strength_enchant" } ] }
   },
   {
     "id": "telekin_lifting_jack_1",

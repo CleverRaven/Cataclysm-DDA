@@ -58,7 +58,7 @@ struct prof_window {
     void draw_header();
     void draw_profs();
     void draw_details();
-    void run();
+    void run( std::optional<proficiency_id> default_selection = std::nullopt );
 };
 
 std::vector<display_prof_deps *> &prof_window::get_current_set()
@@ -306,7 +306,7 @@ shared_ptr_fast<ui_adaptor> prof_window::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-void prof_window::run()
+void prof_window::run( std::optional<proficiency_id> default_selection )
 {
     if( !u ) {
         return;
@@ -325,6 +325,16 @@ void prof_window::run()
 
     populate_categories();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+
+    if( default_selection ) {
+        std::vector<display_prof_deps *> &cur_set = get_current_set();
+        for( int i = 0; i < static_cast<int>( cur_set.size() ); i++ ) {
+            if( cur_set[i]->first.id == default_selection.value() ) {
+                sel_prof = i;
+                break;
+            }
+        }
+    }
 
     bool done = false;
     while( !done ) {
@@ -387,8 +397,9 @@ void prof_window::run()
     }
 }
 
-void show_proficiencies_window( const Character &u )
+void show_proficiencies_window( const Character &u,
+                                std::optional<proficiency_id> default_selection )
 {
     prof_window w( &u );
-    w.run();
+    w.run( default_selection );
 }
