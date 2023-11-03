@@ -150,24 +150,28 @@
     "type": "SPELL",
     "name": "[Ψ]Refraction of Arms",
     "description": "Create the illusion of extra arms and wielded items to trick your enemies",
-    "message":"",
-    "teachable":false,
-    "valid_targets":[ "self" ],
-    "spell_class":"PHOTOKINETIC",
-    "skill":"metaphysics",
-    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect":"attack",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
     "effect_str": "effect_photokin_arms",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
-    "shape":"blast",
+    "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_light_arms') * 2000) + 6000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
-    "energy_source":"STAMINA",
-    "difficulty":2,
+    "energy_source": "STAMINA",
+    "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 2500,
     "final_energy_cost": 1000,
@@ -176,7 +180,6 @@
     "final_casting_time": 100,
     "casting_time_increment": -12.5,
     "learn_spells": { "photokinetic_rad_immunity": 5, "photokinetic_light_disintegrate": 12 }
-
   },
   {
     "id": "photokinetic_rad_immunity",
@@ -193,10 +196,14 @@
     "effect_str": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 8000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 8000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "energy_source": "STAMINA",
     "difficulty": 3,
@@ -211,27 +218,31 @@
   },
   {
     "id": "photokinetic_invisibility",
-    "type":"SPELL",
-    "name":"[Ψ]Veil of Light",
+    "type": "SPELL",
+    "name": "[Ψ]Veil of Light",
     "description": "Refract light around yourself to become invisible.",
-    "message":"",
-    "teachable":false,
-    "valid_targets":[ "self" ],
-    "spell_class":"PHOTOKINETIC",
-    "skill":"metaphysics",
-    "flags":[ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect":"attack",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
     "effect_str": "effect_photokin_invisibility",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
-    "shape":"blast",
+    "shape": "blast",
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 1500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 1500) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: photokinetic_invisibility') * 2000) + 4000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
-    "energy_source":"STAMINA",
-    "difficulty":4,
+    "energy_source": "STAMINA",
+    "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 3000,
     "final_energy_cost": 1200,
