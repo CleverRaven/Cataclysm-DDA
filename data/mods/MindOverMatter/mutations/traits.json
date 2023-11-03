@@ -26,7 +26,7 @@
     "id": "PHOTOKINETIC",
     "name": "Awakened Photokinetic",
     "points": 0,
-    "description": "Mental control of light.",
+    "description": "You have the power to control the light around you with your mind.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
