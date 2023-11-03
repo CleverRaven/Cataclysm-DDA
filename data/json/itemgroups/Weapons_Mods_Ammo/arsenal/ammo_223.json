@@ -56,6 +56,7 @@
     "id": "box_223_clips",
     "type": "item_group",
     "container-item": "ammo_box_army_3_clips",
+    "on_overflow": "discard",
     "items": [ { "group": "clip223_10rd_556", "count": 3 } ]
   },
   {
@@ -81,6 +82,7 @@
     "type": "item_group",
     "id": "ammo_can_belt223_pouch",
     "container-item": "cheap_ammo_pouch_belt223",
+    "on_overflow": "discard",
     "items": [ { "group": "belt223_4ball_1tracer" } ]
   },
   {
@@ -109,6 +111,7 @@
   {
     "type": "item_group",
     "id": "ammo_can_belt223_ball_pouch",
+    "on_overflow": "discard",
     "container-item": "cheap_ammo_pouch_belt223",
     "items": [ { "group": "belt223_ball" } ]
   },
@@ -138,6 +141,7 @@
     "id": "box_223_20_tracer",
     "type": "item_group",
     "container-item": "ammo_box_army_20_223",
+    "on_overflow": "discard",
     "items": [ { "item": "556_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 } ]
   },
   {
@@ -157,6 +161,7 @@
     "type": "item_group",
     "id": "ammo_can_belt223_4ap_tracer_1_pouch",
     "container-item": "cheap_ammo_pouch_belt223",
+    "on_overflow": "discard",
     "items": [ { "group": "belt223_4ap_1tracer" } ]
   },
   {
@@ -187,6 +192,7 @@
     "type": "item_group",
     "id": "ammo_can_belt223_5ap_pouch",
     "container-item": "cheap_ammo_pouch_belt223",
+    "on_overflow": "discard",
     "items": [ { "group": "belt223_5ap" } ]
   },
   {

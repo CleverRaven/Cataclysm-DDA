@@ -26,6 +26,7 @@
     "type": "item_group",
     "id": "ammo_box_9mmfmj",
     "container-item": "ammo_box_army_100_9mm_fmj",
+    "on_overflow": "discard",
     "items": [ { "item": "9mmfmj", "count": 1, "charges": 100 } ]
   },
   {
@@ -45,6 +46,7 @@
     "type": "item_group",
     "id": "ammo_box_9mm",
     "container-item": "ammo_box_army_100_9mm_jhp",
+    "on_overflow": "discard",
     "items": [ { "item": "9mm", "count": 1, "charges": 100 } ]
   }
 ]

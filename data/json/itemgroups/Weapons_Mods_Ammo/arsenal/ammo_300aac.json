@@ -27,6 +27,7 @@
     "type": "item_group",
     "id": "ammo_box_300blk",
     "container-item": "ammo_box_army_30_300blk",
+    "on_overflow": "discard",
     "items": [ { "item": "300blk_ss", "count": 1, "charges-min": 30, "charges-max": 30 } ]
   },
   {
@@ -56,6 +57,7 @@
     "id": "box_300blk_clips",
     "type": "item_group",
     "container-item": "ammo_box_army_3_clips",
+    "on_overflow": "discard",
     "items": [ { "group": "clip300_10rd_300blk", "count": 3 } ]
   },
   {
