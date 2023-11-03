@@ -10976,8 +10976,11 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
         }
     }
 
-    if( is_gun() ) {
+    if( is_gun() && !type->gun->ammo.empty() ) {
         return type->gun->ammo;
+    }
+    if( is_tool() && !type->tool->ammo_id.empty() ) {
+        return type->tool->ammo_id;
     }
     return contents.ammo_types();
 }
