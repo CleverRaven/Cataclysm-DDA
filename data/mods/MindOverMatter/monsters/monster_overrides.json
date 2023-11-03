@@ -90,12 +90,6 @@
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ]
   },
   {
-    "id": "mon_pattern_megafrog",
-    "copy-from": "mon_pattern_megafrog",
-    "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
-  },
-  {
     "id": "mon_strange_megafrog",
     "copy-from": "mon_strange_megafrog",
     "type": "MONSTER",
