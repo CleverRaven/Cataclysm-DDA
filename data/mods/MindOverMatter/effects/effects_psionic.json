@@ -818,7 +818,7 @@
     "remove_message": "Your sight returns!",
     "rating": "bad",
     "show_in_info": true,
-    "immune_flags": ["PHOTOKINETIC"],
+    "immune_flags": [ "PHOTOKINETIC" ],
     "flags": [ "BLIND" ]
   },
   {
