@@ -60,7 +60,7 @@
   {
     "id": "photokinetic_light_dodge_monster",
     "type": "SPELL",
-    "name": "[Ψ]Tric of the Light Monster",
+    "name": "[Ψ]Trick of the Light Monster",
     "description": "Manipulate the light around you, creating small illusions around your body to become harder to hit.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
