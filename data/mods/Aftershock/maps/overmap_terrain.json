@@ -116,7 +116,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "maintenance_outpost_a1", "maintenance_outpost_a2", "maintenance_outpost_b1", "maintenance_outpost_b2" ],
+    "id": [
+      "maintenance_outpost_a1",
+      "maintenance_outpost_a2",
+      "maintenance_outpost_b1",
+      "maintenance_outpost_b2",
+      "maintenance_outpost_a1_roof",
+      "maintenance_outpost_a2_roof",
+      "maintenance_outpost_b1_roof",
+      "maintenance_outpost_b2_roof"
+    ],
     "name": "maintenance outpost",
     "sym": "i",
     "color": "cyan",
