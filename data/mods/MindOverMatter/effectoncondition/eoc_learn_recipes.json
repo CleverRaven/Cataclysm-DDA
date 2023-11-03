@@ -41,10 +41,10 @@
       { "u_learn_recipe": "practice_photokinetic_invisibility" },
       { "u_learn_recipe": "practice_photokinetic_light_beam" },
       { "u_learn_recipe": "practice_photokinetic_light_image" },
-      {"u_learn_recipe": "practice_photokinetic_rad_immunity"},
-      {"u_learn_recipe": "practice_photokinetic_light_arms"},
-      {"u_learn_recipe": "practice_photokinetic_light_disintegrate"},
-      {"u_learn_recipe": "practice_photokinetic_light_flash"}
+      { "u_learn_recipe": "practice_photokinetic_rad_immunity" },
+      { "u_learn_recipe": "practice_photokinetic_light_arms" },
+      { "u_learn_recipe": "practice_photokinetic_light_disintegrate" },
+      { "u_learn_recipe": "practice_photokinetic_light_flash" }
     ]
   },
   {
