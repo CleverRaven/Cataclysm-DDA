@@ -17,6 +17,12 @@
         "name": { "str": "m2101-UASTA shotgun" },
         "description": "The standard issue combat shotgun of UICA marine and colonial forces.  Shot shells have poor performance against modern combat armor, so the M2101 is more often used during policing and peacekeeping operations.",
         "weight": 2
+      },
+      {
+        "id": "branded",
+        "name": { "str": "Benelli 315" },
+        "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
+        "weight": 2
       }
     ]
   },

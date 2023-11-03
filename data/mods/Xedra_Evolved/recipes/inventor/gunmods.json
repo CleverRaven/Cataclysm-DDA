@@ -258,5 +258,200 @@
       [ [ "e_scrap", 15 ] ],
       [ [ "duct_tape", 20 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_adv_cooler",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "electronics", 3 ],
+    "time": "3 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "e_scrap", 15 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_adv_adv_cooler",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "electronics", 3 ],
+    "time": "3 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "inventor_lasmod_adv_cooler", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "duct_tape", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_recuperator",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 4 ],
+    "time": "4 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 3 ] ],
+      [ [ "cable", 120 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "e_scrap", 11 ] ],
+      [ [ "duct_tape", 15 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_mega_everything",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "electronics", 3 ],
+    "time": "3 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "inventor_lasmod_mega_capasitor", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "cable", 30 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "e_scrap", 25 ] ],
+      [ [ "duct_tape", 30 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_radiator",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 2 ],
+    "time": "2 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 80 ] ], [ [ "duct_tape", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_chonky_radiator",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 4 ],
+    "time": "3 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 14 ] ], [ [ "cable", 80 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "duct_tape", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_spooky_heat_sink",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "electronics", 3 ],
+    "time": "3 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 80 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 3 ] ], [ [ "duct_tape", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "inventor_lasmod_more_capacitors",
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "skills_required": [ "electronics", 4 ],
+    "time": "3 h",
+    "reversible": true,
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "circuit", 3 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "e_scrap", 15 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ]
   }
 ]

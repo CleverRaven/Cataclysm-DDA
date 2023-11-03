@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <map>
 
+#include "assign.h"
 #include "calendar.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -61,6 +62,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
     vit.rate_ = read_from_json_string<time_duration>( jo.get_member( "rate" ), time_duration::units );
+    assign( jo, "weight_per_unit", vit.weight_per_unit );
 
     if( !jo.has_string( "vit_type" ) ) {
         jo.throw_error_at( "vit_type", "vitamin must have a vitamin type" );
@@ -120,6 +122,16 @@ float vitamin::RDA_to_default( int percent ) const
         return percent;
     }
     return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
+}
+
+int vitamin::units_from_mass( units::mass mass ) const
+{
+    if( !weight_per_unit.has_value() ) {
+        debugmsg( "Tried to convert vitamin in mass to units, but %s doesn't support mass for vitamins",
+                  id_.str() );
+        return 1;
+    }
+    return mass / *weight_per_unit;
 }
 
 namespace io

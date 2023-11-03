@@ -42,7 +42,7 @@
       { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
     "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6 }
   },
   {
@@ -127,7 +127,18 @@
     "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "WIELDED_WEAPON"
+    ],
     "armor": { "bash": 4, "cut": 4, "stab": 4, "bullet": 4 }
   },
   {
@@ -174,6 +185,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield fires their Glock!"
@@ -195,7 +207,8 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   },
@@ -239,6 +252,7 @@
         "fake_per": 9,
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield fires their shotgun!"
@@ -258,7 +272,8 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
@@ -302,6 +317,7 @@
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield shoots their flamethrower!"
@@ -321,7 +337,8 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }

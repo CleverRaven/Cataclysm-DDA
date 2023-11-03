@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "action.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -44,6 +45,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "popup.h"
+#include "ranged.h"
 #include "recipe_groups.h"
 #include "talker.h"
 #include "type_id.h"
@@ -673,7 +676,8 @@ void conditional_t::set_has_part_temp( const JsonObject &jo, std::string_view me
     optional( jo, false, "bodypart", bp );
     condition = [dov, bp, is_npc]( dialogue & d ) {
         bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->get_cur_part_temp( bid ) >= dov.evaluate( d );
+        return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp(
+                bid ) ) >= dov.evaluate( d );
     };
 }
 
@@ -1372,6 +1376,63 @@ void conditional_t::set_query( const JsonObject &jo, std::string_view member, bo
     };
 }
 
+void conditional_t::set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    std::string type = jo.get_string( member.data() );
+    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
+    std::string message;
+    if( jo.has_member( "message" ) ) {
+        message = jo.get_string( "message" );
+    }
+    dbl_or_var range;
+    if( jo.has_member( "range" ) ) {
+        range = get_dbl_or_var( jo, "range" );
+    }
+    bool z_level = jo.get_bool( "z_level", false );
+    condition = [type, target_var, message, range, z_level, is_npc]( dialogue & d ) {
+        std::optional<tripoint> loc;
+        Character *ch = d.actor( is_npc )->get_character();
+        if( ch && ch->as_avatar() ) {
+            avatar *you = ch->as_avatar();
+            if( type == "anywhere" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                tripoint center = d.actor( is_npc )->pos();
+                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
+                loc = g->look_around( looka_params ).position;
+            } else if( type == "line_of_sight" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
+                if( !traj.empty() ) {
+                    loc = traj.back();
+                }
+            } else if( type == "around" ) {
+                if( !message.empty() ) {
+                    loc = choose_adjacent( message );
+                } else {
+                    loc = choose_adjacent( _( "Choose direction" ) );
+                }
+            } else {
+                debugmsg( string_format( "Invalid selection type: %s", type ) );
+            }
+
+        }
+        if( loc.has_value() ) {
+            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
+            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
+                             pos_global.to_string() );
+        }
+        return loc.has_value();
+    };
+}
+
 void conditional_t::set_x_in_y_chance( const JsonObject &jo, const std::string_view member )
 {
     const JsonObject &var_obj = jo.get_object( member );
@@ -1408,6 +1469,17 @@ void conditional_t::set_map_ter_furn_with_flag( const JsonObject &jo, std::strin
         } else {
             return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
         }
+    };
+}
+
+void conditional_t::set_map_in_city( const JsonObject &jo, std::string_view member )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
+        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
+        return c && c.get_distance_from_bounds() <= 0;
     };
 }
 
@@ -1882,7 +1954,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             }
             return [is_npc, bp]( dialogue const & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-                return d.actor( is_npc )->get_cur_part_temp( bid );
+                return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp( bid ) );
             };
         } else if( checked_value == "dodge" ) {
             return [is_npc]( dialogue const & d ) {
@@ -2177,11 +2249,11 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             };
         } else if( checked_value == "body_temp" ) {
             return [is_npc]( dialogue const & d ) {
-                return d.actor( is_npc )->get_body_temp();
+                return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_body_temp() );
             };
         } else if( checked_value == "body_temp_delta" ) {
             return [is_npc]( dialogue const & d ) {
-                return d.actor( is_npc )->get_body_temp_delta();
+                return units::to_legacy_bodypart_temp_delta( d.actor( is_npc )->get_body_temp_delta() );
             };
         } else if( checked_value == "npc_trust" ) {
             return [is_npc]( dialogue const & d ) {
@@ -3263,6 +3335,15 @@ void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view me
     };
 }
 
+void conditional_t::set_using_martial_art( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [style_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->using_martial_art( matype_id( style_to_check.evaluate( d ) ) );
+    };
+}
+
 static const
 std::vector<condition_parser>
 parsers = {
@@ -3270,6 +3351,7 @@ parsers = {
     {"u_has_trait", "npc_has_trait", jarg::member, &conditional_t::set_has_trait },
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_t::set_has_visible_trait },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_t::set_has_martial_art },
+    {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_t::set_using_martial_art },
     {"u_has_flag", "npc_has_flag", jarg::member, &conditional_t::set_has_flag },
     {"u_has_species", "npc_has_species", jarg::member, &conditional_t::set_has_species },
     {"u_bodytype", "npc_bodytype", jarg::member, &conditional_t::set_bodytype },
@@ -3294,6 +3376,7 @@ parsers = {
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
     {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
+    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_t::set_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_t::set_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_t::set_near_om_location },
     {"u_has_var", "npc_has_var", jarg::string, &conditional_t::set_has_var },
@@ -3330,6 +3413,7 @@ parsers = {
     {"is_weather", jarg::member, &conditional_t::set_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
+    {"map_in_city", jarg::member, &conditional_t::set_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_t::set_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_t::set_has_faction_trust },
     {"compare_int", jarg::member, &conditional_t::set_compare_num },

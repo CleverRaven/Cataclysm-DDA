@@ -33,7 +33,7 @@ affordability
 affordably
 afterbirth
 aftereffect
-aftereffects 
+aftereffects
 afterglow
 afterimage
 afterlife
@@ -637,6 +637,7 @@ coverplate
 crablike
 cracklins
 craftable
+crafter
 craftsfolk
 craftswoman
 craftwork
@@ -977,6 +978,7 @@ everfrost
 eviscerations
 exactingly
 exchangeable
+exchanger
 excreta
 excretions
 exhorts
@@ -2470,6 +2472,7 @@ reckonin
 reclines
 recolherem
 recrafted
+recuperator
 recursively
 recurve
 recutita
@@ -2568,6 +2571,7 @@ rrrip
 rrrrip
 rubra
 rugerlcp
+ruggedized
 ruleset
 ruminant
 ruminants
@@ -3000,7 +3004,7 @@ teshuvah
 testbed
 tetradrachm
 tetrahedron
-thaumaturge 
+thaumaturge
 thaumaturgical
 thawb
 themm
