@@ -54,8 +54,6 @@ Adds priority parameter for special placement
 Add ignored_monster_species spell parameter
 Monsters affiliated with factions will watch for theft of faction items
 Add Map related EoC functions
-Add door_locks to prisoner, armored and luxury vehicles
-[innawood] Add streams to the river starting location
 
 
 ## Content:
@@ -101,15 +99,6 @@ Add some backstory to Eddie McKenzie.
 Add some prosthetics.
 Added Bulk Storage Mounds and Piles for More Resources
 Add undomesticated wild rabbits
-Adds a small onpause buff to Brawling
-Cattail can be planted in shallow water
-Gives the drop hammer an anvil quality.
-Stockings variants
-Give Eddie some more personality.
-Add the starting profession "Butcher
-Revamp foldable solar panels
-Fungal infestation map extra
-Added item ASCII art for ammo and batteries
 
 
 ## Interface:
@@ -189,13 +178,9 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
-Allow removal of teleporter area attunement
-Change Arvore One with the Forest to reduce thirst
 XE: Add gossamer material and clothing
-Add Paraclesian transformation potions to top level alchemy perk
-Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
-Add Hodag, a biokinetic mutant cow
-Add tier 3 feral telepath, the Instiller of Nightmares
+XE:  transformation potions to top level alchemy perk
+MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
 
 
 ## Balance:
@@ -233,13 +218,6 @@ Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
 Improved path for intelligent monsters
-Adds more spawns to several items
-Small improvements to the mercenary coat and pants
-Allow culling of more tamed dog breeds, including mutants
-Plenty of changes regarding wax and the addition of paraffin wax
-Add basic metalworking equipment to the general tools pools, meaning they'll show up in more places
-Update the recipe of Steel Kevlar Jumpsuits for consistency
-Make EOD gloves match their real life counterpart
 Threatening to kill NPCs(recruitment) is more likely to make them hostile
 
 
@@ -320,25 +298,6 @@ Skip auto sorting items that don't belong to you
 Use correct actor in bulk trade messages
 Your nemesis will still hunt you even if you spawn on a roof at the start
 Gas masks only use charges on fields with gas_absorption_factor set
-Fix milling
-Adjust Cloak of Warmth enchantment to prevent overheating
-Zweihanders are bad butchering tools
-Changes cull pet hotkey to be different from play
-Fix gun store item ownership
-Fix cash cards spawning with rand_charges
-Fix barley and buckwheat multiplication glitch.
-Fix evaluation of Knowledge in chargen
-Rubik will stop complaining about the heavy thuds of their own robots
-Gunmods on your shotgun do not change the dispersion unless explicitly intended to
-Fix Defense Mode mod compatibility map generation.
-Improve forest generation next to rivers and lakes
-[MoM] Fix Marksman's Eye duration
-Fix Speed Reader duration
-Update washboard length to be the same as washing kit
-Change Town Car engine to match name and fuel type
-New characters don't start with martial arts style set to 'Force unarmed'
-Fix handling of item modifiers overriding tool charges from subgroups
-Adjust damage bonuses of guns
 
 
 ## Performance:
