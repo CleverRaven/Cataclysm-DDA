@@ -284,7 +284,7 @@
               { "not": { "u_has_trait": "NO_LEFT_ARM" } },
               { "not": { "u_has_var": "missing_left_arm", "type": "traits", "context": "limbs", "value": "yes" } },
               {
-                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 1 }, "y": 100 }
+                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 15 }, "y": 100 }
               },
               { "math": [ "_damage", ">=", "u_hp_max('arm_l') * 0.25" ] }
             ]
@@ -307,7 +307,7 @@
               { "not": { "u_has_trait": "NO_RIGHT_ARM" } },
               { "not": { "u_has_var": "missing_right_arm", "type": "traits", "context": "limbs", "value": "yes" } },
               {
-                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 1 }, "y": 100 }
+                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 15 }, "y": 100 }
               },
               { "math": [ "_damage", ">=", "u_hp_max('arm_r') * 0.25" ] }
             ]
@@ -330,7 +330,7 @@
               { "not": { "u_has_trait": "NO_LEFT_LEG" } },
               { "not": { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" } },
               {
-                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 1 }, "y": 100 }
+                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 15 }, "y": 100 }
               },
               { "math": [ "_damage", ">=", "u_hp_max('leg_l') * 0.25" ] }
             ]
@@ -353,7 +353,7 @@
               { "not": { "u_has_trait": "NO_RIGHT_LEG" } },
               { "not": { "u_has_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" } },
               {
-                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 1 }, "y": 100 }
+                "x_in_y_chance": { "x": { "math": [ "(u_hp('leg_r') / u_hp_max('leg_r')) * (_damage / 2)" ], "default": 15 }, "y": 100 }
               },
               { "math": [ "_damage", ">=", "u_hp_max('leg_r') * 0.25" ] }
             ]
