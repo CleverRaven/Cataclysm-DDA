@@ -472,7 +472,7 @@
   {
     "id": "mon_feral_human_photokin3",
     "type": "MONSTER",
-    "name": "Feral Pulsar",
+    "name": "Atom Splitter",
     "description": "Flashes of light occasionally radiate from this feral. Their skin is translucent but also seems to emit light.  They are clearly still lucid but their expression is blank and their eyes are unfocused.",
     "default_faction": "zombie",
     "looks_like": "chud",
