@@ -39,8 +39,8 @@
   },
   {
     "id": "photokinetic_light_dodge",
-    "type":"SPELL",
-    "name":"[Ψ]Trick of the Light",
+    "type": "SPELL",
+    "name": "[Ψ]Trick of the Light",
     "description": "Manipulate the light around you, creating small illusions around your body to become harder to hit",
     "message":"",
     "teachable":false,
