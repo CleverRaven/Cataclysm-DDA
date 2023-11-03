@@ -4696,7 +4696,7 @@
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
     "charges": 50,
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "dry_garlic", 1 ] ] ]
   },
   {
