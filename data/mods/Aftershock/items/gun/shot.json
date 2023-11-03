@@ -27,7 +27,7 @@
     ]
   },
   {
-    "id": "afs_shotgun_railgun",
+    "id": "afs_shotgun_magnastorm",
     "copy-from": "mossberg_590",
     "type": "GUN",
     "name": { "str": "Accipiter Magnastorm-12" },

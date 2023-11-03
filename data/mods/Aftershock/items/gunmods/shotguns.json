@@ -39,6 +39,7 @@
     "location": "bore",
     "mod_targets": [ "shotgun" ],
     "damage_modifier": { "damage_type": "electric", "amount": 3, "armor_penetration": 7 },
+    "energy_drain_modifier": "20 kJ",
     "ammo_effects": [ "SMALL_ELECTRIC_BURST" ],
     "dispersion_modifier": 15,
     "range_modifier": 5,
