@@ -1508,9 +1508,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
         std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_shelf_life() - rot );
+            clipped_time( std::max( get_shelf_life() - rot, 0_seconds ) );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_shelf_life() - rhs.rot );
+            clipped_time( std::max( rhs.get_shelf_life() - rhs.rot, 0_seconds ) );
         if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
             my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
@@ -12243,11 +12243,22 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents() const
 {
-    if( type->category_force == item_category_container && contents_only_one_type() ) {
-        return contents.first_item().get_category_of_contents();
-    } else {
-        return this->get_category_shallow();
+    if( type->category_force == item_category_container ) {
+        const std::list<const item *> items = contents.all_items_top( item_pocket::pocket_type::CONTAINER );
+        if( !items.empty() ) {
+            const item_category &category_of_first_item = items.front()->get_category_of_contents();
+            if( items.size() == 1 ) {
+                return category_of_first_item;
+            }
+            const auto has_same_category = [&category_of_first_item]( const item * i ) {
+                return i->get_category_of_contents() == category_of_first_item;
+            };
+            if( std::all_of( ++items.begin(), items.end(), has_same_category ) ) {
+                return category_of_first_item;
+            }
+        }
     }
+    return this->get_category_shallow();
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
