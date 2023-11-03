@@ -812,12 +812,11 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
 
     // Math function test for armor
-    backpack.clear_items();
-    get_avatar().worn.wear_item( get_avatar(), backpack, false, true );
+    CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
+
     const item &check_item = get_avatar().worn.i_at( 0 );
 
     REQUIRE( check_item.typeId() == itype_backpack );
-    CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
     CHECK( std::stod( get_avatar().get_value( "npctalk_var_key1" ) ) == Approx( 27 ) );
     CHECK( std::stod( get_avatar().get_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
     CHECK( std::stod( check_item.get_var( "npctalk_var_key1" ) ) == Approx( 27 ) );

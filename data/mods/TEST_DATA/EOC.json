@@ -148,6 +148,7 @@
     "type": "effect_on_condition",
     "id": "EOC_armor_math_test",
     "effect": [
+      { "u_spawn_item": "backpack", "force_equip": true },
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "id": "backpack", "worn_only": true } ],
