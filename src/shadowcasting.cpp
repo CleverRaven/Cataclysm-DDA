@@ -11,7 +11,7 @@
 #include "point.h"
 
 struct slope {
-    slope( int_least8_t rise, int_least8_t run ) {
+    slope( int_least16_t rise, int_least16_t run ) {
         // Ensure run is always positive for the inequality operators
         this->run = std::abs( run );
         if( run < 0 ) {
@@ -23,8 +23,8 @@ struct slope {
 
     // We don't need more that 8 bits since the shadowcasting area is not that large,
     // currently the radius is 60.
-    int_least8_t rise;
-    int_least8_t run;
+    int_least16_t rise;
+    int_least16_t run;
 };
 
 static bool operator<( const slope &lhs, const slope &rhs )
@@ -152,7 +152,7 @@ void cast_horizontal_zlight_segment(
     const tripoint &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = 120 - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -341,7 +341,7 @@ void cast_vertical_zlight_segment(
     const tripoint &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = 120 - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;

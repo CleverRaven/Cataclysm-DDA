@@ -31,7 +31,7 @@ constexpr int MAX_ITEM_IN_VEHICLE_STORAGE = MAX_ITEM_IN_SQUARE;
 // only can wear a maximum of two of any type of clothing.
 constexpr int MAX_WORN_PER_TYPE = 2;
 
-constexpr int MAPSIZE = 11;
+constexpr int MAPSIZE = 21;
 constexpr int HALF_MAPSIZE = static_cast<int>( MAPSIZE / 2 );
 
 // SEEX/SEEY define the size of a nonant, or grid.
