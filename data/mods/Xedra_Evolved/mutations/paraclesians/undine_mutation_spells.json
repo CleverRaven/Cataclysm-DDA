@@ -87,6 +87,7 @@
     "type": "SPELL",
     "name": "Grant buoyancy",
     "description": "You become more buoyant.",
+    "skill": "deduction",
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "spell_class": "UNDINE",

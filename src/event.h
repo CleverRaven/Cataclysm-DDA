@@ -40,6 +40,7 @@ enum class event_type : int {
     // fueling bionics
     character_casts_spell,
     character_consumes_item,
+    character_dies,
     character_eats_item,
     character_finished_activity,
     character_forgets_spell,
@@ -181,7 +182,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 96,
+static_assert( static_cast<int>( event_type::num_event_types ) == 97,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -278,14 +279,22 @@ struct event_spec<event_type::character_eats_item> : event_spec_character_item {
 
 template<>
 struct event_spec<event_type::character_casts_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = { {
             { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
+            { "school", cata_variant_type::trait_id },
             { "difficulty", cata_variant_type::int_},
             { "cost", cata_variant_type::int_},
             { "cast_time", cata_variant_type::int_},
             { "damage", cata_variant_type::int_}
+        }
+    };
+};
 
+template<>
+struct event_spec<event_type::character_dies> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id }
         }
     };
 };
@@ -777,10 +786,15 @@ struct event_spec<event_type::seals_hazardous_material_sarcophagus> : event_spec
 
 template<>
 struct event_spec<event_type::spellcasting_finish> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 8> fields = { {
             { "character", cata_variant_type::character_id },
+            { "success", cata_variant_type::bool_ },
             { "spell", cata_variant_type::spell_id },
-            { "school", cata_variant_type::trait_id }
+            { "school", cata_variant_type::trait_id },
+            { "difficulty", cata_variant_type::int_},
+            { "cost", cata_variant_type::int_},
+            { "cast_time", cata_variant_type::int_},
+            { "damage", cata_variant_type::int_}
         }
     };
 };

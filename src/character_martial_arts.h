@@ -109,6 +109,9 @@ class character_martial_arts
 
         std::string enumerate_known_styles( const itype_id &weap ) const;
         std::string selected_style_name( const Character &owner ) const;
+        const matype_id &selected_style() const {
+            return style_selected;
+        }
 };
 
 #endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H

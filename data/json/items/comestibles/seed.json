@@ -264,9 +264,15 @@
     "copy-from": "seed",
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
-    "description": "Some cattail seeds.",
+    "description": "Some cattail seeds.  Must be planted in shallow water.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "cattail",
+      "fruit": "cattail_stalk",
+      "byproducts": [ "cattail_rhizome" ],
+      "grow": "91 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -594,6 +600,17 @@
     "description": "Some mugwort seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" },
+    "volume": "2 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_spinach",
+    "copy-from": "seed",
+    "name": { "str_sp": "spinach seeds" },
+    "color": "green",
+    "description": "Some spinach seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "spinach", "fruit": "spinach", "grow": "50 days" },
     "volume": "2 ml"
   },
   {

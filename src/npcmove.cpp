@@ -4478,13 +4478,13 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = chatbin.snip_cant_flee;
     } else if( type == "fire_bad" ) {
         snip = chatbin.snip_fire_bad;
-    } else if( type == "speech_noise" ) {
+    } else if( type == "speech_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
         snip = chatbin.snip_speech_warning;
         spriority = sounds::sound_t::speech;
-    } else if( type == "combat_noise" ) {
+    } else if( type == "combat_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
         snip = chatbin.snip_combat_noise_warning;
         spriority = sounds::sound_t::speech;
-    } else if( type == "movement_noise" ) {
+    } else if( type == "movement_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
         snip = chatbin.snip_movement_noise_warning;
         spriority = sounds::sound_t::speech;
     } else if( type == "heal_self" ) {

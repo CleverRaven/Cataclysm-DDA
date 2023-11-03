@@ -23,6 +23,7 @@
 #include "subbodypart.h"
 #include "localized_comparator.h"
 #include "type_id.h"
+#include "weather.h"
 
 class JsonObject;
 class JsonOut;
@@ -286,7 +287,7 @@ struct body_part_type {
         int squeamish_penalty = 0;
         bool feels_discomfort = true;
 
-        int fire_warmth_bonus = 0;
+        units::temperature_delta fire_warmth_bonus = 0_C_delta;
 
         //Innate environmental protection
         int env_protection = 0;
@@ -302,9 +303,9 @@ struct body_part_type {
         int ugliness_mandatory = 0;
 
         // Intrinsic temperature bonus of the bodypart
-        int temp_min = 0;
+        units::temperature_delta temp_min = 0_C_delta;
         // Temperature bonus to apply when not overheated
-        int temp_max = 0;
+        units::temperature_delta temp_max = 0_C_delta;
         int drench_max = 0;
         int drench_increment = 2;
         int drying_chance = 1;
@@ -436,8 +437,8 @@ class bodypart
         int hp_max = 0;
 
         int wetness = 0;
-        int temp_cur = 5000; // BODYTEMP_NORM = 5000
-        int temp_conv = 5000;
+        units::temperature temp_cur = BODYTEMP_NORM;
+        units::temperature temp_conv = BODYTEMP_NORM;
         int frostbite_timer = 0;
 
         int healed_total = 0;
@@ -491,8 +492,8 @@ class bodypart
         int get_drench_capacity() const;
         int get_wetness() const;
         int get_frostbite_timer() const;
-        int get_temp_cur() const;
-        int get_temp_conv() const;
+        units::temperature get_temp_cur() const;
+        units::temperature get_temp_conv() const;
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
 
@@ -506,8 +507,8 @@ class bodypart
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
         void set_wetness( int set );
-        void set_temp_cur( int set );
-        void set_temp_conv( int set );
+        void set_temp_cur( units::temperature set );
+        void set_temp_conv( units::temperature set );
         void set_frostbite_timer( int set );
 
         void set_encumbrance_data( const encumbrance_data &set );
@@ -520,8 +521,8 @@ class bodypart
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
         void mod_wetness( int mod );
-        void mod_temp_cur( int mod );
-        void mod_temp_conv( int mod );
+        void mod_temp_cur( units::temperature_delta mod );
+        void mod_temp_conv( units::temperature_delta mod );
         void mod_frostbite_timer( int mod );
 
         void serialize( JsonOut &json ) const;

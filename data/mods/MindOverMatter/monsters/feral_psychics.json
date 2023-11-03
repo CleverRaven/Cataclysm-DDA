@@ -434,7 +434,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": { "effect": { "id": "death_explosion_oneinfour", "hit_self": true } },
     "luminance": 50,
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin3" },
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
       {
@@ -760,7 +760,7 @@
     "melee_dice_sides": 4,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "dodge": 4,
+    "dodge": 3,
     "armor": { "psi_telepathic_damage": 20 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -780,8 +780,15 @@
         "id": "psi_telepath1_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
-        "cooldown": 10,
+        "cooldown": 20,
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
+      },
+      {
+        "id": "psi_telepath1_blast",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_blast_monster", "min_level": 1 },
+        "cooldown": 18,
+        "monster_message": "%1$s stares at %3$s!"
       }
     ],
     "flags": [
@@ -821,7 +828,7 @@
     "melee_dice_sides": 4,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "dodge": 6,
+    "dodge": 3,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 30,
@@ -834,21 +841,29 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 10 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep3" },
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
       {
         "id": "psi_telepath2_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
-        "cooldown": 8,
+        "cooldown": 16,
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
         "id": "psi_telepath2_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
-        "cooldown": 10,
+        "cooldown": 15,
         "monster_message": "%1$s stares at %3$s!"
+      },
+      {
+        "id": "psi_telepath2_horror",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_horror_monster", "min_level": 4 },
+        "cooldown": 25,
+        "monster_message": ""
       }
     ],
     "flags": [
@@ -864,6 +879,91 @@
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
+    ]
+  },
+  {
+    "id": "mon_feral_human_teep3",
+    "type": "MONSTER",
+    "name": { "str": "instiller of nightmares", "str_pl": "instillers of nightmares" },
+    "description": "Just another feral, with the typical bloodshot eyes and intense expression.  You have only a moment to think that before your heart starts racing in your chest and the hair stands up on the back of your neck as every instinct screams at you to run.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "color": "white",
+    "symbol": "@",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "dodge": 3,
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
+    "vision_day": 30,
+    "vision_night": 3,
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": "feral_humans_death_drops_teep",
+    "zombify_into": "mon_zombie_survivor",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "death_function": {
+      "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 15 },
+      "message": "As the %1$s dies, a scream fills your mind!"
+    },
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep3" },
+    "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
+      {
+        "id": "psi_telepath3_scream",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
+        "cooldown": 15,
+        "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
+      },
+      {
+        "id": "psi_telepath3_blast",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_blast_monster", "min_level": 5 },
+        "cooldown": 10,
+        "monster_message": "%1$s stares at %3$s!"
+      },
+      {
+        "id": "psi_telepath3_horror_aoe",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_horror_aoe_monster", "min_level": 15 },
+        "allow_no_target": true,
+        "cooldown": 25,
+        "monster_message": ""
+      },
+      {
+        "id": "psi_telepath3_freeze",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_primal_fear_monster", "min_level": 5 },
+        "cooldown": 35,
+        "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_FIRE",
+      "PRIORITIZE_TARGETS",
+      "TEEP_IMMUNE",
+      "ALL_SEEING"
     ]
   },
   {

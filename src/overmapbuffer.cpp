@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -48,6 +49,7 @@ static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
+static const oter_type_str_id oter_type_city_center( "city_center" );
 static const oter_type_str_id oter_type_deep_rock( "deep_rock" );
 static const oter_type_str_id oter_type_empty_rock( "empty_rock" );
 static const oter_type_str_id oter_type_field( "field" );
@@ -920,7 +922,8 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         ( oter->get_type_id() == oter_type_bridge_road ) ||
         ( oter->get_type_id() == oter_type_bridgehead_ground ) ||
         ( oter->get_type_id() == oter_type_bridgehead_ramp ) ||
-        ( oter->get_type_id() == oter_type_road_nesw_manhole ) ) {
+        ( oter->get_type_id() == oter_type_road_nesw_manhole ) ||
+        ( oter->get_type_id() == oter_type_city_center ) ) {
         return params.road_cost;
     } else if( oter->get_type_id() == oter_type_field ) {
         return params.field_cost;
@@ -1586,6 +1589,13 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
             format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     }
+
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( oter->get_type_id().obj().src,
+    []( const std::pair<oter_type_str_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    format_string += "\n" + string_format( _( "Origin: %s" ), mod_src );
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }

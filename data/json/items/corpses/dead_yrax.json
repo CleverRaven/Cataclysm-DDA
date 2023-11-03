@@ -14,5 +14,41 @@
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 20, "cut": 15 }
+  },
+  {
+    "id": "broken_golden_monolith",
+    "type": "GENERIC",
+    "symbol": "I",
+    "name": { "str": "golden monolith" },
+    "description": "A large golden monolith.  Carefully carved asymmetric edges betray its artificial origin.",
+    "volume": "930 L",
+    "//": "A lot of gold in this bad boy.",
+    "weight": "8282 kg",
+    "price": "50 USD",
+    "price_postapoc": "50 USD",
+    "melee_damage": { "bash": 1000 },
+    "material": [ "ceramic", "gold" ],
+    "color": "yellow",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "id": "broken_yrax_delta",
+    "type": "GENERIC",
+    "symbol": ",",
+    "name": { "str": "inert delta" },
+    "description": "A small piece of inscrutable alloy shaped like an arrow's broadhead.  It doesn't look like much of a robot once dead.",
+    "weight": "374 g",
+    "volume": "500 ml",
+    "longest_side": "20 cm",
+    "price": "50 USD",
+    "price_postapoc": "50 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
+    "melee_damage": { "stab": 23 },
+    "weapon_category": [ "SHIVS" ],
+    "material": [ "ceramic", "gold" ],
+    "color": "yellow",
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ]
   }
 ]

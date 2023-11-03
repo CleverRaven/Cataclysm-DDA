@@ -133,8 +133,8 @@
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_barley", 1 ] ] ],
-    "charges": 4
+    "components": [ [ [ "seed_barley", 4 ] ] ],
+    "charges": 1
   },
   {
     "result": "seed_tomato",
@@ -261,8 +261,8 @@
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "seed_buckwheat", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "seed_buckwheat", 2 ] ] ],
+    "charges": 1
   },
   {
     "result": "seed_dogbane",
@@ -284,6 +284,13 @@
     "copy-from": "seed_extraction_cutting",
     "components": [ [ [ "mugwort", 1 ] ] ],
     "charges": 2
+  },
+  {
+    "result": "seed_spinach",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "spinach", 1 ] ] ],
+    "charges": 3
   },
   {
     "result": "seed_mushroom",

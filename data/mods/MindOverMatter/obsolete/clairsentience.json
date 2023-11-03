@@ -1,0 +1,183 @@
+[
+  {
+    "id": "clair_night_vision_1",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #1",
+    "description": "Number #1 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_1",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_2",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #2",
+    "description": "Number #1 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_2",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_3",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #3",
+    "description": "Number #3 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_3",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_4",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #4",
+    "description": "Number #4 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_4",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_5",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #5",
+    "description": "Number #5 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_5",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_6",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #6",
+    "description": "Number #6 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_6",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_7",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #7",
+    "description": "Number #7 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_7",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "clair_night_vision_8",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes #8",
+    "description": "Number #8 of Night Eyes subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_night_eyes_8",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SPEED_READING_REMOvE",
+    "effect": [ { "u_lose_trait": "CLAIR_SPEED_READ" } ]
+  }
+]

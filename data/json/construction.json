@@ -2484,12 +2484,12 @@
   {
     "type": "construction",
     "id": "constr_fireplace",
-    "group": "build_stone_fireplace",
+    "group": "build_brick_fireplace",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "brick", 30 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_fireplace"
   },
@@ -5331,6 +5331,19 @@
   },
   {
     "type": "construction",
+    "id": "app_ground_solar",
+    "group": "place_ground_solar_panel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "ground_solar_panel", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_reinforced_solar",
     "group": "place_reinforced_solar_panel",
     "category": "APPLIANCE",
@@ -5351,6 +5364,19 @@
     "time": "6 m",
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel_v2", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_ground_solar_v2",
+    "group": "place_ground_solar_panel_v2",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "ground_solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
@@ -8384,7 +8410,7 @@
     "post_terrain": "f_dirtmound_tall",
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel",
-    "components": [ [ [ "material_soil", 420 ] ] ]
+    "components": [ [ [ "material_soil", 200 ] ] ]
   },
   {
     "type": "construction",

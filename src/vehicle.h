@@ -465,6 +465,9 @@ struct vehicle_part {
         /** Current part health as a percentage of maximum, with 1.0 being perfect condition */
         double health_percent() const;
 
+        /** The leaking thresold for the boat hull */
+        double floating_leak_threshold() const;
+
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
@@ -2122,6 +2125,12 @@ class vehicle
         * the hp (item damage), fuel charges (battery or liquids), aspect, ...
         */
         item part_to_item( const vehicle_part &vp ) const;
+
+        /**
+         * If the vehicle part has an item it is removed as, transform the item
+         * to the item it is removed_as
+         */
+        item removed_part( const vehicle_part &vp ) const;
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()

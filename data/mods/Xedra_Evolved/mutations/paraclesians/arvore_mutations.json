@@ -1099,7 +1099,6 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,
-    "thirst_modifier": -0.95,
     "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
@@ -1107,6 +1106,18 @@
     "//": "Healing values copied from the Regeneration mutation",
     "attackcost_modifier": 900,
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 40 },
+      { "part": "leg_l", "ignored": 40 },
+      { "part": "leg_r", "ignored": 40 },
+      { "part": "foot_l", "ignored": 40 },
+      { "part": "foot_r", "ignored": 40 },
+      { "part": "arm_l", "ignored": 40 },
+      { "part": "arm_r", "ignored": 40 },
+      { "part": "hand_l", "ignored": 40 },
+      { "part": "hand_r", "ignored": 40 },
+      { "part": "torso", "ignored": 40 }
+    ],
     "ignored_by": [
       "MAMMAL",
       "AMPHIBIAN",
@@ -1135,7 +1146,7 @@
       "HUMAN"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form" ]
+    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
   },
   {
     "type": "mutation",

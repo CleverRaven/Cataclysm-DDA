@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "10mm Auto FMJ" },
     "description": "Jacketed 10mm Auto ammunition with a 180gr bullet.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
+    "ascii_picture": "10mm_fmj",
     "weight": "17 g",
     "volume": "117 ml",
     "longest_side": "32 mm",

@@ -41,6 +41,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -73,9 +74,9 @@ static const std::string title_PROFICIENCIES = translate_marker( "PROFICIENCIES"
 static const unsigned int grid_width = 26;
 
 // Rescale temperature value to one that the player sees
-static int temperature_print_rescaling( int temp )
+static int temperature_print_rescaling( units::temperature temp )
 {
-    return ( temp / 100.0 ) * 2 - 100;
+    return ( units::to_legacy_bodypart_temp( temp ) / 100.0 ) * 2 - 100;
 }
 
 static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
@@ -115,26 +116,6 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Cha
         }
     }
     return bps;
-}
-
-static std::pair<int, int> subindex_around_cursor(
-    const int num_entries, const int available_space, const int cursor_pos, const bool focused )
-/**
- * Return indexes [start, end) that should be displayed from list long `num_entries`,
- * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
- *
- * Example:
- * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
- * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
- * return {1, 4}
- */
-{
-    if( !focused || num_entries <= available_space ) {
-        return { 0, std::min( available_space, num_entries ) };
-    }
-    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
-                                num_entries - available_space );
-    return {slice_start, slice_start + available_space };
 }
 
 void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win,
@@ -940,10 +921,10 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
             info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
                                        level.level(), level.exercise() );
             if( level.knowledgeLevel() > level.level() ) {
-                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
+                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            level_gap );
             } else {
-                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
+                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            learning_bonus );
             }
         }
@@ -1425,7 +1406,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 break;
             }
             case player_display_tab::proficiencies:
-                show_proficiencies_window( you );
+                const std::vector<display_proficiency> profs = you.display_proficiencies();
+                show_proficiencies_window( you, profs[line].id );
                 break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {

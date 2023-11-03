@@ -544,6 +544,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "sub": "hotplate_induction",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
@@ -1163,12 +1164,5 @@
     "dispersion": 50,
     "recoil": 350,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "burdock_stalk",
-    "name": { "str": "burdock stalk" },
-    "description": "A stiff, green stalk from a burdock plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
-    "copy-from": "cattail_stalk"
   }
 ]

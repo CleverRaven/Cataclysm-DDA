@@ -663,7 +663,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_CAN_BE_CULLED ) ) {
-        amenu.addentry( cull_pet, true, 'y', _( "Cull %s" ), pet_name );
+        amenu.addentry( cull_pet, true, 'k', _( "Cull %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
@@ -711,12 +711,12 @@ bool monexamine::pet_menu( monster &z )
         } else if( z.get_size() <= player_character.get_size() ) {
             amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
         } else if( player_character.get_skill_level( skill_survival ) < 1 ) {
-            amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
+            amenu.addentry( mount, false, 'r', _( "You require survival skill 1 to ride" ) );
         } else if( player_character.get_weight() >= z.get_weight() * z.get_mountable_weight_ratio() ) {
             amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
         } else if( !z.has_effect( effect_monster_saddled ) &&
                    player_character.get_skill_level( skill_survival ) < 4 ) {
-            amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
+            amenu.addentry( mount, false, 'r', _( "You require survival skill 4 to ride without a saddle" ) );
         }
     } else {
         const itype &type = *item::find_type( z.type->mech_battery );

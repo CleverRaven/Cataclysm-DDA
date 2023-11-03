@@ -262,6 +262,10 @@ void profession::load( const JsonObject &jo, const std::string_view )
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
+    optional( jo, was_loaded, "starting_styles", _starting_martialarts );
+    optional( jo, was_loaded, "starting_styles_choices", _starting_martialarts_choices );
+    optional( jo, was_loaded, "starting_styles_choices_amount", ma_choice_amount, 1 );
+
     // Flag which denotes if a profession is a hobby
     optional( jo, was_loaded, "subtype", _subtype, "" );
     optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
@@ -547,6 +551,16 @@ std::vector<bionic_id> profession::CBMs() const
 std::vector<proficiency_id> profession::proficiencies() const
 {
     return _starting_proficiencies;
+}
+
+std::vector<matype_id> profession::ma_known() const
+{
+    return _starting_martialarts;
+}
+
+std::vector<matype_id> profession::ma_choices() const
+{
+    return _starting_martialarts_choices;
 }
 
 std::vector<trait_and_var> profession::get_locked_traits() const

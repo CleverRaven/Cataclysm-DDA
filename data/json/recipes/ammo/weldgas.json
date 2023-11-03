@@ -88,7 +88,7 @@
         [ "bone_glue", 1 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
-        [ "wax", 1 ],
+        [ "wax_any", 1, "LIST" ],
         [ "candle", 1 ]
       ]
     ]
@@ -174,7 +174,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ], [ [ "wire_draw_machine", 120 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 11 ] ] ]
   },
   {

@@ -225,6 +225,22 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_MEATLAB",
+    "monsters": [
+      { "monster": "mon_null", "weight": 9 },
+      { "monster": "mon_amalgamation_swarmer", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_tiny", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_small", "weight": 2 },
+      { "monster": "mon_amalgamation_spotter", "weight": 2 },
+      { "monster": "mon_amalgamation_corroder", "weight": 2 },
+      { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 1 },
+      { "monster": "mon_amalgamation_soldier", "weight": 1, "starts": "7 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "14 days" },
+      { "monster": "mon_jabberwock", "weight": 1, "starts": "7 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_LAB_BASIC_SECURITY",
     "monsters": [
       { "monster": "mon_feral_labsecurity_9mm", "weight": 18, "cost_multiplier": 12 },

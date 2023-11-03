@@ -336,7 +336,7 @@
     "volume": "100 L",
     "weight": "100 kg",
     "phase": "GAS",
-    "hp": 350,
+    "hp": 3000,
     "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
@@ -360,9 +360,9 @@
     "tracking_distance": 6,
     "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
     "special_attacks": [
-      [ "UPGRADE", 10 ],
-      [ "RESURRECT", 5 ],
-      [ "SHRIEK_ALERT", 20 ],
+      [ "UPGRADE", 0 ],
+      [ "RESURRECT", 0 ],
+      [ "SHRIEK_ALERT", 0 ],
       {
         "type": "melee",
         "id": "LTNT_ILLUMINATE_YOU",
@@ -376,21 +376,17 @@
         "damage_max_instance": [ { "damage_type": "pure", "amount": 0.0 } ],
         "no_dmg_msg_u": "The shadows recede, leaving you with nowhere to hide!",
         "no_dmg_msg_npc": "The shadows recede from <npcname>, and now they stand out like a floodlight!",
-        "cooldown": 10
+        "cooldown": 1
       },
       {
         "type": "spell",
-        "spell_data": { "id": "hive_raptor_spawn", "hit_self": true },
-        "cooldown": 10,
-        "monster_message": "The shadow opens its mouth, and a gore-smeared winged beast flies out of it!"
+        "spell_data": { "id": "gargantuan_raptor_spawn", "hit_self": true },
+        "cooldown": 0,
+        "monster_message": "The shadow opens its mouth, and gore-smeared winged beasts fly out of it!"
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": {
-      "effect": { "id": "death_defense_mode_victory", "hit_self": true, "min_level": 1 },
-      "message": "Grapsing at the air, the shadow melts away and vanishes!",
-      "corpse_type": "NO_CORPSE"
-    },
+    "death_function": { "message": "Grapsing at the air, the shadow melts away and vanishes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -417,18 +413,5 @@
     ],
     "//3": "Because it's Defense Mode, you can hurt it with bullets.  Otherwise, It'd be too hard to fight.",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 25, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
-  },
-  {
-    "id": "death_defense_mode_victory",
-    "type": "SPELL",
-    "name": { "str": "Victory Death" },
-    "valid_targets": [ "hostile" ],
-    "description": "Ends the game in a win condition.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "min_range": 100,
-    "max_range": 100,
-    "effect": "effect_on_condition",
-    "effect_str": "DEFENSE_MODE_QUEUE_WIN_SCREEN"
   }
 ]

@@ -108,5 +108,24 @@
     "move_cost_mod": 1,
     "required_str": 8,
     "prying": { "duration": "17 seconds", "prying_data": { "prying_nails": true } }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_eoc",
+    "name": "EoC Test Furniture 1",
+    "description": "Prying furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_test_f_eoc" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_test_f_eoc",
+    "effect": [
+      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "this" } },
+      { "set_string_var": { "context_val": "pos" }, "target_var": { "global_val": "pos" } }
+    ]
   }
 ]

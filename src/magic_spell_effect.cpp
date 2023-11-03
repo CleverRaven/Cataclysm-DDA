@@ -963,13 +963,18 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint &
                                     const int push_distance, const std::vector<tripoint> &push_vec )
 {
     int dist_left = std::abs( push_distance );
+    tripoint old_pushed_point = guy.pos();
     for( const tripoint &pushed_point : push_vec ) {
         if( get_map().impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
-            push_dest = pushed_point;
+            push_dest = old_pushed_point;
+            break;
+        } else if( get_creature_tracker().creature_at( pushed_point ) ) {
+            push_dest = old_pushed_point;
             break;
         } else {
             dist_left--;
+            old_pushed_point = pushed_point;
         }
     }
     guy.setpos( push_dest );
@@ -1035,13 +1040,18 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                     pushed_vec = push_vec;
                 } else if( mon ) {
                     int dist_left = std::abs( push_distance );
+                    tripoint old_pushed_push_point = push_point;
                     for( const tripoint &pushed_push_point : push_vec ) {
                         if( get_map().impassable( pushed_push_point ) ) {
                             mon->apply_damage( &caster, bodypart_id(), dist_left * 10 );
-                            push_dest = pushed_push_point;
+                            push_dest = old_pushed_push_point;
+                            break;
+                        } else if( creatures.creature_at( pushed_push_point ) ) {
+                            push_dest = old_pushed_push_point;
                             break;
                         } else {
                             dist_left--;
+                            old_pushed_push_point = pushed_push_point;
                         }
                     }
                     mon->setpos( push_dest );

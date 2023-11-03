@@ -92,7 +92,7 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
   {
     "id": "mon_blood_sacrifice",
@@ -266,6 +266,7 @@
       "SEES",
       "HEARS",
       "GOODHEARING",
+      "HAS_MIND",
       "SMELLS",
       "DESTROYS",
       "WARM",
@@ -509,6 +510,7 @@
       "SMELLS",
       "HEARS",
       "GOODHEARING",
+      "HAS_MIND",
       "NOHEAD",
       "BASHES",
       "FLIES",
@@ -602,7 +604,7 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_gracke",
@@ -631,7 +633,7 @@
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SMELLS", "HEARS", "WARM", "HAS_MIND", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
     "armor": { "electric": 1 }
   },
   {
@@ -697,6 +699,7 @@
       "SEES",
       "SMELLS",
       "GOODHEARING",
+      "HAS_MIND",
       "PRIORITIZE_TARGETS",
       "KEENNOSE",
       "WARM",
@@ -741,6 +744,7 @@
       "SEES",
       "SMELLS",
       "GOODHEARING",
+      "HAS_MIND",
       "PRIORITIZE_TARGETS",
       "KEENNOSE",
       "WARM",
@@ -806,6 +810,7 @@
       "SEES",
       "SMELLS",
       "HEARS",
+      "HAS_MIND",
       "NOHEAD",
       "HARDTOSHOOT",
       "FLIES",
@@ -949,7 +954,7 @@
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
     "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4 }
   },
   {
@@ -979,7 +984,20 @@
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ],
+    "flags": [
+      "SMELLS",
+      "HEARS",
+      "HAS_MIND",
+      "NOHEAD",
+      "BASHES",
+      "GROUP_BASH",
+      "SWIMS",
+      "ATTACKMON",
+      "PLASTIC",
+      "ACIDPROOF",
+      "NOGIB",
+      "CLIMBS"
+    ],
     "armor": { "bash": 8, "electric": 1 }
   },
   {
@@ -1035,7 +1053,7 @@
     "bleed_rate": 50,
     "harvest": "meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
     "armor": { "bash": 6, "electric": 3 }
   },
   {
@@ -1197,7 +1215,7 @@
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab", "cooldown": 2 }, [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "NO_BREATHE", "GRABS", "BIOLOGICALPROOF", "PUSH_MON", "GROUP_BASH" ]
+    "flags": [ "NO_BREATHE", "HAS_MIND", "GRABS", "BIOLOGICALPROOF", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1345,14 +1363,14 @@
         "cooldown": 5
       }
     ],
-    "flags": [ "SEES", "HEARS", "BIOLOGICALPROOF", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "BIOLOGICALPROOF", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_twisted_reflection",
     "type": "MONSTER",
     "name": { "str": "twisted reflection" },
     "speed": 90,
-    "description": "This looks almost nothing like you.  It's form isn't even stable.  So why does your mind keep mistaking it for you?",
+    "description": "This looks almost nothing like you.  Its form isn't even stable.  So why does your mind keep mistaking it for you?",
     "copy-from": "mon_pale_reflection"
   },
   {
@@ -1378,7 +1396,7 @@
     "name": { "str": "mercenary officer" },
     "copy-from": "mon_zombie_bio_op",
     "hp": 150,
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
     "death_drops": "xedra_officer_set",
     "bleed_rate": 0,
     "vision_day": 40,

@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
@@ -44,6 +45,7 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "submap.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
@@ -483,6 +485,85 @@ bool monster::mating_angry() const
     return mating_angry;
 }
 
+/** This is lazily evaluated in monster::plan(). Each monster in a zone is visited
+ * as it flood fills, then the zone number is incremented. At the end all monsters in
+ * the same zone will have the same zone number assigned, which can be used to have monsters in
+ * different zones ignore each other very cheaply.
+ */
+static void flood_fill_zone( Creature &origin )
+{
+    static int zone_number = 1;
+    static int zone_tick = 1;
+    map &here = get_map();
+    if( here.get_visitable_zones_cache_dirty() ) {
+        zone_tick = zone_tick > 0 ? -1 : 1;
+        here.set_visitable_zones_cache_dirty( false );
+        zone_number = 1;
+    }
+    // This check insures we only flood fill when the target monster has an uninitialized zone,
+    // or if it has a zone from last turn.  In other words it only triggers on
+    // the first monster in a zone each turn. We can detect this because the sign
+    // of the zone numbers changes on every invalidation.
+    int old_zone = origin.get_reachable_zone();
+    // Compare with zone_tick == old_zone && old_zone != 0
+    if( ( zone_tick > 0 && old_zone > 0 ) ||
+        ( zone_tick < 0 && old_zone < 0 ) ) {
+        return;
+    }
+    creature_tracker &tracker = get_creature_tracker();
+
+    ff::flood_fill_visit_10_connected( origin.pos_bub(),
+    [&here]( const tripoint_bub_ms & loc, int direction ) {
+        if( direction == 0 ) {
+            return here.inbounds( loc ) && ( here.is_transparent_wo_fields( loc.raw() ) ||
+                                             here.passable( loc ) );
+        }
+        if( direction == 1 ) {
+            const maptile &up = here.maptile_at( loc );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
+                  here.is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        if( direction == -1 ) {
+            const maptile &up = here.maptile_at( loc + tripoint_above );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            const maptile &down = here.maptile_at( loc );
+            const ter_t &down_ter = up.get_ter_t();
+            if( down_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
+                  here.is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    },
+    [&tracker]( const tripoint_bub_ms & loc ) {
+        Creature *creature = tracker.creature_at<Creature>( loc );
+        if( creature ) {
+            creature->set_reachable_zone( zone_number * zone_tick );
+        }
+    } );
+    if( zone_number == std::numeric_limits<int>::max() ) {
+        zone_number = 1;
+    } else {
+        zone_number++;
+    }
+}
+
 void monster::plan()
 {
     const auto &factions = g->critter_tracker->factions();
@@ -493,6 +574,7 @@ void monster::plan()
     std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( pos().z );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
+    flood_fill_zone( *this );
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
         sees( player_character ) ) {
@@ -613,6 +695,9 @@ void monster::plan()
                         continue;
                     }
                     monster &mon = *shared;
+                    if( get_reachable_zone() != mon.get_reachable_zone() ) {
+                        continue;
+                    }
                     float rating = rate_target( mon, mon_plan.dist, mon_plan.smart_planning );
                     if( rating == mon_plan.dist ) {
                         ++valid_targets;

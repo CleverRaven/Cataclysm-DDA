@@ -296,6 +296,44 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "gossamer_upper_body",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tunic_gossamer", "prob": 20 },
+      { "item": "sleeveless_tunic_gossamer", "prob": 20 },
+      { "item": "doublet_gossamer", "prob": 20 },
+      { "item": "dress_gossamer", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gossamer_outerwear",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cloak_gossamer", "prob": 20 },
+      { "item": "robe_wizard_gossamer", "prob": 20 },
+      { "item": "jacket_light_gossamer", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gossamer_lower_body",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pants_gossamer", "prob": 20 },
+      { "item": "pants_no_pocket_gossamer", "prob": 20 },
+      { "item": "skirt_gossamer", "prob": 20 },
+      { "item": "skirt_long_gossamer", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gossamer_socks",
+    "subtype": "distribution",
+    "entries": [ { "item": "socks_gossamer", "prob": 20 }, { "item": "stockings_gossamer", "prob": 10 } ]
+  },
+  {
     "id": "SUS_junk_drawer",
     "type": "item_group",
     "//": "Adding spell learning items to standard itemgroups",

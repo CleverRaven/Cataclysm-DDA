@@ -266,7 +266,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "burning coals skin" },
-    "description": "Your skin has has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "description": "Your skin has magical flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
     "weight": "1 kg",
     "volume": "900 ml",
     "price": 0,

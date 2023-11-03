@@ -33,6 +33,9 @@ class building_bin
         std::vector<std::string> all;
         void clear();
         void finalize();
+        weighted_int_list<overmap_special_id> get_all_buildings() const {
+            return buildings;
+        }
 };
 
 struct city_settings {
@@ -59,6 +62,18 @@ struct city_settings {
 
     overmap_special_id pick_park() const {
         return parks.pick()->id;
+    }
+
+    weighted_int_list<overmap_special_id> get_all_houses() const {
+        return houses.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_shops() const {
+        return shops.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_parks() const {
+        return parks.get_all_buildings();
     }
 
     void finalize();
