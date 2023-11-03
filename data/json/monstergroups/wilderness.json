@@ -120,11 +120,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "group": "GROUP_FROGS_FOREST", "weight": 10 },
-<<<<<<< HEAD
-      { "group": "GROUP_MUTAFROGS_FOREST", "weight": 10, "starts": "7 days" }
-=======
       { "group": "GROUP_MUTAFROGS_FOREST", "weight": 8, "starts": "7 days" }
->>>>>>> 3235c74ac2 (Incorporate Minor froggy edits #68748)
     ]
   },
   {
