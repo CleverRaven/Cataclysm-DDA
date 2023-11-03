@@ -30,8 +30,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": ["PHOTOKINETIC"],
-    "spells_learned": [["photokinetic_snuff_light",1], ["photokinetic_light_dodge",1], ["photokinetic_light_beam",1]]
+    "flags": [ "PHOTOKINETIC" ],
+    "spells_learned": [ [ "photokinetic_snuff_light", 1 ], [ "photokinetic_light_dodge", 1 ], [ "photokinetic_light_beam", 1 ] ]
   },
   {
     "type": "mutation",
