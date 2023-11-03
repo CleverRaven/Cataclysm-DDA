@@ -761,10 +761,7 @@
     "desc": [ "Your enemies struggle to see where your real form is" ],
     "apply_message": "",
     "remove_message": "your illusionary form fades.",
-    "decay_messages": [
-      [ "Your illusions are starting to dim.", "bad" ],
-      [ "Your light tricks are becoming more obvious", "bad" ]
-    ],
+    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
     "max_duration": "15 minutes",
     "max_intensity": 38,
