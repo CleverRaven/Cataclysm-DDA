@@ -200,9 +200,9 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `blockable`                 | Boolean, default true.  The attack can be blocked (after the dodge checks).
 | `effects_require_dmg`       | Boolean, default true.  Effects will only be applied if the attack successfully damaged the target.
 | `effects`				      | Array, defines additional effects for the attack to add.  See [MONSTERS.md](MONSTERS.md#attack_effs) for the exact syntax. Duration is in turns, not in movement points
-| `self_effect_always`        | Array of `effects` the monster applies to itself when doing this attack.
-| `self_effect_onhit`         | Array of `effects` the monster applies to itself when successfully hitting with the attack.
-| `self_effect_ondmg`         | Array of `effects` the monster applies to itself when damaging its target.
+| `self_effects_always`        | Array of `effects` the monster applies to itself when doing this attack.
+| `self_effects_onhit`         | Array of `effects` the monster applies to itself when successfully hitting with the attack.
+| `self_effects_ondmg`         | Array of `effects` the monster applies to itself when damaging its target.
 | `throw_strength`		      | Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
 | `miss_msg_u`			      | String, message for missed attack against the player.
 | `miss_msg_npc`		      | String, message for missed attack against an NPC.

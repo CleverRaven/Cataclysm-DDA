@@ -115,6 +115,7 @@ struct conditional_t {
         void set_is_in_field( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, std::string_view member );
         void set_query( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_x_in_y_chance( const JsonObject &jo, std::string_view member );
         void set_has_worn_with_flag( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_wielded_with_flag( const JsonObject &jo, std::string_view member,
