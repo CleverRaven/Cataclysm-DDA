@@ -779,7 +779,7 @@
           },
           {
             "value": "EVASION",
-            "add":{
+            "add": {
               "math": [ "(( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) + ( ( u_val('intelligence') + 10) / 100 ) )" ]
             }
           }
