@@ -44,10 +44,11 @@
     "price_postapoc": "50 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
     "melee_damage": { "stab": 23 },
+    "weapon_category": [ "SHIVS" ],
     "material": [ "ceramic", "gold" ],
     "color": "yellow",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ]
   }
 ]

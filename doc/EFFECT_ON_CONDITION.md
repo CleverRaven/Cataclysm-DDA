@@ -59,6 +59,30 @@ Talker, in context of effect on condition, is any entity, that can use specific 
 
 For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant, check the player as beta talker, despite the id imply it should be `npc_`; This is a legacy of dialogue system, from which EoC was extended, and won't be fixed, since dialogues still use it fully
 
+### Typical Alpha and Beta Talkers by cases
+
+| EOC                                              | Alpha (possible types)      | Beta (possible types)       |
+| ------------------------------------------------ | ----------------------      | --------------------------- |
+| Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |
+| Talk with monster                                | player (Avatar)             | monster (monster)           |
+| Use computer                                     | player (Avatar)             | computer (Furniture)        |
+| furniture: "examine_action"                      | player (Avatar)             | NONE                        |
+| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
+| use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 |
+| tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
+| countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
+| COMESTIBLE: "consumption_effect_on_conditions"   | user (Character)            | item (item)                 |
+| activity_type: "completion_eoc"                  | character (Character)       | NONE                        |
+| activity_type: "do_turn_eoc"                     | character (Character)       | NONE                        |
+| addiction_type: "effect_on_condition"            | character (Character)       | NONE                        |
+| bionics: "activated_eocs"                        | character (Character)       | NONE                        |
+| bionics: "deactivated_eocs"                      | character (Character)       | NONE                        |
+| bionics: "processed_eocs"                        | character (Character)       | NONE                        |
+| mutation: "activated_eocs"                       | character (Character)       | NONE                        |
+| mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
+| mutation: "processed_eocs"                       | character (Character)       | NONE                        |
+| recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
+
 ## Value types
 
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
@@ -912,6 +936,34 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
 ```
 
+
+### `u_query_tile`, `npc_query_tile`
+- type: string
+- Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
+- `anywhere`, `line_of_sight`, `around` are possible
+  - `anywhere` is the same as the "look around" UI
+  - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
+- `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
+- `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
+- `z_level` defines allow if select other z-level  for `anywhere`
+- `message` is displayed while selecting
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Display coordinates of selected tile.
+```json
+{
+  "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+  "then": { "u_message": "<context_val:pos>" },
+  "else": { "u_message": "Canceled" }
+}
+```
+
 ### `map_terrain_with_flag`, `map_furniture_with_flag`
 - type: string or [variable object](##variable-object)
 - return true if the terrain or furniture has specific flag
@@ -1726,7 +1778,7 @@ Run EOCs on items in your or NPC's inventory
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
-| "search_data" | optional | N/A | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item;<br/>`flags`- flag or flags the item has<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "search_data" | optional | N/A | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
 | "true_eocs" / "false_eocs" | optional | range of eocs | if item was picked successfully, all `true_eocs` are run, otherwise all `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
 
@@ -2262,6 +2314,7 @@ Store string from `set_string_var` in the variable object `target_var`
 | --- | --- | --- | --- | 
 | "set_string_var" | **mandatory** | string, [variable object](##variable-object), or array of both | value, that would be put into `target_var` |
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
+| "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 
 
 ##### Valid talkers:
@@ -2287,6 +2340,11 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
   "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
   "target_var": { "global_val": "place_name" }
 }
+```
+
+Concatenate string of variable `foo` and `bar`
+```json
+{ "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
 ```
 
 

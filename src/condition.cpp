@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "action.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -44,6 +45,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "popup.h"
+#include "ranged.h"
 #include "recipe_groups.h"
 #include "talker.h"
 #include "type_id.h"
@@ -1370,6 +1373,63 @@ void conditional_t::set_query( const JsonObject &jo, std::string_view member, bo
         } else {
             return default_val;
         }
+    };
+}
+
+void conditional_t::set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    std::string type = jo.get_string( member.data() );
+    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
+    std::string message;
+    if( jo.has_member( "message" ) ) {
+        message = jo.get_string( "message" );
+    }
+    dbl_or_var range;
+    if( jo.has_member( "range" ) ) {
+        range = get_dbl_or_var( jo, "range" );
+    }
+    bool z_level = jo.get_bool( "z_level", false );
+    condition = [type, target_var, message, range, z_level, is_npc]( dialogue & d ) {
+        std::optional<tripoint> loc;
+        Character *ch = d.actor( is_npc )->get_character();
+        if( ch && ch->as_avatar() ) {
+            avatar *you = ch->as_avatar();
+            if( type == "anywhere" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                tripoint center = d.actor( is_npc )->pos();
+                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
+                loc = g->look_around( looka_params ).position;
+            } else if( type == "line_of_sight" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
+                if( !traj.empty() ) {
+                    loc = traj.back();
+                }
+            } else if( type == "around" ) {
+                if( !message.empty() ) {
+                    loc = choose_adjacent( message );
+                } else {
+                    loc = choose_adjacent( _( "Choose direction" ) );
+                }
+            } else {
+                debugmsg( string_format( "Invalid selection type: %s", type ) );
+            }
+
+        }
+        if( loc.has_value() ) {
+            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
+            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
+                             pos_global.to_string() );
+        }
+        return loc.has_value();
     };
 }
 
@@ -3316,6 +3376,7 @@ parsers = {
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
     {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
+    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_t::set_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_t::set_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_t::set_near_om_location },
     {"u_has_var", "npc_has_var", jarg::string, &conditional_t::set_has_var },

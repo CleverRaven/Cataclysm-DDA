@@ -1000,7 +1000,8 @@
         "encumbrance": 30
       }
     ],
-    "melee_damage": { "bash": 12, "cut": 3 }
+    "melee_damage": { "bash": 12, "cut": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "integrated_shell",
