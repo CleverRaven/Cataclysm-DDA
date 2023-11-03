@@ -1093,7 +1093,7 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm. As you stand there, a sudden warmth envelops your being, far more radiant than the most brilliant of suns. It begins as a subtle glow deep within, and then it intensifies, growing brighter and brighter, until your entire consciousness is bathed in the incandescent brilliance. As the light fades, you notice the world is painted in more colors than you ever noticed before, the light seems to respond to your every thought.",        
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm. As you stand there, a sudden warmth envelops your being, far more radiant than the most brilliant of suns. It begins as a subtle glow deep within, and then it intensifies, growing brighter and brighter, until your entire consciousness is bathed in the incandescent brilliance. As the light fades, you notice the world is painted in more colors than you ever noticed before, the light seems to respond to your every thought.",
         "popup": true
       },
       { "u_add_trait": "PHOTOKINETIC" },
