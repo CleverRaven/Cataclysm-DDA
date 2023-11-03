@@ -358,6 +358,12 @@ void Item_factory::finalize_pre( itype &obj )
         return string_starts_with( f.str(), "LIGHT_" );
     } );
 
+    // Finalize vitamins in food
+    if( obj.comestible ) {
+        obj.comestible->default_nutrition.finalize_vitamins();
+    }
+
+
     // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
         if( obj.ammo->loudness < 0 ) {
@@ -611,11 +617,11 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
-        std::map<vitamin_id, int> &vitamins = obj.comestible->default_nutrition.vitamins;
+        std::map<vitamin_id, int> vitamins = obj.comestible->default_nutrition.vitamins();
         if( get_option<bool>( "NO_VITAMINS" ) ) {
             for( auto &vit : vitamins ) {
                 if( vit.first->type() == vitamin_type::VITAMIN ) {
-                    vit.second = 0;
+                    obj.comestible->default_nutrition.set_vitamin( vit.first, 0 );
                 }
             }
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -637,7 +643,7 @@ void Item_factory::finalize_pre( itype &obj )
                 if( !vitamins.count( v.first ) ) {
                     for( const auto &m : mat ) {
                         double amount = m.first->vitamin( v.first ) * healthy / mat.size();
-                        vitamins[v.first] += std::ceil( amount );
+                        obj.comestible->default_nutrition.add_vitamin( v.first, std::ceil( amount ) );
                     }
                 }
             }
@@ -3316,15 +3322,26 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
+        slot.default_nutrition.finalized = false;
         for( JsonArray pair : jo.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
-            slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
+            if( pair.has_int( 1 ) ) {
+                slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
+            } else {
+                units::mass val = read_from_json_string<units::mass>( pair[1], units::mass_units );
+                slot.default_nutrition.set_vitamin( vit, val );
+            }
         }
 
     } else if( relative.has_array( "vitamins" ) ) {
         for( JsonArray pair : relative.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
-            slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
+            if( pair.has_int( 1 ) ) {
+                slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
+            } else {
+                units::mass val = read_from_json_string<units::mass>( pair[1], units::mass_units );
+                slot.default_nutrition.add_vitamin( vit, val );
+            }
         }
     }
 
