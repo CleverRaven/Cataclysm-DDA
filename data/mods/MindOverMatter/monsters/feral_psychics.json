@@ -391,8 +391,7 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS",
-      "PHOTOKIN_MONSTER_IMMUNE"
+      "PRIORITIZE_TARGETS"
     ]
   },
   {
