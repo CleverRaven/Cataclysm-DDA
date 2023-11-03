@@ -2002,6 +2002,7 @@ nettik
 neurocognitive
 neurodegeneration
 neuroimaging
+neuroprosthetic
 neurosynaptic
 neutrite
 newe
