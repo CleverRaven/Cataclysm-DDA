@@ -45,6 +45,6 @@
     "range_modifier": 5,
     "handling_modifier": -2,
     "min_skills": [ [ "electronics", 6 ] ],
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "USE_UPS" ]
   }
 ]
