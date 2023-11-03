@@ -28,7 +28,8 @@
       [ "afs_gibrifle", 40 ],
       [ "afs_shotgun", 15 ],
       [ "afs_25mm_goa", 5 ],
-      [ "afs_drotik_shotpistol", 5 ]
+      [ "afs_drotik_shotpistol", 5 ],
+      [ "afs_shotgun_magnastorm", 5 ]
     ]
   },
   {

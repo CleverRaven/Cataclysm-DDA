@@ -19,5 +19,32 @@
     "install_time": "3 m",
     "shot_spread_multiplier_modifier": -0.8,
     "flags": [ "CHOKE" ]
+  },
+  {
+    "id": "afs_shotgun_gauss",
+    "type": "GUNMOD",
+    "name": { "str": "shotgun guass array" },
+    "//": "Flechettes should be made a distinct ammo type, but that would break other vanilla shotguns. Change should happen when aftershock becomes total conversion.",
+    "description": "A tuned set of electromagnets that accelerate projectiles to a much higher velocity than normal, increasing range and damage.  The required modifications are invasive and cannot be removed once installed.",
+    "weight": "1610 g",
+    "integral_weight": "410 g",
+    "volume": "1500 ml",
+    "integral_volume": "310 ml",
+    "price": 72000,
+    "price_postapoc": 500,
+    "install_time": "5 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "bore",
+    "mod_targets": [ "shotgun" ],
+    "damage_modifier": { "damage_type": "electric", "amount": 3, "armor_penetration": 7 },
+    "energy_drain_modifier": "20 kJ",
+    "ammo_effects": [ "SMALL_ELECTRIC_BURST" ],
+    "dispersion_modifier": 15,
+    "range_modifier": 5,
+    "handling_modifier": -2,
+    "min_skills": [ [ "electronics", 6 ] ],
+    "flags": [ "IRREMOVABLE", "USE_UPS" ]
   }
 ]
