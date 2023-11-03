@@ -333,7 +333,7 @@
   {
     "id": "mon_feral_human_photokin",
     "type": "MONSTER",
-    "name": "feral radical",
+    "name": "feral radiant",
     "description": "This feral's skin has some sort of radiance. Their eyes are bright with light and there's a slight shimmer around their form.",
     "default_faction": "zombie",
     "looks_like": "chud",
@@ -391,8 +391,7 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS",
-      "PHOTOKIN_MONSTER_IMMUNE"
+      "PRIORITIZE_TARGETS"
     ]
   },
   {

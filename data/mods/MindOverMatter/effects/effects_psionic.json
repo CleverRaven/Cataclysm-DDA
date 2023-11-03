@@ -761,10 +761,7 @@
     "desc": [ "Your enemies struggle to see where your real form is" ],
     "apply_message": "",
     "remove_message": "your illusionary form fades.",
-    "decay_messages": [
-      [ "Your illusions are starting to dim.", "bad" ],
-      [ "Your light tricks are becoming more obvious", "bad" ]
-    ],
+    "decay_messages": [ [ "Your illusions are starting to dim.", "bad" ], [ "Your light tricks are becoming more obvious", "bad" ] ],
     "rating": "good",
     "max_duration": "15 minutes",
     "max_intensity": 38,
@@ -782,7 +779,7 @@
           },
           {
             "value": "EVASION",
-            "add":{
+            "add": {
               "math": [ "(( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) + ( ( u_val('intelligence') + 10) / 100 ) )" ]
             }
           }
@@ -798,10 +795,7 @@
     "desc": [ "Nothing can see you." ],
     "apply_message": "You refract light in a way that makes you appear invisible.",
     "remove_message": "You let light flow naturally again.",
-    "decay_messages": [
-      [ "Your control over light refraction is straining you.", "bad" ],
-      [ "Staying invisible is getting tiring.", "bad" ]
-    ],
+    "decay_messages": [ [ "Your control over light refraction is straining you.", "bad" ], [ "Staying invisible is getting tiring.", "bad" ] ],
     "flags": [ "INVISIBLE" ]
   },
   {
@@ -824,7 +818,7 @@
     "remove_message": "Your sight returns!",
     "rating": "bad",
     "show_in_info": true,
-    "immune_flags": ["PHOTOKINETIC"],
+    "immune_flags": [ "PHOTOKINETIC" ],
     "flags": [ "BLIND" ]
   },
   {
