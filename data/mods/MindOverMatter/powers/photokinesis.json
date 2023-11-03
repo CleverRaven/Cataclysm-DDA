@@ -188,8 +188,8 @@
     "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "spawn_item",
-    "effect_str": "photokinetic_rad_aura",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 3000) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
