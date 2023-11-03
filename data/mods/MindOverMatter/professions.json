@@ -64,7 +64,7 @@
     "type": "profession",
     "id": "psi_photokinetic_magician",
     "name": "Magician",
-    "description": "Ever since you were a young kid, you just loved magic. Growing up you managed to become a professional magician and even performed at a few big shows. You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore. You can just do it, for real.",
+    "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",
     "points": 4,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "metaphysics" } ],
     "traits": [ "FAST_REFLEXES", "PHOTOKINETIC", "PHOTO_EYES" ],

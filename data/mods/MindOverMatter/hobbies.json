@@ -31,7 +31,7 @@
     "subtype": "hobby",
     "id": "newly_photokinetic",
     "name": "Newly-Awakened Photokinetic",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible. You noticed that light seems to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows. You have a sense that there's more to your newfound talents.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seems to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
     "points": 4,
     "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ]
   },
