@@ -1,0 +1,101 @@
+[
+  {
+    "id": "afs_military_vest",
+    "type": "ARMOR",
+    "name": { "str": "IPAV armor" },
+    "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.",
+    "weight": "7 kg",
+    "volume": "8 L",
+    "symbol": "[",
+    "material": [ "nylon", "nanoprinted_alloy", "vacuum_carbide" ],
+    "flags": [ "OVERSIZE", "FRAGILE", "OUTER", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanoprinted_alloy", "covered_by_mat": 95, "thickness": 4.4 },
+          { "type": "vacuum_carbide", "covered_by_mat": 80, "thickness": 2.0 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 4.4 },
+          { "type": "vacuum_carbide", "covered_by_mat": 80, "thickness": 1.0 }
+        ],
+        "encumbrance": 5,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 80,
+        "cover_melee": 80,
+        "cover_ranged": 100,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 4.4 },
+          { "type": "vacuum_carbide", "covered_by_mat": 80, "thickness": 1.0 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "afs_military_vestxl",
+    "type": "ARMOR",
+    "name": { "str": "IPAV armor XL" },
+    "copy-from": "afs_military_vest",
+    "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "afs_military_cloak",
+    "type": "ARMOR",
+    "category": "ARMOR",
+    "looks_like": "poncho",
+    "name": { "str": "ablative combat cloak" },
+    "description": "A military poncho made from heat dissipating ablative fibers.  It is designed to be worn over armor and provide additional protection against direct energy attacks.  Its ablative properties make it disposable and relatively fragile, its not rated to survive more than a single combat engagement.",
+    "weight": "960 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "symbol": "[",
+    "material": [ "nylon", "carbide_thermal_weave" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [ "FRAGILE", "OUTER", "OVERSIZE", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ],
+    "material_thickness": 2.5,
+    "armor": [
+      { "encumbrance": [ 4, 8 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER", "BELTED" ] },
+      {
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
+      },
+      {
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  }
+]

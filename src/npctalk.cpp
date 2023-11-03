@@ -2854,7 +2854,7 @@ static void map_add_item( item &it, tripoint_abs_ms target_pos )
 
 static void receive_item( itype_id &item_name, int count, std::string_view container_name,
                           const dialogue &d, bool use_item_group, bool suppress_message, bool add_talker = true,
-                          const tripoint_abs_ms &p = tripoint_abs_ms() )
+                          const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
 {
     item new_item;
     if( use_item_group ) {
@@ -2866,7 +2866,7 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
         if( new_item.count_by_charges() ) {
             new_item.charges = count;
             if( add_talker ) {
-                d.actor( false )->i_add_or_drop( new_item );
+                d.actor( false )->i_add_or_drop( new_item, force_equip );
             } else {
                 map_add_item( new_item, p );
             }
@@ -2876,7 +2876,7 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
                     new_item.ammo_set( new_item.ammo_default() );
                 }
                 if( add_talker ) {
-                    d.actor( false )->i_add_or_drop( new_item );
+                    d.actor( false )->i_add_or_drop( new_item, force_equip );
                 } else {
                     map_add_item( new_item, p );
                 }
@@ -2898,7 +2898,7 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         if( add_talker ) {
-            d.actor( false )->i_add_or_drop( container );
+            d.actor( false )->i_add_or_drop( container, force_equip );
         } else {
             map_add_item( container, p );
         }
@@ -2936,12 +2936,13 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
     if( jo.has_object( "loc" ) ) {
         loc_var = read_var_info( jo.get_object( "loc" ) );
     }
+    bool force_equip = jo.get_bool( "force_equip", false );
     function = [item_name, count, container_name, use_item_group, suppress_message,
-               add_talker, loc_var]( dialogue & d ) {
+               add_talker, loc_var, force_equip]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
         receive_item( iname, count.evaluate( d ), container_name.evaluate( d ), d, use_item_group,
-                      suppress_message, add_talker, target_location );
+                      suppress_message, add_talker, target_location, force_equip );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
     likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
@@ -4229,11 +4230,18 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, std::string_vi
     } else {
         values.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
     }
+    bool parse = jo.get_bool( "parse_tags", false );
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    function = [values, var]( dialogue & d ) {
+    function = [values, var, parse]( dialogue & d ) {
         int index = rng( 0, values.size() - 1 );
-        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d,
-                         values[index].evaluate( d ) );
+        std::string str = values[index].evaluate( d );
+        if( parse ) {
+            std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
+            talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
+            talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
+            parse_tags( str, alpha, beta, d );
+        }
+        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d, str );
     };
 }
 
