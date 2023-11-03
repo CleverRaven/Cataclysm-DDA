@@ -13,7 +13,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKINETIC_DAMAGE_BLIND_CHANCE",
-    "condition": { "and": [ { "x_in_y_chance": { "x": 2, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] }, {"not": {"npc_has_trait": "PHOTOKINETIC"} } ] },
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": 2, "y": 5 } },
+        { "math": [ "_damage_taken", ">", "0" ] },
+        { "not": { "npc_has_trait": "PHOTOKINETIC" } }
+      ]
+    },
     "effect": [ { "npc_add_effect": "blind", "duration": "3 s" } ]
   },
   {
