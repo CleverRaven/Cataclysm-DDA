@@ -162,9 +162,9 @@
         "popup": true
       },
       { "u_add_trait": "PHOTOKINETIC" },
-      { "u_add_trait": "PHOTO_EYES"},
-      {"u_add_effect": "effect_photokin_arms", "duration": "5 minutes"},
-      {"u_add_effect": "effect_photokin_invisibility", "duration": "5 minutes"},
+      { "u_add_trait": "PHOTO_EYES" },
+      { "u_add_effect": "effect_photokin_arms", "duration": "5 minutes" },
+      { "u_add_effect": "effect_photokin_invisibility", "duration": "5 minutes" },
       { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
