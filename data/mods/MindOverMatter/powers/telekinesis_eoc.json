@@ -1,396 +1,246 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_TELEKIN_SUMMON_JACKING_TOOL",
+    "id": "EOC_TELEKIN_STRENGTH_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_telekinetic_strength" } },
+    "effect": [
+      { "u_message": "You concentrate and prepare to lift something heavy.", "type": "good" },
+      { "u_add_effect": "effect_telekinetic_strength", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 15) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 30) + 120 )* (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_telekinetic_strength" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (4000 - (u_val('spell_level', 'spell: telekinetic_strength') * 150) ), 2000)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_STRENGTH_DRAIN",
+    "condition": { "u_has_effect": "effect_telekinetic_strength" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 30) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_SUMMON_JACKING_TOOL_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_item": "telekin_lifting_jack_1" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_2" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_3" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_4" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_5" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_6" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_7" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_8" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_9" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_10" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_11" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_12" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_13" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_14" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_15" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_16" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_17" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_18" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_19" } },
+        { "not": { "u_has_item": "telekin_lifting_jack_20" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You ready yourself to lift a car just enough to work on it.", "type": "good" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } },
+      { "run_eocs": [ "EOC_TELEKIN_SUMMON_JACKING_TOOL_SWITCHER" ] },
+      {
+        "queue_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 180) + 600) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 360) + 1200) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_remove_item_with": "telekin_lifting_jack_1" },
+      { "u_remove_item_with": "telekin_lifting_jack_2" },
+      { "u_remove_item_with": "telekin_lifting_jack_3" },
+      { "u_remove_item_with": "telekin_lifting_jack_4" },
+      { "u_remove_item_with": "telekin_lifting_jack_5" },
+      { "u_remove_item_with": "telekin_lifting_jack_6" },
+      { "u_remove_item_with": "telekin_lifting_jack_7" },
+      { "u_remove_item_with": "telekin_lifting_jack_8" },
+      { "u_remove_item_with": "telekin_lifting_jack_9" },
+      { "u_remove_item_with": "telekin_lifting_jack_10" },
+      { "u_remove_item_with": "telekin_lifting_jack_11" },
+      { "u_remove_item_with": "telekin_lifting_jack_12" },
+      { "u_remove_item_with": "telekin_lifting_jack_13" },
+      { "u_remove_item_with": "telekin_lifting_jack_14" },
+      { "u_remove_item_with": "telekin_lifting_jack_15" },
+      { "u_remove_item_with": "telekin_lifting_jack_16" },
+      { "u_remove_item_with": "telekin_lifting_jack_17" },
+      { "u_remove_item_with": "telekin_lifting_jack_18" },
+      { "u_remove_item_with": "telekin_lifting_jack_19" },
+      { "u_remove_item_with": "telekin_lifting_jack_20" },
+      { "u_message": "You let the vehicle settle gently to the ground.", "type": "bad" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (6000 - (u_val('spell_level', 'spell: biokin_enhance_mobility') * 250) ), 2750)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_SUMMON_JACKING_TOOL_SWITCHER",
     "effect": {
       "switch": { "math": [ "u_val('spell_level', 'spell: telekinetic_vehicle_lift')" ] },
       "cases": [
-        { "case": 1, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_1" } } ] },
-        { "case": 2, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_2" } } ] },
-        { "case": 3, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_3" } } ] },
-        { "case": 4, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_4" } } ] },
-        { "case": 5, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_5" } } ] },
-        { "case": 6, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_6" } } ] },
-        { "case": 7, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_7" } } ] },
-        { "case": 8, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_8" } } ] },
-        { "case": 9, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_9" } } ] },
-        { "case": 10, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_10" } } ] },
-        { "case": 11, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_11" } } ] },
-        { "case": 12, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_12" } } ] },
-        { "case": 13, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_13" } } ] },
-        { "case": 14, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_14" } } ] },
-        { "case": 15, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_15" } } ] },
-        { "case": 16, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_16" } } ] },
-        { "case": 17, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_17" } } ] },
-        { "case": 18, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_18" } } ] },
-        { "case": 19, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_19" } } ] },
-        { "case": 20, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_20" } } ] }
+        { "case": 1, "effect": [ { "u_spawn_item": "telekin_lifting_jack_1", "suppress_message": true } ] },
+        { "case": 2, "effect": [ { "u_spawn_item": "telekin_lifting_jack_2", "suppress_message": true } ] },
+        { "case": 3, "effect": [ { "u_spawn_item": "telekin_lifting_jack_3", "suppress_message": true } ] },
+        { "case": 4, "effect": [ { "u_spawn_item": "telekin_lifting_jack_4", "suppress_message": true } ] },
+        { "case": 5, "effect": [ { "u_spawn_item": "telekin_lifting_jack_5", "suppress_message": true } ] },
+        { "case": 6, "effect": [ { "u_spawn_item": "telekin_lifting_jack_6", "suppress_message": true } ] },
+        { "case": 7, "effect": [ { "u_spawn_item": "telekin_lifting_jack_7", "suppress_message": true } ] },
+        { "case": 8, "effect": [ { "u_spawn_item": "telekin_lifting_jack_8", "suppress_message": true } ] },
+        { "case": 9, "effect": [ { "u_spawn_item": "telekin_lifting_jack_9", "suppress_message": true } ] },
+        { "case": 10, "effect": [ { "u_spawn_item": "telekin_lifting_jack_10", "suppress_message": true } ] },
+        { "case": 11, "effect": [ { "u_spawn_item": "telekin_lifting_jack_11", "suppress_message": true } ] },
+        { "case": 12, "effect": [ { "u_spawn_item": "telekin_lifting_jack_12", "suppress_message": true } ] },
+        { "case": 13, "effect": [ { "u_spawn_item": "telekin_lifting_jack_13", "suppress_message": true } ] },
+        { "case": 14, "effect": [ { "u_spawn_item": "telekin_lifting_jack_14", "suppress_message": true } ] },
+        { "case": 15, "effect": [ { "u_spawn_item": "telekin_lifting_jack_15", "suppress_message": true } ] },
+        { "case": 16, "effect": [ { "u_spawn_item": "telekin_lifting_jack_16", "suppress_message": true } ] },
+        { "case": 17, "effect": [ { "u_spawn_item": "telekin_lifting_jack_17", "suppress_message": true } ] },
+        { "case": 18, "effect": [ { "u_spawn_item": "telekin_lifting_jack_18", "suppress_message": true } ] },
+        { "case": 19, "effect": [ { "u_spawn_item": "telekin_lifting_jack_19", "suppress_message": true } ] },
+        { "case": 20, "effect": [ { "u_spawn_item": "telekin_lifting_jack_20", "suppress_message": true } ] }
       ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
-    "effect": [ { "u_remove_item_with": "telekin_ritual_summon_strength_item" } ]
+    "id": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
+    "condition": {
+      "or": [
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 180) + 600) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 360) + 1200) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_1",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #1",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_1",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEVITATION_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_telekinetic_levitation" } },
+    "effect": [
+      { "u_message": "You begin floating a hand's breadth above the ground.", "type": "good" },
+      { "u_add_effect": "effect_telekinetic_levitation", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_seven", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 0.75) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_telekinetic_levitation" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (5500 - (u_val('spell_level', 'spell: telekinetic_levitation') * 250) ), 3000)" ]
+      }
+    ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_2",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #2",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_2",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_3",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #3",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_3",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_4",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #4",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_4",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_5",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #5",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_5",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_6",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #6",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_6",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_7",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #7",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_7",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_8",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #8",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_8",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_9",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #9",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_9",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_10",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #10",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_10",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_11",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #11",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_11",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_12",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #12",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_12",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_13",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #13",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_13",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_14",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #14",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_14",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_15",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #15",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_15",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_16",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #16",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_16",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_17",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #17",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_17",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_18",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #18",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_18",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_19",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #19",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_19",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_20",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #20",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_20",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEVITATION_DRAIN",
+    "condition": { "u_has_effect": "effect_telekinetic_levitation" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_seven", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 0.75) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: telekinetic_levitation') * 2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   }
 ]
