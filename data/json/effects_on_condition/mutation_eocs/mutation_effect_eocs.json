@@ -231,6 +231,7 @@
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_MUTATE_LEG_HEAL",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
