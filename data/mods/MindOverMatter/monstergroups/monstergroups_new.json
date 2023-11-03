@@ -5,7 +5,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 1 },
-      { "monster": "mon_feral_human_photokin", "weight": 1},
+      { "monster": "mon_feral_human_photokin", "weight": 1 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 1 },

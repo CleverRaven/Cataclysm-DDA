@@ -5,7 +5,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 3 },
-      { "monster": "mon_feral_human_photokin", "weight": 2},
+      { "monster": "mon_feral_human_photokin", "weight": 2 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 3 },
@@ -19,7 +19,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 3 },
-      { "monster": "mon_feral_human_photokin", "weight": 3},
+      { "monster": "mon_feral_human_photokin", "weight": 3 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 3 },
@@ -33,7 +33,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 4 },
       { "monster": "mon_feral_human_clair", "weight": 1, "cost_multiplier": 3 },
-      { "monster": "mon_feral_human_photokin", "weight": 1, "cost_multiplier": 4},
+      { "monster": "mon_feral_human_photokin", "weight": 1, "cost_multiplier": 4 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_feral_human_telekin", "weight": 1, "cost_multiplier": 4 },
       { "monster": "mon_feral_human_teep", "weight": 1, "cost_multiplier": 3 },
@@ -47,7 +47,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 15 },
-      { "monster": "mon_feral_human_photokin", "weight": 15},
+      { "monster": "mon_feral_human_photokin", "weight": 15 },
       { "monster": "mon_feral_human_pyrokin", "weight": 5, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 15 },
@@ -77,7 +77,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 4 },
       { "monster": "mon_feral_human_clair", "weight": 1, "cost_multiplier": 3 },
-      { "monster": "mon_feral_human_photokin", "weight": 1, "cost_multiplier": 4},
+      { "monster": "mon_feral_human_photokin", "weight": 1, "cost_multiplier": 4 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 6 },
       { "monster": "mon_feral_human_telekin", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_feral_human_teep", "weight": 1, "cost_multiplier": 4 },
