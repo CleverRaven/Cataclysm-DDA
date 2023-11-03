@@ -378,9 +378,16 @@
   },
   {
     "type": "effect_type",
+    "id": "disarmed",
+    "name": [ "Disarmed" ],
+    "//": "Disables monster weapon attacks",
+    "desc": [ "You have been forced to drop any wielded weapon.  You can wield them again if you manage to survive." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_arm",
     "name": [ "Broken Arm" ],
-    "//": "Disables base grabs and scratches",
+    "//": "Disables base grabs, scratches and monster weapon attacks",
     "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
   },
   {

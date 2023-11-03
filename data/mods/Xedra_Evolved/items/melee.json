@@ -33,7 +33,7 @@
     "material": [ "moon_tears" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
+    "weapon_category": [ "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "weight": "1214 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
@@ -89,7 +89,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "longest_side": "60 cm",
     "material": [ "moon_tears" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "SHORT_SWORDS", "DURABLE_MELEE" ],
+    "weapon_category": [ "SHORT_SWORDS", "DURABLE_MELEE" ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ] }
   },
   {

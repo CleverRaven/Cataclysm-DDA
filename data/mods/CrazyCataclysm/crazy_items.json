@@ -359,7 +359,7 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "price_postapoc": 250,
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 4, "cut": 8 }
