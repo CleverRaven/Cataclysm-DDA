@@ -317,7 +317,7 @@
     "id": "telepathic_invisibility",
     "type": "SPELL",
     "name": "[Ψ]Obscurity",
-    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.",
+    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.\n\nThis power is <color_red>canceled by engaging in combat</color>",
     "message": "You hide your presence from your enemies.",
     "teachable": false,
     "valid_targets": [ "self" ],

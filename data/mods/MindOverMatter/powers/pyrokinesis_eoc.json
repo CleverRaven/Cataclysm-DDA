@@ -38,7 +38,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       {
-        "queue_eocs": "EOC_SPELL_PYROKIN_CALL_FLAME_DRAIN",
+        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
         "time_in_future": [
           {
             "math": [
