@@ -922,7 +922,7 @@
     "batch_time_factors": [ 25, 2 ],
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking"}, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
