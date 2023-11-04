@@ -880,6 +880,11 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 _( "You deserve better food than this." ) );
     }
 
+    if ( has_trait( trait_PICKYEATER ) && drinkable && !food.is_medication() &&
+        fun_for( food ).first < -2 && get_thirst() < 240 ) {
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You are not going to drink this." ) );
+    }
+
     return ret_val<edible_rating>::make_success();
 }
 
