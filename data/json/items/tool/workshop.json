@@ -1751,5 +1751,20 @@
     "material": [ "epoxy", "kevlar" ],
     "symbol": "#",
     "color": "light_gray"
+  },
+  {
+    "id": "thread_cutting_set",
+    "type": "TOOL",
+    "name": { "str": "thread cutting set" },
+    "description": "This is a set of a external thread cutting die inserted into a manual grip and an internal thread cutting die used as a drill bit.",
+    "weight": "1500 g",
+    "volume": "750 ml",
+    "longest_side": "40 cm",
+    "price": 2000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": "p",
+    "color": "light_gray"
   }
 ]
