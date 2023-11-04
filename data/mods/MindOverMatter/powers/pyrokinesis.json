@@ -249,8 +249,6 @@
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": 1,
-    "max_damage": 1,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 12000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
