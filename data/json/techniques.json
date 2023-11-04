@@ -2137,11 +2137,33 @@
   {
     "type": "technique",
     "id": "tec_ninjutsu_takedown",
-    "name": "Ninjutsu Takedown",
+    "name": "Ninjutsu Takedown (unarmed)",
     "messages": [ "You quickly grab and bring %s to the ground!", "<npcname> quickly grabs and brings %s to the ground!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
-    "melee_allowed": true,
     "unarmed_allowed": true,
+    "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
+    "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
+    "down_dur": 2,
+    "weighting": 3,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "THROW" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_takedown_melee",
+    "name": "Ninjutsu Takedown (melee)",
+    "messages": [ "You quickly grab and bring %s to the ground!", "<npcname> quickly grabs and brings %s to the ground!" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
     "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
     "weapon_categories_allowed": [ "KNIVES", "CLAWS" ],
     "crit_tec": true,
