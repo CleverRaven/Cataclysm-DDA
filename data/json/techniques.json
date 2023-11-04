@@ -485,10 +485,7 @@
     "type": "technique",
     "id": "tec_aikido_break",
     "name": "Grab Break",
-    "messages": [
-      "%s tries to grab you, but you smoothly break free!",
-      "%s tries to grab <npcname>, but they smoothly break free!"
-    ],
+    "messages": [ "%s tries to grab you, but you smoothly break free!", "%s tries to grab <npcname>, but they smoothly break free!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -941,10 +938,7 @@
     "type": "technique",
     "id": "tec_crane_break",
     "name": "Crane Flap",
-    "messages": [
-      "%s tries to grab you, but you swing your arms and break free!",
-      "%s tries to grab <npcname>, but they flap free!"
-    ],
+    "messages": [ "%s tries to grab you, but you swing your arms and break free!", "%s tries to grab <npcname>, but they flap free!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
