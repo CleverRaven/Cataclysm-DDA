@@ -368,7 +368,7 @@
     "unarmed_allowed": true,
     "weighting": 2,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The %s is disarmed!" } ],
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "%s is disarmed!" } ],
     "stun_dur": 1,
     "attack_vectors": [ "HAND" ]
   },
@@ -465,7 +465,7 @@
     "type": "technique",
     "id": "tec_lizard_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you outmaneuver it!", "The %s tries to grab <npcname>, but they outmaneuver it!" ],
+    "messages": [ "%s tries to grab you, but you outmaneuver it!", "%s tries to grab <npcname>, but they outmaneuver it!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -627,7 +627,7 @@
     "type": "technique",
     "id": "tec_centipede_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you skitter free!", "The %s tries to grab <npcname>, but they skitter free!" ],
+    "messages": [ "%s tries to grab you, but you skitter free!", "%s tries to grab <npcname>, but they skitter free!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -669,7 +669,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The %s is disarmed!" } ],
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "%s is disarmed!" } ],
     "attack_vectors": [ "HAND" ]
   }
 ]
