@@ -534,7 +534,10 @@
       { "proficiency": "prof_spears_familiar", "required": true },
       { "proficiency": "prof_spears_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "stick_long", "pointy_stick_long", "spear_shaft", "pitchfork", "simple_spear_pipe", "spear_pipe" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [
+      [ "stick_long", "pointy_stick_long", "spear_shaft", "pitchfork", "simple_spear_pipe", "spear_pipe" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ]
   },
   {
     "id": "prac_stabbing_beg_thrust",
@@ -759,7 +762,10 @@
       { "proficiency": "prof_batons_familiar", "required": true },
       { "proficiency": "prof_batons_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "tonfa", "baton-extended", "PR24-extended", "cudgel", "stick", "pipe" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [
+      [ "tonfa", "baton-extended", "PR24-extended", "cudgel", "stick", "pipe" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ]
   },
   {
     "id": "prac_cutting_beg_med_sword",
@@ -796,7 +802,10 @@
       { "proficiency": "prof_medium_swords_familiar", "required": true },
       { "proficiency": "prof_medium_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass", "sword_sheets_welded" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [
+      [ "arming_sword", "cavalry_sabre", "cutlass", "sword_sheets_welded" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ]
   },
   {
     "id": "prac_cutting_beg_short_sword",
