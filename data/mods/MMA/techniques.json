@@ -114,7 +114,15 @@
     "messages": [ "You skillfully disarm %s!", "<npcname> skillfully disarms %s!" ],
     "unarmed_allowed": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -511,7 +519,15 @@
     "melee_allowed": true,
     "crit_ok": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {

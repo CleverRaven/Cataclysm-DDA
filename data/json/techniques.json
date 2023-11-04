@@ -40,7 +40,15 @@
     "disarms": true,
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "description": "Unwield target's weapon, min 4 melee",
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -266,7 +274,15 @@
     "disarms": true,
     "messages": [ "You disarm %s using your whip!", "<npcname> disarms %s using their whip!" ],
     "description": "Unwield target's weapon",
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -285,7 +301,10 @@
     "melee_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "You were almost grabbed by %s, but you break its grab!", "<npcname> was almost grabbed by %s, but they break its grab!" ]
+    "messages": [
+      "You were almost grabbed by %s, but you break its grab!",
+      "<npcname> was almost grabbed by %s, but they break its grab!"
+    ]
   },
   {
     "type": "technique",
@@ -403,7 +422,15 @@
     "required_buffs_all": [ "buff_aikido_onblock" ],
     "crit_ok": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
@@ -448,7 +475,15 @@
     "required_buffs_all": [ "buff_aikido_ondodge" ],
     "crit_ok": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
@@ -485,7 +520,10 @@
     "type": "technique",
     "id": "tec_aikido_break",
     "name": "Grab Break",
-    "messages": [ "You were almost grabbed by %s, but you smoothly break free!", "<npcname> was almost grabbed by %s, but they smoothly break free!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you smoothly break free!",
+      "<npcname> was almost grabbed by %s, but they smoothly break free!"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -589,7 +627,15 @@
     "melee_allowed": true,
     "crit_ok": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -712,7 +758,10 @@
     "type": "technique",
     "id": "tec_brawl_break_melee",
     "name": "Grab Break",
-    "messages": [ "You were almost grabbed by %s, but you force yourself free!", "<npcname> was almost grabbed by %s, but they break free!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you force yourself free!",
+      "<npcname> was almost grabbed by %s, but they break free!"
+    ],
     "skill_requirements": [ { "name": "melee", "level": 6 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -722,7 +771,10 @@
     "type": "technique",
     "id": "tec_brawl_break_unarmed",
     "name": "Grab Break",
-    "messages": [ "You were almost grabbed by %s, but you force yourself free!", "<npcname> was almost grabbed by %s, but they break free!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you force yourself free!",
+      "<npcname> was almost grabbed by %s, but they break free!"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -756,7 +808,15 @@
     "skill_requirements": [ { "name": "melee", "level": 6 } ],
     "melee_allowed": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -767,7 +827,15 @@
     "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
     "unarmed_allowed": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -938,7 +1006,10 @@
     "type": "technique",
     "id": "tec_crane_break",
     "name": "Crane Flap",
-    "messages": [ "You were almost grabbed by %s, but you swing your arms and break free!", "<npcname> was almost grabbed by %s, but they flap free!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you swing your arms and break free!",
+      "<npcname> was almost grabbed by %s, but they flap free!"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -1387,7 +1458,15 @@
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "condition": {
       "and": [
         { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
@@ -1701,7 +1780,15 @@
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
@@ -2084,7 +2171,10 @@
     "type": "technique",
     "id": "tec_muay_thai_break",
     "name": "Grab Break",
-    "messages": [ "You were almost grabbed by %s, but you break the clinch!", "<npcname> was almost grabbed by %s, but they break the clinch!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you break the clinch!",
+      "<npcname> was almost grabbed by %s, but they break the clinch!"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -2879,7 +2969,15 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "disarms": true,
-    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The weapon of %s has been forced out ot their hands!" } ],
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "HAND" ]
   },
   {
