@@ -1,0 +1,9 @@
+[
+  {
+    "id": "old_industrial_bot_storage",
+    "type": "item_group",
+    "//": "Old and mostly broken industrial bots, its meant to spawn in recharging stations, so it only places a single bot.",
+    "subtype": "distribution",
+    "items": [ [ "bot_light_hack", 10 ], [ "broken_hazmatbot", 60 ], [ "broken_utilibot_const", 120 ] ]
+  }
+]
