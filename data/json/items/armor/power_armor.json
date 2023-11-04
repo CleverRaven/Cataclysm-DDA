@@ -18,7 +18,7 @@
         "rigid": true,
         "description": "Compartment for a UPS.",
         "flag_restriction": [ "IS_UPS" ],
-        "max_contains_volume": "2.51 L",
+        "max_contains_volume": "2510 ml",
         "moves": 200
       },
       {
@@ -26,7 +26,7 @@
         "rigid": true,
         "description": "Compartment for a UPS.",
         "flag_restriction": [ "IS_UPS" ],
-        "max_contains_volume": "2.51 L",
+        "max_contains_volume": "2510 ml",
         "moves": 200
       },
       {
@@ -34,7 +34,6 @@
         "ablative": true,
         "description": "Hooks and straps to attach head armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ],
-        "max_contains_volume": "3.2 l",
         "moves": 200
       },
       {
@@ -42,7 +41,6 @@
         "ablative": true,
         "description": "Hooks and straps to attach torso armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ],
-        "max_contains_volume": "10.7 l",
         "moves": 200
       },
       {
@@ -50,7 +48,6 @@
         "ablative": true,
         "description": "Hooks and straps to attach arms armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ],
-        "max_contains_volume": "3.7 l",
         "moves": 200
       },
       {
@@ -58,7 +55,6 @@
         "ablative": true,
         "description": "Hooks and straps to attach legs armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ],
-        "max_contains_volume": "3.7 l",
         "moves": 200
       }
     ]
@@ -66,6 +62,7 @@
   {
     "copy-from": "exoskeleton",
     "id": "depowered_armor",
+    "type": "TOOL_ARMOR",
     "name": { "str": "salvaged exoskeleton" },
     "description": "TBI",
     "weight": "16000 g",
@@ -95,8 +92,9 @@
   {
     "copy-from": "exoskeleton",
     "id": "power_armor_heavy",
+    "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk.1" },
-    "description": "TBI",
+    "description": "Nicknamed 'Tank Suits' for the heavy armor they allow their users to carry these combat exoskeletons are part of the first generation of exoskeletons developed by the army following the release of utility versions released to the civilian market a few years before. The exoskeleton is actually composed of a form-fitting liquid cooling garment, a protective layer reminiscent of a flight suit, enclosed by a transparent mask, and the exoskeleton itself, micromotors and actuators on a complex frame with hooks and straps to attach specialized armor onto. The exoskeleton is off and makes movement difficult.",
     "weight": "18000 g",
     "volume": "3500 ml",
     "armor": [
@@ -131,8 +129,9 @@
   {
     "copy-from": "power_armor_heavy",
     "id": "power_armor_heavy_on",
+    "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk.1 (on)", "str_pl": "combat exoskeletons mk.1 (on)" },
-    "description": "The exoskeleton is on and its actuators whirring softly as you move.",
+    "description": "Nicknamed 'Tank Suits' for the heavy armor they allow their users to carry these combat exoskeletons are part of the first generation of exoskeletons developed by the army following the release of utility versions released to the civilian market a few years before. The exoskeleton is actually composed of a form-fitting liquid cooling garment, a protective layer reminiscent of a flight suit, enclosed by a transparent mask, and the exoskeleton itself, micromotors and actuators on a complex frame with hooks and straps to attach specialized armor onto. The exoskeleton is on and its components whirring softly as you move.",
     "power_draw": "100 W",
     "weight_capacity_modifier": 1.8,
     "revert_to": "power_armor_heavy",
@@ -163,7 +162,7 @@
     "id": "power_armor_basic",
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk.2" },
-    "description": "TBI",
+    "description": "This combat exoskeleton is of second generation, designed to be lighter, less encumbering and more energy efficient while still giving the user greatly increased carry capacity.The exoskeleton is actually composed of a form-fitting liquid cooling garment, a protective layer reminiscent of a flight suit, enclosed by a transparent mask, and the exoskeleton itself, micromotors and actuators on a complex frame with hooks and straps to attach specialized armor onto. The exoskeleton is off and makes movement difficult.",
     "weight": "16000 g",
     "volume": "3000 ml",
     "armor": [
@@ -198,10 +197,10 @@
   {
     "id": "power_armor_basic_on",
     "copy-from": "power_armor_basic",
-    "looks_like": "power_armor_basic",
     "type": "TOOL_ARMOR",
+    "looks_like": "power_armor_basic",
     "name": { "str": "combat exoskeleton (on)", "str_pl": "combat exoskeletons (on)" },
-    "description": "The exoskeleton is on and its actuators whirring softly as you move.",
+    "description": "This combat exoskeleton is of second generation, designed to be lighter, less encumbering and more energy efficient while still giving the user greatly increased carry capacity. The exoskeleton is actually composed of a form-fitting liquid cooling garment, a protective layer reminiscent of a flight suit, enclosed by a transparent mask, and the exoskeleton itself, micromotors and actuators on a complex frame with hooks and straps to attach specialized armor onto. The exoskeleton is on and its components whirring softly as you move.",
     "power_draw": "84 kW",
     "weight_capacity_modifier": 1.6,
     "revert_to": "power_armor_basic",
@@ -230,8 +229,9 @@
   {
     "copy-from": "exoskeleton",
     "id": "power_armor_light",
+    "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk.3" },
-    "description": "TBI",
+    "description": "Part of the latest generation, these combat exoskeletons were designed for actual production and usage, praised for their responsiveness and light weight compared to their predecessors despite the slight sacrifice in carry capacity. The exoskeleton is actually composed of a form-fitting liquid cooling garment, a protective layer reminiscent of a flight suit, enclosed by a transparent mask, and the exoskeleton itself, micromotors and actuators on a complex frame with hooks and straps to attach specialized armor onto. The exoskeleton is off and makes movement difficult.",
     "weight": "14000 g",
     "volume": "2500 ml",
     "armor": [
@@ -266,9 +266,9 @@
   {
     "copy-from": "power_armor_light",
     "id": "power_armor_light_on",
+    "type": "TOOL_ARMOR",
     "name": { "str": "light combat exoskeleton (on)" },
-    "description": "The exoskeleton is on and its actuators whirring softly as you move.",
-    "encumbrance": 5,
+    "description": "Part of the latest generation, these combat exoskeletons were designed for actual production and usage, praised for their responsiveness and light weight compared to their predecessors despite the slight sacrifice in carry capacity. The exoskeleton is actually composed of a form-fitting liquid cooling garment, a protective layer reminiscent of a flight suit, enclosed by a transparent mask, and the exoskeleton itself, micromotors and actuators attached to a frame with a complex system of hooks and straps to attach specialized armor onto. The exoskeleton is on and its components whirring softly as you move.",
     "power_draw": "70 W",
     "weight_capacity_modifier": 1.4,
     "revert_to": "power_armor_light",
@@ -311,36 +311,85 @@
   {
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_heavy",
+    "type": "ARMOR",
     "name": "heavy exoskeleton helmet",
-    "description": "TBI",
-    "weight": "7 kg",
-    "volume": "3.1 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 6 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7000 g",
+    "volume": "3100 ml",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 25 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_medium",
+    "type": "ARMOR",
     "name": "exoskeleton helmet",
-    "description": "TBI",
-    "weight": "5.4 kg",
-    "volume": "2.9 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "5400 g",
+    "volume": "2900 ml",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 20 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_helmet",
     "id": "exoskeleton_helmet_light",
+    "type": "ARMOR",
     "name": "light exoskeleton helmet",
-    "description": "TBI",
-    "weight": "3.8 kg",
-    "volume": "2.7 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "3800 g",
+    "volume": "2700 ml",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 15 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "copy-from": "exoskeleton_helmet",
+    "id": "exoskeleton_helmet_customized",
+    "type": "ARMOR",
+    "name": "heavy exoskeleton helmet",
+    "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7300 g",
+    "volume": "3600 ml",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 6, "covered_by_mat": 95 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_torso",
     "type": "ARMOR",
     "category": "armor",
-    "name": "TBI",
-    "description": "TBI",
+    "name": "abstract exoskeleton torso armor",
     "price": 60000,
     "price_postapoc": 5000,
     "flags": [ "ABLATIVE_EXOSKELETON_TORSO", "CANT_WEAR", "OUTER" ],
@@ -349,32 +398,85 @@
   {
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_heavy",
+    "type": "ARMOR",
     "name": "heavy exoskeleton torso",
-    "weight": "21.9 kg",
-    "volume": "10.6 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 6 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "21900 g",
+    "volume": "10600 ml",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 25 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_medium",
+    "type": "ARMOR",
     "name": "exoskeleton torso",
-    "weight": "17.1 kg",
-    "volume": "9.9 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "17100 g",
+    "volume": "9900 ml",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 20 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_torso",
     "id": "exoskeleton_torso_light",
+    "type": "ARMOR",
     "name": "light exoskeleton torso",
-    "weight": "12.3 kg",
-    "volume": "9.3 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "12300 g",
+    "volume": "9300 ml",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 15 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "copy-from": "exoskeleton_torso",
+    "id": "exoskeleton_torso_customized",
+    "type": "ARMOR",
+    "name": "heavy exoskeleton torso",
+    "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7300 g",
+    "volume": "3600 ml",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 6, "covered_by_mat": 95 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": "TBI",
+    "name": "abstract exoskeleton arm armor",
     "price": 60000,
     "price_postapoc": 5000,
     "flags": [ "ABLATIVE_EXOSKELETON_ARMS", "CANT_WEAR", "OUTER" ],
@@ -383,65 +485,164 @@
   {
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_heavy",
+    "type": "ARMOR",
     "name": "heavy exoskeleton arms",
-    "description": "TBI",
-    "weight": "7.3 kg",
-    "volume": "3.6 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 6 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7300 g",
+    "volume": "3600 ml",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 12.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_medium",
+    "type": "ARMOR",
     "name": "exoskeleton arms",
-    "description": "TBI",
-    "weight": "5.7 g",
-    "volume": "3.4 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "5700 g",
+    "volume": "3400 ml",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 10 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_arms",
     "id": "exoskeleton_arms_light",
+    "type": "ARMOR",
     "name": "light exoskeleton arms",
-    "description": "TBI",
-    "weight": "4.1 kg",
-    "volume": "3.2 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "4100 g",
+    "volume": "3200 ml",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 7.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "copy-from": "exoskeleton_arms",
+    "id": "exoskeleton_arms_customized",
+    "type": "ARMOR",
+    "name": "heavy exoskeleton arms",
+    "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7300 g",
+    "volume": "3600 ml",
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 2, "covered_by_mat": 95 } ]
+      }
+    ]
   },
   {
     "abstract": "exoskeleton_legs",
     "type": "ARMOR",
     "category": "armor",
-    "name": "TBI",
+    "name": "abstract exoskeleton leg armor",
     "price": 60000,
     "price_postapoc": 5000,
-    "flags": [ "ABLATIVE_EXOSKELETON_LEGS", "CANT_WEAR", "OUTER" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 15 } ]
+    "flags": [ "ABLATIVE_EXOSKELETON_LEGS", "CANT_WEAR", "OUTER" ]
   },
   {
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_heavy",
+    "type": "ARMOR",
     "name": "heavy exoskeleton legs",
-    "description": "TBI",
-    "weight": "7.3 kg",
-    "volume": "3.6 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 6 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7300 g",
+    "volume": "3600 ml",
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 12.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_medium",
+    "type": "ARMOR",
     "name": "exoskeleton legs",
-    "description": "TBI",
-    "weight": "5.7 kg",
-    "volume": "3.4 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "5700 g",
+    "volume": "3400 ml",
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 10 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
   },
   {
     "copy-from": "exoskeleton_legs",
     "id": "exoskeleton_legs_light",
+    "type": "ARMOR",
     "name": "light exoskeleton legs",
-    "description": "TBI",
-    "weight": "4.1 kg",
-    "volume": "3.2 l",
-    "material": [ { "type": "kevlar_layered", "thickness": 2 }, { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2 } ]
+    "description": "Plates of ceramic held in place by a layer of kevlar. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "4100 g",
+    "volume": "3200 ml",
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "ceramic", "covered_by_mat": 95, "thickness": 7.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "copy-from": "exoskeleton_legs",
+    "id": "exoskeleton_legs_customized",
+    "type": "ARMOR",
+    "name": "heavy exoskeleton legs",
+    "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
+    "weight": "7300 g",
+    "volume": "3600 ml",
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 3, "covered_by_mat": 95 } ]
+      }
+    ]
   }
 ]
