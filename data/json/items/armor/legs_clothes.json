@@ -1718,6 +1718,89 @@
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "skirt_red",
+        "name": { "str": "red skirt" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 40
+      },
+      {
+        "id": "skirt_blue",
+        "name": { "str": "blue skirt" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_yellow",
+        "name": { "str": "yellow skirt" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_green",
+        "name": { "str": "green skirt" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_purple",
+        "name": { "str": "purple skirt" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_pink",
+        "name": { "str": "pink skirt" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_cyan",
+        "name": { "str": "cyan skirt" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_black",
+        "name": { "str": "black skirt" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_white",
+        "name": { "str": "white skirt" },
+        "color": "light_gray",
+        "description": "This one is colored white.",
+        "append": true,
+        "weight": 24
+      },
+      {
+        "id": "skirt_brown",
+        "name": { "str": "brown skirt" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 24
+      }
     ]
   },
   {
