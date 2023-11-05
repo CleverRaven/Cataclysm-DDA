@@ -798,9 +798,9 @@
     "decay_messages": [ [ "Your control over light refraction is straining you.", "bad" ], [ "Staying invisible is getting tiring.", "bad" ] ],
     "flags": [ "INVISIBLE" ],
     "max_duration": "3 h",
-    "max_intensity": 180,
+    "max_intensity": 177,
     "dur_add_perc": 10,
-    "int_dur_factor": "1 m"
+    "int_dur_factor": " 62 s"
   },
   {
     "type": "effect_type",
@@ -813,9 +813,9 @@
     "show_in_info": true,
     "base_mods": { "hit_mod": [ 4 ] },
     "max_duration": "5 h",
-    "max_intensity": 300,
+    "max_intensity": 297,
     "dur_add_perc": 10,
-    "int_dur_factor": "1 m"
+    "int_dur_factor": "63 s"
   },
   {
     "type": "effect_type",
