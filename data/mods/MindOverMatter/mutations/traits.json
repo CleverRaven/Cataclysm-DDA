@@ -31,7 +31,7 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "PHOTOKINETIC" ],
-    "spells_learned": [ [ "photokinetic_snuff_light", 1 ], [ "photokinetic_light_dodge", 1 ], [ "photokinetic_light_beam", 1 ] ]
+    "spells_learned": [ [ "photokinetic_snuff_light", 2 ], [ "photokinetic_light_dodge", 2 ], [ "photokinetic_light_beam", 2 ] ]
   },
   {
     "type": "mutation",

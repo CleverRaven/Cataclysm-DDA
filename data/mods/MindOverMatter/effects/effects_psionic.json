@@ -796,7 +796,11 @@
     "apply_message": "You refract light in a way that makes you appear invisible.",
     "remove_message": "You let light flow naturally again.",
     "decay_messages": [ [ "Your control over light refraction is straining you.", "bad" ], [ "Staying invisible is getting tiring.", "bad" ] ],
-    "flags": [ "INVISIBLE" ]
+    "flags": [ "INVISIBLE" ],
+    "max_duration": "3 h",
+    "max_intensity": 180,
+    "dur_add_perc": 10,
+    "int_dur_factor": "1 m"
   },
   {
     "type": "effect_type",
@@ -807,7 +811,11 @@
     "remove_message": "the light around your arms returns to normal.",
     "rating": "neutral",
     "show_in_info": true,
-    "base_mods": { "hit_mod": [ 4 ] }
+    "base_mods": { "hit_mod": [ 4 ] },
+    "max_duration": "5 h",
+    "max_intensity": 300,
+    "dur_add_perc": 10,
+    "int_dur_factor": "1 m"
   },
   {
     "type": "effect_type",
@@ -819,7 +827,8 @@
     "rating": "bad",
     "show_in_info": true,
     "immune_flags": [ "PHOTOKINETIC" ],
-    "flags": [ "BLIND" ]
+    "flags": [ "BLIND" ],
+    "max_duration": "3 d"
   },
   {
     "type": "effect_type",
