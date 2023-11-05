@@ -89,6 +89,8 @@
   "needs_ammo": true,         // Technique works only if weapon is loaded; Consume 1 charge per attack 
   "crit_tec": true,           // This technique only works on a critical hit
   "crit_ok": true,            // This technique works on both normal and critical hits
+  "reach_tec": true,          // This technique only works on a reach attack hit
+  "reach_ok": true,           // This technique works on both normal and reach attack hits
   "attack_override": false,   // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
   "condition": "u_is_outside",// Optional (array of) dialog conditions the attack requires to trigger.  Failing these will disqualify the tech from being selected
   "condition_desc": "Needs X",// Description string describing the conditions of this attack (since dialog conditions can't be automatically evaluated)       
