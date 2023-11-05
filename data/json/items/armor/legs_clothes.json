@@ -1727,7 +1727,7 @@
         "description": "This one is colored red.",
         "color": "red",
         "append": true,
-        "weight": 100
+        "weight": 40
       },
       {
         "id": "skirt_blue",
@@ -1735,7 +1735,7 @@
         "color": "blue",
         "description": "This one is colored blue.",
         "append": true,
-        "weight": 30
+        "weight": 24
       },
       {
         "id": "skirt_yellow",
