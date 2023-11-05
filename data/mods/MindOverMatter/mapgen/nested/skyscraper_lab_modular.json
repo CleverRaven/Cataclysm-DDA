@@ -17,6 +17,7 @@
         "d.ꞝccꞝ..",
         "dddd...."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { "t": "t_carpet_linoleum_gray_green", "c": "t_carpet_linoleum_gray_green" },
       "place_item": [
@@ -52,6 +53,7 @@
         "..ꞝccꞝ.d",
         "....dddd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": { "t": "t_carpet_linoleum_gray_green", "c": "t_carpet_linoleum_gray_green" },
       "place_item": [
@@ -87,6 +89,7 @@
         "&c.-....",
         "dxd-l..&"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": {
         ".": "t_carpet_linoleum_white_purple",
@@ -124,6 +127,7 @@
         "....-.c&",
         "&..l-dxd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "terrain": {
         ".": "t_carpet_linoleum_white_purple",
@@ -163,6 +167,7 @@
         "xc...P...",
         "đđĐ..P.đđ"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "P": "f_curtain", "đ": "f_desk", "Đ": "f_desk" },
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "place_item": [
@@ -202,6 +207,7 @@
         "...P...cx",
         "đđ.P..Đđđ"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "P": "f_curtain", "đ": "f_desk", "Đ": "f_desk" },
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "place_item": [
@@ -241,13 +247,14 @@
         "dc....c.U",
         "dx....xUU"
       ],
-      "palettes": [ "office_phavian_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "place_items": [ { "item": "matrix_crystal_telepath_dust_group", "x": 7, "y": 4, "chance": 40, "repeat": [ 1, 3 ] } ],
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
         "F": { "item": "office", "chance": 95 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
+        "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
@@ -276,13 +283,14 @@
         "U.c....cd",
         "UUx....xd"
       ],
-      "palettes": [ "office_phavian_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "place_items": [ { "item": "matrix_crystal_telepath_dust_group", "x": 7, "y": 4, "chance": 40, "repeat": [ 1, 3 ] } ],
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
         "F": { "item": "office", "chance": 95 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
+        "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
@@ -305,6 +313,7 @@
         "    ",
         " HHH"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -339,6 +348,7 @@
         "F  d",
         "  cd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -373,6 +383,7 @@
         "  cd",
         "  dd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -407,6 +418,7 @@
         "  cd",
         " xdd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -441,6 +453,7 @@
         "    ",
         " FBB"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -470,11 +483,12 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "ddiB",
+        "ddFB",
         "dc F",
         "  cd",
         "  dd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -509,6 +523,7 @@
         "  cd",
         "  dd"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -543,6 +558,7 @@
         "   d",
         " BBB"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -563,9 +579,6 @@
     }
   },
   {
-    
-  },
-  {
     "//": "4x4 upstairs office with SE wall door",
     "type": "mapgen",
     "method": "json",
@@ -579,6 +592,7 @@
         "    ",
         "HHH "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -613,6 +627,7 @@
         "d  F",
         "dc  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -647,6 +662,7 @@
         "dc  ",
         "dd  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -681,6 +697,7 @@
         "dc  ",
         "ddx "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -715,6 +732,7 @@
         "    ",
         "BBF "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -744,11 +762,12 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "Bidd",
+        "BFdd",
         "F cd",
         "dc  ",
         "dd  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -783,6 +802,7 @@
         "dc  ",
         "dd  "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [
@@ -817,6 +837,7 @@
         "d   ",
         "BBB "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "phavian_skyscraper_office_room_palette" ],
       "items": {
         "d": [

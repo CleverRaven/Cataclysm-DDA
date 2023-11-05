@@ -33,7 +33,6 @@
       "!": "t_door_metal_locked",
       "E": "t_elevator",
       "G": "t_door_glass_frosted_lab_c",
-      "H": "t_reinforced_glass",
       "R": "t_railing_v",
       "s": "t_sidewalk",
       "V": "t_reinforced_glass",
@@ -54,7 +53,6 @@
       "e": "f_fridge",
       "F": "f_filing_cabinet",
       "h": "f_chair",
-      "H": "f_sofa",
       "l": "f_locker",
       "M": "f_armchair",
       "n": "f_table",
@@ -85,43 +83,41 @@
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
     "toilets": { "T": {  } }
   },
-  [
-    {
-      "type": "palette",
-      "id": "phavian_skyscraper_office_room_palette",
-      "terrain": {
-        "ꞝ": "t_carpet_linoleum_gray_green",
-        ".": "t_linoleum_white",
-        ":": "t_reinforced_glass",
-        "=": "t_door_glass_frosted_lab_c",
-        "|": "t_brick_wall",
-        "+": "t_door_c"
-      },
-      "furniture": {
-        "-": "f_room_divider",
-        "&": "f_trashcan",
-        "c": "f_chair",
-        "d": "f_desk",
-        "l": "f_locker",
-        "p": "f_drill_press",
-        "t": "f_table",
-        "x": "f_console_broken",
-        "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-        "ç": "f_lab_bench",
-        "A": "f_stool",
-        "B": "f_bookcase",
-        "C": "f_counter",
-        "E": "f_electron_microscope",
-        "F": "f_filing_cabinet",
-        "H": "f_sofa",
-        "I": "f_filing_cabinet",
-        "M": "f_machinery_electronic",
-        "S": "f_sink",
-        "U": "f_utility_shelf",
-        "Y": "f_rack_coat",
-        "Ŧ": "f_telepathic_amplifier",
-        "Ɱ": "f_machinery_heavy"
-      }
+  {
+    "type": "palette",
+    "id": "phavian_skyscraper_office_room_palette",
+    "terrain": {
+      "ꞝ": "t_carpet_linoleum_gray_green",
+      ".": "t_linoleum_white",
+      ":": "t_reinforced_glass",
+      "=": "t_door_glass_frosted_lab_c",
+      "|": "t_brick_wall",
+      "+": "t_door_c"
+    },
+    "furniture": {
+      "-": "f_room_divider",
+      "&": "f_trashcan",
+      "c": "f_chair",
+      "d": "f_desk",
+      "l": "f_locker",
+      "p": "f_drill_press",
+      "t": "f_table",
+      "x": "f_console_broken",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "ç": "f_lab_bench",
+      "A": "f_stool",
+      "B": "f_bookcase",
+      "C": "f_counter",
+      "E": "f_electron_microscope",
+      "F": "f_filing_cabinet",
+      "H": "f_sofa",
+      "I": "f_filing_cabinet",
+      "M": "f_machinery_electronic",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "Y": "f_rack_coat",
+      "Ŧ": "f_telepathic_amplifier",
+      "Ɱ": "f_machinery_heavy"
     }
-  ]
+  }
 ]

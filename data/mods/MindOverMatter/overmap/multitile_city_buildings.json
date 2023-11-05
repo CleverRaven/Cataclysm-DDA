@@ -50,7 +50,7 @@
       { "point": [ 1, 1, 7 ], "overmap": "phavan_office_skyscraper_lab_upper_nw_south" },
       { "point": [ 0, 1, 7 ], "overmap": "phavan_office_skyscraper_lab_upper_ne_south" },
       { "point": [ 1, 0, 7 ], "overmap": "phavan_office_skyscraper_lab_upper_sw_south" },
-      { "point": [ 0, 0, 7 ], "overmap": "phavan_office_skyscraper_lab_upper_south" },
+      { "point": [ 0, 0, 7 ], "overmap": "phavan_office_skyscraper_lab_upper_se_south" },
       { "point": [ 1, 1, 8 ], "overmap": "office_skyscraper_13_south" },
       { "point": [ 0, 1, 8 ], "overmap": "office_skyscraper_14_south" },
       { "point": [ 1, 0, 8 ], "overmap": "office_skyscraper_15_south" },
