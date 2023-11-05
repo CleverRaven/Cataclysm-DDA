@@ -348,7 +348,7 @@
     "id": "cheap_ammo_pouch",
     "type": "ARMOR",
     "name": "military 5.56 bandolier",
-    "description": "A standard issue military bandolier for 5.56 NATO.  This simple mass manufactured bag on a strap contains four pouches that exactly fit STANAG 30-round magazines or 3 10-round boxes of 5.56 NATO each.  You could use them to store smaller clips or several other things.",
+    "description": "A standard issue military bandolier for 5.56 NATO.  This simple mass manufactured bag on a strap is partitioned into four pouches that fit four STANAG 30-round magazines or twelve 10-round 5.56x45mm stripper clips.  You could use them to store smaller clips or several other things.",
     "weight": "60 g",
     "volume": "40 ml",
     "price": 600,
