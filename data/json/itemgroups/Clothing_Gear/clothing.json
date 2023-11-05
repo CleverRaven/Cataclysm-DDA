@@ -1373,6 +1373,7 @@
     "entries": [
       { "item": "skirt", "prob": 5 },
       { "item": "skirt_leather", "prob": 5 },
+      { "item": "skirt_long", "prob": 5 },
       { "item": "leggings", "prob": 3 },
       { "item": "tights", "prob": 4 },
       { "item": "hot_pants", "prob": 4 },
@@ -1387,6 +1388,7 @@
     "type": "item_group",
     "items": [
       [ "skirt", 40 ],
+      [ "skirt_long", 40 ],
       [ "skirt_leather", 5 ],
       [ "dress", 120 ],
       [ "sundress", 50 ],
@@ -1468,6 +1470,7 @@
     "entries": [
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
+      { "item": "skirt_long", "prob": 25 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
       { "item": "cheerleader_skirt", "prob": 1 },
@@ -1495,6 +1498,7 @@
       [ "motorbike_pants", 5 ],
       [ "breeches", 5 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 50 ]
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
@@ -1745,6 +1749,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 55 ]
       [ "skirt_leather", 5 ],
       [ "leggings", 15 ],
       [ "under_armor_shorts", 20 ],
@@ -2197,6 +2202,7 @@
       { "item": "pants_hiking", "prob": 2 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
+      { "item": "skirt_long", "prob": 55 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "tshirt", "prob": 70 },
       { "item": "longshirt", "prob": 80 },
@@ -2733,7 +2739,7 @@
   {
     "type": "item_group",
     "id": "lab_pants",
-    "items": [ [ "jeans", 90 ], [ "pants_checkered", 5 ], [ "pants", 75 ], [ "pants_cargo", 70 ], [ "skirt", 75 ] ]
+    "items": [ [ "jeans", 90 ], [ "pants_checkered", 5 ], [ "pants", 75 ], [ "pants_cargo", 70 ], [ "skirt", 75 ], [ "skirt_long", 60 ] ]
   },
   {
     "type": "item_group",
@@ -3397,6 +3403,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 60 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],
@@ -3855,7 +3862,7 @@
     "type": "item_group",
     "//": "womens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
-    "items": [ { "item": "nanoskirt", "prob": 10 }, { "item": "skirt", "prob": 50 }, { "item": "skirt_leather", "prob": 10 } ]
+    "items": [ { "item": "nanoskirt", "prob": 10 }, { "item": "skirt", "prob": 50 }, { "item": "skirt_long", "prob": 40 }, { "item": "skirt_leather", "prob": 10 } ]
   },
   {
     "id": "pants_mens",
