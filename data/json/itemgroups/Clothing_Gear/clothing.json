@@ -3869,7 +3869,12 @@
     "type": "item_group",
     "//": "womens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
-    "items": [ { "item": "nanoskirt", "prob": 10 }, { "item": "skirt", "prob": 50 }, { "item": "skirt_long", "prob": 40 }, { "item": "skirt_leather", "prob": 10 } ]
+    "items": [
+      { "item": "nanoskirt", "prob": 10 },
+      { "item": "skirt", "prob": 50 },
+      { "item": "skirt_long", "prob": 40 },
+      { "item": "skirt_leather", "prob": 10 }
+    ]
   },
   {
     "id": "pants_mens",
