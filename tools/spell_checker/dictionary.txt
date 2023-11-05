@@ -793,6 +793,8 @@ disapprovingly
 disassembles
 disassembly
 disburse
+disclaimer
+disclaimers
 discoes
 discolorations
 disconcertingly
@@ -1326,6 +1328,7 @@ hardcover
 hardcovers
 hardhat
 hardpoint
+hardpoints
 harmonically
 harries
 harvestable
