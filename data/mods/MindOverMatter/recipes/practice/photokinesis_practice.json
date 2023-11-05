@@ -56,7 +56,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT",
+              "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_snuff_light')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -106,7 +106,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE",
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_dodge')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -156,7 +156,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM",
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_beam')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -207,7 +207,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_image')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -258,7 +258,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_arms')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -309,7 +309,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY",
+              "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_rad_immunity')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -360,7 +360,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY",
+              "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_invisibility')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -385,7 +385,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
@@ -398,7 +398,7 @@
           "and": [
             { "math": [ "u_val('spell_level', 'spell: photokinetic_light_flash')", ">=", "1" ] },
             {
-              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_flash')", "<=", "(difficulty_six_contemplation(1))" ]
+              "math": [ "u_val('spell_exp', 'spell: photokinetic_light_flash')", "<=", "(difficulty_seven_contemplation(1))" ]
             }
           ]
         },
@@ -411,7 +411,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH",
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_flash')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
@@ -464,7 +464,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE",
+              "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE_FALSE",
               "condition": { "math": [ "u_val('spell_level', 'spell: photokinetic_light_disintegrate')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },

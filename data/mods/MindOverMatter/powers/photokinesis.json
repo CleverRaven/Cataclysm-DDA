@@ -105,7 +105,6 @@
     "min_field_intensity": 2,
     "max_field_intensity": 2,
     "field_chance": 1,
-    
     "base_energy_cost": 2500,
     "final_energy_cost": 1000,
     "energy_increment": -125,
@@ -282,7 +281,7 @@
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.6) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 50,
-    "min_aoe":  {
+    "min_aoe": {
       "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_aoe": 30,
