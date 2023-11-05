@@ -205,6 +205,6 @@
     "category": "CC_APPLIANCE",
     "subcategory": "CSC_APPLIANCE_UTILITY",
     "using": [ [ "vehicle_wrench_2", 1 ] ],
-    "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
+    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   }
 ]
