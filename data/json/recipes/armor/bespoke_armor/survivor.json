@@ -416,6 +416,7 @@
   {
     "result": "survivor_adhoc_leather_shirt",
     "type": "recipe",
+    "id_suffix": "sheets",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -458,6 +459,7 @@
   {
     "result": "survivor_adhoc_leather_torso",
     "type": "recipe",
+    "id_suffix": "sheets",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
@@ -492,6 +494,7 @@
   {
     "result": "survivor_adhoc_leather_sleeves",
     "type": "recipe",
+    "id_suffix": "sheets",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
@@ -537,6 +540,7 @@
   {
     "result": "survivor_adhoc_leather_pants",
     "type": "recipe",
+    "id_suffix": "sheets",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
