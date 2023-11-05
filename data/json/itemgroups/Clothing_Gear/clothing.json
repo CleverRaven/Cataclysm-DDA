@@ -2739,7 +2739,14 @@
   {
     "type": "item_group",
     "id": "lab_pants",
-    "items": [ [ "jeans", 90 ], [ "pants_checkered", 5 ], [ "pants", 75 ], [ "pants_cargo", 70 ], [ "skirt", 75 ], [ "skirt_long", 60 ] ]
+    "items": [
+      [ "jeans", 90 ],
+      [ "pants_checkered", 5 ],
+      [ "pants", 75 ],
+      [ "pants_cargo", 70 ],
+      [ "skirt", 75 ],
+      [ "skirt_long", 60 ]
+    ]
   },
   {
     "type": "item_group",
