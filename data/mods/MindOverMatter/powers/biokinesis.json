@@ -204,7 +204,7 @@
     "id": "biokin_hammerhand",
     "type": "SPELL",
     "name": "[Ψ]Hammerhand (toggle)",
-    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools",
+    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
