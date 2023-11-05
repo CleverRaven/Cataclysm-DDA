@@ -11,6 +11,56 @@
   },
   {
     "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_9mm_fmj_1000"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_9mm_jhp_1000"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_300jhp_240"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_300AAC_otmss_720"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_308_1tracer4ap_200"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_308ap_240"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_308fmj_460"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_308_4fmj1tracer_200"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_338fmjbt_200"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_30",
+    "result": "ammo_can_30_shot_120"
+  },
+  {
+    "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "result": "ammunition_can_50",
     "skill_used": "fabrication",
@@ -18,6 +68,56 @@
     "time": "10 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 5 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_556tracer_820"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_50bmg_4fmj1tracer_100"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_50bmg_1tracer4mk211_100"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_50bmg_fmj_120"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_556_m855a1_clipped_840"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_300AAC_otm_840"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_308_600"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_338fmjbt_400"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_shot_160"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_50",
+    "result": "ammo_can_50_beanbag_160"
   },
   {
     "type": "uncraft",
@@ -31,6 +131,31 @@
   },
   {
     "type": "uncraft",
+    "copy-from": "ammunition_can_fat_50",
+    "result": "ammo_can_fat_50_223_1tracer4ball_800"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_fat_50",
+    "result": "ammo_can_fat_50_223_1tracer4ap_800"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_fat_50",
+    "result": "ammo_can_fat_50_223ap_800"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_fat_50",
+    "result": "ammo_can_fat_50_223fmj_800"
+  },
+  {
+    "type": "uncraft",
+    "copy-from": "ammunition_can_fat_50",
+    "result": "ammo_can_fat_50_308_1tracer4ap_600"
+  },
+  {
+    "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "result": "ammunition_can_pa120",
     "skill_used": "fabrication",
@@ -41,13 +166,8 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_grenade",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "copy-from": "ammunition_can_pa120",
+    "result": "ammo_can_pa120_40x53_32"
   },
   {
     "type": "uncraft",
@@ -62,7 +182,7 @@
   {
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_carlgustav",
+    "result": "ammunition_box_carlgustav_he",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "60 m",
@@ -71,26 +191,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_308",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_223",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_50bmg",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ]
+    "copy-from": "ammunition_box_carlgustav_he",
+    "result": "ammunition_box_carlgustav_hedp"
   }
 ]

@@ -40,6 +40,21 @@
     "replace": "scar_l"
   },
   {
+    "id": "ammunition_box_223",
+    "type": "MIGRATION",
+    "replace": "ammo_box_army_10_338"
+  },
+  {
+    "id": "ammunition_box_308",
+    "type": "MIGRATION",
+    "replace": "ammo_box_2"
+  },
+  {
+    "id": "ammunition_box_50bmg",
+    "type": "MIGRATION",
+    "replace": "ammo_box_4"
+  },
+  {
     "id": "r_paint",
     "type": "MIGRATION",
     "replace": "paint_can_steel",
