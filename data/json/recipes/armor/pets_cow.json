@@ -259,7 +259,7 @@
     "subcategory": "CSC_ANIMALS_BOVINE ARMOR",
     "skills_required": [ "tailor", 3 ],
     "time": "28 h 45 m",
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 144 ], [ "bronzesmithing_tools", 12 ] ],
     "components": [ [ [ "scrap_bronze", 72 ] ], [ [ "leather_armor_cow", 1 ] ] ],
     "proficiencies": [

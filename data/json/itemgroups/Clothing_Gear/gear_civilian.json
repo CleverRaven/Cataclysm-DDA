@@ -312,6 +312,8 @@
       [ "textbook_armwest", 2 ],
       [ "textbook_armeast", 2 ],
       [ "textbook_armschina", 2 ],
+      [ "bronze_book", 2 ],
+      [ "bronze_mag", 2 ],
       [ "radio_book", 22 ],
       { "group": "toy_radio_car", "prob": 1 },
       { "group": "toy_makerspace_kit", "prob": 1 },
