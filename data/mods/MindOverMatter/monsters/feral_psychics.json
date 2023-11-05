@@ -378,7 +378,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 2 },
         "cooldown": 15,
-        "monster_message": "%1$ fires a photon beam!"
+        "monster_message": "%1$s fires a photon beam!"
       }
     ],
     "flags": [
@@ -437,14 +437,14 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 6 },
         "cooldown": 10,
-        "monster_message": "%1$'s form is shifting with illusions!"
+        "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
         "id": "psi_photokin2_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 5 },
         "cooldown": 15,
-        "monster_message": "%1$ fires a photon beam!"
+        "monster_message": "%1$s fires a photon beam!"
       },
       {
         "id": "psi_photokin2_lightflash",
@@ -516,14 +516,14 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 7 },
         "cooldown": 10,
-        "monster_message": "%1$'s form is shifting with illusions!"
+        "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
         "id": "psi_photokin3_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 6 },
         "cooldown": 15,
-        "monster_message": "%1$ fires a photon beam!"
+        "monster_message": "%1$s fires a photon beam!"
       },
       {
         "id": "psi_photokin3_lightflash",
