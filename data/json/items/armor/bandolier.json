@@ -347,8 +347,8 @@
   {
     "id": "cheap_ammo_pouch",
     "type": "ARMOR",
-    "name": "cheap ammo bandolier",
-    "description": "A small bandolier with four pouches that perfectly fit standard STANAG 30-round magazines.  You could also use them to store several smaller ammo clips or other items.",
+    "name": "military 5.56 bandolier",
+    "description": "A standard issue military bandolier for 5.56 NATO.  This simple mass manufactured bag on a strap contains four pouches that exactly fit STANAG 30-round magazines or 3 10-round boxes of 5.56 NATO each.  You could use them to store smaller clips or several other things.",
     "weight": "60 g",
     "volume": "40 ml",
     "price": 600,
@@ -358,39 +358,43 @@
     "symbol": "[",
     "looks_like": "leather_pouch",
     "color": "brown",
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.25,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.25,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.25,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
         "max_item_length": "200 mm",
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 1.25,
+        "moves": 65
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "cheap_ammo_pouch_belt223",
