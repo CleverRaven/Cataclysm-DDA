@@ -271,10 +271,10 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "line",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 2) + 15) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 2.5) + 20) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 3) + 35) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: photokinetic_light_flash') * 5) + 40) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "damage_type": "psi_photokinetic_damage",
     "min_range": {
@@ -316,12 +316,12 @@
     "shape": "blast",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 3) + 20) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 6) + 80) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_val('spell_level', 'spell: photokinetic_light_disintegrate') * 7) + 80) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "damage_type": "psi_photokinetic_damage",
