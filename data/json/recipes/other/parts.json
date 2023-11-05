@@ -922,13 +922,15 @@
     "batch_time_factors": [ 25, 2 ],
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking"}, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
       { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M", "level": 2 },
-      { "id": "DRILL", "level": 2 }
+      { "id": "DRILL", "level": 2 },
+      { "id": "THREAD_CUT", "level": 2 },
+      { "id": "THREAD_TAP", "level": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "thread_cutting_set", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   }
 ]

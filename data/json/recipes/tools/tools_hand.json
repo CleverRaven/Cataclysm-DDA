@@ -1699,7 +1699,12 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "DRILL", "level": 2 }
+    ],
     "tools": [ [ [ "casting_mold", -1 ] ], [ [ "hotcut", -1 ] ] ]
   }
 ]
