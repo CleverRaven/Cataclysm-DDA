@@ -3,7 +3,15 @@
     "type": "item_group",
     "id": "milspec_arsenal_300blk_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_300blk_gun&ammo" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_300blk_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_50_300AAC_otm_840", "count": [ 1, 4 ] },
+          { "item": "ammo_can_30_300AAC_otmss_720", "count": [ 1, 4 ] }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -11,8 +19,8 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_300blk_gun&mags" },
-      { "group": "ammo_can_300blk_full", "prob": 30 },
-      { "group": "ammo_can_300blk_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_300AAC_any_full", "prob": 30 },
+      { "group": "ammo_can_300AAC_any_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -36,23 +44,5 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "item": "modular_m16_auto_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_300blk_full",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_308", "count": 15 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_300blk_part",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_300blk", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_300blk",
-    "container-item": "ammunition_box_223",
-    "items": [ [ "300blk", 30 ] ]
   }
 ]

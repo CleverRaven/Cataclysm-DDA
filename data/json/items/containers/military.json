@@ -9,7 +9,7 @@
     "weight": "1680 g",
     "volume": "5058 ml",
     "longest_side": "299 mm",
-    "//": "<https://www.cleanammocans.com/new-m19a1-30-cal-ammo-can.html>, god, all of them has the different dimensions :pain:",
+    "//": "<https://www.cleanammocans.com/new-m19a1-30-cal-ammo-can.html>",
     "//2": "External: 29.85 x 9.53 x 17.78 cm, Internal: 25.4 x 8.9 x 16.5 cm",
     "flags": [ "COLLAPSE_CONTENTS" ],
     "price": 1930,
@@ -24,9 +24,104 @@
         "max_item_length": "254 mm"
       }
     ],
-    "material": [ "steel", "aluminum" ],
-    "symbol": "□",
+    "material": [ { "type": "steel" } ],
+    "//3": "every ammo can contain o-ring, which should've been reflected by 1/50 of rubber material, but in this case the thing simply burn out into pure scrap, and there is no flag to prevent it",
+    "//material": [ { "type": "steel", "portion": 49 }, { "type": "rubber" } ],
+    "symbol": "#",
     "color": "light_gray"
+  },
+  {
+    "id": "ammo_can_30_9mm_fmj_1000",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "1000 9x19 mm FMJ ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-172-9558 A363\n1000 CRTG 9 MM\nBALL M882</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_9mm_jhp_1000",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "1000 9x19 mm JHP ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-357-8488 A260\n1000 CARTRIDGES 9 MM\nSUBSONIC</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_300jhp_240",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "240 .300 win mag ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-018-1547 A191\n240 CARTRIDGES .300 WM\nMATCH GRAGE\n220 GRAIN BULLET\nMk 248 Mod 1\"</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_300AAC_otmss_720",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "720 .300 AAC ammo can" },
+    "//": "dodic code is unknown",
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-651-3478 A001\n720 CARTRIDGES 7.62 x 35mm (300AAC)\n125 OTMSS OPEN TIP MATCH SUBSONIC</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_308_1tracer4ap_200",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "200 7.62mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-398-1449 AA04\n200 CARTRIDGES 7.62 mm\n4 AP M993\n1 TRACER M62\nON LINK M13</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_308ap_240",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "240 7.62mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-398-1450 AA03\n240 CARTRIDGES 7.62 mm\nAP M993</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_308fmj_460",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "460 7.62mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-41-8202 AA11\n460 CARTRIDGES\n7.62MM BALL M80\nCARTONS</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_308_4fmj1tracer_200",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "200 7.62mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-892-2150\n200 CARTRIDGES 7.62 mm\n4 BALL M80\n1 TRACER M62\nON LINK M13</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_338fmjbt_200",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "200 .338 ammo can" },
+    "//": "completely made up",
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>\n1305-01-618-1847 AB98\n200 CARTRIDGES .338 LAPUA MAG\nSWISS P Styx Action\nHPBT</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_30_shot_120",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_30",
+    "name": { "str": "120 slug ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-386-5604 A023\n120 CRTGS 12 GA\n1 OZ SLUG LDD</color>",
+    "//": "LDD stands for LOADED",
+    "color": "light_gray",
+    "symbol": "#"
   },
   {
     "id": "ammunition_can_50",
@@ -38,7 +133,6 @@
     "longest_side": "299 mm",
     "//": "<https://www.cleanammocans.com/new-50-cal-m2a1-usgi-ammo-can.html>",
     "//2": "External: 29.85 x 15.24 x 19.05 cm, Internal: 27.94 x 13.97 x 17.78 cm ",
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "price": 1999,
     "pocket_data": [
       {
@@ -52,6 +146,97 @@
     ]
   },
   {
+    "id": "ammo_can_50_556tracer_820",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "820 5.56 mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-155-5457 A063\n820 CTGS 5.56MM\nTRACER M856</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_50bmg_4fmj1tracer_100",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "100 .50 ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-028-6583 A557\n100 CRTG .50 CAL\nLINK M9\n4-BALL M33\n1-TRACER M17</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_50bmg_1tracer4mk211_100",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "100 .50 ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-249-6888 A607\n100 CRTG .50 CAL\nLINK M9\n4-MK 211 MOD 0\n1-M20 API TRACER</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_50bmg_fmj_120",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "120 .50 ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-585-5191 A552\n120 CARTRIDGES\n.50 Browning BALL M33\nFMJ BT 625 gr</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_556_m855a1_clipped_840",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "840 5.56 ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-559-3333 AB57\n840 CARTRIDGES 5.56 MM\nBALL M855A1\n10 ROUND CLIPS</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_300AAC_otm_840",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "840 .300 AAC ammo can" },
+    "//": "dodic code is unknown",
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-651-3479 A002\n840 CARTRIDGES 7.62 x 35mm (300AAC)\n125 OTM OPEN TIP MATCH SUPERSONIC</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_308_600",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "600 7.62mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-257-1089 A143\n600 CARTRIDGES\n7.62MM BALL M80\nON LINK M13</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_338fmjbt_400",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "400 .338 ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-618-1846 AB97\n400 CARTRIDGES .338 LAPUA MAG\nSWISS P Styx Action\nHPBT</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_shot_160",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "160 00 shot ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-232-8338 A011\n160 CRTGS 12 GA\nNO. 00 BUCKSHOT</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_50_beanbag_160",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_50",
+    "name": { "str": "160 beanbag ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-454-0191 AA29\n160 CRTGS 12 GA BEAN BAG\nNON-LETHAL</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
     "id": "ammunition_can_fat_50",
     "type": "GENERIC",
     "name": "PA108 SAW ammo can",
@@ -61,7 +246,6 @@
     "longest_side": "318 mm",
     "//": "<https://www.cleanammocans.com/2-pack-new-fat-50-pa108-saw-ammo-cans.html>",
     "//2": "External: 31.75 x 18.42 x 21.59 cm, Internal: 29.85 x 17.15 x 20.96 cm ",
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "price": 1999,
     "pocket_data": [
       {
@@ -73,6 +257,51 @@
         "max_item_length": "298 mm"
       }
     ]
+  },
+  {
+    "id": "ammo_can_fat_50_223_1tracer4ball_800",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_fat_50",
+    "name": { "str": "800 5.56 mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-533-5663 AB03\n800 CRTG 5.56MM\n4 BALL M855\n1 TRACER M856\nM27 LINK</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_fat_50_223_1tracer4ap_800",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_fat_50",
+    "name": { "str": "800 5.56 mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-393-7052 AA02\n800 CRTG 5.56MM\n4 AP M995\n1 TRACER M856\nM27 LINK</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_fat_50_223ap_800",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_fat_50",
+    "name": { "str": "800 5.56 mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-393-7050 AA01\n800 CRTG 5.56MM\n5 AP M995\nM27 LINK</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_fat_50_223fmj_800",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_fat_50",
+    "name": { "str": "800 5.56 mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-258-8692 A062\n800 CRTG 5.56MM\n BALL M855\nM27 LINK</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_can_fat_50_308_1tracer4ap_600",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_fat_50",
+    "name": { "str": "600 7.62mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-209-5139 A127\n600 CARTRIDGES 7.62 mm\n4 BALL M80\n1 TRACER M62\nON LINK M13</color>",
+    "color": "light_gray",
+    "symbol": "#"
   },
   {
     "id": "ammunition_can_pa120",
@@ -99,14 +328,24 @@
     ]
   },
   {
+    "id": "ammo_can_pa120_40x53_32",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_pa120",
+    "name": { "str": "48 40mm ammo can" },
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-159-8043 B542\n32 CARTRIDGES 40 MM HEDP\nHIGH EXPLOSIVE DUAL PURPOSE M433 LINKED</color>",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
     "id": "ammunition_box_grenade",
     "type": "GENERIC",
     "category": "container",
-    "name": "M289 container",
-    "description": "A small, thick cylindrical container, designed to store one grenade.",
+    "name": "grenade container",
+    "description": "A small, thick cylindrical container.  Dark, shabby surface has printed:\n1330-00-133-8244 G881\nCOMP B 1 GRENADE HAND FRAG DELAY M67 W/FUZE M213\nCONTAINER M415A1 UAC",
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "411 g",
     "volume": "590 ml",
+    "material": [ { "type": "cardboard" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -116,16 +355,15 @@
         "max_contains_weight": "5000 g"
       }
     ],
-    "material": [ "steel" ],
     "symbol": "0",
     "color": "black"
   },
   {
-    "id": "ammunition_can_carlgustav",
+    "id": "ammunition_can_carlgustav_hedp",
     "type": "GENERIC",
     "category": "container",
-    "name": "double 84mm container",
-    "description": "A heavy and bulky container that can hold two 84mm rockets inside.",
+    "name": "double 84mm HEDP container",
+    "description": "A heavy and bulky container in a shape of two rockets.  Text on the front says:\n<color_yellow>1 RD\n84 mm HEDP 502\n1315-01-343-1944</color>\n\n<color_red>EXPLOSIVE</color>",
     "//": "84mm heat 551 container, 265x700x124mm",
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "1400 g",
@@ -153,35 +391,139 @@
     "color": "black"
   },
   {
-    "id": "ammunition_box_carlgustav",
+    "id": "ammunition_can_carlgustav_he",
+    "type": "GENERIC",
+    "copy-from": "ammunition_can_carlgustav_hedp",
+    "name": "double 84mm HE container",
+    "description": "A heavy and bulky container in a shape of two rockets.  Text on the front says:\n<color_yellow>1 RD\n84 mm HE 441D</color>\n\n<color_red>EXPLOSIVE</color>",
+    "color": "light_gray",
+    "symbol": "8"
+  },
+  {
+    "id": "ammunition_box_carlgustav_he",
     "type": "GENERIC",
     "category": "container",
-    "name": "huge 84mm crate",
-    "description": "A big crate designed to store explosive 84x246mm rockets.",
-    "//": "84mm heat551 transport box, 780X400X290mm",
+    "name": "84mm HE crate",
+    "description": "A big metal crate.  On one side it has label \"EXPLOSIVE\", and on another is written:\n<color_yellow>6 RDS 84mm HE</color>",
+    "//": "84mm heat551 transport box, 610x400x290mm",
+    "looks_like": "box_oversize_metal",
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "1400 g",
-    "volume": "70000 ml",
+    "volume": "70760 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "69000 ml",
-        "max_contains_weight": "35000 g"
+        "max_contains_volume": "69 L",
+        "max_contains_weight": "200 kg"
       }
     ],
     "material": [ "steel" ],
-    "symbol": "□",
+    "symbol": "#",
     "color": "black"
   },
   {
-    "id": "ammunition_box_308",
+    "id": "ammunition_box_carlgustav_hedp",
     "type": "GENERIC",
+    "copy-from": "ammunition_box_carlgustav_he",
+    "name": "84mm HEDP crate",
+    "description": "A big metal crate.  On one side it has label \"EXPLOSIVE\", and on another is written:\n<color_yellow>6 RDS 84mm HEDP</color>",
+    "//": "found no docs for HEDP crates, hence copy the hedp",
+    "looks_like": "box_oversize_metal",
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "id": "ammunition_crate_40x46_72",
+    "type": "GENERIC",
+    "copy-from": "box_medium_wood",
+    "looks_like": "box_medium_wood",
+    "name": { "str": "72 40mm ammo crate" },
+    "description": "Huge wooden crate, closed with metal wire.  Front side has printed:\n<color_yellow>1310-00-992-0451 B546\n72 CARTRIDGE COMP A-5\n40 MM HEDP M433</color>",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "10 L", "max_contains_weight": "40 kg" } ],
+    "color": "light_gray",
+    "symbol": "#"
+  },
+  {
+    "abstract": "ammo_box_1",
+    "type": "GENERIC",
+    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
+    "description": "A small, cardboard box for ammo.",
     "category": "container",
-    "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
+    "symbol": "#",
+    "color": "brown",
+    "material": [ "paper" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "14 g",
+    "volume": "105 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "60 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_20_223",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_1",
+    "name": { "str": "20 5.56 mm rounds ammo box", "str_pl": "20 5.56 mm rounds ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"20 CARTRIDGES 5.56 mm TRACER M856\"",
+    "color": "brown",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_box_army_5_shot",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_1",
+    "name": { "str": "5 00 shot ammo box", "str_pl": "5 00 shot ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"5 CARTRIDGES 12 GA SHOTSHELL NO. 00 BUCKSHOT\"",
+    "color": "brown",
+    "symbol": "#",
+    "volume": "115 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "110 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "90 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_5_slug",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_1",
+    "name": { "str": "5 slug ammo box", "str_pl": "5 slug ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"5 CARTRIDGES 12 GA SHOTSHELL SLUG\"",
+    "color": "brown",
+    "symbol": "#",
+    "volume": "115 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "110 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "90 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_2",
+    "type": "GENERIC",
+    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
+    "//": "20x308mm, 100x9mm, ex ammunition_box_308",
     "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
-    "//": "20x308mm, 100x9mm",
+    "category": "container",
+    "symbol": "#",
+    "color": "brown",
+    "material": [ "paper" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "34 g",
     "volume": "175 ml",
@@ -193,17 +535,47 @@
         "max_contains_weight": "1600 g",
         "max_item_length": "100 mm"
       }
-    ],
-    "material": [ "paper" ],
-    "symbol": "□",
-    "color": "brown"
+    ]
   },
   {
-    "id": "ammunition_box_223",
+    "id": "ammo_box_army_100_9mm_fmj",
     "type": "GENERIC",
-    "copy-from": "ammunition_box_308",
-    "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
+    "weight": "38 g",
+    "volume": "245 ml",
+    "copy-from": "ammo_box_2",
+    "name": { "str": "100 9x19 mm fmj ammo box", "str_pl": "100 9x19 mm fmj ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA FMJ FULL METAL JACKED 115 gr.\"",
+    "color": "brown",
+    "symbol": "#",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "240 ml",
+        "max_contains_weight": "2000 g",
+        "max_item_length": "32 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_100_9mm_jhp",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_army_100_9mm_fmj",
+    "name": { "str": "100 9x19 mm jhp ammo box", "str_pl": "100 9x19 mm jhp ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA JHP JACKED HOLLOW POINT 116gr.\"",
+    "color": "brown",
+    "symbol": "#"
+  },
+  {
+    "abstract": "ammo_box_3",
+    "type": "GENERIC",
+    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
     "//": "30x223 clips or 50x223 or 20x300",
+    "description": "A small, cardboard box for ammo.",
+    "category": "container",
+    "symbol": "#",
+    "color": "brown",
+    "material": [ "paper" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "28 g",
     "volume": "235 ml",
@@ -218,11 +590,93 @@
     ]
   },
   {
-    "id": "ammunition_box_50bmg",
+    "id": "ammo_box_army_10_338",
     "type": "GENERIC",
-    "copy-from": "ammunition_box_308",
+    "copy-from": "ammo_box_3",
+    "name": { "str": "10 .338 lapua ammo box", "str_pl": "10 .338 lapua ammo boxes" },
+    "description": "Small, painted in white ammo box.  Black text, printed on the front, says:\n10 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT",
+    "color": "brown",
+    "symbol": "#",
+    "weight": "20 g",
+    "volume": "170 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "164 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "100 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_20_300wm",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_3",
+    "name": { "str": "20 .300 win mag ammo box", "str_pl": "20 .300 win mag ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says:\"20 CARTRIDGES  .300 WINCHESTER MAGNUM MATCH MK 248 MOD 1\"",
+    "color": "brown",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_box_army_30_300blk",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_3",
+    "name": { "str": "30 .300 BLK ammo box", "str_pl": "30 .300 BLK ammo boxes" },
+    "description": "Small, plain black ammo box.  White text, printed on the front, says:\"30 CARTRIDGES  .300 AAC BLACKOUT SUBSONIC\"",
+    "color": "brown",
+    "symbol": "#",
+    "weight": "14 g",
+    "volume": "128 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "125 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "60 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_3_clips",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_3",
+    "name": { "str": "cardboard ammo box", "str_pl": "cardboard ammo boxes" },
+    "description": "Small brown box without cover.",
+    "color": "brown",
+    "symbol": "#"
+  },
+  {
+    "id": "ammo_box_army_20_308",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_3",
+    "name": { "str": "20 7.62 MM ammo box", "str_pl": "20 7.62 MM ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says:\"20 ROUNDS 7.62MM BALL M80\"",
+    "color": "brown",
+    "symbol": "#",
+    "weight": "18 g",
+    "volume": "162 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "160 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "75 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_4",
+    "type": "GENERIC",
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
-    "//": "10x50bmg, 20x12 gauge",
+    "//": "10x50bmg, 20x12 gauge, ex ammunition_box_50bmg",
+    "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
+    "category": "container",
+    "symbol": "#",
+    "color": "brown",
+    "material": [ "paper" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "44 g",
     "volume": "480 ml",
@@ -236,6 +690,35 @@
         "max_item_length": "14 cm"
       }
     ]
+  },
+  {
+    "id": "ammo_box_army_20_338",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_4",
+    "name": { "str": "20 .338 lapua ammo box", "str_pl": "20 .338 lapua ammo boxes" },
+    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"20 CARTRIDGES\n.338LAPUA MAG.\nSWISS P TARGET\nHPBT\"",
+    "color": "brown",
+    "symbol": "#",
+    "weight": "33 g",
+    "volume": "335 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "4000 g",
+        "max_item_length": "100 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_10_50bmg",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_4",
+    "name": { "str": "10 .50 ammo box", "str_pl": "10 .50 ammo boxes" },
+    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"10 CARTRIDGES\n12.7x99mm BALL M33\n(50 Browning)\"",
+    "color": "brown",
+    "symbol": "#"
   },
   {
     "id": "55gal_drum_rubber",

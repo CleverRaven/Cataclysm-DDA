@@ -7,7 +7,6 @@
     "name": { "str": "5.56x45mm ammo belt" },
     "ammo_type": [ "223" ],
     "capacity": 500,
-    "count": 100,
     "default_ammo": "556",
     "linkage": "ammolink223",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "223": 500 } } ]
@@ -634,7 +633,6 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "count": 10,
     "ammo_type": [ "223" ],
     "flags": [ "SPEEDLOADER_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10, "300blk": 10 } } ]
