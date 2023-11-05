@@ -723,7 +723,7 @@
       { "proficiency": "prof_shivs_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "tools": [
-      [ "screwdriver", "glass_shiv", "sharp_toothbrush", "scissors_child", "scissors_medical", "scissors" ],
+      [ "screwdriver", "sharp_toothbrush", "scissors_child", "scissors_medical", "scissors" ],
       [ "pseudo_training_dummy_light" ]
     ]
   },
