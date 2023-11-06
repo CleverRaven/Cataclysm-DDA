@@ -143,7 +143,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "pain", { "un", 0, pain_eval } },
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", -1, skill_exp_eval } },
-    { "spell_count", { "un", 1, spell_count_eval}},
+    { "spell_count", { "un", -1, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
     { "spell_level", { "un", -1, spell_level_eval}},
     { "spell_level_adjustment", { "un", -1, spell_level_adjustment_eval}},

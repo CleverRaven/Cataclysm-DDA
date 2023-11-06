@@ -412,8 +412,14 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
 std::function<double( dialogue & )> spell_count_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[beta = is_beta( scope ), school = params[0]]( dialogue const & d ) {
-        return d.actor( beta )->get_spell_count( trait_id( school.str( d ) ) );
+    diag_value school( std::string{} );
+    if( !params.empty() ) {
+        school = params[0];
+    }
+    return[beta = is_beta( scope ), school]( dialogue const & d ) {
+        std::string school_str = school.str( d );
+        trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
+        return d.actor( beta )->get_spell_count( scid );
     };
 }
 
@@ -436,11 +442,11 @@ std::function<void( dialogue &, double )> spell_exp_ass( char scope,
 std::function<double( dialogue & )> spell_level_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value school( std::string( "" ) );
+    diag_value school( std::string{} );
     if( kwargs.count( "school" ) ) {
         school = *kwargs.at( "school" );
     }
-    diag_value spell( std::string( "" ) );
+    diag_value spell( std::string{} );
     if( kwargs.count( "spell" ) != 0 ) {
         spell = *kwargs.at( "spell" );
     }
@@ -460,7 +466,7 @@ std::function<double( dialogue & )> spell_level_eval( char scope,
 std::function<void( dialogue &, double )> spell_level_ass( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value spell( std::string( "" ) );
+    diag_value spell( std::string{} );
     if( kwargs.count( "spell" ) != 0 ) {
         spell = *kwargs.at( "spell" );
     } else {
@@ -475,11 +481,11 @@ std::function<void( dialogue &, double )> spell_level_ass( char scope,
 std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value school( std::string( "" ) );
+    diag_value school( std::string{} );
     if( kwargs.count( "school" ) ) {
         school = *kwargs.at( "school" );
     }
-    diag_value spell( std::string( "" ) );
+    diag_value spell( std::string{} );
     if( kwargs.count( "spell" ) != 0 ) {
         spell = *kwargs.at( "spell" );
     }
@@ -514,11 +520,11 @@ std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
 std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value school( std::string( "" ) );
+    diag_value school( std::string{} );
     if( kwargs.count( "school" ) ) {
         school = *kwargs.at( "school" );
     }
-    diag_value spell( std::string( "" ) );
+    diag_value spell( std::string{} );
     if( kwargs.count( "spell" ) != 0 ) {
         spell = *kwargs.at( "spell" );
     }
