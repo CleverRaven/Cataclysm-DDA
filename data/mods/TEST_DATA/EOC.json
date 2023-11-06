@@ -484,6 +484,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_string_test_nest",
+    "effect": [
+      { "u_add_var": "nest1", "value": "nest2" },
+      { "u_add_var": "nest2", "value": "nest3" },
+      { "u_add_var": "nest3", "value": "nest4" },
+      { "set_string_var": "<u_val:nest1>", "target_var": { "u_val": "key1" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:nest1>>", "target_var": { "u_val": "key2" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:<u_val:nest1>>>", "target_var": { "u_val": "key3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_character_finished_activity_event_test",
     "eoc_type": "EVENT",
     "required_event": "character_finished_activity",
