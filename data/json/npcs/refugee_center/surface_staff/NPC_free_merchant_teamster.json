@@ -107,7 +107,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            { "not": { "math": [ "godco_freemerch_representative_dead", "==", "0" ] } },
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_dirty" }
           ]
