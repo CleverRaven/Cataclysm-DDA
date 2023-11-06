@@ -272,7 +272,7 @@
       {
         "foreach": "ids",
         "var": { "context_val": "id" },
-        "target": "flags",
+        "target": "flag",
         "effect": [ { "u_message": "<context_val:id>" } ]
       },
       { "u_message": "[foreach_test]item group" },
@@ -295,6 +295,41 @@
         "var": { "context_val": "id" },
         "target": [ "a", "b", "c", "d", "e" ],
         "effect": [ { "u_message": "<context_val:id>" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_info_test",
+    "effect": [
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [
+          { "u_message": "[<context_val:id>]" },
+          {
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "worn_only": true } ],
+            "true_eocs": [
+              {
+                "id": "EOC_armor_info_test_nested",
+                "effect": [
+                  { "math": [ "_coverage", "=", "n_coverage(_id)" ] },
+                  { "math": [ "_encumbrance", "=", "n_encumbrance(_id)" ] },
+                  {
+                    "if": { "math": [ "_coverage", ">", "0" ] },
+                    "then": [
+                      { "u_message": "  <npc_name>" },
+                      { "u_message": "  coverage:<context_val:coverage>" },
+                      { "u_message": "  encumbrance:<context_val:encumbrance>" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   },
