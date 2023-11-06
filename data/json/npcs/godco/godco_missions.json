@@ -1300,7 +1300,11 @@
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" } ]
+      "effect": [
+        { "math": [ "godco_met_merchants", "=", "0" ] },
+        { "u_spawn_item": "icon", "count": 5 },
+        { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
