@@ -773,6 +773,7 @@
     "difficulty": 6,
     "time": "9 h",
     "autolearn": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_patchwork", 10 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1015,6 +1016,7 @@
     "difficulty": 5,
     "time": "7 h",
     "autolearn": true,
+    "reversible": { "time": "45 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "tailoring_leather_patchwork", 5 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1478,6 +1480,7 @@
     "difficulty": 6,
     "time": "7 h 39 m",
     "autolearn": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1686,6 +1689,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1993,6 +1997,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2162,6 +2167,7 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "autolearn": true,
+    "reversible": { "time": "25 m" },
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
