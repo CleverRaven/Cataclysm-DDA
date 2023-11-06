@@ -250,5 +250,45 @@
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "u_has_effect": "effect_photokin_invisibility" },
+        { "math": [ "_movement_mode", "==", "walk" ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_val('spell_level', 'spell: photokinetic_light_dodge')),4)" ] }, "y": 1000 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you move, light scatters around you in coruscating shards, revealing your position!", "type": "bad" },
+      { "u_lose_effect": "effect_photokin_invisibility" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "u_has_effect": "effect_photokin_invisibility" },
+        { "math": [ "_movement_mode", "==", "run" ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_val('spell_level', 'spell: photokinetic_light_dodge') * 3)),30)" ] }, "y": 1000 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you run, a shower of light outlines your path, revealing your position!", "type": "bad" },
+      { "u_lose_effect": "effect_photokin_invisibility" }
+    ]
   }
 ]

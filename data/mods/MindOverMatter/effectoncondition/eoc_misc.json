@@ -1,85 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_ZENER_DECK",
-    "condition": { "math": [ "u_val('spell_level', 'school: CLAIRSENTIENT')", ">=", "10" ] },
-    "effect": [
-      {
-        "switch": { "rand": 4 },
-        "cases": [
-          {
-            "case": 0,
-            "effect": [
-              {
-                "u_message": "You draw the hollow circle card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 1,
-            "effect": [
-              {
-                "u_message": "You draw the three wavy lines card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 2,
-            "effect": [
-              {
-                "u_message": "You draw the hollow square card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 3,
-            "effect": [
-              {
-                "u_message": "You draw the five-pointed star card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          },
-          {
-            "case": 4,
-            "effect": [
-              {
-                "u_message": "You draw the plus symbol card, just as you knew you would.  You look at it for a moment and put it back in the deck."
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "false_effect": [
-      {
-        "switch": { "rand": 4 },
-        "cases": [
-          {
-            "case": 0,
-            "effect": [ { "u_message": "You draw the hollow circle card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 1,
-            "effect": [ { "u_message": "You draw the three wavy lines card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 2,
-            "effect": [ { "u_message": "You draw the hollow square card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 3,
-            "effect": [ { "u_message": "You draw the five-pointed star card, look at it for a moment, and put it back in the deck." } ]
-          },
-          {
-            "case": 4,
-            "effect": [ { "u_message": "You draw the plus symbol card, look at it for a moment, and put it back in the deck." } ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
@@ -499,6 +420,8 @@
             { "u_has_effect": "effect_biokin_pkill_5" },
             { "u_has_effect": "effect_biokin_pkill_6" },
             { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_hammerhand" },
+            { "u_has_effect": "effect_biokin_enhance_mobility" },
             { "u_has_effect": "effect_clair_night_eyes_1" },
             { "u_has_effect": "effect_clair_night_eyes_2" },
             { "u_has_effect": "effect_clair_night_eyes_3" },
@@ -509,6 +432,8 @@
             { "u_has_effect": "effect_clair_night_eyes_8" },
             { "u_has_effect": "effect_clair_speed_reader" },
             { "u_has_item": "photokinetic_rad_aura" },
+            { "u_has_item": "pyrokinetic_fire_tool" },
+            { "u_has_item": "pyrokinetic_torch_weld" },
             { "u_has_effect": "effect_pyrokinetic_cloak" },
             { "u_has_effect": "effect_telekinetic_strength" },
             { "u_has_effect": "effect_telepathic_learning_bonus" },
@@ -539,6 +464,8 @@
             { "u_has_effect": "effect_biokin_pkill_5" },
             { "u_has_effect": "effect_biokin_pkill_6" },
             { "u_has_effect": "effect_biokin_climate_control" },
+            { "u_has_effect": "effect_biokin_hammerhand" },
+            { "u_has_effect": "effect_biokin_enhance_mobility" },
             { "u_has_effect": "effect_clair_night_eyes_1" },
             { "u_has_effect": "effect_clair_night_eyes_2" },
             { "u_has_effect": "effect_clair_night_eyes_3" },
@@ -549,6 +476,8 @@
             { "u_has_effect": "effect_clair_night_eyes_8" },
             { "u_has_effect": "effect_clair_speed_reader" },
             { "u_has_item": "photokinetic_rad_aura" },
+            { "u_has_item": "pyrokinetic_fire_tool" },
+            { "u_has_item": "pyrokinetic_torch_weld" },
             { "u_has_effect": "effect_pyrokinetic_cloak" },
             { "u_has_effect": "effect_telekinetic_strength" },
             { "u_has_effect": "effect_telepathic_learning_bonus" },
@@ -562,7 +491,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSIONICS_DAZED_ENDS_POWERS_2",
-            "condition": { "roll_contested": { "math": [ "u_val('intelligence') + u_skill('metaphysics')" ] }, "difficulty": 16, "die_size": 12 },
+            "condition": { "roll_contested": { "math": [ "u_val('intelligence') + u_skill('metaphysics')" ] }, "difficulty": 20, "die_size": 15 },
             "effect": [  ],
             "false_effect": [
               { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
