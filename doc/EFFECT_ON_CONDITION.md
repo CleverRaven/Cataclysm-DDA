@@ -119,6 +119,9 @@ Variable object is a value, that changes due some conditions. Variable can be in
 - If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
 - If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
 
+For example, imagine you have context variable `{ "context_val": "my_best_spell" }`, and this `my_best_gun` variable contain text `any_random_gun`; also you have a `{ "global_val": "any_random_gun" }`, and this `any_random_gun` variable happened to contain text `ak47`
+With both of this, you can use effect `"u_spawn_item": { "var_val": "my_best_gun" }`, and the game will spawn `ak47`, since it is what is stored inside `my_best_gun` global variable
+
 The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
 Examples:
@@ -942,6 +945,7 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 - Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
 - `anywhere`, `line_of_sight`, `around` are possible
   - `anywhere` is the same as the "look around" UI
+  - `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)
   - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
 - `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
 - `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
@@ -1858,7 +1862,7 @@ Open a menu, that allow to select one of multiple options
 | "keys" | optional | single character | a character, that would be used as a shortcut to pick each EoC; amount of keys should be equal amount of EoCs | 
 | "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` | 
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
-| "hide_failing" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
+| "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoCs; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 ##### Valid talkers:
 
@@ -1881,6 +1885,39 @@ you can pick one of four options from `Choose your destiny` list;
     "Gives you twice as bad, but condition is not met, so you can't pick it up"
   ]
 }
+```
+
+#### `run_eoc_until`
+Run EoC multiple times, until specific condition would be met
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "run_eoc_until" | **mandatory** | string or [variable object](#variable-object) | EoC that would be run multiple times |
+| "condition" | **mandatory** | string or [variable object](#variable-object) | name of condition, that would be checked; doesn't support inline condition, so it should be specified in `set_condition` somewhere before the effect; **condition should return "false" to terminate the loop** | 
+| "iteration" | optional | int or [variable object](#variable-object) | default 100; amount of iteration, that is allowed to run; if amount of iteration exceed this number, EoC is stopped, and game sends the error message | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+`EOC_until_nested` is run until `my_variable` hit 10; in this case 10 times
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "my_variable", "<", "10" ] } },
+      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+  },
 ```
 
 ## Character effects
@@ -3014,6 +3051,65 @@ NPC is prevented from death.
   "required_event": "character_dies",
   "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
   "effect": [ "u_prevent_death" ]
+}
+```
+
+#### `u_attack`, `npc_attack`
+Alpha or beta talker forced to use a technique or special attack
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_attack" / "npc_attack" | **mandatory** | string, boolean or [variable object](#variable-object) | technique, that would be used; `"tec_none"` can be used, in this case a default autoattack would be used |
+| "allow_special" | optional | boolean | default true; if true, special attacks should be selected (`special_attack` that monsters can use, like `monster_attack` or `spell`) | 
+| "allow_unarmed" | optional | boolean | default true; if true, unarmed techniques can be considered | 
+| "forced_movecost" | optional | int or [variable object](#variable-object) | default -1; If used, attack will consume this amount of moves (100 moves = 1 second); negative value make it use the default movecost of attack | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+you use autoattack
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_test",
+  "effect": [ { "u_attack": "tec_none" } ]
+},
+```
+
+mutator `valid_technique` return random technique, that alpha talker can use; this technique is set into `random_attack` global variable; then you attack using this technique
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_mutator",
+  "effect": [
+    { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "random_attack" } },
+    { "u_attack": { "global_val": "random_attack" } }
+  ]
+}
+```
+
+Picks random pankration technique, assign it to `pankration_random_attack`, and use it in attack
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_random_tech",
+  "effect": [
+    {
+      "set_string_var": [
+        "tec_pankration_cross",
+        "tec_pankration_kick",
+        "tec_pankration_grabknee",
+        "tec_pankration_grabdisarm",
+        "tec_pankration_grabthrow"
+      ],
+      "target_var": { "context_val": "pankration_random_attack" }
+    },
+    { "u_attack": { "context_val": "pankration_random_attack" } }
+  ]
 }
 ```
 
