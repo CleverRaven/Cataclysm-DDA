@@ -186,6 +186,7 @@
       { "u_lose_effect": "effect_clair_premonition" },
       { "u_lose_trait": "CLAIR_SPEED_READ" },
       { "u_lose_effect": "effect_clair_speed_reader" },
+      { "u_remove_item_with": "photokinetic_rad_aura" },
       { "u_lose_effect": "effect_pyrokinetic_cloak" },
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_remove_item_with": "pyrokinetic_torch_weld" },
