@@ -39,7 +39,6 @@
     "type": "SPELL",
     "name": "Lightning Bolt",
     "description": "The goto ability for many Sylphs, this does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
-    "skill": "deduction",
     "teachable": false,
     "spell_class": "SYLPH",
     "effect": "attack",
