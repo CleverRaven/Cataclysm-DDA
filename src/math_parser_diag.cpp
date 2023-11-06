@@ -409,6 +409,14 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
     };
 }
 
+std::function<double( dialogue & )> spell_count_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), school = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_spell_count( trait_id( school.str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> spell_exp_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -426,7 +434,7 @@ std::function<void( dialogue &, double )> spell_exp_ass( char scope,
 }
 
 std::function<double( dialogue & )> spell_level_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
     diag_value school( std::string( "" ) );
     if( kwargs.count( "school" ) ) {
@@ -450,7 +458,7 @@ std::function<double( dialogue & )> spell_level_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> spell_level_ass( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
     diag_value spell( std::string( "" ) );
     if( kwargs.count( "spell" ) != 0 ) {
@@ -461,6 +469,86 @@ std::function<void( dialogue &, double )> spell_level_ass( char scope,
     }
     return[beta = is_beta( scope ), spell]( dialogue const & d, double val ) {
         return d.actor( beta )->set_spell_level( spell_id( spell.str( d ) ), val );
+    };
+}
+
+std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value school( std::string( "" ) );
+    if( kwargs.count( "school" ) ) {
+        school = *kwargs.at( "school" );
+    }
+    diag_value spell( std::string( "" ) );
+    if( kwargs.count( "spell" ) != 0 ) {
+        spell = *kwargs.at( "spell" );
+    }
+    return[beta = is_beta( scope ), school, spell]( dialogue const & d ) {
+        const Character *ch = d.actor( beta )->get_character();
+        if( ch ) {
+            std::string school_str = school.str( d );
+            std::string spell_str = spell.str( d );
+            if( !school_str.empty() ) {
+                std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
+                            trait_id( school_str ) );
+                if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
+                    return it->second;
+                } else {
+                    return 0.0;
+                }
+            } else if( !spell_str.empty() ) {
+                std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find(
+                            spell_id( spell_str ) );
+                if( it != ch->magic->caster_level_adjustment_by_spell.end() ) {
+                    return it->second;
+                } else {
+                    return 0.0;
+                }
+            }
+            return ch->magic->caster_level_adjustment;
+        }
+        return 0.0;
+    };
+}
+
+std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value school( std::string( "" ) );
+    if( kwargs.count( "school" ) ) {
+        school = *kwargs.at( "school" );
+    }
+    diag_value spell( std::string( "" ) );
+    if( kwargs.count( "spell" ) != 0 ) {
+        spell = *kwargs.at( "spell" );
+    }
+    return[beta = is_beta( scope ), school, spell]( dialogue const & d, double val ) {
+        const Character *ch = d.actor( beta )->get_character();
+        if( ch ) {
+            std::string school_str = school.str( d );
+            std::string spell_str = spell.str( d );
+            if( !school_str.empty() ) {
+                trait_id scid( school_str );
+                std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find( scid );
+                if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
+                    return it->second = val;
+                } else {
+                    ch->magic->caster_level_adjustment_by_school.insert( { scid, val } );
+                    return val;
+                }
+            } else if( !spell_str.empty() ) {
+                spell_id spid( spell_str );
+                std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find( spid );
+                if( it != ch->magic->caster_level_adjustment_by_spell.end() ) {
+                    return it->second = val;
+                } else {
+                    ch->magic->caster_level_adjustment_by_spell.insert( { spid, val } );
+                    return val;
+                }
+            }
+            return ch->magic->caster_level_adjustment = val;
+        }
+        return 0.0;
     };
 }
 
