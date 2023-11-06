@@ -1405,6 +1405,9 @@ struct itype {
         // used for generic_factory for copy-from
         bool was_loaded = false;
 
+        // Expand snippets in the description and save the description on the object
+        bool expand_snippets = false;
+
     private:
         // load-only, for applying proportional melee values at load time
         std::map<damage_type_id, float> melee_proportional;

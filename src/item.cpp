@@ -381,6 +381,10 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         snip_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
+    if( type->expand_snippets ) {
+        set_var( "description", SNIPPET.expand( type->description.translated() ) );
+    }
+
     if( current_phase == phase_id::PNULL ) {
         current_phase = type->phase;
     }

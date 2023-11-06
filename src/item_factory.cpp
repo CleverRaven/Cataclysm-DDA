@@ -4434,6 +4434,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
 
+    optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
+
     // potentially replace materials and update their values
     JsonObject replace_val = jo.get_object( "replace_materials" );
     replace_val.allow_omitted_members();
