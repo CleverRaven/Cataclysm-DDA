@@ -750,7 +750,7 @@ Both dialogues and snippets may reference the snippets right inside themselves -
 
 ------
 
-Item descriptions also capable to use snippet system, but to use them, `expand_snippets` should be `true`, otherwise the description won't be saved, and will change every time you update the game in any way, either by picking up the item again, reloading the game or, sometimes, by moving your cursor
+Item descriptions also capable to use snippet system, but to use them, `expand_snippets` should be `true`, otherwise snippet won't be used
 
 ```json
 {
@@ -797,7 +797,7 @@ Same works with variants
 ```
 
 Using `expand_snippets` required only where snippets are used - if item do not uses snippet, but variant does, then only variant require to have `"expand_snippets":true`
-Additionally, using `expand_snippets` in item definition works as if all variants got `"expand_snippets": true`
+Using `expand_snippets` on item itself will work as all variants have `"expand_snippets":true`, but variants without any snippet would be effectively removed
 
 ```json
 {
@@ -817,8 +817,8 @@ Additionally, using `expand_snippets` in item definition works as if all variant
     },
     {
       "id": "worst_dad",
-      "name": { "str": "bad dad mug" },
-      "description": "It says \"Worlds Worst Dad\"",
+      "name": { "str": "bad mug" },
+      "description": "This mug never appears, because it doesnn't have any snippets",
       "append": true,
       "weight": 1
     }
