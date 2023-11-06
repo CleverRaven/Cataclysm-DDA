@@ -1764,6 +1764,7 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "material": [ "steel" ],
+    "qualities": [ [ "THREAD_TAP", 2 ], [ "THREAD_CUT", 2 ] ],
     "symbol": "p",
     "color": "light_gray"
   }
