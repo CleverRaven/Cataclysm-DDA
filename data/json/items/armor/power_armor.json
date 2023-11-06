@@ -8,25 +8,27 @@
     "price": 10000000,
     "price_postapoc": 15000,
     "flags": [ "STURDY", "WATERPROOF", "RAINPROOF", "SUN_GLASSES", "USE_UPS", "NO_UNLOAD", "COMBAT_TOGGLEABLE" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "warmth": 40,
     "environmental_protection": 10,
     "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
         "description": "Compartment for a UPS.",
         "flag_restriction": [ "IS_UPS" ],
-        "max_contains_volume": "2510 ml",
+        "max_contains_weight": "2000 g",
+        "max_contains_volume": "4510 ml",
+        "max_item_length": "30 cm",
         "moves": 200
       },
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
         "description": "Compartment for a UPS.",
         "flag_restriction": [ "IS_UPS" ],
-        "max_contains_volume": "2510 ml",
+        "max_contains_weight": "2000 g",
+        "max_contains_volume": "4510 ml",
+        "max_item_length": "30 cm",
         "moves": 200
       },
       {
@@ -34,6 +36,9 @@
         "ablative": true,
         "description": "Hooks and straps to attach head armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ],
+        "max_contains_weight": "7000 g",
+        "max_contains_volume": "3110 ml",
+        "max_item_length": "30 cm",
         "moves": 200
       },
       {
@@ -41,6 +46,9 @@
         "ablative": true,
         "description": "Hooks and straps to attach torso armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ],
+        "max_contains_weight": "21910 g",
+        "max_contains_volume": "10610 ml",
+        "max_item_length": "30 cm",
         "moves": 200
       },
       {
@@ -48,6 +56,9 @@
         "ablative": true,
         "description": "Hooks and straps to attach arms armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ],
+        "max_contains_weight": "7310 g",
+        "max_contains_volume": "3610 ml",
+        "max_item_length": "30 cm",
         "moves": 200
       },
       {
@@ -55,6 +66,9 @@
         "ablative": true,
         "description": "Hooks and straps to attach legs armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ],
+        "max_contains_weight": "7310 g",
+        "max_contains_volume": "3610 ml",
+        "max_item_length": "30 cm",
         "moves": 200
       }
     ]
@@ -64,7 +78,7 @@
     "id": "depowered_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "salvaged exoskeleton" },
-    "description": "TBI",
+    "description": "A combat exoskeleton with the motors and actuators removed, you could wear it for its protective suit and and it doesn't impede your movements but the frame is still there and make it impossible to wear armor on top of it. The hooks and straps are still there and you could attach armor parts to it but doing so without the assistive strength of the exoskeleton would be foolish.",
     "weight": "16000 g",
     "volume": "3000 ml",
     "delete": { "flags": [ "COMBAT_TOGGLEABLE", "USE_UPS" ] },
@@ -72,7 +86,7 @@
       {
         "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "encumbrance": 30,
+        "encumbrance": 5,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -119,7 +133,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "OS booting sequnce initiated\nLiquid cooling system engaged\nRespiration system engaged\nExoskeleton engaged\n booting sequence terminated, all systems nominal.",
+      "msg": "Exoskeleton boot sequence initiated\nLiquid cooling system engaged\nAtmospheric scrubber system engaged\nMotors engaged\nBoot sequence terminated, all systems nominal.",
       "target": "power_armor_heavy_on",
       "active": true,
       "need_charges": 1,
@@ -187,7 +201,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "OS booting sequnce initiated\nLiquid cooling system engaged\nRespiration system engaged\nExoskeleton engaged\n booting sequence terminated, all systems nominal.",
+      "msg": "Exoskeleton boot sequence initiated\nLiquid cooling system engaged\nAtmospheric scrubber system engaged\nMotors engaged\nBoot sequence terminated, all systems nominal.",
       "target": "power_armor_basic_on",
       "active": true,
       "need_charges": 1,
@@ -256,7 +270,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "OS booting sequnce initiated\nLiquid cooling system engaged\nRespiration system engaged\nExoskeleton engaged\n booting sequence terminated, all systems nominal.",
+      "msg": "Exoskeleton boot sequence initiated\nLiquid cooling system engaged\nAtmospheric scrubber system engaged\nMotors engaged\nBoot sequence terminated, all systems nominal.",
       "target": "power_armor_light_on",
       "active": true,
       "need_charges": 1,
@@ -319,7 +333,7 @@
     "armor": [
       {
         "covers": [ "head" ],
-        "encumbrance": 30,
+        "encumbrance": 20,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 25 },
@@ -339,7 +353,7 @@
     "armor": [
       {
         "covers": [ "head" ],
-        "encumbrance": 30,
+        "encumbrance": 15,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 20 },
@@ -359,7 +373,7 @@
     "armor": [
       {
         "covers": [ "head" ],
-        "encumbrance": 30,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 15 },
@@ -370,16 +384,16 @@
   },
   {
     "copy-from": "exoskeleton_helmet",
-    "id": "exoskeleton_helmet_customized",
+    "id": "exoskeleton_helmet_plate",
     "type": "ARMOR",
-    "name": "heavy exoskeleton helmet",
+    "name": "plate exoskeleton helmet",
     "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
     "weight": "7300 g",
     "volume": "3600 ml",
     "armor": [
       {
         "covers": [ "head" ],
-        "encumbrance": 30,
+        "encumbrance": 1,
         "coverage": 100,
         "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 6, "covered_by_mat": 95 } ]
       }
@@ -390,6 +404,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract exoskeleton torso armor",
+    "symbol": "[",
     "price": 60000,
     "price_postapoc": 5000,
     "flags": [ "ABLATIVE_EXOSKELETON_TORSO", "CANT_WEAR", "OUTER" ],
@@ -406,7 +421,7 @@
     "armor": [
       {
         "covers": [ "torso" ],
-        "encumbrance": 30,
+        "encumbrance": 20,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 25 },
@@ -426,7 +441,7 @@
     "armor": [
       {
         "covers": [ "torso" ],
-        "encumbrance": 30,
+        "encumbrance": 15,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 20 },
@@ -446,7 +461,7 @@
     "armor": [
       {
         "covers": [ "torso" ],
-        "encumbrance": 30,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 15 },
@@ -457,16 +472,16 @@
   },
   {
     "copy-from": "exoskeleton_torso",
-    "id": "exoskeleton_torso_customized",
+    "id": "exoskeleton_torso_plate",
     "type": "ARMOR",
-    "name": "heavy exoskeleton torso",
+    "name": "plate exoskeleton torso",
     "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
     "weight": "7300 g",
     "volume": "3600 ml",
     "armor": [
       {
         "covers": [ "torso" ],
-        "encumbrance": 30,
+        "encumbrance": 1,
         "coverage": 100,
         "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 6, "covered_by_mat": 95 } ]
       }
@@ -477,6 +492,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract exoskeleton arm armor",
+    "symbol": "[",
     "price": 60000,
     "price_postapoc": 5000,
     "flags": [ "ABLATIVE_EXOSKELETON_ARMS", "CANT_WEAR", "OUTER" ],
@@ -493,7 +509,7 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-        "encumbrance": 30,
+        "encumbrance": 20,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 12.5 },
@@ -513,7 +529,7 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-        "encumbrance": 30,
+        "encumbrance": 15,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 10 },
@@ -533,7 +549,7 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-        "encumbrance": 30,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 7.5 },
@@ -544,16 +560,16 @@
   },
   {
     "copy-from": "exoskeleton_arms",
-    "id": "exoskeleton_arms_customized",
+    "id": "exoskeleton_arms_plate",
     "type": "ARMOR",
-    "name": "heavy exoskeleton arms",
+    "name": "plate exoskeleton arms",
     "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
     "weight": "7300 g",
     "volume": "3600 ml",
     "armor": [
       {
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-        "encumbrance": 30,
+        "encumbrance": 1,
         "coverage": 100,
         "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 2, "covered_by_mat": 95 } ]
       }
@@ -564,6 +580,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract exoskeleton leg armor",
+    "symbol": "[",
     "price": 60000,
     "price_postapoc": 5000,
     "flags": [ "ABLATIVE_EXOSKELETON_LEGS", "CANT_WEAR", "OUTER" ]
@@ -579,7 +596,7 @@
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "encumbrance": 30,
+        "encumbrance": 20,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 12.5 },
@@ -599,7 +616,7 @@
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "encumbrance": 30,
+        "encumbrance": 15,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 10 },
@@ -619,7 +636,7 @@
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "encumbrance": 30,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "ceramic", "covered_by_mat": 95, "thickness": 7.5 },
@@ -630,16 +647,16 @@
   },
   {
     "copy-from": "exoskeleton_legs",
-    "id": "exoskeleton_legs_customized",
+    "id": "exoskeleton_legs_plate",
     "type": "ARMOR",
-    "name": "heavy exoskeleton legs",
+    "name": "plate exoskeleton legs",
     "description": "This armor looks like it would fit a giant knight. The hooks and straps indicate that this is meant to be attached to an exoskeleton.",
     "weight": "7300 g",
     "volume": "3600 ml",
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "encumbrance": 30,
+        "encumbrance": 1,
         "coverage": 100,
         "material": [ { "type": "qt_steel_chain", "thickness": 1.2 }, { "type": "qt_steel", "thickness": 3, "covered_by_mat": 95 } ]
       }

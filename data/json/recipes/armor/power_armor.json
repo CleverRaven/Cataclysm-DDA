@@ -1,9 +1,9 @@
 [
   {
-    "copy-from": "",
     "type": "recipe",
+    "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "result": "exoskeleton_torso_heavy",
+    "result": "exoskeleton_torso_plate",
     "difficulty": 8,
     "skill_used": "fabrication",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
@@ -20,28 +20,28 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "mc_steel_standard", 1 ], [ "armor_chainmail_assembling", 1 ] ]
   },
   {
+    "copy-from": "exoskeleton_torso_plate",
     "type": "recipe",
-    "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
-    "result": "exoskeleton_helmet_heavy",
+    "result": "exoskeleton_helmet_plate",
     "time": "12 d 15 h 36 m",
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "using": [ [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ], [ "armor_chainmail_assembling", 1 ] ]
   },
   {
-    "copy-from": "",
+    "copy-from": "exoskeleton_torso_plate",
     "type": "recipe",
     "subcategory": "CSC_ARMOR_ARMS",
-    "result": "exoskeleton_arms_heavy",
+    "result": "exoskeleton_arms_plate",
     "time": "8 d 5 h 8 m",
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ]
   },
   {
-    "copy-from": "",
+    "copy-from": "exoskeleton_torso_plate",
     "type": "recipe",
     "subcategory": "CSC_ARMOR_LEGS",
-    "result": "exoskeleton_legs_heavy",
+    "result": "exoskeleton_legs_plate",
     "time": "8 d 5 h 8 m",
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ], [ "armor_chainmail_assembling", 1 ] ]
