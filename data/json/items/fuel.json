@@ -357,5 +357,5 @@
     "damage": { "damage_type": "heat", "amount": 3, "armor_penetration": 2 },
     "range": 4,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
-  },
+  }
 ]
