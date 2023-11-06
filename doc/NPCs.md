@@ -908,15 +908,6 @@ Effect | Description
 
 [Map Updates](EFFECT_ON_CONDITION.md##General)
 
-#### Detailed Info
-New EOC effects that are documented should be in the format below.
-
-| Effect                 | Options            | Description   |
-| ---------------------- | ------- | --- |
-| `u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" <br/> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. <br/> `allow_unarmed: ` bool **default true** if unarmed techs should be considered <br/> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. |
-| `run_eoc_until`        | `run_eoc_until`: EOC or inline EOC The eoc to run multiple times <br/> `condition` string or [variable object](#variable-object) The name of the condition from the current context to evaluate to see if execution should continue <br/> `iteration` double or [variable object](#variable-object) The number of iterations this loop is allowed to go for before throwing an error, **default 100**  | The provided EOC is run until the condition given is false. |
-
-
 #### Deprecated
 
 Effect | Description
