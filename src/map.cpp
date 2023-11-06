@@ -9399,7 +9399,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         bool cumulative = seen_cache_dirty;
         for( Character::cached_moncam const &mon : u.moncam_cache ) {
             if( inbounds( mon.second ) ) {
-                int const range = mon.first->type->vision_day;
+                int const range = ( mon.first->type->vision_day * 2 );
                 build_seen_cache( getlocal( mon.second ), mon.second.z(), range, cumulative,
                                   true, std::max( 60 - range, 0 ) );
                 cumulative = true;

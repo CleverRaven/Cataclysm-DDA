@@ -1303,14 +1303,14 @@ int monster::sight_range( const float light_level ) const
     }
     static const float default_daylight = default_daylight_level();
     if( light_level == 0 ) {
-        return type->vision_night;
+        return ( type->vision_night * 2 );
     } else if( light_level >= default_daylight ) {
-        return type->vision_day;
+        return ( type->vision_day * 2 );
     }
     int range = ( light_level * type->vision_day + ( default_daylight - light_level ) *
                   type->vision_night ) / default_daylight;
 
-    return range;
+    return ( range * 2 );
 }
 
 bool monster::made_of( const material_id &m ) const
@@ -1660,7 +1660,7 @@ int monster::hp_percentage() const
 
 int monster::get_eff_per() const
 {
-    return std::min( type->vision_night, type->vision_day );
+    return ( std::min( type->vision_night, type->vision_day ) * 2 );
 }
 
 void monster::process_triggers()

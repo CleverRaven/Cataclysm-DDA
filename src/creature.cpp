@@ -367,7 +367,7 @@ bool Creature::sees( const Creature &critter ) const
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( this->has_flag( mon_flag_ALL_SEEING ) ) {
         const monster *m = this->as_monster();
-        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
+        return wanted_range < ( std::max( m->type->vision_day, m->type->vision_night ) * 2 );
     }
 
     // player can use mirrors, so `has_potential_los` cannot be used

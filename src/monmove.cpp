@@ -407,7 +407,7 @@ monster_plan::monster_plan( const monster &mon ) :
     fears_hostile_seen( mon.type->has_fear_trigger( mon_trigger::HOSTILE_SEEN ) ? rng( 0, 2 ) : 0 )
 {
     smart_planning = mon.has_flag( mon_flag_PRIORITIZE_TARGETS );
-    max_sight_range = std::max( mon.type->vision_day, mon.type->vision_night );
+    max_sight_range = ( std::max( mon.type->vision_day, mon.type->vision_night ) * 2 );
     dist = !smart_planning ? max_sight_range : 8.6f;
     fleeing = false;
     docile = mon.friendly != 0 && mon.has_effect( effect_docile );
