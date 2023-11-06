@@ -775,14 +775,13 @@
     "autolearn": true,
     "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_patchwork", 10 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_patchwork", 9 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
-    ],
-    "byproducts": [ [ "leather", 7 ], [ "scrap_leather", 25 ] ]
+    ]
   },
   {
     "result": "xs_duster_leather",
