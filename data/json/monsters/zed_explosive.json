@@ -132,12 +132,6 @@
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" } ],
     "death_drops": "default_zombie_items",
-  "emit_fields": [
-    {
-      "emit_id": "emit_hot_air2_stream",
-      "delay": "10 s"
-    }
-  ],
     "death_function": {
       "effect": { "id": "death_conflagration", "hit_self": true },
       "message": "The %s explodes!",
@@ -154,7 +148,7 @@
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",
-      "DRIPS_GASOLINE",
+      "DRIPS_BLOBFUEL",
       "PUSH_MON",
       "FILTHY"
     ],

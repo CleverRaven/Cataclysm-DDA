@@ -2124,7 +2124,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         if( has_flag( mon_flag_DRIPS_GASOLINE ) ) {
             if( one_in( 5 ) ) {
                 // TODO: use same idea that limits napalm dripping
-                here.add_item_or_charges( pos(), item( "gasoline" ) );
+                here.add_item_or_charges( pos(), item( "blobfuel" ) );
             }
         }
     }

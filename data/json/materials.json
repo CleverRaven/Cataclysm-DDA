@@ -2890,5 +2890,16 @@
     "soft": true,
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 2.2, "cut": 3.5, "acid": 7, "heat": 1, "bullet": 1.4 }
+  },
+  {
+    "type": "material",
+    "id": "blobfuel",
+    "name": "Tainted fuel",
+    "density": 0.75,
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": "29070 kJ",
+      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
+    }
   }
 ]

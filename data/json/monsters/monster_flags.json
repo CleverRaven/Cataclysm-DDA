@@ -588,5 +588,10 @@
     "id": "SMALL_HIDER",
     "type": "monster_flag",
     "//": "This small monster can hide under or behind furniture such as beds, refrigerators, and underbrush"
+  },
+  {
+    "id": "DRIPS_BLOBFEUL",
+    "type": "monster_flag",
+    "//": "This monster occasionally drips tainted fuel on move"
   }
 ]

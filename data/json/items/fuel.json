@@ -335,5 +335,27 @@
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
-  }
+  },
+  {
+    "id": "blobfuel",
+    "type": "AMMO",
+    "name": { "str_sp": "tainted fuel" },
+    "description": "A vile brew of volatile fuel and rapidly decaying tissue.  Smells awful, and would ruin any engine that tried to burn it.  Would still work for lamps, at least.  When under pressure, it has the potential for violent explosion.",
+    "category": "fuel",
+    "weight": "750 mg",
+    "volume": "200ml",
+    "price": 40,
+    "price_postapoc": 125,
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "jerrycan",
+    "material": [ "blobfuel" ],
+    "symbol": "=",
+    "color": "dark_red",
+    "ammo_type": "blobfuel",
+    "damage": { "damage_type": "heat", "amount": 3, "armor_penetration": 2 },
+    "range": 4,
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
+  },
 ]
