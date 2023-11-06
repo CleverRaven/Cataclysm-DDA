@@ -8,6 +8,7 @@
 #include "cata_utility.h"
 #include "condition.h"
 #include "dialogue.h"
+#include "field.h"
 #include "game.h"
 #include "math_parser_shim.h"
 #include "mtype.h"
@@ -237,6 +238,31 @@ std::function<double( dialogue & )> effect_intensity_eval( char scope,
         bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         effect target = d.actor( beta )->get_effect( efftype_id( effect_id.str( d ) ), bp );
         return target.is_null() ? -1 : target.get_intensity();
+    };
+}
+
+std::function<double( dialogue & )> field_strength_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    std::optional<var_info> loc_var;
+    if( kwargs.count( "location" ) != 0 ) {
+        loc_var = kwargs.at( "location" )->var();
+    } else if( scope == 'g' ) {
+        throw std::invalid_argument( string_format(
+                                         R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+    }
+
+    return [id = params[0], beta = is_beta( scope ), loc_var]( dialogue & d ) {
+        map &here = get_map();
+        tripoint_abs_ms loc;
+        if( loc_var.has_value() ) {
+            loc = get_tripoint_from_var( loc_var, d );
+        } else {
+            loc = d.actor( beta )->global_pos();
+        }
+        field_type_id ft = field_type_id( id.str( d ) );
+        field_entry *fp = here.field_at( here.getlocal( loc ) ).find_field( ft );
+        return fp ? fp->get_field_intensity() :  0;
     };
 }
 

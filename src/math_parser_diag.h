@@ -106,6 +106,7 @@ decl_diag_eval attack_speed_eval;
 decl_diag_eval charge_count_eval;
 decl_diag_eval dodge_eval;
 decl_diag_eval effect_intensity_eval;
+decl_diag_eval field_strength_eval;
 decl_diag_eval hp_eval;
 decl_diag_ass hp_ass;
 decl_diag_eval hp_max_eval;
@@ -145,6 +146,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
+    { "field_strength", { "ung", 1, field_strength_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "hp", { "un", -1, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
