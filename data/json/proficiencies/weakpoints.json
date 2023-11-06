@@ -206,5 +206,16 @@
     "required_proficiencies": [ "prof_intro_biology" ],
     "default_weakpoint_bonus": 4,
     "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_netherium_abomination",
+    "category": "prof_weakpoint",
+    "name": { "str": "Netherium Abominations" },
+    "description": "You have extensive experience with netherium abominations which provides you with a vague sense of where more vulnerable spots might be.",
+    "can_learn": true,
+    "time_to_learn": "24 h",
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": -2
   }
 ]
