@@ -285,7 +285,9 @@
     "name": { "str": "corded electric chainsaw (on)", "str_pl": "corded electric chainsaws (on)" },
     "use_action": [ "TOOLWEAPON_DEACTIVATE", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
     "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "power_draw": "2 kW",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "revert_to": "elec_chainsaw_cord_off"
   },
   {
