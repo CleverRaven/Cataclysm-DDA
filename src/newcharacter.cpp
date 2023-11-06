@@ -887,7 +887,7 @@ void Character::initialize( bool learn_recipes )
 
     // Add profession recipes
     for( const recipe_id id : prof->recipes() ) {
-        const recipe &r = recipe_dict.get_craft( id->result() );
+        const recipe &r =  recipe_dictionary::get_craft( id->result() );
         learn_recipe( &r );
     }
 
