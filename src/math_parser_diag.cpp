@@ -193,6 +193,14 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> charge_count_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->charges_of( itype_id( id.str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -245,6 +253,14 @@ std::function<double( dialogue & )> hp_max_eval( char scope,
     return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         bodypart_id bp( bpid.str( d ) );
         return d.actor( beta )->get_hp_max( bp );
+    };
+}
+
+std::function<double( dialogue & )> item_count_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->get_amount( itype_id( id.str( d ) ) );
     };
 }
 
