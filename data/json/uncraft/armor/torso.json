@@ -109,7 +109,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "45 m",
+    "time": "20 m",
     "components": [ [ [ "sheet_faux_fur_patchwork", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
@@ -165,6 +165,78 @@
     "difficulty": 1,
     "time": "20 m",
     "components": [ [ [ "sheet_faux_fur_patchwork", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "trenchcoat_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 10 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "sleeveless_trenchcoat_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "duster_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 7 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "sleeveless_duster_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "xs_duster_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "xl_duster_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 9 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "jacket_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 3 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "vest_leather",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "20 m",
+    "components": [ [ [ "sheet_leather", 2 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
     "result": "under_armor",
