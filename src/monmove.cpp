@@ -85,6 +85,7 @@ static const mon_flag_str_id mon_flag_ACIDTRAIL( "ACIDTRAIL" );
 static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
 static const mon_flag_str_id mon_flag_ATTACKMON( "ATTACKMON" );
 static const mon_flag_str_id mon_flag_CAN_OPEN_DOORS( "CAN_OPEN_DOORS" );
+static const mon_flag_str_id mon_flag_DRIPS_GASOLINE( "DRIPS_BLOBFUEL" );
 static const mon_flag_str_id mon_flag_DRIPS_GASOLINE( "DRIPS_GASOLINE" );
 static const mon_flag_str_id mon_flag_DRIPS_NAPALM( "DRIPS_NAPALM" );
 static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
