@@ -3,15 +3,34 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DEPENDENT_EFFECTS_ACCEPTANCE",
     "//": "Mainly good effects, since your unstable grasp on reality will strengthen with the distorted reality of the portal storms.",
-    "recurrence": [ "15 minutes", "50 minutes" ],
+    "recurrence": [ "5 minutes", "15 minutes" ],
     "condition": {
       "and": [
         { "u_has_trait": "PORTAL_DEPENDENT" },
-        { "is_weather": "portal_storm" },
+        {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "and": [ { "is_weather": "early_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 6, "y": 10 } } ] },
+            { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 8, "y": 10 } } ] },
+            { "and": [ { "u_has_effect": "pd_strengthened_reality" }, { "x_in_y_chance": { "x": 1, "y": 10 } } ] }
+          ]
+        },
         { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
       ]
     },
-    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "is_weather": "portal_storm" } ] } },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "u_has_trait": "PORTAL_DEPENDENT" },
+          { "is_weather": "portal_storm" },
+          { "is_weather": "early_portal_storm" },
+          { "is_weather": "near_portal_storm" },
+          { "is_weather": "distant_portal_storm" },
+          { "u_has_effect": "pd_strengthened_reality" }
+        ]
+      }
+    },
     "effect": {
       "run_eocs": {
         "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
@@ -116,6 +135,14 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_4",
     "//": "Your feel greatly more accepted by the world, your body partially stabilizes itself in this reality if you are outside.",
+    "condition": {
+      "or": [
+        { "is_weather": "portal_storm" },
+        { "is_weather": "early_portal_storm" },
+        { "is_weather": "near_portal_storm" },
+        { "is_weather": "distant_portal_storm" }
+      ]
+    },
     "effect": {
       "run_eocs": {
         "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_OUTSIDE",
@@ -159,11 +186,34 @@
     "condition": {
       "and": [
         { "u_has_trait": "PORTAL_DEPENDENT" },
-        { "not": { "is_weather": "portal_storm" } },
+        {
+          "not": {
+            "or": [
+              { "u_has_effect": "pd_strengthened_reality" },
+              { "is_weather": "portal_storm" },
+              { "is_weather": "early_portal_storm" },
+              { "is_weather": "near_portal_storm" },
+              { "is_weather": "distant_portal_storm" }
+            ]
+          }
+        },
         { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PORTAL_DEPENDENT" } }, { "is_weather": "portal_storm" } ] },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "PORTAL_DEPENDENT" } },
+        {
+          "or": [
+            { "u_has_effect": "pd_strengthened_reality" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "early_portal_storm" },
+            { "is_weather": "near_portal_storm" },
+            { "is_weather": "distant_portal_storm" }
+          ]
+        }
+      ]
+    },
     "effect": {
       "run_eocs": {
         "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_REJECTION",
@@ -417,5 +467,245 @@
     "//": "Messages about strange/bad things that you think/feel/do related to your mental condition.",
     "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, "u_can_see" ] },
     "effect": [ { "u_message": "PORTAL_DEPENDENT_MESSAGES_INT_BAD", "snippet": true, "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD",
+    "//": "Rewards for Portal Dependent characters that survive the dimensional experience of a portal dungeon.",
+    "effect": {
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "cases": [
+        {
+          "case": 0,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0", { "const": 16 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1", { "const": 3 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 1,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0", { "const": 6 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1", { "const": 12 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2", { "const": 2 } ]
+            ]
+          }
+        },
+        {
+          "case": 2,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0", { "const": 1 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1", { "const": 5 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2", { "const": 12 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3", { "const": 2 } ]
+            ]
+          }
+        },
+        {
+          "case": 3,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1", { "const": 2 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2", { "const": 5 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3", { "const": 12 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4", { "const": 1 } ]
+            ]
+          }
+        },
+        {
+          "case": 4,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2", { "const": 2 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3", { "const": 6 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4", { "const": 12 } ]
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0",
+    "//": "Basic reward for experiencing a different reality when your own fabric of reality is damaged.",
+    "effect": [
+      {
+        "u_message": "You feel invigorated by what you just experienced, so…  What is this feeling of regret for leaving that place?",
+        "type": "good"
+      },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 20,
+        "max_bonus": 40,
+        "duration": "120 minutes",
+        "decay_start": "60 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1",
+    "//": "Standard reward for experiencing a different reality and integrating a little with it.",
+    "effect": [
+      {
+        "u_message": "You feel like the shackles of your body are loosening a little.  The world seems to accept your distorted presence for now.  You wonder if what you currently feel would have been greater if only you had gone deeper…",
+        "type": "good"
+      },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 20,
+        "max_bonus": 40,
+        "duration": "180 minutes",
+        "decay_start": "80 minutes"
+      },
+      { "u_add_effect": "pd_strengthened_reality", "duration": "2 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2",
+    "//": "Improved reward for experiencing a different reality and integrating a little with it.",
+    "effect": [
+      {
+        "u_message": "You suddenly feel in calm, your body a little faster, and your surroundings less hostile than what you remember.  Before this new sensation passes away though, you hear a little voice in your head saying \"deeper…\"",
+        "type": "good"
+      },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 20,
+        "max_bonus": 40,
+        "duration": "240 minutes",
+        "decay_start": "100 minutes"
+      },
+      { "u_add_effect": "pd_strengthened_reality", "duration": "5 days", "intensity": 2 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3",
+    "//": "Big reward for experiencing a different reality and partially integrating your self with it.",
+    "effect": [
+      {
+        "u_message": "You return to your reality with a sense of ecstasy, your body feels great, your shackles have come loose and you feel powerful because of it.  But you can feel it, this exhilarating feeling is only the beginning, you need to go deeper…",
+        "type": "good"
+      },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 25,
+        "max_bonus": 40,
+        "duration": "260 minutes",
+        "decay_start": "120 minutes"
+      },
+      { "u_add_effect": "pd_strengthened_reality", "duration": "8 days", "intensity": 3 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4",
+    "//": "Great reward for experiencing a different reality, partially integrating with it and bringing some of that reality with you.",
+    "effect": [
+      {
+        "u_message": "You feel in communion with the world around you, the world is no longer rejecting you, at least for now, YOU are rejecting IT.  Your whole body craves for what you could have gained if only you had gone a little deeper…",
+        "type": "good"
+      },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 25,
+        "max_bonus": 40,
+        "duration": "280 minutes",
+        "decay_start": "140 minutes"
+      },
+      { "u_add_effect": "pd_strengthened_reality", "duration": "11 days", "intensity": 4 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL_REWARD",
+    "//": "Rewards for Portal Dependent characters that survive the last level of a portal dungeon.",
+    "effect": {
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "cases": [
+        {
+          "case": 5,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3", { "const": 6 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4", { "const": 10 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_5", { "const": 4 } ]
+            ]
+          }
+        },
+        {
+          "case": 6,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3", { "const": 4 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4", { "const": 8 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_5", { "const": 8 } ]
+            ]
+          }
+        },
+        {
+          "case": 7,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3", { "const": 1 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4", { "const": 6 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_5", { "const": 13 } ]
+            ]
+          }
+        },
+        {
+          "case": 8,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4", { "const": 2 } ],
+              [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_5", { "const": 18 } ]
+            ]
+          }
+        },
+        { "case": 9, "effect": [ { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_5" } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_5",
+    "//": "Final reward for experiencing a whole different reality, allowing you to partially anchor yourself to reality again.",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TRAIT",
+          "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
+          "effect": [
+            {
+              "u_message": "You suddenly feel a profound sense of belonging take root inside you, spreading throughout your body.  It fades quickly, but something warm remains…",
+              "type": "good"
+            },
+            { "u_add_trait": "REALITY_GRASP" }
+          ],
+          "false_effect": [
+            {
+              "u_message": "You suddenly feel a profound sense of belonging take root inside you, temporally amplifying your grasp of reality.  For some time you will be the master of your surroundings.",
+              "type": "good"
+            },
+            { "u_add_effect": "pd_strengthened_reality", "duration": "14 days", "intensity": 4 }
+          ]
+        }
+      },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 30,
+        "max_bonus": 60,
+        "duration": "300 minutes",
+        "decay_start": "150 minutes"
+      }
+    ]
   }
 ]

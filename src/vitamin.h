@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 template <typename T> struct enum_traits;
@@ -108,10 +109,13 @@ class vitamin
          */
         float RDA_to_default( int percent ) const;
 
+        int units_from_mass( units::mass mass ) const;
+
     private:
         vitamin_id id_;
         vitamin_type type_ = vitamin_type::num_vitamin_types;
         translation name_;
+        std::optional<units::mass> weight_per_unit;
         efftype_id deficiency_;
         efftype_id excess_;
         int min_ = 0;

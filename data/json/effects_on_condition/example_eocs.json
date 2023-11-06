@@ -189,7 +189,15 @@
     "type": "effect_on_condition",
     "id": "EOC_map_condition_test",
     "effect": [
-      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } },
+        "then": { "u_message": "Inside city" },
+        "else": { "u_message": "Outside city" }
+      },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" },
+        "target_var": { "context_val": "loc" }
+      },
       {
         "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "North terrain: TRANSPARENT" },
@@ -241,6 +249,108 @@
         "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
         "then": { "u_message": "West furniture: TRANSPARENT" },
         "else": { "u_message": "West furniture: Not TRANSPARENT" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_foreach_test",
+    "effect": [
+      { "u_message": "[foreach_test]id of flags" },
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "flag",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]item group" },
+      {
+        "foreach": "item_group",
+        "var": { "context_val": "id" },
+        "target": "forest",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]monster group" },
+      {
+        "foreach": "monstergroup",
+        "var": { "context_val": "id" },
+        "target": "GROUP_ANIMALPOUND_DOGS",
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      },
+      { "u_message": "[foreach_test]string array" },
+      {
+        "foreach": "array",
+        "var": { "context_val": "id" },
+        "target": [ "a", "b", "c", "d", "e" ],
+        "effect": [ { "u_message": "<context_val:id>" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_info_test",
+    "effect": [
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [
+          { "u_message": "[<context_val:id>]" },
+          {
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "worn_only": true } ],
+            "true_eocs": [
+              {
+                "id": "EOC_armor_info_test_nested",
+                "effect": [
+                  { "math": [ "_coverage", "=", "n_coverage(_id)" ] },
+                  { "math": [ "_encumbrance", "=", "n_encumbrance(_id)" ] },
+                  {
+                    "if": { "math": [ "_coverage", ">", "0" ] },
+                    "then": [
+                      { "u_message": "  <npc_name>" },
+                      { "u_message": "  coverage:<context_val:coverage>" },
+                      { "u_message": "  encumbrance:<context_val:encumbrance>" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_query_tile_test_anywhere",
+    "effect": [
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_query_tile_test_line_of_sight",
+    "effect": [
+      {
+        "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_query_tile_test_around",
+    "effect": [
+      {
+        "if": { "u_query_tile": "around", "target_var": { "context_val": "pos" }, "message": "Choose direction" },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
       }
     ]
   }

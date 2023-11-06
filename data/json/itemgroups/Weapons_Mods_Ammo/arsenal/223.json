@@ -3,7 +3,15 @@
     "type": "item_group",
     "id": "milspec_arsenal_223_pouch_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_223_pouch_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_223_pouch_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_50_556_m855a1_clipped_840", "count": [ 1, 4 ], "prob": 100 },
+          { "item": "ammo_can_50_556tracer_820", "count": [ 1, 4 ], "prob": 5 }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -12,8 +20,8 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_223_gun&mags" },
-      { "group": "ammo_can_ammo_pouch_223_full", "prob": 30 },
-      { "group": "ammo_can_ammo_pouch_223_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_223_any_full", "prob": 30 },
+      { "group": "ammo_can_223_any_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -58,33 +66,5 @@
       { "item": "stanag100drum", "prob": 5 },
       { "item": "stanag150", "prob": 3 }
     ]
-  },
-  {
-    "id": "ammo_can_ammo_pouch_223_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_pouch_223", "count": 7 } ]
-  },
-  {
-    "id": "ammo_can_ammo_pouch_223_part",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_pouch_223", "count": [ 1, 6 ] } ]
-  },
-  {
-    "id": "ammo_pouch_223",
-    "type": "item_group",
-    "//": "TODO: addd 1 stipper clip guide (aka 'spoon') for 223 in this group, when the game will be able to check his using",
-    "subtype": "collection",
-    "container-item": "cheap_ammo_pouch",
-    "items": [ { "group": "box_223_clips", "count": 4 } ]
-  },
-  {
-    "id": "box_223_clips",
-    "type": "item_group",
-    "container-item": "ammunition_box_223",
-    "items": [ { "item": "clip223_10rd", "count": 3 } ]
   }
 ]

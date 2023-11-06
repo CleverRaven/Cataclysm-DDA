@@ -56,7 +56,7 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "HAS_MIND", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS" ],
     "armor": { "bash": 65, "cut": 62, "acid": 12, "heat": 8, "bullet": 72 }
   }
 ]

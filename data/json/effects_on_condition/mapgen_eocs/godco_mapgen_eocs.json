@@ -81,5 +81,32 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "wall_in_progress" }, "=", { "const": 2 } ] },
       { "npc_lose_var": "wall_started_building", "type": "timer", "context": "trade" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_warehouse",
+    "recurrence": 100,
+    "global": false,
+    "//": "1 hour 30 minutes per wood wall * 50 walls = 75 hours for walls. 132 wood floors * 1 hour 40 minutes a floor = 220 hours. 1 hour 30 minutes per shelf * 68 shelves = 102 hours. (397 so far)  2 hours per roof * 132 roof tiles (assume same as floors) = 264 hours.",
+    "//2": "In total, this takes 661 labor hours to build. Assuming work is in 8-hour shifts, that's 83 days, or 2 months and 22 days for a single worker.  Assume we have ~6 people on the job (isn't as urgent as a wall), this takes us ~14 days to build, or two weeks.",
+    "condition": {
+      "and": [
+        { "math": [ "godco_warehouse_in_progress", "==", "1" ] },
+        {
+          "u_compare_time_since_var": "warehouse_started_building",
+          "type": "timer",
+          "context": "trade",
+          "op": ">=",
+          "time": "14 d"
+        },
+        { "u_near_om_location": "godco_1_1", "range": 1 }
+      ]
+    },
+    "deactivate_condition": { "math": [ "godco_warehouse_in_progress", "==", "2" ] },
+    "effect": [
+      { "mapgen_update": "place_food_warehouse", "om_terrain": "forest_thick" },
+      { "math": [ "godco_warehouse_in_progress", "=", "2" ] },
+      { "u_lose_var": "warehouse_started_building", "type": "timer", "context": "trade" }
+    ]
   }
 ]

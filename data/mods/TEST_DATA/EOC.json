@@ -15,6 +15,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_inv_prepare",
+    "effect": [
+      { "u_spawn_item": "test_knife_combat", "force_equip": true },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": "test_knife_combat", "force_equip": false },
+      { "u_spawn_item": "backpack", "force_equip": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_inv_test1",
     "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_run_inv_test1_nested" ] } ]
   },
@@ -133,6 +143,25 @@
     "type": "effect_on_condition",
     "id": "EOC_item_activate_test_nested",
     "effect": [ { "u_activate": "deploy_furn", "target_var": { "u_val": "activate_pos" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_math_test",
+    "effect": [
+      { "u_spawn_item": "backpack", "force_equip": true },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "backpack", "worn_only": true } ],
+        "true_eocs": [ "EOC_armor_math_test_nested" ]
+      },
+      { "math": [ "u_key1", "=", "u_coverage('torso')" ] },
+      { "math": [ "u_key2", "=", "u_encumbrance('torso')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_math_test_nested",
+    "effect": [ { "math": [ "n_key1", "=", "n_coverage('torso')" ] }, { "math": [ "n_key2", "=", "n_encumbrance('torso')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -460,6 +489,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_string_test",
+    "effect": [
+      { "set_string_var": "test1", "target_var": { "global_val": "key1" } },
+      { "set_string_var": "test2", "target_var": { "global_val": "key2" } },
+      { "set_string_var": "<global_val:key1> <global_val:key2>", "target_var": { "global_val": "key3" } },
+      {
+        "set_string_var": "<global_val:key1> <global_val:key2>",
+        "target_var": { "global_val": "key4" },
+        "parse_tags": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_test_nest",
+    "effect": [
+      { "u_add_var": "nest1", "value": "nest2" },
+      { "u_add_var": "nest2", "value": "nest3" },
+      { "u_add_var": "nest3", "value": "nest4" },
+      { "set_string_var": "<u_val:nest1>", "target_var": { "u_val": "key1" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:nest1>>", "target_var": { "u_val": "key2" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:<u_val:nest1>>>", "target_var": { "u_val": "key3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_character_finished_activity_event_test",
     "eoc_type": "EVENT",
     "required_event": "character_finished_activity",
@@ -478,6 +533,64 @@
       { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
       { "math": [ "key2", "=", "_resume" ] },
       { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_melee_attacks_character_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_character" },
+      {
+        "npc_add_var": "last_event",
+        "type": "test",
+        "context": "event",
+        "value": "character_melee_attacks_character"
+      },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_melee_attacks_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_monster" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_monster" },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_ranged_attacks_character_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_ranged_attacks_character" },
+      {
+        "npc_add_var": "last_event",
+        "type": "test",
+        "context": "event",
+        "value": "character_ranged_attacks_character"
+      },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_ranged_attacks_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "effect": [
+      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_ranged_attacks_monster" },
+      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_ranged_attacks_monster" },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
   },
   {
@@ -555,5 +668,20 @@
     "condition": { "u_know_recipe": "cattail_jelly" },
     "effect": { "u_forget_recipe": "cattail_jelly" },
     "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_martial_art_test_1",
+    "//": "tests adding a martial art to the player",
+    "condition": { "not": { "u_has_martial_art": "style_aikido" } },
+    "effect": { "u_learn_martial_art": "style_aikido" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_martial_art_test_2",
+    "//": "tests forgetting a martial art from the player",
+    "condition": { "not": { "u_using_martial_art": "style_aikido" } },
+    "effect": { "u_forget_martial_art": "style_aikido" }
   }
 ]

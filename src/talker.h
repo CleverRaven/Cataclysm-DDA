@@ -137,8 +137,8 @@ class talker
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
-        virtual int get_cur_part_temp( const bodypart_id & ) const {
-            return 0;
+        virtual units::temperature get_cur_part_temp( const bodypart_id & ) const {
+            return 0_K;
         }
         virtual bool get_is_alive() const {
             return false;
@@ -394,7 +394,7 @@ class talker
             return {};
         }
         virtual void i_add( const item & ) {}
-        virtual void i_add_or_drop( item & ) {}
+        virtual void i_add_or_drop( item &, bool = false ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {
             return false;
@@ -556,6 +556,12 @@ class talker
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }
+        virtual int coverage_at( bodypart_id & ) const {
+            return 0;
+        }
+        virtual int encumbrance_at( bodypart_id & ) const {
+            return 0;
+        }
         virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
             return false;
         }
@@ -666,11 +672,11 @@ class talker
         virtual int get_health() const {
             return 0;
         }
-        virtual int get_body_temp() const {
-            return 0;
+        virtual units::temperature get_body_temp() const {
+            return 0_K;
         }
-        virtual int get_body_temp_delta() const {
-            return 0;
+        virtual units::temperature_delta get_body_temp_delta() const {
+            return 0_C_delta;
         }
         virtual std::vector<bodypart_id> get_all_body_parts( bool, bool ) const {
             return std::vector<bodypart_id>();
@@ -691,6 +697,9 @@ class talker
         virtual void learn_martial_art( const matype_id & ) const {}
         virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
+        }
+        virtual bool using_martial_art( const matype_id & ) const {
             return false;
         }
 };

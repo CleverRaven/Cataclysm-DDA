@@ -2462,7 +2462,7 @@
       {
         "id": "insta_case",
         "name": { "str": "Instagram Overlay smartphone case" },
-        "description": "Inspired by Instagram's popular filter overlays, this waterproof smartphone case features a colorful gradient background with geometric shapes layered over it.  The colors of these shapes are similar to those found in Instagram's color palette.  The overlay design gives the case an interesting depth and texture, and the colors make it stand out.",
+        "description": "Inspired by Instagram's popular filter overlays, this waterproof smartphone case features a colorful gradient background with geometric shapes layered over it.  The colors of these shapes are similar to those found in Instagram's color palette.  The overlay design gives the case an interesting depth and texture, and the colors make it stand out.",
         "weight": 5
       },
       {
@@ -2480,7 +2480,7 @@
       {
         "id": "ghostface_case",
         "name": { "str": "Scream smartphone case" },
-        "description": "The design on this case is inspired by the scream mask worn by the killers from the Scream movie series.  The case features the classic ghostly white mask together with the classic knife they wield, both designed in a gradient graphic with the case’s background color and dark, smoky design lines to add an air of mystery and suspense.",
+        "description": "The design on this case is inspired by the scream mask worn by the killers from the Scream movie series.  The case features the classic ghostly white mask together with the classic knife they wield, both designed in a gradient graphic with the case's background color and dark, smoky design lines to add an air of mystery and suspense.",
         "weight": 5
       },
       {
@@ -2606,7 +2606,7 @@
       {
         "id": "you'renext_case",
         "name": { "str": "You're Next smartphone case" },
-        "description": "The design of this waterproof smartphone case is inspired by the masked assailants who terrorize the family in the movie 'You're Next'.  This case features a graphic of an animal mask with a sharp graphic design printed onto the case, with a bloody-red background to create a sense of urgency and horror.",
+        "description": "The design of this waterproof smartphone case is inspired by the masked assailants who terrorize the family in the movie 'You're Next'.  This case features a graphic of an animal mask with a sharp graphic design printed onto the case, with a bloody-red background to create a sense of urgency and horror.",
         "weight": 5
       },
       {
@@ -2636,7 +2636,7 @@
       {
         "id": "descent_case",
         "name": { "str": "The Descent smartphone case" },
-        "description": "The design of this waterproof smartphone case features the shadows of the Deformed humanoid creatures lurking in the cave that the characters must navigate, with corresponding blood dripping from them against a black background.",
+        "description": "The design of this waterproof smartphone case features the shadows of the deformed humanoid creatures lurking in the cave that the characters must navigate, with corresponding blood dripping from them against a black background.",
         "weight": 5
       },
       {
@@ -2714,7 +2714,7 @@
       {
         "id": "day_case",
         "name": { "str": "Day of the Dead smartphone case" },
-        "description": "This waterproof smartphone case features an underground military bunker setting and a graphic of a zombie breaking through a chain-link fence, alongside a recognizable smart zombie behind it.  The sides include a dark, military-colored camo pattern and texture.",
+        "description": "This waterproof smartphone case features an underground military bunker setting and a graphic of a zombie breaking through a chain-link fence, alongside a recognizable smart zombie behind it.  The sides include a dark, military-colored camo pattern and texture.",
         "weight": 5
       },
       {
@@ -3279,7 +3279,7 @@
       }
     ],
     "flags": [ "BANK_NOTE_SHAPED" ],
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": { "burst_when_filled": "75" }
   },
   {
     "id": "balloon",
