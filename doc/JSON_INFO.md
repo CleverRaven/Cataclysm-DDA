@@ -734,11 +734,7 @@ note, that using `id` is mandatory in every way, if you don't want to make the g
 
 ------
 
-Both dialogues, snippets and item descriprtions may reference the snippets right inside themselves - to differentiate the snippets, that are used in this way, their id contain `<>` in the name, like `<test_breads>`
-
-```json
-"description": "An identification tag for a pet, engraved with their name and their owner's address and phone number. It says \"<dog_name>\"",
-```
+Both dialogues and snippets may reference the snippets right inside themselves - to differentiate the snippets, that are used in this way, their id contain `<>` in the name, like `<test_breads>`
 
 ```json
 "dynamic_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you."
