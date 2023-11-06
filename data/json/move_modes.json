@@ -33,7 +33,7 @@
     "stop_hauling": true,
     "sound_multiplier": 1.5,
     "move_speed_multiplier": 2.0,
-    "stamina_multiplier": 7.0,
+    "stamina_multiplier": 5.0,
     "swim_speed_mod": -80
   },
   {
