@@ -750,6 +750,87 @@ Both dialogues and snippets may reference the snippets right inside themselves -
 
 ------
 
+Item descriptions also capable to use snippet system, but to use them, `expand_snippets` should be `true`, otherwise the description won't be saved, and will change every time you update the game in any way, either by picking up the item again, reloading the game or, sometimes, by moving your cursor
+
+```json
+{
+  "id": "nice_mug",
+  "type": "GENERIC",
+  "name": { "str": "complimentary mug" },
+  "description": "A ceramic mug.  It says \"Nice job, <name_g>!\"",
+  "expand_snippets": true,
+...
+}
+```
+
+Same works with variants 
+
+
+```json
+{
+  "id": "mean_mug",
+  "type": "GENERIC",
+  "name": { "str": "insulting mug" },
+  "description": "A ceramic mug.",
+  "variant_type": "generic",
+  "variants": [
+    {
+      "id": "fuck_you",
+      "name": { "str": "insulting mug" },
+      "description": "It says \"<fuck_you>, <name_b>!\"",
+      "append": true,
+      "expand_snippets": true,
+      "weight": 1
+    },
+    {
+      "id": "worst_dad",
+      "name": { "str": "bad dad mug" },
+      "description": "It says \"Worlds Worst Dad\"",
+      "append": true,
+      "weight": 1
+    }
+  ],
+  "material": [ "ceramic" ],
+  "weight": "375 g",
+  "volume": "375 ml"
+}
+```
+
+Using `expand_snippets` required only where snippets are used - if item do not uses snippet, but variant does, then only variant require to have `"expand_snippets":true`
+Additionally, using `expand_snippets` in item definition works as if all variants got `"expand_snippets": true`
+
+```json
+{
+  "id": "mean_mug",
+  "type": "GENERIC",
+  "name": { "str": "insulting mug" },
+  "description": "A ceramic mug.",
+  "expand_snippets": true,
+  "variant_type": "generic",
+  "variants": [
+    {
+      "id": "fuck_you",
+      "name": { "str": "insulting mug" },
+      "description": "It says \"<fuck_you>, <name_b>!\"",
+      "append": true,
+      "weight": 1
+    },
+    {
+      "id": "worst_dad",
+      "name": { "str": "bad dad mug" },
+      "description": "It says \"Worlds Worst Dad\"",
+      "append": true,
+      "weight": 1
+    }
+  ],
+  "material": [ "ceramic" ],
+  "weight": "375 g",
+  "volume": "375 ml"
+}
+```
+
+------
+
 Item groups can specify the description of the item that is spawned:
 
 ```json
