@@ -96,7 +96,7 @@
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
-            { "not": { "math": [ "godco_freemerch_representative_dead", "==", "0" ] } },
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
             { "u_has_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" },
             { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
           ]
