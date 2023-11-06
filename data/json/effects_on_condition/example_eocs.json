@@ -1,6 +1,18 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_arg_test",
+    "effect": [
+      { "set_string_var": "art_summon_bees", "target_var": { "context_val": "spell_id" } },
+      { "math": [ "_spell_level", "=", "u_spell_level('spell': _spell_id)" ] },
+      { "u_message": "spell_level before: <context_val:spell_level>" },
+      { "math": [ "u_spell_level('spell': _spell_id)", "=", "u_spell_level('spell': _spell_id) + 1" ] },
+      { "math": [ "_spell_level", "=", "u_spell_level('spell': _spell_id)" ] },
+      { "u_message": "spell_level after: <context_val:spell_level>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_selector_test",
     "effect": [
       {
