@@ -2011,13 +2011,18 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
     do {
         fa = phrase.find( '<' );
         fb = phrase.find( '>' );
-        fa_ = fa;
-        do {
-            fa_ = phrase.find( '<', fa_ + 1 );
-            if( fa_ < fb ) {
+        if( fa != std::string::npos ) {
+            size_t nest = 0;
+            fa_ = phrase.find( '<', fa + 1 );
+            while( fa_ < fb && fa_ != std::string::npos ) {
+                nest++;
+                fa_ = phrase.find( '<', fa_ + 1 );
+            }
+            while( nest > 0 && fb != std::string::npos ) {
+                nest--;
                 fb = phrase.find( '>', fb + 1 );
             }
-        } while( fa_ > fb && fa_ != std::string::npos && fb != std::string::npos );
+        }
         int l = fb - fa + 1;
         if( fa != std::string::npos && fb != std::string::npos ) {
             tag = phrase.substr( fa, fb - fa + 1 );
