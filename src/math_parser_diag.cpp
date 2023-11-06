@@ -572,19 +572,17 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
     return [prof_value = params[0], format_value, beta = is_beta( scope )]( dialogue const & d ) {
         proficiency_id prof( prof_value.str( d ) );
         std::string format = format_value.str( d );
+        time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
         if( format == "time_spent" ) {
-            return to_turns<int>( d.actor( beta )->proficiency_practiced_time( prof ) );
+            return to_turns<int>( raw );
         } else if( format == "percent" ) {
-            return static_cast<int>( d.actor( beta )->proficiency_practiced_time(
-                                         prof ) * 100  / prof->time_to_learn() );
+            return static_cast<int>( raw * 100  / prof->time_to_learn() );
         } else if( format == "permille" ) {
-            return static_cast<int>( d.actor( beta )->proficiency_practiced_time(
-                                         prof ) * 1000  / prof->time_to_learn() );
+            return static_cast<int>( raw * 1000  / prof->time_to_learn() );
         } else if( format == "total_time_required" ) {
             return to_turns<int>( prof->time_to_learn() );
         } else if( format == "time_left" ) {
-            return to_turns<int>( prof->time_to_learn() - d.actor( beta )->proficiency_practiced_time(
-                                      prof ) );
+            return to_turns<int>( prof->time_to_learn() - raw );
         } else {
             throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
         }
@@ -607,20 +605,19 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
         std::string format = format_value.str( d );
+        int to_write = 0;
         if( format == "time_spent" ) {
-            d.actor( beta )->set_proficiency_practiced_time( prof, val );
+            to_write = val;
         } else if( format == "percent" ) {
-            d.actor( beta )->set_proficiency_practiced_time( prof,
-                    to_turns<int>( prof->time_to_learn() * val ) / 100 );
+            to_write = to_turns<int>( prof->time_to_learn() * val ) / 100;
         } else if( format == "permille" ) {
-            d.actor( beta )->set_proficiency_practiced_time( prof,
-                    to_turns<int>( prof->time_to_learn() * val ) / 1000 );
+            to_write = to_turns<int>( prof->time_to_learn() * val ) / 1000;
         } else if( format == "time_left" ) {
-            d.actor( beta )->set_proficiency_practiced_time( prof,
-                    to_turns<int>( prof->time_to_learn() ) - val );
+            to_write = to_turns<int>( prof->time_to_learn() ) - val;
         } else {
             throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
         }
+        d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
         return 0;
     };
 }
