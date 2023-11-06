@@ -121,6 +121,8 @@ decl_diag_eval spell_level_eval;
 decl_diag_ass spell_level_ass;
 decl_diag_eval spell_level_adjustment_eval;
 decl_diag_ass spell_level_adjustment_ass;
+decl_diag_eval proficiency_eval;
+decl_diag_ass proficiency_ass;
 decl_diag_eval test_diag;
 decl_diag_eval u_val;
 decl_diag_ass u_val_ass;
@@ -147,6 +149,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "spell_exp", { "un", 1, spell_exp_eval}},
     { "spell_level", { "un", -1, spell_level_eval}},
     { "spell_level_adjustment", { "un", -1, spell_level_adjustment_eval}},
+    { "proficiency", { "un", -1, proficiency_eval } },
     { "val", { "un", -1, u_val } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
@@ -161,6 +164,7 @@ inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "spell_exp", { "un", 1, spell_exp_ass}},
     { "spell_level", { "un", -1, spell_level_ass}},
     { "spell_level_adjustment", { "un", -1, spell_level_adjustment_ass}},
+    { "proficiency", { "un", -1, proficiency_ass } },
     { "val", { "un", -1, u_val_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
