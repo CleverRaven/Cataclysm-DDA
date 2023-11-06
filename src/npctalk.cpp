@@ -2093,7 +2093,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             const npc *guy = dynamic_cast<const npc *>( me_chr );
             std::string restock_interval = guy ? guy->get_restock_interval() : _( "a few days" );
             phrase.replace( fa, l, restock_interval );
-        } else if( tag.find( "<u_val:" ) != std::string::npos ) {
+        } else if( tag.find( "<u_val:" ) == 0 ) {
             //adding a user variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2101,7 +2101,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             phrase.replace( fa, l, u.get_value( "npctalk_var_" + var ) );
-        } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
+        } else if( tag.find( "<npc_val:" ) == 0 ) {
             //adding a npc variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2109,7 +2109,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             phrase.replace( fa, l, me.get_value( "npctalk_var_" + var ) );
-        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
+        } else if( tag.find( "<global_val:" ) == 0 ) {
             //adding a global variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2118,7 +2118,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
-        } else if( tag.find( "<context_val:" ) != std::string::npos ) {
+        } else if( tag.find( "<context_val:" ) == 0 ) {
             //adding a context variable to the string requires dialogue to exist
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2126,7 +2126,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             phrase.replace( fa, l, d.get_value( "npctalk_var_" + var ) );
-        } else if( tag.find( "<item_name:" ) != std::string::npos ) {
+        } else if( tag.find( "<item_name:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2135,7 +2135,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, itype_id( var )->nname( 1 ) );
-        } else if( tag.find( "<item_description:" ) != std::string::npos ) {
+        } else if( tag.find( "<item_description:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2144,7 +2144,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, itype_id( var )->description.translated() );
-        } else if( tag.find( "<trait_name:" ) != std::string::npos ) {
+        } else if( tag.find( "<trait_name:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2153,7 +2153,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, trait_id( var )->name() );
-        } else if( tag.find( "<trait_description:" ) != std::string::npos ) {
+        } else if( tag.find( "<trait_description:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
@@ -2162,7 +2162,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
             phrase.replace( fa, l, trait_id( var )->desc() );
-        } else if( tag.find( "<city>" ) != std::string::npos ) {
+        } else if( tag.find( "<city>" ) == 0 ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
             const city *c = overmap_buffer.closest_city( abs_sub ).city;
