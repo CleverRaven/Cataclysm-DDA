@@ -347,6 +347,7 @@
       [ "pants_cargo", 70 ],
       [ "hoodie", 65 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 60 ],
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
       [ "jacket_jean", 30 ],
