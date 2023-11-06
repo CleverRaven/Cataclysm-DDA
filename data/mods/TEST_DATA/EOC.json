@@ -146,6 +146,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_armor_math_test",
+    "effect": [
+      { "u_spawn_item": "backpack", "force_equip": true },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "backpack", "worn_only": true } ],
+        "true_eocs": [ "EOC_armor_math_test_nested" ]
+      },
+      { "math": [ "u_key1", "=", "u_coverage('torso')" ] },
+      { "math": [ "u_key2", "=", "u_encumbrance('torso')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_math_test_nested",
+    "effect": [ { "math": [ "n_key1", "=", "n_coverage('torso')" ] }, { "math": [ "n_key2", "=", "n_encumbrance('torso')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
       { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
