@@ -98,6 +98,9 @@ using decl_diag_eval = std::function<double( dialogue & )> ( char scope,
 using decl_diag_ass = std::function<void( dialogue &, double )> ( char scope,
                       std::vector<diag_value> const &params, diag_kwargs const &kwargs );
 
+decl_diag_eval addiction_intensity_eval;
+decl_diag_eval addiction_turns_eval;
+decl_diag_ass addiction_turns_ass;
 decl_diag_eval armor_eval;
 decl_diag_eval attack_speed_eval;
 decl_diag_eval charge_count_eval;
@@ -136,6 +139,8 @@ decl_diag_ass weather_ass;
 
 inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
+    { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
+    { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
@@ -161,6 +166,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 };
 
 inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
+    { "addiction_turns", { "un", 1, addiction_turns_ass } },
     { "hp", { "un", -1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "skill", { "un", 1, skill_ass } },

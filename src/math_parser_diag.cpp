@@ -183,6 +183,30 @@ std::function<double( dialogue & )> option_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> addiction_intensity_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->get_addiction_intensity( addiction_id( id.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> addiction_turns_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->get_addiction_turns( addiction_id( id.str( d ) ) );
+    };
+}
+
+std::function<void( dialogue &, double )> addiction_turns_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[id = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_addiction_turns( addiction_id( id.str( d ) ), val );
+    };
+}
+
 std::function<double( dialogue & )> armor_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
