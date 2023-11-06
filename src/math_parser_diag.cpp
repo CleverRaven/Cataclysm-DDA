@@ -150,11 +150,20 @@ var_info diag_value::var() const
 }
 
 std::function<double( dialogue & )> u_val( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    kwargs_shim const shim( params, scope );
     try {
-        return conditional_t::get_get_dbl( shim );
+        for( const std::pair<const std::string, deref_diag_value> &kw : kwargs ) {
+            *kw.second;
+        }
+        return [scope, params, kwargs]( dialogue & d ) {
+            std::vector<diag_value> params_ = params;
+            for( const std::pair<const std::string, deref_diag_value> &kw : kwargs ) {
+                params_.emplace_back( kw.first + ":" + kw.second->str( d ) );
+            }
+            kwargs_shim const shim( params_, scope );
+            return conditional_t::get_get_dbl( shim )( d );
+        };
     } catch( std::exception const &e ) {
         debugmsg( "shim failed: %s", e.what() );
         return []( dialogue const & ) {
@@ -164,11 +173,20 @@ std::function<double( dialogue & )> u_val( char scope,
 }
 
 std::function<void( dialogue &, double )> u_val_ass( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    kwargs_shim const shim( params, scope );
     try {
-        return conditional_t::get_set_dbl( shim, {}, {}, false );
+        for( const std::pair<const std::string, deref_diag_value> &kw : kwargs ) {
+            *kw.second;
+        }
+        return [scope, params, kwargs]( dialogue & d, double v ) {
+            std::vector<diag_value> params_ = params;
+            for( const std::pair<const std::string, deref_diag_value> &kw : kwargs ) {
+                params_.emplace_back( kw.first + ":" + kw.second->str( d ) );
+            }
+            kwargs_shim const shim( params_, scope );
+            conditional_t::get_set_dbl( shim, {}, {}, false )( d, v );
+        };
     } catch( std::exception const &e ) {
         debugmsg( "shim failed: %s", e.what() );
         return []( dialogue const &, double ) {};

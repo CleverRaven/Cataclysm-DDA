@@ -318,5 +318,14 @@
         "else": { "u_message": "Canceled" }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_u_val_test",
+    "effect": [
+      { "u_add_var": "test_spell_id", "value": "art_summon_bees" },
+      { "math": [ "u_slv", "=", "u_val('spell_level', 'spell': u_test_spell_id)" ] },
+      { "u_message": "art_summon_bees: <u_val:slv>" }
+    ]
   }
 ]
