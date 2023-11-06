@@ -29,6 +29,7 @@
       "and": [
         { "not": { "u_has_effect": "maimed_acid_gland" } },
         { "not": { "u_has_effect": "maimed_claws" } },
+        { "not": { "u_has_effect": "maimed_arm" } },
         { "u_has_effect": "acid_charged" }
       ]
     },
@@ -116,7 +117,7 @@
     "//": "Drag moves will consume full move costs anyway, don't penalize the attack itself.",
     "move_cost": 0,
     "hitsize_min": 4,
-    "condition": { "not": { "u_has_flag": "GRAB_FILTER" } },
+    "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
     "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
     "grab": true,
     "grab_data": {
@@ -305,6 +306,7 @@
     "move_cost": 200,
     "range": 3,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+    "condition": { "not": { "u_has_effect": "maimed_arm" } },
     "hit_dmg_u": "%1$s thrusts its arms at you, and its claws pierce your %2$s!",
     "hit_dmg_npc": "%1$s thrusts its arms at <npcname>!",
     "no_dmg_msg_u": "%1$s's arms hit your %2$s, but they glance off your armor.",
@@ -353,6 +355,7 @@
     "hitsize_min": 4,
     "hitsize_max": 4,
     "damage_max_instance": [ { "damage_type": "cut", "amount": 23 } ],
+    "condition": { "not": { "u_has_effect": "maimed_arm" } },
     "hit_dmg_u": "%1$s slashes at your neck, cutting your throat!",
     "hit_dmg_npc": "%1$s slashes at <npcname>!",
     "no_dmg_msg_u": "%1$s slashes at your neck, but glances off your armor.",
@@ -367,6 +370,7 @@
     "move_cost": 400,
     "cooldown": 20,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+    "condition": { "not": { "u_has_effect": "maimed_arm" } },
     "hitsize_min": 12,
     "throw_strength": 100,
     "hit_dmg_u": "%1$s takes a powerful swing at your %2$s, pulverizing it!",

@@ -2154,7 +2154,7 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
     "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]

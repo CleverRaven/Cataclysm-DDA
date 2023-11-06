@@ -150,6 +150,8 @@ class ma_technique
         bool dummy = false;
         bool crit_tec = false;
         bool crit_ok = false;
+        bool reach_tec = false; // only possible to use during a reach attack
+        bool reach_ok = false; // possible to use during a reach attack
         bool attack_override = false; // The attack replaces the one it triggered off of
 
         ma_requirements reqs;

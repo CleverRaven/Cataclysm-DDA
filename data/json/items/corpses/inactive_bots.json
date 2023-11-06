@@ -133,7 +133,7 @@
     "id": "bot_antimateriel",
     "type": "TOOL",
     "name": { "str": "inactive M2HB autonomous CROWS II", "str_pl": "inactive M2HB autonomous CROWS II turrets" },
-    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
+    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
     "weight": "172 kg",
     "volume": "30 L",
     "price": 500500,

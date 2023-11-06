@@ -7264,6 +7264,102 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
+int map::ledge_coverage( const Creature &viewer, const tripoint &target_p ) const
+{
+    tripoint viewer_p = viewer.pos();
+    creature_size viewer_size = viewer.get_size();
+
+    // Viewer eye level from ground in grids
+    float eye_level = 1.0f;
+    switch( viewer_size ) {
+        case creature_size::medium:
+            break;
+        case creature_size::tiny:
+            eye_level = 0.4f;
+            break;
+        case creature_size::small:
+            eye_level = 0.7f;
+            break;
+        case creature_size::large:
+            eye_level = 1.3f;
+            break;
+        case creature_size::huge:
+            eye_level = 1.6f;
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Creature has invalid size class." );
+            break;
+    }
+    // Viewer eye level crouch / prone multipliers
+    const Character *viewer_ch = viewer.as_character();
+    if( viewer_ch ) {
+        if( viewer_ch->is_crouching() ) {
+            eye_level *= 0.5;
+        } else if( viewer_ch->is_prone() ) {
+            eye_level *= 0.275;
+        }
+    }
+    // Viewer eye level is higher when standing on furniture
+    const furn_id viewer_furn = furn( viewer_p );
+    if( viewer_furn.obj().id ) {
+        eye_level += viewer_furn->coverage * 0.01f;
+    }
+
+    return ledge_coverage( viewer_p, target_p, eye_level );
+}
+
+int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
+                         const float &eye_level ) const
+{
+    if( viewer_p.z == target_p.z ) {
+        return 0;
+    }
+
+    // Find ledge between viewer and target
+    // Only the first ledge found is calculated for performance reasons
+    tripoint high_p;
+    tripoint low_p;
+    if( viewer_p.z > target_p.z ) {
+        high_p = viewer_p;
+        low_p = target_p;
+    } else {
+        high_p = target_p;
+        low_p = viewer_p;
+    }
+    tripoint ledge_p = high_p;
+    for( tripoint p : line_to( tripoint( low_p.xy(), high_p.z ), high_p ) ) {
+        if( dont_draw_lower_floor( p ) ) {
+            ledge_p = p;
+            break;
+        }
+    }
+
+    // Height of each z-level in grids
+    const float zlevel_to_grid_ratio = 2.0f;
+    float dist_to_ledge_base = trig_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) );
+    // Adjustment to ledge distance because ledge is assumed to be between two grids
+    dist_to_ledge_base += ( viewer_p.z < target_p.z ) ? -0.5f : 0.5f;
+    const float flat_dist = trig_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
+    // Absolute level of viewer's eye
+    const float abs_eye_z = viewer_p.z * zlevel_to_grid_ratio + eye_level;
+    // "Opposite" of the angle between the eye level and ledge
+    const float eye_ledge_z_delta = ( ledge_p.z * zlevel_to_grid_ratio ) - abs_eye_z;
+    const float tangent = eye_ledge_z_delta / dist_to_ledge_base;
+    // Absolute level concealed by ledge, anything below this point is invisible
+    const float covered_z = abs_eye_z + ( tangent * flat_dist );
+    // Ledge coverage given by comparing covered_z and the absolute z of the target space
+    float ledge_coverage = ( covered_z - target_p.z * zlevel_to_grid_ratio ) * 100;
+
+    // Target has a coverage penalty when standing on furniture
+    const furn_id target_furn = furn( target_p );
+    if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
+                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
+        ledge_coverage -= target_furn->coverage;
+    }
+
+    return ledge_coverage >= 0 ? ledge_coverage : 0;
+}
+
 int map::coverage( const tripoint &p ) const
 {
     if( const furn_id obstacle_f = furn( p ) ) {

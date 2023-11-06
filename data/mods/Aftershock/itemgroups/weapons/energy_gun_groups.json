@@ -6,7 +6,8 @@
     "items": [
       { "group": "afs_any_laser_s_gun", "prob": 10 },
       { "group": "afs_any_laser_h_gun", "prob": 2 },
-      { "group": "afs_any_plasma_gun", "prob": 5 }
+      { "group": "afs_any_plasma_gun", "prob": 5 },
+      { "group": "afs_any_voltaic_gun", "prob": 2 }
     ]
   },
   {
@@ -47,7 +48,11 @@
     "id": "afs_any_energy_mag",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_any_laser_mag", "prob": 10 }, { "group": "afs_any_plasma_mag", "prob": 5 } ]
+    "items": [
+      { "group": "afs_any_laser_mag", "prob": 10 },
+      { "group": "afs_any_plasma_mag", "prob": 5 },
+      { "group": "afs_any_voltaic_mag", "prob": 2 }
+    ]
   },
   {
     "id": "afs_any_laser_mag",
@@ -67,6 +72,21 @@
     "subtype": "distribution",
     "ammo": 100,
     "items": [ [ "afs_4g_plasma", 30 ], [ "afs_20g_plasma", 20 ] ]
+  },
+  {
+    "id": "afs_any_voltaic_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_electro_anomaly_rifle", 1 ], [ "afs_voltaic_pistol", 90 ] ]
+  },
+  {
+    "id": "afs_any_voltaic_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [ [ "afs_voltaic_cartridge", 30 ] ]
   },
   {
     "type": "item_group",

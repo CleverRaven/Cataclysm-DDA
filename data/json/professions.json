@@ -3310,6 +3310,43 @@
   },
   {
     "type": "profession",
+    "id": "mutant_amputee_noarms",
+    "name": "Mutant Bilateral Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": 0,
+    "skills": [ { "level": 4, "name": "chemistry" }, { "level": 4, "name": "electronics" } ],
+    "traits": [ "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_amputee_everything",
+    "name": "Mutant Quadruple Amputee",
+    "description": "Many of the scientists investigating the immense power of mutation wondered if it could cure limb loss and restore people.  You made the perfect subject with which to test this.  Even though your day to experiment never came, you might have some hope yet of seeing the potential cure to your problems.",
+    "points": -4,
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "swimming" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": [ "dress_shirt", "pants", "knit_scarf", "coat_lab", "glasses_safety", "folded_wheelchair_generic" ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_MUTANT_VOLUNTEER" ]
+  },
+  {
+    "type": "profession",
     "id": "hitchhiker",
     "name": "Hitchhiker",
     "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
@@ -4052,6 +4089,38 @@
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "mbag", "pockknife", "water_clean", "wristwatch", "folded_wheelchair_generic" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_noarms",
+    "name": "Bilateral Amputee",
+    "description": "By some unfortunate means, you have lost both of your arms.  Since then, you have learned to live with your disability and have adapted around it very well, living a normal life.  You only need your legs to kick somebody's ass, if it comes down to it.",
+    "points": -4,
+    "traits": [ "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "mbag", "water_clean", "socks", "boots" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amputee_everything",
+    "name": "Quadruple Amputee",
+    "description": "By some unfortunate means, you have lost all of your limbs.  Since then, you have learned to live with your disability and have adapted around it very well, living a relatively normal life with a bit of help.  What are you going to do now that all the doctors are dead?",
+    "points": -6,
+    "traits": [ "NO_RIGHT_LEG", "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "mbag", "water_clean", "folded_wheelchair_generic" ],
         "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
       },
       "male": [ "boxer_shorts" ],

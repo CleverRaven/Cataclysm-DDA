@@ -240,7 +240,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
     "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -472,7 +472,8 @@
     "color": "red",
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "stab": 6 }
+    "melee_damage": { "stab": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "knife_trench",
@@ -582,7 +583,7 @@
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "stab": 12 }
   },
   {
@@ -2564,7 +2565,7 @@
     "copy-from": "mc_falx",
     "type": "TOOL",
     "name": { "str": "mild steel falx", "str_pl": "mild steel falxes" },
-    "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild  steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
@@ -2743,7 +2744,7 @@
     "volume": "250 ml",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "price": 10000,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ],
     "melee_damage": { "stab": 14 }
@@ -2761,9 +2762,10 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [  ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "techniques": [ "WBLOCK_1" ],
-    "melee_damage": { "bash": 3, "stab": 14 }
+    "melee_damage": { "bash": 3, "stab": 14 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",

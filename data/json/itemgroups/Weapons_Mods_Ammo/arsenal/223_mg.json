@@ -3,7 +3,17 @@
     "type": "item_group",
     "id": "milspec_arsenal_223_mg_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_223_mg_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_223_mg_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_fat_50_223_1tracer4ball_800", "count": [ 1, 4 ], "prob": 100 },
+          { "item": "ammo_can_fat_50_223_1tracer4ap_800", "count": [ 1, 4 ], "prob": 50 },
+          { "item": "ammo_can_fat_50_223ap_800", "count": [ 1, 4 ], "prob": 40 },
+          { "item": "ammo_can_fat_50_223fmj_800", "count": [ 1, 4 ], "prob": 80 }
+        ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -11,10 +21,10 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_223_mg_gun&mags" },
-      { "group": "ammo_can_belt223_any_full", "prob": 30 },
-      { "group": "ammo_can_belt223_any_full", "prob": 80, "count": [ 0, 1 ] },
-      { "group": "ammo_can_belt223_any_part", "count": [ 1, 2 ] },
-      { "group": "ammo_can_belt223_any_part", "count": [ 1, 2 ], "prob": 50 }
+      { "group": "ammo_can_223_any_full", "prob": 30 },
+      { "group": "ammo_can_223_any_full", "prob": 80, "count": [ 0, 1 ] },
+      { "group": "ammo_can_223_any_part", "count": [ 1, 2 ] },
+      { "group": "ammo_can_223_any_part", "count": [ 1, 2 ], "prob": 50 }
     ]
   },
   {
@@ -26,46 +36,5 @@
       { "item": "m249", "count": 1, "prob": 40 },
       { "item": "m249", "count": 1, "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_any_full",
-    "items": [ { "group": "ammo_can_belt223_full" }, { "group": "ammo_can_belt223_fat_full", "prob": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_any_part",
-    "items": [ { "group": "ammo_can_belt223_part" }, { "group": "ammo_can_belt223_fat_part", "prob": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_fat_full",
-    "container-item": "ammunition_can_fat_50",
-    "items": [ { "group": "ammo_can_belt223_pouch", "count": 2, "charges-min": 400, "charges-max": 400 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_fat_part",
-    "container-item": "ammunition_can_fat_50",
-    "items": [ { "item": "belt223", "count": [ 0, 1 ], "charges-min": 400, "charges-max": 400 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_full",
-    "//": "ammo belts are awfully broken due #57981, looks like this group will require the fix after resolving the bug",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_can_belt223_pouch", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_part",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_can_belt223_pouch", "count": [ 0, 1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_belt223_pouch",
-    "container-item": "cheap_ammo_pouch_belt223",
-    "items": [ { "item": "belt223", "count": 1 } ]
   }
 ]
