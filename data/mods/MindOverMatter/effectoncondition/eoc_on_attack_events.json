@@ -29,7 +29,8 @@
       { "u_remove_item_with": "telekin_lifting_jack_19" },
       { "u_remove_item_with": "telekin_lifting_jack_20" },
       { "u_lose_effect": "effect_telekinetic_levitation" },
-      { "u_lose_effect": "effect_telepathic_learning_bonus" }
+      { "u_lose_effect": "effect_telepathic_learning_bonus" },
+      { "u_lose_effect": "effect_telepath_invisibility" }
     ]
   },
   {
@@ -65,7 +66,8 @@
         { "u_has_item": "telekin_lifting_jack_19" },
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
-        { "u_has_effect": "effect_telepathic_learning_bonus" }
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
@@ -103,7 +105,8 @@
         { "u_has_item": "telekin_lifting_jack_19" },
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
-        { "u_has_effect": "effect_telepathic_learning_bonus" }
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
@@ -141,7 +144,8 @@
         { "u_has_item": "telekin_lifting_jack_19" },
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
-        { "u_has_effect": "effect_telepathic_learning_bonus" }
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
@@ -179,7 +183,8 @@
         { "u_has_item": "telekin_lifting_jack_19" },
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
-        { "u_has_effect": "effect_telepathic_learning_bonus" }
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
@@ -219,10 +224,29 @@
             { "u_has_item": "telekin_lifting_jack_19" },
             { "u_has_item": "telekin_lifting_jack_20" },
             { "u_has_effect": "effect_telekinetic_levitation" },
-            { "u_has_effect": "effect_telepathic_learning_bonus" }
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepath_invisibility" }
           ]
         },
-        { "math": [ "_damage", ">=", "1" ] }
+        { "math": [ "_damage", ">=", "1" ] },
+        {
+          "and": [
+            {
+              "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+            },
+            {
+              "or": [
+                { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+                { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+                { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+              ]
+            }
+          ]
+        }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]

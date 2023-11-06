@@ -242,14 +242,13 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_PYROKIN_TORCH_WELD_INITIATE",
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": 1,
-    "max_damage": 1,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 12000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
     },

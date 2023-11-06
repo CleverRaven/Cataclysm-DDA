@@ -278,6 +278,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_hammerhand",
+    "name": [ "Hammerhand" ],
+    "desc": [ "Your bare hands substitute for several common tools." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "add": -600 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_sealed",
     "name": [ "Sealed System" ],
     "desc": [ "You are protected from the dangers of the world." ],

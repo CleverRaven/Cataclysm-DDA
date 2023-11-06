@@ -5,7 +5,7 @@
     "condition": { "not": { "u_has_item": "pyrokinetic_fire_tool" } },
     "effect": [
       { "u_message": "Flames begin dancing in the air above your hand.", "type": "good" },
-      { "u_spawn_item": "pyrokinetic_fire_tool", "suppress_message": true },
+      { "u_spawn_item": "pyrokinetic_fire_tool", "suppress_message": true, "force_equip": true },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
       {
         "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
@@ -38,7 +38,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       {
-        "queue_eocs": "EOC_SPELL_PYROKIN_CALL_FLAME_DRAIN",
+        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -108,7 +108,7 @@
     "condition": { "not": { "u_has_item": "pyrokinetic_torch_weld" } },
     "effect": [
       { "u_message": "A searing line of flame springs forth from your finger.", "type": "good" },
-      { "u_spawn_item": "pyrokinetic_torch_weld" },
+      { "u_spawn_item": "pyrokinetic_torch_weld", "suppress_message": true, "force_equip": true },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
       {
         "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
