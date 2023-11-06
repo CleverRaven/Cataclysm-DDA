@@ -199,6 +199,46 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "mean_mug",
+    "type": "GENERIC",
+    "copy-from": "base_ceramic_dish",
+    "name": { "str": "insulting mug" },
+    "description": "A ceramic mug.",
+    "category": "container",
+    "symbol": "u",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "fuck_you",
+        "name": { "str": "insulting mug" },
+        "description": "It says \"<fuck_you>, <name_b>!\"",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "worst_dad",
+        "name": { "str": "bad dad mug" },
+        "description": "It says \"Worlds Worst Dad\".",
+        "append": true,
+        "weight": 1
+      }
+    ],
+    "price": "5 USD",
+    "longest_side": "12 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "type": "GENERIC",
     "category": "container",
     "id": "ceramic_mug",

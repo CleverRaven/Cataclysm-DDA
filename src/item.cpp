@@ -385,6 +385,17 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         set_var( "description", SNIPPET.expand( type->description.translated() ) );
     }
 
+    if( has_itype_variant() && itype_variant().expand_snippets ) {
+        const itype_variant_data &variant = itype_variant();
+        if( variant.append ) {
+            set_var( "description",
+                     string_format( "%s  %s", SNIPPET.expand( type->description.translated() ),
+                                    SNIPPET.expand( variant.alt_description.translated() ) ) );
+        } else {
+            set_var( "description", SNIPPET.expand( variant.alt_description.translated() ) );
+        }
+    }
+
     if( current_phase == phase_id::PNULL ) {
         current_phase = type->phase;
     }

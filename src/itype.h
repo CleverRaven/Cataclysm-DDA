@@ -662,6 +662,8 @@ struct itype_variant_data {
     std::optional<nc_color> alt_color = std::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
+    // Expand the description when generated and save it on the item
+    bool expand_snippets = false;
 
     int weight = 0;
 
