@@ -253,16 +253,22 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_CANCEL_TOGGLES",
+    "id": "EOC_PHOTOKIN_INVISIBILITY_CANCEL_WALK",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
         { "u_has_effect": "effect_photokin_invisibility" },
-        { "math": [ "_movement_mode", "==", "walk" ] },
         {
-          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_val('spell_level', 'spell: photokinetic_light_dodge')),4)" ] }, "y": 1000 }
+          "or": [
+            { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "crouch", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "prone", { "context_val": "movement_mode" } ] }
+          ]
+        },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_val('spell_level', 'spell: photokinetic_invisibility')),4)" ] }, "y": 1000 }
         }
       ]
     },
@@ -273,16 +279,16 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_CANCEL_TOGGLES",
+    "id": "EOC_PHOTOKIN_INVISIBILITY_CANCEL_RUN",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
         { "u_has_effect": "effect_photokin_invisibility" },
-        { "math": [ "_movement_mode", "==", "run" ] },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
         {
-          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_val('spell_level', 'spell: photokinetic_light_dodge') * 3)),30)" ] }, "y": 1000 }
+          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_val('spell_level', 'spell: photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
         }
       ]
     },

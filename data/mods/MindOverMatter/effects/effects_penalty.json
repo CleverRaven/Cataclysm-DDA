@@ -217,7 +217,6 @@
     ],
     "apply_message": "You feel a dull pain behind your eyes and a terrible sense of loss.",
     "remove_message": "You have a sudden sense of regaining something you had lost.",
-    "flags": [ "NO_SPELLCASTING" ],
     "rating": "bad",
     "max_duration": "1 minutes",
     "show_intensity": false,
@@ -225,7 +224,8 @@
     "int_decay_step": -2,
     "int_add_val": 2,
     "int_decay_tick": 1,
-    "int_decay_remove": true
+    "int_decay_remove": true,
+    "flags": [ "NO_SPELLCASTING" ]
   },
   {
     "type": "effect_type",
@@ -341,6 +341,20 @@
     "int_dur_factor": "100 s",
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 } ],
     "flags": [ "DEAF", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_lumination_overload",
+    "name": [ "Illuminated" ],
+    "desc": [ "Your skin is glowing brightly." ],
+    "apply_message": "",
+    "remove_message": "The glow from your skin fades",
+    "rating": "bad",
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "50 + ( u_val('vitamin', 'name:vitamin_psionic_drain'))" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
