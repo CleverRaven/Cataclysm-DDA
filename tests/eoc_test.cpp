@@ -21,6 +21,8 @@ effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
 effect_on_condition_EOC_activate_mutation_to_start_test( "EOC_activate_mutation_to_start_test" );
 static const effect_on_condition_id effect_on_condition_EOC_alive_test( "EOC_alive_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_armor_math_test( "EOC_armor_math_test" );
 static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_attack_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
@@ -810,6 +812,17 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
     CHECK( get_map().i_at( get_map().getlocal( pos_after ) ).size() == 3 );
+
+    // Math function test for armor
+    CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
+
+    const item &check_item = get_avatar().worn.i_at( 0 );
+
+    REQUIRE( check_item.typeId() == itype_backpack );
+    CHECK( std::stod( get_avatar().get_value( "npctalk_var_key1" ) ) == Approx( 27 ) );
+    CHECK( std::stod( get_avatar().get_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( check_item.get_var( "npctalk_var_key1" ) ) == Approx( 27 ) );
+    CHECK( std::stod( check_item.get_var( "npctalk_var_key2" ) ) == Approx( 2 ) );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )

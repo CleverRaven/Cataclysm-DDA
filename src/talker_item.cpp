@@ -89,6 +89,16 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
     return me_it_const->get_item()->max_damage();
 }
 
+int talker_item_const::coverage_at( bodypart_id &id ) const
+{
+    return me_it_const->get_item()->get_coverage( id );
+}
+
+int talker_item_const::encumbrance_at( bodypart_id &id ) const
+{
+    return me_it_const->get_item()->get_encumber( get_player_character(), id );
+}
+
 int talker_item_const::get_volume() const
 {
 

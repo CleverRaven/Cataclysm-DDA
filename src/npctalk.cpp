@@ -5161,7 +5161,11 @@ void talk_effect_fun_t::set_foreach( const JsonObject &jo, std::string_view memb
         std::vector<std::string> list;
 
         if( type == "ids" ) {
-            if( target == "flag" ) {
+            if( target == "bodypart" ) {
+                for( const body_part_type &bp : body_part_type::get_all() ) {
+                    list.push_back( bp.id.str() );
+                }
+            } else if( target == "flag" ) {
                 for( const json_flag &f : json_flag::get_all() ) {
                     list.push_back( f.id.str() );
                 }

@@ -101,7 +101,9 @@ using decl_diag_ass = std::function<void( dialogue &, double )> ( char scope,
 decl_diag_eval armor_eval;
 decl_diag_eval attack_speed_eval;
 decl_diag_eval dodge_eval;
+decl_diag_eval coverage_eval;
 decl_diag_eval effect_intensity_eval;
+decl_diag_eval encumbrance_eval;
 decl_diag_eval hp_eval;
 decl_diag_ass hp_ass;
 decl_diag_eval hp_max_eval;
@@ -129,7 +131,9 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "coverage", { "un", 1, coverage_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
+    { "encumbrance", { "un", 1, encumbrance_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "hp", { "un", -1, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
