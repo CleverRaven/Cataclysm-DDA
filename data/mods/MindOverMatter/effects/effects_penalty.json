@@ -258,6 +258,7 @@
       "effect_clair_night_eyes_6",
       "effect_clair_night_eyes_7",
       "effect_clair_night_eyes_8",
+      "effect_clair_speed_reader",
       "effect_clair_premonition",
       "effect_clair_ranged_enhance",
       "effect_clair_sense_rads_self",
@@ -269,10 +270,12 @@
       "effect_pyrokinetic_flame_immunity",
       "effect_telekinetic_momentum",
       "effect_telekinetic_slowfall",
+      "effect_telekinetic_strength",
       "effect_telekinetic_armor",
       "effect_telekinetic_levitation",
       "effect_telekinetic_aegis",
       "effect_telepathic_learning_bonus",
+      "effect_telepathic_morale",
       "effect_telepath_invisibility",
       "effect_telepath_network_effect",
       "effect_teleport_stride",
@@ -332,6 +335,23 @@
     "int_dur_factor": "100 s",
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 } ],
     "flags": [ "DEAF", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blind_photokin_overload",
+    "name": [ "Blind" ],
+    "desc": [ "Overwhelming light obscures your vision." ],
+    "removes_effects": [ "darkness" ],
+    "apply_message": "You're blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "BLIND", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

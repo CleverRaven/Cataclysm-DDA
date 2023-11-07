@@ -793,6 +793,8 @@ disapprovingly
 disassembles
 disassembly
 disburse
+disclaimer
+disclaimers
 discoes
 discolorations
 disconcertingly
@@ -1114,6 +1116,7 @@ flump
 flusteration
 flyable
 flyin
+fmj
 foamcrete
 foldable
 folktales
@@ -1325,6 +1328,7 @@ hardcover
 hardcovers
 hardhat
 hardpoint
+hardpoints
 harmonically
 harries
 harvestable
@@ -1533,6 +1537,7 @@ jawless
 jerrycan
 jerrypack
 jewelboxes
+jhp
 jians
 jirt
 jirts
@@ -1644,6 +1649,7 @@ lamellar
 landshark
 langourous
 lanthanum
+lapua
 lategame
 latrunculi
 latticed
@@ -2002,6 +2008,7 @@ nettik
 neurocognitive
 neurodegeneration
 neuroimaging
+neuroprosthetic
 neurosynaptic
 neutrite
 newe
