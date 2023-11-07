@@ -108,19 +108,8 @@ Add some backstory to Eddie McKenzie.
 Add some prosthetics.
 Added Bulk Storage Mounds and Piles for More Resources
 Add undomesticated wild rabbits
-Add more prosthetics and recipes to make them.
-Blindfolds can now be raised
-Adds more of the pride stockings variants that i forgot
-Adds a new practice recipe: fabric quilting
-Dog names for dog tags
-Allow atomic coffeemaker to be plugged in
-Replace stone fireplace with brick fireplace
-Allows rioter mask recipe to use all the t-shirts
 Updates the Portal Dependent mechanics and introduces rewards for exploring the portal dungeons.
-Give Eddie McKenzie more missions.
 Cyberhorse... CYBERHORSE!
-STEED registry key price
-Miscellaneous typo, grammar, syntax, readability and punctuation fixes
 
 
 ## Interface:
