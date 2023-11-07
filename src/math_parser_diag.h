@@ -119,6 +119,8 @@ decl_diag_eval option_eval;
 decl_diag_eval pain_eval;
 decl_diag_ass pain_ass;
 decl_diag_eval school_level_eval;
+decl_diag_eval school_level_adjustment_eval;
+decl_diag_ass school_level_adjustment_ass;
 decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
 decl_diag_eval skill_exp_eval;
@@ -160,12 +162,13 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
+    { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", -1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
-    { "spell_level_adjustment", { "un", -1, spell_level_adjustment_eval}},
+    { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", -1, u_val } },
     { "vitamin", { "un", 1, vitamin_eval } },
@@ -177,11 +180,12 @@ inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "addiction_turns", { "un", 1, addiction_turns_ass } },
     { "hp", { "un", -1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
+    { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
     { "skill", { "un", 1, skill_ass } },
     { "skill_exp", { "un", -1, skill_exp_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},
     { "spell_level", { "un", 1, spell_level_ass}},
-    { "spell_level_adjustment", { "un", -1, spell_level_adjustment_ass}},
+    { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", -1, u_val_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },

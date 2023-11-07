@@ -440,6 +440,44 @@ std::function<double( dialogue & )> school_level_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> school_level_adjustment_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), school_value = params[0]]( dialogue const & d ) {
+        const Character *ch = d.actor( beta )->get_character();
+        if( ch ) {
+            const trait_id school( school_value.str( d ) );
+            std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
+                        school );
+            if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
+                return it->second;
+            } else {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    };
+}
+
+std::function<void( dialogue &, double )> school_level_adjustment_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), school_value = params[0]]( dialogue const & d, double val ) {
+        const Character *ch = d.actor( beta )->get_character();
+        if( ch ) {
+            const trait_id school( school_value.str( d ) );
+            std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
+                        school );
+            if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
+                it->second = val;
+            } else {
+                ch->magic->caster_level_adjustment_by_school.insert( { school, val } );
+            }
+        }
+        return 0.0;
+    };
+}
+
 std::function<double( dialogue & )> skill_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -553,39 +591,19 @@ std::function<void( dialogue &, double )> spell_level_ass( char scope,
 }
 
 std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value school_value( std::string{} );
-    if( kwargs.count( "school" ) ) {
-        school_value = *kwargs.at( "school" );
-    }
-    diag_value spell_value( std::string{} );
-    if( kwargs.count( "spell" ) != 0 ) {
-        spell_value = *kwargs.at( "spell" );
-    }
-    return[beta = is_beta( scope ), school_value, spell_value]( dialogue const & d ) {
+    return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d ) {
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
-            std::string school_str = school_value.str( d );
-            std::string spell_str = spell_value.str( d );
-            if( !school_str.empty() ) {
-                std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
-                            trait_id( school_str ) );
-                if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
-                    return it->second;
-                } else {
-                    return 0.0;
-                }
-            } else if( !spell_str.empty() ) {
-                std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find(
-                            spell_id( spell_str ) );
+            const spell_id spell( spell_value.str( d ) );
+            if( spell == spell_id::NULL_ID() ) {
+                return ch->magic->caster_level_adjustment;
+            } else {
+                std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find( spell );
                 if( it != ch->magic->caster_level_adjustment_by_spell.end() ) {
                     return it->second;
-                } else {
-                    return 0.0;
                 }
-            } else {
-                return ch->magic->caster_level_adjustment;
             }
         }
         return 0.0;
@@ -593,39 +611,21 @@ std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value school( std::string{} );
-    if( kwargs.count( "school" ) ) {
-        school = *kwargs.at( "school" );
-    }
-    diag_value spell( std::string{} );
-    if( kwargs.count( "spell" ) != 0 ) {
-        spell = *kwargs.at( "spell" );
-    }
-    return[beta = is_beta( scope ), school, spell]( dialogue const & d, double val ) {
+    return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d, double val ) {
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
-            std::string school_str = school.str( d );
-            std::string spell_str = spell.str( d );
-            if( !school_str.empty() ) {
-                trait_id scid( school_str );
-                std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find( scid );
-                if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
-                    it->second = val;
-                } else {
-                    ch->magic->caster_level_adjustment_by_school.insert( { scid, val } );
-                }
-            } else if( !spell_str.empty() ) {
-                spell_id spid( spell_str );
-                std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find( spid );
+            const spell_id spell( spell_value.str( d ) );
+            if( spell == spell_id::NULL_ID() ) {
+                ch->magic->caster_level_adjustment = val;
+            } else {
+                std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find( spell );
                 if( it != ch->magic->caster_level_adjustment_by_spell.end() ) {
                     it->second = val;
                 } else {
-                    ch->magic->caster_level_adjustment_by_spell.insert( { spid, val } );
+                    ch->magic->caster_level_adjustment_by_spell.insert( { spell, val } );
                 }
-            } else {
-                ch->magic->caster_level_adjustment = val;
             }
             return val;
         }
