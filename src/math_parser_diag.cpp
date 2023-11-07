@@ -644,19 +644,18 @@ std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope
 }
 
 std::function<double( dialogue & )> proficiency_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value format_value( std::string( "time_spent" ) );
-    if( params.empty() ) {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "proficiency" ) );
-    } else if( params.size() > 1 ) {
-        format_value = params[1];
+    std::string format = "time_spent";
+    if( kwargs.count( "format" ) ) {
+        format = kwargs.at( "format" )->str();
     }
-
-    return [prof_value = params[0], format_value, beta = is_beta( scope )]( dialogue const & d ) {
+    if( format != "time_spent" && format != "percent" && format != "permille" &&
+        format != "total_time_required" && format != "time_left" ) {
+        throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+    }
+    return [prof_value = params[0], format, beta = is_beta( scope )]( dialogue const & d ) {
         proficiency_id prof( prof_value.str( d ) );
-        std::string format = format_value.str( d );
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
         if( format == "time_spent" ) {
             return to_turns<int>( raw );
@@ -668,28 +667,25 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
             return to_turns<int>( prof->time_to_learn() );
         } else if( format == "time_left" ) {
             return to_turns<int>( prof->time_to_learn() - raw );
-        } else {
-            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
         }
         return 0;
     };
 }
 
 std::function<void( dialogue &, double )> proficiency_ass( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    diag_value format_value( std::string( "time_spent" ) );
-    if( params.empty() ) {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "proficiency" ) );
-    } else if( params.size() > 1 ) {
-        format_value = params[1];
+    std::string format = "time_spent";
+    if( kwargs.count( "format" ) ) {
+        format = kwargs.at( "format" )->str();
     }
-
-    return [prof_value = params[0], format_value, beta = is_beta( scope )]( dialogue const & d,
+    if( format != "time_spent" && format != "percent" && format != "permille" &&
+        format != "total_time_required" && format != "time_left" ) {
+        throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
+    }
+    return [prof_value = params[0], format, beta = is_beta( scope )]( dialogue const & d,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
-        std::string format = format_value.str( d );
         int to_write = 0;
         if( format == "time_spent" ) {
             to_write = val;
