@@ -948,7 +948,7 @@
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "min(( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) ), -0.15)"
+                "max(( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) ), -0.15)"
               ]
             }
           },
