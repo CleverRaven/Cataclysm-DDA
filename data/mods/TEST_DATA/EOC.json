@@ -342,10 +342,10 @@
       { "math": [ "u_spell_level(spell_id_1)", "=", "1" ] },
       { "math": [ "u_spell_level(spell_id_2)", "=", "10" ] },
       { "math": [ "key_spell_level", "=", "u_spell_level(spell_id_1)" ] },
-      { "math": [ "key_highest_spell_level", "=", "u_spell_level()" ] },
+      { "math": [ "key_highest_spell_level", "=", "u_spell_level('null')" ] },
       { "math": [ "key_school_level_test_trait", "=", "u_school_level(school_id)" ] },
       { "math": [ "key_spell_count", "=", "u_spell_count()" ] },
-      { "math": [ "key_spell_count_test_trait", "=", "u_spell_count(school_id)" ] },
+      { "math": [ "key_spell_count_test_trait", "=", "u_spell_count('school': school_id)" ] },
       { "math": [ "u_spell_level_adjustment()", "=", "1" ] },
       { "math": [ "u_spell_level_adjustment('spell': spell_id_1)", "=", "1" ] },
       { "math": [ "u_spell_level_adjustment('school': school_id)", "=", "1" ] }

@@ -502,18 +502,15 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
 }
 
 std::function<double( dialogue & )> spell_count_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
     diag_value school_value( std::string{} );
-    if( params.size() == 1 ) {
-        school_value = params[0];
-    } else if( params.size() > 1 ) {
-        throw std::invalid_argument( string_format( "Too many arguments for function %s()",
-                                     "spell_count" ) );
+    if( kwargs.count( "school" ) != 0 ) {
+        school_value = *kwargs.at( "school" );
     }
     return[beta = is_beta( scope ), school_value]( dialogue const & d ) {
         std::string school_str = school_value.str( d );
-        trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
+        const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
         return d.actor( beta )->get_spell_count( scid );
     };
 }
@@ -537,19 +534,12 @@ std::function<void( dialogue &, double )> spell_exp_ass( char scope,
 std::function<double( dialogue & )> spell_level_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value spell_value( std::string{} );
-    if( params.size() == 1 ) {
-        spell_value = params[0];
-    } else if( params.size() > 1 ) {
-        throw std::invalid_argument( string_format( "Too many arguments for function %s()",
-                                     "spell_level" ) );
-    }
-    return[beta = is_beta( scope ), spell_value]( dialogue const & d ) {
-        std::string spell_str = spell_value.str( d );
-        if( !spell_str.empty() ) {
-            return d.actor( beta )->get_spell_level( spell_id( spell_str ) );
-        } else {
+    return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d ) {
+        const spell_id spell( spell_value.str( d ) );
+        if( spell == spell_id::NULL_ID() ) {
             return d.actor( beta )->get_highest_spell_level();
+        } else {
+            return d.actor( beta )->get_spell_level( spell );
         }
     };
 }
