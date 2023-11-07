@@ -2561,7 +2561,8 @@
     "type": "GENERIC",
     "id": "dog_tag_dog",
     "name": { "str_sp": "dog tag" },
-    "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.",
+    "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.  It says \"<dog_name>\".",
+    "expand_snippets": true,
     "weight": "1 g",
     "color": "green",
     "symbol": "[",
@@ -2569,16 +2570,7 @@
     "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
     "volume": "1 ml",
     "price": 0,
-    "price_postapoc": 0,
-    "variants": [
-      {
-        "id": "dog_tag_dog_name",
-        "name": { "str": "dog tag" },
-        "description": "It says \"<dog_name>!\"",
-        "append": true,
-        "expand_snippets": true
-      }
-    ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
