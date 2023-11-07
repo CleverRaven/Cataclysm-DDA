@@ -267,6 +267,30 @@
     "melee_damage": { "bash": 4, "cut": 70 }
   },
   {
+    "id": "elec_chainsaw_cord_off",
+    "copy-from": "elec_chainsaw_off",
+    "looks_like": "elec_chainsaw_off",
+    "type": "TOOL",
+    "price": "66 USD",
+    "name": { "str": "corded electric chainsaw (off)", "str_pl": "corded electric chainsaws (off)" },
+    "description": "A treecutting tool moonlighting as a weapon of opportunity.  It has a short electric cord, which you can connect to the generator or your home grid.  Extension cord not included.",
+    "use_action": [ "ELEC_CHAINSAW_OFF", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
+    "pocket_data": [  ]
+  },
+  {
+    "id": "elec_chainsaw_cord_on",
+    "copy-from": "elec_chainsaw_off",
+    "looks_like": "elec_chainsaw_on",
+    "type": "TOOL",
+    "name": { "str": "corded electric chainsaw (on)", "str_pl": "corded electric chainsaws (on)" },
+    "use_action": [ "TOOLWEAPON_DEACTIVATE", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
+    "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "power_draw": "2 kW",
+    "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
+    "revert_to": "elec_chainsaw_cord_off"
+  },
+  {
     "id": "hand_axe",
     "type": "TOOL",
     "name": { "str": "stone axe head" },
