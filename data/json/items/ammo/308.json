@@ -94,6 +94,14 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
+    "id": "762_51_ap",
+    "copy-from": "762_51",
+    "type": "AMMO",
+    "name": { "str_sp": "7.62x51mm NATO M993" },
+    "description": "A 7.62x51mm NATO round with a 126gr tungsten carbide core for improved armor penetration, in exchange of damage penalty.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
+  },
+  {
     "id": "bp_308",
     "copy-from": "308",
     "type": "AMMO",

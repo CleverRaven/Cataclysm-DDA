@@ -128,6 +128,14 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
+    "id": "556_ap",
+    "copy-from": "556",
+    "type": "AMMO",
+    "name": { "str_sp": "5.56 NATO M995" },
+    "description": "An M995 armor piercing round with dense tungsten core and sharp, paint in black tip.  Higher material penetration in exchange of lower overall damage.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
+  },
+  {
     "id": "bp_223",
     "copy-from": "223",
     "type": "AMMO",
