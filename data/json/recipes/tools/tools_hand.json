@@ -272,7 +272,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "2 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ] ],
     "proficiencies": [
@@ -297,7 +296,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "4 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -322,7 +320,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
@@ -343,7 +340,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
@@ -725,7 +721,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1136,7 +1131,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "5 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1182,7 +1176,6 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "4 h",
-    "book_learn": [ [ "bronze_book", 5 ] ],
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -1359,7 +1352,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "4 h",
-    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

@@ -221,8 +221,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "reach_tec", reach_tec, false );
-    optional( jo, was_loaded, "reach_ok", reach_ok, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -1866,13 +1864,6 @@ std::string ma_technique::get_description() const
                 std::string( "\n" );
     } else if( crit_tec ) {
         dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
-    }
-
-    if( reach_ok ) {
-        dump += _( "* Can activate on a <info>normal</info> or a <info>reach attack</info> hit" ) +
-                std::string( "\n" );
-    } else if( reach_tec ) {
-        dump += _( "* Will only activate on a <info>reach attack</info>" ) + std::string( "\n" );
     }
 
     if( side_switch ) {

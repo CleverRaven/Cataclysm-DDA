@@ -74,9 +74,9 @@ static const std::string title_PROFICIENCIES = translate_marker( "PROFICIENCIES"
 static const unsigned int grid_width = 26;
 
 // Rescale temperature value to one that the player sees
-static int temperature_print_rescaling( units::temperature temp )
+static int temperature_print_rescaling( int temp )
 {
-    return ( units::to_legacy_bodypart_temp( temp ) / 100.0 ) * 2 - 100;
+    return ( temp / 100.0 ) * 2 - 100;
 }
 
 static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
@@ -921,20 +921,11 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
             info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
                                        level.level(), level.exercise() );
             if( level.knowledgeLevel() > level.level() ) {
-                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
+                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
                                            level_gap );
             } else {
-                info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
+                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
                                            learning_bonus );
-            }
-            if( !level.isTraining() ) {
-                info_text = string_format( "%s | %s", info_text,
-                                           _( "<color_yellow>Learning is disabled.</color>" ) );
-            }
-        } else {
-            if( !level.isTraining() ) {
-                info_text = string_format( "%s\n\n%s", info_text,
-                                           _( "<color_yellow>Learning is disabled.</color>" ) );
             }
         }
         draw_x_info( w_info, info_text, info_line );
@@ -1412,12 +1403,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                     you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 }
                 invalidate_tab( curtab );
-                ui_info.invalidate_ui();
                 break;
             }
             case player_display_tab::proficiencies:
-                const std::vector<display_proficiency> profs = you.display_proficiencies();
-                show_proficiencies_window( you, profs[line].id );
+                show_proficiencies_window( you );
                 break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {

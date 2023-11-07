@@ -81,22 +81,31 @@
     "description": "Assists with learning and study."
   },
   {
-    "id": "afs_ench_climate_control_warm",
-    "type": "enchantment",
-    "name": { "str": "Cold Climate Control" },
+    "id": "ench_climate_control_all_permanent_improved",
+    "name": { "str": "Improved Complete Climate Control" },
     "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
     "has": "WORN",
-    "condition": "ACTIVE",
-    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 100 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 100 } ]
   },
   {
-    "id": "ench_climate_control_exo_underlayer",
-    "type": "enchantment",
-    "name": { "str": "Cold Climate Control" },
+    "id": "ench_climate_control_all_permanent_greater",
+    "name": { "str": "Extreme Complete Climate Control" },
     "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
     "has": "WORN",
-    "condition": { "u_is_wearing": "modular_exosuit_on" },
+    "condition": "ALWAYS",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 150 } ]
+  },
+  {
+    "id": "ench_climate_control_all_permanent_space",
+    "name": { "str": "Space Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 300 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 300 } ]
   },
   {
     "id": "ench_smart_gun",

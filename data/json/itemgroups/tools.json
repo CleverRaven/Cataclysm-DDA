@@ -120,8 +120,6 @@
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
-      [ "duct_tape", 10 ],
-      [ "superglue", 10 ],
       [ "tin_snips", 10 ],
       [ "wrench", 20 ],
       [ "wrench_small", 20 ],

@@ -17,8 +17,6 @@
 #include "weather.h"
 
 class time_duration;
-
-static const flag_id json_flag_FIT( "FIT" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 talker_character::talker_character( Character *new_me )
@@ -97,7 +95,7 @@ int talker_character_const::get_hp_max( const bodypart_id &bp ) const
     return me_chr_const->get_hp_max( bp );
 }
 
-units::temperature talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
+int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
 }
@@ -533,19 +531,8 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
-void talker_character::i_add_or_drop( item &new_item, bool force_equip )
+void talker_character::i_add_or_drop( item &new_item )
 {
-    if( force_equip ) {
-        if( me_chr->can_wear( new_item ).success() ) {
-            new_item.set_flag( json_flag_FIT );
-            me_chr->wear_item( new_item, false );
-            return;
-        } else if( !me_chr->has_wield_conflicts( new_item ) &&
-                   !me_chr->martial_arts_data->keep_hands_free && //No wield if hands free
-                   me_chr->wield( new_item ) ) {
-            return;
-        }
-    }
     me_chr->i_add_or_drop( new_item );
 }
 
@@ -672,16 +659,6 @@ int talker_character_const::pain_cur() const
 double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
 {
     return me_chr_const->worn.damage_resist( dt, bp );
-}
-
-int talker_character_const::coverage_at( bodypart_id &id ) const
-{
-    return me_chr_const->worn.get_coverage( id );
-}
-
-int talker_character_const::encumbrance_at( bodypart_id &id ) const
-{
-    return me_chr_const->encumb( id );
 }
 
 void talker_character::mod_pain( int amount )
@@ -929,24 +906,24 @@ static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
     bodypart_id current_bp_extreme = u->get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u->get_all_body_parts() ) {
-        if( units::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            units::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( std::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            std::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
             current_bp_extreme = bp;
         }
-        if( units::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            units::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( std::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            std::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
             conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-units::temperature talker_character_const::get_body_temp() const
+int talker_character_const::get_body_temp() const
 {
     return me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
-units::temperature_delta talker_character_const::get_body_temp_delta() const
+int talker_character_const::get_body_temp_delta() const
 {
     return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
@@ -955,11 +932,6 @@ units::temperature_delta talker_character_const::get_body_temp_delta() const
 bool talker_character_const::knows_martial_art( const matype_id &id ) const
 {
     return me_chr_const->martial_arts_data->has_martialart( id );
-}
-
-bool talker_character_const::using_martial_art( const matype_id &id ) const
-{
-    return me_chr_const->martial_arts_data->selected_style() == id;
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

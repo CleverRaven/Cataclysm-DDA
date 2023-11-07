@@ -1508,9 +1508,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
         std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( std::max( get_shelf_life() - rot, 0_seconds ) );
+            clipped_time( get_shelf_life() - rot );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( std::max( rhs.get_shelf_life() - rhs.rot, 0_seconds ) );
+            clipped_time( rhs.get_shelf_life() - rhs.rot );
         if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
             my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
@@ -2579,7 +2579,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
-    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins() );
+    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
     const std::string required_vits = enumerate_as_string( max_nutr_vitamins,
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
@@ -6487,17 +6487,11 @@ std::string item::overheat_symbol() const
     if( !is_gun() || type->gun->overheat_threshold <= 0.0 ) {
         return "";
     }
-    double modifier = 0;
-    float multiplier = 1.0f;
-    for( const item *mod : gunmods() ) {
-        modifier += mod->type->gunmod->overheat_threshold_modifier;
-        multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
-    }
     if( faults.count( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
-                                           0 ) / std::max( type->gun->overheat_threshold * multiplier + modifier, 5.0 ) * 5.0 ) ) ) {
+                                           0 ) / ( type->gun->overheat_threshold ) * 5.0 ) ) ) {
         case 1:
             return "";
         case 2:
@@ -12243,22 +12237,11 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents() const
 {
-    if( type->category_force == item_category_container ) {
-        const std::list<const item *> items = contents.all_items_top( item_pocket::pocket_type::CONTAINER );
-        if( !items.empty() ) {
-            const item_category &category_of_first_item = items.front()->get_category_of_contents();
-            if( items.size() == 1 ) {
-                return category_of_first_item;
-            }
-            const auto has_same_category = [&category_of_first_item]( const item * i ) {
-                return i->get_category_of_contents() == category_of_first_item;
-            };
-            if( std::all_of( ++items.begin(), items.end(), has_same_category ) ) {
-                return category_of_first_item;
-            }
-        }
+    if( type->category_force == item_category_container && contents_only_one_type() ) {
+        return contents.first_item().get_category_of_contents();
+    } else {
+        return this->get_category_shallow();
     }
-    return this->get_category_shallow();
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
@@ -13659,19 +13642,8 @@ bool item::process_blackpowder_fouling( Character *carrier )
 bool item::process_gun_cooling( Character *carrier )
 {
     double heat = get_var( "gun_heat", 0 );
-    double overheat_modifier = 0;
-    float overheat_multiplier = 1.0f;
-    double cooling_modifier = 0;
-    float cooling_multiplier = 1.0f;
-    for( const item *mod : gunmods() ) {
-        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
-        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
-        cooling_modifier += mod->type->gunmod->cooling_value_modifier;
-        cooling_multiplier *= mod->type->gunmod->cooling_value_multiplier;
-    }
-    double threshold = std::max( ( type->gun->overheat_threshold * overheat_multiplier ) +
-                                 overheat_modifier, 5.0 );
-    heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
+    double threshold = type->gun->overheat_threshold;
+    heat -= type->gun->cooling_value;
     set_var( "gun_heat", std::max( 0.0, heat ) );
     if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
         faults.erase( fault_overheat_safety );

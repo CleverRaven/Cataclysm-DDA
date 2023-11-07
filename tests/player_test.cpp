@@ -13,18 +13,17 @@
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
-static void temperature_check( Character *p, const int ambient_temp,
-                               const units::temperature target_temp )
+static void temperature_check( Character *p, const int ambient_temp, const int target_temp )
 {
     p->set_body();
     get_weather().temperature = units::from_fahrenheit( ambient_temp );
     p->set_all_parts_temp_cur( BODYTEMP_NORM );
     p->set_all_parts_temp_conv( BODYTEMP_NORM );
 
-    units::temperature prev_temp = 0_K;
-    units::temperature_delta prev_diff = 0_C_delta;
+    int prev_temp = 0;
+    int prev_diff = 0;
     for( int i = 0; i < 10000; i++ ) {
-        const units::temperature torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
+        const int torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
         if( prev_diff != prev_temp - torso_temp_cur ) {
             prev_diff = prev_temp - torso_temp_cur;
         } else if( prev_temp == torso_temp_cur ) {
@@ -33,8 +32,8 @@ static void temperature_check( Character *p, const int ambient_temp,
         prev_temp = torso_temp_cur;
         p->update_bodytemp();
     }
-    const units::temperature high = target_temp + 0.2_C_delta;
-    const units::temperature low = target_temp - 0.2_C_delta;
+    int high = target_temp + 100;
+    int low = target_temp - 100;
     CHECK( low < p->get_part_temp_cur( bodypart_id( "torso" ) ) );
     CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
 }
@@ -42,7 +41,7 @@ static void temperature_check( Character *p, const int ambient_temp,
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
 static void temperature_and_sweat_check( Character *p, const int ambient_temp,
-        const units::temperature target_temp )
+        const int target_temp )
 {
 
     weather_manager &weather = get_weather();
@@ -54,8 +53,8 @@ static void temperature_and_sweat_check( Character *p, const int ambient_temp,
         p->update_bodytemp();
         p->update_body_wetness( *weather.weather_precise );
     }
-    const units::temperature high = target_temp + 0.2_C_delta;
-    const units::temperature low = target_temp - 0.2_C_delta;
+    int high = target_temp + 100;
+    int low = target_temp - 100;
     CHECK( low < p->get_part_temp_cur( bodypart_id( "torso" ) ) );
     CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
 }
@@ -166,19 +165,19 @@ TEST_CASE( "sweating", "[char][suffer][.bodytemp]" )
             dummy.clear_worn();
             dummy.wear_item( fur_jumper, false );
 
-            temperature_and_sweat_check( &dummy, 100, 43.2_C );
+            temperature_and_sweat_check( &dummy, 100, 8100 );
         }
         WHEN( "wearing cotton" ) {
             dummy.clear_worn();
             dummy.wear_item( cotton_jumper, false );
 
-            temperature_and_sweat_check( &dummy, 100, 42.8_C );
+            temperature_and_sweat_check( &dummy, 100, 7900 );
         }
         WHEN( "wearing lycra" ) {
             dummy.clear_worn();
             dummy.wear_item( lycra_jumper, false );
 
-            temperature_and_sweat_check( &dummy, 100, 41_C );
+            temperature_and_sweat_check( &dummy, 100, 7000 );
         }
 
     }

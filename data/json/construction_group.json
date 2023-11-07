@@ -781,8 +781,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_brick_fireplace",
-    "name": "Build Brick Fireplace"
+    "id": "build_stone_fireplace",
+    "name": "Build Stone Fireplace"
   },
   {
     "type": "construction_group",
@@ -1646,8 +1646,8 @@
   },
   {
     "type": "construction_group",
-    "id": "deconstruct_fireplace",
-    "name": "Deconstruct Fireplace"
+    "id": "advanced_object_deconstruction",
+    "name": "Advanced Object Deconstruction"
   },
   {
     "type": "construction_group",

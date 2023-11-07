@@ -1979,11 +1979,7 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
     } else {
         if( new_exp >= 0 ) {
             spell &temp_sp = get_spell( sp );
-            int old_level = temp_sp.get_level();
             temp_sp.set_exp( new_exp );
-            if( guy->is_avatar() && old_level != temp_sp.get_level() ) {
-                get_event_bus().send<event_type::player_levels_spell>( guy->getID(), sp->id, temp_sp.get_level() );
-            }
         } else {
             get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
             spellbook.erase( sp );

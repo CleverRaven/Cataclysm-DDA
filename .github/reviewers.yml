@@ -34,8 +34,6 @@ files:
     - ZhilkinSerg
   'data/mods/No_Hope/**':
     - Night-Pryanik
-  'data/mods/Tamable_Wildlife/**':
-    - Termineitor244
 
   '**/.clang-tidy':
     - jbytheway

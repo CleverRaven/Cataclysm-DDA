@@ -495,8 +495,7 @@
     "longest_side": "21 cm",
     "price": 75,
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
-    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
@@ -512,8 +511,7 @@
     "longest_side": "15 cm",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
-    "weapon_category": [ "SHIVS" ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
@@ -573,11 +571,10 @@
     "volume": "75 ml",
     "longest_side": "21 cm",
     "price": "4 USD",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_silverware",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "weapon_category": [ "SHIVS" ],
     "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
@@ -590,8 +587,7 @@
     "volume": "10 ml",
     "longest_side": "15 cm",
     "looks_like": "knife_butter",
-    "weapon_category": [ "SHIVS" ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_plastic_silverware",
     "melee_damage": { "bash": 1, "stab": 1 }
   },
@@ -677,10 +673,9 @@
     "id": "spork",
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "fork",
     "copy-from": "base_silverware",
-    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
@@ -689,10 +684,9 @@
     "id": "foon",
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "spork",
     "copy-from": "base_silverware",
-    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
@@ -701,7 +695,7 @@
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
-    "flags": [ "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "symbol": "X",
     "color": "light_gray",
     "price": "1 USD",
@@ -710,7 +704,6 @@
     "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
-    "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B07N47CN44"
@@ -792,7 +785,6 @@
     "longest_side": "29 cm",
     "price": "12 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 3, "stab": 2 },
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "//": "Based on https://www.amazon.com/dp/B083FJXZM5"

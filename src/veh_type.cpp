@@ -104,7 +104,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
-    { "NO_LEAK", VPFLAG_NO_LEAK },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
@@ -283,12 +282,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "broken_color", color_broken, strict );
     assign( jo, "comfort", comfort, strict );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
-    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
-    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
-    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
+    assign( jo, "floor_bedding_warmth", floor_bedding_warmth, strict );
+    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, strict );
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();

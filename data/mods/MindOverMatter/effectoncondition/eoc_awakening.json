@@ -1,14 +1,5 @@
 [
   {
-    "id": "ACT_CRYSTAL_AWAKENING_MEDITATION",
-    "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
-    "verb": "meditating",
-    "based_on": "time",
-    "interruptable": false,
-    "interruptable_with_kb": false
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_AWAKENING",
     "condition": { "u_has_trait": "BIOKINETIC" },
@@ -17,7 +8,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_BIOKIN_MATRIX_AWAKENING_2" } ]
   },
@@ -45,12 +36,11 @@
       },
       { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
+      { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_biokin_physical", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -62,8 +52,7 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
+      { "u_add_effect": "stunned", "duration": 5 },
       { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
@@ -76,7 +65,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_2" } ]
   },
@@ -104,12 +93,11 @@
       },
       { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
+      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_clair_clear_sight", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -121,9 +109,8 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+      { "u_add_effect": "stunned", "duration": 5 },
+      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -135,7 +122,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_2" } ]
   },
@@ -164,13 +151,12 @@
       { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROGLOW_WEAK" },
       { "u_add_trait": "PYROGLOW_STRONG" },
+      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_pyrokinetic_cloak", "duration": "5 minutes" },
       { "u_add_effect": "effect_pyrokinetic_aura", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -182,9 +168,8 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+      { "u_add_effect": "stunned", "duration": 5 },
+      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -196,7 +181,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_TELEKIN_MATRIX_AWAKENING_2" } ]
   },
@@ -224,12 +209,11 @@
       },
       { "u_add_trait": "TELEKINETIC" },
       { "u_add_trait": "TELEKINETIC_LIFTER_1" },
+      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_telekinetic_armor", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -241,9 +225,8 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+      { "u_add_effect": "stunned", "duration": 5 },
+      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -255,7 +238,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_2" } ]
   },
@@ -283,12 +266,11 @@
       },
       { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
+      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "1 minutes" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -301,8 +283,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -314,7 +295,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_2" } ]
   },
@@ -342,14 +323,13 @@
       },
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
+      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       {
         "u_cast_spell": { "id": "teleport_blink_monster", "message": "Reality suddenly warps around you and you are somewhere else!" }
       },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -361,9 +341,8 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+      { "u_add_effect": "stunned", "duration": 5 },
+      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -375,7 +354,7 @@
         "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_2" } ]
   },
@@ -403,12 +382,11 @@
       },
       { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },
+      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_add_effect": "effect_vita_health", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "awakening_countup", "+=", "1" ] },
-      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] }
     ]
   },
   {
@@ -420,9 +398,8 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+      { "u_add_effect": "stunned", "duration": 5 },
+      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -434,13 +411,14 @@
         "popup": true
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
-      { "u_add_effect": "stunned", "duration": 10 }
+      { "u_add_effect": "stunned", "duration": 5 }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CORUSCATING_MATRIX",
     "effect": [
+      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       {
         "weighted_list_eocs": [
           [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
@@ -451,9 +429,7 @@
           [ "EOC_TELEPORT_MATRIX_AWAKENING_3", { "const": 1 } ],
           [ "EOC_VITAKIN_MATRIX_AWAKENING_3", { "const": 1 } ]
         ]
-      },
-      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      }
     ]
   },
   {

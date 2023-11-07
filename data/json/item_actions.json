@@ -446,7 +446,7 @@
   {
     "type": "item_action",
     "id": "EBOOKSAVE",
-    "name": { "str": "Store books" }
+    "name": { "str": "Store a book" }
   },
   {
     "type": "item_action",

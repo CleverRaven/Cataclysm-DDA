@@ -500,11 +500,6 @@
     "//": "This monster drops ammo.  Should not be set for monsters that use pseudo ammo."
   },
   {
-    "id": "WIELDED_WEAPON",
-    "type": "monster_flag",
-    "//": "This monster wields a weapon.  Used for disarming techniques to trigger with this enemy."
-  },
-  {
     "id": "INSECTICIDEPROOF",
     "type": "monster_flag",
     "//": "This monster is immune to insecticide, even though it's made of bug flesh"

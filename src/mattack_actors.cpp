@@ -1042,11 +1042,6 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );
     }
 
-    if( obj.has_member( "condition" ) ) {
-        read_condition( obj, "condition", condition, false );
-        has_condition = true;
-    }
-
     obj.read( "max_ammo", max_ammo );
 
     obj.read( "move_cost", move_cost );
@@ -1100,14 +1095,6 @@ bool gun_actor::call( monster &z ) const
     Creature *target;
     tripoint aim_at;
     bool untargeted = false;
-
-    if( has_condition ) {
-        dialogue d( get_talker_for( &z ), nullptr );
-        if( !condition( d ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
-            return false;
-        }
-    }
 
     if( z.friendly ) {
         int max_range = get_max_range();
