@@ -181,6 +181,10 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     // dispersion is a measure of the dispersion of shots due to the gun + shooter characteristics
     // i.e. it is independent of any particular shot
 
+    if( range > 1 ) {
+        range = range / 2.0f;
+    }
+
     // shot_dispersion is the actual dispersion for this particular shot, i.e.
     // the error angle between where the shot was aimed and where this one actually went
     // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,

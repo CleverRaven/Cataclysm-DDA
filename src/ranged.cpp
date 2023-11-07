@@ -585,7 +585,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
            dispersion < Creature::dispersion_for_even_chance_of_good_hit[ even_chance_range ] ) {
         even_chance_range++;
     }
-    return even_chance_range;
+    return ( even_chance_range * 2 );
 }
 
 int Character::gun_engagement_moves( const item &gun, int target, int start,
@@ -1603,7 +1603,7 @@ Target_attributes::Target_attributes( tripoint src, tripoint target )
 {
     Creature *target_critter = get_creature_tracker().creature_at( target );
     Creature *shooter = get_creature_tracker().creature_at( src );
-    range = rl_dist( src, target );
+    range = ( rl_dist( src, target ) / 2 ) ;
     size = target_critter != nullptr ?
            target_critter->ranged_target_size() :
            get_map().ranged_target_size( target );

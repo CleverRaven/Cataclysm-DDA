@@ -120,7 +120,7 @@ constexpr int MAX_SKILL = 10;
 constexpr int MAX_STAT = 14;
 
 // Maximum range at which ranged attacks can be executed.
-constexpr int RANGE_HARD_CAP = 60;
+constexpr int RANGE_HARD_CAP = 120;
 
 // Accuracy levels which a shots tangent must be below.
 constexpr double accuracy_headshot = 0.1;

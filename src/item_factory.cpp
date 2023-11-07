@@ -707,6 +707,14 @@ void Item_factory::finalize_post( itype &obj )
         return false;
     } );
 
+    if( obj.gun && obj.gun->range > 1 ) {
+        obj.gun->range = obj.gun->range * 2;
+    }
+
+    if( obj.ammo && obj.ammo->range > 1 ) {
+        obj.ammo->range = obj.ammo->range * 2;
+    }
+
     if( obj.gun && !obj.gunmod && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         const quality_id qual_gun_skill( to_upper_case( obj.gun->skill_used.str() ) );
 
