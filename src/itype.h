@@ -662,6 +662,8 @@ struct itype_variant_data {
     std::optional<nc_color> alt_color = std::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
+    // Expand the description when generated and save it on the item
+    bool expand_snippets = false;
 
     int weight = 0;
 
@@ -897,6 +899,18 @@ struct islot_gunmod : common_ranged_data {
 
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
+
+    //Manipulate overheat thresholds with fixed values and percentages
+    double overheat_threshold_modifier = 0;
+    float overheat_threshold_multiplier = 1.0f;
+
+    //Manipulate cooling capacity with fixed values and percentages
+    double cooling_value_modifier = 0;
+    float cooling_value_multiplier = 1.0f;
+
+    //Manipulation of generated heat by fixed values and percentages
+    double heat_per_shot_modifier = 0;
+    float heat_per_shot_multiplier = 1.0f;
 };
 
 struct islot_magazine {
@@ -1392,6 +1406,9 @@ struct itype {
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
+
+        // Expand snippets in the description and save the description on the object
+        bool expand_snippets = false;
 
     private:
         // load-only, for applying proportional melee values at load time

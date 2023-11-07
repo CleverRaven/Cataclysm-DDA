@@ -1,0 +1,20 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_can_300_full",
+    "container-item": "ammo_can_30_300jhp_240",
+    "items": [ { "group": "ammo_box_300", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_300_part",
+    "container-item": "ammo_can_30_300jhp_240",
+    "items": [ { "group": "ammo_box_300", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_300",
+    "container-item": "ammo_box_army_20_300wm",
+    "items": [ { "item": "300_winmag", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+  }
+]

@@ -17,6 +17,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_10mm": 20 } } ]
   },
   {
+    "id": "afs_marsec_14mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "MarSec 14-round magazine" },
+    "description": "A magazine for the MarsSec handguns.  It holds 14 rounds.",
+    "weight": "70 g",
+    "volume": "103 ml",
+    "longest_side": "114 mm",
+    "price": 3200,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "afs_10mm" ],
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_10mm": 14 } } ]
+  },
+  {
     "id": "afs_silvergram_22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",

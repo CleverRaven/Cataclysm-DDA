@@ -120,6 +120,8 @@
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
+      [ "duct_tape", 10 ],
+      [ "superglue", 10 ],
       [ "tin_snips", 10 ],
       [ "wrench", 20 ],
       [ "wrench_small", 20 ],
@@ -884,6 +886,7 @@
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "elec_chainsaw_cord_off", "prob": 10 },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
       { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1320 ] },
@@ -911,7 +914,8 @@
       { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },
       [ "circsaw_blade", 10 ],
-      { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] }
+      { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] },
+      { "item": "elec_chainsaw_cord_off", "prob": 35 }
     ]
   },
   {

@@ -51,11 +51,17 @@ Sound-triggered traps
 Item transformation can now pick variant items to transform into
 You can now collect grappling hooks and ladders from the ledge above.
 Adds priority parameter for special placement
+Professions can start with multiple martial arts
+Microlab Mapgen is now parameter based.
+Allow NPC_DEATH EoC to prevent npc die
+Allow NPC doctors to install and remove CBMs from player allies
+Look up and down with 3d vision off
 Add ignored_monster_species spell parameter
 Monsters affiliated with factions will watch for theft of faction items
 Adds a confirmation prompt if you are the target, or in the AoE of, your own damaging spell.
 Ledges provide sight coverage
 Add foreach function to EoC
+Add Map related EoC functions
 
 
 ## Content:
@@ -94,6 +100,7 @@ JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
 Vehicles now contain heater, and some contain AC
+NPC Elvira Fish, Circulations
 Adds a jeweler as a new starting profession
 Add a larger “family–sized” water heater
 Rework Anvils and add crude anvil
@@ -140,6 +147,11 @@ Walking into ledges examines them.
 Accessible item insert menu
 Show insertion failure reasons in Insert menu and AIM
 Select default bodypart when applying bandage
+Show zones on other z-levels in zone manager
+Remember inventory show/hide all contents option state
+Display what mod the contents belong to, scenario, profession, map
+Find items that cover body part
+Enable history for AIM and inventory filters
 Make zone manager display more of zone name
 Show estimated time when washing items
 Selecting container mode for unloaded items
@@ -147,7 +159,8 @@ Explain why wielding an item from pick-up menu fails
 Switch crafter in crafting menu to and from an ally
 Add favorite category to spell casting menu
 Allow scanning several books into ereader at once
-Warn on invalid world name
+Add milling info to milleable items
+Add spell class selecter to spell casting menu
 
 
 ## Mods:
@@ -198,10 +211,10 @@ Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
 Add Sense Minds Telepathic power
 Add scaling to Metaphysics XP gain from powers, add penalty for power failure
-Fix and rebalance Defense Mode's final wave.
-Wakeful Rest revamp
-Makes the lady bug and mole cricket tamable in the Tamable Wildlife mod
 Add the HAS_MIND flag to appropriate monsters in in-repo mods
+XE: Add gossamer material and clothing
+XE:  transformation potions to top level alchemy perk
+MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
 
 
 ## Balance:
@@ -239,19 +252,10 @@ Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
 Improved path for intelligent monsters
-Tweaked Tall Dirt Mound Soil Cost
-Hub armor pieces now have comfy padding
-Blackjacks removed from prison loot
-Update the required Kevlar of the Steel Kevlar jumpsuit in accordance with its thickness
-Divides the combat practice subcategory into melee and ranged
-Updates some tailoring practice recipes for new components or mechanics
-Obsolete .50 caliber rifle
-Lower requirements to use underbarrel gun attachments
-Reduce profit from butchering commonly spawned Gum Spiders
-Drastically lower the reward for Helena's canning pot mission.
 Make safe place starts safer
 Touch up pawn shops with better loot
 Prevent staunching bleeding while driving
+Threatening to kill NPCs(recruitment) is more likely to make them hostile
 
 
 ## Bugfixes:
@@ -330,18 +334,7 @@ Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
 Use correct actor in bulk trade messages
 Your nemesis will still hunt you even if you spawn on a roof at the start
-Adjust damage bonuses of guns
-NRE Anomaly printout now allowed to be submitted
-Fix cached dead state
-Re-bring contemplation factor in line with spellbook reading
-Empty apiaries now properly refill in autumn
-If a gunmod added mod locations, it would remove an irremovable integrated bipod gun mod, due to the way it checks for invalid mod locations
-Chitinous armor coverage now includes hips
-Fix Jack-o-lantern craft
-Fix No Legs allowing for conflicting mutations.
-Correct the name of the Concentration Trance practice recipe
-Fix AFS Patched Fur mutation conflicts
-Add hop rhizomes as itemgroup for seeds
+Gas masks only use charges on fields with gas_absorption_factor set
 
 
 ## Performance:
@@ -353,6 +346,7 @@ Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
 Stop clearing weight carried cache unnecessarily
+Precalculate visitable zones to optimize inter-monster aggression checks
 
 
 ## Infrastructure:
@@ -377,8 +371,8 @@ Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
 EVENT EOCs provide beta talker
 [EOC]Inventory selector
-Organize the vitrification files.
 Replaced the use of the arbitrary body temperature scale in game logic with units::temperature/units::temperature_delta
+[EoC] Simple if-else statement
 
 
 ## Build:
@@ -389,10 +383,12 @@ Faster local VS builds
 Fast Windows iteration with llvm-lib and lld-link
 Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
+Add a launch and debug configuration to VS Code Dev Container
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
+Make furniture->lockpick_message translatable
 
 
 # 0.G (Gaiman)

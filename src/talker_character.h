@@ -70,6 +70,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int attack_speed() const override;
         int pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
+        int coverage_at( bodypart_id & ) const override;
+        int encumbrance_at( bodypart_id & ) const override;
         int get_str_max() const override;
         int get_dex_max() const override;
         int get_int_max() const override;
@@ -254,7 +256,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
-        void i_add_or_drop( item &new_item ) override;
+        void i_add_or_drop( item &new_item, bool force_equip = false ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;
