@@ -62,6 +62,39 @@
   },
   {
     "type": "profession",
+    "id": "psi_photokinetic_magician",
+    "name": "Magician",
+    "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "cooking" },
+      { "level": 1, "name": "driving" },
+      { "level": 2, "name": "metaphysics" },
+      { "level": 2, "name": "speech" }
+    ],
+    "traits": [ "FAST_REFLEXES", "PHOTOKINETIC", "PHOTO_EYES" ],
+    "spells": [
+      { "id": "photokinetic_snuff_light", "level": 4 },
+      { "id": "photokinetic_light_dodge", "level": 3 },
+      { "id": "photokinetic_light_beam", "level": 4 },
+      { "id": "photokinetic_light_arms", "level": 2 }
+    ],
+    "items": {
+      "both": {
+        "items": [ "socks", "jeans", "sneakers" ],
+        "entries": [
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "deck_of_cards" },
+          { "item": "tophat" },
+          { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "psi_pyrokinetic_firestarter",
     "name": "Firestarter",
     "description": "Fire always fascinated you.  The fires you set almost got you arrested a few times, but the urge was just too powerful.  It was like they were calling to you, urging you to create them.  And ever since the sky broke, you can create fire with merely a thought.",

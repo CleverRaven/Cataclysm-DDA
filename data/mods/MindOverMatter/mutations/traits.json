@@ -33,6 +33,18 @@
   },
   {
     "type": "mutation",
+    "id": "PHOTOKINETIC",
+    "name": "Awakened Photokinetic",
+    "points": 0,
+    "description": "You have the power to control the light around you with your mind.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "PHOTOKINETIC" ],
+    "spells_learned": [ [ "photokinetic_snuff_light", 2 ], [ "photokinetic_light_dodge", 2 ], [ "photokinetic_light_beam", 2 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "PYROKINETIC",
     "name": "Awakened Pyrokinetic",
     "points": 0,

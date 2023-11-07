@@ -1,0 +1,58 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
+    "condition": { "not": { "u_has_item": "photokinetic_rad_aura" } },
+    "effect": [
+      { "u_message": "The air around you shimmers as an invisible barrier of light forms around you.", "type": "good" },
+      { "u_spawn_item": "photokinetic_rad_aura", "force_equip": true, "suppress_message": true },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_remove_item_with": "photokinetic_rad_aura" },
+      { "u_message": "The air around you shimmers once more as your light barrier fades.", "type": "bad" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) ), 800)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
+    "condition": { "u_has_item": "photokinetic_rad_aura" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  }
+]

@@ -128,6 +128,67 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_MATRIX_AWAKENING",
+    "condition": { "u_has_trait": "PHOTOKINETIC" },
+    "effect": [
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  It starts pulsing, first slowly and more rapidly, and your head starts pounding in time with the light.  You tear your gaze away but the pounding in your head remains."
+      },
+      { "u_add_effect": "psionic_overload", "duration": "1 hours" },
+      { "u_add_effect": "stunned", "duration": 5 }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_2",
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } },
+    "effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_SUCCESS" } ],
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_FAILURE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_3",
+    "condition": { "u_has_trait": "PHOTOKINETIC" },
+    "effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_FAILURE" } ],
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_SUCCESS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_SUCCESS",
+    "effect": [
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  The crystal's inner light gradually intensifies, starting by revealing the hidden details of your surroundings and then unveiling the world in vivid clarity. It's not merely light, but a gentle luminescence that emanates a tranquil warmth. The air around you becomes suffused with a subtle, almost otherworldly radiance, as if you're witnessing a scene from a dream. Within this radiant spectacle, subtle patterns of light perform an elegant dance, and you find yourself captivated by their graceful movements. You reach out your free hand, allowing your fingers to interact with  the delicate light which seems to respond to your thoughts, and as the crystal's glow ultimately dissipates into obscurity, you're left with a lingering sense of wonder.",
+        "popup": true
+      },
+      { "u_add_trait": "PHOTOKINETIC" },
+      { "u_add_trait": "PHOTO_EYES" },
+      { "u_add_effect": "effect_photokin_arms", "duration": "5 minutes" },
+      { "u_add_effect": "effect_photokin_invisibility", "duration": "5 minutes" },
+      { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(matrix_awakening_odds(awakening_countup))" ] },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
+      { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_FAILURE",
+    "effect": [
+      {
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter. You start emanating light, but as time progresses, it hardens around your skin and tightens, causing you pain, its brightness leaving your head pounding and your eyes burning. As the light fades you look once more into the crystal, realizing it is now dark.",
+        "popup": true
+      },
+      { "u_add_effect": "psionic_overload", "duration": "1 hours" },
+      { "u_add_effect": "stunned", "duration": 5 },
+      { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING",
     "condition": { "u_has_trait": "PYROKINETIC" },
     "effect": [
@@ -445,6 +506,7 @@
         "weighted_list_eocs": [
           [ "EOC_BIOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
           [ "EOC_CLAIR_MATRIX_AWAKENING_3", { "const": 1 } ],
+          [ "EOC_PHOTOKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
           [ "EOC_PYROKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
           [ "EOC_TELEKIN_MATRIX_AWAKENING_3", { "const": 1 } ],
           [ "EOC_TEEP_MATRIX_AWAKENING_3", { "const": 1 } ],
@@ -480,6 +542,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 100 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -495,6 +558,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 85 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -510,6 +574,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 65 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -525,6 +590,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 55 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -540,6 +606,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 40 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -555,6 +622,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -570,6 +638,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -585,6 +654,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 15 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -600,6 +670,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -635,6 +706,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 100 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -650,6 +722,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 85 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -665,6 +738,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 65 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -680,6 +754,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 55 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -695,6 +770,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 40 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -710,6 +786,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -725,6 +802,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -740,6 +818,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 15 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -755,6 +834,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -790,6 +870,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 100 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -805,6 +886,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 85 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -820,6 +902,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 65 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -835,6 +918,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 55 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -850,6 +934,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 40 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -865,6 +950,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -880,6 +966,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -895,6 +982,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 15 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -910,6 +998,7 @@
               [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
               [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
+              [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
               [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
@@ -989,6 +1078,41 @@
       { "u_add_effect": "hallu", "duration": { "math": [ "ps_str * u_val('time: 3 h')" ] } },
       { "u_add_effect": "blind_clair_overload", "duration": { "math": [ "ps_str * u_val('time: 15 s')" ] } },
       { "u_add_effect": "deaf_clair_overload", "duration": { "math": [ "ps_str * u_val('time: 15 s')" ] } },
+      { "math": [ "u_val('stamina')", "-=", "4000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_PHOTOKIN_AWAKENING",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "PHOTOKINETIC" } },
+        { "not": { "u_has_effect": "psionic_awakened" } },
+        { "x_in_y_chance": { "x": { "math": [ "100 - awakening_reducer" ] }, "y": 100 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm. As you stand there, a sudden warmth envelops your being, far more radiant than the most brilliant of suns. It begins as a subtle glow deep within, and then it intensifies, growing brighter and brighter, until your entire consciousness is bathed in the incandescent brilliance. As the light fades, you notice the world is painted in more colors than you ever noticed before, the light seems to respond to your every thought.",
+        "popup": true
+      },
+      { "u_add_trait": "PHOTOKINETIC" },
+      { "u_add_trait": "PHOTO_EYES" },
+      { "u_add_effect": "effect_photokin_arms", "duration": "5 minutes" },
+      { "u_add_effect": "effect_photokin_invisibility", "duration": "5 minutes" },
+      { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "math": [ "awakening_countup", "+=", "1" ] },
+      { "math": [ "awakening_reducer", "=", "(portal_storm_awakening_odds(awakening_countup))" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as you get seemingly blinded. Instead of darkness your vision is filled with light, you fall to your knees as you struggle to resist the searing headache and disorientation this ever shifting light is causing."
+      },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
+      { "u_add_effect": "effect_photokin_overload", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 3 s')" ] } },
+      { "u_add_effect": "blind_photokin_overload", "duration": { "math": [ "ps_str * u_val('time: 10 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1170,6 +1294,14 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "CLAIRSENTIENT" },
+    "effect": [ { "math": [ "awakening_countup", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_PHOTOKIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "PHOTOKINETIC" },
     "effect": [ { "math": [ "awakening_countup", "+=", "1" ] } ]
   },
   {

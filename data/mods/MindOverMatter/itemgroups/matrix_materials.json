@@ -6,6 +6,7 @@
     "items": [
       [ "matrix_crystal_biokinesis", 10 ],
       [ "matrix_crystal_clairsentience", 10 ],
+      [ "matrix_crystal_photokinesis", 10 ],
       [ "matrix_crystal_pyrokinesis", 10 ],
       [ "matrix_crystal_telekinesis", 10 ],
       [ "matrix_crystal_telepathy", 10 ],
@@ -22,6 +23,7 @@
       [ "null", 50 ],
       [ "matrix_crystal_biokinesis", 5 ],
       [ "matrix_crystal_clairsentience", 5 ],
+      [ "matrix_crystal_photokinesis", 5 ],
       [ "matrix_crystal_pyrokinesis", 5 ],
       [ "matrix_crystal_telekinesis", 5 ],
       [ "matrix_crystal_telepathy", 5 ],
@@ -38,6 +40,7 @@
       [ "matrix_crystal_drained", 7 ],
       [ "matrix_crystal_biokinesis", 1 ],
       [ "matrix_crystal_clairsentience", 1 ],
+      [ "matrix_crystal_photokinesis", 1 ],
       [ "matrix_crystal_pyrokinesis", 1 ],
       [ "matrix_crystal_telekinesis", 1 ],
       [ "matrix_crystal_telepathy", 1 ],
@@ -52,6 +55,7 @@
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_clair_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_photokin_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_pyrokin_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_telekin_dust", "prob": 30, "container-item": "test_tube" },
       { "item": "matrix_crystal_telepath_dust", "prob": 30, "container-item": "test_tube" },
@@ -67,6 +71,7 @@
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_clair_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_photokin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_pyrokin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_telekin_dust", "prob": 1, "container-item": "test_tube" },
       { "item": "matrix_crystal_telepath_dust", "prob": 1, "container-item": "test_tube" },
@@ -91,6 +96,15 @@
     "items": [
       { "item": "matrix_crystal_clair_dust", "prob": 3, "container-item": "test_tube" },
       { "item": "matrix_crystal_clair_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_photokin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_photokin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_photokin_dust_refined", "prob": 1, "container-item": "test_tube" }
     ]
   },
   {

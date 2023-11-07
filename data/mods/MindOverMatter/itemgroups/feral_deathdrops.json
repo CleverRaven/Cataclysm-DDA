@@ -30,6 +30,21 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "feral_humans_death_drops_photo",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "wallets", "prob": 80 },
+      { "item": "knee_pads", "prob": 3, "damage": [ 1, 4 ] },
+      { "group": "homebooks", "prob": 5 },
+      { "item": "heavy_flashlight", "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "group": "default_zombie_items_bags_small", "prob": 50 },
+      { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "feral_humans_crystal_drops_photo", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "feral_humans_death_drops_pyro",
     "entries": [
       { "group": "default_zombie_clothes", "prob": 100 },
@@ -110,6 +125,12 @@
     "subtype": "distribution",
     "id": "feral_humans_crystal_drops_clair",
     "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_clairsentience", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "feral_humans_crystal_drops_photo",
+    "entries": [ { "item": "matrix_crystal_drained", "prob": 70 }, { "item": "matrix_crystal_photokinesis", "prob": 30 } ]
   },
   {
     "type": "item_group",
