@@ -29,6 +29,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "newly_photokinetic",
+    "name": "Newly-Awakened Photokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seems to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
+    "points": 4,
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_pyrokinetic",
     "name": "Newly-Awakened Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie while scavenging in a ruined house to ash.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
