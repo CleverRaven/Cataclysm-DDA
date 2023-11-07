@@ -54,6 +54,8 @@ static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_
 static const effect_on_condition_id
 effect_on_condition_EOC_math_item_count( "EOC_math_item_count" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_proficiency( "EOC_math_proficiency" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_spell( "EOC_math_spell" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_spell_xp( "EOC_math_spell_xp" );
@@ -473,6 +475,38 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
     CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "300" );
+}
+
+TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_total_time_required" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_spent_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_percent_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_percent_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_permille_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_permille_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_left_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_left_50_turn" ).empty() );
+    CHECK( effect_on_condition_EOC_math_proficiency->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_total_time_required" ) ) == Approx(
+               35996400 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_time_spent_50" ) ) == Approx( 50 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_percent_50" ) ) == Approx( 50 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_percent_50_turn" ) ) == Approx(
+               17998200 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_permille_50" ) ) == Approx( 50 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_permille_50_turn" ) ) == Approx(
+               1799820 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_time_left_50" ) ) == Approx( 50 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key_time_left_50_turn" ) ) == Approx(
+               35996400 ) );
 }
 
 TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
