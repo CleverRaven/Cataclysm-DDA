@@ -663,7 +663,7 @@ struct itype_variant_data {
 
     bool append = false; // if the description should be appended to the base description.
 
-    int weight = 0;
+    int weight = 1;
 
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );

@@ -11,8 +11,7 @@
       {
         "id": "fn_fal",
         "name": { "str_sp": "FN FAL" },
-        "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
-        "weight": 1
+        "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors."
       }
     ],
     "weight": "4250 g",
@@ -398,8 +397,7 @@
       {
         "id": "papm77",
         "name": { "str": "PAP M77" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.",
-        "weight": 1
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
     "weight": "3402 g",
@@ -473,8 +471,7 @@
       {
         "id": "rfb_308",
         "name": { "str_sp": "Kel-Tec RFB" },
-        "description": "This is a semi-automatic bullpup rifle with a lightweight, polymer frame, using magazines from the FN FAL and the .308 Winchester cartridge.  The rifle, forward-ejection, bullpup (abbreviated as RFB) features forward case ejection, ambidextrous controls, and structural use of the barrel, uncommon in modern designs.",
-        "weight": 1
+        "description": "This is a semi-automatic bullpup rifle with a lightweight, polymer frame, using magazines from the FN FAL and the .308 Winchester cartridge.  The rifle, forward-ejection, bullpup (abbreviated as RFB) features forward case ejection, ambidextrous controls, and structural use of the barrel, uncommon in modern designs."
       }
     ],
     "weight": "3900 g",
