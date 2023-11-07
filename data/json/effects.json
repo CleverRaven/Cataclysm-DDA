@@ -392,6 +392,13 @@
   },
   {
     "type": "effect_type",
+    "id": "maimed_tongue",
+    "name": [ "Injured Tongue" ],
+    "//": "Given by weakpoints, used to disable pulls if specified in the attack def",
+    "desc": [ "Cat got your tongue?  No?  Then it must have been a bug." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_leg",
     "name": [ "Maimed Legs" ],
     "desc": [ "Your bugged legs are maimed beyond recognition.  How will you leap now?" ],
@@ -3311,6 +3318,29 @@
     "max_duration": "2 s",
     "dur_add_perc": 20,
     "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ] },
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 0.75, "scaling": -0.05 },
+      { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "electrocuted",
+    "name": [ "Electrocuted" ],
+    "desc": [ "You're being shocked with electricity to the point of serious harm!" ],
+    "apply_message": "You're being electrocuted!",
+    "rating": "bad",
+    "dur_add_perc": 20,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ], "hurt_amount": [ 15, 0 ], "hurt_min": [ 2, 1 ] },
     "show_in_info": true,
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
