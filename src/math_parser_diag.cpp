@@ -588,7 +588,7 @@ std::function<void( dialogue &, double )> spell_level_ass( char scope,
     return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d, double val ) {
         const spell_id spell( spell_value.str( d ) );
         if( spell == spell_id::NULL_ID() ) {
-            throw std::invalid_argument( string_format( "Can't set spell level of %s", spell.str() ) );
+            debugmsg( "Can't set spell level of %s", spell.str() );
         } else {
             d.actor( beta )->set_spell_level( spell, val );
         }
@@ -691,8 +691,6 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 1000;
         } else if( format == "time_left" ) {
             to_write = to_turns<int>( prof->time_to_learn() ) - val;
-        } else {
-            throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
         }
         d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
         return 0;
