@@ -118,7 +118,7 @@ decl_diag_eval num_input_eval;
 decl_diag_eval option_eval;
 decl_diag_eval pain_eval;
 decl_diag_ass pain_ass;
-decl_diag_eval school_level;
+decl_diag_eval school_level_eval;
 decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
 decl_diag_eval skill_exp_eval;
