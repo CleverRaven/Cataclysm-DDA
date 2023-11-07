@@ -1,5 +1,61 @@
 [
   {
+    "id": "death_blindness",
+    "type": "SPELL",
+    "name": { "str": "Death Blinding" },
+    "description": "Blinding flash on death.",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "effect": "attack",
+    "effect_str": "effect_photokin_blind",
+    "shape": "blast",
+    "max_level": 1,
+    "min_duration": 500,
+    "max_duration": 500,
+    "min_aoe": 3,
+    "max_aoe": 3
+  },
+  {
+    "id": "death_blind_oneineight",
+    "type": "SPELL",
+    "name": { "str": "Photokinetic Radical Death" },
+    "valid_targets": [ "ally", "ground", "hostile" ],
+    "description": "1/4 chance to release a blinding flash.",
+    "flags": [ "WONDER", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "attack",
+    "min_damage": 0,
+    "max_damage": 0,
+    "extra_effects": [
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_blindness", "hit_self": true }
+    ]
+  },
+  {
+    "id": "death_blind_oneinfour",
+    "type": "SPELL",
+    "name": { "str": "Photokinetic Beacon Death" },
+    "valid_targets": [ "ally", "ground", "hostile" ],
+    "description": "1/2 chance to release a blinding flash.",
+    "flags": [ "WONDER", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "attack",
+    "min_damage": 0,
+    "max_damage": 0,
+    "extra_effects": [
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_fakespell" },
+      { "id": "death_blindness", "hit_self": true }
+    ]
+  },
+  {
     "id": "death_explosion_oneineight",
     "type": "SPELL",
     "name": { "str": "Pyrokinetic Burner Death" },

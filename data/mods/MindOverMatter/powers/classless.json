@@ -1,0 +1,20 @@
+[
+  {
+    "id": "classless_toggleable_concentration_end",
+    "type": "SPELL",
+    "name": "[Ψ]Stop Concentrating",
+    "description": "End your concentration on all of your maintained powers.\n\nChanneling this power <color_green>always succeeds</color>.",
+    "message": "You stop concentrating.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_END_PSI_POWERS_MAINTAINED",
+    "shape": "blast",
+    "max_level": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 0,
+    "base_casting_time": 0
+  }
+]
