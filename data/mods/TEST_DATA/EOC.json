@@ -300,6 +300,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_spell",
+    "effect": [
+      { "set_string_var": "test_eoc_spell", "target_var": { "global_val": "spell_id_1" } },
+      { "set_string_var": "test_spell_pew", "target_var": { "global_val": "spell_id_2" } },
+      { "set_string_var": "MAGUS", "target_var": { "global_val": "school_id" } },
+      { "math": [ "u_spell_level('spell': spell_id_1)", "=", "1" ] },
+      { "math": [ "u_spell_level('spell': spell_id_2)", "=", "10" ] },
+      { "math": [ "key_spell_level", "=", "u_spell_level('spell': spell_id_1)" ] },
+      { "math": [ "key_highest_spell_level", "=", "u_spell_level()" ] },
+      { "math": [ "key_spell_count", "=", "u_spell_count()" ] },
+      { "math": [ "key_spell_count_MAGUS", "=", "u_spell_count(school_id)" ] },
+      { "math": [ "u_spell_level_adjustment()", "=", "1" ] },
+      { "math": [ "u_spell_level_adjustment('spell': spell_id_1)", "=", "1" ] },
+      { "math": [ "u_spell_level_adjustment('school': school_id)", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_combat_mutator_test",
     "effect": [
       { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "key1" } },

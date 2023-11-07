@@ -54,6 +54,8 @@ static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_
 static const effect_on_condition_id
 effect_on_condition_EOC_math_item_count( "EOC_math_item_count" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_spell( "EOC_math_spell" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_spell_xp( "EOC_math_spell_xp" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_switch_math( "EOC_math_switch_math" );
@@ -473,6 +475,31 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
     CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "300" );
+}
+
+TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &a = get_avatar();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count_MAGUS" ).empty() );
+    CHECK( effect_on_condition_EOC_math_spell->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_level" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ) == "10" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count" ) == "2" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count_MAGUS" ) == "1" );
+
+    get_avatar().magic->evaluate_opens_spellbook_data();
+
+    CHECK( get_avatar().magic->get_spell( spell_test_eoc_spell ).get_effective_level() == 4 );
 }
 
 TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )

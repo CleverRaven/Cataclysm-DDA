@@ -594,8 +594,9 @@ std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
                 } else {
                     return 0.0;
                 }
+            } else {
+                return ch->magic->caster_level_adjustment;
             }
-            return ch->magic->caster_level_adjustment;
         }
         return 0.0;
     };
@@ -621,22 +622,22 @@ std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope
                 trait_id scid( school_str );
                 std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find( scid );
                 if( it != ch->magic->caster_level_adjustment_by_school.end() ) {
-                    return it->second = val;
+                    it->second = val;
                 } else {
                     ch->magic->caster_level_adjustment_by_school.insert( { scid, val } );
-                    return val;
                 }
             } else if( !spell_str.empty() ) {
                 spell_id spid( spell_str );
                 std::map<spell_id, double>::iterator it = ch->magic->caster_level_adjustment_by_spell.find( spid );
                 if( it != ch->magic->caster_level_adjustment_by_spell.end() ) {
-                    return it->second = val;
+                    it->second = val;
                 } else {
                     ch->magic->caster_level_adjustment_by_spell.insert( { spid, val } );
-                    return val;
                 }
+            } else {
+                ch->magic->caster_level_adjustment = val;
             }
-            return ch->magic->caster_level_adjustment = val;
+            return val;
         }
         return 0.0;
     };
