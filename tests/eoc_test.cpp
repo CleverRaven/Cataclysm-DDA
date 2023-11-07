@@ -516,11 +516,13 @@ TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_level" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_school_level_MAGUS" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count_MAGUS" ).empty() );
     CHECK( effect_on_condition_EOC_math_spell->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_spell_level" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ) == "10" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_school_level_MAGUS" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key_spell_count" ) == "2" );
     CHECK( globvars.get_global_value( "npctalk_var_key_spell_count_MAGUS" ) == "1" );
 

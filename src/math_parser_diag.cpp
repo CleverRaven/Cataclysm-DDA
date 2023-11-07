@@ -432,6 +432,14 @@ std::function<void( dialogue &, double )> pain_ass( char scope,
     };
 }
 
+std::function<double( dialogue & )> school_level_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), school = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_spell_level( trait_id( school.str( d ) ) );
+    };
+}
+
 std::function<double( dialogue & )> skill_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -524,22 +532,18 @@ std::function<void( dialogue &, double )> spell_exp_ass( char scope,
 }
 
 std::function<double( dialogue & )> spell_level_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value school( std::string{} );
-    if( kwargs.count( "school" ) ) {
-        school = *kwargs.at( "school" );
-    }
     diag_value spell( std::string{} );
-    if( kwargs.count( "spell" ) != 0 ) {
-        spell = *kwargs.at( "spell" );
+    if( params.size() == 1 ) {
+        spell = params[0];
+    } else if( params.size() > 1 ) {
+        throw std::invalid_argument( string_format( "Too many arguments for function %s()",
+                                     "spell_level" ) );
     }
-    return[beta = is_beta( scope ), school, spell]( dialogue const & d ) {
-        std::string school_str = school.str( d );
+    return[beta = is_beta( scope ), spell]( dialogue const & d ) {
         std::string spell_str = spell.str( d );
-        if( !school_str.empty() ) {
-            return d.actor( beta )->get_spell_level( trait_id( school_str ) );
-        } else if( !spell_str.empty() ) {
+        if( !spell_str.empty() ) {
             return d.actor( beta )->get_spell_level( spell_id( spell_str ) );
         } else {
             return d.actor( beta )->get_highest_spell_level();
@@ -548,16 +552,9 @@ std::function<double( dialogue & )> spell_level_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> spell_level_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value spell( std::string{} );
-    if( kwargs.count( "spell" ) != 0 ) {
-        spell = *kwargs.at( "spell" );
-    } else {
-        throw std::invalid_argument( string_format( "Not enough arguments for function %s()",
-                                     "spell_level" ) );
-    }
-    return[beta = is_beta( scope ), spell]( dialogue const & d, double val ) {
+    return[beta = is_beta( scope ), spell = params[0]]( dialogue const & d, double val ) {
         return d.actor( beta )->set_spell_level( spell_id( spell.str( d ) ), val );
     };
 }
