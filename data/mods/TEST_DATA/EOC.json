@@ -288,6 +288,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_field",
+    "effect": [
+      { "set_string_var": "fd_blood", "target_var": { "global_val": "field_id_1" } },
+      { "set_string_var": "fd_blood_insect", "target_var": { "global_val": "field_id_2" } },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "target_var": { "global_val": "loc" }
+      },
+      { "math": [ "key_field_strength", "=", "u_field_strength(field_id_1)" ] },
+      { "math": [ "key_field_strength_north", "=", "field_strength(field_id_2, 'location': loc)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_item_count",
     "effect": [
       { "set_string_var": "light_plus_battery_cell", "target_var": { "global_val": "item_id" } },

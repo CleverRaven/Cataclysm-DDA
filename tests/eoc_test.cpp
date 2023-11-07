@@ -52,6 +52,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_w_vars( "EOC_math_diag_w_vars" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_field( "EOC_math_field" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_item_count( "EOC_math_item_count" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_proficiency( "EOC_math_proficiency" );
@@ -459,6 +461,25 @@ TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 4 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
+}
+
+TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    get_map().add_field( get_avatar().pos(), fd_blood, 3 );
+    get_map().add_field( get_avatar().pos() + point_south, fd_blood_insect, 3 );
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength_north" ).empty() );
+    CHECK( effect_on_condition_EOC_math_field->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_field_strength" ) == "3" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_field_strength_north" ) == "3" );
 }
 
 TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
