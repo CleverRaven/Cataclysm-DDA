@@ -187,24 +187,24 @@ std::function<double( dialogue & )> option_eval( char /* scope */,
 std::function<double( dialogue & )> addiction_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->get_addiction_intensity( addiction_id( id.str( d ) ) );
+    return[ beta = is_beta( scope ), add_value = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_addiction_intensity( addiction_id( add_value.str( d ) ) );
     };
 }
 
 std::function<double( dialogue & )> addiction_turns_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->get_addiction_turns( addiction_id( id.str( d ) ) );
+    return[ beta = is_beta( scope ), add_value = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_addiction_turns( addiction_id( add_value.str( d ) ) );
     };
 }
 
 std::function<void( dialogue &, double )> addiction_turns_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[id = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_addiction_turns( addiction_id( id.str( d ) ), val );
+    return[ beta = is_beta( scope ), add_value = params[0]]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_addiction_turns( addiction_id( add_value.str( d ) ), val );
     };
 }
 
@@ -221,8 +221,8 @@ std::function<double( dialogue & )> armor_eval( char scope,
 std::function<double( dialogue & )> charge_count_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->charges_of( itype_id( id.str( d ) ) );
+    return[beta = is_beta( scope ), item_value = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->charges_of( itype_id( item_value.str( d ) ) );
     };
 }
 
@@ -270,7 +270,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
                                          R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
     }
 
-    return [id = params[0], beta = is_beta( scope ), loc_var]( dialogue & d ) {
+    return [beta = is_beta( scope ), field_value = params[0], loc_var]( dialogue & d ) {
         map &here = get_map();
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
@@ -278,7 +278,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
         } else {
             loc = d.actor( beta )->global_pos();
         }
-        field_type_id ft = field_type_id( id.str( d ) );
+        field_type_id ft = field_type_id( field_value.str( d ) );
         field_entry *fp = here.field_at( here.getlocal( loc ) ).find_field( ft );
         return fp ? fp->get_field_intensity() :  0;
     };
@@ -327,8 +327,8 @@ std::function<double( dialogue & )> hp_max_eval( char scope,
 std::function<double( dialogue & )> item_count_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[id = params[0], beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->get_amount( itype_id( id.str( d ) ) );
+    return[beta = is_beta( scope ), item_value = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_amount( itype_id( item_value.str( d ) ) );
     };
 }
 
@@ -435,8 +435,8 @@ std::function<void( dialogue &, double )> pain_ass( char scope,
 std::function<double( dialogue & )> school_level_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[beta = is_beta( scope ), school = params[0]]( dialogue const & d ) {
-        return d.actor( beta )->get_spell_level( trait_id( school.str( d ) ) );
+    return[beta = is_beta( scope ), school_value = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_spell_level( trait_id( school_value.str( d ) ) );
     };
 }
 
@@ -504,12 +504,15 @@ std::function<void( dialogue &, double )> skill_exp_ass( char scope,
 std::function<double( dialogue & )> spell_count_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value school( std::string{} );
-    if( !params.empty() ) {
-        school = params[0];
+    diag_value school_value( std::string{} );
+    if( params.size() == 1 ) {
+        school_value = params[0];
+    } else if( params.size() > 1 ) {
+        throw std::invalid_argument( string_format( "Too many arguments for function %s()",
+                                     "spell_count" ) );
     }
-    return[beta = is_beta( scope ), school]( dialogue const & d ) {
-        std::string school_str = school.str( d );
+    return[beta = is_beta( scope ), school_value]( dialogue const & d ) {
+        std::string school_str = school_value.str( d );
         trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
         return d.actor( beta )->get_spell_count( scid );
     };
@@ -534,15 +537,15 @@ std::function<void( dialogue &, double )> spell_exp_ass( char scope,
 std::function<double( dialogue & )> spell_level_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    diag_value spell( std::string{} );
+    diag_value spell_value( std::string{} );
     if( params.size() == 1 ) {
-        spell = params[0];
+        spell_value = params[0];
     } else if( params.size() > 1 ) {
         throw std::invalid_argument( string_format( "Too many arguments for function %s()",
                                      "spell_level" ) );
     }
-    return[beta = is_beta( scope ), spell]( dialogue const & d ) {
-        std::string spell_str = spell.str( d );
+    return[beta = is_beta( scope ), spell_value]( dialogue const & d ) {
+        std::string spell_str = spell_value.str( d );
         if( !spell_str.empty() ) {
             return d.actor( beta )->get_spell_level( spell_id( spell_str ) );
         } else {
@@ -554,27 +557,27 @@ std::function<double( dialogue & )> spell_level_eval( char scope,
 std::function<void( dialogue &, double )> spell_level_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[beta = is_beta( scope ), spell = params[0]]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_spell_level( spell_id( spell.str( d ) ), val );
+    return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_spell_level( spell_id( spell_value.str( d ) ), val );
     };
 }
 
 std::function<double( dialogue & )> spell_level_adjustment_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    diag_value school( std::string{} );
+    diag_value school_value( std::string{} );
     if( kwargs.count( "school" ) ) {
-        school = *kwargs.at( "school" );
+        school_value = *kwargs.at( "school" );
     }
-    diag_value spell( std::string{} );
+    diag_value spell_value( std::string{} );
     if( kwargs.count( "spell" ) != 0 ) {
-        spell = *kwargs.at( "spell" );
+        spell_value = *kwargs.at( "spell" );
     }
-    return[beta = is_beta( scope ), school, spell]( dialogue const & d ) {
+    return[beta = is_beta( scope ), school_value, spell_value]( dialogue const & d ) {
         const Character *ch = d.actor( beta )->get_character();
         if( ch ) {
-            std::string school_str = school.str( d );
-            std::string spell_str = spell.str( d );
+            std::string school_str = school_value.str( d );
+            std::string spell_str = spell_value.str( d );
             if( !school_str.empty() ) {
                 std::map<trait_id, double>::iterator it = ch->magic->caster_level_adjustment_by_school.find(
                             trait_id( school_str ) );
@@ -651,7 +654,7 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
         format != "total_time_required" && format != "time_left" ) {
         throw std::invalid_argument( string_format( "Unknown parameter %s", format ) );
     }
-    return [prof_value = params[0], format, beta = is_beta( scope )]( dialogue const & d ) {
+    return [beta = is_beta( scope ), prof_value = params[0], format]( dialogue const & d ) {
         proficiency_id prof( prof_value.str( d ) );
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
         if( format == "time_spent" ) {
