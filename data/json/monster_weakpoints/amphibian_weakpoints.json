@@ -1,0 +1,483 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amphibian_body",
+    "weakpoints": [
+      {
+        "id": "head",
+        "name": "the head",
+        "coverage": 10,
+        "armor_mult": { "physical": 0.9 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "coverage": 3,
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.2 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "melee": 5, "ranged": 7 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "mouth",
+        "name": "the mouth",
+        "coverage": 5,
+        "armor_mult": { "all": 0.75 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "melee": 2, "ranged": 4 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s's mouth is crippled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "mouth_grabbing",
+        "name": "the mouth",
+        "coverage": 10,
+        "armor_mult": { "all": 0.9 },
+        "crit_mult": { "all": 1.25 },
+        "required_effects": [ "grabbing" ],
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s's mouth is crippled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "foreleg",
+        "name": "the fore leg",
+        "coverage": 8,
+        "coverage_mult": { "point": 0.75 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 4 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's leg goes limp!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's leg goes limp!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "permanent": true,
+            "message": "The %s's leg is disabled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "hindleg",
+        "name": "the hind leg",
+        "coverage": 8,
+        "coverage_mult": { "point": 0.75 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 4 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's leg goes limp!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's leg goes limp!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "permanent": true,
+            "message": "The %s's leg is disabled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "belly",
+        "name": "the belly",
+        "coverage": 10,
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.35 },
+        "crit_mult": { "all": 1.4 },
+        "difficulty": { "melee": 3, "ranged": 3 }
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amphibian_frog",
+    "weakpoints": [
+      {
+        "id": "tongue_grabbing",
+        "name": "the tongue",
+        "coverage": 15,
+        "coverage_mult": { "point": 0.75 },
+        "crit_mult": { "all": 1.25 },
+        "required_effects": [ "grabbing" ],
+        "effects": [
+          {
+            "effect": "maimed_tongue",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's tongue recoils in pain!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_tongue",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's tongue recoils in pain!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_tongue",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s's tongue is crippled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "hindleg",
+        "name": "the hind leg",
+        "coverage": 20,
+        "coverage_mult": { "point": 0.9 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          { "effect": "staggered", "chance": 10, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 40 ] },
+          {
+            "effect": "staggered",
+            "chance": 20,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 41, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's leg goes limp!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's leg goes limp!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "permanent": true,
+            "message": "The %s's leg is disabled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amphibian_salamander",
+    "weakpoints": [
+      {
+        "id": "belly",
+        "name": "the belly",
+        "coverage": 15,
+        "coverage_mult": { "broad": 0.75 },
+        "armor_mult": { "all": 0.35 },
+        "crit_mult": { "all": 1.4 },
+        "difficulty": { "melee": 2, "ranged": 2 }
+      },
+      {
+        "id": "tail",
+        "name": "the tail",
+        "coverage": 10,
+        "coverage_mult": { "point": 0.75 },
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "//": "Disable tail slams, apply STUMBLE flag if possible",
+        "effects": [
+          {
+            "effect": "maimed_tail",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's tail goes limp!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_tail",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's tail goes limp!",
+            "damage_required": [ 1, 40 ]
+          },
+          {
+            "effect": "maimed_tail",
+            "chance": 25,
+            "permanent": true,
+            "message": "The %s's tail is permanently damaged!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amphibian_bone",
+    "weakpoints": [
+      {
+        "id": "head",
+        "name": "the head",
+        "coverage": 10,
+        "coverage_mult": { "point": 0.25 },
+        "armor_mult": { "physical": 1.5 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "coverage": 2,
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.2 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "melee": 5, "ranged": 7 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "mouth",
+        "name": "the mouth",
+        "coverage": 5,
+        "armor_mult": { "all": 1.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 4 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s's mouth is crippled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "mouth_grabbing",
+        "name": "the mouth",
+        "coverage": 10,
+        "armor_mult": { "all": 1.75 },
+        "crit_mult": { "all": 1.1 },
+        "required_effects": [ "grabbing" ],
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's mouth hangs slack!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s's mouth is crippled!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_amphibian_electric",
+    "weakpoints": [
+      {
+        "id": "electric_organ",
+        "name": "the electric organ",
+        "coverage": 10,
+        "armor_mult": { "all": 0.5 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 5, "melee": 4 },
+        "effects": [
+          {
+            "effect": "zapped",
+            "chance": 25,
+            "duration": [ 2, 10 ],
+            "message": "The %s twitches and spasms!  It's zapping itself",
+            "damage_required": [ 1, 15 ]
+          },
+          {
+            "effect": "electrocuted",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s electrifies itself!  It begins seizing!",
+            "damage_required": [ 16, 30 ]
+          },
+          {
+            "effect": "electrocuted",
+            "chance": 50,
+            "permanent": true,
+            "message": "The %s begins seizing!  It is electrocuting itself!",
+            "damage_required": [ 31, 100 ]
+          }
+        ]
+      }
+    ]
+  }
+]
