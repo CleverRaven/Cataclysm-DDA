@@ -5946,10 +5946,12 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         item &it = *iter;
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
+            // Unset processing flag to be able to check the relative rot
+            it.unset_flag( flag_PROCESSING );
 
             if( millable_rot.find( it.typeId() ) == millable_rot.end() ) {
                 const std::vector<double> rot_times = { it.get_relative_rot() };
-                millable_rot.emplace( it.typeId(), it.get_relative_rot() );
+                millable_rot.emplace( it.typeId(), rot_times );
             } else {
                 const double rot_time = it.get_relative_rot();
                 millable_rot[it.typeId()].emplace_back( rot_time );
