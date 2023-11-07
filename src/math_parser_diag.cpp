@@ -590,7 +590,7 @@ std::function<void( dialogue &, double )> spell_level_ass( char scope,
         if( spell == spell_id::NULL_ID() ) {
             throw std::invalid_argument( string_format( "Can't set spell level of %s", spell.str() ) );
         } else {
-            d.actor( beta )->set_spell_level( spell );
+            d.actor( beta )->set_spell_level( spell, val );
         }
         return val;
     };
