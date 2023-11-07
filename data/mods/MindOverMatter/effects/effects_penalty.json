@@ -369,6 +369,7 @@
       { "limb_score": "vision", "modifier": 0.5 },
       { "limb_score": "night_vis", "modifier": 0.5 }
     ],
+    "base_mods": { "hit_mod": [ -2 ] }
   },
   {
     "id": "blind_photokin_overload",
