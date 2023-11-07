@@ -427,7 +427,6 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
 {
     clear_avatar();
     clear_map();
-    avatar &a = get_avatar();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -464,7 +463,6 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
 {
     clear_avatar();
     clear_map();
-    avatar &a = get_avatar();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
@@ -481,7 +479,6 @@ TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
 {
     clear_avatar();
     clear_map();
-    avatar &a = get_avatar();
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
