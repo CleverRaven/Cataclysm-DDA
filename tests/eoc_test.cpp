@@ -537,15 +537,15 @@ TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_level" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_school_level_MAGUS" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_school_level_test_trait" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count_MAGUS" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count_test_trait" ).empty() );
     CHECK( effect_on_condition_EOC_math_spell->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_spell_level" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ) == "10" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_school_level_MAGUS" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_school_level_test_trait" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key_spell_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count_MAGUS" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count_test_trait" ) == "1" );
 
     get_avatar().magic->evaluate_opens_spellbook_data();
 
@@ -959,7 +959,7 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     temp_spell.cast_all_effects( get_avatar(), tripoint() );
 
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "MAGUS" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "test_trait" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
     CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "150" );
     CHECK( globvars.get_global_value( "npctalk_var_key5" ) == "100" );

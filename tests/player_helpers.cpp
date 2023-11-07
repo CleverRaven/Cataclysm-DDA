@@ -117,8 +117,8 @@ void clear_character( Character &dummy, bool skip_nutrition )
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
-    for( const proficiency_id &prof : dummy.learning_proficiencies() ) {
-        dummy.lose_proficiency( prof, true );
+    for( const proficiency_id &prof : dummy.known_proficiencies() ) {
+        dummy.set_proficiency_practiced_time( prof, 0 );
     }
 
     // Reset cardio_acc to baseline
