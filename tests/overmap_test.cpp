@@ -11,12 +11,14 @@
 #include "game_constants.h"
 #include "global_vars.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapbuffer.h"
 #include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "test_data.h"
 #include "type_id.h"
 
 static const oter_str_id oter_cabin( "cabin" );
@@ -278,6 +280,19 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     }
 }
 
+static void tally_items( std::unordered_map<itype_id, int> &item_count, tinymap &tm )
+{
+    int map_width = tm.getmapsize() * SEEX;
+    for( const tripoint &p : tm.points_in_rectangle( { 0, 0, 0 }, { map_width, map_width, 0 } ) ) {
+        for( item &i : tm.i_at( p ) ) {
+            std::unordered_map<itype_id, int>::iterator iter = item_count.find( i.typeId() );
+            if( iter != item_count.end() ) {
+                iter->second++;
+            }
+        }
+    }
+}
+
 TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 {
     // The goal of this test is to generate a lot of overmaps, and count up how
@@ -404,6 +419,14 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         CHECK( num_missing == 0 );
     }
 
+    std::unordered_map<itype_id, int> item_counts;
+    for( std::pair<const std::string, item_demographic_test_data> &category :
+         test_data::item_demographics ) {
+        printf( "Processing %s\n", category.first.c_str() );
+        for( std::pair<const itype_id, int> demographics : category.second.item_weights ) {
+            item_counts[demographics.first] = 0;
+        }
+    }
     // The second phase of this test is to perform the tile-level mapgen once
     // for each oter_type, in hopes of triggering any errors that might arise
     // with that.
@@ -411,18 +434,31 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
         const std::string oter_type_id = p.first->id.str();
         const tripoint_abs_omt pos = p.second.first_observed;
+        const int count = p.second.count;
+        int sample_size = std::max<int>( 1, std::log( count ) );
         CAPTURE( oter_type_id );
-        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
-            tinymap tm;
-            tm.load( project_to<coords::sm>( pos ), false );
-
-            // Periodically clear the generated maps to save memory
-            if( ++num_generated_since_last_clear >= 64 ) {
-                MAPBUFFER.clear_outside_reality_bubble();
-                num_generated_since_last_clear = 0;
+        printf( "Generating a %s %d times based on seeing %d instances of it.\n",
+                oter_type_id.c_str(), sample_size, count );
+        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear,
+             &item_counts, sample_size]() {
+            for( int i = 0; i < sample_size; ++i ) {
+                tinymap tm;
+                tm.generate( project_to<coords::sm>( pos ), calendar::turn );
+                tally_items( item_counts, tm );
+                // Periodically clear the generated maps to save memory
+                if( ++num_generated_since_last_clear >= 64 ) {
+                    MAPBUFFER.clear_outside_reality_bubble();
+                    num_generated_since_last_clear = 0;
+                }
             }
         } );
         CAPTURE( msg );
         REQUIRE( msg.empty() );
+    }
+    for( std::pair<const std::string, item_demographic_test_data> &category :
+         test_data::item_demographics ) {
+    }
+    for( std::pair<const itype_id, int> &entry : item_counts ) {
+        printf( "Item %s placed %d times.\n", entry.first.c_str(), entry.second );
     }
 }

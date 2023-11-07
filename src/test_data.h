@@ -49,6 +49,13 @@ struct npc_boarding_test_data {
     void deserialize( const JsonObject &jo );
 };
 
+struct item_demographic_test_data {
+    std::map<itype_id, int> item_weights;
+    std::map<ammotype, std::pair<int, std::list<itype_id>>> ammo_groups;
+
+    void deserialize( const JsonObject &jo );
+};
+
 class test_data
 {
     public:
@@ -59,6 +66,7 @@ class test_data
         static std::map<itype_id, double> expected_dps;
         static std::map<spawn_type, std::vector<container_spawn_test_data>> container_spawn_data;
         static std::map<std::string, npc_boarding_test_data> npc_boarding_data;
+        static std::map<std::string, item_demographic_test_data> item_demographics;
 
         static void load( const JsonObject &jo );
 };

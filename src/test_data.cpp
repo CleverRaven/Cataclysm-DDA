@@ -8,6 +8,7 @@ std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
 std::map<spawn_type, std::vector<container_spawn_test_data>> test_data::container_spawn_data;
 std::map<std::string, npc_boarding_test_data> test_data::npc_boarding_data;
+std::map<std::string, item_demographic_test_data> test_data::item_demographics;
 
 void efficiency_data::deserialize( const JsonObject &jo )
 {
@@ -46,6 +47,30 @@ void npc_boarding_test_data::deserialize( const JsonObject &jo )
     jo.read( "player_pos", player_pos );
     jo.read( "npc_pos", npc_pos );
     jo.read( "npc_target", npc_target );
+}
+
+void item_demographic_test_data::deserialize( const JsonObject &jo )
+{
+    if( !jo.has_member( "ammo_type" ) ) {
+        for( const JsonMember &member : jo ) {
+            std::string name = member.name();
+            itype_id itm_id = itype_id( name );
+            int item_weight = member.get_int();
+            item_weights[itm_id] = item_weight;
+        }
+        return;
+    }
+    ammotype type;
+    jo.read( "ammo_type", type );
+    ammo_groups[type].first = jo.get_int( "weight" );
+    JsonObject demo_list = jo.get_object( "items" );
+    for( const JsonMember &member : demo_list ) {
+        std::string name = member.name();
+        itype_id itm_id = itype_id( name );
+        int item_weight = member.get_int();
+        item_weights[itm_id] = item_weight;
+        ammo_groups[type].second.emplace_back( name );
+    }
 }
 
 void test_data::load( const JsonObject &jo )
@@ -115,5 +140,18 @@ void test_data::load( const JsonObject &jo )
         std::map<std::string, npc_boarding_test_data> new_boarding_data;
         jo.read( "npc_boarding_data", new_boarding_data );
         npc_boarding_data.insert( new_boarding_data.begin(), new_boarding_data.end() );
+    }
+
+    if( jo.has_object( "item_demographics" ) ) {
+        item_demographic_test_data data;
+        std::string category;
+        const JsonObject demo_obj = jo.get_object( "item_demographics" );
+        demo_obj.read( "category", category );
+        JsonArray demo_list = demo_obj.get_array( "items" );
+        while( demo_list.has_more() ) {
+            demo_list.read_next( data );
+        }
+        // This does not support merging, so only add one instance of each category.
+        item_demographics[category] = data;
     }
 }

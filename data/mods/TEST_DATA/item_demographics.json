@@ -1,0 +1,250 @@
+[
+  {
+    "type": "test_data",
+    "item_demographics": { "category": "food", "items": [ { "taco": 1, "pizza": 1 } ] }
+  },
+  {
+    "type": "test_data",
+    "item_demographics": { "category": "ammo", "items": [ { "ammo_type": "9mm", "weight": 185, "items": { "9mm": 1 } } ] }
+  },
+  {
+    "type": "test_data",
+    "item_demographics": {
+      "category": "guns",
+      "items": [
+        { "ammo_type": "10mm", "weight": 1, "items": { "sw_610": 1 } },
+        { "ammo_type": "123ln", "weight": 1, "items": { "pamd68": 1, "pamd71z": 1 } },
+        { "ammo_type": "12mm", "weight": 1, "items": { "hk_g80": 1 } },
+        { "ammo_type": "20x66mm", "weight": 1, "items": { "rm120c": 1, "rm20": 1, "rm228": 1 } },
+        {
+          "ammo_type": "22",
+          "weight": 1,
+          "items": {
+            "american_180": 1,
+            "marlin_9a": 1,
+            "moss_brownie": 1,
+            "rifle_22": 1,
+            "ruger_1022": 1,
+            "ruger_lcr_22": 1,
+            "sig_mosquito": 1,
+            "sw_22": 1,
+            "j22": 1,
+            "walther_p22": 1
+          }
+        },
+        {
+          "ammo_type": "223",
+          "weight": 1,
+          "items": {
+            "ar_pistol": 1,
+            "plr16": 1,
+            "famas": 1,
+            "fs2000": 1,
+            "scar_l": 1,
+            "hk_g36": 1,
+            "m249": 1,
+            "m231pfw": 1,
+            "oa93": 1,
+            "ruger_mini": 1,
+            "sig_assault_rifle": 1,
+            "steyr_aug": 1,
+            "ak556": 1,
+            "minidraco556": 1,
+            "bren2_556": 1,
+            "rdb_223": 1,
+            "feral_militia_gun": 1
+          }
+        },
+        { "ammo_type": "270win", "weight": 1, "items": { "remington700_270": 1 } },
+        { "ammo_type": "300", "weight": 1, "items": { "m2010": 1, "weatherby_5": 1, "win70": 1, "ruger_pr": 1 } },
+        {
+          "ammo_type": "3006",
+          "weight": 1,
+          "items": { "combination_gun": 1, "browning_blr": 1, "garand": 1, "m1903": 1, "m1918": 1, "remington_700": 1 }
+        },
+        {
+          "ammo_type": "300blk",
+          "weight": 1,
+          "items": { "acr_300blk": 1, "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 }
+        },
+        { "ammo_type": "303", "weight": 1, "items": { "smle_mk3": 1, "number4_mki": 1 } },
+        {
+          "ammo_type": "308",
+          "weight": 1,
+          "items": {
+            "fn_fal": 1,
+            "hk_g3": 1,
+            "m134": 1,
+            "m1a": 1,
+            "m240": 1,
+            "m60": 1,
+            "savage_111f": 1,
+            "scar_h": 1,
+            "M24": 1,
+            "hk417_13": 1,
+            "m110a1": 1,
+            "ak308": 1,
+            "ar10": 1,
+            "rfb_308": 1
+          }
+        },
+        { "ammo_type": "30carbine", "weight": 1, "items": { "m1carbine": 1 } },
+        {
+          "ammo_type": "32",
+          "weight": 1,
+          "items": { "sig_p230": 1, "skorpion_61": 1, "walther_ppk": 1, "kp32": 1, "rifle_32": 1 }
+        },
+        { "ammo_type": "338lapua", "weight": 1, "items": { "tac338": 1, "savage112": 1, "mrad_smr": 1 } },
+        { "ammo_type": "357mag", "weight": 1, "items": { "cop_38": 1, "mr73": 1, "sw_619": 1 } },
+        { "ammo_type": "357sig", "weight": 1, "items": { "p226_357sig": 1, "glock_31": 1, "p320_357sig": 1 } },
+        { "ammo_type": "36paper", "weight": 1, "items": { "colt_navy": 1 } },
+        {
+          "ammo_type": "38",
+          "weight": 1,
+          "items": { "2_shot_special": 1, "model_10_revolver": 1, "rifle_38": 1, "ruger_lcr_38": 1 }
+        },
+        {
+          "ammo_type": "380",
+          "weight": 1,
+          "items": {
+            "mac_11": 1,
+            "kp3at": 1,
+            "fn1910": 1,
+            "rugerlcp": 1,
+            "hptcf380": 1,
+            "taurus_spectrum": 1,
+            "rifle_380": 1,
+            "hpt3895": 1
+          }
+        },
+        { "ammo_type": "38super", "weight": 1, "items": { "af2011a1_38super": 1, "m1911a1_38super": 1 } },
+        {
+          "ammo_type": "40",
+          "weight": 1,
+          "items": {
+            "90two40": 1,
+            "glock_22": 1,
+            "px4_40": 1,
+            "rifle_40": 1,
+            "sig_40": 1,
+            "smg_40": 1,
+            "surv_six_shooter": 1,
+            "hi_power_40": 1,
+            "walther_ppq_40": 1,
+            "hptjcp": 1
+          }
+        },
+        {
+          "ammo_type": "40x46mm",
+          "weight": 1,
+          "items": { "launcher_simple": 1, "m320": 1, "m79": 1, "mgl": 1, "rm802": 1, "pseudo_m203": 1 }
+        },
+        { "ammo_type": "40x53mm", "weight": 1, "items": { "mark19": 1 } },
+        { "ammo_type": "410shot", "weight": 1, "items": { "saiga_410": 1, "shotgun_410": 1 } },
+        {
+          "ammo_type": "44",
+          "weight": 1,
+          "items": { "deagle_44": 1, "henry_big_boy": 1, "rifle_44": 1, "ruger_redhawk": 1, "sw629": 1 }
+        },
+        { "ammo_type": "44paper", "weight": 1, "items": { "colt_army": 1, "lemat_revolver": 1 } },
+        {
+          "ammo_type": "45",
+          "weight": 1,
+          "items": {
+            "TDI": 1,
+            "hk_ump45": 1,
+            "m1911": 1,
+            "mac_10": 1,
+            "rifle_45": 1,
+            "hk_usc45": 1,
+            "smg_45": 1,
+            "surv_hand_cannon": 1,
+            "tommygun": 1,
+            "usp_45": 1,
+            "walther_ppq_45": 1,
+            "hptjhp": 1,
+            "glock_21": 1,
+            "greasegun": 1
+          }
+        },
+        { "ammo_type": "450", "weight": 1, "items": { "ruger_arr": 1 } },
+        { "ammo_type": "454", "weight": 1, "items": { "raging_bull": 1 } },
+        { "ammo_type": "4570", "weight": 1, "items": { "1895sbl": 1, "bfr": 1, "sharps": 1 } },
+        { "ammo_type": "45colt", "weight": 1, "items": { "colt_lightning": 1, "colt_saa": 1 } },
+        { "ammo_type": "45colt", "weight": 1, "items": { "bond_410": 1 } },
+        { "ammo_type": "46", "weight": 1, "items": { "hk_mp7": 1 } },
+        { "ammo_type": "460", "weight": 1, "items": { "m1911-460": 1 } },
+        {
+          "ammo_type": "50",
+          "weight": 1,
+          "items": { "m107a1": 1, "m2browning": 1, "as50": 1, "tac50": 1, "bfg50": 1 }
+        },
+        { "ammo_type": "500", "weight": 1, "items": { "bh_m89": 1, "sw_500": 1 } },
+        { "ammo_type": "545x39", "weight": 1, "items": { "ak74": 1, "kord": 1 } },
+        { "ammo_type": "57", "weight": 1, "items": { "fn57": 1, "fn_p90": 1, "p50": 1, "ruger_57": 1 } },
+        { "ammo_type": "66mm", "weight": 1, "items": { "LAW": 1 } },
+        { "ammo_type": "700nx", "weight": 1, "items": { "trex_gun": 1 } },
+        {
+          "ammo_type": "762",
+          "weight": 1,
+          "items": { "ak47": 1, "arx160": 1, "sks": 1, "aksemi": 1, "draco": 1, "mk47": 1, "vz58_p": 1, "bren2_762": 1 }
+        },
+        { "ammo_type": "762R", "weight": 1, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
+        { "ammo_type": "762x25", "weight": 1, "items": { "ppsh": 1, "tokarev": 1 } },
+        { "ammo_type": "84x246mm", "weight": 1, "items": { "m3_carlgustav": 1, "AT4": 1 } },
+        {
+          "ammo_type": "8x40mm",
+          "weight": 1,
+          "items": {
+            "rm103a_pistol": 1,
+            "rm11b_sniper_rifle": 1,
+            "rm2000_smg": 1,
+            "rm298": 1,
+            "rm51_assault_rifle": 1,
+            "rm614_lmg": 1,
+            "rm88_battle_rifle": 1
+          }
+        },
+        {
+          "ammo_type": "9mm",
+          "weight": 1,
+          "items": {
+            "calico": 1,
+            "cx4": 1,
+            "glock_19": 1,
+            "hk_mp5": 1,
+            "p08": 1,
+            "mp18": 1,
+            "mauser_c96": 1,
+            "mp40": 1,
+            "ksub2000": 1,
+            "m9": 1,
+            "px4": 1,
+            "rifle_9mm": 1,
+            "smg_9mm": 1,
+            "sten": 1,
+            "tec9": 1,
+            "usp_9mm": 1,
+            "uzi": 1,
+            "glock_17": 1,
+            "kpf9": 1,
+            "m11": 1,
+            "m17": 1,
+            "p226_9mm": 1,
+            "sp2022": 1,
+            "hi_power_9mm": 1,
+            "walther_p38": 1,
+            "walther_ppq_9mm": 1,
+            "hptc9": 1,
+            "cz75": 1,
+            "walther_ccp": 1,
+            "colt_ro635": 1,
+            "bt_apc9k": 1,
+            "feral_m9": 1
+          }
+        },
+        { "ammo_type": "9x18", "weight": 1, "items": { "makarov": 1, "skorpion_82": 1, "rifle_9x18": 1 } }
+      ]
+    }
+  }
+]
