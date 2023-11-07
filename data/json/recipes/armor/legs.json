@@ -330,8 +330,7 @@
     "book_learn": [ [ "scots_tailor", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "using": [ [ "tailoring_leather_patchwork", 7 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
-    "byproducts": [ [ "leather", 2 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 7 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
   },
   {
     "result": "kilt",
