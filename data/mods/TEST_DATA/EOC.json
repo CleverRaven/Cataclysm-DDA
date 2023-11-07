@@ -324,6 +324,7 @@
       { "set_string_var": "test_eoc_spell", "target_var": { "global_val": "spell_id_1" } },
       { "set_string_var": "test_spell_pew", "target_var": { "global_val": "spell_id_2" } },
       { "set_string_var": "MAGUS", "target_var": { "global_val": "school_id" } },
+      { "u_add_trait": { "global_val": "school_id" } },
       { "math": [ "u_spell_level(spell_id_1)", "=", "1" ] },
       { "math": [ "u_spell_level(spell_id_2)", "=", "10" ] },
       { "math": [ "key_spell_level", "=", "u_spell_level(spell_id_1)" ] },
