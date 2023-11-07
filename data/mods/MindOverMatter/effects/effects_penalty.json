@@ -358,6 +358,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_myopia",
+    "name": [ "Blurred Sight" ],
+    "desc": [ "Objects in the distance aren't where they seem to be." ],
+    "apply_message": "Your vision blurs.",
+    "remove_message": "You shake your head as your vision clears.",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.5 }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokin_overload",
     "name": [ "Feverish" ],
     "desc": [ "You feel much too warm." ],
