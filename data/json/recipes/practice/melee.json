@@ -267,7 +267,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "great swords (intermediate)",
-    "description": "Practice using your swords momentum to your advantage against a dummy.",
+    "description": "Practice using your sword's momentum to your advantage against a dummy.",
     "skill_used": "cutting",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
@@ -687,7 +687,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "shivs (beginner)",
-    "description": "You wouldn't think it, but there is more to stabbing someone with something small and point.  Practice shanking an imaginary enemy where it hurts most.",
+    "description": "You wouldn't think it, but there is more to stabbing someone with something small and pointy.  Practice shanking an imaginary enemy where it hurts most.",
     "skill_used": "stabbing",
     "skills_required": [ [ "melee", 1 ] ],
     "time": "1 h",
@@ -991,7 +991,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_polearms_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "//": "Top heavy reach weapons could all be used to train polearms",
+    "//": "Top-heavy reach weapons could all be used to train polearms",
     "tools": [ [ "pike", "halberd", "brush_axe", "stick_long" ] ]
   },
   {
