@@ -908,15 +908,6 @@ Effect | Description
 
 [Map Updates](EFFECT_ON_CONDITION.md##General)
 
-#### Detailed Info
-New EOC effects that are documented should be in the format below.
-
-| Effect                 | Options            | Description   |
-| ---------------------- | ------- | --- |
-| `u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" <br/> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. <br/> `allow_unarmed: ` bool **default true** if unarmed techs should be considered <br/> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. |
-| `run_eoc_until`        | `run_eoc_until`: EOC or inline EOC The eoc to run multiple times <br/> `condition` string or [variable object](#variable-object) The name of the condition from the current context to evaluate to see if execution should continue <br/> `iteration` double or [variable object](#variable-object) The number of iterations this loop is allowed to go for before throwing an error, **default 100**  | The provided EOC is run until the condition given is false. |
-
-
 #### Deprecated
 
 Effect | Description
@@ -1415,7 +1406,9 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 |----------|------|--------|-------|-------------|
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Variables are damagetype ID, bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/> Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
+| coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/> Variable is bodypart ID. <br/> For items, returns typical coverage of the item. <br/><br/> Example:<br/>`"condition": { "math": [ "u_coverage('torso')", ">", "0"] }`|
 | effect_intensity(`s`/`v`,...)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/> Variable is effect ID.<br/><br/> Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
+| encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/> Variable is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/> Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
 | hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp.<br/> Variable is bodypart ID. If omitted, get sum of all bodypart or set all bodypart.<br/> For items, returns current amount of damage required to destroy item. Variable is not required.<br/><br/> Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
 | hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> For items, returns max amount of damage required to destroy item. Variable is not required. <br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|

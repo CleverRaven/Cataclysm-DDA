@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -109,13 +110,13 @@ class vitamin
          */
         float RDA_to_default( int percent ) const;
 
-        int units_from_mass( units::mass mass ) const;
+        int units_from_mass( vitamin_units::mass val ) const;
 
     private:
         vitamin_id id_;
         vitamin_type type_ = vitamin_type::num_vitamin_types;
         translation name_;
-        std::optional<units::mass> weight_per_unit;
+        std::optional<vitamin_units::mass> weight_per_unit;
         efftype_id deficiency_;
         efftype_id excess_;
         int min_ = 0;

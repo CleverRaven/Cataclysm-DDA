@@ -667,6 +667,230 @@ This section describes each json file and their contents. Each json has their ow
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
 
+### Snippets 
+
+Snippets are the way for the game to store multiple instances of text, and use it on demand for different purposes: in item descriptions, NPC dialogues or in Effect on conditions
+
+------
+
+**Snippets may be made in two ways:**
+
+First is when snippet contain multiple fields, mainly `text` and `id` - in this case the game would be able to save it, and call only specific one - for example, if used in item description or in lab report file
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads",  // Category is the id of a snippet
+  "text": [
+    {
+      "id": "bread1",                                 // Id of this exact text, in this case "flatbread"
+      "name": "flatbread because i love flatbread",   // Name of a snippet, not actually used anywhere except to describe the snippet
+      "text": "flatbread",                            // Text, that would be used if this snippet category is called
+      "effect_on_examine": [ "effect_on_condition" ]  // Examining of this snippet will call effect_on_condition
+    },
+    { "id": "bread2", "text": "yeast bread" },
+    { "id": "bread3", "text": "cornbread" },
+    { "id": "bread4", "text": "fruit bread" }
+  ]
+}
+```
+
+Second is when snippet contain plain text with no ids - it is used, when the snippet can be generated on the fly, and the game don't need to memorize which one it should be - like in dialogue, for example (we don't need the game to remember what <swear> character used when talked to you)
+
+```c++
+{
+  "type": "snippet",
+  "category": "test_breads", 
+  "text": [
+    "flatbread",
+    "yeast bread",
+    "cornbread",
+    "fruit bread"
+  ]
+}
+```
+
+------
+
+**There is also a multiple ways to use said snippet:**
+
+Items can utilize it using `snippet_category`, in this case the whole description of an item would be replaced with randomly picked snipped out of category:
+
+```json
+"snippet_category": "test_breads",
+```
+
+Alternatively, the `snippet_category` may itself contain a range of descriptions, avoiding making a new category:
+
+```c++
+"snippet_category": [
+  { "id": "bread1", "text": "flatbread" },
+  { "id": "bread2", "text": "yeast bread" },
+  { "id": "bread3", "text": "cornbread" },
+  { "id": "bread4", "text": "fruit bread" }
+]
+```
+note, that using `id` is mandatory in every way, if you don't want to make the game change the description of an item every time they do anything in the game
+
+------
+
+Both dialogues and snippets may reference the snippets right inside themselves - to differentiate the snippets, that are used in this way, their id contain `<>` in the name, like `<test_breads>`
+
+```json
+"dynamic_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you."
+```
+
+```json
+{
+  "type": "snippet",
+  "category": "<music_description>",
+  "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
+},
+```
+
+------
+
+Item descriptions also capable to use snippet system, but to use them, `expand_snippets` should be `true`, otherwise snippet won't be used
+
+```json
+{
+  "id": "nice_mug",
+  "type": "GENERIC",
+  "name": { "str": "complimentary mug" },
+  "description": "A ceramic mug.  It says \"Nice job, <name_g>!\"",
+  "expand_snippets": true,
+...
+}
+```
+
+Same works with variants 
+
+
+```json
+{
+  "id": "mean_mug",
+  "type": "GENERIC",
+  "name": { "str": "insulting mug" },
+  "description": "A ceramic mug.",
+  "variant_type": "generic",
+  "variants": [
+    {
+      "id": "fuck_you",
+      "name": { "str": "insulting mug" },
+      "description": "It says \"<fuck_you>, <name_b>!\"",
+      "append": true,
+      "expand_snippets": true,
+      "weight": 1
+    },
+    {
+      "id": "worst_dad",
+      "name": { "str": "bad dad mug" },
+      "description": "It says \"Worlds Worst Dad\"",
+      "append": true,
+      "weight": 1
+    }
+  ],
+  "material": [ "ceramic" ],
+  "weight": "375 g",
+  "volume": "375 ml"
+}
+```
+
+Using `expand_snippets` required only where snippets are used - if item do not uses snippet, but variant does, then only variant require to have `"expand_snippets":true`
+Using `expand_snippets` on item itself will work as all variants have `"expand_snippets":true`, but variants without any snippet would be effectively removed
+
+```json
+{
+  "id": "mean_mug",
+  "type": "GENERIC",
+  "name": { "str": "insulting mug" },
+  "description": "A ceramic mug.",
+  "expand_snippets": true,
+  "variant_type": "generic",
+  "variants": [
+    {
+      "id": "fuck_you",
+      "name": { "str": "insulting mug" },
+      "description": "It says \"<fuck_you>, <name_b>!\"",
+      "append": true,
+      "weight": 1
+    },
+    {
+      "id": "worst_dad",
+      "name": { "str": "bad mug" },
+      "description": "This mug never appears, because it doesnn't have any snippets",
+      "append": true,
+      "weight": 1
+    }
+  ],
+  "material": [ "ceramic" ],
+  "weight": "375 g",
+  "volume": "375 ml"
+}
+```
+
+------
+
+Item groups can specify the description of the item that is spawned:
+
+```json
+{
+  "type": "item_group",
+  "id": "test_itemgroup",
+  "//": "it spawns `child's drawing` item with `mutant_kid_boss_5` description"
+  "entries": [
+    { "item": "note_mutant_alpha_boss", "snippets": "mutant_kid_boss_5" },
+  ]
+}
+```
+
+Without specifying, the random snippet would be used
+
+------
+
+Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+
+------
+
+Items, that uses effect on condition action to reveal a snippet, may utilize `conditional_names` syntax to change the name of an item, depending on it's description
+
+`log_psych` is the category of snippet, `dream_1` is the id of a snippet, and `name` is the name of new item
+
+```json
+{
+  "type": "GENERIC",
+  "id": "psych_file",
+  "name": { "str": "lab report (psychology)", "str_pl": "lab reports (psychology)" },
+  "conditional_names": [
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_1", "name": { "str_sp": "Session S-3397-5" } },
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_2", "name": { "str_sp": "Session T-1215-4" } },
+    { "type": "SNIPPET_ID", "condition": "log_psych", "value": "dream_3", "name": { "str_sp": "Scrawled note" } }
+  ],
+  "description": "A folder full of what appear to be transcripts of confidential psychotherapy sessions.  Most of it is rather trivial, but certain passages catch your eye…",
+  "copy-from": "file",
+  "use_action": {
+    "type": "effect_on_conditions",
+    "description": "Activate to read the file",
+    "effect_on_conditions": [
+      {
+        "id": "EOC_LAB_FILE_PSY",
+        "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
+      }
+    ]
+  }
+}
+```
+
+Once the item would be activated, the description would be replaced with one of `log_psych` texts, and the `lab report (psychology)` name would be replaced with one of `conditional_names`
+
+------
+
+Snippets also support the color codes
+
+```json
+"<color_yellow_red>Biohazard</color>",
+```
+
 ### Addiction types
 
 Addictions are defined in JSON using `"addiction_type"`:
@@ -3178,6 +3402,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
+"snippet_category": "snippet_category",        // Can be used instead of description, if author want to have multiple ways to describe an item. See #Snippets
 "ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
@@ -3221,7 +3446,8 @@ Weakpoints only match if they share the same id, so it's important to define the
     "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
     "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
     "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
-    "append": true                              // If this description should just be appended to the base item description instead of completely overwriting it.
+    "append": true,                             // If this description should just be appended to the base item description instead of completely overwriting it.
+    "expand_snippets": true                     // Allows to use snippet tags, see #Snippets
   }
 ],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
@@ -3768,7 +3994,7 @@ CBMs can be defined like this:
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
-"vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
+"vitamins": [ [ "calcium", "60 mg" ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  Some vitamins ("calcium", "iron", "vitC") can be specified with the weight of the vitamins in that food.  Vitamins specified by weight can be in grams ("g"), milligrams ("mg") or micrograms ("μg", "ug", "mcg").  If a vitamin is not specified by weight, it is specified in "units", with meaning according to the vitamin definition.  Nutrition vitamins ("calcium", "iron", "vitC") are an integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitC, mutant_toxin, bad_food, blood, and redcells.
 "material": [                     // All materials (IDs) this food is made of
   { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
   { "type": "wheat", "portion": 5 }
@@ -4542,44 +4768,6 @@ Once the duration of the timer has passed the `"countdown_action"` is executed. 
 ```
 
 Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
-
-### Random Descriptions
-
-Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
-```
-"snippet_category": "newspaper",
-```
-The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
-```C++
-{
-    "type" : "snippet",
-    "category" : "newspaper",
-    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
-    "text": "your flavor text"
-}
-```
-or several snippets at once:
-```C++
-{
-    "type" : "snippet",
-    "category" : "newspaper",
-    "text": [
-        "your flavor text",
-        "more flavor",
-        // entries can also be of this form to have a id to reference that specific snippet.
-        { "id" : "snippet-id", "text" : "another flavor text" }
-    ],
-    "text": [ "your flavor text", "another flavor text", "more flavor" ]
-}
-```
-Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
-
-One can also put the snippets directly in the item definition:
-```
-"snippet_category": [ "text 1", "text 2", "text 3" ],
-```
-This will automatically create a snippet category specific to that item and populate that category with the given snippets.
-The format also support snippet ids like above.
 
 # `json/` JSONs
 
