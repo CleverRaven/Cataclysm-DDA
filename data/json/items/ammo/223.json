@@ -133,6 +133,7 @@
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO M995" },
     "description": "An M995 armor piercing round with dense tungsten core and sharp, paint in black tip.  Higher material penetration in exchange of lower overall damage.",
+    "ascii_picture": "556_ap",
     "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
   },
   {
