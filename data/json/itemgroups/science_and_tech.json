@@ -23,6 +23,7 @@
       { "group": "wallets_science", "prob": 2 },
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "badge_doctor", 2 ],
+      [ "lanyard", 1 ],
       [ "cleansuit", 5 ],
       { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 20, "charges": [ 0, 100 ] },
@@ -478,7 +479,7 @@
       [ "jar_3l_glass_sealed", 15 ],
       { "item": "oxygen_tank", "prob": 50, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 25, "charges": [ 0, 12 ] },
-      [ "bfipowder", 15 ],
+      { "group": "bfipowder_bottle_plastic_5_60", "prob": 15 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       [ "anesthetic", 20 ],
       { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
@@ -550,6 +551,13 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "adderall", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bfipowder_bottle_plastic_5_60",
+    "subtype": "collection",
+    "container-item": "bottle_plastic",
+    "entries": [ { "item": "bfipowder", "container-item": "null", "count": [ 5, 60 ] } ]
   },
   {
     "type": "item_group",

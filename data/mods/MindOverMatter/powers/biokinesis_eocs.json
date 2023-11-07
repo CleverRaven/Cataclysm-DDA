@@ -1,161 +1,290 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_PAIN_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "effect_biokin_pkill_1" } },
+        { "not": { "u_has_effect": "effect_biokin_pkill_2" } },
+        { "not": { "u_has_effect": "effect_biokin_pkill_3" } },
+        { "not": { "u_has_effect": "effect_biokin_pkill_4" } },
+        { "not": { "u_has_effect": "effect_biokin_pkill_5" } },
+        { "not": { "u_has_effect": "effect_biokin_pkill_6" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You breathe deeply and your pain lessens.", "type": "good" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
+      { "run_eocs": [ "EOC_BIOKIN_OVERCOME_PAIN_SWITCHER" ] },
+      {
+        "queue_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_overcome_pain') * 20 ) + 600) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_overcome_pain') * 20 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_biokin_pkill_1" },
+      { "u_lose_effect": "effect_biokin_pkill_2" },
+      { "u_lose_effect": "effect_biokin_pkill_3" },
+      { "u_lose_effect": "effect_biokin_pkill_4" },
+      { "u_lose_effect": "effect_biokin_pkill_5" },
+      { "u_lose_effect": "effect_biokin_pkill_6" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (1750 - (u_val('spell_level', 'spell: biokin_overcome_pain') * 75) ), 850)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_OVERCOME_PAIN_SWITCHER",
+    "effect": {
+      "switch": { "u_val": "spell_level", "spell": "biokin_overcome_pain" },
+      "cases": [
+        { "case": 0, "effect": { "u_add_effect": "effect_biokin_pkill_1", "duration": "PERMANENT" } },
+        { "case": 4, "effect": { "u_add_effect": "effect_biokin_pkill_2", "duration": "PERMANENT" } },
+        { "case": 8, "effect": { "u_add_effect": "effect_biokin_pkill_3", "duration": "PERMANENT" } },
+        { "case": 12, "effect": { "u_add_effect": "effect_biokin_pkill_4", "duration": "PERMANENT" } },
+        { "case": 16, "effect": { "u_add_effect": "effect_biokin_pkill_5", "duration": "PERMANENT" } },
+        { "case": 20, "effect": { "u_add_effect": "effect_biokin_pkill_6", "duration": "PERMANENT" } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_biokin_pkill_1" },
+        { "u_has_effect": "effect_biokin_pkill_2" },
+        { "u_has_effect": "effect_biokin_pkill_3" },
+        { "u_has_effect": "effect_biokin_pkill_4" },
+        { "u_has_effect": "effect_biokin_pkill_5" },
+        { "u_has_effect": "effect_biokin_pkill_6" }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_overcome_pain') * 20 ) + 600) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_overcome_pain') * 20 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_climate_control" } },
+    "effect": [
+      { "u_message": "You feel much more comfortable.", "type": "good" },
+      { "u_add_effect": "effect_biokin_climate_control", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
+      { "u_lose_effect": "biokin_sealed_system" },
+      {
+        "queue_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_climate_control') * 180) + 300 ) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_climate_control') * 360) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_biokin_climate_control" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (3500 - (u_val('spell_level', 'spell: biokin_climate_control') * 175) ), 1250)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_climate_control" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: biokin_climate_control') * 180) + 300 ) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_climate_control') * 360) + 600) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_ENHANCE_MOBILITY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_enhance_mobility" } },
+    "effect": [
+      { "u_message": "Your gear doesn't seem to encumber you as much.", "type": "good" },
+      { "u_add_effect": "effect_biokin_enhance_mobility", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
+      { "run_eocs": [ "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER" ] },
+      {
+        "queue_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 45 ) + 300) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 90 ) + 900) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_3" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_4" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_5" },
+      { "u_remove_item_with": "biokin_enhance_mobility_item_6" },
+      { "u_lose_effect": "effect_biokin_enhance_mobility" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (4500 - (u_val('spell_level', 'spell: biokin_enhance_mobility') * 150) ), 2500)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
     "effect": {
       "switch": { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')" ] },
       "cases": [
-        { "case": 0, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_1" } } ] },
-        { "case": 4, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_2" } } ] },
-        { "case": 8, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_3" } } ] },
-        { "case": 12, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_4" } } ] },
-        { "case": 16, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_5" } } ] },
-        { "case": 20, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_6" } } ] }
+        {
+          "case": 0,
+          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_1", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 4,
+          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_2", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 8,
+          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_3", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_4", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 16,
+          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_5", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 20,
+          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_6", "suppress_message": true, "force_equip": true } ]
+        }
       ]
     }
   },
   {
-    "id": "biokin_enhance_mobility_1",
-    "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility #1",
-    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_enhance_mobility_item_1",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    }
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 45 ) + 300) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 90 ) + 900) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   },
   {
-    "id": "biokin_enhance_mobility_2",
-    "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility #2",
-    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_enhance_mobility_item_2",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    }
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_HAMMERHAND_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_hammerhand" } },
+    "effect": [
+      { "u_message": "You flex your fingers.", "type": "good" },
+      { "u_add_effect": "effect_biokin_hammerhand", "duration": "PERMANENT" },
+      { "u_spawn_item": "biokin_hammerhand_item", "suppress_message": true, "force_equip": true },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 450) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 750) + 5400) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_biokin_hammerhand" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (4500 - (u_val('spell_level', 'spell: biokin_hammerhand') * 225) ), 2250)" ]
+      }
+    ]
   },
   {
-    "id": "biokin_enhance_mobility_3",
-    "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility #3",
-    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_enhance_mobility_item_3",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_enhance_mobility_4",
-    "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility #4",
-    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_enhance_mobility_item_4",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_enhance_mobility_5",
-    "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility #5",
-    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_enhance_mobility_item_5",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    }
-  },
-  {
-    "id": "biokin_enhance_mobility_6",
-    "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility #6",
-    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "biokin_enhance_mobility_item_6",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
-      ]
-    }
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_HAMMERHAND_DRAIN",
+    "condition": { "u_has_effect": "biokin_hammerhand" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 450) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 750) + 5400) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   }
 ]

@@ -34,6 +34,71 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      { "u_learn_recipe": "practice_photokinetic_snuff_light" },
+      { "u_learn_recipe": "practice_photokinetic_light_dodge" },
+      { "u_learn_recipe": "practice_photokinetic_invisibility" },
+      { "u_learn_recipe": "practice_photokinetic_light_beam" },
+      { "u_learn_recipe": "practice_photokinetic_light_image" },
+      { "u_learn_recipe": "practice_photokinetic_rad_immunity" },
+      { "u_learn_recipe": "practice_photokinetic_light_arms" },
+      { "u_learn_recipe": "practice_photokinetic_light_disintegrate" },
+      { "u_learn_recipe": "practice_photokinetic_light_flash" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_PHOTOKIN_FOOD_RECIPES",
+    "effect": [
+      { "u_learn_recipe": "irradiated_rose_hips" },
+      { "u_learn_recipe": "irradiated_elderberries" },
+      { "u_learn_recipe": "irradiated_mulberries" },
+      { "u_learn_recipe": "irradiated_huckleberries" },
+      { "u_learn_recipe": "irradiated_raspberries" },
+      { "u_learn_recipe": "irradiated_strawberries" },
+      { "u_learn_recipe": "irradiated_blueberries" },
+      { "u_learn_recipe": "irradiated_apple" },
+      { "u_learn_recipe": "irradiated_banana" },
+      { "u_learn_recipe": "irradiated_orange" },
+      { "u_learn_recipe": "irradiated_lemon" },
+      { "u_learn_recipe": "irradiated_grapefruit" },
+      { "u_learn_recipe": "irradiated_pear" },
+      { "u_learn_recipe": "irradiated_cherries" },
+      { "u_learn_recipe": "irradiated_plums" },
+      { "u_learn_recipe": "irradiated_grapes" },
+      { "u_learn_recipe": "irradiated_pineapple" },
+      { "u_learn_recipe": "irradiated_peach" },
+      { "u_learn_recipe": "irradiated_watermelon" },
+      { "u_learn_recipe": "irradiated_melon" },
+      { "u_learn_recipe": "irradiated_blackberries" },
+      { "u_learn_recipe": "irradiated_mango" },
+      { "u_learn_recipe": "irradiated_pomegranate" },
+      { "u_learn_recipe": "irradiated_papaya" },
+      { "u_learn_recipe": "irradiated_guayaba" },
+      { "u_learn_recipe": "irradiated_maracuya" },
+      { "u_learn_recipe": "irradiated_kiwi" },
+      { "u_learn_recipe": "irradiated_lulo" },
+      { "u_learn_recipe": "irradiated_plantain" },
+      { "u_learn_recipe": "irradiated_apricot" },
+      { "u_learn_recipe": "irradiated_lettuce" },
+      { "u_learn_recipe": "irradiated_cabbage" },
+      { "u_learn_recipe": "irradiated_tomato" },
+      { "u_learn_recipe": "irradiated_broccoli" },
+      { "u_learn_recipe": "irradiated_zucchini" },
+      { "u_learn_recipe": "irradiated_onion" },
+      { "u_learn_recipe": "irradiated_carrot" },
+      { "u_learn_recipe": "irradiated_corn" },
+      { "u_learn_recipe": "irradiated_pumpkin" },
+      { "u_learn_recipe": "irradiated_potato" },
+      { "u_learn_recipe": "irradiated_cucumber" },
+      { "u_learn_recipe": "irradiated_celery" },
+      { "u_learn_recipe": "irradiated_rhubarb" },
+      { "u_learn_recipe": "irradiated_eggplant" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_pyrokinetic_flash" },
@@ -76,6 +141,7 @@
       { "u_learn_recipe": "practice_telepathic_concentration" },
       { "u_learn_recipe": "practice_telepathic_shield" },
       { "u_learn_recipe": "practice_telepathic_morale" },
+      { "u_learn_recipe": "practice_telepathic_mind_sense" },
       { "u_learn_recipe": "practice_telepathic_blast" },
       { "u_learn_recipe": "practice_telepathic_confusion" },
       { "u_learn_recipe": "practice_telepathic_invisibility" },
@@ -116,7 +182,8 @@
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" },
       { "u_learn_recipe": "practice_vita_banish_illness" },
-      { "u_learn_recipe": "practice_vita_super_heal" }
+      { "u_learn_recipe": "practice_vita_super_heal" },
+      { "u_learn_recipe": "practice_vita_limb_restore" }
     ]
   },
   {
@@ -134,6 +201,22 @@
     "required_event": "game_begin",
     "condition": { "u_has_trait": "CLAIRSENTIENT" },
     "effect": [ { "queue_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "PHOTOKINETIC" },
+    "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RECIPE_TEACHER2",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "PHOTOKINETIC" },
+    "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -179,7 +179,8 @@ class target_ui
             Turrets,
             TurretManual,
             Reach,
-            Spell
+            Spell,
+            SelectOnly
         };
 
         // Avatar
@@ -416,6 +417,17 @@ class target_ui
         // `harmful` is `false` if using a non-damaging spell
         void on_target_accepted( bool harmful ) const;
 };
+
+target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
+{
+    target_ui ui = target_ui();
+    ui.you = &you;
+    ui.mode = target_ui::TargetMode::SelectOnly;
+    ui.range = range;
+
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
+    return ui.run();
+}
 
 target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
 {
@@ -762,8 +774,19 @@ bool Character::handle_gun_damage( item &it )
 
 bool Character::handle_gun_overheat( item &it )
 {
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    double heat_modifier = 0;
+    float heat_multiplier = 1.0f;
+    for( const item *mod : it.gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+        heat_modifier += mod->type->gunmod->heat_per_shot_modifier;
+        heat_multiplier *= mod->type->gunmod->heat_per_shot_multiplier;
+    }
     double heat = it.get_var( "gun_heat", 0.0 );
-    double threshold = it.type->gun->overheat_threshold;
+    double threshold = std::max( ( it.type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
     const islot_gun &gun_type = *it.type->gun;
 
     if( threshold < 0.0 ) {
@@ -808,7 +831,8 @@ bool Character::handle_gun_overheat( item &it )
             return false;
         }
     }
-    it.set_var( "gun_heat", heat + gun_type.heat_per_shot );
+    it.set_var( "gun_heat", heat + std::max( ( gun_type.heat_per_shot * heat_multiplier ) +
+                heat_modifier, 0.0 ) );
     return true;
 }
 
@@ -959,11 +983,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
             if( monster *const m = hit_entry.first->as_monster() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_monster>(
-                    getID(), gun_id, m->type->id );
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
+                                m->type->id );
+                get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_character>(
-                    getID(), gun_id, c->getID(), c->get_name() );
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
+                                c->getID(), c->get_name() );
+                get_event_bus().send_with_talker( this, c, e );
             }
             if( multishot ) {
                 // TODO: Pull projectile name from the ammo entry.
@@ -2654,8 +2680,10 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
-            on_target_accepted( harmful );
+            if( mode != TargetMode::SelectOnly ) {
+                bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
+                on_target_accepted( harmful );
+            }
             break;
         }
         case ExitCode::Timeout: {
@@ -3080,6 +3108,12 @@ void target_ui::set_last_target()
 
 bool target_ui::confirm_non_enemy_target()
 {
+    // Check if you are casting a spell at yourself.
+    if( mode == TargetMode::Spell && ( src == dst || spell_aoe.count( src ) == 1 ) ) {
+        if( !query_yn( _( "Really attack yourself?" ) ) ) {
+            return false;
+        }
+    }
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
         return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );

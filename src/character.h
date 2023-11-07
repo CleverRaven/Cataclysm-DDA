@@ -752,6 +752,8 @@ class Character : public Creature, public visitable
             return nullptr;
         }
         void set_fac_id( const std::string &my_fac_id );
+        virtual bool is_ally( const Character &p ) const = 0;
+        virtual bool is_obeying( const Character &p ) const = 0;
 
         // Has item with mission_id
         bool has_mission_item( int mission_id ) const;
@@ -877,6 +879,8 @@ class Character : public Creature, public visitable
         bool is_electrical() const override;
         // true if the character is from the nether
         bool is_nether() const override;
+        // true if the character has a sapient mind
+        bool has_mind() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
@@ -1163,6 +1167,7 @@ class Character : public Creature, public visitable
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
+        void mod_part_hp_cur( const bodypart_id &id, int set ) override;
 
         void calc_all_parts_hp( float hp_mod = 0.0, float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0, int per_max = 0, int int_max = 0, int healthy_mod = 0,
@@ -2382,6 +2387,8 @@ class Character : public Creature, public visitable
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
+        void set_skills_from_hobbies();
+
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
@@ -2397,6 +2404,8 @@ class Character : public Creature, public visitable
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
         int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
+        void add_default_background();
+        void set_proficiencies_from_hobbies();
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
@@ -2602,6 +2611,10 @@ class Character : public Creature, public visitable
          * Return value can depend on the orientation of the terrain.
          */
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
+
+        /** Which body part has the most staunchable bleeding, and what is the max improvement */
+        bodypart_id most_staunchable_bp();
+        bodypart_id most_staunchable_bp( int &max );
 
         void pause(); // '.' command; pauses & resets recoil
 
@@ -3166,19 +3179,20 @@ class Character : public Creature, public visitable
          * Warmth from terrain, furniture, vehicle furniture and traps.
          * Can be negative.
          **/
-        static int floor_bedding_warmth( const tripoint &pos );
+        static units::temperature_delta floor_bedding_warmth( const tripoint &pos );
         /** Warmth from clothing on the floor **/
-        static int floor_item_warmth( const tripoint &pos );
+        static units::temperature_delta floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
-        int floor_warmth( const tripoint &pos ) const;
+        units::temperature_delta floor_warmth( const tripoint &pos ) const;
 
         /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated ) const;
+        units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        int bodytemp_modifier_traits_floor() const;
+        units::temperature_delta bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature, int heat_strength,
-                                               int chill_strength ) const;
+        units::temperature temp_corrected_by_climate_control( units::temperature temperature,
+                int heat_strength,
+                int chill_strength ) const;
 
         bool in_sleep_state() const override;
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -3361,9 +3375,9 @@ class Character : public Creature, public visitable
         int last_batch;
 
         // Returns true if the character knows the recipe, is near a book or device
-        // providing the recipe or a nearby NPC knows it.
+        // providing the recipe or a nearby Character knows it.
         bool has_recipe( const recipe *r, const inventory &crafting_inv,
-                         const std::vector<npc *> &helpers ) const;
+                         const std::vector<Character *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         void forget_recipe( const recipe *rec );
@@ -3382,12 +3396,12 @@ class Character : public Creature, public visitable
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
         recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
         /**
-          * Returns all available recipes (from books and npc companions)
+          * Return all available recipes (from books and companions)
           * @param crafting_inv Current available items to craft
-          * @param helpers List of NPCs that could help with crafting.
+          * @param helpers List of Characters that could help with crafting.
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
-                                             const std::vector<npc *> *helpers = nullptr ) const;
+                                             const std::vector<Character *> *helpers = nullptr ) const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
@@ -3473,8 +3487,13 @@ class Character : public Creature, public visitable
          */
         bool can_continue_craft( item &craft );
         bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
-        /** Returns nearby NPCs ready and willing to help with crafting. */
-        std::vector<npc *> get_crafting_helpers() const;
+        /** Return nearby Characters ready and willing to help with crafting. */
+        std::vector<Character *> get_crafting_helpers() const;
+        /**
+         * Return group of ally characters sharing knowledge of crafting.
+         * Unlike get_crafting_helpers, includes the caller and sleeping Characters.
+         */
+        std::vector<Character *> get_crafting_group() const;
         int get_num_crafting_helpers( int max ) const;
         /**
          * Handle skill gain for player and followers during crafting.

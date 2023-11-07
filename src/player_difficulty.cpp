@@ -85,6 +85,10 @@ void player_difficulty::reset_npc( Character &dummy )
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
+    dummy.add_default_background();
+    dummy.set_proficiencies_from_hobbies();
+    dummy.set_skills_from_hobbies();
+
 
     // Reset cardio_acc to baseline
     dummy.reset_cardio_acc();
@@ -248,10 +252,22 @@ std::string player_difficulty::get_genetics_difficulty( const Character &u ) con
     return format_output( percent_band, per );
 }
 
+static int get_character_skill_value( const Character &u )
+{
+    // sum player skills and proficiencies
+    int character_skills = 0;
+    // every skill point is worth 1 point of value
+    for( const auto &t : u.get_all_skills() ) {
+        // combat skills will be handled in offence
+        if( !t.first->is_combat_skill() ) {
+            character_skills += t.second.level();
+        }
+    }
+    return character_skills;
+}
+
 std::string player_difficulty::get_expertise_difficulty( const Character &u ) const
 {
-    // a bit extra over multipool since you get 2 points per in multi
-    const int average_skill_ranks = 4;
     const float percent_band = 0.6f;
 
     // how much each proficiency is valued compared to a skill point
@@ -264,16 +280,12 @@ std::string player_difficulty::get_expertise_difficulty( const Character &u ) co
     const float focus_weighting = 2.0f;
 
     // sum player skills and proficiencies
-    int player_skills = 0;
-    // every skill point is worth 1 point of value
-    for( const auto &t : u.get_all_skills() ) {
-        // combat skills will be handled in offence
-        if( !t.first->is_combat_skill() ) {
-            player_skills += t.second.level();
-        }
-    }
+    int player_skills = get_character_skill_value( u );
+    int average_skill_ranks = get_character_skill_value( average );
+
     // every proficiency is worth about the value of 2 skill points
     player_skills += proficiency_value * u._proficiencies->known_profs().size();
+    average_skill_ranks += proficiency_value * average._proficiencies->known_profs().size();
 
     // skills and professions
     float per = skill_weighting * static_cast<float>( player_skills - average_skill_ranks ) /

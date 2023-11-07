@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str": ".300 AAC Blackout" },
     "description": "A .300 AAC Blackout round with a 125gr open tip match bullet.  .300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
+    "ascii_picture": "300blk",
     "weight": "18 g",
     "volume": "194 ml",
     "longest_side": "57 mm",

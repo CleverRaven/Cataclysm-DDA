@@ -83,17 +83,16 @@
   {
     "id": "vita_health_power",
     "type": "SPELL",
-    "name": "[Ψ]Healthy Glow",
-    "description": "Your powers can keep you in the bloom of health.  This can also stop an asthma attack.",
-    "message": "Your skin prickles and you feel like you're bursting with energy.",
+    "name": "[Ψ]Healthy Glow (toggle)",
+    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_vita_health",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_HEALTH_POWER_INITIATE",
     "shape": "blast",
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -146,6 +145,7 @@
     "base_casting_time": 85,
     "final_casting_time": 55,
     "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
   },
   {
@@ -183,6 +183,7 @@
     "base_casting_time": 100,
     "final_casting_time": 25,
     "casting_time_increment": -7.5,
+    "ignored_monster_species": [ "PSI_NULL" ],
     "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
   },
   {
@@ -215,44 +216,22 @@
     "type": "SPELL",
     "name": "[Ψ]Wakeful Rest",
     "description": "In lieu of sleep, you can meditate.  As long as you maintain your meditations, you will rarely need to spend a night sleeping.",
-    "message": "You meditate for a while and feel refreshed.",
+    "message": "You begin meditating.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
-    "effect": "recover_energy",
-    "effect_str": "FATIGUE",
-    "extra_effects": [
-      { "id": "vita_no_sleep_dep", "hit_self": true, "max_level": 1 },
-      { "id": "psionic_drained_difficulty_four", "hit_self": true }
-    ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SLEEP",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_sleeping_trance') * 2) + 40) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_sleeping_trance') * 2) + 150) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
     "energy_source": "STAMINA",
     "base_energy_cost": 1000,
-    "base_casting_time": 360000,
-    "final_casting_time": 90000,
-    "casting_time_increment": -13500,
+    "base_casting_time": 100,
     "learn_spells": { "vita_healing_trance": 9, "vita_blood_purge": 12, "vita_banish_illness": 15 }
-  },
-  {
-    "id": "vita_no_sleep_dep",
-    "type": "SPELL",
-    "name": "[Ψ]Wakeful Rest Remove Sleep Deprivation",
-    "description": "The second part of the Wakeful Rest power, to remove sleep deprivation.",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VITAKIN_SLEEP",
-    "shape": "blast"
   },
   {
     "id": "vita_stop_infection",
@@ -470,7 +449,8 @@
     "base_energy_cost": 10000,
     "final_energy_cost": 8000,
     "energy_increment": -150,
-    "base_casting_time": 1000
+    "base_casting_time": 1000,
+    "learn_spells": { "vita_limb_restore": 10 }
   },
   {
     "id": "vita_super_heal_healing",
@@ -494,5 +474,34 @@
     "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
     "shape": "blast",
     "flags": [ "SILENT" ]
+  },
+  {
+    "id": "vita_limb_restore",
+    "type": "SPELL",
+    "name": "[Ψ]Ameliorate Extremity",
+    "description": "You sink your mind the deepest within yourself you can possibly get, and enter a meditative trance to rejuvenate lost limbs, one at a time.  Be sure to remove any prosthetics before doing this, it's hard to work around them.",
+    "message": "You sink your mind deep within your body and enter a trance.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_limb_restore') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: vita_limb_restore') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 1200
   }
 ]

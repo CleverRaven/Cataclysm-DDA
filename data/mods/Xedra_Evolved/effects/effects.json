@@ -495,7 +495,7 @@
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
     "desc": [
-      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster"
+      "You ate a whole dreamdross ingot.  It is too much for your body, but for a while you are much <color_green>stronger</color>, and <color_green>recover from traumas</color> faster."
     ],
     "apply_message": "A huge warm wave moves from your stomach through your body.",
     "remove_message": "The warm feeling fades away.",
@@ -755,7 +755,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "mixed",
-    "max_intensity": 999,
+    "max_intensity": 100000,
     "show_intensity": false,
     "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
@@ -1023,6 +1023,14 @@
       }
     ],
     "flags": [ "UNCANNY_DODGE", "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_learned_gossamer",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
+    "rating": "mixed"
   },
   {
     "type": "mutation",

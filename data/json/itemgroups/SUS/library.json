@@ -75,6 +75,7 @@
       { "item": "mag_fabrication", "count": [ 1, 10 ], "prob": 80 },
       { "item": "manual_fabrication", "count": [ 1, 4 ], "prob": 70 },
       { "item": "textbook_fabrication", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "bronze_mag", "count": [ 1, 2 ], "prob": 50 },
       { "item": "mag_carpentry", "count": [ 1, 4 ], "prob": 80 },
       { "item": "glassblowing_book", "count": [ 1, 2 ], "prob": 60 },
       { "item": "theater_props", "count": [ 1, 2 ], "prob": 40 },
@@ -92,6 +93,7 @@
       { "item": "manual_fabrication", "count": [ 0, 2 ], "prob": 30 },
       { "item": "textbook_fabrication", "count": [ 0, 1 ], "prob": 20 },
       { "item": "mag_carpentry", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "bronze_mag", "count": [ 0, 1 ], "prob": 20 },
       { "item": "glassblowing_book", "count": [ 0, 1 ], "prob": 20 },
       { "item": "theater_props", "count": [ 0, 1 ], "prob": 20 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
@@ -113,6 +115,8 @@
       { "item": "textbook_weapeast", "count": [ 1, 2 ], "prob": 60 },
       { "item": "textbook_weapwest", "count": [ 1, 4 ], "prob": 80 },
       { "item": "textbook_weparabic", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "bronze_book", "count": [ 1, 3 ], "prob": 50 },
+      { "item": "bronze_mag", "count": [ 1, 2 ], "prob": 30 },
       { "item": "recipe_arrows", "count": [ 1, 3 ], "prob": 60 },
       { "item": "recipe_bows", "count": [ 1, 3 ], "prob": 80 }
     ]
@@ -131,6 +135,8 @@
       { "item": "textbook_weapeast", "count": [ 0, 1 ], "prob": 20 },
       { "item": "textbook_weapwest", "count": [ 0, 2 ], "prob": 30 },
       { "item": "textbook_weparabic", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "bronze_book", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "bronze_mag", "count": [ 0, 1 ], "prob": 10 },
       { "item": "recipe_arrows", "count": [ 0, 1 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
@@ -507,7 +513,9 @@
       { "item": "book_anthology_sst", "prob": 2 },
       { "item": "book_anthology_bk", "prob": 2 },
       { "item": "book_anthology_cw", "prob": 2 },
-      { "item": "novel_pulp", "prob": 1 }
+      { "item": "novel_pulp", "prob": 1 },
+      { "item": "novel_crime_midnight", "prob": 1 },
+      { "item": "novel_crime_murdergrape", "prob": 1 }
     ]
   },
   {
@@ -524,7 +532,8 @@
       { "item": "book_fict_soft_west_calico", "prob": 1 },
       { "item": "book_fict_soft_west_riot", "prob": 1 },
       { "item": "book_fict_soft_west_vaq", "prob": 1 },
-      { "item": "book_fict_soft_west_vride", "prob": 1 }
+      { "item": "book_fict_soft_west_vride", "prob": 1 },
+      { "item": "book_fict_soft_west_gore", "prob": 1 }
     ]
   },
   {

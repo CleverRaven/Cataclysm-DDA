@@ -238,6 +238,7 @@
       [ "knee_pads", 80 ],
       [ "roller_blades", 40 ],
       [ "rollerskates", 10 ],
+      [ "folded_skateboard_generic", 10 ],
       { "prob": 80, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
       { "item": "inhaler", "prob": 30, "charges-min": 10, "charges-max": 100 },
       { "group": "beer", "prob": 180 },

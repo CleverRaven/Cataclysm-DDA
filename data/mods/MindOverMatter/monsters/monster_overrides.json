@@ -90,10 +90,22 @@
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ]
   },
   {
-    "id": "mon_frog_mega",
-    "copy-from": "mon_frog_mega",
+    "id": "mon_strange_megafrog",
+    "copy-from": "mon_strange_megafrog",
     "type": "MONSTER",
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+  },
+  {
+    "id": "mon_odd_megafrog",
+    "copy-from": "mon_odd_megafrog",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+  },
+  {
+    "id": "mon_foul_megafrog",
+    "copy-from": "mon_foul_megafrog",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ]
   },
   {
     "id": "mon_zombie_regenerating",

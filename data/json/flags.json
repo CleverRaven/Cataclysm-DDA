@@ -588,6 +588,11 @@
     "type": "json_flag"
   },
   {
+    "id": "ARM_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the arms, and can only be used as a replacement limb."
+  },
+  {
     "id": "LEG_PROSTHETIC",
     "type": "json_flag",
     "//": "This clothing is a prosthetic limb for the legs, and can only be used as a replacement limb."

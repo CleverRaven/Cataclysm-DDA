@@ -198,9 +198,9 @@ struct mutation_branch {
         // costs are consumed every cooldown turns,
         time_duration cooldown   = 0_turns;
         // bodytemp elements:
-        int bodytemp_min = 0;
-        int bodytemp_max = 0;
-        int bodytemp_sleep = 0;
+        units::temperature_delta bodytemp_min = 0_C_delta;
+        units::temperature_delta bodytemp_max = 0_C_delta;
+        units::temperature_delta bodytemp_sleep = 0_C_delta;
         // Healing per turn
         std::optional<float> healing_awake = std::nullopt;
         std::optional<float> healing_multiplier = std::nullopt;

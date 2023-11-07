@@ -119,6 +119,7 @@
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
       { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ] },
+      { "item": "superglue", "prob": 30 },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
       { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
       { "item": "corkscrew", "prob": 60 },
@@ -263,6 +264,7 @@
       { "item": "superglue", "prob": 40 },
       { "item": "knitting_needles", "prob": 40 },
       { "item": "duct_tape", "prob": 40, "charges": [ 5, 160 ] },
+      { "item": "wax_paraffin", "prob": 10 },
       { "item": "zipper_short_plastic", "prob": 35 },
       { "item": "zipper_short_plastic", "prob": 15 },
       { "item": "felt_patch", "count": [ 1, 3 ], "prob": 30 },
@@ -364,6 +366,8 @@
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
       { "item": "corkscrew", "prob": 70 },
       { "group": "adhesive_bandages_box_used", "prob": 60 },
+      { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
+      { "item": "superglue", "prob": 30 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
@@ -398,6 +402,7 @@
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
+      { "item": "nice_mug", "count": [ 0, 1 ] },
       { "item": "ceramic_plate", "count": [ 1, 6 ] },
       { "item": "ceramic_bowl", "count": [ 1, 6 ] },
       {
@@ -561,6 +566,7 @@
       },
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
+      { "item": "nice_mug", "count": [ 0, 1 ] },
       { "group": "teabag_box", "prob": 60 }
     ]
   },

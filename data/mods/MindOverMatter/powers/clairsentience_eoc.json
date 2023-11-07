@@ -1,5 +1,136 @@
 [
   {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_NIGHT_EYES_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "effect_clair_night_eyes_1" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_2" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_3" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_4" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_5" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_6" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_7" } },
+        { "not": { "u_has_effect": "effect_clair_night_eyes_8" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You open your senses to the world.", "type": "good" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
+      { "run_eocs": [ "EOC_CLAIR_NIGHT_EYES_SWITCHER" ] },
+      {
+        "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 150) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_clair_night_eyes_1" },
+      { "u_lose_effect": "effect_clair_night_eyes_2" },
+      { "u_lose_effect": "effect_clair_night_eyes_3" },
+      { "u_lose_effect": "effect_clair_night_eyes_4" },
+      { "u_lose_effect": "effect_clair_night_eyes_5" },
+      { "u_lose_effect": "effect_clair_night_eyes_6" },
+      { "u_lose_effect": "effect_clair_night_eyes_7" },
+      { "u_lose_effect": "effect_clair_night_eyes_8" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (1500 - (u_val('spell_level', 'spell: clair_night_vision') * 50) ), 500)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_NIGHT_EYES_SWITCHER",
+    "effect": {
+      "switch": { "u_val": "spell_level", "spell": "clair_night_vision" },
+      "cases": [
+        { "case": 0, "effect": { "u_add_effect": "effect_clair_night_eyes_1", "duration": "PERMANENT" } },
+        { "case": 3, "effect": { "u_add_effect": "effect_clair_night_eyes_2", "duration": "PERMANENT" } },
+        { "case": 6, "effect": { "u_add_effect": "effect_clair_night_eyes_3", "duration": "PERMANENT" } },
+        { "case": 9, "effect": { "u_add_effect": "effect_clair_night_eyes_4", "duration": "PERMANENT" } },
+        { "case": 12, "effect": { "u_add_effect": "effect_clair_night_eyes_5", "duration": "PERMANENT" } },
+        { "case": 15, "effect": { "u_add_effect": "effect_clair_night_eyes_6", "duration": "PERMANENT" } },
+        { "case": 18, "effect": { "u_add_effect": "effect_clair_night_eyes_7", "duration": "PERMANENT" } },
+        { "case": 21, "effect": { "u_add_effect": "effect_clair_night_eyes_8", "duration": "PERMANENT" } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_NIGHT_EYES_DRAIN",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_clair_night_eyes_1" },
+        { "u_has_effect": "effect_clair_night_eyes_2" },
+        { "u_has_effect": "effect_clair_night_eyes_3" },
+        { "u_has_effect": "effect_clair_night_eyes_4" },
+        { "u_has_effect": "effect_clair_night_eyes_5" },
+        { "u_has_effect": "effect_clair_night_eyes_6" },
+        { "u_has_effect": "effect_clair_night_eyes_7" },
+        { "u_has_effect": "effect_clair_night_eyes_8" }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 150) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_val('spell_level', 'spell: clair_night_vision') * 200 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SPEED_READING_INITIATE",
+    "condition": { "not": { "u_has_trait": "CLAIR_SPEED_READ" } },
+    "effect": [
+      { "u_message": "You feel like sitting down with a good book.", "type": "good" },
+      { "u_add_trait": "CLAIR_SPEED_READ" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
+      { "u_add_effect": "effect_clair_speed_reader", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "CLAIR_SPEED_READ" },
+      { "u_lose_effect": "effect_clair_speed_reader" },
+      { "u_message": "Your eyes ache a bit.  Maybe it's time to put the book down.", "type": "good" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: clair_speed_reading') * 125) ), 1000)" ]
+      }
+    ]
+  },
+  {
     "type": "mutation",
     "//": "This and following are all necessary because reading_speed_multiplier is hardcoded.  Redo the whole thing once it isn't.",
     "id": "CLAIR_SPEED_READ",
@@ -9,33 +140,6 @@
     "reading_speed_multiplier": 0.66,
     "valid": false,
     "enchantments": [ "enchant_clair_speed_read" ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CLAIR_SPEED_READING",
-    "effect": [
-      { "u_add_trait": "CLAIR_SPEED_READ" },
-      {
-        "queue_eocs": "EOC_CLAIR_SPEED_READING_REMOvE",
-        "time_in_future": [
-          {
-            "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 36000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
-            ]
-          },
-          {
-            "math": [
-              "( (u_val('spell_level', 'spell: clair_speed_reading') * 72000) + 1080000) * (scaling_factor(u_val('intelligence') ) )"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CLAIR_SPEED_READING_REMOvE",
-    "effect": [ { "u_lose_trait": "CLAIR_SPEED_READ" } ]
   },
   {
     "type": "enchantment",
@@ -50,6 +154,26 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SPEED_READING_DRAIN",
+    "condition": { "u_has_trait": "CLAIR_SPEED_READ" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: clair_speed_reading') * 360) + 3600) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: clair_speed_reading') * 720) + 10800) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   },
   {
     "type": "effect_on_condition",
