@@ -846,6 +846,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
+    "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

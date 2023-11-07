@@ -234,6 +234,7 @@
       "RADIOGENIC",
       "RADIOPHILE",
       "RESISTCHILL",
+      "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
       "STOCKY_TROGLO",
@@ -293,7 +294,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "cancels": [ "RESISTCHILL", "STRONGER_RESISTCHILL", "RESISTWARM", "STRONGER_RESISTWARM" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM" ],
     "description": "Your temperature tolerance is more or less normal for a human."
   },
   {
@@ -331,6 +332,30 @@
     "description": "Dummy mutation that keeps you from wearing prosthetics.",
     "changes_to": [ "NO_RIGHT_LEG" ],
     "restricts_gear": [ "leg_stub_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_LEFT_ARM",
+    "name": { "str": "left arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_LEFT_ARM" ],
+    "restricts_gear": [ "arm_stub_l" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_RIGHT_ARM",
+    "name": { "str": "right arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_RIGHT_ARM" ],
+    "restricts_gear": [ "arm_stub_r" ]
   },
   {
     "type": "mutation",
@@ -400,6 +425,73 @@
   },
   {
     "type": "mutation",
+    "id": "NO_LEFT_ARM",
+    "name": { "str": "No Left Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your left arm.  As such, you cannot use anything you normally could with it, like lifting with two hands.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_l" ],
+    "restricts_gear": [ "hand_l" ],
+    "prereqs": "HAS_LEFT_ARM",
+    "allowed_items": [ "ARM_PROSTHETIC" ],
+    "enchantments": [ "ENCH_NO_LEFT_ARM" ],
+    "cancels": [
+      "BARBS",
+      "NAILS",
+      "CLAWS",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "CLAWS_RETRACT",
+      "CLAWS_TENTACLE",
+      "ARM_FEATHERS",
+      "TALONS",
+      "BENDY1",
+      "PAWS",
+      "PAWS_LARGE",
+      "BURROW",
+      "BURROWLARGE",
+      "PAWS_LITTLE",
+      "SLIME_HANDS",
+      "WEBBED"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_RIGHT_ARM",
+    "name": { "str": "No Right Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your right arm.  As such, you cannot use anything you normally could with it, like lifting with two hands.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_r" ],
+    "restricts_gear": [ "hand_r" ],
+    "prereqs": "HAS_RIGHT_ARM",
+    "allowed_items": [ "ARM_PROSTHETIC" ],
+    "enchantments": [ "ENCH_NO_RIGHT_ARM" ],
+    "cancels": [
+      "CRUSTACEAN_CLAW",
+      "BARBS",
+      "NAILS",
+      "CLAWS",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "CLAWS_RETRACT",
+      "CLAWS_TENTACLE",
+      "TALONS",
+      "ARM_FEATHERS",
+      "BENDY1",
+      "PAWS",
+      "PAWS_LARGE",
+      "BURROW",
+      "BURROWLARGE",
+      "PAWS_LITTLE",
+      "SLIME_HANDS",
+      "WEBBED"
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "RIGHT_PROSTHETIC_LEG",
     "name": { "str": "Right Prosthetic Leg" },
     "points": 0,
@@ -445,6 +537,78 @@
     "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
     "processed_eocs": [ "EOC_PROSTHETIC_LEFT_WEAR" ],
     "enchantments": [ "ENCH_LEFT_PEGLEG" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PROSTHETIC_ARM",
+    "name": { "str": "Left Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left arm.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "enchantments": [ "ENCH_LEFT_ARM_PROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_PROSTHETIC_ARM",
+    "name": { "str": "Right Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right arm.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "enchantments": [ "ENCH_RIGHT_ARM_PROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_NEUROPROSTHETIC_ARM",
+    "name": { "str": "Left Neuroprosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left arm.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_neuroprosthetic_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "enchantments": [ "ENCH_LEFT_ARM_NEUROPROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_NEUROPROSTHETIC_ARM",
+    "name": { "str": "Right Neuroprosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right arm.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_neuroprosthetic_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "enchantments": [ "ENCH_RIGHT_ARM_NEUROPROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_COSMETIC_PROSTHETIC_ARM",
+    "name": { "str": "Left Cosmetic Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left arm.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_LEFT_ARM_WEAR" ],
+    "enchantments": [ "ENCH_LEFT_ARM_COSMETIC_PROSTHETIC" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_COSMETIC_PROSTHETIC_ARM",
+    "name": { "str": "Right Cosmetic Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right arm.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
+    "processed_eocs": [ "EOC_PROSTHETIC_RIGHT_ARM_WEAR" ],
+    "enchantments": [ "ENCH_RIGHT_ARM_COSMETIC_PROSTHETIC" ]
   },
   {
     "type": "mutation",
@@ -3755,7 +3919,7 @@
   {
     "type": "mutation",
     "id": "BOMBADIER_BLAST",
-    "name": { "str": "Bombadier Beetle Blast" },
+    "name": { "str": "Bombardier Beetle Blast" },
     "points": 5,
     "visibility": 1,
     "ugliness": 2,
@@ -7143,7 +7307,7 @@
     "points": 2,
     "visibility": 7,
     "ugliness": 6,
-    "description": "Your body is coated with a fine slime.  Protects from long-term effects of acid, though not short-term ones.  Greatly increases wet benefits.",
+    "description": "Your body is coated with a fine slime which makes uncovered skin harder to grab and protects from long-term effects of acid, though not short-term ones.  Greatly increases wet benefits.",
     "types": [ "SECRETION" ],
     "leads_to": [ "SLIME_HANDS" ],
     "changes_to": [ "VISCOUS" ],
@@ -7168,7 +7332,7 @@
     "points": 4,
     "visibility": 7,
     "ugliness": 8,
-    "description": "Your body's slime output has become sticky and gel-like.  Somewhat protects from acid.  Greatly increases wet benefits.",
+    "description": "Your body's slime output has become sticky and gel-like, making uncovered skin harder to grab and offering some protection from acid.  Greatly increases wet benefits.",
     "leads_to": [ "AMORPHOUS" ],
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_GASTROPOD" ],
@@ -7198,7 +7362,7 @@
     "description": "Your flesh is a pleasing gel-like consistency.  Your bodily functions seem to be moving around, and your leg-equivalents flow comfortably - if a little slower than your old meat-legs.",
     "purifiable": false,
     "leads_to": [ "INT_SLIME", "PER_SLIME" ],
-    "restricts_gear": [ "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "leg_stub_r", "leg_stub_l", "arm_stub_r", "arm_stub_l" ],
     "prereqs": [ "VISCOUS" ],
     "prereqs2": [ "BENDY2", "SLIME_HANDS" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -7634,7 +7798,7 @@
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
-    "restricts_gear": [ "torso" ],
+    "restricts_gear": [ "torso", "arm_stub_r", "arm_stub_l" ],
     "passive_mods": { "dex_mod": -2 }
   },
   {
@@ -7668,7 +7832,7 @@
     "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
-    "restricts_gear": [ "torso" ],
+    "restricts_gear": [ "torso", "arm_stub_r", "arm_stub_l" ],
     "passive_mods": { "dex_mod": -4 }
   },
   {
@@ -7696,7 +7860,7 @@
     "mixed_effect": true,
     "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
+    "restricts_gear": [ "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
     "types": [ "HANDS", "CLAWS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "changes_to": [ "ARM_TENTACLES_4" ],
@@ -9228,16 +9392,7 @@
     "prereqs": [ "RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
-    "threshreq": [
-      "THRESH_LUPINE",
-      "THRESH_URSINE",
-      "THRESH_CATTLE",
-      "THRESH_FELINE",
-      "THRESH_RABBIT",
-      "THRESH_MOUSE",
-      "THRESH_BEAST",
-      "THRESH_PLANT"
-    ],
+    "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_FELINE", "THRESH_RABBIT", "THRESH_MOUSE", "THRESH_BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
   },
   {
@@ -9248,7 +9403,6 @@
     "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you it will take more heat and exposure for you to suffer from sunstroke, this will not make dealing with its consequences any easier.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
-    "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   },
@@ -9262,7 +9416,7 @@
     "prereqs": [ "RESISTWARM" ],
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN", "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
   },
   {
@@ -9308,6 +9462,22 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTCHILL_RESISTWARM",
+    "name": { "str": "Temperature Tolerance" },
+    "points": 5,
+    "valid": true,
+    "description": "You are now not at all bothered by the heat and it is harder for you to overheat or freeze at all.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "RESISTWARM" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "PLANT" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] }
+    ]
   },
   {
     "type": "mutation",

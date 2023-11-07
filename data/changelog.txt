@@ -51,8 +51,14 @@ Sound-triggered traps
 Item transformation can now pick variant items to transform into
 You can now collect grappling hooks and ladders from the ledge above.
 Adds priority parameter for special placement
+Professions can start with multiple martial arts
+Microlab Mapgen is now parameter based.
+Allow NPC_DEATH EoC to prevent npc die
+Allow NPC doctors to install and remove CBMs from player allies
+Look up and down with 3d vision off
 Add ignored_monster_species spell parameter
 Monsters affiliated with factions will watch for theft of faction items
+Add Map related EoC functions
 
 
 ## Content:
@@ -91,6 +97,7 @@ JSONify Defense Mode
 Adds a new mission to the Exodii
 Add boats to river banks
 Vehicles now contain heater, and some contain AC
+NPC Elvira Fish, Circulations
 Adds a jeweler as a new starting profession
 Add a larger “family–sized” water heater
 Rework Anvils and add crude anvil
@@ -124,9 +131,16 @@ Walking into ledges examines them.
 Accessible item insert menu
 Show insertion failure reasons in Insert menu and AIM
 Select default bodypart when applying bandage
+Show zones on other z-levels in zone manager
+Remember inventory show/hide all contents option state
+Display what mod the contents belong to, scenario, profession, map
+Find items that cover body part
+Enable history for AIM and inventory filters
 Make zone manager display more of zone name
 Show estimated time when washing items
 Selecting container mode for unloaded items
+Add milling info to milleable items
+Add spell class selecter to spell casting menu
 
 
 ## Mods:
@@ -175,6 +189,9 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
+XE: Add gossamer material and clothing
+XE:  transformation potions to top level alchemy perk
+MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
 
 
 ## Balance:
@@ -212,6 +229,8 @@ Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
 Improved path for intelligent monsters
+Threatening to kill NPCs(recruitment) is more likely to make them hostile
+
 
 
 ## Bugfixes:
@@ -290,6 +309,7 @@ Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
 Use correct actor in bulk trade messages
 Your nemesis will still hunt you even if you spawn on a roof at the start
+Gas masks only use charges on fields with gas_absorption_factor set
 
 
 ## Performance:
@@ -301,6 +321,7 @@ Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
 Stop clearing weight carried cache unnecessarily
+Precalculate visitable zones to optimize inter-monster aggression checks
 
 
 ## Infrastructure:
@@ -325,6 +346,7 @@ Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
 EVENT EOCs provide beta talker
 [EOC]Inventory selector
+[EoC] Simple if-else statement
 
 
 ## Build:
@@ -335,10 +357,12 @@ Faster local VS builds
 Fast Windows iteration with llvm-lib and lld-link
 Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
+Add a launch and debug configuration to VS Code Dev Container
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
+Make furniture->lockpick_message translatable
 
 
 # 0.G (Gaiman)

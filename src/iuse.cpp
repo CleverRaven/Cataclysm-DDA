@@ -1213,7 +1213,7 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint & 
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
             mutagen_technique::injected_smart_purifier );
     return 1;
@@ -1550,7 +1550,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
     if( npc *const who = creatures.creature_at<npc>( *pnt ) ) {
         if( query_yn( _( "Are you sure you want to feed a person %1$s?" ), it->tname() ) ) {
             p->mod_moves( -to_moves<int>( 1_seconds ) );
-            p->add_msg_if_player( _( "You put your %1$s into %2$s mouth!" ),
+            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ),
                                   it->tname(), who->disp_name( true ) );
             if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
                 who->say(

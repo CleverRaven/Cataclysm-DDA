@@ -394,7 +394,7 @@ class talker
             return {};
         }
         virtual void i_add( const item & ) {}
-        virtual void i_add_or_drop( item & ) {}
+        virtual void i_add_or_drop( item &, bool = false ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {
             return false;
@@ -554,6 +554,12 @@ class talker
             return 0;
         }
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
+            return 0;
+        }
+        virtual int coverage_at( bodypart_id & ) const {
+            return 0;
+        }
+        virtual int encumbrance_at( bodypart_id & ) const {
             return 0;
         }
         virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {

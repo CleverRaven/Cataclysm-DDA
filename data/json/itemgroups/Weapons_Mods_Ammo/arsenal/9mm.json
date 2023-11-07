@@ -3,7 +3,12 @@
     "type": "item_group",
     "id": "milspec_arsenal_9mm_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_9mm_gun&ammo" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_9mm_gun&ammo" },
+      {
+        "distribution": [ { "item": "ammo_can_30_9mm_fmj_1000", "count": [ 1, 4 ] }, { "item": "ammo_can_30_9mm_jhp_1000", "count": [ 1, 4 ] } ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -131,51 +136,5 @@
       { "item": "glock_drum_50rd", "prob": 30 },
       { "item": "glock_drum_100rd", "prob": 20 }
     ]
-  },
-  {
-    "id": "ammo_can_9mm_any_full",
-    "type": "item_group",
-    "items": [ { "group": "ammo_can_9mm_full" }, { "group": "ammo_can_9mmfmj_full" } ]
-  },
-  {
-    "id": "ammo_can_9mm_any_part",
-    "type": "item_group",
-    "items": [ { "group": "ammo_can_9mm_part" }, { "group": "ammo_can_9mmfmj_part" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_9mm_full",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_9mm", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_9mmfmj_full",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_9mmfmj", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_9mm_part",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_9mm", "count": [ 0, 4 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_9mmfmj_part",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_9mmfmj", "count": [ 0, 4 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_9mm",
-    "container-item": "ammunition_box_308",
-    "items": [ [ "9mm", 100 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_9mmfmj",
-    "container-item": "ammunition_box_308",
-    "items": [ [ "9mmfmj", 100 ] ]
   }
 ]

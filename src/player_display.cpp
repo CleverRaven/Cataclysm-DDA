@@ -927,6 +927,15 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
                 info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            learning_bonus );
             }
+            if( !level.isTraining() ) {
+                info_text = string_format( "%s | %s", info_text,
+                                           _( "<color_yellow>Learning is disabled.</color>" ) );
+            }
+        } else {
+            if( !level.isTraining() ) {
+                info_text = string_format( "%s\n\n%s", info_text,
+                                           _( "<color_yellow>Learning is disabled.</color>" ) );
+            }
         }
         draw_x_info( w_info, info_text, info_line );
     }
@@ -1403,10 +1412,12 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                     you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 }
                 invalidate_tab( curtab );
+                ui_info.invalidate_ui();
                 break;
             }
             case player_display_tab::proficiencies:
-                show_proficiencies_window( you );
+                const std::vector<display_proficiency> profs = you.display_proficiencies();
+                show_proficiencies_window( you, profs[line].id );
                 break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {
