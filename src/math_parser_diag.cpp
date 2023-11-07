@@ -586,7 +586,13 @@ std::function<void( dialogue &, double )> spell_level_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope ), spell_value = params[0]]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_spell_level( spell_id( spell_value.str( d ) ), val );
+        const spell_id spell( spell_value.str( d ) );
+        if( spell == spell_id::NULL_ID() ) {
+            throw std::invalid_argument( string_format( "Can't set spell level of %s", spell.str() ) );
+        } else {
+            d.actor( beta )->set_spell_level( spell );
+        }
+        return val;
     };
 }
 
