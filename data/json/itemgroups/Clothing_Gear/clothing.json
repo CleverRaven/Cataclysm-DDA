@@ -621,6 +621,7 @@
       { "item": "boots", "prob": 60 },
       { "item": "boots_hiking", "prob": 10 },
       { "item": "boots_steel", "prob": 30 },
+      { "item": "toecaps", "prob": 30 },
       { "item": "sneakers_steel", "prob": 21 }
     ]
   },
@@ -756,6 +757,7 @@
     "//2": "Not intended to be a set of clothing for NPCs or monsters",
     "items": [
       [ "boots_steel", 40 ],
+      { "item": "toecaps", "prob": 30 },
       [ "sneakers_steel", 28 ],
       [ "hat_hard", 40 ],
       [ "mesh_nape_protector", 10 ],
@@ -795,6 +797,7 @@
       [ "boots_rubber", 20 ],
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
+      { "item": "toecaps", "prob": 30 },
       [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
       [ "technician_coveralls", 15 ],
@@ -1370,6 +1373,7 @@
     "entries": [
       { "item": "skirt", "prob": 5 },
       { "item": "skirt_leather", "prob": 5 },
+      { "item": "skirt_long", "prob": 5 },
       { "item": "leggings", "prob": 3 },
       { "item": "tights", "prob": 4 },
       { "item": "hot_pants", "prob": 4 },
@@ -1384,6 +1388,7 @@
     "type": "item_group",
     "items": [
       [ "skirt", 40 ],
+      [ "skirt_long", 40 ],
       [ "skirt_leather", 5 ],
       [ "dress", 120 ],
       [ "sundress", 50 ],
@@ -1465,6 +1470,7 @@
     "entries": [
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
+      { "item": "skirt_long", "prob": 25 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
       { "item": "cheerleader_skirt", "prob": 1 },
@@ -1492,6 +1498,7 @@
       [ "motorbike_pants", 5 ],
       [ "breeches", 5 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 50 ],
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
@@ -1566,6 +1573,7 @@
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
       [ "duct_tape", 60 ],
+      [ "superglue", 20 ],
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
       [ "wolfsuit", 3 ],
@@ -1611,6 +1619,9 @@
       [ "fedora", 10 ],
       [ "straw_hat", 5 ],
       [ "straw_fedora", 5 ],
+      [ "cassock", 1 ],
+      [ "nun_habit", 1 ],
+      [ "nun_wimple", 1 ],
       [ "holy_symbol", 20 ],
       [ "kufi", 5 ],
       [ "kippah", 5 ],
@@ -1634,7 +1645,7 @@
       [ "eclipse_glasses", 1 ],
       [ "thermos", 20 ],
       [ "camera_bag", 5 ],
-      [ "quiver_takedown_bow", 1 ],
+      { "group": "archery_quivers", "prob": 1 },
       [ "santa_jacket", 1 ],
       [ "santa_jacket_short", 1 ],
       [ "santa_shorts", 1 ],
@@ -1673,6 +1684,7 @@
       [ "hood_ninja", 1 ],
       [ "balaclava_skull", 1 ],
       [ "mask_skull", 1 ],
+      [ "zombie_mask", 2 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],
       [ "trousers_ninja", 1 ],
@@ -1737,6 +1749,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 55 ],
       [ "skirt_leather", 5 ],
       [ "leggings", 15 ],
       [ "under_armor_shorts", 20 ],
@@ -1798,6 +1811,7 @@
       [ "leather_police_jacket", 8 ],
       [ "coat_rain", 50 ],
       [ "trenchcoat", 12 ],
+      [ "trenchcoat_steampunk", 1 ],
       [ "duster", 12 ],
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
@@ -2188,6 +2202,7 @@
       { "item": "pants_hiking", "prob": 2 },
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
+      { "item": "skirt_long", "prob": 55 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "tshirt", "prob": 70 },
       { "item": "longshirt", "prob": 80 },
@@ -2369,6 +2384,8 @@
       { "item": "thawb", "prob": 1 },
       { "item": "kittel", "prob": 1 },
       { "item": "cassock", "prob": 1 },
+      { "item": "nun_habit", "prob": 1 },
+      { "item": "nun_wimple", "prob": 1 },
       { "item": "robe", "prob": 5 },
       { "item": "eboshi", "prob": 1 },
       { "item": "kariginu", "prob": 1 },
@@ -2415,6 +2432,7 @@
       { "item": "hood_ninja", "prob": 1 },
       { "item": "balaclava_skull", "prob": 1 },
       { "item": "mask_skull", "prob": 1 },
+      { "item": "zombie_mask", "prob": 1 },
       { "item": "cheerleader_skirt", "prob": 5 },
       { "item": "cheerleader_skirt_short", "prob": 1 },
       { "item": "pants", "variant": "pants_flag", "prob": 5 },
@@ -2687,6 +2705,7 @@
       [ "sneakers", 80 ],
       [ "boots", 70 ],
       [ "boots_steel", 50 ],
+      { "item": "toecaps", "prob": 30 },
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 40 ],
       [ "dress_shoes", 50 ]
@@ -2711,6 +2730,7 @@
       [ "turtleneck_shirt", 25 ],
       [ "hoodie", 65 ],
       [ "jumpsuit", 20 ],
+      [ "lanyard", 10 ],
       [ "badge_doctor", 10 ],
       [ "hazmat_suit", 5 ],
       [ "cleansuit", 10 ]
@@ -2719,7 +2739,14 @@
   {
     "type": "item_group",
     "id": "lab_pants",
-    "items": [ [ "jeans", 90 ], [ "pants_checkered", 5 ], [ "pants", 75 ], [ "pants_cargo", 70 ], [ "skirt", 75 ] ]
+    "items": [
+      [ "jeans", 90 ],
+      [ "pants_checkered", 5 ],
+      [ "pants", 75 ],
+      [ "pants_cargo", 70 ],
+      [ "skirt", 75 ],
+      [ "skirt_long", 60 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2877,6 +2904,7 @@
     "entries": [
       { "item": "boots", "prob": 70 },
       { "item": "boots_steel", "prob": 50 },
+      { "item": "toecaps", "prob": 30 },
       { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
       { "item": "technician_coveralls", "prob": 15 },
@@ -3018,7 +3046,8 @@
       [ "armor_chitin", 2 ],
       [ "armor_junk_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
-      [ "armor_junk_plate", 1 ]
+      [ "armor_junk_plate", 1 ],
+      { "item": "chainmail_junk_hauberk", "prob": 1 }
     ]
   },
   {
@@ -3205,10 +3234,13 @@
       [ "dump_pouch", 6 ],
       [ "ragpouch", 22 ],
       [ "leather_pouch", 16 ],
+      { "group": "archery_loaded_quivers", "prob": 2 },
       [ "quiver", 10 ],
+      [ "nylon_quiver", 5 ],
       [ "quiver_birchbark", 4 ],
       [ "quiver_large", 6 ],
       [ "quiver_large_birchbark", 2 ],
+      [ "javelin_bag", 2 ],
       [ "wristwatch", 24 ],
       [ "diving_watch", 16 ],
       [ "pocketwatch", 14 ],
@@ -3256,6 +3288,7 @@
     "id": "museum_armor",
     "items": [
       { "item": "armor_junk_plate", "prob": 60, "damage": [ 2, 4 ] },
+      { "item": "chainmail_junk_hauberk", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "gloves_plate", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "boots_plate", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "armor_junk_lightplate", "prob": 45, "damage": [ 2, 4 ] },
@@ -3283,6 +3316,7 @@
     "id": "museum_armor_torso",
     "items": [
       { "item": "armor_junk_plate", "prob": 60, "damage": [ 2, 4 ] },
+      { "item": "chainmail_junk_hauberk", "prob": 60, "damage": [ 2, 4 ] },
       { "item": "armor_junk_lightplate", "prob": 45, "damage": [ 2, 4 ] },
       { "item": "cuirass_lightplate", "prob": 45, "damage": [ 2, 4 ] },
       { "item": "armor_lamellar", "prob": 20, "damage": [ 2, 4 ] },
@@ -3376,6 +3410,7 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 60 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],
@@ -3449,6 +3484,7 @@
       [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
       [ "robe", 50 ],
+      [ "trenchcoat_steampunk", 5 ],
       [ "santa_jacket", 1 ],
       [ "santa_jacket_short", 1 ],
       [ "santa_shorts", 1 ],
@@ -3479,6 +3515,8 @@
       [ "mummy_dress", 1 ],
       [ "witch_dress_long", 1 ],
       [ "witch_dress_short", 1 ],
+      [ "nun_habit", 1 ],
+      [ "nun_wimple", 1 ],
       [ "gloves_black", 5 ],
       [ "gloves_skeleton", 1 ],
       [ "gloves_claws", 1 ],
@@ -3487,6 +3525,7 @@
       [ "hood_ninja", 1 ],
       [ "balaclava_skull", 1 ],
       [ "mask_skull", 1 ],
+      [ "zombie_mask", 1 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],
       { "item": "pants", "variant": "pants_flag", "prob": 5 },
@@ -3830,7 +3869,12 @@
     "type": "item_group",
     "//": "womens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
-    "items": [ { "item": "nanoskirt", "prob": 10 }, { "item": "skirt", "prob": 50 }, { "item": "skirt_leather", "prob": 10 } ]
+    "items": [
+      { "item": "nanoskirt", "prob": 10 },
+      { "item": "skirt", "prob": 50 },
+      { "item": "skirt_long", "prob": 40 },
+      { "item": "skirt_leather", "prob": 10 }
+    ]
   },
   {
     "id": "pants_mens",
@@ -3911,7 +3955,8 @@
           { "item": "bookstrap", "prob": 5 },
           { "item": "camera_bag", "prob": 20 },
           { "item": "quiver_takedown_bow", "prob": 2 },
-          { "item": "quiver", "prob": 20 },
+          { "item": "nylon_quiver", "prob": 12 },
+          { "item": "quiver", "prob": 8 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },

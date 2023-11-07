@@ -102,6 +102,43 @@
   },
   {
     "type": "material",
+    "id": "fae_cotton",
+    "name": "gossamer",
+    "//": "Material for use in fae clothing.  It's 2/3rds the weight and 2/3rds as encumbering as cotton.",
+    "density": 1.05,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "chip_resist": 6,
+    "breathability": "GOOD",
+    "wind_resist": 70,
+    "repaired_with": "gossamer_patchwork",
+    "salvaged_into": "gossamer_patchwork",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 0.02 },
+      { "fuel": 2, "smoke": 1, "burn": 0.04 },
+      { "fuel": 3, "smoke": 1, "burn": 0.06 }
+    ],
+    "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 2, "bullet": 3 },
+    "repair_difficulty": 4
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, cotton sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "fae_cotton_quilted",
+    "name": "Quilted Gossamer",
+    "copy-from": "fae_cotton",
+    "repaired_with": "null",
+    "wind_resist": 75,
+    "//2": "Resist ratios between gossamer and quilted gossamer are the same as between cotton and quilted cotton.",
+    "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "bullet": 5 }
+  },
+  {
+    "type": "material",
     "id": "dreamstuff",
     "name": "Dreamdross",
     "//": "Brass is the base metal of dreamdross with one fourth the density and added breathability",

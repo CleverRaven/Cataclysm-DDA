@@ -384,6 +384,7 @@ bool SkillLevel::rust( int rust_resist, float rust_multiplier )
     }
 
     _rustAccumulator += rust_amount;
+    _exercise -= rust_amount;
     on_exercise_change();
 
     return false;

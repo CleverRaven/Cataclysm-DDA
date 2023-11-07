@@ -12,6 +12,7 @@
     "type": "AMMO",
     "name": { "str": ".38 Special" },
     "description": ".38 Special ammunition with a 130gr FMJ bullet.  The .38 Special round was extremely common among US police forces during the 20th century.",
+    "ascii_picture": "38_special",
     "weight": "13 g",
     "volume": "113 ml",
     "longest_side": "40 mm",

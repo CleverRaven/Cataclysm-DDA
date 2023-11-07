@@ -4,12 +4,26 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Seyfert 84K" },
+    "name": { "str": "10mm Pistol" },
     "description": "Commonly carried by shipping crews that can afford it, Seyfert Armistice's 84K pistol doesn't particularly shine or show anything special but it keeps you safe on long journeys in the vast dark of Orion's Arm.",
+    "variants": [
+      {
+        "id": "vatforged",
+        "name": { "str": "vatforged pistol" },
+        "description": "Across the Orion Arm, there exist pistols that possess subtle elegance, unmatched precision, or even just straightforward lethality.  This one simply shoots bullets.",
+        "weight": 3
+      },
+      {
+        "id": "branded",
+        "name": { "str": "Seyfert 84K" },
+        "description": "Commonly carried by shipping crews that can afford it, Seyfert Armistice's 84K pistol doesn't particularly shine or show anything special but it keeps you safe on long journeys in the vast dark of Orion's Arm.",
+        "weight": 3
+      }
+    ],
     "weight": "780 g",
     "volume": "480 ml",
     "longest_side": "205 mm",
-    "price": 59200,
+    "price": "450 USD",
     "to_hit": -2,
     "material": [ "plastic", "superalloy" ],
     "symbol": "(",
@@ -28,6 +42,41 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_84k_20mag" ]
+      }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "afs_marsec_4",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "MarSec. 4" },
+    "description": "Dependable, reliable, classic.  The Marsec.4 is the combat pistol made for those who can differentiate real quality from glued-on tech.",
+    "weight": "780 g",
+    "volume": "480 ml",
+    "longest_side": "205 mm",
+    "price": "1750 USD",
+    "to_hit": -2,
+    "material": [ "steel", "superalloy" ],
+    "modes": [ [ "DEFAULT", "semi-autoi", 1 ], [ "DOUBLE", "2rd burst", 2 ] ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "afs_10mm",
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
+    "dispersion": 320,
+    "durability": 8,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 570,
+    "built_in_mods": [ "barrel_ported" ],
+    "pocket_data": [
+      {
+        "magazine_well": "103 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_marsec_14mag" ]
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -58,6 +107,11 @@
         "id": "silverhawk",
         "name": { "str": "W1011 Silverhawk" },
         "description": "A Silvergram smart pistol given a far less conspicuous \"military carbon\" black finish.  Its performance and smart targeting capacities are otherwise identical."
+      },
+      {
+        "id": "lx",
+        "name": { "str": "W1011 Silvergram" },
+        "description": "A finely sculpted white and silver pistol entrusted to Wraitheon's corporate elite.  It employs advanced targeting and precision guiding capabilities to deliver devastating bursts of guided 10mm microjet darts.  Firing is as expensive as it looks."
       }
     ],
     "min_cycle_recoil": 570,

@@ -79,6 +79,12 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "place_food_warehouse",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "eddie_food_storage" ], "x": 6, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "helena_planer",
     "method": "json",
     "object": {

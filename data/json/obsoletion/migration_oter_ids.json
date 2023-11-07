@@ -34,6 +34,16 @@
   {
     "type": "oter_id_migration",
     "//": "migrated in 0.H",
+    "oter_ids": {
+      "basement_bionic_north": "basement_bionic_decoy_north",
+      "basement_bionic_east": "basement_bionic_decoy_east",
+      "basement_bionic_west": "basement_bionic_decoy_west",
+      "basement_bionic_south": "basement_bionic_decoy_south"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.H",
     "oter_ids": { "gunshow_0": "gunshow_0_north", "gunshow_1": "gunshow_1_north" }
   },
   {

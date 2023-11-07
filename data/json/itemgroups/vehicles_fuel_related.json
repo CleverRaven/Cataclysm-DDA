@@ -85,6 +85,7 @@
         "prob": 80
       },
       { "item": "duct_tape", "charges": [ 20, 200 ], "prob": 30 },
+      { "item": "superglue", "prob": 20 },
       { "distribution": [ { "item": "pockknife" }, { "item": "boxcutter" } ], "prob": 60 },
       { "item": "glowstick", "count": [ 0, 2 ], "charges": 1400, "prob": 30 },
       {
@@ -124,6 +125,7 @@
       [ "hose", 50 ],
       [ "jumper_cable", 30 ],
       [ "hand_pump", 30 ],
+      [ "folding_solar_panel_v2", 2 ],
       { "group": "bugout_bag", "prob": 3 }
     ]
   },
@@ -160,6 +162,7 @@
       [ "sunglasses", 20 ],
       [ "knife_swissarmy", 10 ],
       [ "eclipse_glasses", 1 ],
+      [ "folding_solar_panel_v2", 2 ],
       [ "thermos", 20 ]
     ]
   },

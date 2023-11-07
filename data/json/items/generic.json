@@ -883,7 +883,9 @@
     "volume": "750 ml",
     "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ],
-    "melee_damage": { "bash": 6, "cut": 8 }
+    "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 6, "cut": 8 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
@@ -2567,7 +2569,16 @@
     "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
     "volume": "1 ml",
     "price": 0,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "variants": [
+      {
+        "id": "dog_tag_dog_name",
+        "name": { "str": "dog tag" },
+        "description": "It says \"<dog_name>!\"",
+        "append": true,
+        "expand_snippets": true
+      }
+    ]
   },
   {
     "type": "GENERIC",

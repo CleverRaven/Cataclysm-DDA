@@ -792,7 +792,7 @@
     "time": "7 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -2258,5 +2258,95 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+  },
+  {
+    "result": "right_arm_prosthetic_wood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "armor_wood", 3 ], [ "fabric_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "time_multiplier": 1.1, "skill_penalty": 0.1 },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "prof_carpentry_basic", "time_multiplier": 1.2 }
+    ],
+    "components": [
+      [ [ "nail", 16 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "cotton_ball", 4 ], [ "straw_pile", 2 ], [ "withered", 7 ], [ "pine_bough", 5 ] ]
+    ]
+  },
+  {
+    "result": "left_arm_prosthetic_wood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "armor_wood", 3 ], [ "fabric_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "time_multiplier": 1.1, "skill_penalty": 0.1 },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5 },
+      { "proficiency": "prof_carpentry_basic", "time_multiplier": 1.2 }
+    ],
+    "components": [
+      [ [ "nail", 16 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "cotton_ball", 4 ], [ "straw_pile", 2 ], [ "withered", 7 ], [ "pine_bough", 5 ] ]
+    ]
+  },
+  {
+    "//": "1.71 time and material increase, based on light plate arm guards.",
+    "result": "right_arm_prosthetic_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ [ "tailor", 3 ] ],
+    "time": "1539 m",
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 14 ], [ "steel_standard", 3 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
+    "//": "1.71 time and material increase, based on light plate arm guards.",
+    "result": "left_arm_prosthetic_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ [ "tailor", 3 ] ],
+    "time": "1539 m",
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 14 ], [ "steel_standard", 3 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
+      { "proficiency": "prof_articulation" }
+    ]
   }
 ]

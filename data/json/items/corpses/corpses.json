@@ -160,6 +160,7 @@
     "name": { "str": "corpse" },
     "description": "An awful, almost unidentifiable mass of charred flesh.",
     "looks_like": "corpse_generic_human",
+    "source_monster": "mon_human_scorched",
     "material": [ "hflesh" ]
   },
   {

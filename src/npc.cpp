@@ -2481,8 +2481,7 @@ bool npc::is_walking_with() const
 
 bool npc::is_obeying( const Character &p ) const
 {
-    return ( p.is_avatar() && is_walking_with() && is_player_ally() ) ||
-           ( is_ally( p ) && is_stationary( true ) );
+    return is_ally( p ) && ( ( p.is_avatar() && is_walking_with() ) || is_stationary( true ) );
 }
 
 bool npc::is_following() const

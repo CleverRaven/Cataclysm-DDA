@@ -115,7 +115,14 @@
     "difficulty": 2,
     "time": "10 m",
     "batch_time_factors": [ 90, 4 ],
-    "book_learn": [ [ "alloy_book", 4 ] ],
+    "book_learn": [
+      [ "bronze_book", 2 ],
+      [ "bronze_mag", 3 ],
+      [ "alloy_book", 3 ],
+      [ "textbook_armwest", 3 ],
+      [ "textbook_weapwest", 4 ],
+      [ "textbook_armschina", 4 ]
+    ],
     "using": [ [ "forging_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -767,7 +774,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
+    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
   },
   {
     "result": "sheet_canvas",
@@ -783,7 +790,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
+    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
   },
   {
     "result": "sheet_canvas",
@@ -799,7 +806,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "electric_spinwheel", 181 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
+    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
   },
   {
     "result": "sheet_denim_patchwork",
@@ -1113,7 +1120,7 @@
       { "id": "FILE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ], [ "rosin", 1 ] ] ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax_any", 1, "LIST" ], [ "rosin", 1 ] ] ]
   },
   {
     "type": "recipe",

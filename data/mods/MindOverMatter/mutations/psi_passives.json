@@ -64,6 +64,16 @@
   },
   {
     "type": "mutation",
+    "id": "PHOTO_EYES",
+    "name": { "str": "Photon Regulation" },
+    "points": 0,
+    "description": "Your powers adapt the amount of photons your eyes receive.",
+    "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
+    "player_display": true,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "PYROGLOW_WEAK",
     "name": { "str": "Pyrokinetic Radiance [soft]" },
     "points": 0,

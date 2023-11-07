@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".30-06 Springfield" },
     "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
+    "ascii_picture": "3006",
     "weight": "25 g",
     "volume": "192 ml",
     "longest_side": "85 mm",
@@ -82,6 +83,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M14A1 tracer" },
     "description": ".30-06 M14A1 tracer ammunition to help keep the weapon it is fired from on target.",
+    "ascii_picture": "3006_incendiary",
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
@@ -90,6 +92,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP" },
     "description": "Armor piercing .30-06 M2 ammunition with a 168gr FMJ bullet.  It is an extremely powerful and accurate cartridge, but pays for its armor penetration abilities with lowered damage.",
+    "ascii_picture": "3006fmj",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
