@@ -232,12 +232,13 @@
         {
           "and": [
             {
-              "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+              "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
             },
             {
               "or": [
                 { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
                 { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+                { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
                 { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
                 { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
                 { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
