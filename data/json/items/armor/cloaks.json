@@ -135,14 +135,12 @@
       {
         "id": "leather_pride_flag",
         "name": { "str": "leather flag" },
-        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community.",
-        "weight": 1
+        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community."
       },
       {
         "id": "bear_pride_flag",
         "name": { "str": "bear flag" },
-        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner.",
-        "weight": 1
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner."
       }
     ]
   },

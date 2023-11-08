@@ -14,7 +14,6 @@
         "id": "us_ballistic_vest",
         "name": { "str": "US ballistic vest" },
         "description": "This version is patterned in multi-environment camouflage, and was standard-issue for the US Army.",
-        "weight": 1,
         "append": true
       },
       {
@@ -22,7 +21,6 @@
         "name": { "str": "SWAT ballistic vest" },
         "description": "This version is colored black, and was once used by specialized police forces.  \"SWAT\" is emblazoned on the back.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
     ],
@@ -541,7 +539,6 @@
         "name": { "str": "hexagonal light ballistic vest (mag pouches)", "str_pl": "hexagonal light ballistic vests (mag pouches)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
-        "weight": 1,
         "append": true
       },
       {
@@ -550,7 +547,6 @@
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
-        "weight": 1,
         "append": true
       },
       {
@@ -559,7 +555,6 @@
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ],
@@ -653,7 +648,6 @@
         "name": { "str": "hexagonal light ballistic vest (storage pouch)", "str_pl": "hexagonal light ballistic vests (storage pouch)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
-        "weight": 1,
         "append": true
       },
       {
@@ -662,7 +656,6 @@
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
-        "weight": 1,
         "append": true
       },
       {
@@ -671,7 +664,6 @@
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ],
@@ -750,7 +742,6 @@
         },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
-        "weight": 1,
         "append": true
       },
       {
@@ -759,7 +750,6 @@
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
-        "weight": 1,
         "append": true
       },
       {
@@ -768,7 +758,6 @@
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ],
@@ -828,15 +817,13 @@
       {
         "id": "security_stab_vest",
         "name": { "str": "security stab vest" },
-        "description": "A slim security vest used by mall cops.  Its protection is mostly meant to extend to knives and not actual bullets, but at least it kept insurance costs down.  It has \"SECURITY\" written on the front lapel and across the back, and features a pocket for a notebook and pen.",
-        "weight": 1
+        "description": "A slim security vest used by mall cops.  Its protection is mostly meant to extend to knives and not actual bullets, but at least it kept insurance costs down.  It has \"SECURITY\" written on the front lapel and across the back, and features a pocket for a notebook and pen."
       },
       {
         "id": "airsoft_stab_vest",
         "name": { "str": "airsoft vest" },
         "description": "A low-cost tactical vest styled in black camouflage, used in cosplay and airsoft.  It'll let you shrug off airsoft pellets like a badass, but its protection is mediocre against anything that's actually dangerous.  It sports several small pouches, and includes touch fasteners to attach identifying patches.",
-        "color": "dark_gray",
-        "weight": 1
+        "color": "dark_gray"
       }
     ],
     "description": "A simple Level II protection vest.",
@@ -899,15 +886,13 @@
       {
         "id": "security_armor_vest",
         "name": { "str": "security ballistic vest" },
-        "description": "A lightweight black vest used by private security, covering the chest and most of the abdomen.  Soft armor plates sealed inside the fabric provide solid defense against shrapnel and small-caliber rounds.  \"SECURITY\" is emblazoned on the front lapel and across the back, and it features a pocket for a notebook and pen.",
-        "weight": 1
+        "description": "A lightweight black vest used by private security, covering the chest and most of the abdomen.  Soft armor plates sealed inside the fabric provide solid defense against shrapnel and small-caliber rounds.  \"SECURITY\" is emblazoned on the front lapel and across the back, and it features a pocket for a notebook and pen."
       },
       {
         "id": "press_armor_vest",
         "name": { "str": "press ballistic vest" },
         "description": "Colored a distinctive navy blue and with a flared collar extending up to the chin, this soft body armor was once used by news crews reporting from combat zones.  It provides good protection from shrapnel, and to a lesser degree, low-caliber bullets.  \"PRESS\" is emblazoned prominently on the front lapel and across the back, and it features a pocket for a notebook and pen.",
-        "color": "blue",
-        "weight": 1
+        "color": "blue"
       }
     ],
     "variant_type": "generic",
@@ -984,20 +969,17 @@
         "id": "fema_armor_vest",
         "name": { "str": "humanitarian ballistic vest" },
         "description": "Bright blue in color, this slim armor vest was used by volunteers and officials from humanitarian groups during the first days of the Cataclysm before order broke down completely.  \"FEMA\" is written on the front lapel and across the back.",
-        "color": "blue",
-        "weight": 1
+        "color": "blue"
       },
       {
         "id": "police_armor_vest",
         "name": { "str": "police ballistic vest" },
-        "description": "This charcoal-colored body armor was once a common sight on police officers, and it provides adequate protection against small-caliber firearms in addition to featuring pouches to hold armor inserts.  \"POLICE\" is written on the front lapel and across the back.",
-        "weight": 1
+        "description": "This charcoal-colored body armor was once a common sight on police officers, and it provides adequate protection against small-caliber firearms in addition to featuring pouches to hold armor inserts.  \"POLICE\" is written on the front lapel and across the back."
       },
       {
         "id": "national_guard_armor_vest",
         "name": { "str": "National Guard ballistic vest" },
-        "description": "Styled in urban camo, this ballistic vest was issued to soldiers, and as things got worse, to volunteers as well.  It was designed to stand out after the chaos of the riots; \"US ARMY\" is emblazoned on the front lapel next to a patch of the United States flag, and \"NATIONAL GUARD\" is written across the back.",
-        "weight": 1
+        "description": "Styled in urban camo, this ballistic vest was issued to soldiers, and as things got worse, to volunteers as well.  It was designed to stand out after the chaos of the riots; \"US ARMY\" is emblazoned on the front lapel next to a patch of the United States flag, and \"NATIONAL GUARD\" is written across the back."
       }
     ],
     "variant_type": "generic",

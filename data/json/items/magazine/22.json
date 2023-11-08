@@ -27,8 +27,7 @@
       {
         "id": "a180mag",
         "name": { "str": "American-180 165-round magazine" },
-        "description": "An unusually-shaped pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped pan magazine for the American-180."
       }
     ],
     "weight": "760 g",
@@ -54,8 +53,7 @@
       {
         "id": "a180mag1",
         "name": { "str": "American-180 polymer 165-round magazine" },
-        "description": "An unusually-shaped, polymer pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped, polymer pan magazine for the American-180."
       }
     ],
     "weight": "500 g",
@@ -81,8 +79,7 @@
       {
         "id": "a180mag2",
         "name": { "str": "American-180 177-round magazine" },
-        "description": "An unusually-shaped pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped pan magazine for the American-180."
       }
     ],
     "weight": "600 g",
@@ -108,8 +105,7 @@
       {
         "id": "a180mag3",
         "name": { "str": "American-180 polymer 220-round magazine" },
-        "description": "An unusually-shaped polymer pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
       }
     ],
     "weight": "660 g",
@@ -135,8 +131,7 @@
       {
         "id": "a180mag4",
         "name": { "str": "American-180 polymer 275-round magazine" },
-        "description": "An unusually-shaped polymer pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
       }
     ],
     "weight": "770 g",
@@ -179,8 +174,7 @@
       {
         "id": "mosquitomag",
         "name": { "str": "SIG Mosquito 10-round magazine" },
-        "description": "A factory specification 10-round magazine for the SIG Mosquito.",
-        "weight": 1
+        "description": "A factory specification 10-round magazine for the SIG Mosquito."
       }
     ],
     "weight": "60 g",
@@ -205,8 +199,7 @@
       {
         "id": "ruger1022bigmag",
         "name": { "str": "Ruger 10/22 25-round magazine" },
-        "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25.",
-        "weight": 1
+        "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25."
       }
     ],
     "weight": "180 g",
@@ -231,8 +224,7 @@
       {
         "id": "ruger1022mag",
         "name": { "str": "Ruger 10/22 10-round rotary magazine" },
-        "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
-        "weight": 1
+        "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock."
       }
     ],
     "weight": "80 g",
@@ -258,8 +250,7 @@
       {
         "id": "sw22mag",
         "name": { "str": "22A 10-round magazine" },
-        "description": "A standard capacity magazine for the popular S&W 22A pistol.",
-        "weight": 1
+        "description": "A standard capacity magazine for the popular S&W 22A pistol."
       }
     ],
     "weight": "70 g",
@@ -284,8 +275,7 @@
       {
         "id": "j22mag",
         "name": { "str": "J-22 6-round magazine" },
-        "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
-        "weight": 1
+        "description": "A cheap 6-round steel box magazine for the Jennings J-22."
       }
     ],
     "weight": "55 g",
@@ -310,8 +300,7 @@
       {
         "id": "wp22mag",
         "name": { "str": "P22 10-round magazine" },
-        "description": "A 10-round box magazine for the Walther P22.",
-        "weight": 1
+        "description": "A 10-round box magazine for the Walther P22."
       }
     ],
     "weight": "25 g",

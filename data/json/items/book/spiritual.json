@@ -209,8 +209,7 @@
           "str_pl": "copies of the Talmud, Vol. 1, Tractate Berakhot (Part 1)"
         },
         "description": "This is volume 1 of 51, containing the first part of Tractate Berakhot.  It is concerned with rules relating to the Shema and the Amidah.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_02",
@@ -219,29 +218,25 @@
           "str_pl": "copies of the Talmud, Vol. 2, Tractate Berakhot (Part 2)"
         },
         "description": "This is volume 2 of 51, containing the second part of Tractate Berakhot.  It discusses rules relating to prayers, primarily those before or after eating but it also touches on prayers that occur on special occasions such as hearing thunder or being unexpectedly delivered from danger.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_03",
         "name": { "str": "Talmud, Vol. 3, Tractate Pe'ah", "str_pl": "copies of the Talmud, Vol. 3, Tractate Pe'ah" },
         "description": "This is volume 3 of 51, containing Tractate Pe'ah.  It discusses agriculture, of harvesting, and providing food for the poor.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_04",
         "name": { "str": "Talmud, Vol. 4, Tractate Demai", "str_pl": "copies of the Talmud, Vol. 4, Tractate Demai" },
         "description": "This is volume 4 of 51, containing Tractate Demai.  It discusses rules for dubiously-tithed produce.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_05",
         "name": { "str": "Talmud, Vol. 5, Tractate Kilayim", "str_pl": "copies of the Talmud, Vol. 5, Tractate Kilayim" },
         "description": "This is volume 5 of 51, containing Tractate Kilayim.  It discusses prohibitions on the mixing of different kinds, such as wearing wool and linen clothing or planting anything other than grapes in a vineyard.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_06",
@@ -250,8 +245,7 @@
           "str_pl": "copies of the Talmud, Vol. 6, Tractate Shevi'it (Part 1)"
         },
         "description": "This is volume 6a of 51, containing the first part of Tractate Shevi'it.  It discusses the Shemitah year, the seventh year where fields must lie fallow.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_07",
@@ -260,8 +254,7 @@
           "str_pl": "copies of the Talmud, Vol. 7, Tractate Shevi'it (Part 2)"
         },
         "description": "This is volume 7 of 51, containing the second part of Tractate Shevi'it.  It continues the discussion of the Shemitah year, the seventh year where fields must lie fallow.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_08",
@@ -270,8 +263,7 @@
           "str_pl": "copies of the Talmud, Vol. 8, Tractate Terumot (Part 1)"
         },
         "description": "This is volume 8 of 51, containing the first part of Tractate Terumot.  It discusses terumot, portions of agriculture produce that are given directly to the Kohanim priestly class.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_09",
@@ -280,29 +272,25 @@
           "str_pl": "copies of the Talmud, Vol. 9, Tractate Terumot (Part 2)"
         },
         "description": "This is volume 9 of 51, containing the second part of Tractate Terumot.  It continues the discussion of terumot, portions of agriculture produce that are given directly to the Kohanim priestly class.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_10",
         "name": { "str": "Talmud, Vol. 10, Tractate Maasrot", "str_pl": "copies of the Talmud, Vol. 10, Tractate Maasrot" },
         "description": "This is volume 10 of 51, containing Tractate Maasrot.  It discusses the separation of the harvest into tithes, and the portions given to the Tribe of Levi, the poor, or the people of Jerusalem.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_11",
         "name": { "str": "Talmud, Vol. 11, Tractate Maaser Sheni", "str_pl": "copies of the Talmud, Vol. 11, Tractate Maaser Sheni" },
         "description": "This is volume 11 of 51, containing Tractate Maaser Sheni.  It discusses the practice of consuming a portion of the yearly harvest in Jerusalem, or exchanging it for money used to buy food in Jerusalem to hold a feast.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_12",
         "name": { "str": "Talmud, Vol. 12, Tractate Challah", "str_pl": "copies of the Talmud, Vol. 12, Tractate Challah" },
         "description": "This is volume 12 of 51, containing Tractate Challah.  It discusses the practice of baking bread with the first portion of harvested grain and tithing it as an offering.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_13",
@@ -311,8 +299,7 @@
           "str_pl": "copies of the Talmud, Vol. 13, Tractates Orlah & Bikkurim"
         },
         "description": "This is volume 13 of 51, containing Tractates Orlah and Bikkurim.  Both tractates discuss the practice of letting a fruit tree grow for three years before harvesting it.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_14",
@@ -321,8 +308,7 @@
           "str_pl": "copies of the Talmud, Vol. 14, Tractate Shabbat (Part 1)"
         },
         "description": "This is volume 14 of 51, containing the first part of Tractate Shabbat.  It discusses the thirty-nine types of prohibited labor",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_15",
@@ -331,8 +317,7 @@
           "str_pl": "copies of the Talmud, Vol. 15, Tractate Shabbat (Part 2)"
         },
         "description": "This is volume 15 of 51, containing the second part of Tractate Shabbat.  It discusses the prohibitions of carrying items or transporting animals on Shabbat.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_16",
@@ -341,8 +326,7 @@
           "str_pl": "copies of the Talmud, Vol. 16, Tractate Shabbat (Part 3)"
         },
         "description": "This is volume 16 of 51, containing the third part of Tractate Shabbat.  It discusses the positive commandments of Shabbat, such as lighting candles and eating a festive meal, and continues the discussion of prohibited types of labor.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_17",
@@ -351,8 +335,7 @@
           "str_pl": "copies of the Talmud, Vol. 17, Tractate Eruvin (Part 1)"
         },
         "description": "This is volume 17 of 51, containing the first part of Tractate Eruvin.  It discusses the ways to expand the allowable areas in which one may carrying items or transport items on Shabbat.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_18",
@@ -361,8 +344,7 @@
           "str_pl": "copies of the Talmud, Vol. 18, Tractate Eruvin (Part 2)"
         },
         "description": "This is volume 18 of 51, containing the second part of Tractate Eruvin.  It continues discussing the ways to expand the allowable areas in which one may carrying items or transport items on Shabbat.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_19",
@@ -371,8 +353,7 @@
           "str_pl": "copies of the Talmud, Vol. 19, Tractate Pesachim (Part 1)"
         },
         "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the the proper disposal of leaven and the preparation of unleavened bread.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_20",
@@ -381,71 +362,61 @@
           "str_pl": "copies of the Talmud, Vol. 20, Tractate Pesachim (Part 2)"
         },
         "description": "This is volume 20 of 51, containing the second part of Tractate Pesachim.  It continues the discussion of laws relating to Passover, such as whether servants are allowed to slaughter the Passover sacrifice or what to do if the Seder occurs on a Friday night.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_21",
         "name": { "str": "Talmud, Vol. 21, Tractate Shekalim", "str_pl": "copies of the Talmud, Vol. 21, Tractate Shekalim" },
         "description": "This is volume 21 of 51, containing Tractate Shekalim.  It discusses the taxes paid to maintain the Temple and the priesthood.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_22",
         "name": { "str": "Talmud, Vol. 22, Tractate Yoma", "str_pl": "copies of the Talmud, Vol. 22, Tractate Yoma" },
         "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_23",
         "name": { "str": "Talmud, Vol. 23, Tractate Sukkah", "str_pl": "copies of the Talmud, Vol. 23, Tractate Sukkah" },
         "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_24",
         "name": { "str": "Talmud, Vol. 24, Tractate Beitzah", "str_pl": "copies of the Talmud, Vol. 24, Tractate Beitzah" },
         "description": "This is volume 24 of 51, containing Tractate Beitzah.  It discusses laws common to all Torah-derived holidays, such as prohibitions on work and the proper preparation of food.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_25",
         "name": { "str": "Talmud, Vol. 25, Tractate Rosh Hashanah", "str_pl": "copies of the Talmud, Vol. 25, Tractate Rosh Hashanah" },
         "description": "This is volume 25 of 51, containing Tractate Rosh Hashanah.  It discusses rituals and laws related to Rosh Hashanah, such as blowing the shofar, as well as the proper way to celebrate the festival of a new month.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_26",
         "name": { "str": "Talmud, Vol. 26, Tractate Taanit", "str_pl": "copies of the Talmud, Vol. 26, Tractate Taanit" },
         "description": "This is volume 26 of 51, containing Tractate Taanit.  It discusses laws related to fasting, as well as proper method of praying for rain to avoid famine.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_27",
         "name": { "str": "Talmud, Vol. 27, Tractate Megillah", "str_pl": "copies of the Talmud, Vol. 27, Tractate Megillah" },
         "description": "This is volume 27 of 51, containing Tractate Megillah.  It discusses laws of reading the Book of Esther on Purim, as well as commentary on the story of Esther itself.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_28",
         "name": { "str": "Talmud, Vol. 28, Tractate Chagigah", "str_pl": "copies of the Talmud, Vol. 28, Tractate Chagigah" },
         "description": "This is volume 28 of 51, containing Tractate Chagigah.  It discusses the practice of offering ritual sacrifices at the Temple on festival days, with frequent interruptions to discuss the Book of Genesis.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_29",
         "name": { "str": "Talmud, Vol. 29, Tractate Moed Katan", "str_pl": "copies of the Talmud, Vol. 29, Tractate Moed Katan" },
         "description": "This is volume 29 of 51, containing Tractate Moed Katan.  It discusses Chol HaMoed, the minor holidays in between the first and last days of Sukkot and Passover.  It also has the famous story of the Oven of Akhnai, from which the principle is derived that \"The Torah is not in heaven\".",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_30",
@@ -454,8 +425,7 @@
           "str_pl": "copies of the Talmud, Vol. 30, Tractate Yevamot (Part 1)"
         },
         "description": "This is volume 30 of 51, containing the first part of Tractate Yevamot.  It deals with the laws of Yibbum, often translated as \"Levirate marriage,\" the requirement of a man to marry his brother's widow.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_31",
@@ -464,8 +434,7 @@
           "str_pl": "copies of the Talmud, Vol. 31, Tractate Yevamot (Part 2)"
         },
         "description": "This is volume 31 of 51, containing the second part of Tractate Yevamot.  It continues the discussion of the laws of Yibbum, often translated as \"Levirate marriage,\" and the circumstances in which it does or does not apply.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_32",
@@ -474,8 +443,7 @@
           "str_pl": "copies of the Talmud, Vol. 32, Tractate Ketubot (Part 1)"
         },
         "description": "This is volume 32 of 51, containing the first part of Tractate Ketubot.  It discusses the marriage contract (Ketubah), and the marital obligations between husband and wife.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_33",
@@ -484,15 +452,13 @@
           "str_pl": "copies of the Talmud, Vol. 33, Tractate Ketubot (Part 2)"
         },
         "description": "This is volume 33 of 51, containing the second part of Tractate Ketubot.  It continues the discussion of the marriage contract, as well as divorce and giving formal testimony.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_34",
         "name": { "str": "Talmud, Vol. 34, Tractate Nedarim", "str_pl": "copies of the Talmud, Vol. 34, Tractate Nedarim" },
         "description": "This is volume 34 of 51, containing Tractate Nedarim.  It deals with the making and breaking of vows and the conditions under which vows are automatically void.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_35",
@@ -501,8 +467,7 @@
           "str_pl": "copies of the Talmud, Vol. 35, Tractate Nazir (Part 1)"
         },
         "description": "This is volume 35 of 51, containing the first part of Tractate Nazir.  It deals with Nazirites, who make vows to abstain from wine, cutting their hair, and avoiding contact with the dead.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_36",
@@ -511,8 +476,7 @@
           "str_pl": "copies of the Talmud, Vol. 36, Tractate Nazir (Part 2)"
         },
         "description": "This is volume 36 of 51, containing the second part of Tractate Nazir.  It continues the discussion of Nazirite vows, as well as the transmission of ritual impurity between objects.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_37",
@@ -521,8 +485,7 @@
           "str_pl": "copies of the Talmud, Vol. 37, Tractate Sotah (Part 1)"
         },
         "description": "This is volume 37 of 51, containing the first part of Tractate Sotah.  It contains a discussion of the sotah, or \"bitter water\", ritual for a woman suspected of adultery by her husband.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_38",
@@ -531,8 +494,7 @@
           "str_pl": "copies of the Talmud, Vol. 38, Tractate Sotah (Part 2)"
         },
         "description": "This is volume 38 of 51, containing the second part of Tractate Sotah.  It continues a discussion of the sotah, as well as a long discussion over the entrance of the Israelites into the land of Israel.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_39",
@@ -541,8 +503,7 @@
           "str_pl": "copies of the Talmud, Vol. 39, Tractate Gittin (Part 1)"
         },
         "description": "This is volume 39 of 51, containing the first part of Tractate Gittin.  It discusses the Get, the formal document of divorce, and the specifications for its preparation and writing.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_40",
@@ -551,36 +512,31 @@
           "str_pl": "copies of the Talmud, Vol. 40, Tractate Gittin (Part 2)"
         },
         "description": "This is volume 40 of 51, containing the second part of Tractate Gittin.  It continues the discussion of the Get, as well the process of  \"Tikkun Olam\", or repairing the world.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_41",
         "name": { "str": "Talmud, Vol. 41, Tractate Kiddushin", "str_pl": "copies of the Talmud, Vol. 41, Tractate Kiddushin" },
         "description": "This is volume 41 of 51, containing Tractate Kiddushin.  It discusses the laws of betrothal and the rules governing interactions between unmarried men and women.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_42",
         "name": { "str": "Talmud, Vol. 42, Tractate Bava Kamma", "str_pl": "copies of the Talmud, Vol. 42, Tractate Bava Kamma" },
         "description": "This is volume 42 of 51, containing Tractate Bava Kamma.  It discusses torts and the proper ways to deal with damages inflicted on people and property.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_43",
         "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Meztia" },
         "description": "This is volume 43 of 51, containing Tractate Bava Metzia.  It discusses interpersonal disputes such as lost property, renting, and obligations of workers and employers, with a digression into how great sages who spend their lives studying Torah are.  It also reiterates the story of the Oven of Akhnai.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_44",
         "name": { "str": "Talmud, Vol. 44, Tractate Bava Basra", "str_pl": "copies of the Talmud, Vol. 44, Tractate Bava Basra" },
         "description": "This is volume 44 of 51, containing Tractate Bava Basra.  It discusses business relationships and the laws of inheritance.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_45",
@@ -589,8 +545,7 @@
           "str_pl": "copies of the Talmud, Vol. 45, Tractate Sanhedrin (Part 1)"
         },
         "description": "This is volume 45 of 51, containing the first part of Tractate Sanhedrin.  It discusses the selection of judges and the formation of courts.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_46",
@@ -599,15 +554,13 @@
           "str_pl": "copies of the Talmud, Vol. 46, Tractate Sanhedrin (Part 2)"
         },
         "description": "This is volume 46 of 51, containing the first part of Tractate Sanhedrin.  It continues the discussion of judges, the punishments administered by the courts, and ends with a discussion of who will have a place in Olam Haba, the afterlife.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_47",
         "name": { "str": "Talmud, Vol. 47, Tractate Shevuot", "str_pl": "copies of the Talmud, Vol. 47, Tractate Shevuot" },
         "description": "This is volume 47 of 51, containing Tractate Shevuot.  It discusses formal oaths, such as those taken by witnesses in court.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_48",
@@ -616,8 +569,7 @@
           "str_pl": "copies of the Talmud, Vol. 48, Tractate Avodah Zara (Part 1)"
         },
         "description": "This is volume 48 of 51, containing the first part of Tractate Avodah Zara.  It discusses forbidden idolatry and the laws regulating contact and commerce with idolators.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_49",
@@ -626,8 +578,7 @@
           "str_pl": "copies of the Talmud, Vol. 49, Tractate Avodah Zara (Part 2)"
         },
         "description": "This is volume 49 of 51, containing the second part of Tractate Avodah Zara.  It continues the discussion of contact and commerce with idolators, including the prohibition on buying or consuming wine that may have been used in sacrifices to idols.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_50",
@@ -636,15 +587,13 @@
           "str_pl": "copies of the Talmud, Vol. 50, Tractates Makkot & Horayot"
         },
         "description": "This is volume 50 of 51, containing Tractates Makkot and Horayot.  Tractate Makkot discusses punishments administered by a court of law and Tractate Horayot discuss redress for errors committed by the court and how to atone for sins committed by kings, high priests, and other officials.",
-        "append": true,
-        "weight": 1
+        "append": true
       },
       {
         "id": "holybook_talmud_51",
         "name": { "str": "Talmud, Vol. 51, Tractate Niddah", "str_pl": "copies of the Talmud, Vol. 51, Tractate Niddah" },
         "description": "This is volume 51 of 51, containing Tractate Niddah.  It discusses the ritual status of a menstruating woman, the prohibition on marital relations, and different kinds of bloody discharges.",
-        "append": true,
-        "weight": 1
+        "append": true
       }
     ]
   },

@@ -16,8 +16,7 @@
       {
         "id": "TDI",
         "name": { "str": "Vector SMG .45" },
-        "description": "The Vector SMG is a delayed blowback submachine gun with a unique, in-line design that places both the shooter's hand and shoulder in line with the bore axis, reducing muzzle climb during bursts.  This one is chambered in .45 ACP.",
-        "weight": 1
+        "description": "The Vector SMG is a delayed blowback submachine gun with a unique, in-line design that places both the shooter's hand and shoulder in line with the bore axis, reducing muzzle climb during bursts.  This one is chambered in .45 ACP."
       }
     ],
     "weight": "3100 g",
@@ -66,8 +65,7 @@
       {
         "id": "hk_ump45",
         "name": { "str": "H&K UMP45" },
-        "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
-        "weight": 1
+        "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber."
       }
     ],
     "ascii_picture": "hk_ump",
@@ -119,8 +117,7 @@
         "id": "m1911",
         "name": { "str": "M1911" },
         "//": "You can get 'em for over US$1K if you want.  This is a fairly cheap remake.",
-        "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
-        "weight": 1
+        "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today."
       },
       {
         "id": "m1911_MEU",
@@ -160,8 +157,7 @@
       {
         "id": "mac_10",
         "name": { "str": "MAC-10" },
-        "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years it was the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
-        "weight": 1
+        "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years it was the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms."
       }
     ],
     "weight": "2810 g",
@@ -354,8 +350,7 @@
       {
         "id": "tommygun",
         "name": { "str": "Thompson M1928A1" },
-        "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and used during World War II before being mostly replaced with less-expensive alternatives.",
-        "weight": 1
+        "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and used during World War II before being mostly replaced with less-expensive alternatives."
       }
     ],
     "weight": "4899 g",
@@ -411,8 +406,7 @@
       {
         "id": "usp_45",
         "name": { "str": "USP .45" },
-        "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
-        "weight": 1
+        "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse."
       },
       {
         "id": "mk23",
@@ -444,8 +438,7 @@
       {
         "id": "walther_ppq_45",
         "name": { "str": "Walther PPQ 45" },
-        "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP.",
-        "weight": 1
+        "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP."
       }
     ],
     "weight": "799 g",
@@ -476,8 +469,7 @@
       {
         "id": "hptjhp",
         "name": { "str": "Hi-Point Model JHP" },
-        "description": "The Hi-Point Model JHP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
-        "weight": 1
+        "description": "The Hi-Point Model JHP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides."
       }
     ],
     "weight": "990 g",
@@ -509,8 +501,7 @@
       {
         "id": "glock_21",
         "name": { "str": "Glock 21" },
-        "description": "A full-sized version of the highly successful Glock.  This model is chambered in .45 ACP.",
-        "weight": 1
+        "description": "A full-sized version of the highly successful Glock.  This model is chambered in .45 ACP."
       }
     ],
     "ascii_picture": "glock_20",
@@ -545,8 +536,7 @@
       {
         "id": "greasegun",
         "name": { "str": "M3 SMG" },
-        "description": "An American-made submachine gun developed during WWII as an alternative to Thompson M1928A1 and used at least till early 1990s.  Simple, cheap, and somewhat crude, the M3 was still quite an effective weapon, mostly made from sheet metal to reduce costs and speed up production.  In times of active use, it was considered as a disposable weapon, which is more expedient to replace than to repair.  Unfortunately, you cannot afford such wastefulness, unlike this submachine gun, which is devoid of even a fire selector for semi-auto fire.",
-        "weight": 1
+        "description": "An American-made submachine gun developed during WWII as an alternative to Thompson M1928A1 and used at least till early 1990s.  Simple, cheap, and somewhat crude, the M3 was still quite an effective weapon, mostly made from sheet metal to reduce costs and speed up production.  In times of active use, it was considered as a disposable weapon, which is more expedient to replace than to repair.  Unfortunately, you cannot afford such wastefulness, unlike this submachine gun, which is devoid of even a fire selector for semi-auto fire."
       }
     ],
     "weight": "3700 g",

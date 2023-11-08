@@ -2324,8 +2324,7 @@
       {
         "id": "tardis_case",
         "name": { "str": "police call box smartphone case" },
-        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
-        "weight": 1
+        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box."
       },
       {
         "id": "black_smart_phone_case",
@@ -2870,20 +2869,17 @@
       {
         "id": "bspace_case",
         "name": { "str": "Black Universe smartphone case" },
-        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies.",
-        "weight": 1
+        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies."
       },
       {
         "id": "wspace_case",
         "name": { "str": "White Universe smartphone case" },
-        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots.",
-        "weight": 1
+        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots."
       },
       {
         "id": "zombie_case",
         "name": { "str": "zombie smartphone case" },
-        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?",
-        "weight": 1
+        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?"
       }
     ],
     "pocket_data": [
@@ -3265,7 +3261,6 @@
         "id": "condom_flavored_jalapeno",
         "name": { "str": "jalapeno flavored condom" },
         "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "weight": 1,
         "append": true
       }
     ],
