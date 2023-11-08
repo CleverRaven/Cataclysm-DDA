@@ -27,6 +27,7 @@ There are three primary categories of mods:
 ## What is necessary for a mod to be included in the repository?
 
 The most crucial criteria for a mod to be in the CleverRaven repository is that it has someone acting as a curator. This ensures that there is someone who is keeping an eye out for possible problems with the mod, and helping steer its development so that it continues to develop in accordance with its design purpose.
+In some rare cases we might treat a mod as an important but optional extension of the game itself, such as for some accessibility or development mods. When that happens, the 'curator' is the developer and contributor team collectively, just as with Dark Days Ahead itself. We try to do this sparingly, due to the obvious difficulty of pushing volunteers towards tasks they aren't personally interested in.
 
 Furthermore, there are additional criteria:
 
