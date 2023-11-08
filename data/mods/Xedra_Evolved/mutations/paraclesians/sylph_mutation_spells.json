@@ -79,7 +79,6 @@
     "type": "SPELL",
     "name": "Crash of lightning",
     "description": "The crash of lightning strikes your foes with a blast of electricity and a physical force that knocks them prone.",
-    "skill": "deduction",
     "spell_class": "SYLPH",
     "teachable": false,
     "effect": "attack",
