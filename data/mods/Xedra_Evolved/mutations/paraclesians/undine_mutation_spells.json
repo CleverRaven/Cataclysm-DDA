@@ -89,7 +89,6 @@
     "description": "You become more buoyant.",
     "skill": "deduction",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
     "spell_class": "UNDINE",
     "teachable": false,
     "min_duration": 6000,
