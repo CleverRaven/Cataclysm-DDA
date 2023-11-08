@@ -153,6 +153,11 @@
             { "u_has_item": "condom" }
           ]
         }
+      },
+      {
+        "text": "So about those condoms.  I thought of a good use for them…",
+        "topic": "TALK_REFUGEE_Alonso_Too_Young",
+        "condition": { "math": [ "u_val('age')", "<", "18" ] }
       }
     ]
   },
@@ -423,6 +428,12 @@
       { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Too_Young",
+    "text": "Alonso think maybe you're too young for Alonso.",
+    "responses": [ { "text": "Sigh.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
