@@ -922,6 +922,11 @@
     "batch_time_factors": [ 25, 2 ],
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
+    "book_learn" : [
+      [ "textbook_fabrication", 3 ],
+      [ "manual_mechanics", 3 ],
+      [ "manual_fabrication", 3 ]
+    ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
