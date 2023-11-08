@@ -107,6 +107,26 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "photokinetic_radiation_attack_monster"",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Radiation Attack Monster" },
+    "valid_targets": [ "hostile" ],
+    "description": "Applies an effect that causes radiation to the target.  It's a bug if you have it.",
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_radiation_aura",
+    "damage_type": "psi_photokinetic_damage",
+    "max_level": 30,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 5,
+    "max_range": 25,
+    "range_increment": 1,
+    "min_duration": 100,
+    "max_duration": 300
+  },
+  {
     "id": "photokinetic_light_flash_monster",
     "type": "SPELL",
     "name": "[Ψ]Star Flash Monster",
