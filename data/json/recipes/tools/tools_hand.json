@@ -1694,11 +1694,7 @@
     "time": "5 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
-    "book_learn" : [
-      [ "textbook_fabrication", 3 ],
-      [ "manual_mechanics", 3 ],
-      [ "manual_fabrication", 3 ]
-    ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
