@@ -2669,6 +2669,47 @@
   },
   {
     "type": "effect_type",
+    "id": "pre_common_cold",
+    "name": [ "Getting Sick" ],
+    "desc": [
+      "You are coming down with some kind of sickness.  It's too early to tell how bad it's going to be, but it might be a good idea to find a safe place to rest."
+    ],
+    "apply_memorial_log": "Started getting sick.",
+    "apply_message": "You feel a sickness coming on…",
+    "rating": "bad",
+    "resist_effects": [ "took_flumed" ],
+    "base_mods": {
+      "thirst_tick": [ 3600 ],
+      "thirst_min": [ 1 ],
+      "fatigue_tick": [ 600 ],
+      "fatigue_min": [ 1 ],
+      "str_mod": [ -1, 0 ],
+      "cough_chance": [ 600, 0 ]
+    }
+  },
+  {
+    "//": "For player, indistinguishable from pre_cold, but separate here to allow for separate resistances from flu shot/antibodies.",
+    "type": "effect_type",
+    "id": "pre_flu",
+    "name": [ "Getting Sick" ],
+    "desc": [
+      "You are coming down with some kind of sickness.  It's too early to tell how bad it's going to be, but it might be a good idea to find a safe place to rest."
+    ],
+    "apply_memorial_log": "Started getting sick.",
+    "apply_message": "You feel a sickness coming on…",
+    "rating": "bad",
+    "resist_effects": [ "took_flumed" ],
+    "base_mods": {
+      "thirst_tick": [ 3600 ],
+      "thirst_min": [ 1 ],
+      "fatigue_tick": [ 600 ],
+      "fatigue_min": [ 1 ],
+      "str_mod": [ -1, 0 ],
+      "cough_chance": [ 600, 0 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "common_cold",
     "name": [ "Common Cold" ],
     "desc": [ "You have contracted the 'Common Cold'.  Symptoms can be alleviated by medication (cough syrup)." ],
@@ -2727,7 +2768,7 @@
     "id": "common_cold_immunity",
     "name": [ "Common Cold Antibodies" ],
     "desc": [ "Common cold antibodies in your bloodstream prevent you from catching common cold." ],
-    "blocks_effects": [ "common_cold" ],
+    "blocks_effects": [ "common_cold", "pre_common_cold" ],
     "rating": "good",
     "blood_analysis_description": "Common Cold Antibodies",
     "max_duration": 14515200,
@@ -2748,7 +2789,7 @@
     "id": "flushot",
     "name": [ "Vaccinated" ],
     "desc": [ "You have been vaccinated for the flu recently." ],
-    "blocks_effects": [ "flu" ],
+    "blocks_effects": [ "flu", "pre_flu" ],
     "rating": "good",
     "blood_analysis_description": "Antivirals",
     "max_duration": 14515200,
