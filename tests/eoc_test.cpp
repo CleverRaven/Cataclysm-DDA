@@ -43,12 +43,22 @@ effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_addiction( "EOC_math_addiction" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_w_vars( "EOC_math_diag_w_vars" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_field( "EOC_math_field" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_item_count( "EOC_math_item_count" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_proficiency( "EOC_math_proficiency" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_spell( "EOC_math_spell" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_spell_xp( "EOC_math_spell_xp" );
 static const effect_on_condition_id
@@ -417,6 +427,22 @@ TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "zombie" );
 }
 
+TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_add_intensity" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_add_turn" ).empty() );
+    CHECK( effect_on_condition_EOC_math_addiction->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_add_intensity" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_add_turn" ) == "3600" );
+}
+
 TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -435,6 +461,95 @@ TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 4 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
+}
+
+TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    get_map().add_field( get_avatar().pos(), fd_blood, 3 );
+    get_map().add_field( get_avatar().pos() + point_south, fd_blood_insect, 3 );
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength_north" ).empty() );
+    CHECK( effect_on_condition_EOC_math_field->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_field_strength" ) == "3" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_field_strength_north" ) == "3" );
+}
+
+TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_item_count" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_charge_count" ).empty() );
+    CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "300" );
+}
+
+TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_total_time_required" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_spent_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_percent_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_percent_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_permille_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_permille_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_left_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_left_50_turn" ).empty() );
+    CHECK( effect_on_condition_EOC_math_proficiency->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_total_time_required" ) == "86400" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_time_spent_50" ) == "50" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_percent_50" ) == "50" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_percent_50_turn" ) == "43200" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_permille_50" ) == "50" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_permille_50_turn" ) == "4320" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_time_left_50" ) == "50" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_time_left_50_turn" ) == "86350" );
+}
+
+TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_school_level_test_trait" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count_test_trait" ).empty() );
+    CHECK( effect_on_condition_EOC_math_spell->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_level" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ) == "10" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_school_level_test_trait" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count" ) == "2" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count_test_trait" ) == "1" );
+
+    get_avatar().magic->evaluate_opens_spellbook_data();
+
+    CHECK( get_avatar().magic->get_spell( spell_test_eoc_spell ).get_effective_level() == 4 );
 }
 
 TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
@@ -844,7 +959,7 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     temp_spell.cast_all_effects( get_avatar(), tripoint() );
 
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "MAGUS" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "test_trait" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
     CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "150" );
     CHECK( globvars.get_global_value( "npctalk_var_key5" ) == "100" );
