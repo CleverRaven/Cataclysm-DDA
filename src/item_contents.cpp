@@ -729,7 +729,7 @@ struct item_contents::item_contents_helper {
     // find_pocket_for with less code duplication
     template<typename ItemContents>
     using pocket_type = std::conditional_t <
-                        std::is_const<ItemContents>::value,
+                        std::is_const_v<ItemContents>,
                         const item_pocket,
                         item_pocket
                         >;
