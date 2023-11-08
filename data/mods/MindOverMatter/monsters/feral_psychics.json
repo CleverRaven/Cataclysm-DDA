@@ -456,7 +456,7 @@
       {
         "id": "psi_photokin2_radiation_blast",
         "type": "spell",
-        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 4 },
+        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 7 },
         "cooldown": 25,
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
@@ -542,7 +542,7 @@
       {
         "id": "psi_photokin3_radiation_blast",
         "type": "spell",
-        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 7 },
+        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
         "cooldown": 20,
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
