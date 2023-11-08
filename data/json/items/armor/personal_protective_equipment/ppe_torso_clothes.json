@@ -202,5 +202,59 @@
       "msg": "You hurriedly zip up the coat, roll down your cuffs, and put on the chemical hood.",
       "target": "mopp_jacket_expended"
     }
+  },
+  {
+    "id": "ozk_coat",
+    "type": "ARMOR",
+    "name": { "str": "OZK overcoat" },
+    "description": "An old, double-rubber-lined NBC trench coat from the Soviet Union with an elasticized chemical hood and sleaves, this mass-produced article of PPE prevents harmful chemicals from penetrating your body by cocooning you in a glorified envelope of rubber.  While the garment’s excellent at keeping you safe from NBC hazards, it also prevents either heat or perspiration from escaping, rendering you a sweaty mess in even mildly hot climates.  Popular before the Cataclysm for practical use among fisherman and mushroom gatherers and a collector's item in surplus circles, the suit must be paired with a gasmask, chemical overboots, and gloves for complete NBC protection.",
+    "//": "This coat shouldn’t be added to military loot spawns, common civilian clothing, or regular sources of clothing loot. It should only appear in sensible collector settings or as last-ditch NBC protection somebody would have shoved in a bag during a bugout scenario.",
+    "weight": "2240 g",
+    "volume": "4250 ml",
+    "price": 15500,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ { "type": "rubber", "portion": 3 }, { "type": "canvas", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "green",
+    "warmth": 60,
+    "material_thickness": 1.5,
+    "//2": "The coat’s constructed around an internal canvas layer coated by dual layers of rubber, as modelled in the material specifications. I wasn’t particularly in the mood to slice up my OZK to measure the exact thickness of each individual strata, so the material thicknesses are based on my best guess.",
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100,
+        "encumbrance": [ 15 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 25 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 ml",
+        "max_contains_weight": "100 g",
+        "description": "An internal micro-pocket.",
+        "moves": 300,
+        "//": "Move cost's stupidly high as it’s a teeny tiny rubberized pocket on the inside of the suit with an overhanging flap and an opening barely big enough for two fingers. It’s only really practical for spare lace storage."
+      }
+    ]
   }
 ]
