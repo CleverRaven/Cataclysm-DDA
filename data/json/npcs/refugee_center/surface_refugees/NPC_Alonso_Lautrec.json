@@ -120,7 +120,14 @@
       {
         "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
-        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "PRETTY" },
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "u_has_item": "condom" }
+          ]
+        }
       },
       {
         "text": "So about those condoms.  I thought of a good use for them…",
@@ -130,6 +137,7 @@
             { "not": { "u_has_trait": "PRETTY" } },
             { "not": { "u_has_trait": "UGLY" } },
             { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -137,7 +145,14 @@
       {
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "UGLY" },
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "u_has_item": "condom" }
+          ]
+        }
       }
     ]
   },
