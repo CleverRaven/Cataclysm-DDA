@@ -98,7 +98,7 @@
     "copy-from": "762_51",
     "type": "AMMO",
     "name": { "str_sp": "7.62x51mm NATO M993" },
-    "description": "A 7.62x51mm NATO round with a 126gr tungsten carbide core for improved armor penetration, in exchange of damage penalty.",
+    "description": "An armor piercing 7.62x51mm round with a 126gr, tungsten carbide core projectile.  It offers significantly better armor penetration than standard ball rounds at the cost of worse wounding potential in soft tissue.",
     "ascii_picture": "762_51_ap",
     "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
   },
