@@ -665,7 +665,7 @@ struct itype_variant_data {
     // Expand the description when generated and save it on the item
     bool expand_snippets = false;
 
-    int weight = 0;
+    int weight = 1;
 
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
