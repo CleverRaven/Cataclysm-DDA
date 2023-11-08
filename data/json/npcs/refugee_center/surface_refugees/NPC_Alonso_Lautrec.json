@@ -432,7 +432,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Too_Young",
-    "text": "Alonso think maybe you're too young for Alonso.",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Alonso think maybe you're too young for Alonso.",
+      "yes": "Sorry kid, i can't do this, i still have some rules to follow."
+    },
     "responses": [ { "text": "Sigh.", "topic": "TALK_DONE" } ]
   },
   {
