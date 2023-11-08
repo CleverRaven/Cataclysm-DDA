@@ -369,6 +369,7 @@
     "base_mods": { "hit_mod": [ -2 ] }
   },
   {
+    "type": "effect_type",
     "id": "blind_photokin_overload",
     "name": [ "Blind" ],
     "desc": [ "Overwhelming light obscures your vision." ],
