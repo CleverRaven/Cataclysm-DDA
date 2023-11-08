@@ -394,7 +394,7 @@
     "copy-from": "modular_exosuit",
     "type": "TOOL_ARMOR",
     "name": { "str": "light exosuit frame" },
-    "description": "This is a light duty exosuit frame.  this lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor."
+    "description": "This is a light duty exosuit frame.  this lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.",
     "weight": "30 kg",
     "volume": "130 L",
     "symbol": "t",
@@ -548,13 +548,13 @@
         "encumbrance": 20,
         "layers": [ "OUTER" ]
       },
-	  {
-		  "material": [ { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1 } ],
-		  "covers" [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-		  "coverage": 90,
-		  "encumbrance": 10,
-		  "layers": [ "OUTER" ]
-	  }
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1 } ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
     ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
@@ -619,6 +619,13 @@
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 40,
         "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1 } ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
       }
     ]
   }
