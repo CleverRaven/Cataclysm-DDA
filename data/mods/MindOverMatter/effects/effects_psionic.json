@@ -823,10 +823,10 @@
     "rating": "neutral",
     "show_in_info": true,
     "base_mods": { "hit_mod": [ 4 ] },
-    "max_duration": "5 h",
+    "max_duration": "45 m",
     "max_intensity": 297,
     "dur_add_perc": 10,
-    "int_dur_factor": "63 s"
+    "int_dur_factor": "9 s"
   },
   {
     "type": "effect_type",
