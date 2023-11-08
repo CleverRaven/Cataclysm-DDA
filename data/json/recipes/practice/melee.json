@@ -244,7 +244,9 @@
       { "proficiency": "prof_long_swords_familiar", "required": true },
       { "proficiency": "prof_long_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "katana", "longsword" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ "katana", "longsword" ], [ "water", "water_clean" ] ],
+    "//1": "Standard Blade Training Cost",
+    "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
   {
     "id": "prac_cutting_beg_great_sword",
@@ -281,8 +283,9 @@
       { "proficiency": "prof_great_swords_familiar", "required": true },
       { "proficiency": "prof_great_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "zweihander", "nodachi", "kriegsmesser" ], [ "pseudo_training_dummy_heavy" ] ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
+    "tools": [ [ "zweihander", "nodachi", "kriegsmesser" ], [ "water", "water_clean" ] ],
+    "//1": "Standard Blade Training Cost",
+    "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
   {
     "id": "prac_cutting_beg_bionic_sword",
@@ -317,7 +320,9 @@
       { "proficiency": "prof_bionic_swords_familiar", "required": true },
       { "proficiency": "prof_bionic_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ "bio_blade_weapon" ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ "bio_blade_weapon" ], [ "water", "water_clean" ] ],
+    "//1": "Standard Blade Training Cost",
+    "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
   {
     "id": "prac_cutting_beg_great_axe",
@@ -802,10 +807,9 @@
       { "proficiency": "prof_medium_swords_familiar", "required": true },
       { "proficiency": "prof_medium_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "arming_sword", "cavalry_sabre", "cutlass", "sword_sheets_welded" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ "arming_sword", "cavalry_sabre", "cutlass", "sword_sheets_welded" ], [ "water", "water_clean" ] ],
+    "//1": "Standard Blade Training Cost",
+    "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
   {
     "id": "prac_cutting_beg_short_sword",
@@ -842,10 +846,9 @@
       { "proficiency": "prof_short_swords_familiar", "required": true },
       { "proficiency": "prof_short_swords_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [
-      [ "sword_xiphos", "khopesh", "machete", "survivor_machete" ],
-      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
-    ]
+    "tools": [ [ "sword_xiphos", "khopesh", "machete", "survivor_machete" ], [ "water", "water_clean" ] ],
+    "//1": "Standard Blade Training Cost",
+    "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
   {
     "id": "prac_bashing_beg_staff",
