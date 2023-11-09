@@ -42,7 +42,7 @@
     "type": "SPELL",
     "name": "[Ψ]Trick of the Light",
     "description": "Manipulate the light around your body, creating small illusions and becoming harder to hit.\n\nAn enemy successfully hitting you will <color_red>disrupt the power</color>.",
-    "message": "",
+    "message": "You are surrounded by shifting illusions.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",

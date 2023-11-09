@@ -779,16 +779,10 @@
     "dur_add_perc": 10,
     "int_dur_factor": "24 s",
     "blocks_effects": [ "grabbed" ],
-    "base_mods": { "dodge_mod": [ 3 ] },
+    "base_mods": { "dodge_mod": [ 6 ] },
     "enchantments": [
       {
         "values": [
-          {
-            "value": "BONUS_DODGE",
-            "add": {
-              "math": [ "( ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
-            }
-          },
           {
             "value": "EVASION",
             "add": {
