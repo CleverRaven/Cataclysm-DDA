@@ -60,7 +60,7 @@
         "coverage": 5,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
-        "difficulty": {  "ranged": 5, "melee": 4 },
+        "difficulty": { "ranged": 5, "melee": 4 },
         "effects": [
           {
             "effect": "stunned",
