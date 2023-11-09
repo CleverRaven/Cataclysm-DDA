@@ -436,7 +436,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "KA-BAR knife", "str_pl": "KA-BAR knives" },
-    "description": "The KA-BAR was developed by the United States Marine Corps in 1942 by modifying hunting knife designs to be more soldier-proof.  The handle is made of stacked leather washers, and the blade is an easy to sharpen high carbon steel, making for a popular fighting, hunting and utility knife.  The blade is marked 'USMC'.",
+    "description": "The KA-BAR was developed by the United States Marine Corps in 1942 by modifying hunting knife designs to be more soldier-proof.  The handle is made of stacked leather washers, and the blade is made of easy to sharpen high carbon steel, making for a popular fighting, hunting and utility knife.  The blade is marked 'USMC'.",
     "weight": "320 g",
     "volume": "255 ml",
     "longest_side": "30 cm",
