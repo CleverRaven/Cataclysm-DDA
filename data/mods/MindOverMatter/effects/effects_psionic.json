@@ -786,7 +786,7 @@
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "(1 + ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+              "math": [ "( ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 12) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
           },
           {
