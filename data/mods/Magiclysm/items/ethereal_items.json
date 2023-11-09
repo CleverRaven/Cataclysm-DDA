@@ -348,6 +348,7 @@
       "NO_UNLOAD",
       "WATERPROOF_GUN",
       "NO_TURRET",
+      "RELOAD_AND_SHOOT",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
