@@ -58,6 +58,9 @@ Allow NPC doctors to install and remove CBMs from player allies
 Look up and down with 3d vision off
 Add ignored_monster_species spell parameter
 Monsters affiliated with factions will watch for theft of faction items
+Adds a confirmation prompt if you are the target, or in the AoE of, your own damaging spell.
+Ledges provide sight coverage
+Add foreach function to EoC
 Add Map related EoC functions
 
 
@@ -105,6 +108,8 @@ Add some backstory to Eddie McKenzie.
 Add some prosthetics.
 Added Bulk Storage Mounds and Piles for More Resources
 Add undomesticated wild rabbits
+Updates the Portal Dependent mechanics and introduces rewards for exploring the portal dungeons.
+Cyberhorse... CYBERHORSE!
 
 
 ## Interface:
@@ -139,6 +144,10 @@ Enable history for AIM and inventory filters
 Make zone manager display more of zone name
 Show estimated time when washing items
 Selecting container mode for unloaded items
+Explain why wielding an item from pick-up menu fails
+Switch crafter in crafting menu to and from an ally
+Add favorite category to spell casting menu
+Allow scanning several books into ereader at once
 Add milling info to milleable items
 Add spell class selecter to spell casting menu
 
@@ -189,6 +198,9 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
+Add Sense Minds Telepathic power
+Add scaling to Metaphysics XP gain from powers, add penalty for power failure
+Add the HAS_MIND flag to appropriate monsters in in-repo mods
 XE: Add gossamer material and clothing
 XE:  transformation potions to top level alchemy perk
 MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
@@ -229,8 +241,10 @@ Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
 Improved path for intelligent monsters
+Make safe place starts safer
+Touch up pawn shops with better loot
+Prevent staunching bleeding while driving
 Threatening to kill NPCs(recruitment) is more likely to make them hostile
-
 
 
 ## Bugfixes:
@@ -346,6 +360,7 @@ Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
 EVENT EOCs provide beta talker
 [EOC]Inventory selector
+Replaced the use of the arbitrary body temperature scale in game logic with units::temperature/units::temperature_delta
 [EoC] Simple if-else statement
 
 
