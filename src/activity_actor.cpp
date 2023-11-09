@@ -3815,6 +3815,15 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
     popup( res, PF_GET_KEY );
 }
 
+static bool is_bulk_unload( const item_location &lhs, const item_location &rhs )
+{
+    if( lhs.where() == item_location::type::container &&
+        rhs.where() == item_location::type::container && lhs.parent_item() == rhs.parent_item() ) {
+        return true;
+    }
+    return false;
+}
+
 // Return a list of items to be dropped by the given item-dropping activity in the current turn.
 static std::list<item> obtain_activity_items(
     std::vector<drop_or_stash_item_info> &items,
@@ -3822,6 +3831,7 @@ static std::list<item> obtain_activity_items(
     Character &who )
 {
     std::list<item> res;
+    bool bulk_unload = false;
 
     debug_drop_list( items );
 
@@ -3833,9 +3843,22 @@ static std::list<item> obtain_activity_items(
             continue;
         }
 
-        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        int consumed_moves;
+        if( !bulk_unload ) {
+            // Cost to take an item from a container or map
+            consumed_moves = loc.obtain_cost( who, it->count() );
+        } else {
+            // Pure cost to handling item excluding overhead.
+            consumed_moves = std::max( who.item_handling_cost( *loc, true, 0, it->count(), true ), 1 );
+        }
         if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
             break;
+        }
+
+        // Check if next is bulk unload before moving item.
+        auto it_next = std::next( it );
+        if( it_next != items.end() && it_next->loc() ) {
+            bulk_unload = is_bulk_unload( loc, it_next->loc() );
         }
 
         who.mod_moves( -consumed_moves );
