@@ -9,29 +9,25 @@
       {
         "id": "book_lockpick",
         "name": { "str": "MIT Guide to Lock Picking", "str_pl": "copies of MIT Guide to Lock Picking" },
-        "description": "A home-made booklet with large black-and-white pictures of several types of modern locks and general information on how to crack them open.",
-        "weight": 1
+        "description": "A home-made booklet with large black-and-white pictures of several types of modern locks and general information on how to crack them open."
       },
       {
         "id": "book_lockpick_1",
         "name": { "str": "The CIA Lockpicking Manual", "str_pl": "copies of The CIA Lockpicking Manual" },
         "description": "It says it is a reproduction of the United States Central Intelligence Agency’s Field Operative Training Manual that describes how to lockpick.  For such a big name it has a surprisingly small amount of information, only covering the topic on a very basic level.",
-        "//": "978-1420957556",
-        "weight": 1
+        "//": "978-1420957556"
       },
       {
         "id": "book_lockpick_2",
         "name": { "str": "Keys To The Kingdom", "str_pl": "copies of Keys To The Kingdom" },
         "description": "This book contain lots of information for experienced lockpickers, like possible tools that can be used, different types of locks that were produced, and even some tips to avoid lockpicking - sometimes it's easier to break a lock, door, or even wall itself.",
-        "//": "978-1597499835",
-        "weight": 1
+        "//": "978-1597499835"
       },
       {
         "id": "book_lockpick_3",
         "name": { "str": "E-Z Picking Manual", "str_pl": "copies of E-Z Picking Manual" },
         "description": "The combined experience of a few different locksmiths of how to do it properly, what skillset is required, and where it is legal to use it.  It says it comes with a DVD, but you can't find it anywhere nearby.",
-        "//": "no info",
-        "weight": 1
+        "//": "no info"
       }
     ],
     "weight": "400 g",

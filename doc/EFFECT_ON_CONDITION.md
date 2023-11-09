@@ -59,6 +59,30 @@ Talker, in context of effect on condition, is any entity, that can use specific 
 
 For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant, check the player as beta talker, despite the id imply it should be `npc_`; This is a legacy of dialogue system, from which EoC was extended, and won't be fixed, since dialogues still use it fully
 
+### Typical Alpha and Beta Talkers by cases
+
+| EOC                                              | Alpha (possible types)      | Beta (possible types)       |
+| ------------------------------------------------ | ----------------------      | --------------------------- |
+| Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |
+| Talk with monster                                | player (Avatar)             | monster (monster)           |
+| Use computer                                     | player (Avatar)             | computer (Furniture)        |
+| furniture: "examine_action"                      | player (Avatar)             | NONE                        |
+| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
+| use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 |
+| tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
+| countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
+| COMESTIBLE: "consumption_effect_on_conditions"   | user (Character)            | item (item)                 |
+| activity_type: "completion_eoc"                  | character (Character)       | NONE                        |
+| activity_type: "do_turn_eoc"                     | character (Character)       | NONE                        |
+| addiction_type: "effect_on_condition"            | character (Character)       | NONE                        |
+| bionics: "activated_eocs"                        | character (Character)       | NONE                        |
+| bionics: "deactivated_eocs"                      | character (Character)       | NONE                        |
+| bionics: "processed_eocs"                        | character (Character)       | NONE                        |
+| mutation: "activated_eocs"                       | character (Character)       | NONE                        |
+| mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
+| mutation: "processed_eocs"                       | character (Character)       | NONE                        |
+| recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
+
 ## Value types
 
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
@@ -94,6 +118,9 @@ Variable object is a value, that changes due some conditions. Variable can be in
 
 - If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
 - If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
+
+For example, imagine you have context variable `{ "context_val": "my_best_spell" }`, and this `my_best_gun` variable contain text `any_random_gun`; also you have a `{ "global_val": "any_random_gun" }`, and this `any_random_gun` variable happened to contain text `ak47`
+With both of this, you can use effect `"u_spawn_item": { "var_val": "my_best_gun" }`, and the game will spawn `ak47`, since it is what is stored inside `my_best_gun` global variable
 
 The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
@@ -918,6 +945,7 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 - Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
 - `anywhere`, `line_of_sight`, `around` are possible
   - `anywhere` is the same as the "look around" UI
+  - `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)
   - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
 - `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
 - `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
@@ -1648,17 +1676,17 @@ Checks the level of `some_spell` spell, and, related to this, cast a spell of pi
 Executes the effect repeatedly while storing the values ​​of a specific list one by one in the variable.
 
 | Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "foreach" | **mandatory** | string | Type of list. `"ids"`, `"item_group"`, `"monstergroup"`, `"array"` are available. | 
-| "var" | **mandatory** | [variable objects](#variable-object) | Variable to store value in the list. | 
+| --- | --- | --- | --- |
+| "foreach" | **mandatory** | string | Type of list. `"ids"`, `"item_group"`, `"monstergroup"`, `"array"` are available. |
+| "var" | **mandatory** | [variable objects](#variable-object) | Variable to store value in the list. |
 | "effect" | **mandatory** | effect | Effect(s) executed. |
-| "target" | **mandatory** | See below | Changes depending on the value of "foreach". See below. | 
+| "target" | **mandatory** | See below | Changes depending on the value of "foreach". See below. |
 
 The correspondence between "foreach" and "target" is as follows.
 
 | "foreach" | Value | Info |
-| --- | --- | --- 
-| "ids" | string | List the IDs of objects that appear in the game. `"flag"`, `"trait"`, `"vitamin"` are available. |
+| --- | --- | --- |
+| "ids" | string | List the IDs of objects that appear in the game. `"bodypart"`, `"flag"`, `"trait"`, `"vitamin"` are available. |
 | "item_group" | string | List the IDs of items in the item group. |
 | "monstergroup" | string | List the IDs of monsters in the monster group. |
 | "array" | array of strings or [variable objects](#variable-object) | List simple strings. |
@@ -1666,7 +1694,7 @@ The correspondence between "foreach" and "target" is as follows.
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
+| ------ | --------- | --------- | ---- | ------- | --- |
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
@@ -1754,7 +1782,7 @@ Run EOCs on items in your or NPC's inventory
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
-| "search_data" | optional | N/A | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item;<br/>`flags`- flag or flags the item has<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "search_data" | optional | N/A | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
 | "true_eocs" / "false_eocs" | optional | range of eocs | if item was picked successfully, all `true_eocs` are run, otherwise all `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
 
@@ -1834,7 +1862,7 @@ Open a menu, that allow to select one of multiple options
 | "keys" | optional | single character | a character, that would be used as a shortcut to pick each EoC; amount of keys should be equal amount of EoCs | 
 | "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` | 
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
-| "hide_failing" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
+| "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoCs; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 ##### Valid talkers:
 
@@ -1857,6 +1885,39 @@ you can pick one of four options from `Choose your destiny` list;
     "Gives you twice as bad, but condition is not met, so you can't pick it up"
   ]
 }
+```
+
+#### `run_eoc_until`
+Run EoC multiple times, until specific condition would be met
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "run_eoc_until" | **mandatory** | string or [variable object](#variable-object) | EoC that would be run multiple times |
+| "condition" | **mandatory** | string or [variable object](#variable-object) | name of condition, that would be checked; doesn't support inline condition, so it should be specified in `set_condition` somewhere before the effect; **condition should return "false" to terminate the loop** | 
+| "iteration" | optional | int or [variable object](#variable-object) | default 100; amount of iteration, that is allowed to run; if amount of iteration exceed this number, EoC is stopped, and game sends the error message | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+`EOC_until_nested` is run until `my_variable` hit 10; in this case 10 times
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "my_variable", "<", "10" ] } },
+      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+  },
 ```
 
 ## Character effects
@@ -2990,6 +3051,65 @@ NPC is prevented from death.
   "required_event": "character_dies",
   "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
   "effect": [ "u_prevent_death" ]
+}
+```
+
+#### `u_attack`, `npc_attack`
+Alpha or beta talker forced to use a technique or special attack
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_attack" / "npc_attack" | **mandatory** | string, boolean or [variable object](#variable-object) | technique, that would be used; `"tec_none"` can be used, in this case a default autoattack would be used |
+| "allow_special" | optional | boolean | default true; if true, special attacks should be selected (`special_attack` that monsters can use, like `monster_attack` or `spell`) | 
+| "allow_unarmed" | optional | boolean | default true; if true, unarmed techniques can be considered | 
+| "forced_movecost" | optional | int or [variable object](#variable-object) | default -1; If used, attack will consume this amount of moves (100 moves = 1 second); negative value make it use the default movecost of attack | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+you use autoattack
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_test",
+  "effect": [ { "u_attack": "tec_none" } ]
+},
+```
+
+mutator `valid_technique` return random technique, that alpha talker can use; this technique is set into `random_attack` global variable; then you attack using this technique
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_mutator",
+  "effect": [
+    { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "random_attack" } },
+    { "u_attack": { "global_val": "random_attack" } }
+  ]
+}
+```
+
+Picks random pankration technique, assign it to `pankration_random_attack`, and use it in attack
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_random_tech",
+  "effect": [
+    {
+      "set_string_var": [
+        "tec_pankration_cross",
+        "tec_pankration_kick",
+        "tec_pankration_grabknee",
+        "tec_pankration_grabdisarm",
+        "tec_pankration_grabthrow"
+      ],
+      "target_var": { "context_val": "pankration_random_attack" }
+    },
+    { "u_attack": { "context_val": "pankration_random_attack" } }
+  ]
 }
 ```
 

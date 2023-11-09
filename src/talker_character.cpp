@@ -17,6 +17,8 @@
 #include "weather.h"
 
 class time_duration;
+
+static const flag_id json_flag_FIT( "FIT" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 talker_character::talker_character( Character *new_me )
@@ -531,8 +533,19 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
-void talker_character::i_add_or_drop( item &new_item )
+void talker_character::i_add_or_drop( item &new_item, bool force_equip )
 {
+    if( force_equip ) {
+        if( me_chr->can_wear( new_item ).success() ) {
+            new_item.set_flag( json_flag_FIT );
+            me_chr->wear_item( new_item, false );
+            return;
+        } else if( !me_chr->has_wield_conflicts( new_item ) &&
+                   !me_chr->martial_arts_data->keep_hands_free && //No wield if hands free
+                   me_chr->wield( new_item ) ) {
+            return;
+        }
+    }
     me_chr->i_add_or_drop( new_item );
 }
 
@@ -659,6 +672,16 @@ int talker_character_const::pain_cur() const
 double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
 {
     return me_chr_const->worn.damage_resist( dt, bp );
+}
+
+int talker_character_const::coverage_at( bodypart_id &id ) const
+{
+    return me_chr_const->worn.get_coverage( id );
+}
+
+int talker_character_const::encumbrance_at( bodypart_id &id ) const
+{
+    return me_chr_const->encumb( id );
 }
 
 void talker_character::mod_pain( int amount )

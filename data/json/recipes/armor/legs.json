@@ -326,11 +326,11 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "6 h",
+    "reversible": { "time": "30 m" },
     "book_learn": [ [ "scots_tailor", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "using": [ [ "fabric_leather_hide", 7 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
-    "byproducts": [ [ "leather", 2 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 7 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
   },
   {
     "result": "kilt",
@@ -1046,8 +1046,8 @@
     "difficulty": 4,
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 5 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "leather", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_small", 1 ] ],
+    "byproducts": [ [ "leather", 7 ], [ "scrap_leather", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -1551,7 +1551,7 @@
     "time": "8 h",
     "autolearn": true,
     "reversible": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

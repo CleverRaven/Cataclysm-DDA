@@ -1,0 +1,9 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt40mm_full",
+    "container-item": "ammo_can_pa120_40x53_32",
+    "//": "add some foam to fill the thing?",
+    "items": [ { "item": "belt40mm", "count": 1, "charges-min": 32, "charges-max": 32 } ]
+  }
+]

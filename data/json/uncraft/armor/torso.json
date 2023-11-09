@@ -109,7 +109,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "45 m",
+    "time": "20 m",
     "components": [ [ [ "sheet_faux_fur_patchwork", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {

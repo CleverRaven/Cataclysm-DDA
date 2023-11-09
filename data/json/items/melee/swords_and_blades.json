@@ -103,8 +103,7 @@
       {
         "id": "sword_sheets_welded",
         "name": { "str": "welded sword" },
-        "description": "A vicious single-edged sword made out of sheet metal layered twice over itself then welded together.  It's not as robust as a proper forged sword, but the edge is wickedly sharp.",
-        "weight": 1
+        "description": "A vicious single-edged sword made out of sheet metal layered twice over itself then welded together.  It's not as robust as a proper forged sword, but the edge is wickedly sharp."
       },
       {
         "id": "sword_sheets_bolted",
@@ -137,8 +136,7 @@
       {
         "id": "sword_sheets_welded_large",
         "name": { "str": "welded greatsword" },
-        "description": "A long-handled single-edged sword made out of sheet metal layered thrice over itself then welded together.  The extra length and weight makes it a tad awkward, but gives it a lot of slashing power.",
-        "weight": 1
+        "description": "A long-handled single-edged sword made out of sheet metal layered thrice over itself then welded together.  The extra length and weight makes it a tad awkward, but gives it a lot of slashing power."
       },
       {
         "id": "sword_sheets_bolted_large",
@@ -246,8 +244,7 @@
       {
         "id": "switchblade_balisong",
         "name": { "str": "balisong" },
-        "description": "A flashy knife with hinged handles that completely conceal the blade while folded.  Popular among movie gangbangers and people who thought fidget spinners were too safe.",
-        "weight": 1
+        "description": "A flashy knife with hinged handles that completely conceal the blade while folded.  Popular among movie gangbangers and people who thought fidget spinners were too safe."
       },
       {
         "id": "switchblade_generic",
@@ -778,7 +775,6 @@
         "name": { "str": "tempered combat machete" },
         "description": "This common gardening tool has been customized, rebalanced and quench tempered to dramatically improve its performance as a weapon.",
         "color": "dark_gray",
-        "weight": 1,
         "append": false
       },
       {

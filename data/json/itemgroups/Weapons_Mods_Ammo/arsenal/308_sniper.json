@@ -3,7 +3,12 @@
     "type": "item_group",
     "id": "milspec_arsenal_308_sniper_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_308_sniper_gun&ammo" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
+    "items": [
+      { "group": "milspec_arsenal_308_sniper_gun&ammo" },
+      {
+        "distribution": [ { "item": "ammo_can_30_308ap_240", "count": [ 1, 4 ] }, { "item": "ammo_can_30_308fmj_460", "count": [ 1, 4 ] } ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -11,8 +16,8 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_308_sniper_gun&mags" },
-      { "group": "ammo_can_308_full", "prob": 30 },
-      { "group": "ammo_can_308_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_308_any_full", "prob": 30 },
+      { "group": "ammo_can_308_any_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -74,23 +79,5 @@
     "id": "scar_mags",
     "type": "item_group",
     "items": [ { "item": "scarhmag", "prob": 500 }, { "item": "scarhmag_30rd", "prob": 50 }, { "item": "scarhbigmag", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_308_full",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_box_308", "count": 32 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_308_part",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_box_308", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_308",
-    "container-item": "ammunition_box_308",
-    "items": [ [ "308", 20 ] ]
   }
 ]

@@ -272,6 +272,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "2 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ] ],
     "proficiencies": [
@@ -296,6 +297,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "4 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -320,6 +322,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
@@ -340,6 +343,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
     "proficiencies": [
@@ -721,6 +725,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "3 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1131,6 +1136,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "5 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1176,6 +1182,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "4 h",
+    "book_learn": [ [ "bronze_book", 5 ] ],
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
@@ -1352,6 +1359,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "4 h",
+    "book_learn": [ [ "bronze_book", 4 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1682,5 +1690,30 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "thread_cutting_set",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "5 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "DRILL", "level": 2 }
+    ],
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "hotcut", -1 ] ] ]
   }
 ]
