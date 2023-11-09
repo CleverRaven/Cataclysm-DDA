@@ -137,8 +137,7 @@
       {
         "id": "plr16",
         "name": { "str_sp": "Kel-Tec PLR16" },
-        "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
-        "weight": 1
+        "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard."
       }
     ],
     "weight": "1800 g",
@@ -294,8 +293,7 @@
         "id": "modular_m27iar",
         "name": { "str": "M27 IAR" },
         "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
-        "ascii_picture": "m27_iar",
-        "weight": 1
+        "ascii_picture": "m27_iar"
       },
       {
         "id": "modular_m38dmr",
@@ -435,8 +433,7 @@
       {
         "id": "hk_g36",
         "name": { "str": "H&K G36" },
-        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much lighter .223 round, allowing for a higher ammo capacity.",
-        "weight": 1
+        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much lighter .223 round, allowing for a higher ammo capacity."
       }
     ],
     "to_hit": -1,
@@ -544,8 +541,7 @@
         "id": "modular_m4a1",
         "name": { "str": "M4A1" },
         "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
-        "ascii_picture": "modular_m4a1",
-        "weight": 1
+        "ascii_picture": "modular_m4a1"
       }
     ],
     "to_hit": -1,
@@ -617,8 +613,7 @@
       {
         "id": "m4_cqbr",
         "name": { "str": "Mk 18 CQBR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
-        "weight": 1
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
     "to_hit": -1,
@@ -690,8 +685,7 @@
       {
         "id": "modular_m16a4",
         "name": { "str": "M16A4" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
-        "weight": 1
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil."
       }
     ],
     "to_hit": -1,
@@ -758,8 +752,7 @@
       {
         "id": "modular_m16a3",
         "name": { "str": "M16A3" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
-        "weight": 1
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
       },
       {
         "id": "modular_acr",
@@ -967,8 +960,7 @@
       {
         "id": "sig553",
         "name": { "str": "SIG 553" },
-        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
-        "weight": 1
+        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock."
       }
     ],
     "to_hit": -1,
@@ -1024,8 +1016,7 @@
       {
         "id": "steyr_aug",
         "name": { "str": "Steyr AUG" },
-        "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
-        "weight": 1
+        "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy."
       }
     ],
     "to_hit": -1,
@@ -1068,8 +1059,7 @@
       {
         "id": "zpapm90",
         "name": { "str": "ZPAP M90" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.",
-        "weight": 1
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
     "weight": "3402 g",
@@ -1114,8 +1104,7 @@
       {
         "id": "zpap85",
         "name": { "str": "ZPAP 85" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock",
-        "weight": 1
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock"
       }
     ],
     "weight": "2563 g",
@@ -1159,8 +1148,7 @@
       {
         "id": "mdrx",
         "name": { "str": "Desert Tech MDRX" },
-        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout.",
-        "weight": 1
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout."
       }
     ],
     "weight": "3080 g",
@@ -1234,8 +1222,7 @@
       {
         "id": "bren2_556",
         "name": { "str": "CZ Bren 2" },
-        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles.",
-        "weight": 1
+        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       }
     ],
     "weight": "3450 g",
@@ -1304,8 +1291,7 @@
       {
         "id": "cz600",
         "name": { "str": "CZ 600 TRAIL" },
-        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers.",
-        "weight": 1
+        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
       }
     ],
     "weight": "1800 g",
@@ -1376,8 +1362,7 @@
       {
         "id": "rdb_223",
         "name": { "str_sp": "Kel-Tec RDB" },
-        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly.",
-        "weight": 1
+        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly."
       }
     ],
     "weight": "3200 g",

@@ -1,39 +1,154 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_PYROKIN_CALL_FLAME_SELECTOR",
+    "id": "EOC_PYROKIN_CALL_FLAME_INITIATE",
+    "condition": { "not": { "u_has_item": "pyrokinetic_fire_tool" } },
     "effect": [
+      { "u_message": "Flames begin dancing in the air above your hand.", "type": "good" },
+      { "u_spawn_item": "pyrokinetic_fire_tool", "suppress_message": true, "force_equip": true },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
       {
-        "run_eoc_selector": [ "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT", "EOC_SPELL_PYROKIN_CALL_FLAME_LONG", "EOC_PORTAL_NULL_AWAKENING" ],
-        "names": [ "Banked Flame (short-term)", "Banked Flame (long-term)", "Nevermind" ],
-        "keys": [ "1", "2", "3" ],
-        "descriptions": [
-          "Summon a banked flame for a short period of time, perhaps 5-10 minutes.",
-          "Summon a banked flame for a longer period of time, over an hour.  This is of necessity more draining than summoning it for a short period of time.",
-          "Do nothing for now."
+        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
         ]
+      }
+    ],
+    "false_effect": [
+      { "u_remove_item_with": "pyrokinetic_fire_tool" },
+      { "u_message": "The flames over your hand gutter and die out.", "type": "bad" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (2500 - (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) ), 800)" ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT",
+    "id": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+    "condition": { "u_has_item": "pyrokinetic_fire_tool" },
     "effect": [
-      { "u_remove_item_with": "pyrokinetic_fire_tool" },
-      { "u_cast_spell": { "id": "pyrokin_call_flame_short_term" } },
-      { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          },
+          {
+            "math": [
+              "( (u_val('spell_level', 'spell: pyrokinetic_call_flames') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_WARMTH_CLOAK_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_pyrokinetic_cloak" } },
+    "effect": [
+      { "u_message": "You heat the nearby air to a comfortable temperature.", "type": "good" },
+      { "u_add_effect": "effect_pyrokinetic_cloak", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 30) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_pyrokinetic_cloak" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (3500 - (u_val('spell_level', 'spell: pyrokinetic_cloak') * 175) ), 1250)" ]
+      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_PYROKIN_CALL_FLAME_LONG",
+    "id": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+    "condition": { "u_has_effect": "effect_pyrokinetic_cloak" },
     "effect": [
-      { "u_remove_item_with": "pyrokinetic_fire_tool" },
-      { "u_cast_spell": { "id": "pyrokin_call_flame_long_term" } },
-      { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 30) + 180) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_cloak') * 60) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_TORCH_WELD_INITIATE",
+    "condition": { "not": { "u_has_item": "pyrokinetic_torch_weld" } },
+    "effect": [
+      { "u_message": "A searing line of flame springs forth from your finger.", "type": "good" },
+      { "u_spawn_item": "pyrokinetic_torch_weld", "suppress_message": true, "force_equip": true },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 120) + 3600) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 360) + 7200) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_remove_item_with": "pyrokinetic_torch_weld" },
+      { "u_message": "The line of fire vanishes in an instant.", "type": "bad" },
+      {
+        "math": [ "u_val('stamina')", "+=", "max( (4000 - (u_val('spell_level', 'spell: pyrokinetic_lance') * 125) ), 2000)" ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+    "condition": { "u_has_item": "pyrokinetic_torch_weld" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+        "time_in_future": [
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 120) + 3600) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 360) + 7200) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   },
   {
     "type": "effect_on_condition",

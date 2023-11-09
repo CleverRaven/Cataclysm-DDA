@@ -1565,8 +1565,7 @@
       {
         "id": "heels_flag",
         "name": { "str": "pair of liberty’s heels", "str_pl": "pairs of liberty’s heels" },
-        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\"",
-        "weight": 1
+        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\""
       }
     ]
   },

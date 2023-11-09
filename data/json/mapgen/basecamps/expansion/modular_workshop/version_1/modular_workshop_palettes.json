@@ -124,42 +124,6 @@
   },
   {
     "type": "palette",
-    "id": "fbmw_metal_palette",
-    "terrain": {
-      ".": "t_dirtfloor",
-      "b": "t_grass",
-      "c": "t_dirtfloor",
-      "d": "t_door_c",
-      "h": "t_dirtfloor",
-      "k": "t_dirtfloor",
-      "o": "t_window_no_curtains",
-      "r": "t_dirtfloor",
-      "t": "t_dirtfloor",
-      "w": "t_scrap_wall",
-      "x": "t_dirtfloor",
-      "z": "t_dirt",
-      "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
-    },
-    "furniture": {
-      ".": "f_clear",
-      "b": "f_bench",
-      "c": "f_workbench",
-      "d": "f_clear",
-      "h": "f_stool",
-      "k": "f_clay_kiln",
-      "o": "f_clear",
-      "r": "f_rack_wood",
-      "t": "f_table",
-      "w": "f_clear",
-      "x": "f_kiln_empty",
-      "z": "f_55gal_firebarrel",
-      "B": "f_bookcase",
-      "M": "f_armchair"
-    }
-  },
-  {
-    "type": "palette",
     "id": "fbmw_migo_resin_palette",
     "terrain": {
       ".": "t_floor_resin",

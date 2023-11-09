@@ -16,8 +16,7 @@
       {
         "id": "mosin44",
         "name": { "str_sp": "Mosin-Nagant M44" },
-        "description": "The Model 44 is the carbine-sized variant of the standard 1891/30.  It has a shorter barrel, making it weaker than the 1891/30, but easier to carry.  This weapon also comes with an integrated side-folding bayonet.",
-        "weight": 1
+        "description": "The Model 44 is the carbine-sized variant of the standard 1891/30.  It has a shorter barrel, making it weaker than the 1891/30, but easier to carry.  This weapon also comes with an integrated side-folding bayonet."
       },
       {
         "id": "mosin44_ebr",
@@ -73,8 +72,7 @@
       {
         "id": "mosin91_30",
         "name": { "str_sp": "Mosin-Nagant 1891/30" },
-        "description": "The Mosin-Nagant 1891/30 is a bolt-action, internal magazine-fed military rifle, developed by the Russian Empire and later used and perfected by the Soviet Union.",
-        "weight": 1
+        "description": "The Mosin-Nagant 1891/30 is a bolt-action, internal magazine-fed military rifle, developed by the Russian Empire and later used and perfected by the Soviet Union."
       },
       {
         "id": "mosin91_30_ebr",

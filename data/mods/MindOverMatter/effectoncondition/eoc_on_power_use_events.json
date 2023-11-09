@@ -1,0 +1,301 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_TOGGLE_REMOVE_EFFECTS",
+    "effect": [
+      { "u_lose_trait": "CLAIR_SPEED_READ" },
+      { "u_lose_effect": "effect_clair_speed_reader" },
+      { "u_remove_item_with": "pyrokinetic_fire_tool" },
+      { "u_remove_item_with": "pyrokinetic_torch_weld" },
+      { "u_lose_effect": "effect_telekinetic_strength" },
+      { "u_remove_item_with": "telekin_lifting_jack_1" },
+      { "u_remove_item_with": "telekin_lifting_jack_2" },
+      { "u_remove_item_with": "telekin_lifting_jack_3" },
+      { "u_remove_item_with": "telekin_lifting_jack_4" },
+      { "u_remove_item_with": "telekin_lifting_jack_5" },
+      { "u_remove_item_with": "telekin_lifting_jack_6" },
+      { "u_remove_item_with": "telekin_lifting_jack_7" },
+      { "u_remove_item_with": "telekin_lifting_jack_8" },
+      { "u_remove_item_with": "telekin_lifting_jack_9" },
+      { "u_remove_item_with": "telekin_lifting_jack_10" },
+      { "u_remove_item_with": "telekin_lifting_jack_11" },
+      { "u_remove_item_with": "telekin_lifting_jack_12" },
+      { "u_remove_item_with": "telekin_lifting_jack_13" },
+      { "u_remove_item_with": "telekin_lifting_jack_14" },
+      { "u_remove_item_with": "telekin_lifting_jack_15" },
+      { "u_remove_item_with": "telekin_lifting_jack_16" },
+      { "u_remove_item_with": "telekin_lifting_jack_17" },
+      { "u_remove_item_with": "telekin_lifting_jack_18" },
+      { "u_remove_item_with": "telekin_lifting_jack_19" },
+      { "u_remove_item_with": "telekin_lifting_jack_20" },
+      { "u_lose_effect": "effect_telekinetic_levitation" },
+      { "u_lose_effect": "effect_telepathic_learning_bonus" },
+      { "u_lose_effect": "effect_telepath_invisibility" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_CHARACTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANGED_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANGED_CHARACTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "effect_telepath_invisibility" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_has_trait": "CLAIR_SPEED_READ" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_item": "pyrokinetic_fire_tool" },
+            { "u_has_item": "pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_item": "telekin_lifting_jack_1" },
+            { "u_has_item": "telekin_lifting_jack_2" },
+            { "u_has_item": "telekin_lifting_jack_3" },
+            { "u_has_item": "telekin_lifting_jack_4" },
+            { "u_has_item": "telekin_lifting_jack_5" },
+            { "u_has_item": "telekin_lifting_jack_6" },
+            { "u_has_item": "telekin_lifting_jack_7" },
+            { "u_has_item": "telekin_lifting_jack_8" },
+            { "u_has_item": "telekin_lifting_jack_9" },
+            { "u_has_item": "telekin_lifting_jack_10" },
+            { "u_has_item": "telekin_lifting_jack_11" },
+            { "u_has_item": "telekin_lifting_jack_12" },
+            { "u_has_item": "telekin_lifting_jack_13" },
+            { "u_has_item": "telekin_lifting_jack_14" },
+            { "u_has_item": "telekin_lifting_jack_15" },
+            { "u_has_item": "telekin_lifting_jack_16" },
+            { "u_has_item": "telekin_lifting_jack_17" },
+            { "u_has_item": "telekin_lifting_jack_18" },
+            { "u_has_item": "telekin_lifting_jack_19" },
+            { "u_has_item": "telekin_lifting_jack_20" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "effect_telepath_invisibility" }
+          ]
+        },
+        { "math": [ "_damage", ">=", "1" ] },
+        {
+          "and": [
+            {
+              "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+            },
+            {
+              "or": [
+                { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+                { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+                { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_INVISIBILITY_CANCEL_WALK",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "u_has_effect": "effect_photokin_invisibility" },
+        {
+          "or": [
+            { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "crouch", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "prone", { "context_val": "movement_mode" } ] }
+          ]
+        },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_val('spell_level', 'spell: photokinetic_invisibility')),4)" ] }, "y": 1000 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you move, light scatters around you in coruscating shards, revealing your position!", "type": "bad" },
+      { "u_lose_effect": "effect_photokin_invisibility" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_INVISIBILITY_CANCEL_RUN",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "u_has_effect": "effect_photokin_invisibility" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_val('spell_level', 'spell: photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you run, a shower of light outlines your path, revealing your position!", "type": "bad" },
+      { "u_lose_effect": "effect_photokin_invisibility" }
+    ]
+  }
+]

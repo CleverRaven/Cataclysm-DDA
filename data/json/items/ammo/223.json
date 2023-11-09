@@ -128,6 +128,15 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
+    "id": "556_m995",
+    "copy-from": "556",
+    "type": "AMMO",
+    "name": { "str_sp": "5.56 NATO M995" },
+    "description": "An armor piercing 5.56x45mm M995 round using a 52gr projectile, featuring a black-tipped, tungsten carbide penetrator over an aluminum slug.  Increased penetration over standard ball rounds at the cost of worse wounding potential in soft tissue.",
+    "ascii_picture": "556_m995",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 8 } }
+  },
+  {
     "id": "bp_223",
     "copy-from": "223",
     "type": "AMMO",
