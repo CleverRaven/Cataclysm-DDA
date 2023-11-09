@@ -161,19 +161,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         auto line_path = line_to( f, t );
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
-        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
-        return !( pf_cache.special[p.x][p.y] & non_normal );
+        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache,
+        &should_avoid]( const tripoint & p ) {
+        return !( pf_cache.special[p.x][p.y] & non_normal ) && !should_avoid( p );
         } ) ) {
-            bool is_disjoint = true;
-            for( auto iter = line_path.begin(); iter != line_path.end(); ++iter ) {
-                if( should_avoid( *iter ) ) {
-                    is_disjoint = false;
-                    break;
-                }
-            }
-            if( is_disjoint ) {
-                return line_path;
-            }
+            return line_path;
         }
     }
 

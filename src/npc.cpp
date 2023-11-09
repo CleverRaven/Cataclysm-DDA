@@ -3451,6 +3451,10 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
 
 bool npc::should_path_avoid( const tripoint &p ) const
 {
+    if( p == pos() ) {
+        return false;
+    }
+
     creature_tracker &tracker = get_creature_tracker();
     if( tracker.creature_at( p ) ) {
         return true;
@@ -3467,13 +3471,14 @@ bool npc::should_path_avoid( const tripoint &p ) const
             return true;
         }
     }
+    const FastDistanceApproximation d = rl_dist_fast( pos(), p );
     if( rules.has_flag( ally_rule::hold_the_line ) ) {
-        if( here.close_door( p, true, true ) || here.move_cost( p ) > 2 ) {
+        if( d <= 1 && ( here.close_door( p, true, true ) || here.move_cost( p ) > 2 ) ) {
             return true;
         }
     }
 
-    if( rl_dist_fast( pos(), p ) <= 5 && sees_dangerous_field( p ) ) {
+    if( d <= 5 && sees_dangerous_field( p ) ) {
         return true;
     }
 

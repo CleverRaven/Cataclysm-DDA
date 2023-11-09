@@ -3843,7 +3843,7 @@ bool monster::should_path_avoid( const tripoint &p ) const
     }
 
     creature_tracker &tracker = get_creature_tracker();
-    if( tracker.creature_at( p ) ) {
+    if( p != pos() && tracker.creature_at( p ) ) {
         return true;
     }
 
