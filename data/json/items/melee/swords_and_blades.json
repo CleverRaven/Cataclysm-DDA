@@ -1588,7 +1588,7 @@
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 7, "pierce": 21 }
+    "melee_damage": { "bash": 7, "stab": 21 }
   },
   {
     "id": "sword_bayonet_mod",
