@@ -393,7 +393,10 @@
       { "item": "556_m855a1", "prob": 30, "charges": [ 66, 120 ] },
       { "item": "556_incendiary", "prob": 100, "charges": [ 1, 30 ] },
       { "item": "556_incendiary", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "556_incendiary", "prob": 30, "charges": [ 66, 120 ] }
+      { "item": "556_incendiary", "prob": 30, "charges": [ 66, 120 ] },
+      { "item": "556_m995", "prob": 50, "charges": [ 1, 30 ] },
+      { "item": "556_m995", "prob": 35, "charges": [ 33, 60 ] },
+      { "item": "556_m995", "prob": 20, "charges": [ 66, 120 ] }
     ]
   },
   {
