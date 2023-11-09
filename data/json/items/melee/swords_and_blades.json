@@ -308,6 +308,20 @@
     "melee_damage": { "stab": 22 }
   },
   {
+    "id": "knife_combat_marine_mod",
+    "copy-from": "knife_combat_marine",
+    "type": "TOOL",
+    "name": { "str": "modified USMC bayonet" },
+    "description": "A modern bayonet in use with the US Marine Corps, adopted in an effort to improve USMC hand-to-hand fighting capabilities.  The bayonet is optimized to function as a fighting knife, sporting an ergonomic handle that will minimize hand fatigue during combat.  The blade tip is sharper in profile than other bayonets to assist in penetrating body armor, and also features a small serrated section to provide for some utility.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 s"
+    },
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
+  },
+  {
     "id": "knife_combat_army",
     "type": "TOOL",
     "category": "weapons",
@@ -339,9 +353,9 @@
   },
   {
     "id": "knife_combat_army_mod",
-    "copy-from": "knife_combat",
+    "copy-from": "knife_army",
     "type": "TOOL",
-    "name": { "str": "modified modern bayonet" },
+    "name": { "str": "modified Army bayonet" },
     "description": "The current issue Army bayonet, before the Cataclysm anyways.  It is thick, heavy, and surprisingly sharp.  The M9 bayonet also functions as a wire cutter, a mediocre saw, and an unwieldy screwdriver.  That the handle and tang can be completely disassembled from the blade is surely a fact of great comfort to the soldier, survivalist, and you.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
       "location": "underbarrel",
@@ -386,7 +400,7 @@
     "copy-from": "knife_combat",
     "type": "TOOL",
     "name": { "str": "modified National Guard bayonet" },
-    "description": "A cold war era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang, and adoble edged blade of high carbon steel terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "description": "A cold war era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang and a double-edged blade of high carbon steel terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
