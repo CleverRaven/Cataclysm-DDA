@@ -32,7 +32,10 @@
   {
     "id": "bullet_forming",
     "type": "requirement",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "pyrokinetic_fire_tool", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "fire", -1 ], [ "pyrokinetic_fire_tool", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
+    ]
   },
   {
     "id": "earthenware_firing",
