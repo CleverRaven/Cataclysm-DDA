@@ -3825,13 +3825,10 @@ static bool is_bulk_unload( const item_location &lhs, const item_location &rhs )
 }
 
 // Return a list of items to be dropped by the given item-dropping activity in the current turn.
-static std::list<item> obtain_activity_items(
-    std::vector<drop_or_stash_item_info> &items,
-    contents_change_handler &handler,
-    Character &who )
+static std::list<item> obtain_activity_items( std::vector<drop_or_stash_item_info> &items,
+        contents_change_handler &handler, Character &who, bool &bulk_unload )
 {
     std::list<item> res;
-    bool bulk_unload = false;
 
     debug_drop_list( items );
 
@@ -3917,7 +3914,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint_bub_ms pos = placement + who.pos_bub();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( items, handler, who ),
+                              obtain_activity_items( items, handler, who, current_bulk_unload ),
                               pos, force_ground );
     // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which creates
@@ -3939,6 +3936,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.member( "force_ground", force_ground );
+    jsout.member( "current_bulk_unload", current_bulk_unload );
     jsout.end_object();
 }
 
@@ -4081,7 +4079,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( items, handler, who ),
+        stash_on_pet( obtain_activity_items( items, handler, who, current_bulk_unload ),
                       *pet, who );
         if( items.empty() ) {
             who.cancel_activity();
@@ -4103,6 +4101,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
+    jsout.member( "current_bulk_unload", current_bulk_unload );
     jsout.end_object();
 }
 
