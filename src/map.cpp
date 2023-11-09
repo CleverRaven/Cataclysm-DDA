@@ -1890,36 +1890,6 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
     return ter( p.raw() );
 }
 
-int map::get_map_damage( const tripoint_bub_ms &p ) const
-{
-    if( !inbounds( p ) ) {
-        return 0;
-    }
-
-    point_sm_ms l;
-    const submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Called get_map_damage for unloaded submap" );
-        return 0;
-    }
-    return current_submap->get_map_damage( l );
-}
-
-void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
-{
-    if( !inbounds( p ) ) {
-        return;
-    }
-
-    point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Called set_map_damage for unloaded submap" );
-        return;
-    }
-    return current_submap->set_map_damage( l, dmg );
-}
-
 uint8_t map::get_known_connections( const tripoint &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
@@ -4001,18 +3971,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
         // Linear interpolation from str_min to str_max
         const int resistance = smin + ( params.roll * ( smax - smin ) );
-        // Semi-persistant map damage. Increment by one for each bash over smin
-        // Gradually makes hard bashes easier
-        int damage = get_map_damage( tripoint_bub_ms( p ) );
-        add_msg_debug( debugmode::DF_MAP, "Bashing diff. %d to %d, roll %g. Strength is %d + %d vs %d",
-                       smin, smax, params.roll, params.strength, damage, resistance );
-        if( params.strength + damage >= resistance ) {
-            damage = 0;
+        if( params.strength >= resistance ) {
             success = true;
-        } else if( params.strength >= smin ) {
-            damage += 1;
         }
-        set_map_damage( tripoint_bub_ms( p ), damage );
     }
 
     if( smash_furn ) {
