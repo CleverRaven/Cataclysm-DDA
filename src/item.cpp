@@ -386,14 +386,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_itype_variant() && itype_variant().expand_snippets ) {
-        const itype_variant_data &variant = itype_variant();
-        if( variant.append ) {
-            set_var( "description",
-                     string_format( "%s  %s", SNIPPET.expand( type->description.translated() ),
-                                    SNIPPET.expand( variant.alt_description.translated() ) ) );
-        } else {
-            set_var( "description", SNIPPET.expand( variant.alt_description.translated() ) );
-        }
+        set_var( "description", SNIPPET.expand( variant_description() ) );
     }
 
     if( current_phase == phase_id::PNULL ) {
@@ -2289,13 +2282,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else if( has_itype_variant() ) {
-            // append the description instead of fully overwriting it
-            if( itype_variant().append ) {
-                info.emplace_back( "DESCRIPTION", _( string_format( "%s  %s", type->description.translated(),
-                                                     itype_variant().alt_description.translated() ) ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
-            }
+            info.emplace_back( "DESCRIPTION", variant_description() );
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.emplace_back( "DESCRIPTION",
@@ -9356,11 +9343,29 @@ void item::set_itype_variant( const std::string &variant )
     for( const itype_variant_data &option : type->variants ) {
         if( option.id == variant ) {
             _itype_variant = &option;
+            if( option.expand_snippets ) {
+                set_var( "description", SNIPPET.expand( variant_description() ) );
+            }
             return;
         }
     }
 
     debugmsg( "item '%s' has no variant '%s'!", typeId().str(), variant );
+}
+
+std::string item::variant_description() const
+{
+    if( !has_itype_variant() ) {
+        return "";
+    }
+
+    // append the description instead of fully overwriting it
+    if( itype_variant().append ) {
+        return _( string_format( "%s  %s", type->description.translated(),
+                                 itype_variant().alt_description.translated() ) );
+    } else {
+        return itype_variant().alt_description.translated();
+    }
 }
 
 void item::clear_itype_variant()
