@@ -3063,30 +3063,42 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
                                const ter_t &terrain, const bool allow_floor,
                                const vehicle *veh, const int part ) const
 {
-    bool furn_smash = false;
-    bool ter_smash = false;
+    return bash_rating_from_range_internal( str, bash_range_internal( furniture, terrain, allow_floor,
+                                            veh, part ) );
+}
+
+std::pair<int, int> map::bash_range_internal( const furn_t &furniture,
+        const ter_t &terrain, const bool allow_floor,
+        const vehicle *veh, const int part ) const
+{
+    if( veh != nullptr ) {
+        if( const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part() ) {
+            const int bash_part = vpobst->part_index();
+            // Car obstacle that isn't a door
+            // TODO: Account for armor
+            const int hp = veh->part( bash_part ).hp();
+            const int bash_min = hp / 20 + 1;
+            // Large max to discourage bashing.
+            const int bash_max = bash_min + 100;
+            return { bash_min, bash_max };
+        }
+    }
+
     ///\EFFECT_STR determines what furniture can be smashed
     if( furniture.id && furniture.bash.str_max != -1 ) {
-        furn_smash = true;
-        ///\EFFECT_STR determines what terrain can be smashed
+        return { furniture.bash.str_min, furniture.bash.str_max };
     } else if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
-        ter_smash = true;
+        return { terrain.bash.str_min, terrain.bash.str_max };
     }
 
-    if( veh != nullptr && vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part() ) {
-        // Monsters only care about rating > 0, NPCs should want to path around cars instead
-        return 2; // Should probably be a function of part hp (+armor on tile)
-    }
+    return { std::numeric_limits<int>::max(),  std::numeric_limits<int>::max() };
+}
 
-    int bash_min = 0;
-    int bash_max = 0;
-    if( furn_smash ) {
-        bash_min = furniture.bash.str_min;
-        bash_max = furniture.bash.str_max;
-    } else if( ter_smash ) {
-        bash_min = terrain.bash.str_min;
-        bash_max = terrain.bash.str_max;
-    } else {
+int map::bash_rating_from_range_internal( const int str,
+        const std::pair<int, int> &bash_range ) const
+{
+    const auto [bash_min, bash_max] = bash_range;
+    if( bash_min == std::numeric_limits<int>::max() ) {
         return -1;
     }
 
@@ -10042,6 +10054,10 @@ void map::update_pathfinding_cache( int zlev ) const
                     const vehicle *veh = veh_at_internal( p, part );
 
                     const int cost = move_cost_internal( furniture, terrain, field, veh, part );
+                    cache.move_costs[p.x][p.y] = cost;
+
+                    const std::pair<int, int> bash_range = bash_range_internal( furniture, terrain, false, veh, part );
+                    cache.bash_ranges[p.x][p.y] = bash_range;
 
                     if( cost > 2 ) {
                         cur_value |= PF_SLOW;
@@ -10054,6 +10070,30 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     if( veh != nullptr ) {
                         cur_value |= PF_VEHICLE;
+
+                        if( const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part() ) {
+                            const int vpobst_i = vpobst->part_index();
+                            const int open_inside = veh->next_part_to_open( vpobst_i, false );
+                            const int open_outside = veh->next_part_to_open( vpobst_i, true );
+                            if( open_inside != -1 ) {
+                                cur_value |= PF_DOOR;
+                            }
+                            if( open_inside != open_outside ) {
+                                cur_value |= PF_INSIDE_DOOR;
+                            }
+                            if( veh->next_part_to_unlock( vpobst_i, false ) != -1 ) {
+                                cur_value |= PF_LOCK;
+                            }
+                        }
+                    }
+
+                    if( terrain.open || furniture.open ) {
+                        cur_value |= PF_DOOR;
+
+                        if( terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ||
+                            furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) {
+                            cur_value |= PF_INSIDE_DOOR;
+                        }
                     }
 
                     for( const auto &fld : tile.get_field() ) {

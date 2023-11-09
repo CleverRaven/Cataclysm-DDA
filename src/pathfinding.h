@@ -7,15 +7,18 @@
 #include "mdarray.h"
 
 enum pf_special : int {
-    PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
-    PF_SLOW = 0x01,      // Tile with move cost >2
-    PF_WALL = 0x02,      // Unpassable ter/furn/vehicle
-    PF_VEHICLE = 0x04,   // Any vehicle tile (passable or not)
-    PF_FIELD = 0x08,     // Dangerous field
-    PF_TRAP = 0x10,      // Dangerous trap
-    PF_UPDOWN = 0x20,    // Stairs, ramp etc.
-    PF_CLIMBABLE = 0x40, // 0 move cost but can be climbed on examine
-    PF_SHARP = 0x80,     // sharp items (barbed wire, etc)
+    PF_NORMAL = 0x00,       // Plain boring tile (grass, dirt, floor etc.)
+    PF_SLOW = 0x01,         // Tile with move cost >2
+    PF_WALL = 0x02,         // Unpassable ter/furn/vehicle
+    PF_VEHICLE = 0x04,      // Any vehicle tile (passable or not)
+    PF_FIELD = 0x08,        // Dangerous field
+    PF_TRAP = 0x10,         // Dangerous trap
+    PF_UPDOWN = 0x20,       // Stairs, ramp etc.
+    PF_CLIMBABLE = 0x40,    // 0 move cost but can be climbed on examine
+    PF_SHARP = 0x80,        // sharp items (barbed wire, etc)
+    PF_DOOR = 0x100,        // A door
+    PF_INSIDE_DOOR = 0x200, // A door that can be opened from the inside only
+    PF_LOCK = 0x400,        // A lock
 };
 
 constexpr pf_special operator | ( pf_special lhs, pf_special rhs )
@@ -46,6 +49,8 @@ struct pathfinding_cache {
     bool dirty = false;
 
     cata::mdarray<pf_special, point_bub_ms> special;
+    cata::mdarray<int, point_bub_ms> move_costs;
+    cata::mdarray<std::pair<int, int>, point_bub_ms> bash_ranges;
 };
 
 struct pathfinding_settings {

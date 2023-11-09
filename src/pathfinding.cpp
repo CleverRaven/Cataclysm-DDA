@@ -57,27 +57,31 @@ struct path_data_layer {
     }
 };
 
+namespace
+{
+// Pathfinder is only ever finding a single path at a time, so it's fine for these to be shared between runs.
+std::array< bool, OVERMAP_LAYERS > initialized_path_data;
+std::array< path_data_layer, OVERMAP_LAYERS > path_data;
+}
+
 struct pathfinder {
     point min;
     point max;
     pathfinder( const point &_min, const point &_max ) :
         min( _min ), max( _max ) {
+        initialized_path_data.fill( false );
     }
 
     std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
     open;
-    std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
     path_data_layer &get_layer( const int z ) {
-        std::unique_ptr< path_data_layer > &ptr = path_data[z + OVERMAP_DEPTH];
-        if( ptr != nullptr ) {
-            return *ptr;
+        path_data_layer &ptr = path_data[z + OVERMAP_DEPTH];
+        if( !initialized_path_data[z + OVERMAP_DEPTH] ) {
+            initialized_path_data[z + OVERMAP_DEPTH] = true;
+            ptr.init( min, max );
         }
-
-        // Not using make_unique so the large arrays are default initialized.
-        ptr = std::unique_ptr<path_data_layer>( new path_data_layer );
-        ptr->init( min, max );
-        return *ptr;
+        return ptr;
     }
 
     bool empty() const {
@@ -161,11 +165,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         auto line_path = line_to( f, t );
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
-        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache,
-        &should_avoid]( const tripoint & p ) {
-        return !( pf_cache.special[p.x][p.y] & non_normal ) && !should_avoid( p );
+        if( !std::any_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
+        return pf_cache.special[p.x][p.y] & non_normal;
         } ) ) {
-            return line_path;
+            if( !std::any_of( line_path.begin(), line_path.end(), should_avoid ) ) {
+                return line_path;
+            }
         }
     }
 
@@ -227,11 +232,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( cur.z );
         const pf_special cur_special = pf_cache.special[cur.x][cur.y];
 
-        // 7 3 5
-        // 1 . 2
-        // 6 4 8
-        constexpr std::array<int, 8> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1 }};
-        constexpr std::array<int, 8> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1 }};
+        // Cache friendly traversal order.
+        // 1 4 6
+        // 2 . 7
+        // 3 5 8
+        constexpr std::array<int, 8> x_offset{{ -1, -1, -1,  0, 0,  1, 1, 1 }};
+        constexpr std::array<int, 8> y_offset{{ -1,  0,  1, -1, 1, -1, 0, 1 }};
         for( size_t i = 0; i < 8; i++ ) {
             const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.xy() );
@@ -259,19 +265,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     continue;
                 }
 
-                int part = -1;
-                const const_maptile &tile = maptile_at_internal( p );
-                const ter_t &terrain = tile.get_ter_t();
-                const furn_t &furniture = tile.get_furn_t();
-                const field &field = tile.get_field();
-                const vehicle *veh = veh_at_internal( p, part );
+                const int cost = pf_cache.move_costs[p.x][p.y];
+                const int rating = bash_rating_from_range_internal( bash, pf_cache.bash_ranges[p.x][p.y] );
 
-                const int cost = move_cost_internal( furniture, terrain, field, veh, part );
-                // Don't calculate bash rating unless we intend to actually use it
-                const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                                   bash_rating_internal( bash, furniture, terrain, false, veh, part );
+                const bool is_door = doors && p_special & PF_DOOR;
+                const bool is_inside_door = is_door && p_special & PF_INSIDE_DOOR;
+                const bool is_vehicle = p_special & PF_VEHICLE;
 
-                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open || !furniture.open ) && veh == nullptr &&
+                if( cost == 0 && rating <= 0 && ( !doors || !is_door ) && !is_vehicle &&
                     climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
                     continue;
@@ -282,45 +283,28 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
                         // Climbing fences
                         newg += climb_cost;
-                    } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
-                                   !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
-                                 !is_outside( cur ) ) ) {
+                    } else if( is_door && ( !is_inside_door || !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
                         newg += 4;
-                    } else if( veh != nullptr ) {
-                        const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
-                        part = vpobst ? vpobst->part_index() : -1;
+                    } else if( is_vehicle ) {
                         int dummy = -1;
-                        const bool is_outside_veh = veh_at_internal( cur, dummy ) != veh;
-
-                        if( doors && veh->next_part_to_open( part, is_outside_veh ) != -1 ) {
+                        if( is_door && ( !is_inside_door ||
+                                         veh_at_internal( cur, dummy ) == veh_at_internal( p, dummy ) ) ) {
                             // Handle car doors, but don't try to path through curtains
                             newg += 10; // One turn to open, 4 to move there
-                        } else if( locks && veh->next_part_to_unlock( part, is_outside_veh ) != -1 ) {
+                        } else if( locks && ( p_special & PF_LOCK ) ) {
                             newg += 12; // 2 turns to open, 4 to move there
-                        } else if( part >= 0 && bash > 0 ) {
+                        } else if( bash > 0 && rating > 0 ) {
                             // Car obstacle that isn't a door
-                            // TODO: Account for armor
-                            int hp = veh->part( part ).hp();
-                            if( hp / 20 > bash ) {
-                                // Threshold damage thing means we just can't bash this down
-                                layer.state[index] = ASL_CLOSED;
-                                continue;
-                            } else if( hp / 10 > bash ) {
-                                // Threshold damage thing means we will fail to deal damage pretty often
-                                hp *= 2;
-                            }
-
-                            newg += 2 * hp / bash + 8 + 4;
-                        } else if( part >= 0 ) {
-                            const vehicle_part &vp = veh->part( part );
-                            if( !doors || !vp.info().has_flag( VPFLAG_OPENABLE ) ) {
+                            // Expected number of turns to bash it down, 1 turn to move there
+                            // and 5 turns of penalty not to trash everything just because we can
+                            newg += ( 20 / rating ) + 2 + 10;
+                        } else {
+                            if( !is_door ) {
                                 // Won't be openable, don't try from other sides
                                 layer.state[index] = ASL_CLOSED;
                             }
-
                             continue;
                         }
                     } else if( rating > 1 ) {
@@ -332,7 +316,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         newg += 500;
                     } else {
                         // Unbashable and unopenable from here
-                        if( !doors || !terrain.open || !furniture.open ) {
+                        if( !is_door ) {
                             // Or anywhere else for that matter
                             layer.state[index] = ASL_CLOSED;
                         }
@@ -342,6 +326,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 }
 
                 if( trapavoid && ( p_special & PF_TRAP ) ) {
+                    const const_maptile &tile = maptile_at_internal( p );
+                    const ter_t &terrain = tile.get_ter_t();
                     const trap &ter_trp = terrain.trap.obj();
                     const trap &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
                     if( !trp.is_benign() ) {

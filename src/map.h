@@ -2108,6 +2108,10 @@ class map
         int bash_rating_internal( int str, const furn_t &furniture,
                                   const ter_t &terrain, bool allow_floor,
                                   const vehicle *veh, int part ) const;
+        std::pair<int, int> bash_range_internal( const furn_t &furniture,
+                const ter_t &terrain, const bool allow_floor,
+                const vehicle *veh, const int part ) const;
+        int bash_rating_from_range_internal( const int str, const std::pair<int, int> &bash_range ) const;
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
