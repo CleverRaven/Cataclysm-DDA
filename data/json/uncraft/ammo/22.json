@@ -6,7 +6,7 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ]
   },
   {
