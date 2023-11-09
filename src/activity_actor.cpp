@@ -3949,6 +3949,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsi
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
+    jsobj.read( "current_bulk_unload", actor.current_bulk_unload );
 
     return actor.clone();
 }
@@ -4113,6 +4114,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonValue &js
     jsobj.read( "items", actor.items );
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
+    jsobj.read( "current_bulk_unload", actor.current_bulk_unload );
 
     return actor.clone();
 }
