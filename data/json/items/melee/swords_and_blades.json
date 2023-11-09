@@ -353,7 +353,7 @@
   },
   {
     "id": "knife_combat_army_mod",
-    "copy-from": "knife_army",
+    "copy-from": "knife_combat_army",
     "type": "TOOL",
     "name": { "str": "modified Army bayonet" },
     "description": "The current issue Army bayonet, before the Cataclysm anyways.  It is thick, heavy, and surprisingly sharp.  The M9 bayonet also functions as a wire cutter, a mediocre saw, and an unwieldy screwdriver.  That the handle and tang can be completely disassembled from the blade is surely a fact of great comfort to the soldier, survivalist, and you.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
@@ -958,9 +958,9 @@
     "category": "weapons",
     "name": { "str": "medium steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of medium steel, and is about what you'd expect to see in a hunting shop.",
-    "weight": "450 g",
-    "volume": "750 ml",
-    "longest_side": "50 cm",
+    "weight": "454 g",
+    "volume": "450 ml",
+    "longest_side": "46 cm",
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
@@ -972,7 +972,7 @@
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "cut": 24 }
+    "melee_damage": { "cut": 21 }
   },
   {
     "id": "hc_kukri",
@@ -1588,7 +1588,7 @@
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 7, "cut": 21 }
+    "melee_damage": { "bash": 7, "pierce": 21 }
   },
   {
     "id": "sword_bayonet_mod",

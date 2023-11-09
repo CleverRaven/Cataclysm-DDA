@@ -152,7 +152,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "knife_combat_army", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "knife_combat_marine_mod",
@@ -166,7 +166,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "knife_combat_marine", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "sword_bayonet_mod",
