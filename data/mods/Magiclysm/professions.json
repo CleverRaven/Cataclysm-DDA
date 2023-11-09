@@ -587,7 +587,7 @@
     "name": "Archer Druid",
     "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
     "points": 5,
-    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar" ],
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
@@ -602,7 +602,6 @@
       { "level": 1, "name": "gun" },
       { "level": 2, "name": "archery" }
     ],
-    "proficiencies": [ "prof_knives_familiar" ],
     "traits": [ "DRUID" ],
     "items": {
       "both": {
