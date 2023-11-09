@@ -513,7 +513,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast_radius')", ">=", "1" ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_mind_control')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
