@@ -70,6 +70,7 @@ const std::vector<std::pair<std::string, translation>> &get_mod_list_categories(
         {"item_exclude", to_translation( "ITEM EXCLUSION MODS" )},
         {"monster_exclude", to_translation( "MONSTER EXCLUSION MODS" )},
         {"graphical", to_translation( "GRAPHICAL MODS" )},
+        {"accessibility", to_translation( "ACCESSIBILITY MODS" )},
         {"", to_translation( "NO CATEGORY" )}
     };
 
