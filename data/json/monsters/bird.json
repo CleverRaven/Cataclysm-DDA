@@ -475,7 +475,6 @@
     "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
   },
-
   {
     "id": "mon_duck_chick",
     "type": "MONSTER",
