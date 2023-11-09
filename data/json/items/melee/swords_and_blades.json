@@ -1566,7 +1566,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "sword bayonet" },
-    "description": "A large slashing weapon that can be attached to the front of a firearm or crossbow, converting it into a pike.",
+    "description": "A long, knife bladed bayonet that can be attached to the front of a rifle, converting it into a pike.  It is long enough to be used as a short sword when unmounted.",
     "//": "Based on the M1917 Bayonet.",
     "weight": "923 g",
     "volume": "293 ml",
@@ -1595,7 +1595,7 @@
     "copy-from": "sword_bayonet",
     "type": "TOOL",
     "name": { "str": "modified sword bayonet" },
-    "description": "A large slashing weapon that can be attached to the front of a firearm or crossbow, converting it into a pike.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
+    "description": "A long, knife bladed bayonet that can be attached to the front of a rifle, converting it into a pike.  It is long enough to be used as a short sword when unmounted.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
