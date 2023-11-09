@@ -356,7 +356,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "National Guard bayonet" },
-    "description": "A cold war era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang and a double-edged high carbon steel blade terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.",
+    "description": "A Cold War era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang and a double-edged high carbon steel blade terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.",
     "//": "An M4, M5, M6, or M7 Bayonet.",
     "weight": "270 g",
     "volume": "184 ml",
