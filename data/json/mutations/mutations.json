@@ -3278,7 +3278,7 @@
     "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN2" ],
-    "category": [ "SPIDER", "CRUSTACEAN" ],
+    "category": [ "SPIDER" ],
     "leads_to": [ "CHITIN_FUR3" ],
     "integrated_armor": [ "integrated_chitin3", "integrated_chitin3_claws" ],
     "wet_protection": [
@@ -3357,8 +3357,7 @@
     "ugliness": 8,
     "description": "You're covered in a great chitin carapace which reduces your Dexterity by 1, however it has recently molted and will offer poor protection until it has time to harden.  Greatly reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
-    "prereqs": [ "CHITIN2" ],
-    "category": [ "CRUSTACEAN" ],
+    "prereqs": [ "CHITIN2_MOLTED" ],
     "leads_to": [ "CRUSTACEAN_CLAW" ],
     "integrated_armor": [ "integrated_carapace_molted" ],
     "wet_protection": [
@@ -6302,6 +6301,7 @@
     "points": 0,
     "visibility": 8,
     "ugliness": 4,
+    "types": [ "EYES" ],
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
     "changes_to": [ "COMPOUND_EYES", "EYESTALKS1", "FROG_EYES" ],
