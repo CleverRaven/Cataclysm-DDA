@@ -445,6 +445,7 @@ void npc::assess_danger()
     int hostile_count = 0;
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+    float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -562,13 +563,16 @@ void npc::assess_danger()
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
         float critter_threat = evaluate_enemy( critter );
-        hostile_count += 1;
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
+        
         if( is_enemy() || !critter.friendly ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+            }
+            if( dist < 15 && critter_threat > bravery_vs_pain ) {
+                hostile_count += 1;
             }
         }
         if( must_retreat || no_fighting ) {
@@ -686,6 +690,9 @@ void npc::assess_danger()
     }
 
     // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
+    // Hostile_count counts enemies within a range of 15 who exceed the NPC's bravery, mitigated 
+    // how much pain they're currently experiencing. This means a very brave NPC might ignore
+    // large crowds of minor creatures, until they start getting hurt.
     if( hostile_count > friendly_count ) {
         assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
     }
@@ -713,7 +720,7 @@ void npc::assess_danger()
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0,
-                        ( personality.bravery - get_pain() / 10 ) * 2 ) ;
+                        bravery_vs_pain * 2.5 ) ;
         add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
