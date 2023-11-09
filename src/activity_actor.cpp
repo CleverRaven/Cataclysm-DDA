@@ -6805,7 +6805,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 }
                 std::vector<tripoint_bub_ms> route;
                 route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                    you.get_path_avoid() );
+                                    you.get_should_path_avoid_functor() );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -6842,7 +6842,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                        you.get_path_avoid() );
+                                        you.get_should_path_avoid_functor() );
                 } else {
                     // impassable source tile (locker etc.),
                     // get route to nearest adjacent tile instead

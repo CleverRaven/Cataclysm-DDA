@@ -2099,7 +2099,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         destination_preview =
                             m.route( player_character.pos_bub(), auto_travel_destination,
                                      player_character.get_pathfinding_settings(),
-                                     player_character.get_path_avoid() );
+                                     player_character.get_should_path_avoid_functor() );
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );

@@ -3167,7 +3167,7 @@ void debug()
             // TODO: fix point types
             auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
                                   player_character.get_pathfinding_settings(),
-                                  player_character.get_path_avoid() );
+                                  player_character.get_should_path_avoid_functor() );
             if( !rt.empty() ) {
                 player_character.set_destination( rt );
             } else {

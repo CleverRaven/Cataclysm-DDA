@@ -27,7 +27,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-enum astar_state {
+enum astar_state : uint8_t {
     ASL_NONE,
     ASL_OPEN,
     ASL_CLOSED
@@ -74,7 +74,8 @@ struct pathfinder {
             return *ptr;
         }
 
-        ptr = std::make_unique<path_data_layer>();
+        // Not using make_unique so the large arrays are default initialized.
+        ptr = std::unique_ptr<path_data_layer>( new path_data_layer );
         ptr->init( min, max );
         return *ptr;
     }
@@ -135,40 +136,9 @@ static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoin
     return false;
 }
 
-template<class Set1, class Set2>
-static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
-{
-    if( set1.empty() || set2.empty() ) {
-        return true;
-    }
-
-    typename Set1::const_iterator it1 = set1.begin();
-    typename Set1::const_iterator it1_end = set1.end();
-
-    typename Set2::const_iterator it2 = set2.begin();
-    typename Set2::const_iterator it2_end = set2.end();
-
-    if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
-        return true;
-    }
-
-    while( it1 != it1_end && it2 != it2_end ) {
-        if( *it1 == *it2 ) {
-            return false;
-        }
-        if( *it1 < *it2 ) {
-            it1++;
-        } else {
-            it2++;
-        }
-    }
-
-    return true;
-}
-
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                   const pathfinding_settings &settings,
-                                  const std::set<tripoint> &pre_closed ) const
+                                  std::function<bool( const tripoint & )> should_avoid ) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
@@ -182,7 +152,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     if( !inbounds( t ) ) {
         tripoint clipped = t;
         clip_to_bounds( clipped );
-        return route( f, clipped, settings, pre_closed );
+        return route( f, clipped, settings, std::move( should_avoid ) );
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
@@ -194,9 +164,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
         return !( pf_cache.special[p.x][p.y] & non_normal );
         } ) ) {
-            const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
-
-            if( is_disjoint( sorted_line, pre_closed ) ) {
+            bool is_disjoint = true;
+            for( auto iter = line_path.begin(); iter != line_path.end(); ++iter ) {
+                if( should_avoid( *iter ) ) {
+                    is_disjoint = false;
+                    break;
+                }
+            }
+            if( is_disjoint ) {
                 return line_path;
             }
         }
@@ -223,13 +198,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     clip_to_bounds( max.x, max.y, max.z );
 
     pathfinder pf( min.xy(), max.xy() );
-    // Make NPCs not want to path through player
-    // But don't make player pathing stop working
-    for( const tripoint &p : pre_closed ) {
-        if( p.x >= min.x && p.x < max.x && p.y >= min.y && p.y < max.y ) {
-            pf.close_point( p );
-        }
-    }
 
     // Start and end must not be closed
     pf.unclose_point( f );
@@ -259,6 +227,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         cur_state = ASL_CLOSED;
+
+        if( should_avoid( cur ) ) {
+            continue;
+        }
 
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( cur.z );
         const pf_special cur_special = pf_cache.special[cur.x][cur.y];
@@ -538,9 +510,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
 std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
         const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed ) const
+        std::function<bool( const tripoint & )> should_avoid ) const
 {
-    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, pre_closed );
+    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, std::move( should_avoid ) );
     std::vector<tripoint_bub_ms> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const tripoint & p ) {

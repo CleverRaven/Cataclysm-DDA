@@ -93,7 +93,7 @@ void add_fallback_zone( npc &guy )
               here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
             !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
-                         guy.get_path_avoid() )
+                         guy.get_should_path_avoid_functor() )
             .empty() ) {
             points.emplace_back( t );
         }

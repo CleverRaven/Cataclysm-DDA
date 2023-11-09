@@ -562,8 +562,8 @@ void insert_battery( monster &z )
 
 bool Character::can_mount( const monster &critter ) const
 {
-    const auto &avoid = get_path_avoid();
-    auto route = get_map().route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
+    auto route = get_map().route( pos(), critter.pos(), get_pathfinding_settings(),
+                                  get_should_path_avoid_functor() );
 
     if( route.empty() ) {
         return false;

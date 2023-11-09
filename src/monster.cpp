@@ -3827,32 +3827,25 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
     return type->path_settings;
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+bool monster::should_path_avoid( const tripoint &p ) const
 {
-    std::set<tripoint> ret;
-
-    map &here = get_map();
-    int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );
-
-    for( const tripoint &p : here.points_in_radius( pos(), radius ) ) {
-        if( !can_move_to( p ) ) {
-            if( bash_skill() <= 0 || !here.is_bashable( p ) ) {
-                ret.insert( p );
-            }
-        }
-    }
-
     if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
-        radius = 2;
+        if( rl_dist_fast( pos(), p ) >= 3 ) {
+            return false;
+        }
     } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
                has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
-        radius = 1;
+        if( rl_dist_fast( pos(), p ) >= 2 ) {
+            return false;
+        }
     } else {
-        return ret;
-    }
-    for( Creature *critter : here.get_creatures_in_radius( pos(), radius ) ) {
-        ret.insert( critter->pos() );
+        return false;
     }
 
-    return ret;
+    creature_tracker &tracker = get_creature_tracker();
+    if( tracker.creature_at( p ) ) {
+        return true;
+    }
+
+    return false;
 }

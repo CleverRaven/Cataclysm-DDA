@@ -657,10 +657,10 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    const std::set<tripoint> &avoid = you.get_path_avoid();
+    const auto should_avoid_functor = you.get_should_path_avoid_functor();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), should_avoid_functor );
 
         if( !route.empty() ) {
             return route;
@@ -731,14 +731,14 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    const std::set<tripoint> &avoid = you.get_path_avoid();
+    const auto should_avoid_functor = you.get_should_path_avoid_functor();
     if( sorted.front() == you.pos_bub() ) {
         // We are on the best tile
         return {};
     }
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), should_avoid_functor );
 
         if( !route.empty() ) {
             return route;
@@ -2035,7 +2035,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 }
                 std::vector<tripoint_bub_ms> route;
                 route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                    you.get_path_avoid() );
+                                    you.get_should_path_avoid_functor() );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -2092,7 +2092,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                        you.get_path_avoid() );
+                                        you.get_should_path_avoid_functor() );
                 } else {
                     // impassable source tile (locker etc.),
                     // get route to nearest adjacent tile instead

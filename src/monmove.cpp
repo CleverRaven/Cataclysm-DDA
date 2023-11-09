@@ -1141,7 +1141,7 @@ void monster::move()
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
-                path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                path = here.route( pos(), local_dest, pf_settings, get_should_path_avoid_functor() );
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment

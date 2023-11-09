@@ -9746,18 +9746,17 @@ float Character::adjust_for_focus( float amount ) const
     return amount * ( effective_focus / 100.0f );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+bool Character::should_path_avoid( const tripoint &p ) const
 {
-    std::set<tripoint> ret;
-    for( npc &guy : g->all_npcs() ) {
-        if( sees( guy ) ) {
-            ret.insert( guy.pos() );
-        }
+    creature_tracker &tracker = get_creature_tracker();
+    npc *guy = tracker.creature_at<npc>( p );
+    if( guy && sees( *guy ) ) {
+        return true;
     }
 
     // TODO: Add known traps in a way that doesn't destroy performance
 
-    return ret;
+    return false;
 }
 
 const pathfinding_settings &Character::get_pathfinding_settings() const

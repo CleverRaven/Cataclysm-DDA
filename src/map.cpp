@@ -9916,11 +9916,11 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
     return furn_locs;
 }
 
-std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
+std::vector<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
         size_t radiusz ) const
 {
     creature_tracker &creatures = get_creature_tracker();
-    std::list<Creature *> creature_list;
+    std::vector<Creature *> creature_list;
     for( const tripoint &loc : points_in_radius( center, radius, radiusz ) ) {
         Creature *tmp_critter = creatures.creature_at( loc );
         if( tmp_critter != nullptr ) {

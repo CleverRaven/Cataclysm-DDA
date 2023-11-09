@@ -3449,43 +3449,35 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     return *path_settings;
 }
 
-std::set<tripoint> npc::get_path_avoid() const
+bool npc::should_path_avoid( const tripoint &p ) const
 {
-    std::set<tripoint> ret;
-    for( Creature &critter : g->all_creatures() ) {
-        // TODO: Cache this somewhere
-        ret.insert( critter.pos() );
+    creature_tracker &tracker = get_creature_tracker();
+    if( tracker.creature_at( p ) ) {
+        return true;
     }
+
     map &here = get_map();
     if( rules.has_flag( ally_rule::avoid_doors ) ) {
-        for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( here.open_door( *this, p, true, true ) ) {
-                ret.insert( p );
-            }
+        if( here.open_door( *this, p, true, true ) ) {
+            return true;
         }
     }
     if( rules.has_flag( ally_rule::avoid_locks ) ) {
-        for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( doors::can_unlock_door( here, *this, p ) ) {
-                ret.insert( p );
-            }
+        if( doors::can_unlock_door( here, *this, p ) ) {
+            return true;
         }
     }
     if( rules.has_flag( ally_rule::hold_the_line ) ) {
-        for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
-            if( here.close_door( p, true, true ) || here.move_cost( p ) > 2 ) {
-                ret.insert( p );
-            }
+        if( here.close_door( p, true, true ) || here.move_cost( p ) > 2 ) {
+            return true;
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
-        if( sees_dangerous_field( p ) ) {
-            ret.insert( p );
-        }
+    if( rl_dist_fast( pos(), p ) <= 5 && sees_dangerous_field( p ) ) {
+        return true;
     }
 
-    return ret;
+    return false;
 }
 
 mfaction_id npc::get_monster_faction() const

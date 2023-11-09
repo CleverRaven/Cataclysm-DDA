@@ -659,10 +659,14 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        std::function<bool( const tripoint & )> should_avoid = []( const tripoint & ) {
+            return false;
+        } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        std::function<bool( const tripoint & )> should_avoid = []( const tripoint & ) {
+            return false;
+        } ) const;
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -2296,7 +2300,7 @@ class map
                 ter_furn_flag flag,
                 size_t radiusz = 0 ) const;
         /**returns creatures in specified radius*/
-        std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
+        std::vector<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 ) const;
 
         level_cache &access_cache( int zlev );
