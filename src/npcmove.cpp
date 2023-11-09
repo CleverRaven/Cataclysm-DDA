@@ -689,7 +689,7 @@ void npc::assess_danger()
     }
 
     // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
-    // Hostile_count counts enemies within a range of 15 who exceed the NPC's bravery, mitigated 
+    // Hostile_count counts enemies within a range of 15 who exceed the NPC's bravery, mitigated
     // how much pain they're currently experiencing. This means a very brave NPC might ignore
     // large crowds of minor creatures, until they start getting hurt.
     if( hostile_count > friendly_count ) {
