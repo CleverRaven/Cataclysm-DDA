@@ -478,8 +478,8 @@
   {
     "id": "mon_feral_human_photokin3",
     "type": "MONSTER",
-    "name": "Atom Splitter",
-    "description": "Flashes of light occasionally radiate from this feral.  Their skin is translucent but also seems to emit light.  They are clearly still lucid but their expression is blank and their eyes are unfocused.",
+    "name": "atom splitter",
+    "description": "This feral glows brighter than streetlamp, casting their surroundings into sharp relief amid the glow.  They are clearly still lucid but their expression is blank and their eyes are unfocused.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",

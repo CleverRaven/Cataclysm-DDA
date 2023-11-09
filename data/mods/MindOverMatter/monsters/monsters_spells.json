@@ -107,7 +107,7 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
-    "id": "photokinetic_radiation_attack_monster"",
+    "id": "photokinetic_radiation_attack_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Radiation Attack Monster" },
     "valid_targets": [ "hostile" ],
@@ -123,8 +123,8 @@
     "min_range": 5,
     "max_range": 25,
     "range_increment": 1,
-    "min_duration": 100,
-    "max_duration": 300
+    "min_duration": 200,
+    "max_duration": 800
   },
   {
     "id": "photokinetic_light_flash_monster",
@@ -141,7 +141,7 @@
     "min_damage": 10,
     "max_damage": 40,
     "damage_increment": 1.5,
-    "min_range": 1,
+    "min_range": 3,
     "max_range": 15,
     "range_increment": 0.7,
     "min_aoe": 2,
