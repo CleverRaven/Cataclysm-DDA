@@ -653,8 +653,6 @@ void npc::assess_danger()
             }
         }
 
-
-
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
                                        is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
@@ -669,7 +667,6 @@ void npc::assess_danger()
         }
         return foe_threat;
     };
-
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
@@ -719,10 +716,12 @@ void npc::assess_danger()
     assessment *= NPC_COWARDICE_MODIFIER;
     int flee_checks_failed;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5 )  + rng( -5, 5 ) + rng( -3, 3 );
+        float my_diff = evaluate_enemy( *this ) * 0.5f + personality.bravery - ( get_pain() / 5 ) 
+            + rng( -5, 5 ) + rng( -3, 3 );
         add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
-            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery + 1_turns * static_cast<int>( get_pain() / 5 );
+            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery 
+                + 1_turns * static_cast<int>( get_pain() / 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
