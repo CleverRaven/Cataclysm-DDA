@@ -129,7 +129,7 @@
       {
         "id": "psi_cockatrice_telepathic_blast",
         "type": "spell",
-        "spell_data": { "id": "telepathic_blast_monster", "min_level": 6 },
+        "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
         "cooldown": 18,
         "monster_message": "%1$s stares and lets out a silent cry!"
       }

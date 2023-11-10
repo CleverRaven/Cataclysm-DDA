@@ -374,6 +374,26 @@
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
+    "id": "telepathic_fear_blast_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Telepathic Fear Blast Monster",
+    "description": "Short-circuit and overwhelm a target's brain, causing extreme damage or death, and instilling an extreme primal fear.  Does not affect targets without working brains.",
+    "valid_targets": [ "hostile" ],
+    "//": "The level scaling with this can get crazy, be especially careful with how high this will go.",
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 1,
+    "max_level": 20,
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "telepathic_blast_monster", "hit_self": false, "max_level": 20 },
+      { "id": "telepathic_horror_monster", "hit_self": false, "max_level": 20 }
+    ],
+    "shape": "blast",
+    "min_range": 3,
+    "max_range": 15,
+    "range_increment": 1
+  },
+  {
     "id": "telepathic_horror_aoe_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Telepathic Horror AoE Monster" },
