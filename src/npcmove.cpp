@@ -570,7 +570,7 @@ void npc::assess_danger()
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
-            if( dist < 15 && critter_threat > bravery_vs_pain ) {
+            if( dist < 8 && critter_threat > bravery_vs_pain ) {
                 hostile_count += 1;
             }
         }
