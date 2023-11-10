@@ -787,7 +787,7 @@
             "value": "EVASION",
             "add": {
               "math": [
-                "min((2 * ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) + ( ( u_val('intelligence') + 10) / 20 ) ), 0.85)"
+                "min(( 15 + (2 * ( u_val('spell_level', 'spell: photokinetic_light_dodge') / 100) ) + ( ( u_val('intelligence') + 10) / 20 ) ), 0.85)"
               ]
             }
           }
