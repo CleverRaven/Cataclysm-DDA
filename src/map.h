@@ -1618,6 +1618,7 @@ class map
         static cata::copy_const<Map, field_entry> *get_field_helper(
             Map &m, const tripoint &p, const field_type_id &type );
 
+        // NOLINTNEXTLINE(performance-unnecessary-value-param)
         std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
                 int &copies_remaining, bool overflow = true );
     public:

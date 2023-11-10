@@ -60,10 +60,12 @@ struct path_data_layer {
 
 namespace
 {
+
 // Pathfinder is only ever finding a single path at a time, so it's fine for these to be shared between runs.
 std::array< bool, OVERMAP_LAYERS > initialized_path_data;
 std::array< path_data_layer, OVERMAP_LAYERS > path_data;
-}
+
+} // namespace
 
 struct pathfinder {
     point min;
@@ -76,7 +78,7 @@ struct pathfinder {
     std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
     open;
 
-    path_data_layer &get_layer( const int z ) {
+    path_data_layer &get_layer( const int z ) const {
         path_data_layer &ptr = path_data[z + OVERMAP_DEPTH];
         if( !initialized_path_data[z + OVERMAP_DEPTH] ) {
             initialized_path_data[z + OVERMAP_DEPTH] = true;
