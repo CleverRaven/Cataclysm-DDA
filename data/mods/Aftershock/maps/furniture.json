@@ -1169,9 +1169,9 @@
   },
   {
     "type": "furniture",
-    "id": "f_ancillary_processor",
+    "id": "f_ancient_processor",
     "name": "ancient processor",
-    "description": "Hundreds of paper thin photonics lie staked within its core, most shattered or otherwise damaged beyond repair.",
+    "description": "Hundreds of paper thin photonics lie staked within its core, most are shattered or otherwise damaged beyond repair.",
     "looks_like": "f_server",
     "symbol": "#",
     "color": "light_gray",
@@ -1271,7 +1271,7 @@
     "type": "furniture",
     "id": "f_drone_ai_core",
     "name": "pristine drone scheduler core",
-    "description": "An AI unit meant to manage large cadres of working drones from afar.  It as functional as the day it was built, at least if its system checks are to be believed.  With sufficient skill, it could be used to control remaining drones in the area.",
+    "description": "An AI unit meant to manage large cadres of working drones from afar.  It as functional as the day it was built, at least if its system checks are to be believed.",
     "looks_like": "f_server",
     "symbol": "#",
     "color": "light_gray",
@@ -1317,6 +1317,47 @@
         { "item": "processor", "count": [ 0, 2 ] },
         { "item": "RAM", "count": [ 0, 3 ] },
         { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_command_console_old",
+    "name": "broken command console",
+    "description": "A complex control station for an habitat or space ship.  It might still be possible to salvage some parts from it.",
+    "looks_like": "f_console_broken",
+    "symbol": "?",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "small_lcd_screen", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "small_lcd_screen", "count": 1, "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
       ]
     }
   },
