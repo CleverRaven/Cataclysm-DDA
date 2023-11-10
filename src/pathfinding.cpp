@@ -224,6 +224,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
     bool done = false;
 
+    // We need to check if we exited due to being stuck in walls, or if we just
+    // hit the edge of the padding.
+    bool hit_boundry = false;
+
     do {
         tripoint cur = pf.get_next();
 
@@ -265,6 +269,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < min.x || p.x >= max.x || p.y < min.y || p.y >= max.y ) {
+                hit_boundry = true;
                 continue;
             }
 
@@ -506,7 +511,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         std::reverse( ret.begin(), ret.end() );
-    } else {
+    } else if( !hit_boundry ) {
         // The only way we can get to this point is if we're stuck in a room
         // with no way out, but we want to get a target on the other side
         // of unbreakable windows or bars.
