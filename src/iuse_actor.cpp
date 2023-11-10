@@ -4218,7 +4218,7 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     filter_irremovable( mods );
     filter_irremovable( mods_copy );
 
-    item_location mod_loc = game_menus::inv::gunmod_to_remove(*p, it);
+    item_location mod_loc = game_menus::inv::gunmod_to_remove( *p, it );
 
     if( !mod_loc ) {
         p->add_msg_if_player( _( "Never mind." ) );
