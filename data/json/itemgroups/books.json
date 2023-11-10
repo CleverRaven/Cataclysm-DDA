@@ -330,12 +330,6 @@
     ]
   },
   {
-    "id": "homebooks_memorial",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "group": "memorial", "prob": 10 }, { "group": "homebooks", "prob": 100 } ]
-  },
-  {
     "id": "ranch_homebooks",
     "type": "item_group",
     "subtype": "distribution",
