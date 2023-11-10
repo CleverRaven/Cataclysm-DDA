@@ -162,15 +162,41 @@ bool Pickup::query_thief()
     return false;
 }
 
+static bool is_bulk_load( const Pickup::pick_info &lhs, const Pickup::pick_info &rhs )
+{
+    bool same_src = false;
+    if( lhs.src_type == rhs.src_type ) {
+        switch( lhs.src_type ) {
+            case item_location::type::container:
+                same_src = lhs.src_container == rhs.src_container;
+                break;
+            case item_location::type::map:
+            case item_location::type::vehicle:
+                same_src = lhs.src_pos == rhs.src_pos;
+                break;
+            default:
+                break;
+        }
+    }
+    if( same_src && lhs.dst->stacks_with( *rhs.dst ) &&
+        lhs.dst.where() == item_location::type::container &&
+        rhs.dst.where() == item_location::type::container &&
+        lhs.dst.parent_item() == rhs.dst.parent_item() ) {
+        return true;
+    }
+    return false;
+}
+
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
-                         PickupMap &mapPickup,
-                         bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
+                         PickupMap &mapPickup, bool autopickup, bool &stash_successful, bool &got_frozen_liquid,
+                         Pickup::pick_info &info )
 {
     Character &player_character = get_player_character();
-    int moves_taken = loc.obtain_cost( player_character, quantity );
     bool picked_up = false;
     bool crushed = false;
+    Pickup::pick_info pre_info( info );
+    info = Pickup::pick_info();
 
     pickup_answer option = CANCEL;
 
@@ -269,6 +295,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
                                          /*allow_drop=*/false, /*allow_wield=*/false, false );
             item_location added_it = ret.value();
+            info.dst = added_it;
             if( ret.success() ) {
                 if( added_it == item_location::nowhere ) {
                     newit.charges = last_charges - newit.charges;
@@ -295,6 +322,17 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     }
 
     if( picked_up ) {
+        info.src_pos = loc.position();
+        info.src_container = loc.parent_item();
+        info.src_type = loc.where();
+        if( !is_bulk_load( pre_info, info ) ) {
+            // Cost to take an item from a container or map
+            player_character.moves -= loc.obtain_cost( player_character, quantity );
+        } else {
+            // Pure cost to handling item excluding overhead.
+            player_character.moves -= std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
+                                                true ), 1 );
+        }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
         item &orig_it = *loc.get_item();
@@ -306,7 +344,6 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         } else {
             loc.remove_item();
         }
-        player_character.moves -= moves_taken;
         player_character.flag_encumbrance();
         player_character.invalidate_weight_carried_cache();
     }
@@ -315,7 +352,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
 }
 
 bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                        bool autopickup, bool &stash_successful )
+                        bool autopickup,
+                        bool &stash_successful, Pickup::pick_info &info )
 {
     bool got_water = false;
     bool got_gas = false;
@@ -342,8 +380,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         }
 
         problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
-                                stash_successful,
-                                got_frozen_liquid );
+                                stash_successful, got_frozen_liquid, info );
     }
 
     if( !mapPickup.empty() ) {
@@ -436,6 +473,22 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );
+}
+
+void Pickup::pick_info::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "src_pos", src_pos );
+    jsout.member( "src_container", src_container );
+    jsout.member( "dst", dst );
+    jsout.end_object();
+}
+
+void Pickup::pick_info::deserialize( const JsonObject &jsobj )
+{
+    jsobj.read( "src_pos", src_pos );
+    jsobj.read( "src_container", src_container );
+    jsobj.read( "dst", dst );
 }
 
 std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
