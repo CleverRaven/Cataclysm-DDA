@@ -2901,7 +2901,7 @@
   {
     "type": "material",
     "id": "mi-go_blood",
-    "name": "Mi-go Blood",
+    "name": "Mi-go Ichor",
     "copy-from": "water",
     "edible": false
   },
