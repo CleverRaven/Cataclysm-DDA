@@ -14,19 +14,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "name": "Exosuit underlayer",
-        "description": "A series of connections for an underlayer.",
-        "ablative": true,
-        "holster": true,
-        "rigid": true,
-        "inherits_flags": true,
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "140 kg",
-        "flag_restriction": [ "EXO_UNDERLAYER" ],
-        "moves": 200
-      },
-      {
-        "pocket_type": "CONTAINER",
         "name": "Helmet compartment (Plate)",
         "description": "This is a mounting point for helmet plating.",
         "ablative": true,
@@ -400,19 +387,6 @@
     "symbol": "t",
     "looks_like": "power_armor_basic",
     "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "name": "Exosuit underlayer",
-        "description": "A series of connections for an underlayer.",
-        "ablative": true,
-        "holster": true,
-        "rigid": true,
-        "inherits_flags": true,
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "140 kg",
-        "flag_restriction": [ "EXO_UNDERLAYER" ],
-        "moves": 200
-      },
       {
         "pocket_type": "CONTAINER",
         "name": "Helmet hardpoint 1",
