@@ -170,7 +170,9 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature()
 {
-    get_map().remove_creature_from_reachability( this );
+    if( g ) {
+        get_map().remove_creature_from_reachability( this );
+    }
 }
 
 tripoint Creature::pos() const
