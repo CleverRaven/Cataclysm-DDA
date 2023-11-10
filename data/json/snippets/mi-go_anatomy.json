@@ -29,6 +29,6 @@
   {
     "type": "snippet",
     "category": "<mi-go_harvest>",
-    "text": [ "<mi-go_harvest>", "<mi-go_harvest_deeper>", "<mi-go_harvest  <mi-go_harvest_deeper>" ]
+    "text": [ "<mi-go_harvest>", "<mi-go_harvest_deeper>", "<mi-go_harvest>  <mi-go_harvest_deeper>" ]
   }
 ]
