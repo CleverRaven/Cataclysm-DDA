@@ -4004,7 +4004,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Semi-persistant map damage. Increment by one for each bash over smin
         // Gradually makes hard bashes easier
         int damage = get_map_damage( tripoint_bub_ms( p ) );
-        add_msg_debug( debugmode::DF_MAP, "Bashing diff. %d to %d, roll %g. Strength is %d + %d vs %d",
+        add_msg_debug( debugmode::DF_MAP, "Bashing diff.  %d to %d, roll %g. Strength is %d + %d vs %d",
                        smin, smax, params.roll, params.strength, damage, resistance );
         if( params.strength + damage >= resistance ) {
             damage = 0;
