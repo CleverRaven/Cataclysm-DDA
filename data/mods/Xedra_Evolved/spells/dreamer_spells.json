@@ -393,8 +393,26 @@
     "min_damage": 360,
     "max_damage": 500,
     "min_range": 1,
-    "max_range": 1
+    "max_range": 1,
+    "extra_effects": [ { "id": "constructed_hammer_self_destruct" } ]
   },
+  {
+    "id": "constructed_hammer_self_destruct",
+    "type": "SPELL",
+    "name": "Constructed Hammer Self destruct",
+    "description": "Removes constructed hammer.  You can't see it except in debug mode.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DESTRUCT_ITEM_IN_HANDS"
+  },
+  {
+    "id": "EOC_DESTRUCT_ITEM_IN_HANDS",
+    "type": "effect_on_condition",
+    "name": "Constructed Hammer Self destruct",
+    "description": "Removes constructed hammer.  You can't see it except in debug mode.",
+    "effect": [
+      { "u_remove_item_with": "constructed_hammer" }
+    ]
+  }
   {
     "id": "summon_duplicator",
     "type": "SPELL",
