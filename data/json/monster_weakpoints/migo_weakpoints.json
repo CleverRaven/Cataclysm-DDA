@@ -49,7 +49,7 @@
             "effect": "staggered",
             "chance": 25,
             "message": "The %s is pushed off-balance!",
-            "damage_required": [ 31, 100 ]
+            "damage_required": [ 51, 100 ]
           }
         ],
         "coverage": 2
