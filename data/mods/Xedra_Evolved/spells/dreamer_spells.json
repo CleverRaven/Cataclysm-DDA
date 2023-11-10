@@ -412,7 +412,7 @@
     "effect": [
       { "u_remove_item_with": "constructed_hammer" }
     ]
-  }
+  },
   {
     "id": "summon_duplicator",
     "type": "SPELL",
