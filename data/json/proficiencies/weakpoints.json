@@ -234,7 +234,7 @@
     "type": "proficiency",
     "id": "prof_wp_mi-go_basic",
     "category": "prof_weakpoint",
-    "name": { "str": "Mi-go basic biology" },
+    "name": { "str": "Mi-go basic anatomy" },
     "description": "You have studied mi-go sufficiently to get a sense for where some sensitive points might be.  However, its biology remains too different from life originating on Earth to be understood to any extent.",
     "can_learn": true,
     "time_to_learn": "6 h",
