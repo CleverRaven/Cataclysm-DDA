@@ -442,10 +442,12 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
-    int hostile_count = 0;
+    int hostile_count = 0; // for tallying nearby threatening enemies
+    int swarm_count = 0; // for tallying swarming enemies if you're using a ranged weapon
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     float bravery_vs_pain = static_cast<float>( personality.bravery ) - get_pain() / 10.0f;
+    bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -573,6 +575,9 @@ void npc::assess_danger()
             if( dist < 8 && critter_threat > bravery_vs_pain ) {
                 hostile_count += 1;
             }
+            if( dist < 4 && npc_ranged ) {
+                swarm_count += 1;
+            }
         }
         if( must_retreat || no_fighting ) {
             continue;
@@ -685,18 +690,12 @@ void npc::assess_danger()
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
 
-    // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
-    // Hostile_count counts enemies within a range of 15 who exceed the NPC's bravery, mitigated
-    // how much pain they're currently experiencing. This means a very brave NPC might ignore
-    // large crowds of minor creatures, until they start getting hurt.
-    if( hostile_count > friendly_count ) {
-        assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
-    }
-
     if( sees( player_character.pos() ) ) {
         // Mod for the player's danger level, weight it higher if player is very close
         // When the player is almost adjacent, it can exceed max danger ratings, so the
         // NPC will try hard not to break and run while in formation.
+        // This code should eventually remove the 'player' special case and be applied to
+        // whoever the NPC perceives as their closest leader.
         float player_diff = evaluate_enemy( player_character );
         int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
@@ -706,11 +705,21 @@ void npc::assess_danger()
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             if( dist <= 3 ) {
                 assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
+                swarm_count = 0; // don't try to fall back with your ranged weapon if you're in formation with the player.
+                friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
+    }
+
+    // Swarm assessment.  Do a flat scale up your assessment if you're outnumbered.
+    // Hostile_count counts enemies within a range of 8 who exceed the NPC's bravery, mitigated
+    // how much pain they're currently experiencing. This means a very brave NPC might ignore
+    // large crowds of minor creatures, until they start getting hurt.
+    if( hostile_count > friendly_count ) {
+        assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
     }
 
     assessment *= NPC_COWARDICE_MODIFIER;
@@ -724,7 +733,13 @@ void npc::assess_danger()
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
+        } else if( npc_ranged && my_diff < assessment * swarm_count ) {
+            // you chose not to run, but there are enough of them coming in that you should probably back away a bit.
+            time_duration run_away_for = 2_turns;
+            add_effect( effect_npc_run_away, run_away_for );
+            path.clear();
         }
+    }
     }
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
