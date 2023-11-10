@@ -205,6 +205,30 @@
     "name": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10 } ]
+    "monsters": [
+      { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_cockatrice", "weight": 5, "starts": "10 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROOF_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days", "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROOF_ANIMAL",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_cockatrice", "weight": 10, "starts": "10 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SAFE",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days" } ]
   }
 ]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "//": "All of the different bird eggs. Extended from the original, requirements don't support \"copy-from\" without throwing a minor error on game loading.",
+    "components": [
+      [
+        [ "egg_bird", 1 ],
+        [ "egg_bird_unfert", 1 ],
+        [ "egg_chicken", 1 ],
+        [ "egg_grouse", 1 ],
+        [ "egg_crow", 1 ],
+        [ "egg_raven", 1 ],
+        [ "egg_bluejay", 1 ],
+        [ "egg_cardinal", 1 ],
+        [ "egg_robin", 1 ],
+        [ "egg_sparrow", 2 ],
+        [ "egg_duck", 1 ],
+        [ "egg_goose_canadian", 1 ],
+        [ "egg_turkey", 1 ],
+        [ "egg_pheasant", 1 ],
+        [ "egg_cockatrice", 1 ],
+        [ "egg_goose", 1 ],
+        [ "egg_goose_golden", 1 ],
+        [ "egg_hummingbird", 5 ],
+        [ "egg_woodpecker", 5 ],
+        [ "egg_coot", 1 ],
+        [ "egg_cormorant", 1 ],
+        [ "egg_moorhen", 1 ],
+        [ "egg_grebe", 1 ]
+      ]
+    ]
+  }
+]
