@@ -350,6 +350,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
+        void set_pathfinding_cache_dirty( int zlev, point_bub_ms p );
         void set_visitable_zones_cache_dirty( bool dirty = true ) {
             visitable_cache_dirty = dirty;
         };
@@ -2109,9 +2110,9 @@ class map
                                   const ter_t &terrain, bool allow_floor,
                                   const vehicle *veh, int part ) const;
         std::pair<int, int> bash_range_internal( const furn_t &furniture,
-                const ter_t &terrain, const bool allow_floor,
-                const vehicle *veh, const int part ) const;
-        int bash_rating_from_range_internal( const int str, const std::pair<int, int> &bash_range ) const;
+                const ter_t &terrain, bool allow_floor,
+                const vehicle *veh, int part ) const;
+        int bash_rating_from_range_internal( int str, const std::pair<int, int> &bash_range ) const;
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
@@ -2261,6 +2262,8 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
+        void update_pathfinding_cache_point( pathfinding_cache &cache, const const_maptile &tile,
+                                             const tripoint &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );

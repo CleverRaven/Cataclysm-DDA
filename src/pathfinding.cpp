@@ -14,6 +14,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "flood_fill.h"
 #include "game.h"
 #include "gates.h"
 #include "line.h"
@@ -188,6 +189,26 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     const bool roughavoid = settings.avoid_rough_terrain;
     const bool sharpavoid = settings.avoid_sharp;
 
+    const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
+    const pathfinding_cache &other_pf_cache = get_pathfinding_cache_ref( t.z );
+
+    // One of us might be stuck in a room we can't get out of.
+    const int zone = pf_cache.zones[f.x][f.y];
+    const int other_zone = other_pf_cache.zones[t.x][t.y];
+
+    // Are they stuck in here with us?
+    if( f.z != t.z || zone != other_zone ) {
+        // Not in same zone, check the max bash needed to reach.
+        const int bash_needed = std::max( pf_cache.stuck_threshold_by_zone[zone],
+                                          other_pf_cache.stuck_threshold_by_zone[other_zone] );
+        if( bash < bash_needed ) {
+            // Give up now.
+            return ret;
+        }
+    }
+
+    int max_bash_larger_than_ours = bash + 1;
+
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     tripoint min( std::min( f.x, t.x ) - pad, std::min( f.y, t.y ) - pad, std::min( f.z, t.z ) );
     tripoint max( std::max( f.x, t.x ) + pad, std::max( f.y, t.y ) + pad, std::max( f.z, t.z ) );
@@ -266,14 +287,15 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 }
 
                 const int cost = pf_cache.move_costs[p.x][p.y];
-                const int rating = bash_rating_from_range_internal( bash, pf_cache.bash_ranges[p.x][p.y] );
+                const std::pair<int, int> &bash_range = pf_cache.bash_ranges[p.x][p.y];
+                max_bash_larger_than_ours = std::max( max_bash_larger_than_ours, bash_range.first );
+                const int rating = cost == 0 ? bash_rating_from_range_internal( bash, bash_range ) : -1;
 
                 const bool is_door = doors && p_special & PF_DOOR;
                 const bool is_inside_door = is_door && p_special & PF_INSIDE_DOOR;
                 const bool is_vehicle = p_special & PF_VEHICLE;
 
-                if( cost == 0 && rating <= 0 && ( !doors || !is_door ) && !is_vehicle &&
-                    climb_cost <= 0 ) {
+                if( cost == 0 && rating <= 0 && !is_door && !is_vehicle && climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
                     continue;
                 }
@@ -481,6 +503,30 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         std::reverse( ret.begin(), ret.end() );
+    } else {
+        // The only way we can get to this point is if we're stuck in a room
+        // with no way out, but we want to get a target on the other side
+        // of unbreakable windows or bars.
+        //
+        // In that case we'll just end up A*'ing the whole room every turn
+        // for no reason, so we're gonna mark the whole area as hopeless
+        // for anyone with the same or less bash rating than the highest
+        // rating we saw that was too hard for us.
+        pathfinding_cache &pf_cache = get_pathfinding_cache( f.z );
+        int zone_number = pf_cache.stuck_threshold_by_zone.size();
+        ff::flood_fill_visit_10_connected( tripoint_bub_ms( f ),
+        [&pf_cache, bash, zone_number]( const tripoint_bub_ms & loc, int direction ) {
+            // Limit to one Z level for now.
+            if( direction != 0 ) {
+                return false;
+            }
+            return pf_cache.move_costs[loc.x()][loc.y()] > 0 ||
+                   pf_cache.bash_ranges[loc.x()][loc.y()].first <= bash;
+        },
+        [&pf_cache, zone_number]( const tripoint_bub_ms & loc ) {
+            pf_cache.zones[loc.x()][loc.y()] = zone_number;
+        } );
+        pf_cache.stuck_threshold_by_zone.push_back( max_bash_larger_than_ours );
     }
 
     return ret;
