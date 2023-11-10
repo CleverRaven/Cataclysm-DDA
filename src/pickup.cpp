@@ -164,25 +164,25 @@ bool Pickup::query_thief()
 
 static bool is_bulk_load( const Pickup::pick_info &lhs, const Pickup::pick_info &rhs )
 {
-    bool same_src = false;
-    if( lhs.src_type == rhs.src_type ) {
-        switch( lhs.src_type ) {
-            case item_location::type::container:
-                same_src = lhs.src_container == rhs.src_container;
-                break;
-            case item_location::type::map:
-            case item_location::type::vehicle:
-                same_src = lhs.src_pos == rhs.src_pos;
-                break;
-            default:
-                break;
-        }
-    }
-    if( same_src && lhs.dst->stacks_with( *rhs.dst ) &&
+    // Check if storage is the same
+    if( lhs.dst && rhs.dst && lhs.dst->stacks_with( *rhs.dst ) &&
         lhs.dst.where() == item_location::type::container &&
         rhs.dst.where() == item_location::type::container &&
         lhs.dst.parent_item() == rhs.dst.parent_item() ) {
-        return true;
+        // Check if source is the same
+        if( lhs.src_type == rhs.src_type ) {
+            switch( lhs.src_type ) {
+                case item_location::type::container:
+                    return lhs.src_container == rhs.src_container;
+                    break;
+                case item_location::type::map:
+                case item_location::type::vehicle:
+                    return lhs.src_pos == rhs.src_pos;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     return false;
 }
@@ -322,6 +322,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     }
 
     if( picked_up ) {
+        // item_location of source may become invalid after the item is moved, so save the information separately.
         info.src_pos = loc.position();
         info.src_container = loc.parent_item();
         info.src_type = loc.where();
@@ -478,6 +479,7 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
 void Pickup::pick_info::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+    jsout.member( "src_type", static_cast<int>( src_type ) );
     jsout.member( "src_pos", src_pos );
     jsout.member( "src_container", src_container );
     jsout.member( "dst", dst );
@@ -486,9 +488,12 @@ void Pickup::pick_info::serialize( JsonOut &jsout ) const
 
 void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 {
+    int src_type_;
+    jsobj.read( "src_type", src_type_ );
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
+    src_type = static_cast<item_location::type>( src_type_ );
 }
 
 std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
