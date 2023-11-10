@@ -54,7 +54,8 @@
     "name": { "str": "unused .22 blank casing" },
     "symbol": "=",
     "color": "yellow",
-    "description": "An unfired, like-new .22 round casing, with the primer still intact. This one appears to be sourced from a blank round and is thus shorter.": [ "powder", "brass" ],
+    "description": "An unfired, like-new .22 round casing, with the primer still intact. This one appears to be sourced from a blank round and is thus shorter.",
+    "material": [ "powder", "brass" ],
     "stackable": true,
     "volume": "2 ml",
     "weight": "1 g"
