@@ -27,7 +27,7 @@
         "difficulty": { "ranged": 4, "melee": 3 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
-          { "effect": "staggered", "chance": 15, "message": "The %s is tripped off-balance!", "damage_required": [ 10, 30 ] },
+          { "effect": "staggered", "chance": 10, "message": "The %s is tripped off-balance!", "damage_required": [ 15, 30 ] },
           {
             "effect": "staggered",
             "chance": 25,
