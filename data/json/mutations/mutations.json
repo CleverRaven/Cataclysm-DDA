@@ -8962,6 +8962,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_LIGHT",
+    "name": { "str": "Debug Light" },
+    "points": 99,
+    "valid": false,
+    "description": "You start to emit a light, so you can debug in the darkest nights.",
+    "debug": true,
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 9000 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_HS",
     "name": { "str": "Debug Hammerspace" },
     "points": 99,

@@ -90,6 +90,7 @@ TEST_CASE( "memorials", "[memorial]" )
     itype_id it( "marloss_seed" );
     trait_id mut( "CARNIVORE" );
     trait_id mut2( "SAPROPHAGE" );
+    trait_id mut3( "NONE" );
     bionic_id cbm( "bio_alarm" );
 
     check_memorial<event_type::activates_artifact>(
@@ -255,7 +256,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Learned the spell Pain.", ch, spell_pain_damage );
 
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5, mut3 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

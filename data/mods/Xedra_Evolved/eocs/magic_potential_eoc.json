@@ -1,0 +1,17 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGIC_FROM_WOUNDS",
+    "recurrence": [ "8 h", "16 h" ],
+    "//": "if you got badly wounded, you may obtain some powers; threshold right now is 50% of your hp, but may be decreased in the future",
+    "condition": { "math": [ "u_hp() / 6", "==", "u_hp_max('torso') / 2" ] },
+    "effect": [ { "math": [ "magic_potential", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGIC_FROM_PAIN",
+    "recurrence": [ "8 h", "16 h" ],
+    "condition": { "math": [ "u_pain()", ">", "250" ] },
+    "effect": [ { "math": [ "magic_potential", "++" ] } ]
+  }
+]

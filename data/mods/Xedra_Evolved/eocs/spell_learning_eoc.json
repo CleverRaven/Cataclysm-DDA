@@ -1,0 +1,193 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_CASTED_A_SPELL",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "condition": {
+      "or": [
+        { "compare_string": [ "EATER", { "context_val": "school" } ] },
+        { "compare_string": [ "DREAMER", { "context_val": "school" } ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spell_exp(_spell_id)", "+=", "spell_exp_diff(u_spell_level(_spell_id)) / spell_train_factor(_cost)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GOT_A_SPELL_LVL",
+    "eoc_type": "EVENT",
+    "required_event": "player_levels_spell",
+    "//": "time_since_cataclysm check is used because spells, given by scenario, call player_levels_spell event also",
+    "condition": { "and": [ { "one_in_chance": 1 }, { "math": [ "u_val('time_since_cataclysm: turns')", ">", "2" ] } ] },
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },
+        "then": { "math": [ "xe_eater_leveling", "++" ] }
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "DREAMER" }, { "compare_string": [ "DREAMER", { "context_val": "school" } ] } ] },
+        "then": { "math": [ "xe_dreamer_leveling", "++" ] }
+      },
+      {
+        "u_message": "Got a level for <context_val:school> class,\nfrom spell:<spell_name:<context_val:spell_id>>,\n xe_eater_leveling is <global_val:xe_eater_leveling>\nxe_dreamer_leveling is <global_val:xe_dreamer_leveling>"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_QUEUE_LEVELING",
+    "recurrence": [ "1 h", "3 h" ],
+    "condition": { "u_has_effect": "sleep" },
+    "effect": [
+      {
+        "if": { "math": [ "xe_eater_leveling", ">", "0" ] },
+        "then": [
+          { "set_condition": "eater_leveling", "condition": { "math": [ "xe_eater_leveling", ">", "0" ] } },
+          { "run_eoc_until": "EOC_XE_PICK_SPELL_EATER", "condition": "eater_leveling" },
+          { "u_message": "cleared points from xe_eater_leveling, current pool: <global_val:xe_eater_leveling>" }
+        ],
+        "else": { "u_message": "IT DOESN'T WORK FOR EATER!" }
+      },
+      {
+        "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] },
+        "then": [
+          { "set_condition": "dreamer_leveling", "condition": { "math": [ "xe_dreamer_leveling", ">", "0" ] } },
+          { "run_eoc_until": "EOC_XE_PICK_SPELL_DREAMER", "condition": "dreamer_leveling" },
+          { "u_message": "cleared points from xe_dreamer_leveling, current pool: <global_val:xe_dreamer_leveling>" }
+        ],
+        "else": { "u_message": "IT DOESN'T WORK FOR DREAMER!" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_PICK_SPELL_EATER",
+    "//": "each context value _xe_spell is assigned a random string, that contain spell id, then all four variables are sent to EoC selector",
+    "effect": [
+      {
+        "foreach": "array",
+        "var": { "context_val": "random_eater_spell" },
+        "target": [ "_xe_spell_1", "_xe_spell_2", "_xe_spell_3", "_xe_spell_4" ],
+        "effect": [
+          {
+            "set_string_var": [
+              "spring_heeled_leap",
+              "banish_nether_monsters",
+              "banish_dark_monsters",
+              "blood_boil",
+              "self_healing",
+              "supercoffee",
+              "spell_rage",
+              "spell_stamina_wonder",
+              "spell_night_vision",
+              "spell_dodge",
+              "spell_endurance",
+              "spell_invisibility",
+              "spell_clairvoyance",
+              "spell_melee_damage",
+              "spell_spear",
+              "spell_speed_wonder",
+              "spell_weak",
+              "spell_unbreakable",
+              "point_blank"
+            ],
+            "target_var": { "var_val": "random_eater_spell" }
+          }
+        ]
+      },
+      { "math": [ "xe_eater_leveling", "--" ] },
+      { "u_message": "global_val:xe_eater_leveling: <global_val:xe_eater_leveling>" },
+      { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_PICK_SPELL_DREAMER",
+    "effect": [
+      {
+        "foreach": "array",
+        "var": { "context_val": "random_dreamer_spell" },
+        "target": [ "_xe_spell_1", "_xe_spell_2", "_xe_spell_3", "_xe_spell_4" ],
+        "effect": [
+          {
+            "set_string_var": [
+              "dream_blade",
+              "dream_dagger",
+              "dream_armor",
+              "create_dream_dross",
+              "banish_nether_monsters",
+              "banish_dark_monsters",
+              "spell_summon_twin",
+              "spell_summon_twin_flood",
+              "spell_dreamer_clairvoyance",
+              "spell_dreamer_clairvoyance_eff",
+              "summon_shifter",
+              "summon_sapient_light",
+              "make_constructed_hammer",
+              "summon_duplicator",
+              "teleport_coin",
+              "summon_ophanim",
+              "summon_winch",
+              "summon_winch_item",
+              "dreamer_artifact",
+              "spell_karma_arms",
+              "spell_stalker_eyes",
+              "spell_devil_tail"
+            ],
+            "target_var": { "var_val": "random_dreamer_spell" }
+          }
+        ]
+      },
+      { "math": [ "xe_dreamer_leveling", "--" ] },
+      { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_SPELL_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_XE_GIVE_SPELL_1", "EOC_XE_GIVE_SPELL_2", "EOC_XE_GIVE_SPELL_3", "EOC_XE_GIVE_SPELL_4" ],
+        "title": "Choose your Destiny",
+        "names": [
+          "<spell_name:<context_val:xe_spell_1>>",
+          "<spell_name:<context_val:xe_spell_2>>",
+          "<spell_name:<context_val:xe_spell_3>>",
+          "<spell_name:<context_val:xe_spell_4>>"
+        ],
+        "keys": [ "1", "2", "3", "4" ],
+        "descriptions": [
+          "<spell_description:<context_val:xe_spell_1>>",
+          "<spell_description:<context_val:xe_spell_2>>",
+          "<spell_description:<context_val:xe_spell_3>>",
+          "<spell_description:<context_val:xe_spell_4>>"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_SPELL_1",
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)", "++" ] }, { "u_message": "got spell" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_SPELL_2",
+    "condition": { "math": [ "u_skill('deduction')", ">=", "3" ] },
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_2)", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_SPELL_3",
+    "condition": { "math": [ "u_skill('deduction')", ">=", "6" ] },
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_3)", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GIVE_SPELL_4",
+    "condition": { "math": [ "u_skill('deduction')", ">=", "8" ] },
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_4)", "++" ] } ]
+  }
+]
