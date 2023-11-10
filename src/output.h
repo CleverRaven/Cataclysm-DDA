@@ -1055,7 +1055,7 @@ class scrolling_text_view
 class scrollingcombattext
 {
     public:
-        enum : int { iMaxSteps = 8 };
+        static constexpr int iMaxSteps = 8;
 
         scrollingcombattext() = default;
 

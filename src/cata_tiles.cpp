@@ -4821,7 +4821,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
         for( int j = 0; j < 2; ++j ) {
             std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
             int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
-                                           iter->getStep() >= SCT.iMaxSteps / 2 );
+                                           iter->getStep() >= scrollingcombattext::iMaxSteps / 2 );
 
             if( use_font ) {
                 const direction direction = iter->getDirection();
