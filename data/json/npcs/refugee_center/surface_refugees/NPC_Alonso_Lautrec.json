@@ -437,8 +437,8 @@
       "type": "general",
       "context": "none",
       "value": "asked",
-      "no": "Alonso think maybe you're too young for Alonso.",
-      "yes": "Sorry kid, I won't do this, you seem too young."
+      "no": "Alonso thinks maybe we should wait a few years?",
+      "yes": "Sorry kid, you're younger than my little sister was.  Seems wrong."
     },
     "responses": [ { "text": "Sigh.", "topic": "TALK_DONE" } ]
   },
