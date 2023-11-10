@@ -51,7 +51,7 @@
     "category": "spare_parts",
     "price": 90,
     "price_postapoc": 0,
-    "name": { "str": "unused .22 blank casing" },
+    "name": { "str": "unused .22 short casing" },
     "symbol": "=",
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact. This one appears to be sourced from a blank round and is thus shorter.",
