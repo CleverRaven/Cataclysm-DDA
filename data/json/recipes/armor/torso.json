@@ -773,9 +773,9 @@
     "difficulty": 6,
     "time": "9 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 60 ], [ "fabric_leather_hide", 5 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_patchwork", 9 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -788,14 +788,14 @@
     "type": "recipe",
     "copy-from": "duster_leather",
     "time": "9 h",
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_leather_hide", 3 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 45 ], [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_duster_leather",
     "type": "recipe",
     "copy-from": "duster_leather",
     "time": "10 h 10 m",
-    "using": [ [ "sewing_standard", 80 ], [ "fabric_leather_hide", 7 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 80 ], [ "tailoring_leather_patchwork", 12 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "duster_survivor",
@@ -1015,9 +1015,9 @@
     "difficulty": 5,
     "time": "7 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "fabric_leather_hide", 3 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_leather_patchwork", 5 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
@@ -1479,9 +1479,9 @@
     "difficulty": 6,
     "time": "7 h 39 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "fabric_leather_hide", 8 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1688,7 +1688,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -1996,7 +1996,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "1 h" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 12 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2166,7 +2166,7 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
@@ -2557,7 +2557,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "10 h 40 m",
-    "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "book_learn": [ [ "bronze_book", 5 ], [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
@@ -2588,7 +2588,7 @@
     "difficulty": 5,
     "time": "9 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 22 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]

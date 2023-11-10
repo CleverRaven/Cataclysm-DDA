@@ -10,7 +10,7 @@
       "96 units are consumed per day, with RDA of 1000mg / 96 = 10.42mg",
       "1000mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/calcium-HealthProfessional/#h2"
     ],
-    "weight_per_unit": "10 mg",
+    "weight_per_unit": "10 mg 420 μg",
     "rate": "15 m"
   },
   {
@@ -24,9 +24,9 @@
     "//": [
       "96 units are consumed per day, with RDA of 18mg / 96 = 0.1875mg",
       "18mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/iron-HealthProfessional/#h2",
-      "As it varies with sex, the max value was chosen",
-      "still, mass only has mg resolution, so it cannot be in mass units (for now)"
+      "As it varies with sex, the max value was chosen"
     ],
+    "weight_per_unit": "188 ug",
     "rate": "15 m",
     "disease": [ [ -9600, -11200 ], [ -11201, -12800 ], [ -12801, -24000 ] ]
   },
@@ -43,7 +43,7 @@
       "90mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/#h2",
       "As it varies with sex, the max value was chosen"
     ],
-    "weight_per_unit": "1 mg",
+    "weight_per_unit": "938 mcg",
     "rate": "15 m",
     "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
   },

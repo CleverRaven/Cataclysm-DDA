@@ -45,8 +45,7 @@
       {
         "id": "tdi_mag",
         "name": { "str": "Vector SMG 30-round magazine" },
-        "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector.",
-        "weight": 1
+        "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector."
       }
     ],
     "weight": "210 g",
@@ -157,8 +156,7 @@
       {
         "id": "usp45mag",
         "name": { "str": "USP .45 12-round magazine" },
-        "description": "A standard capacity magazine for use with the H&K USP handgun.",
-        "weight": 1
+        "description": "A standard capacity magazine for use with the H&K USP handgun."
       }
     ],
     "weight": "60 g",
@@ -234,8 +232,7 @@
       {
         "id": "ppq45mag",
         "name": { "str": "PPQ .45 ACP 12-round magazine" },
-        "description": "A 12-round steel box magazine for the Walther PPQ .45 ACP.",
-        "weight": 1
+        "description": "A 12-round steel box magazine for the Walther PPQ .45 ACP."
       }
     ],
     "weight": "80 g",
@@ -277,8 +274,7 @@
       {
         "id": "glock_21mag",
         "name": { "str": "Glock 21 13-round magazine" },
-        "description": "A standard capacity magazine for use with the Glock 21.",
-        "weight": 1
+        "description": "A standard capacity magazine for use with the Glock 21."
       }
     ],
     "weight": "85 g",
@@ -303,8 +299,7 @@
       {
         "id": "glock_21mag26",
         "name": { "str": "Glock 21 26-round magazine" },
-        "description": "A double-capacity magazine for use with the Glock 21.",
-        "weight": 1
+        "description": "A double-capacity magazine for use with the Glock 21."
       }
     ],
     "weight": "85 g",
@@ -355,8 +350,7 @@
       {
         "id": "greasegun32mag",
         "name": { "str": "M3 SMG 32-round magazine" },
-        "description": "A standard 32-round magazine for the M3 submachine gun.",
-        "weight": 1
+        "description": "A standard 32-round magazine for the M3 submachine gun."
       }
     ],
     "weight": "355 g",

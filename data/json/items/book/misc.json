@@ -1163,8 +1163,7 @@
       {
         "id": "book_judaica_hardcover_2",
         "name": { "str": "Hell in Jewish Literature", "str_pl": "copies of Hell in Jewish Literature" },
-        "description": "A analysis of rabbinic discussions of Gehinnom, the Jewish afterlife for the cleansing of sins, including how big it is, how hot it is, who goes there, how long they stay there, whether there is any relief from their punishments in the meantime, and exactly what shape Gehinnom is.",
-        "weight": 1
+        "description": "A analysis of rabbinic discussions of Gehinnom, the Jewish afterlife for the cleansing of sins, including how big it is, how hot it is, who goes there, how long they stay there, whether there is any relief from their punishments in the meantime, and exactly what shape Gehinnom is."
       },
       {
         "id": "book_judaica_hardcover_3",
@@ -1172,14 +1171,12 @@
           "str": "Mimekor Yisrael, Book One: The National Tales",
           "str_pl": "copies of Mimekor Yisrael, Book One: The National Tales"
         },
-        "description": "A collection of Jewish folktales, from Ashmedai king of demons to golem-making rabbis, from the Torah scholar who showed Aristotle the futility of philosophy to how Satan refused to bow to Adam because Adam was created from the dust of the earth, from martyrs murdered by Christian persecutors to General Joab single-handedly killing two thousand Amalekites so that when the blood ran out like a river through the city gates his troops knew to stop besieging the city and assault it, and dozens more besides.",
-        "weight": 1
+        "description": "A collection of Jewish folktales, from Ashmedai king of demons to golem-making rabbis, from the Torah scholar who showed Aristotle the futility of philosophy to how Satan refused to bow to Adam because Adam was created from the dust of the earth, from martyrs murdered by Christian persecutors to General Joab single-handedly killing two thousand Amalekites so that when the blood ran out like a river through the city gates his troops knew to stop besieging the city and assault it, and dozens more besides."
       },
       {
         "id": "book_judaica_hardcover_4",
         "name": { "str": "On the Doorposts of Your House", "str_pl": "copies of On the Doorposts of Your House" },
-        "description": "A list of prayers, meditations, and rituals for use at home, from lighting the Shabbat candles to welcoming a new child into the household.",
-        "weight": 1
+        "description": "A list of prayers, meditations, and rituals for use at home, from lighting the Shabbat candles to welcoming a new child into the household."
       },
       {
         "id": "book_judaica_hardcover_5",
@@ -1187,14 +1184,12 @@
           "str": "The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews",
           "str_pl": "copies of The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews"
         },
-        "description": "A long discussion of the ways in which Judaism's ancient rituals, traditions, and ethical practices are still relevant and meaningful in the modern world.  Unfortunately, there's no discussion of post-apocalyptic Judaism.",
-        "weight": 1
+        "description": "A long discussion of the ways in which Judaism's ancient rituals, traditions, and ethical practices are still relevant and meaningful in the modern world.  Unfortunately, there's no discussion of post-apocalyptic Judaism."
       },
       {
         "id": "book_judaica_hardcover_6",
         "name": { "str": "Siddur Tisha b'Av", "str_pl": "copies of Siddur Tisha b'Av" },
-        "description": "A prayerbook for Tisha b'Av, the most solemn day in the Jewish year.  This one also contains the full text of the book of Lamentations and selected commentaries.",
-        "weight": 1
+        "description": "A prayerbook for Tisha b'Av, the most solemn day in the Jewish year.  This one also contains the full text of the book of Lamentations and selected commentaries."
       },
       {
         "id": "book_judaica_hardcover_7",
@@ -1202,14 +1197,12 @@
           "str": "Coming to Terms with America: Essays on Jewish History, Religion, and Culture",
           "str_pl": "copies of Coming to Terms with America: Essays on Jewish History, Religion, and Culture"
         },
-        "description": "A series of fifteen essays by Jonathan Sarna on Jews' attempt to be both distinctively Jewish but also definitely American, covering the American Revolution through to contemporary times.",
-        "weight": 1
+        "description": "A series of fifteen essays by Jonathan Sarna on Jews' attempt to be both distinctively Jewish but also definitely American, covering the American Revolution through to contemporary times."
       },
       {
         "id": "book_judaica_hardcover_8",
         "name": { "str": "In This Hour", "str_pl": "copies of In This Hour" },
-        "description": "An English translation of works written by Rabbi Abraham Joshua Heschel during the Nazi rule of Germany and Rabbi Heschel's exile in England, concerning historic and current persecution and his vision for Jewish education.",
-        "weight": 1
+        "description": "An English translation of works written by Rabbi Abraham Joshua Heschel during the Nazi rule of Germany and Rabbi Heschel's exile in England, concerning historic and current persecution and his vision for Jewish education."
       },
       {
         "id": "book_judaica_hardcover_9",
@@ -1217,8 +1210,7 @@
           "str": "Jewish Literacy: The Most Important Things to Know About the Jewish Religion, Its People and Its History",
           "str_pl": "copies of Jewish Literacy: The Most Important Things to Know About the Jewish Religion, Its People and Its History"
         },
-        "description": "Rabbi Joseph Telushkin's encyclopedic tome of Jewish life, running to hundreds of chapters and answering questions about the Hebrew bible, the Talmud, the holidays and rituals, the Holocaust, Israel and the diaspora, and everything in between.",
-        "weight": 1
+        "description": "Rabbi Joseph Telushkin's encyclopedic tome of Jewish life, running to hundreds of chapters and answering questions about the Hebrew bible, the Talmud, the holidays and rituals, the Holocaust, Israel and the diaspora, and everything in between."
       },
       {
         "id": "book_judaica_hardcover_10",
@@ -1226,8 +1218,7 @@
           "str": "Biblical Literacy: The Most Important People, Events and Ideas of the Hebrew Bible",
           "str_pl": "copies of Biblical Literacy: The Most Important People, Events and Ideas of the Hebrew Bible"
         },
-        "description": "Rabbi Joseph Telushkin's exploration and analysis of the Hebrew Bible, containing a myriad of commentary and analysis, including on famous stories like the Binding of Isaac or the Exodus, a discussion of the weekly Torah readings that form part of the Jewish liturgical calendar, and a list of all 613 mitzvot.",
-        "weight": 1
+        "description": "Rabbi Joseph Telushkin's exploration and analysis of the Hebrew Bible, containing a myriad of commentary and analysis, including on famous stories like the Binding of Isaac or the Exodus, a discussion of the weekly Torah readings that form part of the Jewish liturgical calendar, and a list of all 613 mitzvot."
       },
       {
         "id": "book_judaica_hardcover_11",
@@ -1235,8 +1226,7 @@
           "str": "This Is Real and You Are Completely Unprepared",
           "str_pl": "copies of This Is Real and You Are Completely Unprepared"
         },
-        "description": "An in-depth discussion of the High Holy Days, starting with the Three Weeks and Nine Days before Tisha b'Av and continuing all the way through Sukkot, as a single period of rising and falling emotion, wherein each individual prepares themselves to stand before God.  A very well-known book that some people read every year and others mean to get around to finally reading this year.",
-        "weight": 1
+        "description": "An in-depth discussion of the High Holy Days, starting with the Three Weeks and Nine Days before Tisha b'Av and continuing all the way through Sukkot, as a single period of rising and falling emotion, wherein each individual prepares themselves to stand before God.  A very well-known book that some people read every year and others mean to get around to finally reading this year."
       },
       {
         "id": "book_judaica_hardcover_12",
@@ -1244,20 +1234,17 @@
           "str": "OU Manual for Checking Fruits and Vegetables",
           "str_pl": "copies of the OU Manual for Checking Fruits and Vegetables"
         },
-        "description": "A comprehensive guide to checking produce for insect infestation and how to prepare produce according to Jewish dietary law.",
-        "weight": 1
+        "description": "A comprehensive guide to checking produce for insect infestation and how to prepare produce according to Jewish dietary law."
       },
       {
         "id": "book_judaica_hardcover_13",
         "name": { "str": "Shalom Rav, Volume 1", "str_pl": "copies of Shalom Rav, Volume 1" },
-        "description": "Rabbi Shalom Rosner's commentary on the weekly Torah portion, covering the books of Genesis and Exodus.",
-        "weight": 1
+        "description": "Rabbi Shalom Rosner's commentary on the weekly Torah portion, covering the books of Genesis and Exodus."
       },
       {
         "id": "book_judaica_hardcover_14",
         "name": { "str": "Shalom Rav, Volume 2", "str_pl": "copies of Shalom Rav, Volume 2" },
-        "description": "Rabbi Shalom Rosner's commentary on the weekly Torah portion, covering the books of Leviticus, Numbers, and Deuteronomy.",
-        "weight": 1
+        "description": "Rabbi Shalom Rosner's commentary on the weekly Torah portion, covering the books of Leviticus, Numbers, and Deuteronomy."
       },
       {
         "id": "book_judaica_hardcover_15",
@@ -1265,14 +1252,12 @@
           "str": "The Origins of Judaism: An Archaeological-Historical Reappraisal",
           "str_pl": "copies of The Origins of Judaism: An Archaeological-Historical Reappraisal"
         },
-        "description": "An examination of the archeological evidence behind the beginning of many Jewish traditions, including eschewing pork, adopting tefillin and placing mezuzot on doorposts, and circumcision.",
-        "weight": 1
+        "description": "An examination of the archeological evidence behind the beginning of many Jewish traditions, including eschewing pork, adopting tefillin and placing mezuzot on doorposts, and circumcision."
       },
       {
         "id": "book_judaica_hardcover_16",
         "name": { "str": "The Guide for the Perplexed", "str_pl": "copies of the Guide for the Perplexed" },
-        "description": "An English translation of the great sage Rabbi Moses ben Maimon's work finding common points between natural philosophy and Talmudic scholarship.  Contains the famous Thirteen Principles of Faith, accepted by many Jews as a summary of the fundamental beliefs of Judaism.",
-        "weight": 1
+        "description": "An English translation of the great sage Rabbi Moses ben Maimon's work finding common points between natural philosophy and Talmudic scholarship.  Contains the famous Thirteen Principles of Faith, accepted by many Jews as a summary of the fundamental beliefs of Judaism."
       },
       {
         "id": "book_judaica_hardcover_17",
@@ -1280,8 +1265,7 @@
           "str": "Jewish Publication Society Torah Commentary: Genesis",
           "str_pl": "copies of the Jewish Publication Society Torah Commentary: Genesis"
         },
-        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Genesis.",
-        "weight": 1
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Genesis."
       },
       {
         "id": "book_judaica_hardcover_18",
@@ -1289,8 +1273,7 @@
           "str": "Jewish Publication Society Torah Commentary: Exodus",
           "str_pl": "copies of the Jewish Publication Society Torah Commentary: Exodus"
         },
-        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Exodus.",
-        "weight": 1
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Exodus."
       },
       {
         "id": "book_judaica_hardcover_19",
@@ -1298,8 +1281,7 @@
           "str": "Jewish Publication Society Torah Commentary: Leviticus",
           "str_pl": "copies of the Jewish Publication Society Torah Commentary: Leviticus"
         },
-        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Leviticus.",
-        "weight": 1
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Leviticus."
       },
       {
         "id": "book_judaica_hardcover_20",
@@ -1307,8 +1289,7 @@
           "str": "Jewish Publication Society Torah Commentary: Numbers",
           "str_pl": "copies of the Jewish Publication Society Torah Commentary: Numbers"
         },
-        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Numbers.",
-        "weight": 1
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Numbers."
       },
       {
         "id": "book_judaica_hardcover_21",
@@ -1316,14 +1297,12 @@
           "str": "Jewish Publication Society Torah Commentary: Deuteronomy",
           "str_pl": "copies of the Jewish Publication Society Torah Commentary: Deuteronomy"
         },
-        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Deuteronomy.",
-        "weight": 1
+        "description": "A series of Torah commentaries written by scholars and academics, containing the traditional Hebrew text, a translation, and various notes.  This volume is for the book of Deuteronomy."
       },
       {
         "id": "book_judaica_hardcover_22",
         "name": { "str": "Shulchan Arukh", "str_pl": "copies of the Shulchan Arukh" },
-        "description": "Compiled by Rabbi Yosef Karo in the 16th century, the Shuchan Arukh is the most widely-consulted and authoritative compilation of Jewish law lasting into the present day.  If you need to convene a post-Cataclysmic Beit Din, keep this with you and you'll be set.",
-        "weight": 1
+        "description": "Compiled by Rabbi Yosef Karo in the 16th century, the Shuchan Arukh is the most widely-consulted and authoritative compilation of Jewish law lasting into the present day.  If you need to convene a post-Cataclysmic Beit Din, keep this with you and you'll be set."
       }
     ]
   },
@@ -1345,26 +1324,22 @@
           "str": "A Short History of the Jewish People: From Legendary Times to to Modern Statehood",
           "str_pl": "copies of A Short History of the Jewish People: From Legendary Times to to Modern Statehood"
         },
-        "description": "A survey-level study of Jewish history, from Biblical times through to the 1990s.  At only 250 pages long, it is by necessity very brief on any individual topic.",
-        "weight": 1
+        "description": "A survey-level study of Jewish history, from Biblical times through to the 1990s.  At only 250 pages long, it is by necessity very brief on any individual topic."
       },
       {
         "id": "book_judaica_softcover_2",
         "name": { "str": "I and Thou", "str_pl": "copies of I and Thou" },
-        "description": "An English translation of Martin Buber's philosophical work on the relationships of human beings to each other and to God.",
-        "weight": 1
+        "description": "An English translation of Martin Buber's philosophical work on the relationships of human beings to each other and to God."
       },
       {
         "id": "book_judaica_softcover_3",
         "name": { "str": "Living a Jewish Life", "str_pl": "copies of Living a Jewish Life" },
-        "description": "Anita Diamant's survey-level discussion of the daily practices and rituals of Jewish life.  Originally mostly superseded by the free availability of information on the internet, it's much more useful now for everyone who feels bad that they didn't attend their synagogue often enough before it was overrun.",
-        "weight": 1
+        "description": "Anita Diamant's survey-level discussion of the daily practices and rituals of Jewish life.  Originally mostly superseded by the free availability of information on the internet, it's much more useful now for everyone who feels bad that they didn't attend their synagogue often enough before it was overrun."
       },
       {
         "id": "book_judaica_softcover_4",
         "name": { "str": "What Is a Jew", "str_pl": "copies of What Is a Jew" },
-        "description": "Rabbi Morris Kertzer's introductory text about Judaism and Jewish beliefs, written as a series of questions and then answers, primarily from a Reform viewpoint but with explicit mention of where Conservative or Orthodox Jews would disagree.",
-        "weight": 1
+        "description": "Rabbi Morris Kertzer's introductory text about Judaism and Jewish beliefs, written as a series of questions and then answers, primarily from a Reform viewpoint but with explicit mention of where Conservative or Orthodox Jews would disagree."
       },
       {
         "id": "book_judaica_softcover_5",
@@ -1372,26 +1347,22 @@
           "str": "The Way of Humanity: According to Chasidic Teachings",
           "str_pl": "copies of The Way of Humanity: According to Chasidic Teachings"
         },
-        "description": "An English translation of lectures given by Martin Buber on six traditional Chasidic stories from the 18th and 19th centuries.",
-        "weight": 1
+        "description": "An English translation of lectures given by Martin Buber on six traditional Chasidic stories from the 18th and 19th centuries."
       },
       {
         "id": "book_judaica_softcover_6",
         "name": { "str": "Megillat Esther: The Book of Esther", "str_pl": "copies of Megillat Esther: The Book of Esther" },
-        "description": "A comprehensive work for celebrating Purim, this book contains the complete Book of Esther in Hebrew, multiple English translations, commentary on each of its chapters, and commentary on certain verses by a group of Conservative rabbis.  Cursed be Haman (booo)!",
-        "weight": 1
+        "description": "A comprehensive work for celebrating Purim, this book contains the complete Book of Esther in Hebrew, multiple English translations, commentary on each of its chapters, and commentary on certain verses by a group of Conservative rabbis.  Cursed be Haman (booo)!"
       },
       {
         "id": "book_judaica_softcover_7",
         "name": { "str": "Halakhic Man", "str_pl": "copies of Halakhic Man" },
-        "description": "Rabbi Joseph Soloveitchik's argument on the proper path to moral virtue through Torah scholarship and observance to the law, through the intellect and not through mystical experience or surrender to God.",
-        "weight": 1
+        "description": "Rabbi Joseph Soloveitchik's argument on the proper path to moral virtue through Torah scholarship and observance to the law, through the intellect and not through mystical experience or surrender to God."
       },
       {
         "id": "book_judaica_softcover_8",
         "name": { "str": "Maxwell House Haggadah", "str_pl": "copies of the Maxwell House Haggadah" },
-        "description": "Just like bubbe used to have at the Seder.  A true classic of the Jewish people despite its origin as a marketing tactic to sell coffee, the Maxwell House Haggadah has sold millions of copies and graced the Passover tables of millions of families.",
-        "weight": 1
+        "description": "Just like bubbe used to have at the Seder.  A true classic of the Jewish people despite its origin as a marketing tactic to sell coffee, the Maxwell House Haggadah has sold millions of copies and graced the Passover tables of millions of families."
       },
       {
         "id": "book_judaica_softcover_9",
@@ -1399,8 +1370,7 @@
           "str": "Reviving Synagogue Communities Using Smart Tech",
           "str_pl": "copies of Reviving Synagogue Communities Using Smart Tech"
         },
-        "description": "A discussion of ways to use modern technology to alleviate the administrative burden on clergy and synagogue staff but without losing the human touch that leads to a proper religious community.",
-        "weight": 1
+        "description": "A discussion of ways to use modern technology to alleviate the administrative burden on clergy and synagogue staff but without losing the human touch that leads to a proper religious community."
       },
       {
         "id": "book_judaica_softcover_10",
@@ -1408,8 +1378,7 @@
           "str": "On Repentance And Repair: Making Amends in an Unapologetic World",
           "str_pl": "copies of On Repentance And Repair: Making Amends in an Unapologetic World"
         },
-        "description": "Rabbi Danya Ruttenberg's commentary on the great Jewish philosopher Maimonides ideas about \"Tikkum Olam\", often translated as \"Repairing the World,\" and how while popular ideas of forgiveness often involve moving on after the apology, the Hebrew word \"teshuvah\" means something closer to \"return.\"  True repentance, then, involves making restitution for error and harm and attempting to return the world to the way it was before the damage was done.",
-        "weight": 1
+        "description": "Rabbi Danya Ruttenberg's commentary on the great Jewish philosopher Maimonides ideas about \"Tikkum Olam\", often translated as \"Repairing the World,\" and how while popular ideas of forgiveness often involve moving on after the apology, the Hebrew word \"teshuvah\" means something closer to \"return.\"  True repentance, then, involves making restitution for error and harm and attempting to return the world to the way it was before the damage was done."
       },
       {
         "id": "book_judaica_softcover_11",
@@ -1417,8 +1386,7 @@
           "str": "Beyond Breaking the Glass: A Spiritual Guide to Your Jewish Wedding, Revised Edition",
           "str_pl": "copies of Beyond Breaking the Glass: A Spiritual Guide to Your Jewish Wedding, Revised Edition"
         },
-        "description": "A practical guide to throwing a Jewish wedding, including checklists, a timeline, and ways to make traditional rituals resonate with modern wedding guests.",
-        "weight": 1
+        "description": "A practical guide to throwing a Jewish wedding, including checklists, a timeline, and ways to make traditional rituals resonate with modern wedding guests."
       },
       {
         "id": "book_judaica_softcover_12",
@@ -1426,8 +1394,7 @@
           "str": "People Love Dead Jews: Reports from a Haunted Present",
           "str_pl": "copies of People Love Dead Jews: Reports from a Haunted Present "
         },
-        "description": "Dara Horn's exploration of the modern rise of antisemitism, why there is so much interest in Jewish tragedy and comparatively little interest in Jewish culture, and why non-Jews feature so often and so prominently in popular stories of the Holocaust.  It would probably have been riveting and insightful before the Cataclysm made such concerns mostly irrelevant.",
-        "weight": 1
+        "description": "Dara Horn's exploration of the modern rise of antisemitism, why there is so much interest in Jewish tragedy and comparatively little interest in Jewish culture, and why non-Jews feature so often and so prominently in popular stories of the Holocaust.  It would probably have been riveting and insightful before the Cataclysm made such concerns mostly irrelevant."
       },
       {
         "id": "book_judaica_softcover_13",
@@ -1435,8 +1402,7 @@
           "str": "God in Search of Man : A Philosophy of Judaism",
           "str_pl": "copies of God in Search of Man : A Philosophy of Judaism "
         },
-        "description": "Rabbi Abraham Joshua Heschel's philosophical work on religious thought, on revelation and the problem of evil, and on the nature of a God who seeks a partner in humanity.",
-        "weight": 1
+        "description": "Rabbi Abraham Joshua Heschel's philosophical work on religious thought, on revelation and the problem of evil, and on the nature of a God who seeks a partner in humanity."
       },
       {
         "id": "book_judaica_softcover_14",
@@ -1444,20 +1410,17 @@
           "str": "Not in God's Name: Confronting Religious Violence",
           "str_pl": "copies of Not in God's Name: Confronting Religious Violence "
         },
-        "description": "Rabbi Abraham Joshua Heschel's answer to the claim that religion is fundamentally divisive and encourages conflict.  His main argument is that religiously-motivated violence stems from misreadings of sacred texts.",
-        "weight": 1
+        "description": "Rabbi Abraham Joshua Heschel's answer to the claim that religion is fundamentally divisive and encourages conflict.  His main argument is that religiously-motivated violence stems from misreadings of sacred texts."
       },
       {
         "id": "book_judaica_softcover_15",
         "name": { "str": "When Bad Things Happen to Good People", "str_pl": "copies of When Bad Things Happen to Good People" },
-        "description": "A meditation on meaningless tragedy and why the disaster and sorrow in the world is unevenly distributed.  Written decades before the Catalcysm, but the author was obviously on to something.",
-        "weight": 1
+        "description": "A meditation on meaningless tragedy and why the disaster and sorrow in the world is unevenly distributed.  Written decades before the Catalcysm, but the author was obviously on to something."
       },
       {
         "id": "book_judaica_softcover_16",
         "name": { "str": "The Jewish War: Revised Edition", "str_pl": "copies of The Jewish War: Revised Edition" },
-        "description": "An account of the Roman conquest of Judea and the destruction of the Temple written by Josephus, the first century Judean rebel turned Roman negotiator.",
-        "weight": 1
+        "description": "An account of the Roman conquest of Judea and the destruction of the Temple written by Josephus, the first century Judean rebel turned Roman negotiator."
       },
       {
         "id": "book_judaica_softcover_17",
@@ -1465,8 +1428,7 @@
           "str": "Standing Again at Sinai: Judaism from a Feminist Perspective",
           "str_pl": "copies of Standing Again at Sinai: Judaism from a Feminist Perspective"
         },
-        "description": "A critique of Jewish practice by a Jewish feminist theologian.",
-        "weight": 1
+        "description": "A critique of Jewish practice by a Jewish feminist theologian."
       },
       {
         "id": "book_judaica_softcover_18",
@@ -1474,8 +1436,7 @@
           "str": "Zohar: The Book of Splendor: Basic Readings from the Kabbalah",
           "str_pl": "copies of Zohar: The Book of Splendor: Basic Readings from the Kabbalah"
         },
-        "description": "A book of Jewish mysticism often attributed to the great rabbi Shimon bar Yochai, the Zohar is the central work of Kabbalah.  This is an abridged version containing selected passages from the full text.",
-        "weight": 1
+        "description": "A book of Jewish mysticism often attributed to the great rabbi Shimon bar Yochai, the Zohar is the central work of Kabbalah.  This is an abridged version containing selected passages from the full text."
       },
       {
         "id": "book_judaica_softcover_19",
@@ -1483,14 +1444,12 @@
           "str": "Miriam’s Tambourine: Jewish Folktales from Around the World",
           "str_pl": "copies of Miriam’s Tambourine: Jewish Folktales from Around the World"
         },
-        "description": "A collection of over fifty Jewish folktales, from classics like the story of Miriam's well or Rabbi Loew and the golem or the life of the Baal Shem Tov, to Jewish versions of modern cultural classics like Snow White or Sinbad.",
-        "weight": 1
+        "description": "A collection of over fifty Jewish folktales, from classics like the story of Miriam's well or Rabbi Loew and the golem or the life of the Baal Shem Tov, to Jewish versions of modern cultural classics like Snow White or Sinbad."
       },
       {
         "id": "book_judaica_softcover_20",
         "name": { "str": "From the Maccabees to the Mishnah", "str_pl": "copies of From the Maccabees to the Mishnah" },
-        "description": "A history of the development of Rabbinic Judaism, from the Jewish Revolt in the first century to the writing of the Mishnah, and how Judaism and Christianity fully separated.",
-        "weight": 1
+        "description": "A history of the development of Rabbinic Judaism, from the Jewish Revolt in the first century to the writing of the Mishnah, and how Judaism and Christianity fully separated."
       }
     ]
   }

@@ -1029,6 +1029,7 @@
       "tec_ninjutsu_swift",
       "tec_ninjutsu_swift_crit",
       "tec_ninjutsu_takedown",
+      "tec_ninjutsu_takedown_melee",
       "tec_ninjutsu_precise",
       "tec_ninjutsu_staffdown",
       "tec_ninjutsu_downkill"
@@ -1312,7 +1313,7 @@
         ]
       }
     ],
-    "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
+    "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip", "tec_sojutsu_jab" ],
     "weapon_category": [ "POLEARMS" ]
   },
   {

@@ -1,0 +1,183 @@
+[
+  {
+    "id": "ammo_can_308_any_full",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_308_full", "prob": 100 }, { "group": "ammo_can_308_ap_full", "prob": 100 } ]
+  },
+  {
+    "id": "ammo_can_308_any_part",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_308_part", "prob": 100 }, { "group": "ammo_can_308_ap_part", "prob": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "id": "ammo_can_308_mg_any_full",
+    "type": "item_group",
+    "items": [
+      { "group": "ammo_can_belt308_full", "prob": 100 },
+      { "group": "ammo_can_belt308_full_4ap_1tracer", "prob": 100 },
+      { "group": "ammo_can_belt308_ball_full", "prob": 100 },
+      { "group": "ammo_can_belt308_full_5ap", "prob": 100 }
+    ]
+  },
+  {
+    "id": "ammo_can_308_mg_any_part",
+    "type": "item_group",
+    "items": [
+      { "group": "ammo_can_belt308_part", "prob": 100 },
+      { "group": "ammo_can_belt308_part_4ap_1tracer", "prob": 100 },
+      { "group": "ammo_can_belt308_ball_part", "prob": 100 },
+      { "group": "ammo_can_belt308_part_5ap", "prob": 100 }
+    ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_308_full",
+    "container-item": "ammo_can_30_308fmj_460",
+    "items": [ { "group": "ammo_box_308", "count": 23 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_308_part",
+    "container-item": "ammo_can_30_308fmj_460",
+    "items": [ { "group": "ammo_box_308", "count": [ 0, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_308",
+    "container-item": "ammo_box_army_20_308",
+    "items": [ { "item": "762_51", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_belt308_full",
+    "container-item": "ammo_can_30_308_4fmj1tracer_200",
+    "items": [ { "group": "ammo_can_belt308_pouch", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_part",
+    "container-item": "ammo_can_30_308_4fmj1tracer_200",
+    "items": [ { "group": "ammo_can_belt308_pouch", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_pouch",
+    "container-item": "cheap_ammo_pouch_belt308",
+    "items": [ { "group": "belt308_4ball_1tracer" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "belt308_4ball_1tracer",
+    "container-item": "belt308",
+    "subtype": "collection",
+    "//": "should actually be M80A1 instead of M80 but we don't have one",
+    "items": [
+      { "item": "762_51_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
+      { "item": "762_51", "count": 1, "charges-min": 80, "charges-max": 80 }
+    ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_belt308_full_4ap_1tracer",
+    "container-item": "ammo_can_30_308_1tracer4ap_200",
+    "items": [ { "group": "ammo_can_belt308_pouch_4ap_1tracer", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_part_4ap_1tracer",
+    "container-item": "ammo_can_30_308_1tracer4ap_200",
+    "items": [ { "group": "ammo_can_belt308_pouch_4ap_1tracer", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_pouch_4ap_1tracer",
+    "container-item": "cheap_ammo_pouch_belt308",
+    "items": [ { "group": "belt308_4ap_1tracer" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "belt308_4ap_1tracer",
+    "container-item": "belt308",
+    "subtype": "collection",
+    "items": [
+      { "item": "762_51_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
+      { "item": "762_51_m993", "count": 1, "charges-min": 80, "charges-max": 80 }
+    ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_308_ap_full",
+    "container-item": "ammo_can_30_308ap_240",
+    "items": [ { "group": "ammo_box_ap_308", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_308_ap_part",
+    "container-item": "ammo_can_30_308ap_240",
+    "items": [ { "group": "ammo_box_ap_308", "count": [ 0, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_ap_308",
+    "container-item": "ammo_box_army_20_308",
+    "items": [ { "item": "762_51_m993", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_belt308_ball_full",
+    "container-item": "ammo_can_50_308_600",
+    "items": [ { "group": "ammo_can_belt308_ball_pouch", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_ball_part",
+    "container-item": "ammo_can_50_308_600",
+    "items": [ { "group": "ammo_can_belt308_ball_pouch", "count": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_ball_pouch",
+    "container-item": "cheap_ammo_pouch_belt308",
+    "items": [ { "group": "belt308_ball" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "belt308_ball",
+    "container-item": "belt308",
+    "subtype": "collection",
+    "//": "should actually be M80A1 instead of M80 but we don't have one",
+    "items": [ { "item": "762_51", "count": 1, "charges-min": 100, "charges-max": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_belt308_full_5ap",
+    "container-item": "ammo_can_fat_50_308_1tracer4ap_600",
+    "items": [ { "group": "ammo_can_belt308_pouch_5ap", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_part_5ap",
+    "container-item": "ammo_can_fat_50_308_1tracer4ap_600",
+    "items": [ { "group": "ammo_can_belt308_pouch_5ap", "count": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt308_pouch_5ap",
+    "container-item": "cheap_ammo_pouch_belt308",
+    "items": [ { "group": "belt308_5ap" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "belt308_5ap",
+    "container-item": "belt308",
+    "subtype": "collection",
+    "items": [ { "item": "762_51_m993", "count": 1, "charges-min": 100, "charges-max": 100 } ]
+  }
+]

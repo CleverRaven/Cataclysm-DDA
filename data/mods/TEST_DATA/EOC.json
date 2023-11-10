@@ -146,6 +146,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_armor_math_test",
+    "effect": [
+      { "u_spawn_item": "backpack", "force_equip": true },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "backpack", "worn_only": true } ],
+        "true_eocs": [ "EOC_armor_math_test_nested" ]
+      },
+      { "math": [ "u_key1", "=", "u_coverage('torso')" ] },
+      { "math": [ "u_key2", "=", "u_encumbrance('torso')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_math_test_nested",
+    "effect": [ { "math": [ "n_key1", "=", "n_coverage('torso')" ] }, { "math": [ "n_key2", "=", "n_encumbrance('torso')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
       { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
@@ -245,11 +264,91 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_addiction",
+    "effect": [
+      { "set_string_var": "caffeine", "target_var": { "global_val": "add_id" } },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": "test_whiskey_caffenated", "container": "bottle_glass" },
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ { "id": "EOC_math_addiction_nested", "effect": [ { "u_activate": "ALCOHOL" } ] } ]
+      },
+      { "math": [ "key_add_intensity", "=", "u_addiction_intensity(add_id)" ] },
+      { "math": [ "key_add_turn", "=", "u_addiction_turns(add_id)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_armor",
     "effect": [
       { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
       { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
       { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_field",
+    "effect": [
+      { "set_string_var": "fd_blood", "target_var": { "global_val": "field_id_1" } },
+      { "set_string_var": "fd_blood_insect", "target_var": { "global_val": "field_id_2" } },
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+        "target_var": { "global_val": "loc" }
+      },
+      { "math": [ "key_field_strength", "=", "u_field_strength(field_id_1)" ] },
+      { "math": [ "key_field_strength_north", "=", "field_strength(field_id_2, 'location': loc)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_item_count",
+    "effect": [
+      { "set_string_var": "light_plus_battery_cell", "target_var": { "global_val": "item_id" } },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": { "global_val": "item_id" } },
+      { "u_spawn_item": { "global_val": "item_id" } },
+      { "math": [ "key_item_count", "=", "u_item_count(item_id)" ] },
+      { "math": [ "key_charge_count", "=", "u_charge_count(item_id)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_proficiency",
+    "effect": [
+      { "set_string_var": "prof_test", "target_var": { "global_val": "prof_id" } },
+      { "math": [ "key_total_time_required", "=", "u_proficiency(prof_id, 'format': 'total_time_required')" ] },
+      { "math": [ "u_proficiency(prof_id)", "=", "50" ] },
+      { "math": [ "key_time_spent_50", "=", "u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'percent')", "=", "50" ] },
+      { "math": [ "key_percent_50", "=", "u_proficiency(prof_id, 'format': 'percent')" ] },
+      { "math": [ "key_percent_50_turn", "=", "u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'permille')", "=", "50" ] },
+      { "math": [ "key_permille_50", "=", "u_proficiency(prof_id, 'format': 'permille')" ] },
+      { "math": [ "key_permille_50_turn", "=", "u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'time_left')", "=", "50" ] },
+      { "math": [ "key_time_left_50", "=", "u_proficiency(prof_id, 'format': 'time_left')" ] },
+      { "math": [ "key_time_left_50_turn", "=", "u_proficiency(prof_id)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_spell",
+    "effect": [
+      { "set_string_var": "test_eoc_spell", "target_var": { "global_val": "spell_id_1" } },
+      { "set_string_var": "test_spell_pew", "target_var": { "global_val": "spell_id_2" } },
+      { "set_string_var": "test_trait", "target_var": { "global_val": "school_id" } },
+      { "u_add_trait": { "global_val": "school_id" } },
+      { "math": [ "u_spell_level(spell_id_1)", "=", "1" ] },
+      { "math": [ "u_spell_level(spell_id_2)", "=", "10" ] },
+      { "math": [ "key_spell_level", "=", "u_spell_level(spell_id_1)" ] },
+      { "math": [ "key_highest_spell_level", "=", "u_spell_level('null')" ] },
+      { "math": [ "key_school_level_test_trait", "=", "u_school_level(school_id)" ] },
+      { "math": [ "key_spell_count", "=", "u_spell_count()" ] },
+      { "math": [ "key_spell_count_test_trait", "=", "u_spell_count('school': school_id)" ] },
+      { "math": [ "u_spell_level_adjustment('null')", "=", "1" ] },
+      { "math": [ "u_spell_level_adjustment(spell_id_1)", "=", "1" ] },
+      { "math": [ "u_school_level_adjustment(school_id)", "=", "1" ] }
     ]
   },
   {
@@ -480,6 +579,18 @@
         "target_var": { "global_val": "key4" },
         "parse_tags": true
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_test_nest",
+    "effect": [
+      { "u_add_var": "nest1", "value": "nest2" },
+      { "u_add_var": "nest2", "value": "nest3" },
+      { "u_add_var": "nest3", "value": "nest4" },
+      { "set_string_var": "<u_val:nest1>", "target_var": { "u_val": "key1" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:nest1>>", "target_var": { "u_val": "key2" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:<u_val:nest1>>>", "target_var": { "u_val": "key3" }, "parse_tags": true }
     ]
   },
   {

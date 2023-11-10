@@ -220,7 +220,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
-          pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
+          pip3 install dmgbuild biplist
       - name: Create VERSION.TXT
         shell: bash
         run: |

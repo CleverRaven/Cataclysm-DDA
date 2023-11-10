@@ -19,6 +19,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_photokinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_photokinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PYROKIN_CRYSTAL_DRAINING",
     "condition": { "u_has_item": "matrix_crystal_pyrokinesis" },
     "effect": [
