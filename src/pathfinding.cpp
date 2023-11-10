@@ -513,9 +513,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         // for anyone with the same or less bash rating than the highest
         // rating we saw that was too hard for us.
         pathfinding_cache &pf_cache = get_pathfinding_cache( f.z );
-        int zone_number = pf_cache.stuck_threshold_by_zone.size();
+        const int zone_number = pf_cache.stuck_threshold_by_zone.size();
         ff::flood_fill_visit_10_connected( tripoint_bub_ms( f ),
-        [&pf_cache, bash, zone_number]( const tripoint_bub_ms & loc, int direction ) {
+        [&pf_cache, bash]( const tripoint_bub_ms & loc, int direction ) {
             // Limit to one Z level for now.
             if( direction != 0 ) {
                 return false;
