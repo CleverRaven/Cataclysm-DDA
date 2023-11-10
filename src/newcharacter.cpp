@@ -587,6 +587,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     // Restart cardio accumulator
     reset_cardio_acc();
+
+    add_default_background();
 }
 
 void avatar::randomize_cosmetics()
@@ -690,6 +692,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     switch( type ) {
         case character_type::CUSTOM:
             randomize_cosmetics();
+            add_default_background();
             break;
         case character_type::RANDOM:
             //random scenario, default name if exist
@@ -717,11 +720,6 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
             tabs.position.last();
             break;
-    }
-
-    // Don't apply the default backgrounds on a template
-    if( type != character_type::TEMPLATE ) {
-        add_default_background();
     }
 
     auto nameExists = [&]( const std::string & name ) {
