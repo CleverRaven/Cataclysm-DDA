@@ -30,7 +30,7 @@
           { "effect": "staggered", "chance": 10, "message": "The %s is tripped off-balance!", "damage_required": [ 15, 30 ] },
           {
             "effect": "staggered",
-            "chance": 25,
+            "chance": 20,
             "message": "The %s is tripped off-balance!",
             "damage_required": [ 31, 100 ]
           }
