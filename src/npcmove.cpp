@@ -740,7 +740,7 @@ void npc::assess_danger()
             path.clear();
         }
     }
-    }
+
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
         direction threat_dir = npc_threat_dir[i];
