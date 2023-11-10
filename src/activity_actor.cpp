@@ -3815,11 +3815,18 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
     popup( res, PF_GET_KEY );
 }
 
+static bool is_bulk_unload( const item_location &lhs, const item_location &rhs )
+{
+    if( lhs.where() == item_location::type::container &&
+        rhs.where() == item_location::type::container && lhs.parent_item() == rhs.parent_item() ) {
+        return true;
+    }
+    return false;
+}
+
 // Return a list of items to be dropped by the given item-dropping activity in the current turn.
-static std::list<item> obtain_activity_items(
-    std::vector<drop_or_stash_item_info> &items,
-    contents_change_handler &handler,
-    Character &who )
+static std::list<item> obtain_activity_items( std::vector<drop_or_stash_item_info> &items,
+        contents_change_handler &handler, Character &who, bool &bulk_unload )
 {
     std::list<item> res;
 
@@ -3833,9 +3840,22 @@ static std::list<item> obtain_activity_items(
             continue;
         }
 
-        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        int consumed_moves;
+        if( !bulk_unload ) {
+            // Cost to take an item from a container or map
+            consumed_moves = loc.obtain_cost( who, it->count() );
+        } else {
+            // Pure cost to handling item excluding overhead.
+            consumed_moves = std::max( who.item_handling_cost( *loc, true, 0, it->count(), true ), 1 );
+        }
         if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
             break;
+        }
+
+        // Check if next is bulk unload before moving item.
+        auto it_next = std::next( it );
+        if( it_next != items.end() && it_next->loc() ) {
+            bulk_unload = is_bulk_unload( loc, it_next->loc() );
         }
 
         who.mod_moves( -consumed_moves );
@@ -3894,7 +3914,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint_bub_ms pos = placement + who.pos_bub();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( items, handler, who ),
+                              obtain_activity_items( items, handler, who, current_bulk_unload ),
                               pos, force_ground );
     // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which creates
@@ -3916,6 +3936,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.member( "force_ground", force_ground );
+    jsout.member( "current_bulk_unload", current_bulk_unload );
     jsout.end_object();
 }
 
@@ -3928,6 +3949,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsi
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
+    jsobj.read( "current_bulk_unload", actor.current_bulk_unload );
 
     return actor.clone();
 }
@@ -4058,7 +4080,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( items, handler, who ),
+        stash_on_pet( obtain_activity_items( items, handler, who, current_bulk_unload ),
                       *pet, who );
         if( items.empty() ) {
             who.cancel_activity();
@@ -4080,6 +4102,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "items", items );
     jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
+    jsout.member( "current_bulk_unload", current_bulk_unload );
     jsout.end_object();
 }
 
@@ -4091,6 +4114,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonValue &js
     jsobj.read( "items", actor.items );
     jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
+    jsobj.read( "current_bulk_unload", actor.current_bulk_unload );
 
     return actor.clone();
 }
