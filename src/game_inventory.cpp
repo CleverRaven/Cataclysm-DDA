@@ -1286,7 +1286,7 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
                 std::map<gunmod_location, int> mod_locations_added = loc->type->gunmod->add_mod;
 
                 for( std::pair<const gunmod_location, int> slot : mod_locations_added ) {
-                    if ( slot.second > 0 && this->gun.get_free_mod_locations( slot.first ) <= 0 ) {
+                    if( slot.second > 0 && this->gun.get_free_mod_locations( slot.first ) <= 0 ) {
                         return _( "has mods attached" );
                     }
                 }
