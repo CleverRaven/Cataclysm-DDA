@@ -207,7 +207,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
     }
 
-    int max_bash_larger_than_ours = bash + 1;
+    int min_bash_larger_than_ours = std::numeric_limits<int>::max();
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     tripoint min( std::min( f.x, t.x ) - pad, std::min( f.y, t.y ) - pad, std::min( f.z, t.z ) );
@@ -288,8 +288,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
                 const int cost = pf_cache.move_costs[p.x][p.y];
                 const std::pair<int, int> &bash_range = pf_cache.bash_ranges[p.x][p.y];
-                max_bash_larger_than_ours = std::max( max_bash_larger_than_ours, bash_range.first );
                 const int rating = cost == 0 ? bash_rating_from_range_internal( bash, bash_range ) : -1;
+
+                if( cost == 0 && bash_range.first > bash ) {
+                    min_bash_larger_than_ours = std::min( min_bash_larger_than_ours, bash_range.first );
+                }
 
                 const bool is_door = doors && p_special & PF_DOOR;
                 const bool is_inside_door = is_door && p_special & PF_INSIDE_DOOR;
@@ -526,7 +529,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         [&pf_cache, zone_number]( const tripoint_bub_ms & loc ) {
             pf_cache.zones[loc.x()][loc.y()] = zone_number;
         } );
-        pf_cache.stuck_threshold_by_zone.push_back( max_bash_larger_than_ours );
+        pf_cache.stuck_threshold_by_zone.push_back( min_bash_larger_than_ours );
     }
 
     return ret;
