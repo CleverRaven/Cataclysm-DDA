@@ -332,6 +332,7 @@
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
+      "HEARS",
       "WARM",
       "GRABS",
       "BASHES",
