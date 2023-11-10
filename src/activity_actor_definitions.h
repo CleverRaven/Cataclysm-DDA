@@ -1037,6 +1037,7 @@ class drop_activity_actor : public activity_actor
         contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
+        bool current_bulk_unload = false;
 };
 
 class stash_activity_actor: public activity_actor
@@ -1071,6 +1072,7 @@ class stash_activity_actor: public activity_actor
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
         tripoint placement;
+        bool current_bulk_unload = false;
 };
 
 class harvest_activity_actor : public activity_actor
