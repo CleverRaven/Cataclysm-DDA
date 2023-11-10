@@ -245,7 +245,7 @@
     "type": "proficiency",
     "id": "prof_wp_mi-go_advanced",
     "category": "prof_weakpoint",
-    "name": { "str": "Mi-go physiology" },
+    "name": { "str": "Mi-go detailed anatomy" },
     "description": "Your understanding of the mi-go physiology is advanced enough to have a decent idea of where it is more sensitive to harm.  This does not mean you have any significant understanding of how it works internally however as it's just too alien in most respects.",
     "can_learn": true,
     "time_to_learn": "24 h",
