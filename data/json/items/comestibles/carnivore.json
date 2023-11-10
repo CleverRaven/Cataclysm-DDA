@@ -1925,7 +1925,7 @@
     "type": "COMESTIBLE",
     "copy-from": "meat_mi-go",
     "name": { "str_sp": "mi-go ichor" },
-    "description": "Mi-go blood that's obviously alien, given its pink color and strange odor.  It would not be advisable to try to eat it.",
+    "description": "Goo from inside a mi-go, perhaps some kind of blood?  It's obviously alien, given its pink color and strange, nostril-stinging odor.  It would not be advisable to try to eat it.",
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
