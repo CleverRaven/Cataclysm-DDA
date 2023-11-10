@@ -1278,8 +1278,8 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
 
         // TODO: Need to represent gun mods with a tree structure
         // Right now, for example, if there is one sight mod location on a gun, and there
-        // are two mods attached to the gun, both of which use a sight mod location, and add 
-        // a sight mod location, both are removable. Ideally one should not be removable, to 
+        // are two mods attached to the gun, both of which use a sight mod location, and add
+        // a sight mod location, both are removable. Ideally one should not be removable, to
         // represent the mod that has the other mod attached to its added sight mod location.
         std::string get_denial( const item_location &loc ) const override {
             if( !loc->type->gunmod->add_mod.empty() ) {
