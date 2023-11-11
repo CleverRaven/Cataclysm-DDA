@@ -20,7 +20,10 @@ https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt -->
 
 #### Purpose of change
 
-<!-- With a few sentences, describe your reasons for making this change.  If it relates to an existing issue, you can link it with a # followed by the GitHub issue number, like #1234.  If your pull request *fully* resolves an issue, include the word "Fix" or "Fixes" before the issue number, like: Fixes #xxxx
+<!-- With a few sentences, describe your reasons for making this change.
+If it relates to an existing issue, you can link it with a # followed by the GitHub issue number, like #1234.
+When you submit a pull request that completely resolves an issue, use [Github's closing keywords](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests#linking-a-pull-request-to-an-issue)
+to automatically close the issue once your pull request is merged.
 If there is no related issue, explain here what issue, feature, or other concern you are addressing.  If this is a bugfix, include steps to reproduce the original bug, so your fix can be verified. -->
 
 #### Describe the solution
