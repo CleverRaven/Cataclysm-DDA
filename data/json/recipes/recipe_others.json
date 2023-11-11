@@ -1563,7 +1563,6 @@
       [ [ "wheel_small", 2 ] ],
       [ [ "wheel_mount_light", 2 ] ],
       [ [ "nuts_bolts", 8 ] ],
-      [ [ "extension_cable", 1 ] ],
       [ [ "30gal_barrel", 1 ] ]
     ],
     "//2": "The component list is by no means perfect - this craft still generates ~7.2kg of mass. I can't, however, improve it without adding nonexistant components to the recipe, so I think this is an acceptable state of things."
