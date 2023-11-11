@@ -977,7 +977,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    int def_charges = 1;
+    int def_charges = 0;
 
     /**
      * Number of projectiles fired per round, e.g. shotgun shot.
@@ -1477,7 +1477,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable_ || ammo || ( comestible && phase != phase_id::SOLID );
+            return stackable_ || ( ( ammo || comestible ) && phase != phase_id::SOLID );
         }
 
         int charges_default() const;

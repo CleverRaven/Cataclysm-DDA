@@ -253,6 +253,7 @@ void item_pocket::restack()
         // Restack magazine contents in a way that preserves order of items
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             if( !iter->count_by_charges() ) {
+                iter++;
                 continue;
             }
 
