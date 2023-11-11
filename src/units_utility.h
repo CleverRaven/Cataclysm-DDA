@@ -37,7 +37,7 @@ int angle_to_dir4( units::angle direction );
 // convert angle to nearest of 0=north 1=NE 2=east 3=SE...
 int angle_to_dir8( units::angle direction );
 
-template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+template<typename T, typename U, std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
 units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
 {
     int multiple = std::lround( val / of );
