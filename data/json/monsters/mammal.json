@@ -2277,7 +2277,18 @@
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "zombify_into": "mon_zombie_horse",
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE", "EATS" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "MILKABLE",
+      "EATS"
+    ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
