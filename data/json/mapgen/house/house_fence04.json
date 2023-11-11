@@ -110,7 +110,6 @@
         "₸": "t_floor_noroof",
         "&": "t_floor_noroof",
         "}": "t_door_o",
-        "[": "t_window_open",
         "]": "t_chaingate_o"
       },
       "furniture": { "&": "f_table", "?": [ "f_indoor_plant", "f_indoor_plant_y" ] },
