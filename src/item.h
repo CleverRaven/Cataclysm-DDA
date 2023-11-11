@@ -2341,6 +2341,9 @@ class item : public visitable
 
         void clear_itype_variant();
 
+        // Description of the item provided by the variant, or an empty string
+        std::string variant_description() const;
+
         /**
          * Quantity of shots in the gun. Looks at both ammo and available energy.
          * @param carrier is used for UPS and bionic power
