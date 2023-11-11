@@ -563,7 +563,8 @@ bool mattack::graze( monster *z )
     map &here = get_map();
     //Grazers eat grass and small leafy plants. Browsers eat larger things like bushes and crops.
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE_FURNITURE, p ) && z->amount_eaten < z->stomach_size ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE_FURNITURE, p ) &&
+            z->amount_eaten < z->stomach_size ) {
             here.furn_set( p, f_null );
             z->amount_eaten += 70;
             return true;
