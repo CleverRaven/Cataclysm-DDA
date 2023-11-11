@@ -347,39 +347,6 @@
     "baby_flags": [ "SPRING" ]
   },
   {
-    "id": "mon_cockatrice",
-    "type": "MONSTER",
-    "name": { "str": "cockatrice" },
-    "description": "This strange mutant bird gains its name from its odd appearance.  Although its features seem to be becoming more reptilian, it doesn't appear dangerous.",
-    "default_faction": "small_animal",
-    "bodytype": "bird",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 20,
-    "speed": 130,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "red",
-    "looks_like": "mon_chicken",
-    "aggression": -50,
-    "morale": -8,
-    "melee_skill": 2,
-    "melee_dice": 2,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "dodge": 6,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_chimera_sample_small",
-    "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
-    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
-  },
-  {
     "abstract": "mon_generic_chick",
     "type": "MONSTER",
     "name": { "str": "brown chick" },
@@ -507,20 +474,6 @@
     },
     "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
-  },
-  {
-    "id": "mon_cockatrice_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "description": "A strange tiny chick, it could be from a number of different species.",
-    "name": { "str": "strange chick" },
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] },
-    "upgrades": { "age_grow": 12, "into": "mon_cockatrice" }
   },
   {
     "id": "mon_duck_chick",

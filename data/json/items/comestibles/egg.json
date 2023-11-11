@@ -137,13 +137,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_cockatrice",
-    "name": { "str": "cockatrice egg" },
-    "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COCKATRICE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_reptile",
     "name": { "str": "reptile egg" },
     "weight": "60 g",
