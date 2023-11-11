@@ -342,11 +342,50 @@ bool mattack::eat_crop( monster *z )
             num_targets++;
             target = p;
         }
+        map_stack items = here.i_at( p );
+        for( item &item : items ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) || !item.has_flag( flag_CATTLE ) ) {
+                continue;
+            }
+            if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
+                int consumed = 1;
+                if( item.count_by_charges() ) {
+                    z->amount_eaten += 1;
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
+                } else {
+                    z->amount_eaten += 1;
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
+                }
+                return true;
+            }
+            if( !z->has_flag( mon_flag_EATS ) ) {
+                int consumed = 1;
+                if( item.count_by_charges() ) {
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
+                } else {
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
+                }
+                return true;
+            }
+        }
     }
     if( target ) {
-        here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-        here.i_clear( *target );
-        return true;
+            if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
+                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+                here.i_clear( *target );
+                z->amount_eaten += 1;
+                return true;
+            }
+            if( !z->has_flag( mon_flag_EATS ) ) {
+                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+                here.i_clear( *target );
+                return true;
+            }
+            
     }
     return true;
 }
