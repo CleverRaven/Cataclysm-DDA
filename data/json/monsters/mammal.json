@@ -2911,7 +2911,18 @@
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "zombify_into": "mon_zombie_sheep",
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE", "CAN_BE_CULLED", "EATS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "PET_WONT_FOLLOW",
+      "MILKABLE",
+      "CAN_BE_CULLED",
+      "EATS"
+    ]
   },
   {
     "id": "mon_goat_kid",
