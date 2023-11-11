@@ -326,7 +326,7 @@ auto JsonValue::read( T &v, bool throw_on_error ) const -> decltype( v.deseriali
     }
 }
 
-template<typename T, std::enable_if_t<std::is_enum<T>::value, int>>
+template<typename T, std::enable_if_t<std::is_enum_v<T>, int>>
 bool JsonValue::read( T &val, bool throw_on_error ) const
 {
     int i;
@@ -369,8 +369,8 @@ bool JsonValue::read( std::pair<T, U> &p, bool throw_on_error ) const
 }
 
 // array ~> vector, deque, list
-template < typename T, typename std::enable_if <
-               !std::is_same<void, typename T::value_type>::value >::type * >
+template < typename T, std::enable_if_t <
+               !std::is_same_v<void, typename T::value_type> > * >
 auto JsonValue::read( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
 {
     if( !test_array() ) {
@@ -428,8 +428,8 @@ bool JsonValue::read( std::array<T, N> &v, bool throw_on_error ) const
 
 // object ~> containers with matching key_type and value_type
 // set, unordered_set ~> object
-template <typename T, typename std::enable_if<
-              std::is_same<typename T::key_type, typename T::value_type>::value>::type *>
+template <typename T, std::enable_if_t<
+              std::is_same_v<typename T::key_type, typename T::value_type>> *>
 bool JsonValue::read( T &v, bool throw_on_error ) const
 {
     if( !test_array() ) {
@@ -485,7 +485,7 @@ bool JsonValue::read( enum_bitset<T> &v, bool throw_on_error ) const
 
 // special case for colony<item> as it supports RLE
 // see corresponding `write` for details
-template <typename T, std::enable_if_t<std::is_same<T, item>::value>* >
+template <typename T, std::enable_if_t<std::is_same_v<T, item>>* >
 bool JsonValue::read( cata::colony<T> &v, bool throw_on_error ) const
 {
     if( !test_array() ) {
@@ -533,7 +533,7 @@ bool JsonValue::read( cata::colony<T> &v, bool throw_on_error ) const
 // special case for colony as it uses `insert()` instead of `push_back()`
 // and therefore doesn't fit with vector/deque/list
 // for colony of items there is another specialization with RLE
-template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * >
+template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * >
 bool JsonValue::read( cata::colony<T> &v, bool throw_on_error ) const
 {
     if( !test_array() ) {
@@ -559,8 +559,8 @@ bool JsonValue::read( cata::colony<T> &v, bool throw_on_error ) const
 
 // object ~> containers with unmatching key_type and value_type
 // map, unordered_map ~> object
-template < typename T, typename std::enable_if <
-               !std::is_same<typename T::key_type, typename T::value_type>::value >::type * >
+template < typename T, std::enable_if_t <
+               !std::is_same_v<typename T::key_type, typename T::value_type> > * >
 bool JsonValue::read( T &m, bool throw_on_error ) const
 {
     if( !test_object() ) {
@@ -587,8 +587,8 @@ bool JsonValue::read( T &m, bool throw_on_error ) const
 }
 
 // array ~> vector, deque, list
-template < typename T, typename std::enable_if <
-               !std::is_same<void, typename T::value_type>::value >::type * >
+template < typename T, std::enable_if_t <
+               !std::is_same_v<void, typename T::value_type> > * >
 auto JsonArray::read( T &v, bool throw_on_error ) const -> decltype( v.front(), true )
 {
     try {
@@ -819,13 +819,13 @@ inline std::string JsonObject::get_string( const char *key ) const
     return get_member( key );
 }
 
-template<typename T, typename std::enable_if_t<std::is_convertible<T, std::string>::value>*>
+template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>*>
 std::string JsonObject::get_string( const std::string &key, T &&fallback ) const
 {
     return get_string( key.c_str(), std::forward<T>( fallback ) );
 }
 
-template<typename T, typename std::enable_if_t<std::is_convertible<T, std::string>::value>*>
+template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>*>
 std::string JsonObject::get_string( const char *key, T &&fallback ) const
 {
     size_t idx = 0;
