@@ -399,6 +399,7 @@
   {
     "id": "constructed_hammer_self_destruct",
     "type": "SPELL",
+    "shape": "blast",
     "name": "Constructed Hammer Self destruct",
     "description": "Removes constructed hammer.  You can't see it except in debug mode.",
     "effect": "effect_on_condition",
@@ -407,6 +408,7 @@
   {
     "id": "EOC_REMOVE_CONSTRUCTED_HAMMER",
     "type": "effect_on_condition",
+    "shape": "blast",
     "name": "Constructed Hammer Self destruct",
     "description": "Removes constructed hammer.  You can't see it except in debug mode.",
     "effect": [ { "u_remove_item_with": "constructed_hammer" } ]
