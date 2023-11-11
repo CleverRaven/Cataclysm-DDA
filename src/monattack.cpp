@@ -344,7 +344,8 @@ bool mattack::eat_crop( monster *z )
         }
         map_stack items = here.i_at( p );
         for( item &item : items ) {
-            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) || !item.has_flag( flag_CATTLE ) ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ||
+                !item.has_flag( flag_CATTLE ) ) {
                 continue;
             }
             if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
