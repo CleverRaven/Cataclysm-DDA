@@ -224,7 +224,7 @@ item *item_pointer( item_location it )
 }
 
 template < typename Parent,
-           std::enable_if_t < !std::is_same<std::decay_t<Parent>, item_location>::value, int > = 0 >
+           std::enable_if_t < !std::is_same_v<std::decay_t<Parent>, item_location>, int > = 0 >
 item_location container_from_parent( Parent && )
 {
     return item_location::nowhere;

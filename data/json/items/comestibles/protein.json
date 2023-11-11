@@ -105,7 +105,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
-    "relative": { "vitamins": [ [ "calcium", "52 mg" ], [ "iron", 5 ], [ "vitC", "5 mg" ] ] }
+    "relative": { "vitamins": [ [ "calcium", "52 mg" ], [ "iron", "940 μg" ], [ "vitC", "5 mg" ] ] }
   },
   {
     "id": "milk_fortified",

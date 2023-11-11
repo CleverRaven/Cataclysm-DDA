@@ -4488,7 +4488,19 @@
     "name": "ammunition casings",
     "description": "Recipes related to constructing casings for ammunition.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "380_casing", "460_casing", "300blk_casing" ],
+    "nested_category_data": [
+      "123ln_casing",
+      "270win_casing",
+      "300blk_casing",
+      "357sig_casing",
+      "380_casing",
+      "38_casing",
+      "40_casing",
+      "45_casing",
+      "45_casing_from_460",
+      "45colt_casing",
+      "460_casing"
+    ],
     "difficulty": 2
   },
   {

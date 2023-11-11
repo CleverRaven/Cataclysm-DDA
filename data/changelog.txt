@@ -63,6 +63,10 @@ Items that can heat up food (microwaves, coffeemakers, chemistry sets, etc) can 
 [EoC] Condition for asking the player to select a tile
 Making tea is quicker than before, especially in batches.
 Allow martial arts techniques to trigger on reach attacks.
+Adds a confirmation prompt if you are the target, or in the AoE of, your own damaging spell.
+Ledges provide sight coverage
+Add foreach function to EoC
+Add Map related EoC functions
 
 
 ## Content:
@@ -109,16 +113,11 @@ Add some backstory to Eddie McKenzie.
 Add some prosthetics.
 Added Bulk Storage Mounds and Piles for More Resources
 Add undomesticated wild rabbits
-More zombie mask variants
-Add Spinach Seeds
-More snippets when butchering/dissecting zombies
 Adds some MA techniques, improves disarming and transform certain techniques from stuns to downing techs
-Add missing arms and their support.
 adds dried garlic/chili
-Colored skirts
 Adds more ways to learn bronze crafting
-More ammo cans
-Fixes Exosuit Pocket Regression, Adds New Itemgroups
+Updates the Portal Dependent mechanics and introduces rewards for exploring the portal dungeons.
+Cyberhorse... CYBERHORSE!
 
 
 ## Interface:
@@ -153,10 +152,15 @@ Enable history for AIM and inventory filters
 Make zone manager display more of zone name
 Show estimated time when washing items
 Selecting container mode for unloaded items
-Reword actions in repair gui
 Open proficiency UI with relevant first selection
 Adjust hungry and overweight coloring in sidebar
 Categorize more containers by their contents
+Explain why wielding an item from pick-up menu fails
+Switch crafter in crafting menu to and from an ally
+Add favorite category to spell casting menu
+Allow scanning several books into ereader at once
+Add milling info to milleable items
+Add spell class selecter to spell casting menu
 
 
 ## Mods:
@@ -205,14 +209,17 @@ JSON-ize faction camp hunting returns
 [Magiclysm] Add dispel magic spells
 Create the Isolation Protocol Mod: A traditional roguelike experience
 [Magiclysm] Add triffid and migo mages
-Add a new vitakinetic power to restore lost limbs.
 Clairsentients can have premonitions about Defense Mode events.
 Aftershock: New Sci-fi military Gear
 Make some non-combat MoM utility powers toggleable
 Aftershock: Add a shotgun mod that turns shotguns into coilguns 
-Telepathic Obscurity power turns off in combat
 Aftershock: Add a new outpost location that can spawn modded tools
-Fix issues with toggleable powers
+Add Sense Minds Telepathic power
+Add scaling to Metaphysics XP gain from powers, add penalty for power failure
+Add the HAS_MIND flag to appropriate monsters in in-repo mods
+XE: Add gossamer material and clothing
+XE:  transformation potions to top level alchemy perk
+MoM: Add PSI_NULL species to interact with "ignored_monster_species" JSON parameter
 
 
 ## Balance:
@@ -249,12 +256,13 @@ Add NO_SPELLCASTING flag to Stunned effect
 Improve pets' ability to use stairs
 Make ferals actually feel like human enemies instead of weaker zombies with range attacks
 Allow metal wreckage to be used for cutting
-More possible options to use as shivs
 Slimy mutation helps you escape grabs
-Adds some extra spawns of superglue and duct tape
 Caffeinated gum is now only slightly stronger than a cup of tea.
-Buffing the intravenous needle tip bionic to take less time to consume items.
-Updated the cheap bandolier encumbrance, armor, and pocket accessibility.  Also renamed and improved description.
+Improved path for intelligent monsters
+Make safe place starts safer
+Touch up pawn shops with better loot
+Prevent staunching bleeding while driving
+Threatening to kill NPCs(recruitment) is more likely to make them hostile
 
 
 ## Bugfixes:
@@ -333,25 +341,9 @@ Fix Free Merchants Broker price calculation of non charge based item
 Skip auto sorting items that don't belong to you
 Use correct actor in bulk trade messages
 Your nemesis will still hunt you even if you spawn on a roof at the start
-Plate armor recipe removal
-Remove 'Acclimatization' mutation type from normal Cold and Heat Tolerance (not the mutations themselves)
-Add in Looks_Like string to Nun Habit
-Lighthouse quest targets an unexplored lighthouse
-Fix ethanol amounts in recipe byproducts
-Add small duration to awakening process
-Fixing up a few more itemgroups
-Ensure all selected books are scanned to ereader
-fix med loot
-Boat hull coverage is no longer reduced by protrusions like wing mirrors and rams.
-Fix a minor bug with mutations healing lost limbs.
-Fix Feral Inferno upgrade
-correct Ki Strike description
-Fix mouse clicking stop working at unloading screen
-add volume encumber modifier to MOLLE webbing belt and pocket volume encumber modifier accordingly
-Aftershock: Remove passive climate control from several armor suits
-Urgent fix for #69098
 Picky eaters won't drink unsavory drinks
 Corrects duplicates /the/ in martial arts techs messages
+Gas masks only use charges on fields with gas_absorption_factor set
 
 
 ## Performance:
@@ -363,6 +355,7 @@ Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
 Stop clearing weight carried cache unnecessarily
+Precalculate visitable zones to optimize inter-monster aggression checks
 
 
 ## Infrastructure:
@@ -387,6 +380,7 @@ Add ability to merge appliance into grid
 Add JSON-based system for climbing aids.
 EVENT EOCs provide beta talker
 [EOC]Inventory selector
+Replaced the use of the arbitrary body temperature scale in game logic with units::temperature/units::temperature_delta
 [EoC] Simple if-else statement
 Organize the remaining unorganized EOCs.
 Allow specifying vitamins by weight (mass) in items

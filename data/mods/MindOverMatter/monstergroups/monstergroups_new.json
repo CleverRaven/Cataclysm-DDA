@@ -5,6 +5,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 1 },
+      { "monster": "mon_feral_human_photokin", "weight": 1 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 1 },
@@ -41,6 +42,7 @@
     "monsters": [
       { "monster": "mon_feral_human_bio", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 60 },
+      { "monster": "mon_feral_human_photokin", "weight": 60 },
       { "monster": "mon_feral_human_pyrokin", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 60 },
@@ -120,6 +122,7 @@
       { "monster": "mon_feral_security_psychic", "weight": 25, "cost_multiplier": 5 },
       { "monster": "mon_feral_human_bio", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 10 },
+      { "monster": "mon_feral_human_photokin", "weight": 10 },
       { "monster": "mon_feral_human_pyrokin", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_feral_human_telekin", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_teep", "weight": 10 },
@@ -146,6 +149,7 @@
     "monsters": [
       { "monster": "mon_civilian_biokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_clairsentient", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_photokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_pyrokinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_telekinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_telepath", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
@@ -175,5 +179,10 @@
       { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "name": "GROUP_EGG_COCKATRICE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 1 } ]
   }
 ]
