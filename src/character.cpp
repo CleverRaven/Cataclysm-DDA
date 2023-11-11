@@ -7289,12 +7289,6 @@ void Character::wake_up()
     }
     recalc_sight_limits();
 
-    if( has_effect( effect_nightmares ) ) {
-        add_msg_if_player( m_bad, "%s",
-                           SNIPPET.random_from_category( "nightmares" ).value_or( translation() ) );
-        add_morale( morale_nightmare, -15, -30, 30_minutes );
-    }
-
     if( movement_mode_is( move_mode_prone ) ) {
         set_movement_mode( move_mode_walk );
     }

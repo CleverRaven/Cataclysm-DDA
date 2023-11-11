@@ -1068,7 +1068,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
 | character_takes_damage | | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
-| character_wakes_up | | { "character", `character_id` }, | character / NONE |
+| character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
 | character_wields_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wield |
 | character_wears_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
 | consumes_marloss_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
@@ -2720,8 +2720,8 @@ Your character or the NPC will gain a morale bonus
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_morale" / "npc_add_morale" | **mandatory** | string or [variable object](##variable-object) | `morale_type`, that would be given by effect |
-| "bonus" | optional | int, float or [variable object](##variable-object) | default 1; mood bonus or penalty, that would be given by effect; can be stacked up to `max_bonus` cap, but each bonus is lower than previous (e.g. `bonus` of 100 gives mood bonus as 100, 141, 172, 198, 221 and so on) | 
-| "max_bonus" | optional | int, float or [variable object](##variable-object) | default false; cap, beyond which mood won't increase or decrease | 
+| "bonus" | **mandatory** | int, [variable object](##variable-object) or array of both | default 1; mood bonus or penalty, that would be given by effect; can be stacked up to `max_bonus` cap, but each bonus is lower than previous (e.g. `bonus` of 100 gives mood bonus as 100, 141, 172, 198, 221 and so on) | 
+| "max_bonus" | **mandatory** | int, [variable object](##variable-object) or array of both | default false; cap, beyond which mood won't increase or decrease | 
 | "duration" | optional | int, duration or [variable object](##variable-object) | default 1 hour; how long the morale effect would last | 
 | "decay_start" | optional | int, duration or [variable object](##variable-object) | default 30 min; when the morale effect would start to decay | 
 | "capped" | optional | boolean | default false; if true, `bonus` is not decreased when stacked (e.g. `bonus` of 100 gives mood bonus as 100, 200, 300 and so on) |  
