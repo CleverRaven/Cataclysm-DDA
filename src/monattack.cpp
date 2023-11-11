@@ -375,18 +375,18 @@ bool mattack::eat_crop( monster *z )
         }
     }
     if( target ) {
-            if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
-                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-                here.i_clear( *target );
-                z->amount_eaten += 1;
-                return true;
-            }
-            if( !z->has_flag( mon_flag_EATS ) ) {
-                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-                here.i_clear( *target );
-                return true;
-            }
-            
+        if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
+            here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+            here.i_clear( *target );
+            z->amount_eaten += 1;
+            return true;
+        }
+        if( !z->has_flag( mon_flag_EATS ) ) {
+            here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+            here.i_clear( *target );
+            return true;
+        }
+
     }
     return true;
 }
