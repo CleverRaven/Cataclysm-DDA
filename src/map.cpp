@@ -10052,8 +10052,9 @@ void map::update_pathfinding_cache_point( pathfinding_cache &cache, const const_
         for( int x = std::max( p.x - 1, 0 ); x < std::min( p.x + 1, MAPSIZE_X ); ++x ) {
             for( int y = std::max( p.y - 1, 0 ); y < std::min( p.y + 1, MAPSIZE_Y ); ++y ) {
                 int &threshold = cache.stuck_threshold_by_zone[cache.zones[x][y]];
+                // Only reset if the wall that fell could have blocked us before.
                 if( old_min_bash >= threshold ) {
-                    threshold = 0;
+                    threshold = std::numeric_limits<int>::min();
                 }
             }
         }
@@ -10125,11 +10126,19 @@ void map::update_pathfinding_cache_point( pathfinding_cache &cache, const const_
 void map::update_pathfinding_cache( int zlev ) const
 {
     pathfinding_cache &cache = get_pathfinding_cache( zlev );
-    if( !( cache.dirty || !cache.dirty_points.empty() ) ) {
+
+    const bool is_something_dirty = cache.dirty || !cache.dirty_points.empty();
+    if( !is_something_dirty ) {
         return;
     }
 
-    if( !cache.dirty && !cache.dirty_points.empty() ) {
+    // If the whole cache is dirty, we aren't going to bother spot updating and
+    // just reset the whole thing.
+    if( cache.dirty ) {
+        cache.dirty_points.clear();
+    }
+
+    if( !cache.dirty_points.empty() ) {
         for( const point_bub_ms &p : cache.dirty_points ) {
             const tripoint_bub_ms tp( p, zlev );
             update_pathfinding_cache_point( cache, maptile_at( tp ), tp.raw() );
@@ -10138,9 +10147,8 @@ void map::update_pathfinding_cache( int zlev ) const
         return;
     }
 
-    cache.dirty_points.clear();
     cache.stuck_threshold_by_zone.clear();
-    cache.stuck_threshold_by_zone.push_back( 0 );
+    cache.stuck_threshold_by_zone.push_back( std::numeric_limits<int>::min() );
 
     std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE_X * MAPSIZE_Y, PF_NORMAL );
     std::uninitialized_fill_n( &cache.move_costs[0][0], MAPSIZE_X * MAPSIZE_Y,

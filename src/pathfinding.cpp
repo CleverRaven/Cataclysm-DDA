@@ -227,8 +227,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     bool done = false;
 
     // We need to check if we exited due to being stuck in walls, or if we just
-    // hit the edge of the padding.
-    bool hit_boundry = false;
+    // hit the edge of the padding, a stair case we wouldn't go up, or a door
+    // we wouldn't open.
+    bool hit_non_wall_boundry = false;
 
     do {
         tripoint cur = pf.get_next();
@@ -271,7 +272,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < min.x || p.x >= max.x || p.y < min.y || p.y >= max.y ) {
-                hit_boundry = true;
+                hit_non_wall_boundry = true;
                 continue;
             }
 
@@ -301,7 +302,15 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     min_bash_larger_than_ours = std::min( min_bash_larger_than_ours, bash_range.first );
                 }
 
-                const bool is_door = doors && p_special & PF_DOOR;
+                const bool door_here = p_special & PF_DOOR;
+                const bool is_door = doors && door_here;
+
+                // There is a door here we just won't walk through. Since we're basically choosing to
+                // not escape, we won't mark the area for others if we're stuck.
+                if( !doors && door_here ) {
+                    hit_non_wall_boundry = true;
+                }
+
                 const bool is_inside_door = is_door && p_special & PF_INSIDE_DOOR;
                 const bool is_vehicle = p_special & PF_VEHICLE;
 
@@ -402,7 +411,16 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
 
-        if( !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
+        const bool stair_here = cur_special & PF_UPDOWN;
+        const bool allow_stairs = settings.allow_climb_stairs;
+
+        // There are stairs here we just won't walk up/down. Since we're basically choosing to
+        // not escape, we won't mark the area for others if we're stuck.
+        if( !allow_stairs && stair_here ) {
+            hit_non_wall_boundry = true;
+        }
+
+        if( !stair_here || !allow_stairs ) {
             // The part below is only for z-level pathing
             continue;
         }
@@ -513,7 +531,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         std::reverse( ret.begin(), ret.end() );
-    } else if( !hit_boundry ) {
+    } else if( !hit_non_wall_boundry ) {
         // The only way we can get to this point is if we're stuck in a room
         // with no way out, but we want to get a target on the other side
         // of unbreakable windows or bars.
