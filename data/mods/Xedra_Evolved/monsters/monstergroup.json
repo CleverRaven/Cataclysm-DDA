@@ -120,7 +120,6 @@
     "type": "monstergroup",
     "name": "GROUP_RENFIELDS",
         "monsters": [ { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] } ]
-    ]
   },
   {
     "type": "monstergroup",
