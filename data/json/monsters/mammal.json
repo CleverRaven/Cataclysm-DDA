@@ -2214,7 +2214,18 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CAN_BE_CULLED", "EATS" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_WONT_FOLLOW",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "NO_BREED",
+      "CAN_BE_CULLED",
+      "EATS"
+    ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
