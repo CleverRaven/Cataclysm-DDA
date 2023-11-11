@@ -402,10 +402,10 @@
     "name": "Constructed Hammer Self destruct",
     "description": "Removes constructed hammer.  You can't see it except in debug mode.",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_DESTRUCT_ITEM_IN_HANDS"
+    "effect_str": "EOC_REMOVE_CONSTRUCTED_HAMMER"
   },
   {
-    "id": "EOC_DESTRUCT_ITEM_IN_HANDS",
+    "id": "EOC_REMOVE_CONSTRUCTED_HAMMER",
     "type": "effect_on_condition",
     "name": "Constructed Hammer Self destruct",
     "description": "Removes constructed hammer.  You can't see it except in debug mode.",
