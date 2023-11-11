@@ -705,7 +705,8 @@ void npc::assess_danger()
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             if( dist <= 3 ) {
                 assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
-                swarm_count = 0; // don't try to fall back with your ranged weapon if you're in formation with the player.
+                swarm_count = 0;
+                    // don't try to fall back with your ranged weapon if you're in formation with the player.
                 friendly_count += 4 - dist; // when close to the player, weight swarms less.
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
