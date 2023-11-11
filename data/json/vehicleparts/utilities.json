@@ -143,6 +143,7 @@
     "description": "A plastic 100-liter drum of a portable concrete mixer.",
     "categories": [ "utility" ],
     "location": "center",
+    "folded_volume": "113560 ml",
     "color": "light_blue",
     "broken_color": "light_blue",
     "durability": 150,
