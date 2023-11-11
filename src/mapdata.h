@@ -251,6 +251,8 @@ enum class ter_furn_flag : int {
     TFLAG_YOUNG,
     TFLAG_PLANT,
     TFLAG_FISHABLE,
+    TFLAG_GRAZABLE,
+    TFLAG_GRAZABLE_FURNITURE,
     TFLAG_TREE,
     TFLAG_PLOWABLE,
     TFLAG_ORGANIC,

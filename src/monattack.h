@@ -108,6 +108,7 @@ bool doot( monster *z );
 bool zombie_fuse( monster *z );
 bool dsa_drone_scan( monster *z );
 bool blow_whistle( monster *z );
+bool graze( monster *z );
 
 void taze( monster *z, Creature *target );
 void rifle( monster *z, Creature *target );             // Automated M4

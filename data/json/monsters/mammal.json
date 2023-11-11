@@ -776,7 +776,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "upgrades": { "age_grow": 180, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "special_attacks": [ [ "GRAZE", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED", "EATS" ],
     "armor": { "bash": 2 }
@@ -805,7 +805,7 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "stomach_size": 4,
+    "stomach_size": 140,
     "starting_ammo": { "milk_raw": 40 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
@@ -818,7 +818,7 @@
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "special_attacks": [ [ "GRAZE", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [
       "SEES",

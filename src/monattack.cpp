@@ -338,12 +338,31 @@ bool mattack::eat_crop( monster *z )
     int num_targets = 1;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && one_in( num_targets ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && ( here.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST, p ) || here.has_flag( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
+        if( target ) {
+            if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
+                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+                here.i_clear( *target );
+                add_msg_if_player_sees( *z, _( "The %1s eats the crop." ), z->name() );
+                z->amount_eaten += 350;
+                return true;
+            }
+            if( !z->has_flag( mon_flag_EATS ) ) {
+                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+                here.i_clear( *target );
+                add_msg_if_player_sees( *z, _( "The %1s eats the crop." ), z->name() );
+                return true;
+            }
+        }
         map_stack items = here.i_at( p );
         for( item &item : items ) {
+            //This prevents crop eaters from eating planted seeds
+            if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
+            continue;
+            }
             if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ||
                 !item.has_flag( flag_CATTLE ) ) {
                 continue;
@@ -351,11 +370,13 @@ bool mattack::eat_crop( monster *z )
             if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    z->amount_eaten += 1;
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    z->amount_eaten += 1;
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -373,20 +394,6 @@ bool mattack::eat_crop( monster *z )
                 return true;
             }
         }
-    }
-    if( target ) {
-        if( z->has_flag( mon_flag_EATS ) && z->amount_eaten < z->stomach_size ) {
-            here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-            here.i_clear( *target );
-            z->amount_eaten += 1;
-            return true;
-        }
-        if( !z->has_flag( mon_flag_EATS ) ) {
-            here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-            here.i_clear( *target );
-            return true;
-        }
-
     }
     return true;
 }
@@ -539,11 +546,30 @@ bool mattack::eat_carrion( monster *z )
             if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
-                item.mod_damage( 500 );
-                z->amount_eaten += 1;
+                item.mod_damage( 600 );
+                z->amount_eaten += 150;
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
                 return true;
             }
+        }
+    }
+    return true;
+}
+
+bool mattack::graze( monster *z )
+{
+    map &here = get_map();
+    //Grazers eat grass and small leafy plants. Browsers eat larger things like bushes and crops.
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE_FURNITURE, p ) && z->amount_eaten < z->stomach_size ) {
+            here.furn_set( p, f_null );
+            z->amount_eaten += 70;
+            return true;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && z->amount_eaten < z->stomach_size ) {
+            here.ter_set( p, here.get_ter_transforms_into( p ) );
+            z->amount_eaten += 70;
+            return true;
         }
     }
     return true;

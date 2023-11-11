@@ -22,7 +22,7 @@
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dandelion_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -37,7 +37,7 @@
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [
       { "seasons": [ "spring", "autumn" ], "id": "burdock_harv" },
@@ -55,7 +55,7 @@
     "looks_like": "f_lily",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "wild_carrot_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -70,7 +70,7 @@
     "looks_like": "f_lily",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "m_stellatum_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -85,7 +85,7 @@
     "looks_like": "f_dahlia",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "//": "Root can always be harvested, but there is no flower to harvest seeds from in winter.",
     "harvest_by_season": [
@@ -104,7 +104,7 @@
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "chamomille_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -119,7 +119,7 @@
     "color": "light_blue",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -134,7 +134,7 @@
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "spurge_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -166,7 +166,7 @@
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "//": "Add flower and bud spawns once useful.",
@@ -214,7 +214,7 @@
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "summer" ], "id": "sunflower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -229,7 +229,7 @@
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "jerusalem_artichoke_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -258,7 +258,7 @@
     "color": "blue",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "bluebell_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -273,7 +273,7 @@
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "flower_dahlia",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -287,7 +287,7 @@
     "looks_like": "f_bluebell",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "chicory_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -340,7 +340,7 @@
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "mustard_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -355,7 +355,7 @@
     "color": [ "brown_green", "green", "red", "brown" ],
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_sarsaparilla_harv" } ],
     "bash": {
@@ -377,7 +377,7 @@
     "color": "green",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "wintergreen_harv" } ],
     "bash": {
@@ -399,7 +399,7 @@
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
     "bash": {
@@ -420,7 +420,7 @@
     "move_cost_mod": 0,
     "color": [ "brown_green", "magenta", "magenta", "brown" ],
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [
       { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
@@ -444,7 +444,7 @@
     "color": [ "brown_green", "magenta", "magenta", "brown" ],
     "required_str": -1,
     "move_cost_mod": 0,
-    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [
       { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
@@ -488,7 +488,7 @@
     "color": [ "brown_green", "green", "green", "brown" ],
     "required_str": -1,
     "move_cost_mod": 0,
-    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "GRAZABLE_FURNITURE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "thistle_harv" } ],
     "bash": {
