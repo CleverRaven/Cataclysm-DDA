@@ -44,7 +44,8 @@
         "item_restriction": [ "afs_84k_20mag" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_marsec_4",
@@ -129,6 +130,7 @@
     "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
     "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   }
 ]
