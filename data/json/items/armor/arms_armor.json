@@ -901,7 +901,7 @@
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves. These are oversized."
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
   },
   {
     "id": "xs_lc_chainmail_arms",
@@ -909,7 +909,7 @@
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
     "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves. These are undersized."
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
   },
   {
     "id": "mc_chainmail_arms",
