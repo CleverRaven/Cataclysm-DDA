@@ -409,9 +409,7 @@
     "type": "effect_on_condition",
     "name": "Constructed Hammer Self destruct",
     "description": "Removes constructed hammer.  You can't see it except in debug mode.",
-    "effect": [
-      { "u_remove_item_with": "constructed_hammer" }
-    ]
+    "effect": [ { "u_remove_item_with": "constructed_hammer" } ]
   },
   {
     "id": "summon_duplicator",
