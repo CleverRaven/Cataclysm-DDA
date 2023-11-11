@@ -363,7 +363,7 @@ bool mattack::eat_crop( monster *z )
         for( item &item : items ) {
             //This prevents crop eaters from eating planted seeds
             if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
-            continue;
+                continue;
             }
             if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ||
                 !item.has_flag( flag_CATTLE ) ) {
