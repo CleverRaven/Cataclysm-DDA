@@ -144,8 +144,8 @@
       "Bad Headache",
       "Splitting Headache",
       "Splitting Headache",
-      "Excuciating Headache",
-      "Excuciating Headache",
+      "Excruciating Headache",
+      "Excruciating Headache",
       "Pure Agony"
     ],
     "desc": [
@@ -348,7 +348,7 @@
     "name": [ "Illuminated" ],
     "desc": [ "Your skin is glowing brightly." ],
     "apply_message": "",
-    "remove_message": "The glow from your skin fades",
+    "remove_message": "The glow from your skin fades.",
     "rating": "bad",
     "enchantments": [
       {
