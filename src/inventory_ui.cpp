@@ -2020,6 +2020,28 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
     return vis_top;
 }
 
+void inventory_selector::add_contained_gunmods( Character &you, item &gun )
+{
+    auto filter_irremovable = []( std::vector<item *> &gunmods ) {
+        gunmods.erase(
+            std::remove_if(
+        gunmods.begin(), gunmods.end(), []( const item * i ) {
+            return i->is_irremovable();
+        } ),
+        gunmods.end() );
+    };
+
+    std::vector<item *> mods = gun.gunmods();
+    item_location gun_item_location( you, &gun );
+
+    filter_irremovable( mods );
+
+    for( item *mod : mods ) {
+        item_location gunmod_item_location( gun_item_location, mod );
+        add_entry( own_inv_column, std::vector<item_location>( 1, gunmod_item_location ) );
+    }
+}
+
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
     if( !container->is_ebook_storage() ) {
@@ -3985,7 +4007,7 @@ bool pickup_selector::wield( int &count )
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
-        popup_getkey( _( "You can't wield the %s." ), it->display_name() );
+        popup_getkey( u.can_wield( *it ).c_str() );
     }
 
     return false;
@@ -4198,15 +4220,51 @@ std::string unload_selector::hint_string()
 std::pair<item_location, bool> unload_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    item_location startDragItem;
+    bool dragActive = false;
     while( true ) {
         ui_manager::redraw();
         const inventory_input input = get_input();
-        if( input.action == "QUIT" ) {
-            return std::make_pair( item_location(), uistate.unload_auto_contain );
+        if( input.entry != nullptr ) {
+            if( drag_enabled && input.action == "CLICK_AND_DRAG" ) {
+                if( input.entry->is_item() ) {
+                    dragActive = true;
+                    startDragItem = input.entry->locations.front();
+                }
+            } else if( input.action == "MOUSE_MOVE" ) {
+                if( !dragActive && highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+            } else if( input.action == "SELECT" ) {
+                dragActive = false;
+                item_location startDragItemCpy = startDragItem;
+                startDragItem = item_location();
+                item_location endDragItem;
+                if( input.entry->is_item() ) {
+                    endDragItem = input.entry->locations.front();
+                    if( startDragItemCpy && endDragItem && startDragItemCpy != endDragItem ) {
+                        if( drag_drop_item( startDragItemCpy.get_item(), endDragItem.get_item() ) ) {
+                            clear_items();
+                            add_character_items( u );
+                        }
+                    } else {
+                        return {input.entry->any_item(), uistate.unload_auto_contain};
+                    }
+                }
+            } else if( input.action == "ANY_INPUT" ) {
+                return {input.entry->any_item(), uistate.unload_auto_contain};
+            } else {
+                if( !dragActive && highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+                on_input( input );
+            }
+        } else if( input.action == "QUIT" ) {
+            return { item_location(), uistate.unload_auto_contain };
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &highlighted = get_active_column().get_highlighted();
             if( highlighted && highlighted.is_selectable() ) {
-                return std::make_pair( highlighted.any_item(), uistate.unload_auto_contain );
+                return { highlighted.any_item(), uistate.unload_auto_contain };
             }
         } else if( input.action == "CONTAIN_MODE" ) {
             uistate.unload_auto_contain = !uistate.unload_auto_contain;

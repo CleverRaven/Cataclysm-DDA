@@ -5,7 +5,7 @@
     "name": "Translate Complex Dialogue",
     "authors": [ "I-am-Erk" ],
     "description": "Adds a translation for some of the weirder dialogue in game.  Keeps the original flavour dialogue visible.",
-    "category": "misc_additions",
+    "category": "accessibility",
     "dependencies": [ "dda" ]
   }
 ]

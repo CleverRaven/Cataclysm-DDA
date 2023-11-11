@@ -262,14 +262,36 @@
   },
   {
     "type": "mutation",
-    "id": "CLOUD_OF_STEAM",
+    "id": "CLOUD_OF_STEAM_SYLPH",
     "name": { "str": "Cloud of Steam" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
-    "category": [ "SYLPH", "UNDINE" ],
-    "spells_learned": [ [ "cloud_of_steam", 1 ] ]
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "cloud_of_steam_sylph", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLOUD_OF_STEAM_UNDINE",
+    "name": { "str": "Cloud of Steam" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
+    "category": [ "UNDINE" ],
+    "spells_learned": [ [ "cloud_of_steam_undine", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CREATE_LIGHT_SYLPH",
+    "name": { "str": "Create Light" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "create_light_sylph", 1 ] ]
   },
   {
     "type": "mutation",
@@ -279,8 +301,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to create light.",
-    "category": [ "SYLPH", "SALAMANDER" ],
-    "spells_learned": [ [ "create_light", 1 ] ]
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "create_light_salamander", 1 ] ]
   },
   {
     "type": "mutation",

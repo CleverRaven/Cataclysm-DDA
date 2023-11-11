@@ -117,6 +117,9 @@ void clear_character( Character &dummy, bool skip_nutrition )
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
+    for( const proficiency_id &prof : dummy.learning_proficiencies() ) {
+        dummy.set_proficiency_practiced_time( prof, 0 );
+    }
 
     // Reset cardio_acc to baseline
     dummy.reset_cardio_acc();
@@ -149,7 +152,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
-void arm_shooter( npc &shooter, const std::string &gun_type,
+void arm_shooter( Character &shooter, const std::string &gun_type,
                   const std::vector<std::string> &mods,
                   const std::string &ammo_type )
 {

@@ -1,6 +1,12 @@
 [
   {
     "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PHOTOKINETIC",
+    "dynamic_line": [ "This isn't real…  It's just tricks right?  Haha.  It's just tricks and lights…" ],
+    "responses": [ { "text": "It's not like any tricks I've ever seen..", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_CIVILIAN_PYROKINETIC",
     "dynamic_line": [ "Hahaha!!  Burn!  BURN!!", "&They cackle loudly as flames burst from their outstretched hand.", "All will burn!" ],
     "responses": [

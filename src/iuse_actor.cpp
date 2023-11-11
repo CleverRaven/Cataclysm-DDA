@@ -4218,23 +4218,31 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     filter_irremovable( mods );
     filter_irremovable( mods_copy );
 
-    uilist prompt;
-    prompt.text = _( "Remove which modification?" );
+    item_location mod_loc = game_menus::inv::gunmod_to_remove( *p, it );
 
-    for( size_t i = 0; i != mods.size(); ++i ) {
-        prompt.addentry( i, true, -1, mods[ i ]->tname() );
+    if( !mod_loc ) {
+        p->add_msg_if_player( _( "Never mind." ) );
+        return std::nullopt;
     }
 
-    prompt.query();
+    // Find the index of the mod to be removed
+    // used in identifying the mod in mods and mods_copy
+    int mod_index = -1;
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        if( mods[ i ] == mod_loc.get_item() ) {
+            mod_index = i;
+            break;
+        }
+    }
 
-    if( prompt.ret >= 0 ) {
-        gun_copy.remove_item( *mods_copy[prompt.ret] );
+    if( mod_index >= 0 ) {
+        gun_copy.remove_item( *mods_copy[mod_index] );
 
-        if( p->meets_requirements( *mods[prompt.ret], gun_copy ) ||
+        if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
             if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
-                p->gunmod_remove( it, *mods[prompt.ret] );
+                p->gunmod_remove( it, *mods[mod_index] );
                 return 0;
             }
         }
@@ -5715,6 +5723,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         } else {
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
+    }
+    // Prevents crash from trying to spend charge with item removed
+    if( !p->has_item( it ) ) {
+        return 0;
     }
     return 1;
 }

@@ -45,8 +45,7 @@
       {
         "id": "glock_29mag",
         "name": { "str": "Glock 10mm 10-round magazine" },
-        "description": "A stubby steel and polymer magazine for use with the Glock 29.  It is too short to insert into most other 10mm Glock pattern magwells.",
-        "weight": 1
+        "description": "A stubby steel and polymer magazine for use with the Glock 29.  It is too short to insert into most other 10mm Glock pattern magwells."
       }
     ],
     "weight": "90 g",
@@ -73,8 +72,7 @@
       {
         "id": "m1911_10mag",
         "name": { "str": "Colt Delta Elite 8-round magazine" },
-        "description": "An 8-round single stack steel box magazine for use with 1911 pattern guns chambered in 10mm Auto.",
-        "weight": 1
+        "description": "An 8-round single stack steel box magazine for use with 1911 pattern guns chambered in 10mm Auto."
       }
     ],
     "price": 3500,
@@ -94,8 +92,7 @@
       {
         "id": "mp5_10_mag",
         "name": { "str": "MP5/10 30-round magazine" },
-        "description": "A straight 30-round box magazine for use with MP5/10s and similar 10mm MP5 clones such as the Brethren Arms BA10.",
-        "weight": 1
+        "description": "A straight 30-round box magazine for use with MP5/10s and similar 10mm MP5 clones such as the Brethren Arms BA10."
       }
     ],
     "weight": "159 g",
@@ -121,8 +118,7 @@
       {
         "id": "p220_10_mag",
         "name": { "str": "P220 8-round magazine" },
-        "description": "An 8-round steel box magazine for the SIG Sauer P220 in 10mm Auto.",
-        "weight": 1
+        "description": "An 8-round steel box magazine for the SIG Sauer P220 in 10mm Auto."
       }
     ],
     "weight": "60 g",
@@ -148,8 +144,7 @@
       {
         "id": "tdi_10mm_mag",
         "name": { "str": "Glock 10mm 30-round magazine" },
-        "description": "A 30-round plastic and steel box 10mm Auto magazine for use with Glock pattern magazine wells, namely the Vector SDP.",
-        "weight": 1
+        "description": "A 30-round plastic and steel box 10mm Auto magazine for use with Glock pattern magazine wells, namely the Vector SDP."
       }
     ],
     "weight": "210 g",

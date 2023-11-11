@@ -1827,6 +1827,7 @@ void known_magic::serialize( JsonOut &json ) const
     }
     json.end_array();
     json.member( "invlets", invlets );
+    json.member( "favorites", favorites );
 
     json.end_object();
 }
@@ -1846,6 +1847,7 @@ void known_magic::deserialize( const JsonObject &data )
         }
     }
     data.read( "invlets", invlets );
+    data.read( "favorites", favorites );
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
@@ -1977,7 +1979,11 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
     } else {
         if( new_exp >= 0 ) {
             spell &temp_sp = get_spell( sp );
+            int old_level = temp_sp.get_level();
             temp_sp.set_exp( new_exp );
+            if( guy->is_avatar() && old_level != temp_sp.get_level() ) {
+                get_event_bus().send<event_type::player_levels_spell>( guy->getID(), sp->id, temp_sp.get_level() );
+            }
         } else {
             get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
             spellbook.erase( sp );
@@ -2156,6 +2162,19 @@ std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class
     return ret;
 }
 
+static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
+{
+    for( uilist_entry &entry : menu->entries ) {
+        if( get_player_character().magic->is_favorite( known_spells[entry.retval]->id() ) ) {
+            entry.extratxt.left = 0;
+            entry.extratxt.txt = _( "*" );
+            entry.extratxt.color = c_white;
+        } else {
+            entry.extratxt.txt = "";
+        }
+    }
+}
+
 class spellcasting_callback : public uilist_callback
 {
     private:
@@ -2167,14 +2186,14 @@ class spellcasting_callback : public uilist_callback
         void draw_spell_info( const uilist *menu );
     public:
         // invlets reserved for special functions
-        const std::set<int> reserved_invlets{ 'I', '=' };
+        const std::set<int> reserved_invlets{ 'I', '=', '*' };
         bool casting_ignore;
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
         bool key( const input_context &ctxt, const input_event &event, int entnum,
-                  uilist * /*menu*/ ) override {
+                  uilist *menu ) override {
             const std::string &action = ctxt.input_to_action( event );
             if( action == "CAST_IGNORE" ) {
                 casting_ignore = !casting_ignore;
@@ -2198,6 +2217,9 @@ class spellcasting_callback : public uilist_callback
                 return true;
             } else if( action == "SCROLL_UP_SPELL_MENU" || action == "SCROLL_DOWN_SPELL_MENU" ) {
                 scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
+            } else if( action == "SCROLL_FAVORITE" ) {
+                get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
+                reflesh_favorite( menu, known_spells );
             }
             return false;
         }
@@ -2522,6 +2544,20 @@ void known_magic::rem_invlet( const spell_id &sp )
     invlets.erase( sp );
 }
 
+void known_magic::toggle_favorite( const spell_id &sp )
+{
+    if( favorites.count( sp ) > 0 ) {
+        favorites.erase( sp );
+    } else {
+        favorites.emplace( sp );
+    }
+}
+
+bool known_magic::is_favorite( const spell_id &sp )
+{
+    return favorites.count( sp ) > 0;
+}
+
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 {
     auto found = invlets.find( sp );
@@ -2575,20 +2611,37 @@ int known_magic::select_spell( Character &guy )
     spell_menu.additional_actions.emplace_back( "CAST_IGNORE", translation() );
     spell_menu.additional_actions.emplace_back( "SCROLL_UP_SPELL_MENU", translation() );
     spell_menu.additional_actions.emplace_back( "SCROLL_DOWN_SPELL_MENU", translation() );
+    spell_menu.additional_actions.emplace_back( "SCROLL_FAVORITE", translation() );
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
     spell_menu.add_category( "all", _( "All" ) );
+    spell_menu.add_category( "favorites", _( "Favorites" ) );
+
+    std::vector<std::pair<std::string, std::string>> categories;
     for( const spell *s : known_spells ) {
         if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
-            spell_menu.add_category( s->spell_class().str(), s->spell_class().obj().name() );
+            categories.emplace_back( s->spell_class().str(), s->spell_class().obj().name() );
+            std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
+            const std::pair<std::string, std::string> &b ) {
+                return localized_compare( a.second, b.second );
+            } );
+            const auto itr = std::unique( categories.begin(), categories.end() );
+            categories.erase( itr, categories.end() );
         }
     }
-    spell_menu.set_category_filter( [known_spells]( const uilist_entry & entry,
+    for( std::pair<std::string, std::string> &cat : categories ) {
+        spell_menu.add_category( cat.first, cat.second );
+    }
+
+    spell_menu.set_category_filter( [&guy, known_spells]( const uilist_entry & entry,
     const std::string & key )->bool {
         if( key == "all" )
         {
             return true;
+        } else if( key == "favorites" )
+        {
+            return guy.magic->is_favorite( known_spells[entry.retval]->id() );
         }
         return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
     } );
@@ -2600,6 +2653,7 @@ int known_magic::select_spell( Character &guy )
         spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( guy ),
                              get_invlet( known_spells[i]->id(), used_invlets ), known_spells[i]->name() );
     }
+    reflesh_favorite( &spell_menu, known_spells );
 
     spell_menu.query();
 

@@ -245,7 +245,7 @@
             }
           },
           {
-            "set_string_var": "Taking this means you can't take <trait_name:perk_way_closedfist> or <trait_name:perk_way_pinchedfingers>",
+            "set_string_var": "Taking this means you can't take <trait_name:perk_way_openpalm> or <trait_name:perk_way_pinchedfingers>",
             "target_var": { "context_val": "trait_additional_details" }
           }
         ],

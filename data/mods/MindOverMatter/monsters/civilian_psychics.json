@@ -64,6 +64,38 @@
     "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION" ]
   },
   {
+    "id": "mon_civilian_photokinetic",
+    "type": "MONSTER",
+    "name": { "str": "miserable magician" },
+    "description": "This person seems to be afraid of his own illusionary tricks, not being used to his 'magic' actually working.  He doesn't seem to be able to control it very well, or willfully.",
+    "copy-from": "mon_civilian_clairsentient",
+    "chat_topics": [ "TALK_CIVILIAN_PHOTOKINETIC" ],
+    "diff": 3,
+    "aggro_character": false,
+    "symbol": "@",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "vision_day": 10,
+    "vision_night": 1,
+    "dodge": 1,
+    "upgrades": { "half_life": 2, "into": "mon_feral_human_photokin" },
+    "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
+      {
+        "id": "psi_civilian_photokinetic_lightbeam",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 0 },
+        "cooldown": 10,
+        "monster_message": "%1$s fires a photon beam!"
+      }
+    ]
+  },
+  {
     "id": "mon_civilian_pyrokinetic",
     "type": "MONSTER",
     "name": { "str": "furious firestarter" },

@@ -202,6 +202,8 @@ static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
+static const effect_on_condition_id effect_on_condition_add_effect( "add_effect" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -215,7 +217,6 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_chafing( "chafing" );
 static const efftype_id effect_common_cold( "common_cold" );
-static const efftype_id effect_common_cold_immunity( "common_cold_immunity" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
@@ -229,7 +230,6 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flu( "flu" );
-static const efftype_id effect_flushot( "flushot" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
@@ -512,6 +512,27 @@ std::string enum_to_string<blood_type>( blood_type data )
 }
 
 } // namespace io
+
+void Character::queue_effect( const std::string &name, const time_duration &delay,
+                              const time_duration &effect_duration )
+{
+    std::unordered_map<std::string, std::string> ctx = {
+        { "npctalk_var_effect", name },
+        { "npctalk_var_duration", std::to_string( to_turns<int>( effect_duration ) ) }
+    };
+
+    effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
+            ctx );
+}
+
+int Character::count_queued_effects( const std::string &effect ) const
+{
+    return std::count_if( queued_effect_on_conditions.list.begin(),
+    queued_effect_on_conditions.list.end(), [&effect]( const queued_eoc & eoc ) {
+        return eoc.eoc == effect_on_condition_add_effect &&
+               eoc.context.at( "npctalk_var_effect" ) == effect;
+    } );
+}
 
 // *INDENT-OFF*
 Character::Character() :
@@ -1863,10 +1884,18 @@ bool Character::is_dead_state() const
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    if( set <= 0 ) {
+    Creature::set_part_hp_cur( id, set );
+    if( get_part_hp_cur( id ) <= 0 ) {
         cached_dead_state.reset();
     }
-    Creature::set_part_hp_cur( id, set );
+}
+
+void Character::mod_part_hp_cur( const bodypart_id &id, int set )
+{
+    Creature::mod_part_hp_cur( id, set );
+    if( get_part_hp_cur( id ) <= 0 ) {
+        cached_dead_state.reset();
+    }
 }
 
 void Character::on_try_dodge()
@@ -5339,14 +5368,46 @@ void Character::get_sick( bool is_flu )
         const int base_diseases_per_year = has_trait( trait_DISRESISTANT ) ? 1 : 3;
         const time_duration immunity_duration = calendar::season_length() * 4 / base_diseases_per_year;
 
-        if( is_flu ) {
-            // The flu typically lasts 3-10 days.
-            add_effect( effect_flu, rng( 3_days, 10_days ) );
-            add_effect( effect_flushot, immunity_duration );
-        } else {
-            // A cold typically lasts 1-14 days.
-            add_effect( effect_common_cold, rng( 1_days, 14_days ) );
-            add_effect( effect_common_cold_immunity, immunity_duration );
+        bool already_has_flu = has_effect( effect_flu ) ||
+                               count_queued_effects( "pre_flu" ) ||
+                               count_queued_effects( "flu" );
+        bool already_has_cold = has_effect( effect_common_cold ) ||
+                                count_queued_effects( "pre_common_cold" ) ||
+                                count_queued_effects( "common_cold" );
+
+        if( is_flu && !already_has_flu ) {
+            // Total duration of symptoms
+            time_duration total_duration = rng( 3_days, 10_days );
+            // Time before first symptoms
+            time_duration incubation_period = rng( 18_hours, 36_hours );
+            // Time from first symptoms to full blown disease
+            time_duration warning_period = std::min( rng( 18_hours, 36_hours ), total_duration );
+
+            add_msg_debug( debugmode::DF_CHAR_HEALTH, "Queuing flu: incubation %d h, warning %d h, total %d h",
+                           to_hours<int>( incubation_period ),
+                           to_hours<int>( warning_period ),
+                           to_hours<int>( total_duration ) );
+
+            queue_effect( "pre_flu", incubation_period, warning_period );
+            queue_effect( "flu", incubation_period + warning_period, total_duration - warning_period );
+            queue_effect( "flushot", incubation_period + total_duration, immunity_duration );
+
+        } else if( !already_has_cold ) {
+            // Total duration of symptoms
+            time_duration total_duration = rng( 1_days, 14_days );
+            // Time before first symptoms
+            time_duration incubation_period = rng( 18_hours, 36_hours );
+            // Time from first symptoms to full blown disease
+            time_duration warning_period = std::min( rng( 18_hours, 36_hours ), total_duration );
+
+            add_msg_debug( debugmode::DF_CHAR_HEALTH, "Queuing cold: incubation %d h, warning %d h, total %d h",
+                           to_hours<int>( incubation_period ),
+                           to_hours<int>( warning_period ),
+                           to_hours<int>( total_duration ) );
+
+            queue_effect( "pre_common_cold", incubation_period, warning_period );
+            queue_effect( "common_cold", incubation_period + warning_period, total_duration - warning_period );
+            queue_effect( "common_cold_immunity", incubation_period + total_duration, immunity_duration );
         }
     }
 }
@@ -5390,8 +5451,8 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
 {
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = static_cast<int>( ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
-                                 0.0001 ); // If bp1 is warmer, it will lose heat
+    const units::temperature_delta diff = ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
+                                          0.0001; // If bp1 is warmer, it will lose heat
     mod_part_temp_cur( bp1, diff );
 }
 
@@ -5914,10 +5975,15 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                        enchant_vals::mod::MOTION_VISION_RANGE );
     const double sight_range_nether = calculate_by_enchantment( 0.0,
                                       enchant_vals::mod::SIGHT_RANGE_NETHER );
+    const double sight_range_minds = calculate_by_enchantment( 0.0,
+                                     enchant_vals::mod::SIGHT_RANGE_MINDS );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
         return true;
     }
     if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
+        return true;
+    }
+    if( critter.has_mind() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_minds ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -6009,9 +6075,9 @@ float Character::rest_quality() const
     }
 
     if( has_effect( effect_sleep ) ) {
-        // Beds should normally have a maximum of 1000, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
+        // Beds should normally have a maximum of 2C warmth, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
         // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
-        rest += ( std::max( floor_bedding_warmth( your_pos ), 0 ) / 1000.0f ) ;
+        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos ) ), 0.f ) / 2.0f ) ;
         return std::max( rest, 0.0f );
     }
     const optional_vpart_position veh_part = here.veh_at( your_pos );
@@ -6021,9 +6087,9 @@ float Character::rest_quality() const
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
             rest += 0.2f;
-        } else if( floor_bedding_warmth( your_pos ) > 0 ) {
+        } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
-            rest += 0.2f * ( floor_bedding_warmth( your_pos ) / 1000.0f );
+            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
         }
         if( activity_level() <= NO_EXERCISE ) {
             rest += 0.2f;
@@ -7664,10 +7730,10 @@ ret_val<void> Character::can_wield( const item &it ) const
                    _( "You need at least one arm available to even consider wielding something." ) );
     }
     if( it.made_of( phase_id::LIQUID ) ) {
-        return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
+        return ret_val<void>::make_failure( _( "You can't wield spilt liquids." ) );
     }
     if( it.is_frozen_liquid() && !it.has_flag( flag_SHREDDED ) ) {
-        return ret_val<void>::make_failure( _( "Can't wield unbroken frozen liquids." ) );
+        return ret_val<void>::make_failure( _( "You can't wield unbroken frozen liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         if( get_wielded_item() && get_wielded_item().get_item() == &it ) {
@@ -7682,7 +7748,7 @@ ret_val<void> Character::can_wield( const item &it ) const
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {
-        return ret_val<void>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+        return ret_val<void>::make_failure( _( "The %s prevents you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
@@ -7694,10 +7760,10 @@ ret_val<void> Character::can_wield( const item &it ) const
             return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
         } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
-            return ret_val<void>::make_failure( _( "The %s can't be wielded with only one arm." ),
+            return ret_val<void>::make_failure( _( "You can't wield the %s with only one arm." ),
                                                 it.tname() );
         } else {
-            return ret_val<void>::make_failure( _( "You are too weak to wield %s with only one arm." ),
+            return ret_val<void>::make_failure( _( "You are too weak to wield the %s with only one arm." ),
                                                 it.tname() );
         }
     }
@@ -8896,33 +8962,30 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_STUDY_SPELL );
 }
 
-int Character::floor_bedding_warmth( const tripoint &pos )
+units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
     const ter_id ter_at_pos = here.ter( pos );
     const furn_id furn_at_pos = here.furn( pos );
-    int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
-        floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
+        return furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
-        floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
+        return trap_at_pos.floor_bedding_warmth;
     } else if( boardable ) {
-        floor_bedding_warmth += boardable->info().floor_bedding_warmth;
+        return boardable->info().floor_bedding_warmth;
     } else {
-        floor_bedding_warmth += ter_at_pos.obj().floor_bedding_warmth - 2000;
+        return ter_at_pos.obj().floor_bedding_warmth - 4_C_delta;
     }
-
-    return floor_bedding_warmth;
 }
 
-int Character::floor_item_warmth( const tripoint &pos )
+units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
 {
-    int item_warmth = 0;
+    units::temperature_delta item_warmth = 0_C_delta;
 
     const auto warm = [&item_warmth]( const auto & stack ) {
         for( const item &elem : stack ) {
@@ -8934,7 +8997,7 @@ int Character::floor_item_warmth( const tripoint &pos )
             if( elem.volume() > 250_ml &&
                 ( elem.covers( body_part_torso ) || elem.covers( body_part_leg_l ) ||
                   elem.covers( body_part_leg_r ) ) ) {
-                item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
+                item_warmth += 0.12_C_delta * elem.get_warmth() * ( elem.volume() / 2500_ml );
             }
         }
     };
@@ -8951,47 +9014,49 @@ int Character::floor_item_warmth( const tripoint &pos )
     return item_warmth;
 }
 
-int Character::floor_warmth( const tripoint &pos ) const
+units::temperature_delta Character::floor_warmth( const tripoint &pos ) const
 {
-    const int item_warmth = floor_item_warmth( pos );
-    int bedding_warmth = floor_bedding_warmth( pos );
+    const units::temperature_delta item_warmth = floor_item_warmth( pos );
+    units::temperature_delta bedding_warmth = floor_bedding_warmth( pos );
 
     // If the PC has fur, etc, that will apply too
-    int floor_mut_warmth = bodytemp_modifier_traits_floor();
+    const units::temperature_delta floor_mut_warmth = bodytemp_modifier_traits_floor();
     // DOWN does not provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
-    if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 200 ) ) {
-        bedding_warmth = std::max( 0, bedding_warmth );
+    if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 2_C_delta ) ) {
+        bedding_warmth = std::max( 0_C_delta, bedding_warmth );
     }
     return item_warmth + bedding_warmth + floor_mut_warmth;
 }
 
-int Character::bodytemp_modifier_traits( bool overheated ) const
+units::temperature_delta Character::bodytemp_modifier_traits( bool overheated ) const
 {
-    int mod = 0;
+    units::temperature_delta mod = 0_C_delta;
     for( const trait_id &iter : get_mutations() ) {
         mod += overheated ? iter->bodytemp_min : iter->bodytemp_max;
     }
     return mod;
 }
 
-int Character::bodytemp_modifier_traits_floor() const
+units::temperature_delta Character::bodytemp_modifier_traits_floor() const
 {
-    int mod = 0;
+    units::temperature_delta mod = 0_C_delta;
     for( const trait_id &iter : get_mutations() ) {
         mod += iter->bodytemp_sleep;
     }
     return mod;
 }
 
-int Character::temp_corrected_by_climate_control( int temperature,
+units::temperature Character::temp_corrected_by_climate_control( units::temperature temperature,
         int heat_strength, int chill_strength ) const
 {
-    const int variation_heat = static_cast<int>( BODYTEMP_NORM * ( heat_strength / 100.0f ) );
-    const int variation_chill = static_cast<int>( BODYTEMP_NORM * ( chill_strength / 100.0f ) );
+    const units::temperature_delta base_variation = units::from_celsius_delta( units::to_celsius(
+                BODYTEMP_NORM ) );
+    const units::temperature_delta variation_heat = base_variation * ( heat_strength / 100.0f );
+    const units::temperature_delta variation_chill = -base_variation * ( chill_strength / 100.0f );
 
     if( temperature > BODYTEMP_NORM ) {
-        return std::max( BODYTEMP_NORM, temperature - variation_chill );
+        return std::max( BODYTEMP_NORM, temperature + variation_chill );
     } else {
         return std::min( BODYTEMP_NORM, temperature + variation_heat );
     }
@@ -11792,6 +11857,12 @@ bool Character::is_nether() const
     return false;
 }
 
+bool Character::has_mind() const
+{
+    // Characters are all humans and thus have minds
+    return true;
+}
+
 void Character::set_underwater( bool u )
 {
     if( underwater != u ) {
@@ -12523,6 +12594,63 @@ void Character::environmental_revert_effect()
     calc_encumbrance();
 }
 
+bodypart_id Character::most_staunchable_bp()
+{
+    int max;
+    return most_staunchable_bp( max );
+}
+
+bodypart_id Character::most_staunchable_bp( int &max_staunch )
+{
+    // Calculate max staunchable bleed level
+    // Top out at 20 intensity for base, unencumbered survivors
+    max_staunch = 20;
+    max_staunch *= get_modifier( character_modifier_bleed_staunch_mod );
+    add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max_staunch );
+
+    // +5 bonus if you know your first aid
+    if( has_proficiency( proficiency_prof_wound_care ) ||
+        has_proficiency( proficiency_prof_wound_care_expert ) ) {
+        max_staunch += 5;
+        add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max_staunch );
+    }
+
+    int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
+    int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+
+    // Don't warn about encumbrance if your arms are broken
+    if( num_broken_arms ) {
+        // Handle multiple arms
+        max_staunch *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
+        add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
+                       num_broken_arms, num_arms, max_staunch );
+    }
+
+    int most = 0;
+    int intensity = 0;
+    bodypart_id bp_id = bodypart_str_id::NULL_ID();
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        intensity = get_effect_int( effect_bleed, bp );
+        // Staunching a bleeding on one of your arms is hard (handle multiple arms)
+        if( bp->has_type( body_part_type::type::arm ) ) {
+            intensity /= ( 1.0f - 1.0f / num_arms );
+        }
+        // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
+        if( worn_with_flag( flag_TOURNIQUET, bp ) ) {
+            intensity /= 2;
+        }
+        if( most < get_effect_int( effect_bleed, bp ) && intensity <= max_staunch ) {
+            // Don't use intensity here, we might have increased it for the arm penalty
+            most = get_effect_int( effect_bleed, bp );
+            bp_id = bp;
+        }
+    }
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "Selected %s to staunch (base intensity %d, modified intensity %d)", bp_id->name, intensity, most );
+
+    return bp_id;
+}
+
 void Character::pause()
 {
     moves = 0;
@@ -12577,29 +12705,13 @@ void Character::pause()
     }
 
     // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress
-    if( !is_armed() && has_effect( effect_bleed ) ) {
-        // Calculate max staunchable bleed level
-        // Top out at 20 intensity for base, unencumbered survivors
-        int max = 20;
-        max *= get_modifier( character_modifier_bleed_staunch_mod );
-        add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max );
-
-        // +5 bonus if you know your first aid
-        if( has_proficiency( proficiency_prof_wound_care ) ||
-            has_proficiency( proficiency_prof_wound_care_expert ) ) {
-            max += 5;
-            add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max );
-        }
-
-        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
-        int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+    if( !controlling_vehicle && !is_armed() && has_effect( effect_bleed ) ) {
+        int max = 0;
+        bodypart_id bp_id = most_staunchable_bp( max );
 
         // Don't warn about encumbrance if your arms are broken
+        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
         if( num_broken_arms ) {
-            // Handle multiple arms
-            max *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
-            add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
-                           num_broken_arms, num_arms, max );
             add_msg_player_or_npc( m_warning,
                                    _( "Your broken limb significantly hampers your efforts to put pressure on a bleeding wound!" ),
                                    _( "<npcname>'s broken limb significantly hampers their effort to put pressure on a bleeding wound!" ) );
@@ -12609,37 +12721,14 @@ void Character::pause()
                                    _( "<npcname>'s hands are too encumbered to effectively put pressure on a bleeding wound!" ) );
         }
 
-        int most = 0;
-        int intensity = 0;
-        bodypart_id bp_id = bodypart_str_id::NULL_ID();
-        for( const bodypart_id &bp : get_all_body_parts() ) {
-            intensity = get_effect_int( effect_bleed, bp );
-            // Staunching a bleeding on one of your arms is hard (handle multiple arms)
-            if( bp->has_type( body_part_type::type::arm ) ) {
-                intensity /= ( 1.0f - 1.0f / num_arms );
-            }
-            // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
-            if( worn_with_flag( flag_TOURNIQUET, bp ) ) {
-                intensity /= 2;
-            }
-            if( most < get_effect_int( effect_bleed, bp ) && intensity <= max ) {
-                // Don't use intensity here, we might have increased it for the arm penalty
-                most = get_effect_int( effect_bleed, bp );
-                bp_id = bp;
-            }
-        }
-        add_msg_debug( debugmode::DF_CHARACTER,
-                       "Selected %s to staunch (base intensity %d, modified intensity %d)", bp_id->name, intensity, most );
-
-        // 5 - 30 sec per turn (with standard hands)
-        time_duration benefit = 5_turns + 1_turns * max;
-
         if( bp_id == bodypart_str_id::NULL_ID() ) {
             // We're bleeding, but couldn't find any bp we can staunch
             add_msg_player_or_npc( m_warning,
                                    _( "Your bleeding is beyond staunching barehanded!  A tourniquet might help." ),
                                    _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
+            // 5 - 30 sec per turn (with standard hands)
+            time_duration benefit = 5_turns + 1_turns * max;
             effect &e = get_effect( effect_bleed, bp_id );
             e.mod_duration( - benefit );
             add_msg_player_or_npc( m_warning,

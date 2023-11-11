@@ -9,35 +9,30 @@
       {
         "id": "mag_launcher",
         "name": { "str": "High Explosives Quarterly", "str_pl": "issues of High Explosives Quarterly" },
-        "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
-        "weight": 1
+        "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry."
       },
       {
         "id": "mag_launcher_1",
         "name": { "str": "Launchers, Lobbers and Rockets Engineer", "str_pl": "copies of Launchers, Lobbers and Rockets Engineer" },
         "description": "DIY guide about different ballistic launchers, how they work, and how to build one.",
-        "//": "978-1631594274",
-        "weight": 1
+        "//": "978-1631594274"
       },
       {
         "id": "mag_launcher_2",
         "name": { "str": "Katyusha", "str_pl": "copies of Katyusha" },
         "description": "This book shows the history of Soviet Multiple Rocket Launcher systems, developed in a late 1930s, the reasons to use it, problems solved while designing them, and tactics for using them.",
-        "//": "978-1472810861",
-        "weight": 1
+        "//": "978-1472810861"
       },
       {
         "id": "mag_launcher_3",
         "name": { "str": "The Rocket Propelled Grenade", "str_pl": "copies of The Rocket Propelled Grenade" },
         "description": "Part of a big series about different small arms, this book details RPGs - how they were created, how they were used, and how they are used now in modern times.",
-        "//": "978-1849081535",
-        "weight": 1
+        "//": "978-1849081535"
       },
       {
         "id": "mag_launcher_4",
         "name": { "str": "Field Artillery", "str_pl": "issues of Field Artillery" },
-        "description": "A professional magazine about artillery, published by the US Field Artillery Corps.  Lots of articles analyze using modern artillery in different wars, modern and future technologies, and the most recent discoveries in ballistics and field engineering.",
-        "weight": 1
+        "description": "A professional magazine about artillery, published by the US Field Artillery Corps.  Lots of articles analyze using modern artillery in different wars, modern and future technologies, and the most recent discoveries in ballistics and field engineering."
       }
     ],
     "weight": "90 g",
@@ -64,15 +59,13 @@
       {
         "id": "manual_launcher",
         "name": { "str": "Jane's Mortars and Rocket Launchers", "str_pl": "copies of Jane's Mortars and Rocket Launchers" },
-        "description": "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry.  Lavishly illustrated with color photographs, it contains a wealth of information.",
-        "weight": 1
+        "description": "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry.  Lavishly illustrated with color photographs, it contains a wealth of information."
       },
       {
         "id": "manual_launcher_1",
         "name": { "str": "U.S. Grenade Launchers", "str_pl": "copies of U.S. Grenade Launchers" },
         "description": "Part of a big series about different small arms, this book tells about the M79.  Created to fill the gap between hand grenade and light mortar, this weapon became an iconic symbol of the Vietnam War, and still serves its role perfectly.",
-        "//": "978-1472819529",
-        "weight": 1
+        "//": "978-1472819529"
       },
       {
         "id": "manual_launcher_2",
@@ -81,8 +74,7 @@
           "str_pl": "copies of Catalogue of Standard Ordnance Items: Volume 3 & 4"
         },
         "description": "A giant, comprehensive list of every U.S. Army weapon, munition, and piece of equipment that was used during World War II, with small, but detailed information about each of them.  Volume 3 describes light weapons like grenade launchers, recoilless rifles, man-portable anti-tank and air-defense missiles and mortars, and Volume 4 describes different heavy ammunition from 20mm to 16 inch hand and rifle grenades.",
-        "//": "978-1940453101",
-        "weight": 1
+        "//": "978-1940453101"
       },
       {
         "id": "manual_launcher_3",
@@ -91,21 +83,18 @@
           "str_pl": "copies of FM 3-09: Fire Support and Field Artillery Operations"
         },
         "description": "Official U.S. Army manual about principles and functions for fire support elements and field artillery.  Most of it is about the functions and operations of artillery, alongside some ballistic calculations.",
-        "//": "979-8642959404",
-        "weight": 1
+        "//": "979-8642959404"
       },
       {
         "id": "manual_launcher_4",
         "name": { "str": "FM 3-22.3: Stryker Gunnery", "str_pl": "copies of FM 3-22.3: Stryker Gunnery" },
-        "description": "Official U.S. Army manual about using different light weapons - M203, ITAS M41, TOW and Javelins.",
-        "weight": 1
+        "description": "Official U.S. Army manual about using different light weapons - M203, ITAS M41, TOW and Javelins."
       },
       {
         "id": "manual_launcher_5",
         "name": { "str": "FM 23-11: 90mm Recoilless Rifle, M67", "str_pl": "copies of FM 23-11: 90mm Recoilless Rifle, M67" },
         "description": "Official U.S. Army manual for using the M67 anti-tank rifle - theory, practice, and essential information.",
-        "//": "979-8538902606",
-        "weight": 1
+        "//": "979-8538902606"
       }
     ],
     "weight": "734 g",

@@ -113,5 +113,10 @@
       { "u_spawn_monster": "mon_yrax_trifacet", "real_count": 1, "min_radius": 1, "max_radius": 2 },
       { "u_message": "The hostile trifacet violently unfolds just clear of your hand!", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "add_effect",
+    "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
   }
 ]

@@ -348,6 +348,7 @@
       "NO_UNLOAD",
       "WATERPROOF_GUN",
       "NO_TURRET",
+      "RELOAD_AND_SHOOT",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -479,8 +480,8 @@
   {
     "id": "druid_dust",
     "type": "TOOL",
-    "name": "faintly glowing dust",
-    "description": "This fine dust glows with a growing intensity.",
+    "name": { "str_sp": "faintly glowing dust" },
+    "description": "This handful of fine dust glows with a growing intensity.",
     "weight": "1 g",
     "volume": "30 ml",
     "price": 0,
@@ -660,7 +661,7 @@
     "name": { "str": "flaming sword" },
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",

@@ -20,7 +20,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "tyrant mutagen",
-    "description": "An extremely rare mutagen cocktail, it smells like blood and is a green goop with blood-red streaks",
+    "description": "An extremely rare mutagen cocktail, it smells like blood and is a green goop with blood-red streaks.",
     "color": "light_green",
     "price": 500000,
     "use_action": {

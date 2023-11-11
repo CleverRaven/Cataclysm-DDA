@@ -28,6 +28,7 @@
     "vision_night": 7,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "SOUND", "HURT" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "kraken",
     "dissect": "dissect_cephalopod_sample_small",
     "reproduction": { "baby_monster": "mon_octupus_stalker_spawn", "baby_count": 1, "baby_timer": 700 },

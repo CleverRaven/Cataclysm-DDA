@@ -196,6 +196,7 @@
       [ "bag_canvas", 5 ],
       [ "bag_canvas_small", 5 ],
       [ "bottle_glass", 10 ],
+      [ "mean_mug", 1 ],
       [ "can_drink", 10 ],
       [ "can_food", 10 ],
       [ "box_small", 10 ],

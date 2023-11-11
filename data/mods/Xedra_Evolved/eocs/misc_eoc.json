@@ -1,0 +1,43 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAMS_DEDUCTION_SKILL_EXP",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "EATER",
+            "DREAMER",
+            "DREAMSMITH",
+            "INVENTOR",
+            "ARVORE",
+            "IERDE",
+            "HOMULLUS",
+            "SALAMANDER",
+            "UNDINE",
+            "SYLPH",
+            "VAMPIRE"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "EATER", { "context_val": "school" } ] },
+            { "compare_string": [ "DREAMER", { "context_val": "school" } ] },
+            { "compare_string": [ "DREAMSMITH", { "context_val": "school" } ] },
+            { "compare_string": [ "INVENTOR", { "context_val": "school" } ] },
+            { "compare_string": [ "ARVORE", { "context_val": "school" } ] },
+            { "compare_string": [ "IERDE", { "context_val": "school" } ] },
+            { "compare_string": [ "HOMULLUS", { "context_val": "school" } ] },
+            { "compare_string": [ "SALAMANDER", { "context_val": "school" } ] },
+            { "compare_string": [ "UNDINE", { "context_val": "school" } ] },
+            { "compare_string": [ "SYLPH", { "context_val": "school" } ] },
+            { "compare_string": [ "VAMPIRE", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_skill_exp('deduction', 'raw')", "+=", "250" ] } ]
+  }
+]

@@ -23,9 +23,9 @@ class ret_val_common
         }
     protected:
         template<typename S>
-        using is_convertible_to_string = typename std::enable_if <
-                                         !std::is_same<S, std::nullptr_t>::value
-                                         && std::is_convertible<S, std::string>::value >::type;
+        using is_convertible_to_string = std::enable_if_t <
+                                         !std::is_same_v<S, std::nullptr_t>
+                                         &&std::is_convertible_v<S, std::string> >;
 
         ret_val_common( const std::string &msg, bool succ )
             : msg( msg ), succ( succ )
@@ -47,7 +47,7 @@ class ret_val_common
 template<typename T>
 class ret_val : public ret_val_common
 {
-        static_assert( !std::is_convertible<T, std::string>::value, "string values aren't allowed" );
+        static_assert( !std::is_convertible_v<T, std::string>, "string values aren't allowed" );
 
     public:
         /**

@@ -18,50 +18,34 @@
       {
         "id": "toy_plush_teddy",
         "name": { "str": "teddy bear" },
-        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
-        "weight": 1
+        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants."
       },
       {
         "id": "toy_plush_teddy_zombie",
         "name": { "str": "zombie teddy bear" },
-        "description": "A dark green teddy bear with stylized stitches all over and X's for eyes.  The perfect size for a small child to hug the unlife out of.  Looks like the zombie apocalypse hit the toy store shelves first.",
-        "weight": 1
+        "description": "A dark green teddy bear with stylized stitches all over and X's for eyes.  The perfect size for a small child to hug the unlife out of.  Looks like the zombie apocalypse hit the toy store shelves first."
       },
       {
         "id": "toy_plush_ferret",
         "name": { "str": "ferret plushie" },
-        "description": "A large plush ferret with cute beady eyes.",
-        "weight": 1
+        "description": "A large plush ferret with cute beady eyes."
       },
-      {
-        "id": "toy_plush_trex",
-        "name": { "str": "T-rex plushie" },
-        "description": "A large plush t-rex.",
-        "weight": 1
-      },
+      { "id": "toy_plush_trex", "name": { "str": "T-rex plushie" }, "description": "A large plush t-rex." },
       {
         "id": "toy_plush_penguin",
         "name": { "str": "penguin plushie" },
-        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
-        "weight": 1
+        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it."
       },
-      {
-        "id": "toy_plush_rabbit",
-        "name": { "str": "rabbit plushie" },
-        "description": "A large plush rabbit.",
-        "weight": 1
-      },
+      { "id": "toy_plush_rabbit", "name": { "str": "rabbit plushie" }, "description": "A large plush rabbit." },
       {
         "id": "toy_plush_remora",
         "name": { "str": "remora plushie" },
-        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere here…",
-        "weight": 1
+        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere here…"
       },
       {
         "id": "toy_plush_fox",
         "name": { "str": "fox plushie" },
-        "description": "A large plush fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion.",
-        "weight": 1
+        "description": "A large plush fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion."
       }
     ]
   },
@@ -99,8 +83,48 @@
       {
         "id": "toy_figure_trex",
         "name": { "str": "T-rex figurine" },
-        "description": "A relatively large plastic figurine of a T-rex.",
-        "weight": 1
+        "description": "A relatively large plastic figurine of a T-rex."
+      },
+      {
+        "id": "toy_figure_mech",
+        "name": { "str": "mech figurine" },
+        "description": "A large figurine of a humanoid robot, armed with a rifle, with a smaller figure sitting inside the head."
+      },
+      {
+        "id": "toy_figure_knight",
+        "name": { "str": "knight figurine" },
+        "description": "A large figurine of a knight in shining armor standing watch, with its sword planted at the ground at its feet."
+      },
+      {
+        "id": "toy_figure_t800",
+        "name": { "str": "robot figurine" },
+        "description": "A very intricate looking model of a robotic skeleton with red eyes and a futuristic weapon in its hand."
+      },
+      {
+        "id": "toy_figure_caiman",
+        "name": { "str": "lizardman figurine" },
+        "description": "An expensive figurine of a buff man in streetwear with a lizard head, holding a pair of knives in his hands.",
+        "//": "yes this is a dorohedoro reference"
+      },
+      {
+        "id": "toy_figure_anime",
+        "name": { "str": "anime figurine" },
+        "description": "An expensive figurine of a cartoon woman in flashy clothing."
+      },
+      {
+        "id": "toy_figure_heavyweapons",
+        "name": { "str": "video game figurine" },
+        "description": "A large figurine of a videogame character, holding a massive gatling gun in his giant arms."
+      },
+      {
+        "id": "toy_figurine_smoker",
+        "name": { "str": "zombie figurine" },
+        "description": "A nasty looking figurine of a mutant zombie, with a large tongue sprouting from its face.  You thankfully haven't encountered something like that yet."
+      },
+      {
+        "id": "toy_figure_alien",
+        "name": { "str": "alien figurine" },
+        "description": "An expensive looking figurine of a gnarly, jet-black alien covered in menacing looking spines."
       }
     ]
   },
@@ -122,56 +146,47 @@
       {
         "id": "toy_figure_swordsman",
         "name": { "str": "swordsman figurine" },
-        "description": "A figurine of some unnamed swordsman, covered with scars and equipped with sturdy leather armor.  Seems to be ready to fight.",
-        "weight": 1
+        "description": "A figurine of some unnamed swordsman, covered with scars and equipped with sturdy leather armor.  Seems to be ready to fight."
       },
       {
         "id": "toy_figure_female",
         "name": { "str": "fashionable doll" },
-        "description": "A plastic figurine of a young woman.  She's meant to be dressed up and accessorized with a wide variety of clothing, sold separately.",
-        "weight": 1
+        "description": "A plastic figurine of a young woman.  She's meant to be dressed up and accessorized with a wide variety of clothing, sold separately."
       },
       {
         "id": "toy_figure_krueger",
         "name": { "str": "nightmare figurine" },
-        "description": "A plastic figurine with a nightmarish, scarred face.  He wears a hat and has three long blades extending from a glove on the back of his hand.",
-        "weight": 1
+        "description": "A plastic figurine with a nightmarish, scarred face.  He wears a hat and has three long blades extending from a glove on the back of his hand."
       },
       {
         "id": "toy_figure_unicorn",
         "name": { "str": "unicorn figurine" },
-        "description": "A figurine of a blue unicorn.  It is in a sitting position, shyly covering both eyes with its front hooves.",
-        "weight": 1
+        "description": "A figurine of a blue unicorn.  It is in a sitting position, shyly covering both eyes with its front hooves."
       },
       {
         "id": "toy_figure_swampman",
         "name": { "str": "swamp monster figurine" },
-        "description": "A figurine of a scaly green swamp monster emerging from some fetid lagoon.",
-        "weight": 1
+        "description": "A figurine of a scaly green swamp monster emerging from some fetid lagoon."
       },
       {
         "id": "toy_figure_reaper",
         "name": { "str": "reaper figurine" },
-        "description": "Your heart leaps to your throat as you see the face of Death itself staring back at you, scythe raised for the harvest!  You relax significantly once you realize it's only a few inches tall and made of plastic.",
-        "weight": 1
+        "description": "Your heart leaps to your throat as you see the face of Death itself staring back at you, scythe raised for the harvest!  You relax significantly once you realize it's only a few inches tall and made of plastic."
       },
       {
         "id": "toy_figure_mermaid",
         "name": { "str": "mermaid figurine" },
-        "description": "A figurine of a redheaded mermaid sitting on a rock.  Like in the film this toy is based on, she gazes longingly out to a world she wants to be a part of - or she would be, but the face isn't drawn very well and doesn't express much emotion at all.",
-        "weight": 1
+        "description": "A figurine of a redheaded mermaid sitting on a rock.  Like in the film this toy is based on, she gazes longingly out to a world she wants to be a part of - or she would be, but the face isn't drawn very well and doesn't express much emotion at all."
       },
       {
         "id": "toy_figure_avocado",
         "name": { "str": "avocado figurine" },
-        "description": "A plastic figurine of an anthropomorphic avocado, holding a salt shaker and a spoon.  Makes a great gift for the guacamole lover in your life, or as a decoration for your kitchen.",
-        "weight": 1
+        "description": "A plastic figurine of an anthropomorphic avocado, holding a salt shaker and a spoon.  Makes a great gift for the guacamole lover in your life, or as a decoration for your kitchen."
       },
       {
         "id": "toy_figure_superhero",
         "name": { "str": "superhero figurine" },
-        "description": "A superhero action figure.  Its limbs can be adjusted for different poses, and it is designed to do battle against a wide variety of crooks and supervillains, sold separately.",
-        "weight": 1
+        "description": "A superhero action figure.  Its limbs can be adjusted for different poses, and it is designed to do battle against a wide variety of crooks and supervillains, sold separately."
       }
     ]
   },
@@ -204,5 +219,63 @@
     "price_postapoc": 5,
     "symbol": "/",
     "color": "green"
+  },
+  {
+    "id": "imperfect_doll_complete",
+    "type": "GENERIC",
+    "name": { "str": "imperfect doll" },
+    "description": "Its legs are mismatched, its arms misshapen, its eyes more crooked than its smile.  Everywhere, it sparkles with the golden thread that has put it back together.  It's beautiful.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": 0,
+    "price_postapoc": 10000000,
+    "symbol": "@",
+    "color": "white",
+    "looks_like": "talking_doll",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Hug the imperfect doll.",
+      "effect_on_conditions": [ "EOC_queue_unvitrified_return" ]
+    },
+    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "TRADER_AVOID" ]
+  },
+  {
+    "id": "imperfect_doll_legs",
+    "type": "GENERIC",
+    "name": { "str_sp": "floppy cotton legs" },
+    "description": "They're different colors and different lengths.  It would be hard to run away with these.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": "i",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "imperfect_doll_arms",
+    "type": "GENERIC",
+    "name": { "str_sp": "threadbare cotton arms" },
+    "description": "The spun cloth fingers are fraying away.  There's nothing that they could hold on to.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": "i",
+    "color": "cyan",
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "imperfect_doll_features",
+    "type": "GENERIC",
+    "name": { "str_sp": "buttons and thread" },
+    "description": "A pair of mismatched buttons and some dull yellow thread, to put on a brave face with.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": "i",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
   }
 ]

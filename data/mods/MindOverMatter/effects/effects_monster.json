@@ -55,6 +55,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_radiation_aura",
+    "name": [ "Eerie Glow" ],
+    "desc": [ "Your skin tingles." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "bad",
+    "base_mods": { "rad_amount": [ 2 ], "rad_min": [ 3, 1 ] },
+    "immune_flags": [ "RAD_PROOF", "NO_RADIATION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],

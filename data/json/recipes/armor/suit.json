@@ -202,96 +202,6 @@
     "components": [ [ [ "xl_armor_larmor_chest", 1 ] ], [ [ "xl_armguard_larmor", 1 ] ], [ [ "xl_legguard_larmor", 1 ] ] ]
   },
   {
-    "result": "armor_lightplate",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ], [ "tailoring_leather_patchwork", 8 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
-      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xs_armor_lightplate",
-    "type": "recipe",
-    "copy-from": "armor_lightplate",
-    "time": "9 h 20 m",
-    "using": [ [ "blacksmithing_standard", 60 ], [ "steel_standard", 15 ], [ "tailoring_leather_patchwork", 6 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "xl_armor_lightplate",
-    "type": "recipe",
-    "copy-from": "armor_lightplate",
-    "time": "10 h 30 m",
-    "using": [ [ "blacksmithing_standard", 128 ], [ "steel_standard", 32 ], [ "tailoring_leather_patchwork", 10 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
-    "result": "armor_lightplate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "20 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "skill_penalty": 0 },
-      { "proficiency": "prof_armorsmithing", "skill_penalty": 0 },
-      { "proficiency": "prof_articulation", "skill_penalty": 0 }
-    ],
-    "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
-  },
-  {
-    "result": "xl_armor_lightplate",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "assembly",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "skill_penalty": 0 },
-      { "proficiency": "prof_armorsmithing", "skill_penalty": 0 },
-      { "proficiency": "prof_articulation", "skill_penalty": 0 }
-    ],
-    "components": [ [ [ "xl_cuirass_lightplate", 1 ] ], [ [ "xl_armguard_lightplate", 1 ] ], [ [ "xl_legguard_lightplate", 1 ] ] ]
-  },
-  {
-    "result": "xs_armor_lightplate",
-    "type": "recipe",
-    "id_suffix": "assembly",
-    "copy-from": "armor_lightplate",
-    "time": "20 m",
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "xs_cuirass_lightplate", 1 ] ], [ [ "xs_armguard_lightplate", 1 ] ], [ [ "xs_legguard_lightplate", 1 ] ] ],
-    "tools": [ [ [ "swage", -1 ] ] ]
-  },
-  {
     "result": "armor_lorica",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -459,6 +369,38 @@
     "using": [ [ "cordage", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures", "skill_penalty": 0 }, { "proficiency": "prof_articulation", "skill_penalty": 0 } ],
     "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
+  },
+  {
+    "result": "armor_xl_scrapsuit",
+    "type": "recipe",
+    "copy-from": "armor_scrapsuit",
+    "time": "2 h",
+    "using": [ [ "cordage", 8 ], [ "mixed_steel", 5 ] ],
+    "components": [ [ [ "cotton_patchwork", 23 ] ] ]
+  },
+  {
+    "result": "armor_xl_scrapsuit",
+    "copy-from": "armor_scrapsuit_assembly",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "using": [ [ "cordage", 3 ] ],
+    "components": [ [ [ "xl_cuirass_scrap", 1 ] ], [ [ "xl_armguard_scrap", 1 ] ], [ [ "xl_legguard_scrap", 1 ] ] ]
+  },
+  {
+    "result": "armor_xs_scrapsuit",
+    "type": "recipe",
+    "copy-from": "armor_scrapsuit",
+    "time": "1 h 30 m",
+    "using": [ [ "cordage", 5 ], [ "mixed_steel", 3 ] ],
+    "components": [ [ [ "cotton_patchwork", 18 ] ] ]
+  },
+  {
+    "result": "armor_xs_scrapsuit",
+    "copy-from": "armor_scrapsuit_assembly",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "xs_cuirass_scrap", 1 ] ], [ [ "xs_armguard_scrap", 1 ] ], [ [ "xl_legguard_scrap", 1 ] ] ]
   },
   {
     "result": "armor_metal_sheets",
@@ -1894,7 +1836,7 @@
     "time": "20 h",
     "autolearn": true,
     "using": [
-      [ "tailoring_kevlar_fabric", 370 ],
+      [ "tailoring_kevlar_fabric", 160 ],
       [ "blacksmithing_standard", 12 ],
       [ "mc_steel_standard", 3 ],
       [ "fabric_lycra", 20 ],
@@ -1920,7 +1862,7 @@
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ],
-    "byproducts": [ [ "scrap_kevlar", 37 ], [ "scrap_lycra", 5 ] ]
+    "byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_lycra", 5 ] ]
   },
   {
     "result": "xs_hsurvivor_jumpsuit",
@@ -1928,7 +1870,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
     "using": [
-      [ "tailoring_kevlar_fabric", 259 ],
+      [ "tailoring_kevlar_fabric", 112 ],
       [ "blacksmithing_standard", 8 ],
       [ "mc_steel_standard", 2 ],
       [ "fabric_lycra", 15 ],
@@ -1951,7 +1893,7 @@
     "copy-from": "hsurvivor_jumpsuit",
     "time": "23 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 555 ],
+      [ "tailoring_kevlar_fabric", 240 ],
       [ "blacksmithing_standard", 20 ],
       [ "mc_steel_standard", 5 ],
       [ "fabric_lycra", 30 ],

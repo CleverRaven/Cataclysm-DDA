@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ammo_can_50_any_full",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_50bmg_full", "prob": 100 } ]
+  },
+  {
+    "id": "ammo_can_50_any_part",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_50bmg_part", "prob": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "id": "ammo_can_50_mg_any_full",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_belt50_full", "prob": 100 }, { "group": "ammo_can_belt50_mk211_full", "prob": 4 } ]
+  },
+  {
+    "id": "ammo_can_50_mg_any_part",
+    "type": "item_group",
+    "items": [
+      { "item": "ammo_can_50_50bmg_4fmj1tracer_100", "prob": 100 },
+      { "item": "ammo_can_50_50bmg_1tracer4mk211_100", "prob": 100 }
+    ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_belt50_full",
+    "container-item": "ammo_can_50_50bmg_4fmj1tracer_100",
+    "items": [ { "group": "belt50_4ball_1tracer", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "belt50_4ball_1tracer",
+    "container-item": "belt50",
+    "subtype": "collection",
+    "items": [
+      { "item": "50_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
+      { "item": "50bmg", "count": 1, "charges-min": 80, "charges-max": 80 }
+    ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_50bmg_full",
+    "container-item": "ammo_can_50_50bmg_fmj_120",
+    "items": [ { "group": "ammo_box_50bmg", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_50bmg_part",
+    "container-item": "ammo_can_50_50bmg_fmj_120",
+    "items": [ { "group": "ammo_box_50bmg", "count": [ 1, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_50bmg",
+    "container-item": "ammo_box_army_10_50bmg",
+    "items": [ { "item": "50bmg", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_belt50_mk211_full",
+    "container-item": "ammo_can_50_50bmg_1tracer4mk211_100",
+    "items": [ { "group": "belt50_4mk211_1tracer", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "belt50_4mk211_1tracer",
+    "container-item": "belt50",
+    "subtype": "collection",
+    "//": "instead of 50_incendiary should be M20 API-T, but doesn't exist in the game yet",
+    "items": [
+      { "item": "50_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
+      { "item": "50_mk211", "count": 1, "charges-min": 80, "charges-max": 80 }
+    ]
+  }
+]

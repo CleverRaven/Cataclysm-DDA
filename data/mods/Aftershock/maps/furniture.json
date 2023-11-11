@@ -1122,6 +1122,247 @@
   },
   {
     "type": "furniture",
+    "id": "f_drone_recharge_station",
+    "name": "drone recharging station",
+    "description": "An hybrid recharge and storage point for robots of all types.",
+    "looks_like": "f_exo_gantry",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ancient_processor",
+    "name": "ancient processor",
+    "description": "Hundreds of paper thin photonics lie staked within its core, most are shattered or otherwise damaged beyond repair.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
+        { "item": "e_scrap", "count": [ 2, 16 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 20 },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 10, 14 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drone_ai_core_broken",
+    "name": "drone scheduler core",
+    "description": "An AI unit meant to manage large cadres of working drones from afar.  This one is in a very bad shape, and it's not clear if it can be repaired.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "afs_circuitry_4", "count": [ 0, 1 ], "prob": 5 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 50 },
+        { "item": "afs_heat_4", "count": 1, "prob": 10 },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drone_ai_core",
+    "name": "pristine drone scheduler core",
+    "description": "An AI unit meant to manage large cadres of working drones from afar.  It as functional as the day it was built, at least if its system checks are to be believed.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": 4 },
+        { "item": "afs_circuitry_3", "count": 2 },
+        { "item": "afs_circuitry_4", "count": 1 },
+        { "item": "afs_energy_storage_1", "count": 2 },
+        { "item": "afs_heat_2_salvage", "count": 4 },
+        { "item": "afs_heat_4", "count": 1 },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "afs_circuitry_4", "count": [ 0, 1 ], "prob": 5 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 50 },
+        { "item": "afs_heat_4", "count": 1, "prob": 10 },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_command_console_old",
+    "name": "broken command console",
+    "description": "A complex control station for an habitat or space ship.  It might still be possible to salvage some parts from it.",
+    "looks_like": "f_console_broken",
+    "symbol": "?",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "small_lcd_screen", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "small_lcd_screen", "count": 1, "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_afs_shuttle_seat",
     "name": "shuttle seat",
     "copy-from": "f_seat_airplane",

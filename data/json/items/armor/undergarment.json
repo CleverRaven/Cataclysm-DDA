@@ -238,7 +238,6 @@
         "id": "binder_top_american",
         "name": { "str": "american binder" },
         "description": "This one is painted with the star spangled banner, the red white and blue, old glory, the american flag.",
-        "weight": 1,
         "append": true
       },
       {
@@ -366,8 +365,7 @@
         "id": "flag_boxer_shorts",
         "name": { "str_sp": "star-spangled boxer shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true,
-        "weight": 1
+        "append": true
       }
     ],
     "weight": "42 g",
@@ -423,8 +421,7 @@
         "id": "flag_boy_shorts",
         "name": { "str_sp": "star-spangled boy shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true,
-        "weight": 1
+        "append": true
       }
     ],
     "weight": "42 g",

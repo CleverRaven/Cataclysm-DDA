@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ammo_can_9mm_any_full",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_9mm_full", "prob": 100 }, { "group": "ammo_can_9mmfmj_full", "prob": 100 } ]
+  },
+  {
+    "id": "ammo_can_9mm_any_part",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_9mm_part", "prob": 100 }, { "group": "ammo_can_9mmfmj_part", "prob": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_9mmfmj_full",
+    "container-item": "ammo_can_30_9mm_fmj_1000",
+    "items": [ { "group": "ammo_box_9mmfmj", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_9mmfmj_part",
+    "container-item": "ammo_can_30_9mm_fmj_1000",
+    "items": [ { "group": "ammo_box_9mmfmj", "count": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_9mmfmj",
+    "container-item": "ammo_box_army_100_9mm_fmj",
+    "on_overflow": "discard",
+    "items": [ { "item": "9mmfmj", "count": 1, "charges": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_9mm_full",
+    "container-item": "ammo_can_30_9mm_jhp_1000",
+    "items": [ { "group": "ammo_box_9mm", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_9mm_part",
+    "container-item": "ammo_can_30_9mm_jhp_1000",
+    "items": [ { "group": "ammo_box_9mm", "count": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_9mm",
+    "container-item": "ammo_box_army_100_9mm_jhp",
+    "on_overflow": "discard",
+    "items": [ { "item": "9mm", "count": 1, "charges": 100 } ]
+  }
+]

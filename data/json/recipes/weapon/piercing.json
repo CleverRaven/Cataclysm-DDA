@@ -326,7 +326,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "3 h",
-    "book_learn": [ [ "textbook_armschina", 5 ] ],
+    "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_armschina", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -350,7 +350,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
-    "book_learn": [ [ "textbook_weapwest", 4 ] ],
+    "book_learn": [ [ "bronze_book", 3 ], [ "bronze_mag", 4 ], [ "textbook_weapwest", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -370,6 +370,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "3 h",
+    "book_learn": [ [ "bronze_book", 3 ], [ "bronze_mag", 3 ] ],
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1186,7 +1187,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "618 h 30 m",
+    "time": "18 h 30 m",
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

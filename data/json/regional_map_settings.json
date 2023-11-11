@@ -812,7 +812,7 @@
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "city_center": { "chance": 20, "extras": { "mx_fungal_zone": 100 } },
-      "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
+      "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 1, "mx_laststand": 1 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -956,8 +956,7 @@
         "house_06": 50,
         "house_07": 50,
         "house_08": 50,
-        "house_09": 20,
-        "house_09b": 50,
+        "house_09": 50,
         "house_10": 50,
         "house_11": 50,
         "house_12": 50,

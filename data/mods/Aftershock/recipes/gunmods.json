@@ -1,0 +1,32 @@
+[
+  {
+    "result": "afs_shotgun_gauss",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "50 m",
+    "autolearn": [ [ "electronics", 6 ] ],
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
+    "components": [ [ [ "cable", 20 ] ], [ [ "afs_energy_storage_4", 1 ] ], [ [ "afs_material_2", 2 ] ] ]
+  },
+  {
+    "result": "afs_magnetic_choke",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "50 m",
+    "autolearn": [ [ "electronics", 6 ] ],
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "nanosmithing_standard", 3 ], [ "electric_probing", 1 ] ],
+    "components": [ [ [ "afs_magnet_4", 1 ] ], [ [ "afs_material_2", 2 ] ] ]
+  }
+]

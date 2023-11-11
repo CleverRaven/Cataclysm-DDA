@@ -9,8 +9,7 @@
       {
         "id": "mag_bashing",
         "name": { "str": "Batter Up!", "str_pl": "issues of Batter Up!" },
-        "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
-        "weight": 1
+        "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique."
       },
       {
         "id": "mag_bashing_1",
@@ -18,8 +17,7 @@
           "str": "Bludgeons and Broken Bones: A Reference Guide",
           "str_pl": "copies of Bludgeons and Broken Bones: A Reference Guide"
         },
-        "description": "Written with hard prison slang, this book says a lot about how to use maximum power from your muscles and weight of your weapon.",
-        "weight": 1
+        "description": "Written with hard prison slang, this book says a lot about how to use maximum power from your muscles and weight of your weapon."
       },
       {
         "id": "mag_bashing_2",
@@ -27,8 +25,7 @@
           "str": "Bash Weapons for Self-Defense: A Practical Guide",
           "str_pl": "copies of Bash Weapons for Self-Defense: A Practical Guide"
         },
-        "description": "A small brochure from an unknown self-defense shop, focused on using bash weapons for self-defense in real-world situations.  It covers topics like assessing threats, using verbal commands and body language to de-escalate situations, and legal considerations for using force in self-defense.  It also includes techniques for using bash weapons to defend against attackers armed with knives, guns, and other weapons.",
-        "weight": 1
+        "description": "A small brochure from an unknown self-defense shop, focused on using bash weapons for self-defense in real-world situations.  It covers topics like assessing threats, using verbal commands and body language to de-escalate situations, and legal considerations for using force in self-defense.  It also includes techniques for using bash weapons to defend against attackers armed with knives, guns, and other weapons."
       },
       {
         "id": "mag_bashing_3",
@@ -36,8 +33,7 @@
           "str": "Ultra Tactics: The Ways of the Modern Warrior",
           "str_pl": "copies of Ultra Tactics: the Ways of the Modern Warrior"
         },
-        "description": "This book researches the long, international story of ultras - fanatical football fans ready to defend the prestige of their football team in any possible way, including with brutal violence and heavy bats.",
-        "weight": 1
+        "description": "This book researches the long, international story of ultras - fanatical football fans ready to defend the prestige of their football team in any possible way, including with brutal violence and heavy bats."
       }
     ],
     "weight": "80 g",
@@ -64,28 +60,24 @@
       {
         "id": "manual_bashing",
         "name": { "str": "tactical baton defense manual", "str_pl": "copies of tactical baton defense manual" },
-        "description": "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",
-        "weight": 1
+        "description": "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners."
       },
       {
         "id": "manual_bashing_1",
         "name": { "str": "The Art and Science of Stick Fighting", "str_pl": "copies of The Art and Science of Stick Fighting" },
         "description": "A non-style specific guide to fighting with the short stick, with a few levels of instructions from easy to master, and a lot of photos showing movements with motion arrows.",
-        "//": "978-1594397332",
-        "weight": 1
+        "//": "978-1594397332"
       },
       {
         "id": "manual_bashing_2",
         "name": { "str": "Demolition Man", "str_pl": "copies of Demolition Man" },
-        "description": "A comprehensive guide on how to do demolition on your own piece of land - from replacing the pavement to total house deconstruction - using only common instruments.  Surprisingly not so hard, as you just need to know how and when hit the thing.",
-        "weight": 1
+        "description": "A comprehensive guide on how to do demolition on your own piece of land - from replacing the pavement to total house deconstruction - using only common instruments.  Surprisingly not so hard, as you just need to know how and when hit the thing."
       },
       {
         "id": "manual_bashing_3",
         "name": { "str": "Cane Fighting", "str_pl": "copies of Cane Fighting" },
         "description": "\"The Authoritative Guide to Using the Cane or Walking Stick for Self-Defense\", this book provides plenty of ways to use an everyday tool as a sturdy weapon.",
-        "//": "978-1941845738",
-        "weight": 1
+        "//": "978-1941845738"
       }
     ],
     "weight": "454 g",

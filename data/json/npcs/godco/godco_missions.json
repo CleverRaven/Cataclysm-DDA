@@ -84,11 +84,11 @@
     "item": "novel_mystery",
     "count": 3,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_INVESTIGATE_CULT",
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I'd like to read some mystery novels.",
-      "offer": "Hmm, that would be great!  But if you do, please bring more than just one.  I could read a single novel in a day.  Could you get me… 3 mystery novels?",
-      "accepted": "Just bring it to me when you have it.",
+      "offer": "Sometimes it gets a little bit boring up here, and I like to read something to take my mind off of things.  Problem is, I've run out of books.  I've been wanting to read some mystery novels as of late, so could you get me three of them?",
+      "accepted": "Just bring them to me when you have it.",
       "rejected": "Nevermind then.  I hope you'll change your mind.",
       "advice": "I'd loot libraries and bookstores.",
       "inquire": "So, have you found the books?",
@@ -97,6 +97,90 @@
       "failure": "Fine.  I can read something else."
     },
     "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ], "opinion": { "trust": 2 } }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP",
+    "type": "mission_definition",
+    "name": { "str": "Canning Startup" },
+    "description": "Find 100 medium tin cans to can with.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "can_medium",
+    "count": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_FOOD_GUARD_GET_TRAP_BOOK",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to have some cans to store food in.",
+      "offer": "Now that we have some canning pots from Helena, we can start storing foodstuffs more easily around here.  Recycling our old tin cans is great and all, but if we get a big influx of new foods, then we can't properly store it all.  As such, if you could find about 100 more empty tin cans for me, I'd really appreciate it.",
+      "accepted": "Just bring it to me when you have it.",
+      "rejected": "Nevermind then.  I hope you'll change your mind.",
+      "advice": "I'd look anywhere there's food waste or scrap piles.  We can wash out the cans when we get them.",
+      "inquire": "So, have you found the cans?",
+      "success": "Thank you, now we won't have to worry about running out of food in the winter.",
+      "success_lie": "Could you give them to me?",
+      "failure": "Fine.  I'll get them myself."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 2 } }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_GET_TRAP_BOOK",
+    "type": "mission_definition",
+    "name": { "str": "Find a copy of The Modern Trapper" },
+    "description": "Find a copy of The Modern Trapper so Eddie can learn how.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "manual_traps",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_GODCO_FOOD_GUARD_BETTER_FOOD_STORAGE",
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to read some trapping guides.",
+      "offer": "Since we've got all the stuff to store away food, I figure that it's time we get some more.  I've been talking it over with Russell, and I think setting out animal traps is a good way to go.  The problem is, nobody here knows how to do it.  I've heard that The Modern Trapper is a good place to start, so if you could get me a copy, I'd really appreciate it.",
+      "accepted": "Just bring it to me when you have it.",
+      "rejected": "Too trivial for you?",
+      "advice": "I'd loot libraries and bookstores.",
+      "inquire": "So, have you found it?",
+      "success": "Thank you, me and Russell will start studying it soon.",
+      "success_lie": "Where is it?",
+      "failure": "Fine.  I can read something else."
+    },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 7 } ], "opinion": { "trust": 1 } }
+  },
+  {
+    "id": "MISSION_GODCO_FOOD_GUARD_BETTER_FOOD_STORAGE",
+    "type": "mission_definition",
+    "name": { "str": "Store Up Your Grain" },
+    "description": "Find 5,398 pounds of sheet metal (408 units) to help Eddie build a warehouse.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 0,
+    "item": "sheet_metal",
+    "count": 408,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I'd like to have better food storage.",
+      "offer": "I've been drawing up some plans to expand our food storage around here.  Now that we won't starve to death anytime soon, our old crates just aren't cutting it, so we're going to build a small warehouse to store everything, and I've gathered a crew to build it.  We've got most of the materials covered, but we don't have enough sheet metal to make the shelves.  If you could get us about 5,000 pounds of the stuff, I'll pay you handsomely with what we have.  How does that sound?",
+      "accepted": "Just bring it to me when you have it.",
+      "rejected": "Alright, I'll find someone else.",
+      "advice": "If you can find a steel mill, I'd look there.",
+      "inquire": "Do you have the sheet metal?",
+      "success": "I can't thank you enough, here's the pay for it.  Here in a while, we'll have a spot to put all of our food.",
+      "success_lie": "Alright, where's it all at?",
+      "failure": "Sorry, I had to find someone else since you didn't come through."
+    },
+    "end": {
+      "effect": [
+        { "math": [ "godco_warehouse_in_progress", "=", "1" ] },
+        { "npc_add_var": "warehouse_started_building", "type": "timer", "context": "trade", "time": true },
+        { "u_spawn_item": "icon", "count": 137 }
+      ],
+      "opinion": { "trust": 7, "value": 6, "anger": -3 }
+    }
   },
   {
     "id": "MISSION_GODCO_GET_GUITAR_STRING",
@@ -222,7 +306,7 @@
     },
     "end": {
       "effect": [
-        { "arithmetic": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "=", { "const": 1 } ] },
+        { "math": [ "darryl_building_coop", "=", "1" ] },
         { "npc_add_var": "coop_in_progress", "type": "timer", "context": "trade", "time": true },
         { "u_spawn_item": "icon", "count": 6 }
       ]
@@ -855,7 +939,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
-        { "arithmetic": [ { "global_val": "var", "var_name": "kostas_building_garden" }, "=", { "const": 1 } ] },
+        { "math": [ "kostas_building_garden", "=", "1" ] },
         { "npc_add_var": "herb_garden_in_progress", "type": "timer", "context": "trade", "time": true }
       ]
     },
@@ -1118,7 +1202,7 @@
     "end": {
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
-        { "arithmetic": [ { "global_val": "var", "var_name": "wall_in_progress" }, "=", { "const": 1 } ] },
+        { "math": [ "wall_in_progress", "=", "1" ] },
         { "npc_add_var": "wall_started_building", "type": "timer", "context": "trade", "time": true },
         { "u_spawn_item": "icon", "count": 40 }
       ]
@@ -1186,7 +1270,8 @@
     "value": 0,
     "end": {
       "effect": [
-        { "u_spawn_item": "icon", "count": 350 },
+        { "math": [ "godco_has_canningpots", "=", "1" ] },
+        { "u_spawn_item": "icon", "count": 80 },
         { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
       ]
     },
@@ -1215,7 +1300,11 @@
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 5 }, { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" } ]
+      "effect": [
+        { "math": [ "godco_met_merchants", "=", "0" ] },
+        { "u_spawn_item": "icon", "count": 5 },
+        { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -1238,7 +1327,7 @@
     "description": "Find some proof that the representative near the New England Community Church is crooked.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "compare_num": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 1 } ] },
+    "goal_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

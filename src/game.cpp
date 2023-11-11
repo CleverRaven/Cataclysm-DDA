@@ -1815,7 +1815,7 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
     const inventory &inven = you.crafting_inventory();
-    const std::vector<Character *> helpers = you.get_crafting_helpers();
+    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
@@ -6288,7 +6288,7 @@ void game::peek( const tripoint &p )
     m.build_map_cache( p.z );
 
     look_around_result result;
-    const look_around_params looka_params = { true, center, center, false, false, true };
+    const look_around_params looka_params = { true, center, center, false, false, true, true };
     if( is_standup_peek ) {   // Non moving peek from crouch is a standup peek
         u.reset_move_mode();
         result = look_around( looka_params );
@@ -7510,7 +7510,7 @@ std::optional<tripoint> game::look_around()
 //                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 look_around_result game::look_around(
     const bool show_window, tripoint &center, const tripoint &start_point, bool has_first_point,
-    bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point )
+    bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point, bool change_lv )
 {
     bVMonsterLookFire = false;
 
@@ -7565,8 +7565,10 @@ look_around_result game::look_around(
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
+    if( change_lv ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
     ctxt.register_action( "CHANGE_MONSTER_NAME" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
@@ -7871,8 +7873,8 @@ look_around_result game::look_around(
 look_around_result game::look_around( look_around_params looka_params )
 {
     return look_around( looka_params.show_window, looka_params.center, looka_params.start_point,
-                        looka_params.has_first_point,
-                        looka_params.select_zone, looka_params.peeking );
+                        looka_params.has_first_point, looka_params.select_zone, looka_params.peeking, false, tripoint_zero,
+                        looka_params.change_lv );
 }
 
 static void add_item_recursive( std::vector<std::string> &item_order,

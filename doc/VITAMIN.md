@@ -12,6 +12,7 @@
   "deficiency": "anemia",
   "min": -12000,
   "max": 3600,
+  "weight_per_unit": "1 mg",
   "rate": "15 m",
   "flags": [ "FOO" ],
   "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ],
@@ -55,6 +56,10 @@ The smallest amount of this vitamin that the player can have.
 
 ### `max`
 The highest amount of this vitamin that the avatar can have.
+
+### `weight_per_unit`
+Allows specifying this vitamin in foods in terms of the amount of that vitamin in that food by weight.
+The weight specified for the food will be divided by this quantity to determine the units of this vitamin the food has.
 
 ### `rate`
 How long it takes to lose one unit of this vitamin.

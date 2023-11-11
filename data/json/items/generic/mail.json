@@ -44,50 +44,42 @@
       {
         "id": "letter_home_soldier_1",
         "name": { "str": "love letter" },
-        "description": "A written message from a soldier to their partner, carefully folded into its envelope.  Their deployment ends soon and they can't wait to see their lover.  Reading the rest of it would be rude.",
-        "weight": 1
+        "description": "A written message from a soldier to their partner, carefully folded into its envelope.  Their deployment ends soon and they can't wait to see their lover.  Reading the rest of it would be rude."
       },
       {
         "id": "letter_home_soldier_2",
         "name": { "str": "angry letter home" },
-        "description": "A written message from a soldier to their partner, stuffed angrily into its envelope.  They know, they know she knows, and don't even pretend you don't know.  This letter is full of expletives you don't dare read aloud.",
-        "weight": 1
+        "description": "A written message from a soldier to their partner, stuffed angrily into its envelope.  They know, they know she knows, and don't even pretend you don't know.  This letter is full of expletives you don't dare read aloud."
       },
       {
         "id": "letter_home_soldier_3",
         "name": { "str": "sad letter home" },
-        "description": "A written message from a soldier to their parents.  Their deployment has been extended and they won't be home for the holidays.  This sad letter makes you feel homesick.",
-        "weight": 1
+        "description": "A written message from a soldier to their parents.  Their deployment has been extended and they won't be home for the holidays.  This sad letter makes you feel homesick."
       },
       {
         "id": "letter_love",
         "name": { "str": "love letter" },
-        "description": "A written message from a woman to her lover, it's sealed with a heart-shaped sticker and smells of perfume.  You start to read it but it quickly becomes embarrassing.",
-        "weight": 1
+        "description": "A written message from a woman to her lover, it's sealed with a heart-shaped sticker and smells of perfume.  You start to read it but it quickly becomes embarrassing."
       },
       {
         "id": "letter_home_student_1",
         "name": { "str": "sad letter home" },
-        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a really bad time at college and want to come home, nothing seems to be going well, their grades and heart are in the dumps.",
-        "weight": 1
+        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a really bad time at college and want to come home, nothing seems to be going well, their grades and heart are in the dumps."
       },
       {
         "id": "letter_home_student_2",
         "name": { "str": "letter home" },
-        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a great time at college and can't wait to introduce you to their new lover.  Coincidently they have run out of money for gas again and it sure would be great if you could send some.",
-        "weight": 1
+        "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a great time at college and can't wait to introduce you to their new lover.  Coincidently they have run out of money for gas again and it sure would be great if you could send some."
       },
       {
         "id": "letter_home_immigrant",
         "name": { "str": "letter home" },
-        "description": "A written message home in a foreign tongue, carefully folded into its envelope.",
-        "weight": 1
+        "description": "A written message home in a foreign tongue, carefully folded into its envelope."
       },
       {
         "id": "letter_pink_slip",
         "name": { "str": "pink slip" },
-        "description": "A folded pink sheet of paper declaring the homeowner fired!  Oh no.",
-        "weight": 1
+        "description": "A folded pink sheet of paper declaring the homeowner fired!  Oh no."
       },
       {
         "id": "letter_credit",
@@ -149,44 +141,37 @@
       {
         "id": "restaurant_gift_card",
         "name": { "str": "restaurant gift card" },
-        "description": "A gift card for a local restaurant, covering the cost for an entire meal.",
-        "weight": 1
+        "description": "A gift card for a local restaurant, covering the cost for an entire meal."
       },
       {
         "id": "clothing_gift_card",
         "name": { "str": "$20 gift card" },
-        "description": "A $20 gift card, redeemable for purchases at your local clothing store.",
-        "weight": 1
+        "description": "A $20 gift card, redeemable for purchases at your local clothing store."
       },
       {
         "id": "barber_gift_card",
         "name": { "str": "barbershop gift card" },
-        "description": "This gift card could be exchanged for a free cut at a local barbershop.",
-        "weight": 1
+        "description": "This gift card could be exchanged for a free cut at a local barbershop."
       },
       {
         "id": "megastore_gift_card",
         "name": { "str": "$100 gift card" },
-        "description": "A $100 electronic gift card, redeemable for purchases at your local megastore.",
-        "weight": 1
+        "description": "A $100 electronic gift card, redeemable for purchases at your local megastore."
       },
       {
         "id": "mall_gift_card",
         "name": { "str": "5% discount card" },
-        "description": "This gift card gives you a 5% discount for purchases at your local shopping mall.  Can only be redeemed once.",
-        "weight": 1
+        "description": "This gift card gives you a 5% discount for purchases at your local shopping mall.  Can only be redeemed once."
       },
       {
         "id": "bookstore_gift_card",
         "name": { "str": "$5 gift card" },
-        "description": "A $5 gift card, redeemable for purchases at your local bookstore.",
-        "weight": 1
+        "description": "A $5 gift card, redeemable for purchases at your local bookstore."
       },
       {
         "id": "hardware_gift_card",
         "name": { "str": "$10 gift card" },
-        "description": "A $10 gift card, redeemable for purchases at your local hardware store.",
-        "weight": 1
+        "description": "A $10 gift card, redeemable for purchases at your local hardware store."
       }
     ],
     "symbol": "`",
@@ -217,58 +202,49 @@
         "id": "baby_shower_greeting_card",
         "name": { "str": "baby shower card" },
         "description": "A baby blue greeting card with a drawing of a teddy bear holding an umbrella.  Words printed on it read: \"It's getting closer by the hour, so let's have a baby shower!\"",
-        "color": "blue",
-        "weight": 1
+        "color": "blue"
       },
       {
         "id": "birthday_greeting_card",
         "name": { "str": "birthday card" },
-        "description": "A greeting card given to a person to celebrate their birthday.  This one has a floral design.",
-        "weight": 1
+        "description": "A greeting card given to a person to celebrate their birthday.  This one has a floral design."
       },
       {
         "id": "congratulations_greeting_card",
         "name": { "str": "congratulations card" },
-        "description": "This greeting card displays a picture of a graduate tossing their graduation cap.  Above the cap is the word 'CONGRATULATIONS'.",
-        "weight": 1
+        "description": "This greeting card displays a picture of a graduate tossing their graduation cap.  Above the cap is the word 'CONGRATULATIONS'."
       },
       {
         "id": "farewell_greeting_card",
         "name": { "str": "farewell card" },
         "description": "A white greeting card with a stylized drawing of an empty road.  Words printed on it read: \"You're going places (literally).  Wishing you the best!\"",
-        "color": "white",
-        "weight": 1
+        "color": "white"
       },
       {
         "id": "friendship_greeting_card",
         "name": { "str": "friendship card" },
-        "description": "A greeting card with a stylized picture of a donut and a coffee cup.  Above the picture, it says 'I am thankful for our friendship' and below are the words 'we are better together'.",
-        "weight": 1
+        "description": "A greeting card with a stylized picture of a donut and a coffee cup.  Above the picture, it says 'I am thankful for our friendship' and below are the words 'we are better together'."
       },
       {
         "id": "get_well_greeting_card",
         "name": { "str": "get well card" },
-        "description": "This greeting card displays a cartoon turtle in a cozy blanket sipping hot tea.  Above the turtle, it says 'Wishing you a SPEEDY recovery!'",
-        "weight": 1
+        "description": "This greeting card displays a cartoon turtle in a cozy blanket sipping hot tea.  Above the turtle, it says 'Wishing you a SPEEDY recovery!'"
       },
       {
         "id": "retirement_greeting_card",
         "name": { "str": "retirement card" },
-        "description": "A greeting card wishing the recipient a long and happy retirement.  This one displays a drawing of a rocking chair surrounded with white roses.",
-        "weight": 1
+        "description": "A greeting card wishing the recipient a long and happy retirement.  This one displays a drawing of a rocking chair surrounded with white roses."
       },
       {
         "id": "sympathy_greeting_card",
         "name": { "str": "sympathy card" },
         "description": "A black greeting card with a picture of a dimly lit candle.  Words printed on it read: \"Please accept our deepest and most heartfelt condolences at this challenging time.\"",
-        "color": "black",
-        "weight": 1
+        "color": "black"
       },
       {
         "id": "thank_you_greeting_card",
         "name": { "str": "thank you card" },
-        "description": "A plain white greeting card featuring an expression of gratitude to the recipient.",
-        "weight": 1
+        "description": "A plain white greeting card featuring an expression of gratitude to the recipient."
       }
     ],
     "symbol": "`",

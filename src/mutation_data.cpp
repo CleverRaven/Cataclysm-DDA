@@ -360,11 +360,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
         JsonArray bodytemp_array = jo.get_array( "bodytemp_modifiers" );
-        bodytemp_min = bodytemp_array.get_int( 0 );
-        bodytemp_max = bodytemp_array.get_int( 1 );
+        bodytemp_min = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 0 ) );
+        bodytemp_max = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 1 ) );
     }
 
-    optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
+    int legacy_bodytemp_sleep = units::to_legacy_bodypart_temp_delta( bodytemp_sleep );
+    optional( jo, was_loaded, "bodytemp_sleep", legacy_bodytemp_sleep, 0 );
+    bodytemp_sleep = units::from_legacy_bodypart_temp_delta( legacy_bodytemp_sleep );
     optional( jo, was_loaded, "threshold", threshold, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );

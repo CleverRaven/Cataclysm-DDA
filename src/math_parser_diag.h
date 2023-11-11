@@ -98,57 +98,97 @@ using decl_diag_eval = std::function<double( dialogue & )> ( char scope,
 using decl_diag_ass = std::function<void( dialogue &, double )> ( char scope,
                       std::vector<diag_value> const &params, diag_kwargs const &kwargs );
 
+decl_diag_eval addiction_intensity_eval;
+decl_diag_eval addiction_turns_eval;
+decl_diag_ass addiction_turns_ass;
 decl_diag_eval armor_eval;
 decl_diag_eval attack_speed_eval;
+decl_diag_eval charge_count_eval;
+decl_diag_eval coverage_eval;
 decl_diag_eval dodge_eval;
 decl_diag_eval effect_intensity_eval;
+decl_diag_eval encumbrance_eval;
+decl_diag_eval field_strength_eval;
 decl_diag_eval hp_eval;
 decl_diag_ass hp_ass;
 decl_diag_eval hp_max_eval;
+decl_diag_eval item_count_eval;
 decl_diag_eval monsters_nearby_eval;
 decl_diag_eval num_input_eval;
 decl_diag_eval option_eval;
 decl_diag_eval pain_eval;
 decl_diag_ass pain_ass;
+decl_diag_eval school_level_eval;
+decl_diag_eval school_level_adjustment_eval;
+decl_diag_ass school_level_adjustment_ass;
 decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
 decl_diag_eval skill_exp_eval;
 decl_diag_ass skill_exp_ass;
+decl_diag_eval spell_count_eval;
 decl_diag_eval spell_exp_eval;
 decl_diag_ass spell_exp_ass;
+decl_diag_eval spell_level_eval;
+decl_diag_ass spell_level_ass;
+decl_diag_eval spell_level_adjustment_eval;
+decl_diag_ass spell_level_adjustment_ass;
+decl_diag_eval proficiency_eval;
+decl_diag_ass proficiency_ass;
 decl_diag_eval test_diag;
 decl_diag_eval u_val;
 decl_diag_ass u_val_ass;
+decl_diag_eval vitamin_eval;
+decl_diag_ass vitamin_ass;
 decl_diag_eval warmth_eval;
 decl_diag_eval weather_eval;
 decl_diag_ass weather_ass;
 
 inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
+    { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
+    { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "charge_count", { "un", 1, charge_count_eval } },
+    { "coverage", { "un", 1, coverage_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
+    { "encumbrance", { "un", 1, encumbrance_eval } },
+    { "field_strength", { "ung", 1, field_strength_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "hp", { "un", -1, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
+    { "item_count", { "un", 1, item_count_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
+    { "school_level", { "un", 1, school_level_eval}},
+    { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", -1, skill_exp_eval } },
+    { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
+    { "spell_level", { "un", 1, spell_level_eval}},
+    { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
+    { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", -1, u_val } },
+    { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
 };
 
 inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
+    { "addiction_turns", { "un", 1, addiction_turns_ass } },
     { "hp", { "un", -1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
+    { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
     { "skill", { "un", 1, skill_ass } },
     { "skill_exp", { "un", -1, skill_exp_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},
+    { "spell_level", { "un", 1, spell_level_ass}},
+    { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },
+    { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", -1, u_val_ass } },
+    { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
 };
 
