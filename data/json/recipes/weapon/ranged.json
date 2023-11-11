@@ -749,6 +749,23 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "reflexbow",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 4,
+    "time": "8 h",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
+    "using": [ [ "adhesive", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_bowyery" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "compositebow",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
