@@ -361,6 +361,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     bool got_frozen_liquid = false;
     Character &player_character = get_player_character();
     bool weight_is_okay = ( player_character.weight_carried() <= player_character.weight_capacity() );
+    units::volume total_volume = info.total_bulk_volume;
 
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
@@ -379,10 +380,20 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             debugmsg( "lost target item of ACT_PICKUP" );
             continue;
         }
-
+        units::volume target_volume = target->volume( false, false, quantity );
         problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
                                 stash_successful, got_frozen_liquid, info );
+        if( !problem ) {
+            total_volume += target_volume;
+            if( total_volume > 200_ml ) {
+                // Bulk loading is not allowed beyond a certain volume
+                info = Pickup::pick_info();
+                total_volume = 0_ml;
+            }
+        }
     }
+    // Remember how much you picked up in total in this section
+    total_volume = info.total_bulk_volume = total_volume;
 
     if( !mapPickup.empty() ) {
         show_pickup_message( mapPickup );
@@ -479,6 +490,7 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
 void Pickup::pick_info::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+    jsout.member( "total_bulk_volume", total_bulk_volume );
     jsout.member( "src_type", static_cast<int>( src_type ) );
     jsout.member( "src_pos", src_pos );
     jsout.member( "src_container", src_container );
@@ -489,11 +501,12 @@ void Pickup::pick_info::serialize( JsonOut &jsout ) const
 void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 {
     int src_type_;
+    jsobj.read( "total_bulk_volume", total_bulk_volume );
     jsobj.read( "src_type", src_type_ );
+    src_type = static_cast<item_location::type>( src_type_ );
     jsobj.read( "src_pos", src_pos );
     jsobj.read( "src_container", src_container );
     jsobj.read( "dst", dst );
-    src_type = static_cast<item_location::type>( src_type_ );
 }
 
 std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;

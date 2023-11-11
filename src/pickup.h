@@ -13,11 +13,13 @@ class item;
 
 namespace Pickup
 {
+/** Pick up information reminder for bulk loading */
 struct pick_info {
     pick_info() = default;
     void serialize( JsonOut &jsout ) const;
     void deserialize( const JsonObject &jsobj );
 
+    units::volume total_bulk_volume = 0_ml;
     item_location::type src_type = item_location::type::invalid;
     tripoint src_pos;
     item_location src_container;
