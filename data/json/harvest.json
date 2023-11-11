@@ -2603,5 +2603,16 @@
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
+  },
+  {
+    "id": "mi-go",
+    "//": "The various mi-go variants",
+    "type": "harvest",
+    "message": "<mi-go_harvest>",
+    "entries": [
+      { "drop": "meat_mi-go", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "blood_mi-go", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "bone_mi-go", "type": "bone", "mass_ratio": 0.1 }
+    ]
   }
 ]
