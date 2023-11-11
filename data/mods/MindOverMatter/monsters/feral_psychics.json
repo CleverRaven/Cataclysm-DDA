@@ -370,14 +370,14 @@
         "id": "psi_photokin1_lightdodge",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 3 },
-        "cooldown": 10,
+        "cooldown": 15,
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
         "id": "psi_photokin1_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 2 },
-        "cooldown": 15,
+        "cooldown": 20,
         "monster_message": "%1$s fires a photon beam!"
       }
     ],
@@ -450,8 +450,15 @@
         "id": "psi_photokin2_lightflash",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 4 },
-        "cooldown": 15,
+        "cooldown": 20,
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
+      },
+      {
+        "id": "psi_photokin2_radiation_blast",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 7 },
+        "cooldown": 25,
+        "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
     ],
     "flags": [
@@ -471,8 +478,8 @@
   {
     "id": "mon_feral_human_photokin3",
     "type": "MONSTER",
-    "name": "Atom Splitter",
-    "description": "Flashes of light occasionally radiate from this feral.  Their skin is translucent but also seems to emit light.  They are clearly still lucid but their expression is blank and their eyes are unfocused.",
+    "name": "atom splitter",
+    "description": "This feral glows brighter than streetlamp, casting their surroundings into sharp relief amid the glow.  They are clearly still lucid but their expression is blank and their eyes are unfocused.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -493,8 +500,8 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 4,
-    "regenerates": 15,
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ] ],
+    "regenerates": 8,
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -4 ] ],
     "bleed_rate": 0,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -531,6 +538,13 @@
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 6 },
         "cooldown": 15,
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
+      },
+      {
+        "id": "psi_photokin3_radiation_blast",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
+        "cooldown": 20,
+        "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
     ],
     "flags": [

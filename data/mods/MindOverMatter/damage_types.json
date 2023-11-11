@@ -17,7 +17,9 @@
       "and": [
         { "x_in_y_chance": { "x": 2, "y": 5 } },
         { "math": [ "_damage_taken", ">", "0" ] },
-        { "not": { "npc_has_trait": "PHOTOKINETIC" } }
+        { "not": { "npc_has_trait": "PHOTOKINETIC" } },
+        { "not": { "npc_has_flag": "PHOTOKIN_CHAR_IMMUNE" } },
+        { "not": { "npc_has_flag": "PHOTOKIN_MONSTER_IMMUNE" } }
       ]
     },
     "effect": [ { "npc_add_effect": "blind", "duration": "3 s" } ]
