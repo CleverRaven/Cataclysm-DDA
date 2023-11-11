@@ -1261,7 +1261,7 @@ void suffer::from_other_mutations( Character &you )
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&
                          one_turn_in( 48_hours );
     should_mutate |= ( you.has_trait( trait_CHAOTIC ) || you.has_trait( trait_CHAOTIC_BAD ) ) &&
-                     one_turn_in( 12_hours );
+                     one_turn_in( 3_hours );
     if( should_mutate ) {
         you.mutate();
     }
