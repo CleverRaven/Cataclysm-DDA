@@ -6534,7 +6534,9 @@
       "both": {
         "items": [
           "undershirt",
+          "pants_army",
           "socks",
+          "boots_combat",
           "attached_ear_plugs_off",
           "helmet_eod",
           "nomex_gloves",
