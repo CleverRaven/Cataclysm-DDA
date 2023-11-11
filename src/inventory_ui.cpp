@@ -2020,6 +2020,28 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
     return vis_top;
 }
 
+void inventory_selector::add_contained_gunmods( Character &you, item &gun )
+{
+    auto filter_irremovable = []( std::vector<item *> &gunmods ) {
+        gunmods.erase(
+            std::remove_if(
+        gunmods.begin(), gunmods.end(), []( const item * i ) {
+            return i->is_irremovable();
+        } ),
+        gunmods.end() );
+    };
+
+    std::vector<item *> mods = gun.gunmods();
+    item_location gun_item_location( you, &gun );
+
+    filter_irremovable( mods );
+
+    for( item *mod : mods ) {
+        item_location gunmod_item_location( gun_item_location, mod );
+        add_entry( own_inv_column, std::vector<item_location>( 1, gunmod_item_location ) );
+    }
+}
+
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
     if( !container->is_ebook_storage() ) {
