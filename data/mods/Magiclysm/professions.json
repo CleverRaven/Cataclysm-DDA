@@ -535,7 +535,7 @@
     "description": "You are a descendant of a long line of housekeepers for magical families.  Trained in several spells to facilitate your job you were easily hired to take care of your current job, sadly, it looks like this could be your last.",
     "points": 4,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "spellcraft" }, { "level": 2, "name": "tailor" } ],
-    "proficiencies": [ "prof_food_prep", "prof_closures" ],
+    "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knives_familiar" ],
     "spells": [
       { "id": "create_atomic_light", "level": 4 },
       { "id": "magus_force_jar", "level": 3 },
@@ -565,6 +565,7 @@
       { "id": "druid_summon_brambles", "level": 3 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
+    "proficiencies": [ "prof_knives_familiar" ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
     "items": {
       "both": {
@@ -586,7 +587,7 @@
     "name": "Archer Druid",
     "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
     "points": 5,
-    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar" ],
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
@@ -626,6 +627,7 @@
     "points": 8,
     "spells": [ { "id": "ethereal_grasp", "level": 3 }, { "id": "obfuscated_body", "level": 3 }, { "id": "soulrend", "level": 2 } ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 2, "name": "cutting" }, { "level": 3, "name": "spellcraft" } ],
+    "proficiencies": [ "prof_hooking_familiar" ],
     "items": {
       "both": {
         "items": [ "grim_reaper_robe", "jumpsuit_skeleton_zipped", "gloves_skeleton", "socks", "boots" ],
@@ -774,7 +776,13 @@
       { "id": "jolt", "level": 4 },
       { "id": "stormshaper_ionization", "level": 2 }
     ],
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 4, "name": "spellcraft" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 4, "name": "spellcraft" },
+      { "level": 2, "name": "melee" }
+    ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
         "items": [ "pants_army", "socks", "badge_deputy", "boots", "whistle", "wristwatch" ],
@@ -804,6 +812,7 @@
       { "id": "recover_stamina", "level": 2 }
     ],
     "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 3, "name": "unarmed" },
@@ -897,6 +906,7 @@
       { "level": 2, "name": "survival" },
       { "level": 1, "name": "fabrication" }
     ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
     "traits": [ "KELVINIST" ],
     "items": {
       "both": {
@@ -1025,6 +1035,7 @@
     "description": "You entertained the masses, displaying an expert hand tossing knives conjured from nowhere.  Now, you're bringing the show to them.",
     "points": 4,
     "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "stabbing" } ],
+    "proficiencies": [ "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [ "socks", "sneakers", "unitard", "wristwatch", "vest_leather" ],
