@@ -1,6 +1,85 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_ZENER_DECK",
+    "condition": { "math": [ "u_val('spell_level', 'school: CLAIRSENTIENT')", ">=", "10" ] },
+    "effect": [
+      {
+        "switch": { "rand": 4 },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              {
+                "u_message": "You draw the hollow circle card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 1,
+            "effect": [
+              {
+                "u_message": "You draw the three wavy lines card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 2,
+            "effect": [
+              {
+                "u_message": "You draw the hollow square card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              {
+                "u_message": "You draw the five-pointed star card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              {
+                "u_message": "You draw the plus symbol card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "switch": { "rand": 4 },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [ { "u_message": "You draw the hollow circle card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 1,
+            "effect": [ { "u_message": "You draw the three wavy lines card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 2,
+            "effect": [ { "u_message": "You draw the hollow square card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 3,
+            "effect": [ { "u_message": "You draw the five-pointed star card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 4,
+            "effect": [ { "u_message": "You draw the plus symbol card, look at it for a moment, and put it back in the deck." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_INSTABILITY_CREAM",
     "effect": [
       {

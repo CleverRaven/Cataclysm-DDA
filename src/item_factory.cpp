@@ -2707,6 +2707,7 @@ void itype_variant_data::load( const JsonObject &jo )
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
     optional( jo, false, "append", append );
+    optional( jo, false, "expand_snippets", expand_snippets );
 }
 
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
@@ -3328,7 +3329,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             if( pair.has_int( 1 ) ) {
                 slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
             } else {
-                units::mass val = read_from_json_string<units::mass>( pair[1], units::mass_units );
+                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
                 slot.default_nutrition.set_vitamin( vit, val );
             }
         }
@@ -3339,7 +3340,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             if( pair.has_int( 1 ) ) {
                 slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
             } else {
-                units::mass val = read_from_json_string<units::mass>( pair[1], units::mass_units );
+                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
                 slot.default_nutrition.add_vitamin( vit, val );
             }
         }
@@ -4433,6 +4434,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
+
+    optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
 
     // potentially replace materials and update their values
     JsonObject replace_val = jo.get_object( "replace_materials" );

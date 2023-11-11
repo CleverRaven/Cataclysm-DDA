@@ -370,7 +370,7 @@
       { "level": 2, "name": "cutting" },
       { "level": 1, "name": "bashing" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking", "prof_lockpicking", "prof_short_swords_familiar" ],
     "items": {
       "both": {
         "items": [
@@ -431,7 +431,14 @@
     "name": "Bionic Sniper",
     "description": "A top-secret military program sought to convert you into the perfect sniper.  Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
     "points": 8,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_spotting",
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar"
+    ],
     "CBMs": [
       "bio_eye_enhancer",
       "bio_targeting",
@@ -499,7 +506,14 @@
     "name": "Bionic Soldier",
     "description": "You are the result of one of the military's last research programs: a prototype cyborg soldier.  The wars they expected you to fight have become obsolete, but war never changes.",
     "points": 6,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_spotting",
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar"
+    ],
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -761,7 +775,7 @@
       "bio_water_extractor",
       "bio_taste_blocker"
     ],
-    "proficiencies": [ "prof_dissect_humans" ],
+    "proficiencies": [ "prof_dissect_humans", "prof_claws_familiar", "prof_bionics_familiar" ],
     "skills": [
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" },
@@ -834,6 +848,7 @@
     "points": 5,
     "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar" ],
     "items": {
       "both": {
         "items": [ "socks", "tank_top", "jacket_leather", "pants_leather", "boots", "gloves_fingerless", "wristwatch", "gum" ],

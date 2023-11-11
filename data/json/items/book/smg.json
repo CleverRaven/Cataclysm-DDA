@@ -9,21 +9,18 @@
       {
         "id": "mag_smg",
         "name": { "str": "Submachine Gun Enthusiast", "str_pl": "issues of Submachine Gun Enthusiast" },
-        "description": "An in-depth magazine about submachine guns and shooting.  There is an exhaustive article about close quarter combat techniques in the front.",
-        "weight": 1
+        "description": "An in-depth magazine about submachine guns and shooting.  There is an exhaustive article about close quarter combat techniques in the front."
       },
       {
         "id": "mag_smg_1",
         "name": { "str": "The MP5 Submachine Gun", "str_pl": "copies of The MP5 Submachine Gun" },
         "description": "A small, shiny journal about the most famous machine gun in the world, H&K MP5, and how it is used currently.",
-        "//": "978-1782009177",
-        "weight": 1
+        "//": "978-1782009177"
       },
       {
         "id": "mag_smg_2",
         "name": { "str": "Guns & Weapons for Law Enforcement", "str_pl": "issues of Guns & Weapons for Law Enforcement" },
-        "description": "A relatively old magazine about modern automatic firearms police may use.  This issue talks about submachine guns and the brand new KRISS Super V .45 ACP specifically.",
-        "weight": 1
+        "description": "A relatively old magazine about modern automatic firearms police may use.  This issue talks about submachine guns and the brand new KRISS Super V .45 ACP specifically."
       }
     ],
     "weight": "90 g",
@@ -50,15 +47,13 @@
       {
         "id": "manual_smg",
         "name": { "str": "The Submachine Gun Handbook", "str_pl": "copies of The Submachine Gun Handbook" },
-        "description": "This concise guide details the proper care and operation of most forms of machine pistols and submachine guns currently used by regular armed and reserve forces, as well as several obsolete weapons.",
-        "weight": 1
+        "description": "This concise guide details the proper care and operation of most forms of machine pistols and submachine guns currently used by regular armed and reserve forces, as well as several obsolete weapons."
       },
       {
         "id": "manual_smg_1",
         "name": { "str": "The Mac Man", "str_pl": "copies of The Mac Man" },
         "description": "The full story of Gordon Ingram and his revolutionary machine gun designs: the Model 6, MAC-10, MAC-11, and SWD.",
-        "//": "978-0982391815",
-        "weight": 1
+        "//": "978-0982391815"
       },
       {
         "id": "manual_smg_2",
@@ -67,22 +62,19 @@
           "str_pl": "copies of The Development of Sub-Machine Guns and their Ammunition from World War 1 to the Present Day"
         },
         "description": "A comprehensive study of the development and use of the sub-machine gun since World War I, including a country-by-country survey of equipment used, with lots of illustrations and precise information.",
-        "//": "978-1847972934",
-        "weight": 1
+        "//": "978-1847972934"
       },
       {
         "id": "manual_smg_3",
         "name": { "str": "American Submachine Guns 1919–1950", "str_pl": "copies of American Submachine Guns 1919–1950" },
         "description": "A fully illustrated book about famous submachine guns, their design, construction, and testing, as well as their accessories such as magazines, ammunition, webbing, and cleaning kits.",
-        "//": "978-0764354847",
-        "weight": 1
+        "//": "978-0764354847"
       },
       {
         "id": "manual_smg_4",
         "name": { "str": "Firearm Anatomy", "str_pl": "copies of Firearm Anatomy" },
         "description": "Part of a big series about weapons and their complexity, this issue describes the long history of the M1A1 Thompson Submachine gun - when it was created, why, and why it is iconic now.",
-        "//": "978-1493673346",
-        "weight": 1
+        "//": "978-1493673346"
       },
       {
         "id": "manual_smg_5",
@@ -91,15 +83,13 @@
           "str_pl": "copies of An Amateur's Guide for the Colt's Thompson Submachine Gun"
         },
         "description": "A 200-page collector's manual advising how to buy a real, old Tommy Gun, with detailed info on each model, info about maintenance and shooting, and stories about its usage in the St. Louis Police Department.",
-        "//": "979-8730435377",
-        "weight": 1
+        "//": "979-8730435377"
       },
       {
         "id": "manual_smg_6",
         "name": { "str": "Submachine Guns Caliber .45", "str_pl": "copies of Submachine Guns Caliber .45" },
         "description": "Part of an old army field manual, this book explains the usage and maintenance of the M3 and M3A1, and how it was adopted into U.S. Army service in 1942.",
-        "//": "978-1940453118",
-        "weight": 1
+        "//": "978-1940453118"
       },
       {
         "id": "manual_smg_7",
@@ -108,8 +98,7 @@
           "str_pl": "copies of Maintenance on the MP40, PPSH41, M3A1, and Sten MKII Submachine Guns"
         },
         "description": "A short manual about the disassembly, reassembly, maintenance, operation, and repair of some old machine guns.  Seems it has lack of some info, but better than nothing.",
-        "//": "978-1733005333",
-        "weight": 1
+        "//": "978-1733005333"
       }
     ],
     "weight": "362 g",

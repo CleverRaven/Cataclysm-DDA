@@ -662,8 +662,10 @@ struct itype_variant_data {
     std::optional<nc_color> alt_color = std::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
+    // Expand the description when generated and save it on the item
+    bool expand_snippets = false;
 
-    int weight = 0;
+    int weight = 1;
 
     void deserialize( const JsonObject &jo );
     void load( const JsonObject &jo );
@@ -1404,6 +1406,9 @@ struct itype {
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
+
+        // Expand snippets in the description and save the description on the object
+        bool expand_snippets = false;
 
     private:
         // load-only, for applying proportional melee values at load time

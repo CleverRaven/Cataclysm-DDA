@@ -192,13 +192,5 @@
     "id": "TALK_ANCILLA_DOCTOR_WORK",
     "dynamic_line": "It takes resources to keep this show running: disinfectant, antibiotics, anesthetics, so on.  I'll give you a great price if you bring any of those.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_ANCILLA_DOCTOR" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "strong_antibiotic_bottle_plastic_pill_prescription_5",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
   }
 ]

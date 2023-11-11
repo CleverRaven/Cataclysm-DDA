@@ -2698,6 +2698,12 @@ class Character : public Creature, public visitable
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
 
+        /** Queue an EOC to add effect after a delay */
+        void queue_effect( const std::string &name, const time_duration &delay,
+                           const time_duration &duration );
+        /** Count queued add_effect EOCs for specific effect */
+        int count_queued_effects( const std::string &effect ) const;
+
         /** Adds an addiction to the player */
         void add_addiction( const addiction_id &type, int strength );
         /** Removes an addition from the player */

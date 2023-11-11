@@ -60,5 +60,21 @@
     "comestible_type": "INVALID",
     "use_action": [ "PETFOOD" ],
     "petfood": [ "STEED_registry" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "tskbem_master_keycard",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "TSKBEM industrial master key" },
+    "description": "A master keycard for all TSKBEM prefab industrial infrastructure built before the year 2152.  Invaluable to anyone seeking to salvage the industrial ruins of Orion.",
+    "price": "8 kUSD",
+    "flags": [ "OLD_TSKBEM_CARD" ],
+    "price_postapoc": "8 kUSD",
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   }
 ]

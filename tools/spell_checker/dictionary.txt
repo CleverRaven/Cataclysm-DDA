@@ -1,4 +1,10 @@
 abcdefghijklmnopqrstuvwxyz
+moulinet
+backswings
+backswing
+buttstroke
+spraining
+parrying
 aberrance
 aboveground
 abso
@@ -569,7 +575,6 @@ coalesces
 coati
 coatings
 coatis
-cockatrice
 cods
 coeculus
 coelophysis
@@ -978,7 +983,6 @@ everfrost
 eviscerations
 exactingly
 exchangeable
-exchanger
 excreta
 excretions
 exhorts
@@ -2002,7 +2006,6 @@ nettik
 neurocognitive
 neurodegeneration
 neuroimaging
-neuroprosthetic
 neurosynaptic
 neutrite
 newe
@@ -2473,7 +2476,6 @@ reckonin
 reclines
 recolherem
 recrafted
-recuperator
 recursively
 recurve
 recutita
@@ -2572,7 +2574,6 @@ rrrip
 rrrrip
 rubra
 rugerlcp
-ruggedized
 ruleset
 ruminant
 ruminants
@@ -3464,6 +3465,7 @@ zuniceratops
 zuul
 zweitimber
 zygomaticus
+shivs
 zzz
 zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus
