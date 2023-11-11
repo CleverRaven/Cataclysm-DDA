@@ -338,7 +338,9 @@ bool mattack::eat_crop( monster *z )
     int num_targets = 1;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && ( here.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST, p ) || here.has_flag( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) && one_in( num_targets ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) &&
+            ( here.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST, p ) ||
+              here.has_flag( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
