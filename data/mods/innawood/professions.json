@@ -127,8 +127,13 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching" ],
-    "skills": [ { "level": 2, "name": "archery" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar" ],
+    "skills": [
+      { "level": 2, "name": "archery" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
+    ],
     "items": {
       "both": {
         "items": [ "mocassins", "shirt_straw", "skirt_grass", "longbow" ],
@@ -150,8 +155,10 @@
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "melee" },
       { "level": 1, "name": "swimming" },
-      { "level": 1, "name": "dodge" }
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "survival" }
     ],
+    "proficiencies": [ "prof_spears_familiar", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [ "footrags_leather", "shirt_straw", "skirt_grass" ],
@@ -169,7 +176,13 @@
     "name": "Javelin Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for javelin throwing.  Why, if the world ended, there's nothing you'd want at your side more than your trusty javelins.  So, when it did, you made sure to bring them along.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "throw" }, { "level": 1, "name": "stabbing" }, { "level": 1, "name": "swimming" } ],
+    "skills": [
+      { "level": 2, "name": "throw" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
+    ],
+    "proficiencies": [ "prof_spears_familiar", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [ "footrags_leather", "shirt_straw", "skirt_grass" ],
@@ -187,8 +200,13 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_fletching" ],
-    "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_fletching", "prof_knives_familiar" ],
+    "skills": [
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
+    ],
     "items": {
       "both": {
         "items": [ "mocassins", "shirt_straw", "skirt_grass" ],
@@ -215,7 +233,7 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
     "traits": [ "OUTDOORSMAN" ],
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [ "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
@@ -236,7 +254,7 @@
     "vehicle": "canoe",
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" }, { "level": 1, "name": "driving" } ],
     "traits": [ "OUTDOORSMAN" ],
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [ "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
@@ -298,7 +316,7 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_carving", "prof_traps", "prof_trapsetting" ],
+    "proficiencies": [ "prof_fibers", "prof_carving", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [
@@ -361,7 +379,13 @@
     "name": "Lumberjack",
     "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
     "points": 0,
-    "skills": [ { "level": 2, "name": "swimming" } ],
+    "skills": [
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "melee" }
+    ],
+    "proficiencies": [ "prof_great_axes_familiar", "prof_hand_axes_familiar", "prof_hand_axes_pro" ],
     "items": {
       "both": {
         "items": [ "pants", "socks", "mocassins", "straw_hat", "longshirt", "patchwork_scarf", "vest_leather", "rope_makeshift_6" ],
@@ -393,7 +417,7 @@
     "name": "Tribal Warrior Recruit",
     "description": "Joining the tribal guard has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of emergency.  As far as you can tell, the elders abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar", "prof_spears_familiar" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "archery" },
@@ -429,6 +453,7 @@
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "swimming" }
     ],
+    "proficiencies": [ "prof_short_swords_familiar", "prof_short_swords_pro", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [ "helmet_larmor", "armor_larmor", "socks", "boots_larmor", "gauntlets_larmor" ],
@@ -448,8 +473,13 @@
     "name": "Tribal Arbalist",
     "description": "From your first hunt, you showed talent with a crossbow.  While the tribe was well guarded by your aim, you're all alone now.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching" ],
-    "skills": [ { "level": 3, "name": "rifle" }, { "level": 3, "name": "gun" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar" ],
+    "skills": [
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "survival" }
+    ],
     "items": {
       "both": {
         "items": [ "leathersandals", "helmet_larmor", "vambrace_larmor", "socks", "skirt_grass", "vest_leather", "legguard_larmor" ],
@@ -503,7 +533,7 @@
     "description": "You were on the road with friends from your tribe to search for a new settlement spot when you seemed to be yanked somewhere completely different.  You see no sign of your friends, but at least you got your equipment and some seeds with you.",
     "points": 3,
     "skills": [ { "level": 4, "name": "survival" }, { "level": 2, "name": "archery" } ],
-    "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
+    "proficiencies": [ "prof_basketweaving", "prof_pottery", "prof_knives_familiar" ],
     "items": {
       "both": {
         "items": [
@@ -536,7 +566,7 @@
     "points": 4,
     "description": "Living under your craftsmanship, the tribe was no longer bound to caves lest they freeze in the night.  You won't have to work nearly as hard for just yourself.",
     "skills": [ { "level": 4, "name": "fabrication" } ],
-    "proficiencies": [ "prof_carving", "prof_carpentry_basic" ],
+    "proficiencies": [ "prof_carving", "prof_carpentry_basic", "prof_hand_axes_familiar" ],
     "items": {
       "both": {
         "items": [ "wicker_backpack", "tunic", "clogs", "socks", "helmet_larmor", "copper_knife", "primitive_hammer", "loincloth" ],
