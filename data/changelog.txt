@@ -61,7 +61,6 @@ Monsters affiliated with factions will watch for theft of faction items
 Allow gunmods to make changes related to gun overheat.
 Items that can heat up food (microwaves, coffeemakers, chemistry sets, etc) can be used or reloaded from an adjacent space without picking them up.
 [EoC] Condition for asking the player to select a tile
-Making tea is quicker than before, especially in batches.
 Allow martial arts techniques to trigger on reach attacks.
 Adds a confirmation prompt if you are the target, or in the AoE of, your own damaging spell.
 Ledges provide sight coverage
@@ -382,7 +381,6 @@ EVENT EOCs provide beta talker
 [EOC]Inventory selector
 Replaced the use of the arbitrary body temperature scale in game logic with units::temperature/units::temperature_delta
 [EoC] Simple if-else statement
-Organize the remaining unorganized EOCs.
 Allow specifying vitamins by weight (mass) in items
 Add more comment-commands which apply labels to issues and PRs
 
