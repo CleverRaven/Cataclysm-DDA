@@ -60,7 +60,7 @@
     "looks_like": "223_casing",
     "type": "GENERIC",
     "name": { "str": "12.3ln casing" },
-    "description": "An empty casing from a 12.3ln round. It looks deceptively like a .303 British casing, if those were rimless.",
+    "description": "An empty casing from a 12.3ln round.  It looks deceptively like a .303 British casing, if those were rimless.",
     "weight": "7 g",
     "volume": "10ml"
   },
