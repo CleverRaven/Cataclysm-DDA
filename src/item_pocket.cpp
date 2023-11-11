@@ -264,22 +264,22 @@ void item_pocket::restack()
                 ++iter;
             }
         }
-    } else {
-        for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
-            if( !outer_iter->count_by_charges() ) {
+        return;
+    }
+    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+        if( !outer_iter->count_by_charges() ) {
+            continue;
+        }
+        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                ++inner_iter;
                 continue;
             }
-            for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
-                if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
-                    ++inner_iter;
-                    continue;
-                }
-                if( outer_iter->combine( *inner_iter ) ) {
-                    inner_iter = contents.erase( inner_iter );
-                    outer_iter = contents.begin();
-                } else {
-                    ++inner_iter;
-                }
+            if( outer_iter->combine( *inner_iter ) ) {
+                inner_iter = contents.erase( inner_iter );
+                outer_iter = contents.begin();
+            } else {
+                ++inner_iter;
             }
         }
     }
@@ -289,6 +289,30 @@ item *item_pocket::restack( /*const*/ item *it )
 {
     item *ret = it;
     if( contents.size() <= 1 ) {
+        return ret;
+    }
+    if( is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        // Restack magazine contents in a way that preserves order of items
+        for( auto iter = contents.begin(); iter != contents.end(); ) {
+            if( !iter->count_by_charges() ) {
+                continue;
+            }
+
+            auto next = std::next( iter, 1 );
+            if( next == contents.end() ) {
+                break;
+            }
+
+            if( iter->combine( *next ) ) {
+                // next was placed in iter, check if next was the item that we track
+                if( &( *next ) == ret ) {
+                    ret = &( *iter );
+                }
+                iter = contents.erase( next );
+            } else {
+                ++iter;
+            }
+        }
         return ret;
     }
     for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
