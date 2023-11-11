@@ -619,7 +619,7 @@
     "condition": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" },
     "effect": [
       {
-        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_familiar', 'format: percent')", ">=", "100" ] },
+        "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_familiar', 'format: percent')", ">=", "100" ] },
         "then": [
           {
             "if": { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_pro', 'format: percent')", ">=", "100" ] },
@@ -642,9 +642,7 @@
           }
         ],
         "else": [
-          {
-            "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weaponry_familiar', 'format: 1600')", "+=", "rand(4)" ]
-          },
+          { "math": [ "u_val('proficiency', 'proficiency_id: prof_fencing_weapons_familiar', 'format: 1600')", "+=", "rand(4)" ] },
           { "math": [ "u_prof_level", "=", "0" ] },
           { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
         ]
