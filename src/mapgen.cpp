@@ -59,6 +59,7 @@
 #include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
+#include "name.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -2336,6 +2337,7 @@ class jmapgen_monster : public jmapgen_piece
         bool one_or_none;
         bool friendly;
         std::string name;
+        std::string random_name_str;
         bool target;
         bool use_pack_size;
         struct spawn_data data;
@@ -2347,6 +2349,7 @@ class jmapgen_monster : public jmapgen_piece
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
+            , random_name_str( jsi.get_string( "random_name", "" ) )
             , target( jsi.get_bool( "target", false ) )
             , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
             if( jsi.has_member( "group" ) ) {
@@ -2356,6 +2359,11 @@ class jmapgen_monster : public jmapgen_piece
             } else {
                 mapgen_value<mtype_id> id( jsi.get_member( "monster" ) );
                 ids.add( id, 100 );
+            }
+
+            std::set<std::string> valid_random_name_strs = { "random", "female", "male", "snippet", "" };
+            if( valid_random_name_strs.count( random_name_str ) == 0 ) {
+                debugmsg( "Invalid random name '%s'", random_name_str );
             }
 
             if( jsi.has_object( "spawn_data" ) ) {
@@ -2425,6 +2433,23 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
+            std::string chosen_name = name;
+            if( !random_name_str.empty() ) {
+                if( random_name_str == "female" ) {
+                    chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
+                } else if( random_name_str == "male" ) {
+                    chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
+                } else if( random_name_str == "random" ) {
+                    // I want to use IsUnisexName, but that always gives "Tom"
+                    if( one_in( 2 ) ) {
+                        chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
+                    } else {
+                        chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
+                    }
+                } else if( random_name_str == "snippet" ) {
+                    chosen_name = SNIPPET.expand( name );
+                }
+            }
             if( !chosen_group.is_null() ) {
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, nullptr, false, nullptr,
@@ -2432,14 +2457,14 @@ class jmapgen_monster : public jmapgen_piece
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                    friendly, -1, mission_id, name, data );
+                    friendly, -1, mission_id, chosen_name, data );
                 }
             } else if( ids.is_valid() ) {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
                     dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                    friendly, -1, mission_id, name, data );
+                    friendly, -1, mission_id, chosen_name, data );
                 }
             }
         }
