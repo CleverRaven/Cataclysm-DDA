@@ -5638,7 +5638,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The Autodoc detected an open wound on your %s and applied disinfectant to sterilize it" ),
+                                                   _( "The Autodoc detected an open wound on your %s and applied disinfectant to sterilize it." ),
                                                    _( "The Autodoc detected an open wound on <npcname>'s %s and applied disinfectant to sterilize it." ),
                                                    body_part_name( bp_healed ) );
 

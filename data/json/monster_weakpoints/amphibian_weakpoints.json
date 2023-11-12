@@ -459,7 +459,7 @@
             "effect": "zapped",
             "chance": 25,
             "duration": [ 2, 10 ],
-            "message": "The %s twitches and spasms!  It's zapping itself",
+            "message": "The %s twitches and spasms!  It's zapping itself!",
             "damage_required": [ 1, 15 ]
           },
           {

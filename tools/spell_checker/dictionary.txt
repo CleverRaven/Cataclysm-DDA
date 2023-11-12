@@ -983,6 +983,7 @@ everfrost
 eviscerations
 exactingly
 exchangeable
+exchanger
 excreta
 excretions
 exhorts
@@ -2477,6 +2478,7 @@ reclines
 recolherem
 recrafted
 recursively
+recuperator
 recurve
 recutita
 recycler
@@ -3146,6 +3148,7 @@ uncleaned
 uncluttered
 uncoiling
 uncoils
+uncontacted
 uncured
 undecipherable
 underbarrel
