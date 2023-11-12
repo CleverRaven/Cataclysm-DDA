@@ -65,7 +65,7 @@
     "type": "COMESTIBLE",
     "id": "orange",
     "name": { "str": "orange" },
-    "weight": "159 g",
+    "weight": "131 g",
     "color": "light_red",
     "spoils_in": "21 days",
     "comestible_type": "FOOD",
