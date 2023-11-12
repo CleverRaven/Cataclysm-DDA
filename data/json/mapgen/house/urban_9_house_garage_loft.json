@@ -69,8 +69,7 @@
         "9": "t_linoleum_gray",
         "t": "t_linoleum_gray",
         "=": "t_door_metal_locked",
-        "&": "t_gates_control_brick",
-        "#": "t_brick_wall"
+        "&": "t_gates_control_brick"
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool" },
       "place_loot": [

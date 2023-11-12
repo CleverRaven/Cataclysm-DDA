@@ -39,8 +39,7 @@
         "_": "t_window_boarded",
         "=": "t_door_metal_c_peep",
         "/": "t_door_boarded_peep",
-        ",": "t_thconc_floor",
-        "#": "t_wall_log"
+        ",": "t_thconc_floor"
       },
       "furniture": { "%": "f_safe_o" },
       "place_items": [
