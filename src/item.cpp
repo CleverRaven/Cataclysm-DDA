@@ -8960,6 +8960,10 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
+    // Fragile items take damage if the block more than 15% of their armor value
+    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > 0.15f ) {
+        return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    }
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
@@ -8990,11 +8994,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    const int damage = has_flag( flag_FRAGILE )
-                       ? rng( 2 * itype::damage_scale, 3 * itype::damage_scale )
-                       : itype::damage_scale;
-
-    return mod_damage( damage ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 
 item::armor_status item::damage_armor_transforms( damage_unit &du ) const
