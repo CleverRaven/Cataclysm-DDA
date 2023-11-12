@@ -214,7 +214,7 @@
     "charges": 1,
     "time": "1 m",
     "batch_time_factors": [ 20, 2 ],
-    "components": [ [ [ "toast", 1 ] ], [ [ "butter", 1 ], ["raw_butter", 1] ] ]
+    "components": [ [ [ "toast", 1 ] ], [ [ "butter", 1 ], [ "raw_butter", 1 ] ] ]
   },
   {
     "type": "recipe",
