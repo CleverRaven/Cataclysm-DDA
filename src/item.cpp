@@ -655,7 +655,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
     }
-    if( carrier ) {
+    if( carrier && carrier->has_item( *this ) ) {
         carrier->on_item_acquire( *this );
     }
 
