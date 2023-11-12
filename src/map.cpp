@@ -10325,7 +10325,7 @@ void map::flood_fill_zone( const Creature &origin )
         Creature *creature = tracker.creature_at<Creature>( loc );
         if( creature ) {
             const int n = zone_number * zone_tick;
-            creatures_by_zone[n].push_back( creature );
+            creatures_by_zone_and_faction[n][creature->get_monster_faction()].push_back( creature );
             creature->set_reachable_zone( n );
         }
     } );

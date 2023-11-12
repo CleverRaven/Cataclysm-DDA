@@ -599,14 +599,14 @@ void monster::plan()
                                  turns_since_target );
     int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
     if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
-        here.visit_reachable_creatures( *this, [this, &seen_levels, &mon_plan,
-              &valid_targets]( Creature & other ) {
-            mf_attitude faction_att = faction.obj().attitude( other.get_monster_faction() );
-            if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
-                return;
-            }
+        here.find_reachable_creature_matching_faction_and_creature_predicate( *this, [this](
+        const mfaction_id & id ) {
+            mf_attitude faction_att = faction->attitude( id );
+            return faction_att != MFA_NEUTRAL && faction_att != MFA_FRIENDLY;
+        },
+        [this, &seen_levels, &mon_plan, &valid_targets]( Creature & other ) {
             if( !seen_levels.test( other.posz() + OVERMAP_DEPTH ) ) {
-                return;
+                return false;
             }
             float rating = rate_target( other, mon_plan.dist, mon_plan.smart_planning );
             if( rating == mon_plan.dist ) {
@@ -632,6 +632,7 @@ void monster::plan()
             if( !mon_plan.fleeing && valid_targets != 0 ) {
                 morale -= mon_plan.fears_hostile_seen;
             }
+            return false;
         } );
     }
     if( mon_plan.target == nullptr ) {

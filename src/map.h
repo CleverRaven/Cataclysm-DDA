@@ -2243,14 +2243,15 @@ class map
         bool visitable_cache_dirty = false;
         int zone_number = 1;
         int zone_tick = 1;
-        std::unordered_map<int, std::vector<Creature *>> creatures_by_zone;
+        std::unordered_map < int, std::unordered_map<mfaction_id, std::vector<Creature *>>>
+        creatures_by_zone_and_faction;
         std::unordered_set<Creature *> to_remove;
 
         void flood_fill_zone( const Creature &origin );
 
         void flood_fill_if_needed( const Creature &origin ) {
             if( get_visitable_zones_cache_dirty() ) {
-                creatures_by_zone.clear();
+                creatures_by_zone_and_faction.clear();
                 to_remove.clear();
                 zone_tick = zone_tick > 0 ? -1 : 1;
                 set_visitable_zones_cache_dirty( false );
@@ -2273,20 +2274,34 @@ class map
             to_remove.insert( creature );
         }
 
-        template <typename Functor>
-        void visit_reachable_creatures( const Creature &origin, Functor f ) {
+        template <typename FactionPredicate, typename CreaturePredicate>
+        Creature *find_reachable_creature_matching_faction_and_creature_predicate( const Creature &origin,
+                FactionPredicate p, CreaturePredicate f ) {
             flood_fill_if_needed( origin );
-            const auto map_iter = creatures_by_zone.find( origin.get_reachable_zone() );
-            if( map_iter != creatures_by_zone.end() ) {
-                auto vector_iter = map_iter->second.begin();
-                const auto vector_end = map_iter->second.end();
-                for( ; vector_iter != vector_end; ++vector_iter ) {
-                    Creature *other = *vector_iter;
-                    if( to_remove.count( other ) == 0 ) {
-                        f( *other );
+            const auto map_iter = creatures_by_zone_and_faction.find( origin.get_reachable_zone() );
+            if( map_iter != creatures_by_zone_and_faction.end() ) {
+                for( const auto& [faction, creatures] : map_iter->second ) {
+                    if( !p( faction ) ) {
+                        continue;
+                    }
+                    for( Creature *other : creatures ) {
+                        if( to_remove.count( other ) == 0 ) {
+                            if( f( *other ) ) {
+                                return other;
+                            }
+                        }
                     }
                 }
             }
+            return nullptr;
+        }
+
+        template <typename CreaturePredicate>
+        Creature *find_reachable_creature( const Creature &origin, CreaturePredicate f ) {
+            return find_reachable_creature_matching_faction_and_creature_predicate( origin, [](
+            const mfaction_id & faction ) {
+                return true;
+            }, std::move( f ) );
         }
 
         void queue_main_cleanup();
