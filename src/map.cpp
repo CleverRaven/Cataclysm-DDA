@@ -1795,7 +1795,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         set_visitable_zones_cache_dirty();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.z, point_bub_ms( p.xy() ) );
+    set_pathfinding_cache_dirty( tripoint_bub_ms( p ) );
 
     // Make sure the furniture falls if it needs to
     support_dirty( p );
@@ -2242,7 +2242,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         set_visitable_zones_cache_dirty();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.z, point_bub_ms( p.xy() ) );
+    set_pathfinding_cache_dirty( tripoint_bub_ms( p ) );
 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -5020,6 +5020,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, int &copies_remai
     return *_add_item_or_charges( pos, std::move( obj ), copies_remaining, overflow ).first;
 }
 
+// NOLINTNEXTLINE(performance-unnecessary-value-param)
 std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item obj,
         int &copies_remaining, bool overflow )
 {
@@ -6482,7 +6483,7 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
     }
 
     if( fd_type.is_dangerous() ) {
-        set_pathfinding_cache_dirty( p.z, point_bub_ms( p.xy() ) );
+        set_pathfinding_cache_dirty( tripoint_bub_ms( p ) );
     }
 
     // Ensure blood type fields don't hang in the air
@@ -9989,10 +9990,10 @@ void map::set_pathfinding_cache_dirty( const int zlev )
     }
 }
 
-void map::set_pathfinding_cache_dirty( const int zlev, point_bub_ms p )
+void map::set_pathfinding_cache_dirty( tripoint_bub_ms p )
 {
-    if( inbounds_z( zlev ) ) {
-        get_pathfinding_cache( zlev ).dirty_points.insert( p );
+    if( inbounds_z( p.z() ) ) {
+        get_pathfinding_cache( p.z() ).dirty_points.insert( p.xy() );
     }
 }
 
@@ -10035,7 +10036,6 @@ void map::update_pathfinding_cache_point( pathfinding_cache &cache, const const_
     const ter_t &terrain = tile.get_ter_t();
     const furn_t &furniture = tile.get_furn_t();
     const field &field = tile.get_field();
-    const map &here = get_map();
     int part;
     const vehicle *veh = veh_at_internal( p, part );
 
@@ -10106,7 +10106,7 @@ void map::update_pathfinding_cache_point( pathfinding_cache &cache, const const_
     }
 
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
-        !here.has_vehicle_floor( p ) ) {
+        !has_vehicle_floor( p ) ) {
         cur_value |= PF_TRAP;
     }
 
@@ -10117,7 +10117,7 @@ void map::update_pathfinding_cache_point( pathfinding_cache &cache, const const_
         cur_value |= PF_UPDOWN;
     }
 
-    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !has_vehicle_floor( p ) ) {
         cur_value |= PF_SHARP;
     }
 

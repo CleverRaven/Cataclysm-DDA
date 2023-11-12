@@ -350,7 +350,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_pathfinding_cache_dirty( int zlev, point_bub_ms p );
+        void set_pathfinding_cache_dirty( tripoint_bub_ms p );
         void set_visitable_zones_cache_dirty( bool dirty = true ) {
             visitable_cache_dirty = dirty;
         };

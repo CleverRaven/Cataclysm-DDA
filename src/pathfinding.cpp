@@ -78,7 +78,8 @@ struct pathfinder {
     std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
     open;
 
-    path_data_layer &get_layer( const int z ) const {
+    // NOLINTNEXTLINE(readability-make-member-function-const)
+    path_data_layer &get_layer( const int z ) {
         path_data_layer &ptr = path_data[z + OVERMAP_DEPTH];
         if( !initialized_path_data[z + OVERMAP_DEPTH] ) {
             initialized_path_data[z + OVERMAP_DEPTH] = true;
@@ -112,12 +113,14 @@ struct pathfinder {
         open.emplace( score, to );
     }
 
+    // NOLINTNEXTLINE(readability-make-member-function-const)
     void close_point( const tripoint &p ) {
         path_data_layer &layer = get_layer( p.z );
         const int index = flat_index( p.xy() );
         layer.state[index] = ASL_CLOSED;
     }
 
+    // NOLINTNEXTLINE(readability-make-member-function-const)
     void unclose_point( const tripoint &p ) {
         path_data_layer &layer = get_layer( p.z );
         const int index = flat_index( p.xy() );
